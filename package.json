@@ -1,0 +1,8 @@
+{
+  "name": "create-dxcli",
+  "version": "0.0.0",
+  "description": "dxcli: create your own CLI",
+  "repository": "dxcli/create-dxcli",
+  "author": "Jeff Dickey @jdxcode",
+  "license": "MIT"
+}

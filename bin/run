@@ -10,6 +10,6 @@ env.register(
 )
 
 const type = process.argv[2]
-if (!type) throw new Error(`Usage: yarn create dxcli (single|multi|plugin|base)`)
+if (!type) throw new Error('Usage: yarn create dxcli (single|multi|plugin|base)')
 
-env.run('dxcli:app', {type})
+env.run('dxcli:app', {type, path: process.argv[3]})

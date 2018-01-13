@@ -1,0 +1,19 @@
+environment:
+  nodejs_version: "9"
+cache:
+  - '%LOCALAPPDATA%\Yarn -> appveyor.yml'
+  - node_modules -> package.json
+
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - yarn
+test_script:
+  - yarn test
+after_test:
+  - ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh
+
+build: off
+

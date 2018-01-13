@@ -5,7 +5,7 @@
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "dependencies": {
-    "generator-dxcli": "^1.0.1",
+    "generator-dxcli": "^1.2.2",
     "yeoman-environment": "^2.0.5"
   },
   "devDependencies": {
@@ -17,10 +17,12 @@
   "dxcli": {
     "workflows": {
       "test": [
-        "eslint ."
+        "eslint .",
+        "commitlint --from master"
       ],
       "lint": [
-        "eslint ."
+        "eslint .",
+        "commitlint --from master"
       ]
     }
   },

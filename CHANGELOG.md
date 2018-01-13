@@ -1,3 +1,11 @@
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/dxcli/create-dxcli/compare/48b6b4cc422a692b98ca7ecb82ee7f5ac80bde0b...v0.2.2) (2018-01-13)
+
+
+### Bug Fixes
+
+* updated generator ([4426bd9](https://github.com/dxcli/create-dxcli/commit/4426bd9))
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/dxcli/create-dxcli/compare/0b0a2f40569c884c53e30abfd836ee443e4bee5f...v0.2.1) (2018-01-13)
 

@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@dxcli/dev": "^0.0.3",
-    "@dxcli/dev-semantic-release": "^0.0.2",
+    "@dxcli/dev-semantic-release": "^0.0.3",
     "eslint": "^4.15.0",
     "eslint-config-dxcli": "^1.1.2",
     "husky": "^0.14.3"

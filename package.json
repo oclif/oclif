@@ -5,13 +5,14 @@
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "dependencies": {
-    "generator-dxcli": "^1.2.2",
+    "generator-dxcli": "^1.4.0",
     "yeoman-environment": "^2.0.5"
   },
   "devDependencies": {
+    "@dxcli/dev": "^0.0.3",
     "@dxcli/dev-semantic-release": "^0.0.2",
     "eslint": "^4.15.0",
-    "eslint-config-dxcli": "^1.1.1",
+    "eslint-config-dxcli": "^1.1.2",
     "husky": "^0.14.3"
   },
   "dxcli": {
@@ -36,7 +37,7 @@
   "repository": "dxcli/create-dxcli",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
-    "lint": "echo dxcli-dev lint",
-    "test": "echo dxcli-dev test"
+    "precommit": "dxcli-dev lint",
+    "test": "dxcli-dev test"
   }
 }

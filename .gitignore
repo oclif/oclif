@@ -1,6 +1,7 @@
 /coverage
 /lib
 /node_modules
+/tmp
 
 *-error.log
 *-debug.log

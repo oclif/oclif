@@ -5,11 +5,11 @@
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "dependencies": {
-    "generator-dxcli": "^1.4.2",
+    "generator-dxcli": "^1.5.0",
     "yeoman-environment": "^2.0.5"
   },
   "devDependencies": {
-    "@dxcli/dev": "^0.0.3",
+    "@dxcli/dev": "^1.0.0",
     "@dxcli/dev-semantic-release": "^0.0.3",
     "eslint": "^4.15.0",
     "eslint-config-dxcli": "^1.1.2",

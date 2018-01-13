@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+const {createEnv} = require('yeoman-environment')
+
+const env = createEnv()
+
+env.register(
+  require.resolve('generator-dxcli'),
+  'dxcli:app'
+)
+
+const type = process.argv[2]
+if (!type) throw new Error(`Usage: yarn create dxcli (single|multi|plugin|base)`)
+
+env.run('dxcli:app', {type})

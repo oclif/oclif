@@ -1,8 +1,40 @@
 {
   "name": "create-dxcli",
-  "version": "0.0.0",
   "description": "dxcli: create your own CLI",
-  "repository": "dxcli/create-dxcli",
+  "version": "0.0.0",
   "author": "Jeff Dickey @jdxcode",
-  "license": "MIT"
+  "bin": "bin/run",
+  "dependencies": {
+    "generator-dxcli": "^1.0.1",
+    "yeoman-environment": "^2.0.5"
+  },
+  "devDependencies": {
+    "@dxcli/dev-semantic-release": "^0.0.2",
+    "eslint": "^4.15.0",
+    "eslint-config-dxcli": "^1.1.1",
+    "husky": "^0.14.3"
+  },
+  "dxcli": {
+    "workflows": {
+      "test": [
+        "eslint ."
+      ],
+      "lint": [
+        "eslint ."
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin"
+  ],
+  "license": "MIT",
+  "repository": "dxcli/create-dxcli",
+  "scripts": {
+    "commitmsg": "dxcli-dev-commitmsg",
+    "lint": "dxcli-dev lint",
+    "test": "dxcli-dev test"
+  }
 }

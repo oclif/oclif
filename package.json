@@ -5,7 +5,7 @@
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "dependencies": {
-    "generator-dxcli": "^1.4.0",
+    "generator-dxcli": "^1.4.1",
     "yeoman-environment": "^2.0.5"
   },
   "devDependencies": {
@@ -37,8 +37,8 @@
   "repository": "dxcli/create-dxcli",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
+    "lint": "dxcli-dev lint",
     "precommit": "dxcli-dev test",
-    "test": "dxcli-dev test",
-    "lint": "dxcli-dev lint"
+    "test": "dxcli-dev test"
   }
 }

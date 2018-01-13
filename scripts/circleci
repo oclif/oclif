@@ -21,8 +21,6 @@ if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
 
-NYC="./node_modules/.bin/nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc"
-$NYC yarn test
-$NYC report --reporter=text-lcov > coverage.lcov
+yarn test
 
 curl -s https://codecov.io/bash | bash

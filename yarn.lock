@@ -115,9 +115,9 @@
     commitizen "^2.9.6"
     cz-conventional-changelog "^2.1.0"
 
-"@dxcli/dev-semantic-release@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev-semantic-release/-/dev-semantic-release-0.0.2.tgz#ffaf09f9040450723e3dcddb7cac4e53c38e7fcc"
+"@dxcli/dev-semantic-release@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev-semantic-release/-/dev-semantic-release-0.0.3.tgz#8b6a2f9874b93fe43f432eb4eee5775d683494ee"
   dependencies:
     "@dxcli/dev-commitmsg" "^0.0.3"
     "@semantic-release/changelog" "^1.0.0"

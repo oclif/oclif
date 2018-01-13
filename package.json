@@ -37,7 +37,8 @@
   "repository": "dxcli/create-dxcli",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
-    "precommit": "dxcli-dev lint",
-    "test": "dxcli-dev test"
+    "precommit": "dxcli-dev test",
+    "test": "dxcli-dev test",
+    "lint": "dxcli-dev lint"
   }
 }

@@ -19,7 +19,8 @@
     "workflows": {
       "test": [
         "eslint .",
-        "commitlint --from master"
+        "commitlint --from master",
+        "echo TODO: \"rm -rf tmp/build-base && ./bin/run base tmp/build-base --defaults && yarn test\""
       ],
       "lint": [
         "eslint .",

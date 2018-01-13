@@ -29,7 +29,7 @@ jobs:
       - checkout
       - restore_cache: *restore_cache
       - run: yarn
-      - run: npx dxcli-dev-semantic-release
+      - run: ./node_modules/.bin/dxcli-dev-semantic-release
       - save_cache: *save_cache
 
 workflows:

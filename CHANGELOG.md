@@ -1,3 +1,12 @@
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/dxcli/create-dxcli/compare/4426bd9eee6c5b28dfc773c46e3382b608fd8cf5...v0.2.3) (2018-01-14)
+
+
+### Bug Fixes
+
+* add nyc ([a25c802](https://github.com/dxcli/create-dxcli/commit/a25c802))
+* updated generator ([906425e](https://github.com/dxcli/create-dxcli/commit/906425e))
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/dxcli/create-dxcli/compare/48b6b4cc422a692b98ca7ecb82ee7f5ac80bde0b...v0.2.2) (2018-01-13)
 

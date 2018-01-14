@@ -5,7 +5,7 @@
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "dependencies": {
-    "generator-dxcli": "^1.6.0"
+    "generator-dxcli": "<2"
   },
   "devDependencies": {
     "@dxcli/dev": "^1.0.0",

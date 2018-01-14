@@ -13,7 +13,8 @@
     "@dxcli/dev-semantic-release": "^0.0.3",
     "eslint": "^4.15.0",
     "eslint-config-dxcli": "^1.1.2",
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "nyc": "^11.4.1"
   },
   "dxcli": {
     "workflows": {

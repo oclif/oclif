@@ -21,12 +21,13 @@ if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
 
-NYC="npx nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc"
+CWD=$(pwd)
+NYC="./node_modules/.bin/nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc"
 mkdir -p reports
-MOCHA_FILE="reports/mocha.xml" \
+MOCHA_FILE="$CWD/reports/mocha.xml" \
   DXCLI_MOCHA_OPTS="--reporter mocha-junit-reporter" \
-  DXCLI_ESLINT_OPTS="--format junit --output-file reports/eslint.xml" \
-  DXCLI_TSLINT_OPTS="--format junit > reports/tslint.xml" \
+  DXCLI_ESLINT_OPTS="--format junit --output-file $CWD/reports/eslint.xml" \
+  DXCLI_TSLINT_OPTS="--format junit > $CWD/reports/tslint.xml" \
   $NYC yarn test
 $NYC report --reporter=text-lcov > coverage.lcov
 

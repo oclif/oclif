@@ -1632,9 +1632,9 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-generator-dxcli@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.5.0.tgz#c343668432fea07d42855c48f0f64e9c900333f1"
+generator-dxcli@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.6.0.tgz#ae09c3b2e989cf006c4dce55051b28c1ea0aef8f"
   dependencies:
     cli-ux "^2.0.21"
     debug "^3.1.0"
@@ -1642,6 +1642,7 @@ generator-dxcli@^1.5.0:
     lodash "^4.17.4"
     sort-pjson "^1.0.1"
     ts-lodash "^4.0.11"
+    yeoman-environment "^2.0.5"
     yeoman-generator "^2.0.1"
     yosay "^2.0.1"
 

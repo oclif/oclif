@@ -5,8 +5,7 @@
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "dependencies": {
-    "generator-dxcli": "^1.6.0",
-    "yeoman-environment": "^2.0.5"
+    "generator-dxcli": "^1.6.0"
   },
   "devDependencies": {
     "@dxcli/dev": "^1.0.0",

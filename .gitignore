@@ -1,6 +1,7 @@
 *-debug.log
 *-error.log
 /coverage
+/coverage.lcov
+/lib
 /node_modules
 /tmp
-/lib

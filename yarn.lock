@@ -126,9 +126,9 @@
     "@semantic-release/npm" "^2.6.1"
     semantic-release "^12.2.0"
 
-"@dxcli/dev@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-1.0.0.tgz#5cfab36108fcfb44f7a94ad5bca06328f909aec0"
+"@dxcli/dev@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-1.1.2.tgz#66acd0b6d5cc9cf8a94a00692c67d40c94ebf81b"
   dependencies:
     cli-ux "^2.0.21"
     concurrently "^3.5.1"
@@ -1293,9 +1293,9 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-dxcli@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-dxcli/-/eslint-config-dxcli-1.1.2.tgz#284fe88dd54312217659ec81656e57e2b375ea56"
+eslint-config-dxcli@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/eslint-config-dxcli/-/eslint-config-dxcli-1.1.4.tgz#e74a6be724d4de72f116d87f300afb5aacd25fe9"
   dependencies:
     eslint-config-xo-space "^0.17.0"
     eslint-plugin-node "^5.2.1"

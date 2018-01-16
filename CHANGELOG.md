@@ -1,3 +1,11 @@
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/dxcli/create-dxcli/compare/3eb57a4521aa14ab99a2bdb7bc936556fc4de400...v0.8.0) (2018-01-16)
+
+
+### Features
+
+* generator-dxcli@1.11.3 ([63f333d](https://github.com/dxcli/create-dxcli/commit/63f333d))
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/dxcli/create-dxcli/compare/847459dc5f3dba0350de23b16920eb81f18f11cf...v0.7.0) (2018-01-16)
 

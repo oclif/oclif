@@ -1766,15 +1766,15 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-generator-dxcli@<2:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.6.1.tgz#52f62fc1338cbd9b2fb2ff645a22bebc16cb8189"
+generator-dxcli@1.10.4:
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.10.4.tgz#c62abbecb223653cf7c98b3ab18310b680987223"
   dependencies:
     cli-ux "^2.0.21"
     debug "^3.1.0"
     fixpack "^2.3.1"
     lodash "^4.17.4"
-    sort-pjson "^1.0.1"
+    sort-pjson "^1.0.2"
     ts-lodash "^4.0.11"
     yeoman-environment "^2.0.5"
     yeoman-generator "^2.0.1"
@@ -3897,9 +3897,9 @@ sntp@2.x.x:
   dependencies:
     hoek "4.x.x"
 
-sort-pjson@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/sort-pjson/-/sort-pjson-1.0.1.tgz#f8818cfd5a533a37b379f6abedb9e33a411ed861"
+sort-pjson@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/sort-pjson/-/sort-pjson-1.0.2.tgz#1090b35b43cd1a13648ee7be4c52f926ecc4c6d8"
   dependencies:
     fixpack "^2.3.1"
 

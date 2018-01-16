@@ -1766,9 +1766,9 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-generator-dxcli@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.11.0.tgz#74c2c57df0f7ced1ae0e275dfd6bf1c5d53eb840"
+generator-dxcli@1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.11.1.tgz#12419c5539c230dee4d446039e0769b19b250379"
   dependencies:
     cli-ux "^2.0.21"
     debug "^3.1.0"

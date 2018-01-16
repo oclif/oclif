@@ -8,10 +8,10 @@
     "generator-dxcli": "1.10.5"
   },
   "devDependencies": {
-    "@dxcli/dev": "^1.0.0",
+    "@dxcli/dev": "^1.1.2",
     "@dxcli/dev-semantic-release": "^0.0.3",
     "eslint": "^4.15.0",
-    "eslint-config-dxcli": "^1.1.2",
+    "eslint-config-dxcli": "^1.1.4",
     "husky": "^0.14.3",
     "nyc": "^11.4.1"
   },

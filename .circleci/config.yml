@@ -12,7 +12,7 @@ jobs:
             - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
             - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
             - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-master-
-      - run: ./scripts/circleci
+      - run: ./scripts/circleci test
       - store_test_results:
           path: ~/cli/reports
       - save_cache: &save_cache
@@ -30,13 +30,12 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: yarn
-      - run: ./node_modules/.bin/dxcli-dev-semantic-release
+      - run: ./scripts/circleci release
       - save_cache: *save_cache
 
 workflows:
   version: 2
-  test:
+  "create-dxcli":
     jobs:
       - node-latest
       - node-8

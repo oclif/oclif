@@ -4,29 +4,20 @@
   "version": "0.14.0",
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
+  "bugs": "https://github.com/dxcli/create-dxcli/issues",
   "dependencies": {
     "generator-dxcli": "1.12.3"
   },
   "devDependencies": {
-    "@dxcli/dev": "^1.1.2",
+    "@dxcli/command": "^0.1.1",
     "@dxcli/dev-semantic-release": "^0.0.3",
     "eslint": "^4.15.0",
     "eslint-config-dxcli": "^1.1.4",
     "husky": "^0.14.3",
-    "nyc": "^11.4.1"
-  },
-  "dxcli": {
-    "workflows": {
-      "test": [
-        "eslint .",
-        "commitlint --from master",
-        "echo TODO: \"rm -rf tmp/build-base && ./bin/run base tmp/build-base --defaults && yarn test\""
-      ],
-      "lint": [
-        "eslint .",
-        "commitlint --from master"
-      ]
-    }
+    "nps": "^5.7.1",
+    "nps-utils": "^1.5.0",
+    "nyc": "^11.4.1",
+    "shelljs": "^0.8.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -34,12 +25,15 @@
   "files": [
     "/bin"
   ],
+  "homepage": "https://github.com/dxcli/create-dxcli",
+  "keywords": [
+    "dxcli"
+  ],
   "license": "MIT",
   "repository": "dxcli/create-dxcli",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
-    "lint": "dxcli-dev lint",
-    "precommit": "dxcli-dev test",
-    "test": "dxcli-dev test"
+    "precommit": "nps lint",
+    "test": "nps test"
   }
 }

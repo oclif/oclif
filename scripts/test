@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+/* eslint-disable node/shebang */
+/* eslint-disable no-console */
+
+const {Command, flags} = require('@dxcli/command')
+const sh = require('shelljs')
+const path = require('path')
+
+class CLI extends Command {
+  async run() {
+    process.env.DXCLI_CREATE_DEFAULTS = '1'
+    process.env.DXCLI_CREATE_TYPESCRIPT = this.flags.typescript && '1'
+    process.env.DXCLI_CREATE_MOCHA = this.flags.mocha && '1'
+    process.env.DXCLI_CREATE_SEMANTIC_RELEASE = this.flags['semantic-release'] && '1'
+
+    sh.set('-ev')
+    const {type} = this.args
+    let dir = path.join(__dirname, '../tmp', ['test', type, ...Object.keys(this.flags)].join('-'))
+    console.log(`\ntesting ${dir}`)
+    console.log(`--------${'-'.repeat(dir.length)}`)
+    sh.rm('-rf', dir)
+    sh.exec(`node bin/run ${type} ${dir}`)
+    sh.cd(dir)
+    sh.exec('git add .')
+    sh.exec('git commit -nm init')
+    sh.exec('git checkout -B origin/master')
+    sh.exec('yarn test')
+    sh.exec('yarn run precommit')
+    switch (type) {
+      case 'single':
+        sh.exec('node ./bin/run')
+        break
+      default:
+    }
+  }
+}
+
+CLI.args = [
+  {name: 'type', required: true},
+]
+
+CLI.flags = {
+  typescript: flags.boolean(),
+  mocha: flags.boolean(),
+  'semantic-release': flags.boolean(),
+}
+
+CLI.run()
+

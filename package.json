@@ -6,7 +6,7 @@
   "bin": "bin/run",
   "bugs": "https://github.com/dxcli/create-dxcli/issues",
   "dependencies": {
-    "generator-dxcli": "1.13.0"
+    "generator-dxcli": "1.14.0"
   },
   "devDependencies": {
     "@dxcli/command": "^0.1.1",

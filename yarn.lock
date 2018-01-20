@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@cli-engine/screen@^0.0.0":
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/@cli-engine/screen/-/screen-0.0.0.tgz#c2e847c7d4d998490c9097282bf21637d5162116"
-
 "@commitlint/cli@^6.0.1":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-6.0.2.tgz#378d37e92c4d97346e84c3a3d6677a62e9471d66"
@@ -158,15 +154,6 @@
 "@dxcli/screen@^0.0.0":
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/@dxcli/screen/-/screen-0.0.0.tgz#a85f69bfb00d3961656bad5d7b12f8e603c7ce09"
-
-"@heroku-cli/color@^1.0.4":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@heroku-cli/color/-/color-1.1.1.tgz#a2c25239ff1196733a79cabc7a750cd46b96dc30"
-  dependencies:
-    ansi-styles "^3.2.0"
-    chalk "^2.3.0"
-    strip-ansi "^4.0.0"
-    supports-color "^5.1.0"
 
 "@heroku/linewrap@^1.0.0":
   version "1.0.0"
@@ -792,24 +779,6 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-ux@^2.0.21:
-  version "2.0.21"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-2.0.21.tgz#a7231097af95356e79f5d6a380f04be889703083"
-  dependencies:
-    "@cli-engine/screen" "^0.0.0"
-    "@heroku-cli/color" "^1.0.4"
-    "@heroku/linewrap" "^1.0.0"
-    ansi-escapes "^3.0.0"
-    ansi-styles "^3.2.0"
-    cardinal "^1.0.0"
-    chalk "^2.3.0"
-    lodash "^4.17.4"
-    moment "^2.20.1"
-    password-prompt "^1.0.3"
-    strip-ansi "^4.0.0"
-    supports-color "^5.1.0"
-    ts-lodash "^4.0.8"
-
 cli-ux@^3.0.0-alpha.2:
   version "3.0.0-alpha.3"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-3.0.0-alpha.3.tgz#ad88be894af0e3524b78d5fb22ee7d4891343898"
@@ -824,6 +793,23 @@ cli-ux@^3.0.0-alpha.2:
     password-prompt "^1.0.3"
     rxjs "^5.5.6"
     semver "^5.4.1"
+    strip-ansi "^4.0.0"
+    supports-color "^5.1.0"
+
+cli-ux@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-3.1.0.tgz#b9a7e7a30012bfc2bb20dc322044b5c0da8493ae"
+  dependencies:
+    "@dxcli/screen" "^0.0.0"
+    "@heroku/linewrap" "^1.0.0"
+    ansi-styles "^3.2.0"
+    cardinal "^1.0.0"
+    chalk "^2.3.0"
+    fs-extra "^5.0.0"
+    lodash "^4.17.4"
+    password-prompt "^1.0.3"
+    rxjs "^5.5.6"
+    semver "^5.5.0"
     strip-ansi "^4.0.0"
     supports-color "^5.1.0"
 
@@ -1886,11 +1872,11 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-generator-dxcli@1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.13.0.tgz#e665602d51240ed86ab59e8a431720008db93415"
+generator-dxcli@1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/generator-dxcli/-/generator-dxcli-1.14.0.tgz#385adba8f8a3c93bb657b5f51f5d59a61b67a9a1"
   dependencies:
-    cli-ux "^2.0.21"
+    cli-ux "^3.1.0"
     debug "^3.1.0"
     fixpack "^2.3.1"
     lodash "^4.17.4"
@@ -3151,10 +3137,6 @@ modify-values@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.0.tgz#e2b6cdeb9ce19f99317a53722f3dbf5df5eaaab2"
 
-moment@^2.20.1:
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
-
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -4074,6 +4056,10 @@ semver@5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
+semver@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
+
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -4591,7 +4577,7 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-ts-lodash@^4.0.11, ts-lodash@^4.0.8:
+ts-lodash@^4.0.11:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.11.tgz#f668e2ad4b6cb3bcbeceb894cf0a8cde48b3cd85"
   dependencies:

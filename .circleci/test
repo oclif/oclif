@@ -10,6 +10,9 @@ if [[ ! -z "$GIT_EMAIL" ]] & [[ ! -z "$GIT_USERNAME" ]]; then
   git config --global user.user "$GIT_USERNAME"
 fi
 
+git submodule sync
+git submodule update --init --recursive
+
 CLI_ENGINE_UTIL_YARN_ARGS="--frozen-lockfile"
 
 if [[ "$CIRCLE_BRANCH" == greenkeeper/* ]]; then
@@ -27,4 +30,6 @@ if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
 
-yarn test
+mkdir -p reports
+./node_modules/.bin/nps ci
+curl -s https://codecov.io/bash | bash

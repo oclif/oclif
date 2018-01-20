@@ -11,7 +11,7 @@
   "devDependencies": {
     "@dxcli/command": "^0.1.1",
     "@dxcli/dev-semantic-release": "^0.0.3",
-    "eslint": "^4.15.0",
+    "eslint": "^4.16.0",
     "eslint-config-dxcli": "^1.1.4",
     "husky": "^0.14.3",
     "nps": "^5.7.1",

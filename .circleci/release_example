@@ -7,47 +7,56 @@ sh.set('-ev')
 
 sh.exec('yarn link')
 const version = process.args[1]
-const example = process.env.CIRCLE_JOB
-const [, type,, format] = example.split('-')
 
-const options = format === 'typescript' ?
-  '--options=typescript,mocha,semantic-release' :
-  '--options=mocha,semantic-release'
+const examples = [
+  'example-multi-cli-javascript',
+  'example-multi-cli-typescript',
+  'example-single-cli-javascript',
+  'example-single-cli-typescript',
+]
 
-sh.cd(`examples/${example}`)
-sh.exec('git fetch')
-sh.exec('git checkout master')
-sh.exec('git pull --rebase origin master')
+examples.forEach(example => {
+  const [, type,, format] = example.split('-')
 
-sh.rm('-rf', [
-'.circleci',
-'.editorconfig',
-'.eslintignore',
-'.eslintrc',
-'.gitattributes',
-'.gitignore',
-'README.md',
-'appveyor.yml',
-'bin',
-'lib',
-'package-scripts.js',
-'src',
-'test',
-'tsconfig.json',
-'tslint.json',
-'yarn.lock',
-])
+  const options = format === 'typescript' ?
+    '--options=typescript,mocha,semantic-release' :
+    '--options=mocha,semantic-release'
 
-const pjson = fs.readJSONSync('package.json')
-fs.outputJSONSync('package.json', {
-  name: `@dxcli/${example}`,
-  repository: `dxcli/${example}`,
-  author: pjson.author,
-  version: pjson.version,
-  description: pjson.description,
+  sh.cd(`examples/${example}`)
+  sh.exec('git fetch')
+  sh.exec('git checkout master')
+  sh.exec('git pull --rebase origin master')
+
+  sh.rm('-rf', [
+  '.circleci',
+  '.editorconfig',
+  '.eslintignore',
+  '.eslintrc',
+  '.gitattributes',
+  '.gitignore',
+  'README.md',
+  'appveyor.yml',
+  'bin',
+  'lib',
+  'package-scripts.js',
+  'src',
+  'test',
+  'tsconfig.json',
+  'tslint.json',
+  'yarn.lock',
+  ])
+
+  const pjson = fs.readJSONSync('package.json')
+  fs.outputJSONSync('package.json', {
+    name: `@dxcli/${example}`,
+    repository: `dxcli/${example}`,
+    author: pjson.author,
+    version: pjson.version,
+    description: pjson.description,
+  })
+
+  sh.exec(`create-dxcli ${type} --force --defaults ${options}`)
+  sh.exec('git add -A')
+  sh.exec(`git commit -m "fix: create-dxcli ${version}"`)
+  sh.exec('git push')
 })
-
-sh.exec(`create-dxcli ${type} --force --defaults ${options}`)
-sh.exec('git add -A')
-sh.exec(`git commit -m "fix: create-dxcli ${version}"`)
-sh.exec('git push')

@@ -181,9 +181,9 @@ class App extends Generator {
           name: 'options',
           message: 'components to include',
           choices: [
-            {name: 'typescript', checked: this.fromScratch ? true : !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: this.fromScratch ? true : !!this.pjson.devDependencies['@dxcli/dev-semantic-release']},
-            {name: 'mocha', checked: this.fromScratch ? true : !!this.pjson.devDependencies.mocha},
+            {name: 'typescript', checked: this.fromScratch ? false : !!this.pjson.devDependencies.typescript},
+            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.devDependencies['@dxcli/dev-semantic-release']},
+            {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },

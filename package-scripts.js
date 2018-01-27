@@ -12,22 +12,18 @@ setColors(['dim'])
 
 const testTypes = ['base', 'plugin', 'single', 'multi']
 const tests = testTypes.map(cmd => {
-  let mocha = () => 'mocha --forbid-only'
-  if (process.env.CIRCLECI) {
-    const m = mocha()
-    mocha = type => `MOCHA_FILE=reports/mocha-${type}.xml ${m} --reporter mocha-junit-reporter`
-  }
-
+  let mocha = 'mocha --forbid-only'
   let s = process.platform === 'win32' ? series : concurrent
   let tests = s(
     _(['plain', 'mocha', 'typescript', 'everything'])
-      .map(t => [t, script(`${mocha(t)} test/commands/${cmd}/${t}.test.js`, t)])
+      .map(t => [t, `test/commands/${cmd}/${t}.test.js`])
+      .map(([t, s]) => [t, process.env.CIRCLECI ? `MOCHA_FILE=reports/mocha-${t}.xml ${mocha} --reporter mocha-junit-reporter ${s}` : `${mocha} ${s}`])
       .fromPairs()
       .value()
   )
   if (process.env.CI) {
     const nyc = 'nyc --extensions ts'
-    return series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)
+    return [cmd, series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)]
   }
   return [cmd, tests]
 })

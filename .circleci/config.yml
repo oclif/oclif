@@ -111,7 +111,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec nps lint
+      - run: yarn lint
       - store_test_results: *store_test_results
       - save_cache: *save_cache
 

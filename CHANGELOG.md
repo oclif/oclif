@@ -1,3 +1,12 @@
+<a name="0.24.2"></a>
+## [0.24.2](https://github.com/dxcli/create-dxcli/compare/7bd67f810ec3af751aeb8b6b6b84ddb35aa28949...v0.24.2) (2018-01-27)
+
+
+### Bug Fixes
+
+* releases ([fbdc9c2](https://github.com/dxcli/create-dxcli/commit/fbdc9c2))
+* releases ([ba33440](https://github.com/dxcli/create-dxcli/commit/ba33440))
+
 <a name="0.24.1"></a>
 ## [0.24.1](https://github.com/dxcli/create-dxcli/compare/2f901ca9651edc92a3586bf3a7a86ddf21749a6f...v0.24.1) (2018-01-27)
 

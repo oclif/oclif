@@ -1,6 +1,7 @@
 const {test} = require('@dxcli/dev-test')
 const path = require('path')
 const sh = require('shelljs')
+const npmPath = require('npm-run-path')
 
 sh.set('-ev')
 
@@ -22,6 +23,7 @@ module.exports = (type, features) => {
       sh.exec('yarn test')
       sh.exec('yarn run precommit')
       ctx.dir = dir
+      process.env = npmPath.env({env: process.env})
       ctx.expectation = `build ${type} with ${features}`
     })
 }

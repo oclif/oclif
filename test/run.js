@@ -5,7 +5,7 @@ const npmPath = require('npm-run-path')
 
 sh.set('-ev')
 
-delete process.env.CI
+process.env.DXCLI_TESTING = '1'
 
 module.exports = (type, features) => {
   return test

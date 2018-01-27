@@ -2,5 +2,5 @@ const run = require('../../run')
 
 describe('base', () => {
   run('base', 'mocha')
-    .it()
+    .retries(2).it()
 })

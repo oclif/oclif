@@ -41,7 +41,8 @@
   },
   "files": [
     "/bin",
-    "/lib"
+    "/lib",
+    "/templates"
   ],
   "homepage": "https://github.com/dxcli/create-dxcli",
   "keywords": [

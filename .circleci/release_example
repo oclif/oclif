@@ -2,6 +2,7 @@
 
 const sh = require('shelljs')
 const fs = require('fs-extra')
+const path = require('path')
 
 sh.set('-ev')
 
@@ -22,7 +23,7 @@ examples.forEach(example => {
     '--options=typescript,mocha,semantic-release' :
     '--options=mocha,semantic-release'
 
-  sh.cd(`examples/${example}`)
+  sh.cd(path.join(__dirname, '../examples', example))
   sh.exec('git fetch')
   sh.exec('git checkout master')
   sh.exec('git pull --rebase origin master')

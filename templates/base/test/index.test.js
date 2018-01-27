@@ -1,4 +1,4 @@
-const {expect} = require('chai')
+const {expect} = require('@dxcli/dev-test')
 const {add} = require('../src')
 
 describe('add', () => {

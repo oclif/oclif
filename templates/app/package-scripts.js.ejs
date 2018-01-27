@@ -31,7 +31,7 @@ const scripts = {
   lint: concurrent(linters),
 <%_ if (mocha) { _%>
   test: script(concurrent.nps(...Object.keys(linters), 'mocha'), 'lint and run all tests'),
-  mocha: script('mocha --forbid-only "test/**/*.test.ts"', 'run all mocha tests'),
+  mocha: script('mocha --forbid-only "test/**/*.test.<%= _ext %>"', 'run all mocha tests'),
 <%_ } else { _%>
   test: concurrent(linters),
 <%_ } _%>

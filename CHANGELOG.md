@@ -1,3 +1,12 @@
+<a name="0.24.0"></a>
+# [0.24.0](https://github.com/dxcli/create-dxcli/compare/ea066302ac109a86d4186460803eb152a87edb56...v0.24.0) (2018-01-27)
+
+
+### Features
+
+* release examples ([2f901ca](https://github.com/dxcli/create-dxcli/commit/2f901ca))
+* release examples automatically ([6c95bd9](https://github.com/dxcli/create-dxcli/commit/6c95bd9))
+
 <a name="0.23.3"></a>
 ## [0.23.3](https://github.com/dxcli/create-dxcli/compare/ad28e28c93f1a8490992616b7a7db8755e582060...v0.23.3) (2018-01-27)
 

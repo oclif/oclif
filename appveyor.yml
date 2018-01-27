@@ -18,11 +18,10 @@ install:
   - yarn
 test_script:
   - npx nps lint
-  - npx nps test.%TEST_TYPE%.everything
-  - npx nps test.%TEST_TYPE%.mocha
-  - npx nps test.%TEST_TYPE%.plain
-  - npx nps test.%TEST_TYPE%.semantic-release
-  - npx nps test.%TEST_TYPE%.typescript
+  - npx mocha test/commands/%TEST_TYPE%/.plain
+  - npx mocha test/commands/%TEST_TYPE%/.mocha
+  - npx mocha test/commands/%TEST_TYPE%/.typescript
+  - npx mocha test/commands/%TEST_TYPE%/.everything
 after_test:
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH

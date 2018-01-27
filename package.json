@@ -40,7 +40,8 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "/bin"
+    "/bin",
+    "/lib"
   ],
   "homepage": "https://github.com/dxcli/create-dxcli",
   "keywords": [

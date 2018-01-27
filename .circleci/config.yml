@@ -117,16 +117,6 @@ jobs:
       - run: .circleci/setup_git
       - run: ./node_modules/.bin/nps release
 
-  example-multi-cli-typescript: &example
-    <<: *test
-    steps:
-      - add_ssh_keys
-      - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: .circleci/release_example
-
 workflows:
   version: 2
   create-dxcli:
@@ -154,10 +144,3 @@ workflows:
             - node-8-single
             - node-8-plugin
             - node-8-multi
-      - example-multi-cli-typescript: &example_workflow
-          context: org-global
-          requires:
-            - release
-      # - example-multi-cli-javascript: *example_workflow
-      # - example-single-cli-typescript: *example_workflow
-      # - example-single-cli-javascript: *example_workflow

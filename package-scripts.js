@@ -1,13 +1,18 @@
 const {
   concurrent,
-  crossEnv,
-  series,
   setColors,
 } = require('nps-utils')
 const script = (script, description) => description ? {script, description} : {script}
 const hidden = script => ({script, hiddenFromHelp: true})
 
 setColors(['dim'])
+
+const test = type => [
+  `mocha test/commands/${type}/plain.test.ts`,
+  `mocha test/commands/${type}/mocha.test.ts`,
+  `mocha test/commands/${type}/typescript.test.ts`,
+  `mocha test/commands/${type}/everything.test.ts`,
+]
 
 module.exports = {
   scripts: {
@@ -20,20 +25,10 @@ module.exports = {
       tslint: script('tslint -p test', 'lint ts files'),
     },
     test: {
-      default: script(concurrent.nps('lint', 'test.mocha'), 'lint and run all tests'),
-      series: script(series.nps('lint', 'test.mocha'), 'lint and run all tests in series'),
-      mocha: {
-        default: script('mocha --forbid-only "test/**/*.test.ts"', 'run all mocha tests'),
-        coverage: {
-          default: hidden(series.nps('test.mocha.nyc nps test.mocha', 'test.mocha.coverage.report')),
-          report: hidden(series('nps "test.mocha.nyc report --reporter text-lcov" > coverage.lcov')),
-        },
-        junit: hidden(series(
-          crossEnv('MOCHA_FILE="reports/mocha.xml" ') + series.nps('test.mocha.nyc nps \\"test.mocha --reporter mocha-junit-reporter\\"'),
-          series.nps('test.mocha.coverage.report'),
-        )),
-        nyc: hidden('nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc'),
-      },
+      base: concurrent(test('base')),
+      plugin: concurrent(test('plugin')),
+      typescript: concurrent(test('typescript')),
+      everything: concurrent(test('everything')),
     },
     release: hidden('semantic-release -e @dxcli/dev-semantic-release'),
   },

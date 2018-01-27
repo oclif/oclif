@@ -5,9 +5,10 @@ const npmPath = require('npm-run-path')
 
 sh.set('-ev')
 
+delete process.env.CI
+
 module.exports = (type, features) => {
   return test
-    .env({CI: undefined, CIRCLECI: undefined})
     .do(ctx => {
       process.chdir(path.join(__dirname, '..'))
       let options = ''

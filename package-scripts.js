@@ -19,9 +19,8 @@ const tests = testTypes.map(cmd => {
   tests = process.platform === 'win32' ?
     series(...tests.map(t => t[1]).value()) :
     concurrent(tests.fromPairs().value())
-  if (process.env.CI) {
-    const nyc = 'nyc --extensions ts'
-    return [cmd, series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)]
+  if (process.env.CIRCLECI) {
+    return [cmd, series(mkdirp('reports'), tests)]
   }
   return [cmd, tests]
 })

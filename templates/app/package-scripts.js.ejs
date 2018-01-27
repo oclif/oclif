@@ -38,7 +38,7 @@ const scripts = {
 }
 
 <%_ if (mocha) { _%>
-if (process.env.CI && !process.env.DXCLI_TESTING) {
+if (process.env.CI) {
   if (process.env.CIRCLECI) {
     scripts.mocha.script = series(mkdirp('reports'), scripts.mocha.script)
     // add mocha junit reporter

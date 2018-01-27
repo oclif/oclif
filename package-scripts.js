@@ -6,10 +6,12 @@ const {
 } = require('nps-utils')
 const script = (script, description) => description ? {script, description} : {script}
 const hidden = script => ({script, hiddenFromHelp: true})
+const _ = require('lodash')
 
 setColors(['dim'])
 
-let test = type => {
+const testTypes = ['base', 'plugin', 'single', 'multi']
+const tests = testTypes.map(cmd => {
   let mocha = () => 'mocha --forbid-only'
   if (process.env.CIRCLECI) {
     const m = mocha()
@@ -17,13 +19,13 @@ let test = type => {
   }
 
   let s = process.platform === 'win32' ? series : concurrent
-  let tests = s(['plain', 'mocha', 'typescript', 'everything'].map(t => script(`${mocha(t)} test/commands/${type}/${t}.test.js`, t)))
+  let tests = s(['plain', 'mocha', 'typescript', 'everything'].map(t => script(`${mocha(t)} test/commands/${cmd}/${t}.test.js`, t)))
   if (process.env.CI) {
     const nyc = 'nyc --extensions ts'
     return series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)
   }
-  return tests
-}
+  return [cmd, tests]
+})
 
 module.exports = {
   scripts: {
@@ -36,11 +38,8 @@ module.exports = {
       tslint: script('tslint -p .', 'lint ts files'),
     },
     test: {
-      default: series.nps('test.base', 'test.plugin', 'test.single', 'test.multi'),
-      base: test('base'),
-      plugin: test('plugin'),
-      single: test('single'),
-      multi: test('multi'),
+      default: series.nps(...testTypes.map(t => `test.${t}`)),
+      ..._.fromPairs(tests),
     },
     release: hidden('semantic-release -e @dxcli/dev-semantic-release'),
   },

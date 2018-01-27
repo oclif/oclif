@@ -1,3 +1,11 @@
+<a name="0.23.2"></a>
+## [0.23.2](https://github.com/dxcli/create-dxcli/compare/417c8753c63422e93e7c59368274483be27b8a9b...v0.23.2) (2018-01-27)
+
+
+### Bug Fixes
+
+* export lib ([ad28e28](https://github.com/dxcli/create-dxcli/commit/ad28e28))
+
 <a name="0.23.1"></a>
 ## [0.23.1](https://github.com/dxcli/create-dxcli/compare/338f439af784605470b85f2872554bc992396b54...v0.23.1) (2018-01-27)
 

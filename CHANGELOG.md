@@ -1,3 +1,11 @@
+<a name="0.25.1"></a>
+## [0.25.1](https://github.com/dxcli/create-dxcli/compare/18261a5471c70b44acddb5859a66f0b3b7b4fcb9...v0.25.1) (2018-01-27)
+
+
+### Bug Fixes
+
+* mkdirp reports ([ab4b02f](https://github.com/dxcli/create-dxcli/commit/ab4b02f))
+
 <a name="0.24.3"></a>
 ## [0.24.3](https://github.com/dxcli/create-dxcli/compare/26f6d3019d357895bf3040e49702c728cd4297ad...v0.24.3) (2018-01-27)
 

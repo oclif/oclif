@@ -17,7 +17,7 @@ let test = type => {
   }
 
   let s = process.platform === 'win32' ? series : concurrent
-  let tests = s(['plain', 'mocha', 'typescript', 'everything'].map(t => script(`${mocha(t)} test/commands/${type}/plain.test.js`, t)))
+  let tests = s(['plain', 'mocha', 'typescript', 'everything'].map(t => script(`${mocha(t)} test/commands/${type}/${t}.test.js`, t)))
   if (process.env.CI) {
     const nyc = 'nyc --extensions ts'
     return series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)

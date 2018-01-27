@@ -1,3 +1,12 @@
+<a name="0.24.3"></a>
+## [0.24.3](https://github.com/dxcli/create-dxcli/compare/26f6d3019d357895bf3040e49702c728cd4297ad...v0.24.3) (2018-01-27)
+
+
+### Bug Fixes
+
+* scope templates ([2f03b43](https://github.com/dxcli/create-dxcli/commit/2f03b43))
+* trap git push errors ([af327b3](https://github.com/dxcli/create-dxcli/commit/af327b3))
+
 <a name="0.24.2"></a>
 ## [0.24.2](https://github.com/dxcli/create-dxcli/compare/7bd67f810ec3af751aeb8b6b6b84ddb35aa28949...v0.24.2) (2018-01-27)
 

@@ -1,3 +1,16 @@
+<a name="0.25.0"></a>
+# [0.25.0](https://github.com/dxcli/create-dxcli/compare/af327b3e8f2f01afd38692f3ae175348024daa11...v0.25.0) (2018-01-27)
+
+
+### Bug Fixes
+
+* fixed issues with package-scripts ([571facb](https://github.com/dxcli/create-dxcli/commit/571facb))
+
+
+### Features
+
+* simplified package-scripts ([f31fae9](https://github.com/dxcli/create-dxcli/commit/f31fae9))
+
 <a name="0.24.3"></a>
 ## [0.24.3](https://github.com/dxcli/create-dxcli/compare/26f6d3019d357895bf3040e49702c728cd4297ad...v0.24.3) (2018-01-27)
 

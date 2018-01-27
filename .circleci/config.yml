@@ -121,26 +121,26 @@ workflows:
   version: 2
   create-dxcli:
     jobs:
-      - lint
-      - node-latest-base
-      - node-latest-single
-      - node-latest-plugin
-      - node-latest-multi
-      - node-8-base
-      - node-8-single
-      - node-8-plugin
-      - node-8-multi
+      # - lint
+      # - node-latest-base
+      # - node-latest-single
+      # - node-latest-plugin
+      # - node-latest-multi
+      # - node-8-base
+      # - node-8-single
+      # - node-8-plugin
+      # - node-8-multi
       - release:
           context: org-global
           filters:
             branches: {only: master}
-          requires:
-            - lint
-            - node-latest-base
-            - node-latest-single
-            - node-latest-plugin
-            - node-latest-multi
-            - node-8-base
-            - node-8-single
-            - node-8-plugin
-            - node-8-multi
+          # requires:
+          #   - lint
+          #   - node-latest-base
+          #   - node-latest-single
+          #   - node-latest-plugin
+          #   - node-latest-multi
+          #   - node-8-base
+          #   - node-8-single
+          #   - node-8-plugin
+          #   - node-8-multi

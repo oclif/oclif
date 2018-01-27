@@ -19,7 +19,7 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@dxcli/dev": "^2.0.3",
+    "@dxcli/dev": "^2.0.4",
     "@dxcli/dev-test": "^0.9.11",
     "@semantic-release/exec": "^1.0.2",
     "@types/shelljs": "^0.7.7",
@@ -29,6 +29,7 @@
     "mocha": "^5.0.0",
     "mocha-junit-reporter": "^1.17.0",
     "npm-run-path": "^2.0.2",
+    "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
     "shelljs": "^0.8.1"
   },

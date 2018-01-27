@@ -4,7 +4,7 @@ const run = require('../../run')
 
 describe('single', () => {
   run('single', 'typescript')
-    .it(() => {
+    .retries(2).it(() => {
       sh.exec('node ./bin/run')
     })
 })

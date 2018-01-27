@@ -21,6 +21,7 @@
     "@types/yeoman-generator": "^2.0.1",
     "@types/yosay": "^0.0.29",
     "husky": "^0.14.3",
+    "mocha-junit-reporter": "^1.17.0",
     "nps-utils": "^1.5.0",
     "shelljs": "^0.8.1"
   },

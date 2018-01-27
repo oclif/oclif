@@ -14,7 +14,7 @@ jobs:
             - v0-yarn-{{checksum ".circleci/config.yml"}}-master-
       - run: .circleci/setup_git
       - run: .circleci/yarn
-      - run: yarn exec nps ci.test
+      - run: yarn test
       - run: curl -s https://codecov.io/bash | bash
       - store_test_results: &store_test_results
           path: ~/cli/reports
@@ -33,7 +33,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/setup_git
       - run: .circleci/yarn
-      - run: yarn exec nps ci.test
+      - run: yarn test
       - run: curl -s https://codecov.io/bash | bash
       - store_test_results: *store_test_results
 <%_ if (semantic_release) { _%>
@@ -45,7 +45,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/setup_git
       - run: .circleci/yarn
-      - run: yarn exec nps ci.release
+      - run: yarn exec nps release
 <%_ } _%>
 
 workflows:

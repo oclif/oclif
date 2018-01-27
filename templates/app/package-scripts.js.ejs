@@ -1,120 +1,64 @@
 const {
+  setColors,
   concurrent,
 <%_ if (mocha) { _%>
   crossEnv,
-<%_ } _%>
-  ifNotWindows,
-  ifWindows,
   mkdirp,
   series,
-  setColors,
-} = require('nps-utils')
-<%_ if (semantic_release) { _%>
-const pjson = require('./package.json')
-const release = pjson.devDependencies.typedoc ? ['ci.release.semantic-release', 'ci.release.typedoc'] : ['ci.release.semantic-release']
 <%_ } _%>
-const script = (script, description) => description ? {script, description} : {script}
-const hidden = script => ({script, hiddenFromHelp: true})
-const unixOrWindows = (unix, windows) => series(ifNotWindows(unix), ifWindows(windows))
-
-const lint = ['lint.eslint'<% if (semantic_release) { %>, 'lint.commitlint'<% } %><% if (ts) { %>, 'lint.tsc', 'lint.tslint'<% } %>]
+} = require('nps-utils')
 
 setColors(['dim'])
 
-let ciTests = [
-  'ci.test.eslint',
-<%_ if (mocha) { _%>
-  'ci.test.mocha',
-<%_ } _%>
-<%_ if (ts) { _%>
-  'ci.test.tslint',
-<%_ } _%>
-]
+const script = (script, description) => description ? {script, description} : {script}
 
-module.exports = {
-  scripts: {
-    lint: {
-      default: concurrent.nps(...lint),
-      eslint: script('eslint .', 'lint js files'),
+const lint = {
+  eslint: script('eslint .', 'lint js files'),
 <%_ if (semantic_release) { _%>
-      commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
+  commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
 <%_ } _%>
 <%_ if (ts) { _%>
-  <%_ if (mocha) { _%>
-      tsc: script('tsc -p test --noEmit', 'syntax check with tsc'),
-      tslint: script('tslint -p test', 'lint ts files'),
-  <%_ } else { _%>
-      tsc: script('tsc -p . --noEmit', 'syntax check with tsc'),
-      tslint: script('tslint -p .', 'lint ts files'),
-  <%_ } _%>
+  tsc: script('tsc -p test --noEmit', 'syntax check with tsc'),
+  tslint: script('tslint -p test', 'lint ts files'),
 <%_ } _%>
-    },
-    test: {
-<%_ if (mocha) { _%>
-      default: script(concurrent.nps(...lint), 'lint and run all tests'),
-      series: script(series.nps(...lint), 'lint and run all tests in series'),
-      mocha: {
-        default: script('mocha --forbid-only "test/**/*.test.<%= _ext %>"', 'run all mocha tests'),
-        coverage: {
-          default: hidden(series.nps('test.mocha.nyc nps test.mocha', 'test.mocha.coverage.report')),
-          report: hidden(series('nps "test.mocha.nyc report --reporter text-lcov" > coverage.lcov')),
-        },
-        junit: hidden(series(
-          crossEnv('MOCHA_FILE="reports/mocha.xml" ') + series.nps('test.mocha.nyc nps \\"test.mocha --reporter mocha-junit-reporter\\"'),
-          series.nps('test.mocha.coverage.report'),
-        )),
-        nyc: hidden('nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc'),
-      },
-<%_ } else { _%>
-      default: script(concurrent.nps('lint')),
-<%_ } _%>
-    },
-    ci: {
-      test: {
-        default: hidden(series(
-          mkdirp('reports'),
-          unixOrWindows(
-            concurrent.nps(...ciTests),
-            series.nps(...ciTests),
-          ),
-        )),
-<%_ if (mocha) { _%>
-        mocha: hidden(
-          unixOrWindows(
-            series.nps('test.mocha.junit'),
-            series.nps('test.mocha.coverage'),
-          )
-        ),
-<%_ } _%>
-        eslint: hidden(
-          unixOrWindows(
-            series.nps('lint.eslint --format junit --output-file reports/eslint.xml'),
-            series.nps('lint.eslint'),
-          )
-        ),
-<%_ if (ts) { _%>
-        tslint: hidden(
-          unixOrWindows(
-            series.nps('lint.tslint --format junit > reports/tslint.xml'),
-            series.nps('lint.tslint'),
-          )
-        ),
-<%_ } _%>
-      },
-<%_ if (semantic_release) { _%>
-      typedoc: hidden('typedoc --out /tmp/docs src/index.ts --excludeNotExported --mode file'),
-      release: {
-        default: hidden(series.nps(...release)),
-        'semantic-release': hidden('semantic-release -e @dxcli/dev-semantic-release'),
-        typedoc: hidden(series(
-          'git clone -b gh-pages $CIRCLE_REPOSITORY_URL gh-pages',
-          'nps ci.typedoc',
-          'rm -rf ./gh-pages/*',
-          'mv /tmp/docs/* ./gh-pages',
-          'cd gh-pages && git add . && git commit -m "updates from $CIRCLE_SHA1 [skip ci]" && git push',
-        )),
-      },
-<%_ } _%>
-    },
-  },
 }
+
+const linters = Object.keys(lint).map(l => `lint.${l}`)
+lint.default = concurrent.nps(...linters)
+
+const test = {
+<%_ if (mocha) { _%>
+  default: script(concurrent.nps(...linters, 'test.mocha'), 'lint and run all tests'),
+  mocha: script('mocha --forbid-only "test/**/*.test.ts"', 'run all mocha tests'),
+<%_ } else { _%>
+  default: lint.default
+<%_ } _%>
+}
+
+const scripts = {
+  lint,
+  test,
+}
+
+<%_ if (mocha) { _%>
+if (process.env.CI) {
+  if (process.env.CIRCLECI) {
+    test.default.script = series(mkdirp('reports'), test.default.script)
+    // add mocha junit reporter
+    test.mocha.script = crossEnv(`MOCHA_FILE=reports/mocha.xml ${test.mocha.script} --reporter mocha-junit-reporter`)
+    // add eslint reporter
+    lint.eslint.script = `${lint.eslint.script} --format junit --output-file reports/eslint.xml`
+<%_ if (ts) { _%>
+    // add tslint reporter
+    lint.tslint.script = `${lint.tslint.script} --format junit > reports/tslint.xml`
+<%_ } _%>
+    scripts.release = 'semantic-release -e @dxcli/dev-semantic-release'
+  }
+  // add code coverage reporting with nyc
+  const nyc = 'nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc'
+  const nycReport = `${nyc} report --reporter text-lcov > coverage.lcov`
+  test.mocha.script = series(`${nyc} ${test.mocha.script}`, nycReport)
+}
+<%_ } _%>
+
+module.exports = {scripts}

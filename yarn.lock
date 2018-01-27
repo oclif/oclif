@@ -102,7 +102,7 @@
   dependencies:
     find-up "^2.1.0"
 
-"@dxcli/command@^0.1.13", "@dxcli/command@^0.1.17":
+"@dxcli/command@^0.1.13", "@dxcli/command@^0.1.17", "@dxcli/command@^0.1.18":
   version "0.1.18"
   resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.18.tgz#922115807bd6c954577d1f8119e1f89c9428089d"
   dependencies:
@@ -3696,7 +3696,7 @@ npm-registry-client@^8.5.0:
   optionalDependencies:
     npmlog "2 || ^3.1.0 || ^4.0.0"
 
-npm-run-path@^2.0.0:
+npm-run-path@^2.0.0, npm-run-path@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
   dependencies:

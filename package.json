@@ -6,9 +6,13 @@
   "bin": "bin/run",
   "bugs": "https://github.com/dxcli/create-dxcli/issues",
   "dependencies": {
+    "@dxcli/command": "^0.1.18",
     "@dxcli/engine": "^0.1.11",
     "@dxcli/version": "^0.1.5",
     "cli-ux": "^3.2.1",
+    "debug": "^3.1.0",
+    "fixpack": "^2.3.1",
+    "lodash": "^4.17.4",
     "sort-pjson": "^1.0.2",
     "yeoman-environment": "^2.0.5",
     "yeoman-generator": "^2.0.2",
@@ -22,6 +26,7 @@
     "@types/yosay": "^0.0.29",
     "husky": "^0.14.3",
     "mocha-junit-reporter": "^1.17.0",
+    "npm-run-path": "^2.0.2",
     "nps-utils": "^1.5.0",
     "shelljs": "^0.8.1"
   },

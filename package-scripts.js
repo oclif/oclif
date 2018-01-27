@@ -37,8 +37,8 @@ module.exports = {
       default: concurrent.nps('lint.eslint', 'lint.commitlint', 'lint.tsc', 'lint.tslint'),
       eslint: script('eslint .', 'lint js files'),
       commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
-      tsc: script('tsc -p test --noEmit', 'syntax check with tsc'),
-      tslint: script('tslint -p test', 'lint ts files'),
+      tsc: script('tsc --noEmit', 'syntax check with tsc'),
+      tslint: script('tslint -p .', 'lint ts files'),
     },
     test: {
       default: series.nps('test.base', 'test.plugin', 'test.single', 'test.multi'),

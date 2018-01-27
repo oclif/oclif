@@ -19,7 +19,12 @@ const tests = testTypes.map(cmd => {
   }
 
   let s = process.platform === 'win32' ? series : concurrent
-  let tests = s(['plain', 'mocha', 'typescript', 'everything'].map(t => script(`${mocha(t)} test/commands/${cmd}/${t}.test.js`, t)))
+  let tests = s(
+    _(['plain', 'mocha', 'typescript', 'everything'])
+      .map(t => [t, script(`${mocha(t)} test/commands/${cmd}/${t}.test.js`, t)])
+      .fromPairs()
+      .value()
+  )
   if (process.env.CI) {
     const nyc = 'nyc --extensions ts'
     return series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)

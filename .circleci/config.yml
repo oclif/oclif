@@ -9,17 +9,17 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
-            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-master-
+            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
+            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-master-
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: ./scripts/circleci
+      - run: .circleci/circleci
       - run: yarn exec mocha test/commands/base/*.test.ts
       - store_test_results: &store_test_results
           path: ~/cli/reports
       - save_cache: &save_cache
-          key: v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+          key: v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
           paths:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn
@@ -29,8 +29,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/single/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -39,8 +39,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/plugin/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -49,8 +49,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/multi/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -61,8 +61,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/base/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -73,8 +73,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/single/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -85,8 +85,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/plugin/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -97,8 +97,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: yarn exec mocha test/commands/multi/*.test.ts
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -110,8 +110,8 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: nps lint
       - store_test_results: *store_test_results
       - save_cache: *save_cache
@@ -122,8 +122,8 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: ./scripts/greenkeeper
-      - run: ./scripts/setup_git
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
       - run: ./node_modules/.bin/nps release
       - save_cache: *save_cache
 

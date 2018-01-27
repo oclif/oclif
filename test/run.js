@@ -5,10 +5,9 @@ const npmPath = require('npm-run-path')
 
 sh.set('-ev')
 
-process.env.DXCLI_TESTING = '1'
-
 module.exports = (type, features) => {
   return test
+    .env({CIRCLECI: undefined})
     .do(ctx => {
       process.chdir(path.join(__dirname, '..'))
       let options = ''

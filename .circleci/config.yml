@@ -12,7 +12,7 @@ jobs:
             - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
             - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
             - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-master-
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.base
       - store_test_results: &store_test_results
@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.single
       - store_test_results: *store_test_results
@@ -38,7 +38,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
@@ -48,7 +48,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
@@ -60,7 +60,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.base
       - store_test_results: *store_test_results
@@ -72,7 +72,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.single
       - store_test_results: *store_test_results
@@ -84,7 +84,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
@@ -96,7 +96,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
@@ -109,7 +109,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps lint
       - store_test_results: *store_test_results
@@ -121,7 +121,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: ./node_modules/.bin/nps release
       - save_cache: *save_cache
@@ -132,7 +132,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/greenkeeper
+      - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: .circleci/release_example
       - save_cache: *save_cache

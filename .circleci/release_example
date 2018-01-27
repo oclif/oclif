@@ -7,7 +7,7 @@ const path = require('path')
 sh.set('-ev')
 
 sh.exec('yarn link')
-const version = process.argv[1]
+const version = process.argv[2]
 
 const examples = [
   'example-multi-cli-javascript',

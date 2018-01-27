@@ -1,3 +1,12 @@
+<a name="0.23.1"></a>
+## [0.23.1](https://github.com/dxcli/create-dxcli/compare/338f439af784605470b85f2872554bc992396b54...v0.23.1) (2018-01-27)
+
+
+### Bug Fixes
+
+* add other commands ([394b5f0](https://github.com/dxcli/create-dxcli/commit/394b5f0))
+* move generator into this package ([d379e63](https://github.com/dxcli/create-dxcli/commit/d379e63))
+
 <a name="0.23.0"></a>
 # [0.23.0](https://github.com/dxcli/create-dxcli/compare/8b1d9939d3debbd0eb51e6880a8f34184c682d8a...v0.23.0) (2018-01-26)
 

@@ -19,7 +19,7 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@dxcli/dev": "^2.0.1",
+    "@dxcli/dev": "^2.0.2",
     "@dxcli/dev-test": "^0.9.11",
     "@types/shelljs": "^0.7.7",
     "@types/yeoman-generator": "^2.0.1",

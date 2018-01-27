@@ -7,6 +7,7 @@ sh.set('-ev')
 export default function run(type: string, features: 'plain' | 'everything' | 'mocha' | 'typescript') {
   return test
   .do((ctx: {expectation: string, dir: string}) => {
+    process.chdir(path.join(__dirname, '..'))
     let options = ''
     if (features === 'everything') options = '--options=typescript,mocha,semantic-release'
     if (features === 'typescript') options = '--options=typescript'

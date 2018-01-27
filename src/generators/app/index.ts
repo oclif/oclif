@@ -232,7 +232,7 @@ class App extends Generator {
   }
 
   writing() {
-    this.sourceRoot(path.join(__dirname, '../../../templates'))
+    this.sourceRoot(path.join(__dirname, '../../../templates/app'))
 
     switch (this.type) {
       case 'multi':

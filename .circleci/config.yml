@@ -9,16 +9,16 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
-            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-master-
+            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
+            - v0-yarn-{{checksum ".circleci/config.yml"}}-master-
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.base
       - store_test_results: &store_test_results
           path: ~/cli/reports
-      - save_cache: &save_cache
-          key: v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+      - save_cache:
+          key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
           paths:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn
@@ -32,7 +32,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.single
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
   node-latest-plugin:
     <<: *test
     steps:
@@ -42,7 +41,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
   node-latest-multi:
     <<: *test
     steps:
@@ -52,7 +50,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
   node-8-base:
     <<: *test
     docker:
@@ -64,7 +61,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.base
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
   node-8-single:
     <<: *test
     docker:
@@ -76,7 +72,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.single
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
   node-8-plugin:
     <<: *test
     docker:
@@ -88,7 +83,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
   node-8-multi:
     <<: *test
     docker:
@@ -100,7 +94,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
 
   lint:
     <<: *test
@@ -113,7 +106,6 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps lint
       - store_test_results: *store_test_results
-      - save_cache: *save_cache
 
   release:
     <<: *test
@@ -124,7 +116,6 @@ jobs:
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: ./node_modules/.bin/nps release
-      - save_cache: *save_cache
 
   example-multi-cli-typescript: &example
     <<: *test
@@ -135,7 +126,6 @@ jobs:
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: .circleci/release_example
-      - save_cache: *save_cache
 
 workflows:
   version: 2
@@ -168,6 +158,6 @@ workflows:
           context: org-global
           requires:
             - release
-      - example-multi-cli-javascript: *example_workflow
-      - example-single-cli-typescript: *example_workflow
-      - example-single-cli-javascript: *example_workflow
+      # - example-multi-cli-javascript: *example_workflow
+      # - example-single-cli-typescript: *example_workflow
+      # - example-single-cli-javascript: *example_workflow

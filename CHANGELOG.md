@@ -1,3 +1,18 @@
+<a name="0.26.0"></a>
+# [0.26.0](https://github.com/dxcli/create-dxcli/compare/7d6f27655c4fd780b53a50598ae2d0450360368f...v0.26.0) (2018-01-27)
+
+
+### Bug Fixes
+
+* mkdir ([09d86ae](https://github.com/dxcli/create-dxcli/commit/09d86ae))
+* mkdir ([dc8a2d1](https://github.com/dxcli/create-dxcli/commit/dc8a2d1))
+* updated deps ([9c5e204](https://github.com/dxcli/create-dxcli/commit/9c5e204))
+
+
+### Features
+
+* add bin script for local plugin dev ([552df43](https://github.com/dxcli/create-dxcli/commit/552df43))
+
 <a name="0.25.2"></a>
 ## [0.25.2](https://github.com/dxcli/create-dxcli/compare/ab4b02f03b67cd987b66a201c72019d2abd98b3b...v0.25.2) (2018-01-27)
 

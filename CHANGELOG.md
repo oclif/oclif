@@ -1,3 +1,17 @@
+<a name="0.24.1"></a>
+## [0.24.1](https://github.com/dxcli/create-dxcli/compare/2f901ca9651edc92a3586bf3a7a86ddf21749a6f...v0.24.1) (2018-01-27)
+
+
+### Bug Fixes
+
+* fix releases ([435a96d](https://github.com/dxcli/create-dxcli/commit/435a96d))
+* fixing example publishing ([6087f9c](https://github.com/dxcli/create-dxcli/commit/6087f9c))
+* fixing example publishing ([d03efe7](https://github.com/dxcli/create-dxcli/commit/d03efe7))
+* git username ([11b4b58](https://github.com/dxcli/create-dxcli/commit/11b4b58))
+* release examples ([6a1c3df](https://github.com/dxcli/create-dxcli/commit/6a1c3df))
+* rename greenkeeper -> yarn ([78afe96](https://github.com/dxcli/create-dxcli/commit/78afe96))
+* share cache in tests ([1a33371](https://github.com/dxcli/create-dxcli/commit/1a33371))
+
 <a name="0.24.0"></a>
 # [0.24.0](https://github.com/dxcli/create-dxcli/compare/ea066302ac109a86d4186460803eb152a87edb56...v0.24.0) (2018-01-27)
 

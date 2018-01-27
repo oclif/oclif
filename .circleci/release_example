@@ -5,7 +5,8 @@ const fs = require('fs-extra')
 
 sh.set('-ev')
 
-const {version} = fs.readJSONSync('package.json')
+sh.exec('yarn link')
+const version = process.args[1]
 const example = process.env.CIRCLE_JOB
 const [, type,, format] = example.split('-')
 
@@ -25,16 +26,17 @@ sh.rm('-rf', [
 '.eslintrc',
 '.gitattributes',
 '.gitignore',
+'README.md',
 'appveyor.yml',
 'bin',
+'lib',
 'package-scripts.js',
-'README.md',
 'src',
 'test',
 'tsconfig.json',
 'tslint.json',
-'yarn.lock'
-].join(' '))
+'yarn.lock',
+])
 
 const pjson = fs.readJSONSync('package.json')
 fs.outputJSONSync('package.json', {
@@ -42,24 +44,10 @@ fs.outputJSONSync('package.json', {
   repository: `dxcli/${example}`,
   author: pjson.author,
   version: pjson.version,
+  description: pjson.description,
 })
 
-sh.exec(`yarn create dxcli ${type} --force --defaults ${options}`)
-sh.exec('git add .')
+sh.exec(`create-dxcli ${type} --force --defaults ${options}`)
+sh.exec('git add -A')
 sh.exec(`git commit -m "fix: create-dxcli ${version}"`)
 sh.exec('git push')
-sh.cd('../..')
-sh.exec(`git add examples/${example}`)
-sh.exec(`git commit -m "chore: ${example} updated [ci-skip]`)
-
-let retries = 4
-function push() {
-  try {
-    sh.exec('git pull --rebase origin master')
-    sh.exec('git push')
-  } catch (err) {
-    retries--
-    if (retries > 0) return push()
-    throw err
-  }
-}

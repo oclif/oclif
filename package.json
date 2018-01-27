@@ -21,6 +21,7 @@
   "devDependencies": {
     "@dxcli/dev": "^2.0.2",
     "@dxcli/dev-test": "^0.9.11",
+    "@semantic-release/exec": "^1.0.2",
     "@types/shelljs": "^0.7.7",
     "@types/yeoman-generator": "^2.0.1",
     "@types/yosay": "^0.0.29",

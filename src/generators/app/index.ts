@@ -230,7 +230,7 @@ class App extends Generator {
       }
     }
     if (this.ts) {
-      this.pjson.scripts.prepare = defaults.scripts.prepare || 'nps build'
+      this.pjson.scripts.prepare = defaults.scripts.prepare || 'rm -rf lib && tsc'
     }
     if (this.semantic_release) {
       this.pjson.scripts.commitmsg = defaults.scripts.commitmsg || 'dxcli-dev-commitmsg'

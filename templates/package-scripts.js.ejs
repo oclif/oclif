@@ -33,9 +33,6 @@ let ciTests = [
 
 module.exports = {
   scripts: {
-<%_ if (ts) { _%>
-    build: 'rm -rf lib && tsc',
-<%_ } _%>
     lint: {
       default: concurrent.nps(...lint),
       eslint: script('eslint .', 'lint js files'),

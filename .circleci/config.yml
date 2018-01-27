@@ -15,7 +15,7 @@ jobs:
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: .circleci/circleci
-      - run: yarn exec mocha test/commands/base/*.test.ts
+      - run: yarn exec nps test.base
       - store_test_results: &store_test_results
           path: ~/cli/reports
       - save_cache: &save_cache
@@ -31,7 +31,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/single/*.test.ts
+      - run: yarn exec nps test.single
       - store_test_results: *store_test_results
       - save_cache: *save_cache
   node-latest-plugin:
@@ -41,7 +41,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/plugin/*.test.ts
+      - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
       - save_cache: *save_cache
   node-latest-multi:
@@ -51,7 +51,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/multi/*.test.ts
+      - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
       - save_cache: *save_cache
   node-8-base:
@@ -63,7 +63,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/base/*.test.ts
+      - run: yarn exec nps test.base
       - store_test_results: *store_test_results
       - save_cache: *save_cache
   node-8-single:
@@ -75,7 +75,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/single/*.test.ts
+      - run: yarn exec nps test.single
       - store_test_results: *store_test_results
       - save_cache: *save_cache
   node-8-plugin:
@@ -87,7 +87,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/plugin/*.test.ts
+      - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
       - save_cache: *save_cache
   node-8-multi:
@@ -99,7 +99,7 @@ jobs:
       - restore_cache: *restore_cache
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: yarn exec mocha test/commands/multi/*.test.ts
+      - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
       - save_cache: *save_cache
 

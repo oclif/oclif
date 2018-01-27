@@ -239,7 +239,7 @@ class App extends Generator {
       case 'plugin':
         this.pjson.dxcli = {
           commands: `./${this.ts ? 'lib' : 'src'}/commands`,
-          hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
+          // hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
           ...this.pjson.dxcli,
         }
         break
@@ -384,23 +384,23 @@ class App extends Generator {
     this.fs.copyTpl(this.templatePath(`multi/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath(`multi/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
     this.fs.copyTpl(this.templatePath(`plugin/src/commands/hello.${this._ext}`), this.destinationPath(`src/commands/hello.${this._ext}`), this)
-    this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
+    // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this.mocha) {
       this.fs.copyTpl(this.templatePath(`plugin/test/commands/hello.test.${this._ext}`), this.destinationPath(`test/commands/hello.test.${this._ext}`), this)
-      this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
+      // this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
     }
   }
 
   private _writePlugin() {
     if (!this.fromScratch) return
     this.fs.copyTpl(this.templatePath(`plugin/src/commands/hello.${this._ext}`), this.destinationPath(`src/commands/hello.${this._ext}`), this)
-    this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
+    // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), this)
     }
     if (this.mocha) {
       this.fs.copyTpl(this.templatePath(`plugin/test/commands/hello.test.${this._ext}`), this.destinationPath(`test/commands/hello.test.${this._ext}`), this)
-      this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
+      // this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
     }
   }
 

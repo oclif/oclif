@@ -1,7 +1,7 @@
 ---
 version: 2
 jobs:
-  node-latest: &test
+  node-latest-base: &test
     docker:
       - image: node:latest
     working_directory: ~/cli
@@ -9,41 +9,148 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/test"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-            - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/test"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
-            - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/test"}}-{{checksum ".circleci/config.yml"}}-master-
-      - run: ./.circleci/test
-      - store_test_results:
+            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
+            - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-master-
+      - run: .circleci/greenkeeper
+      - run: .circleci/setup_git
+      - run: ./scripts/circleci
+      - run: yarn exec mocha test/commands/base/*.test.ts
+      - store_test_results: &store_test_results
           path: ~/cli/reports
       - save_cache: &save_cache
-          key: v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/test"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+          key: v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum "scripts/circleci"}}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
           paths:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn
-  node-8:
-    <<: *test
-    docker:
-      - image: node:8
-  release:
+  node-latest-single:
     <<: *test
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: yarn --frozen-lockfile
-      - run: ./node_modules/.bin/nps ci.release
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/single/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+  node-latest-plugin:
+    <<: *test
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/plugin/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+  node-latest-multi:
+    <<: *test
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/multi/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+  node-8-base:
+    <<: *test
+    docker:
+      - image: node:8
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/base/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+  node-8-single:
+    <<: *test
+    docker:
+      - image: node:8
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/single/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+  node-8-plugin:
+    <<: *test
+    docker:
+      - image: node:8
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/plugin/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+  node-8-multi:
+    <<: *test
+    docker:
+      - image: node:8
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: yarn exec mocha test/commands/multi/*.test.ts
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+
+  lint:
+    <<: *test
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: nps lint
+      - store_test_results: *store_test_results
+      - save_cache: *save_cache
+
+  release:
+    <<: *test
+    steps:
+      - add_ssh_keys
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./scripts/greenkeeper
+      - run: ./scripts/setup_git
+      - run: ./node_modules/.bin/nps release
       - save_cache: *save_cache
 
 workflows:
   version: 2
   "create-dxcli":
     jobs:
-      - node-latest
-      - node-8
+      - lint
+      - node-latest-base
+      - node-latest-single
+      - node-latest-plugin
+      - node-latest-multi
+      - node-8-base
+      - node-8-single
+      - node-8-plugin
+      - node-8-multi
       - release:
           context: org-global
           filters:
             branches: {only: master}
           requires:
-            - node-latest
-            - node-8
+            - lint
+            - node-latest-base
+            - node-latest-single
+            - node-latest-plugin
+            - node-latest-multi
+            - node-8-base
+            - node-8-single
+            - node-8-plugin
+            - node-8-multi

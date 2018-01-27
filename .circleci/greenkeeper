@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
 PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
-
-if [[ ! -z "$GIT_EMAIL" ]] & [[ ! -z "$GIT_USERNAME" ]]; then
-  git config --global push.default simple
-  git config --global user.email "$GIT_EMAIL"
-  git config --global user.user "$GIT_USERNAME"
-fi
-
-git submodule sync
-git submodule update --init --recursive
 
 CLI_ENGINE_UTIL_YARN_ARGS="--frozen-lockfile"
 
@@ -29,7 +20,3 @@ yarn install $CLI_ENGINE_UTIL_YARN_ARGS
 if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
-
-mkdir -p reports
-./node_modules/.bin/nps ci
-curl -s https://codecov.io/bash | bash

@@ -1,0 +1,58 @@
+---
+version: 2
+jobs:
+  node-latest: &test
+    docker:
+      - image: node:latest
+    working_directory: ~/cli
+    steps:
+      - checkout
+      - restore_cache: &restore_cache
+          keys:
+            - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+            - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
+            - v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-master-
+      - run: ./.circleci/setup_git
+      - run: ./.circleci/greenkeeper
+      - run: yarn exec nps ci.test
+      - run: curl -s https://codecov.io/bash | bash
+      - store_test_results:
+          path: ~/cli/reports
+      - save_cache: &save_cache
+          key: v0-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+          paths:
+            - ~/cli/node_modules
+            - /usr/local/share/.cache/yarn
+            - /usr/local/share/.config/yarn
+  node-8:
+    <<: *test
+    docker:
+      - image: node:8
+<%_ if (semantic_release) { _%>
+  release:
+    <<: *test
+    steps:
+      - add_ssh_keys
+      - checkout
+      - restore_cache: *restore_cache
+      - run: ./.circleci/setup_git
+      - run: yarn --frozen-lockfile
+      - run: yarn exec nps ci.release
+      - save_cache: *save_cache
+<%_ } _%>
+
+workflows:
+  version: 2
+  "<%= pjson.name %>":
+    jobs:
+      - node-latest
+      - node-8
+<%_ if (semantic_release) { _%>
+      - release:
+          context: org-global
+          filters:
+            branches: {only: master}
+          requires:
+            - node-latest
+            - node-8
+<%_ } _%>

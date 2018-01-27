@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
+
+CLI_ENGINE_UTIL_YARN_ARGS="--frozen-lockfile"
+
+if [[ "$CIRCLE_BRANCH" == greenkeeper/* ]]; then
+  CLI_ENGINE_GREENKEEPER_BRANCH=1
+  CLI_ENGINE_UTIL_YARN_ARGS=""
+  if [[ ! -x "$(command -v greenkeeper-lockfile-update)" ]]; then
+    yarn global add greenkeeper-lockfile@1
+  fi
+  greenkeeper-lockfile-update
+fi
+
+yarn install $CLI_ENGINE_UTIL_YARN_ARGS
+
+if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
+  greenkeeper-lockfile-upload
+fi

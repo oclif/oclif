@@ -1,5 +1,6 @@
 const {
   concurrent,
+  series,
   setColors,
 } = require('nps-utils')
 const script = (script, description) => description ? {script, description} : {script}
@@ -25,6 +26,7 @@ module.exports = {
       tslint: script('tslint -p test', 'lint ts files'),
     },
     test: {
+      default: series.nps('test.base', 'test.plugin', 'test.single', 'test.multi'),
       base: concurrent(test('base')),
       plugin: concurrent(test('plugin')),
       single: concurrent(test('single')),

@@ -113,17 +113,11 @@ class App extends Generator {
         node: '>=8.0.0',
         ...this.pjson.engines,
       },
+      options: this.options,
     }
     this.fromScratch = Object.keys(this.pjson.dependencies).length === 0
     if (this.options.defaults) {
-      this.answers = {
-        ...defaults,
-        options: {
-          typescript: process.env.DXCLI_CREATE_TYPESCRIPT === '1',
-          mocha: process.env.DXCLI_CREATE_MOCHA === '1',
-          'semantic-release': process.env.DXCLI_CREATE_SEMANTIC_RELEASE === '1',
-        },
-      }
+      this.answers = defaults
     } else {
       this.answers = await this.prompt([
         {
@@ -205,9 +199,9 @@ class App extends Generator {
     }
     debug(this.answers)
     this.options = this.answers.options
-    this.ts = this.answers.options.typescript
-    this.mocha = this.answers.options.mocha
-    this.semantic_release = this.answers.options['semantic-release']
+    this.ts = this.options.typescript
+    this.mocha = this.options.mocha
+    this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name
     this.pjson.description = this.answers.description || defaults.description
@@ -217,8 +211,8 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    this.pjson.scripts.test = defaults.scripts.test || 'nps test'
-    this.pjson.scripts.precommit = defaults.scripts.precommit || 'nps lint'
+    this.pjson.scripts.test = defaults.scripts.test || 'nps test -l warn'
+    this.pjson.scripts.precommit = defaults.scripts.precommit || 'nps lint -l warn'
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'dxcli-plugin' : 'dxcli']
     this.pjson.homepage = defaults.homepage || `https://github.com/${defaults.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${defaults.repository}/issues`
@@ -307,34 +301,18 @@ class App extends Generator {
   install() {
     const dependencies: string[] = []
     const devDependencies = [
-      'nps',
+      '@dxcli/dev',
       'nps-utils',
       'husky',
-      'eslint-config-dxcli',
-      'eslint',
     ]
     if (this.mocha) {
       if (this.type !== 'multi') devDependencies.push('@dxcli/engine')
-      devDependencies.push(
-        '@dxcli/dev-test',
-        '@types/node-notifier',
-        'chai',
-        'mocha-junit-reporter',
-        'mocha',
-        'nyc',
-        '@dxcli/dev-nyc-config',
-      )
+      devDependencies.push('@dxcli/dev-test')
+    } else {
+      devDependencies.push('nps')
     }
     if (this.ts) {
-      devDependencies.push(
-        'typescript',
-        '@dxcli/dev-tslint',
-        '@dxcli/config',
-        'ts-node',
-      )
-    }
-    if (this.semantic_release) {
-      devDependencies.push('@dxcli/dev-semantic-release')
+      devDependencies.push('@dxcli/config')
     }
     if (this.type === 'multi') {
       dependencies.push(

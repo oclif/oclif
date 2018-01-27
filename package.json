@@ -45,9 +45,9 @@
   "repository": "dxcli/create-dxcli",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
-    "precommit": "nps lint",
-    "prepare": "nps build",
-    "test": "nps test"
+    "precommit": "nps lint -l warn",
+    "prepare": "rm -rf lib && tsc",
+    "test": "nps test -l warn"
   },
   "types": "lib/index.d.ts"
 }

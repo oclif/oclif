@@ -102,7 +102,7 @@
   dependencies:
     find-up "^2.1.0"
 
-"@dxcli/command@^0.1.13", "@dxcli/command@^0.1.18":
+"@dxcli/command@^0.1.18":
   version "0.1.18"
   resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.18.tgz#922115807bd6c954577d1f8119e1f89c9428089d"
   dependencies:
@@ -122,7 +122,7 @@
     debug "^3.1.0"
     tslib "^1.9.0"
 
-"@dxcli/config@^0.1.22", "@dxcli/config@^0.1.26":
+"@dxcli/config@^0.1.26":
   version "0.1.26"
   resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.26.tgz#36458424cb8cc9c1499659bbff3676fa7b0292da"
   dependencies:
@@ -145,16 +145,18 @@
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@dxcli/dev-nyc-config/-/dev-nyc-config-0.0.3.tgz#3ff59cf561663710f025a41f64d608d2977a3d3b"
 
-"@dxcli/dev-semantic-release@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev-semantic-release/-/dev-semantic-release-0.1.0.tgz#adc88f1eaee862b73ae824496d4076f3fcc5c7c9"
+"@dxcli/dev-semantic-release@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev-semantic-release/-/dev-semantic-release-0.2.0.tgz#a749272f0d8809ff4aa687b097924b43ce315ce2"
   dependencies:
     "@dxcli/dev-commitmsg" "^0.0.4"
     "@semantic-release/changelog" "^1.0.0"
-    "@semantic-release/git" "^2.0.2"
+    "@semantic-release/exec" "^1.0.2"
+    "@semantic-release/git" "^2.0.3"
     "@semantic-release/github" "^3.0.3"
     "@semantic-release/npm" "^2.6.4"
-    semantic-release "^12.2.2"
+    semantic-release "^12.2.5"
+    shelljs "^0.8.1"
 
 "@dxcli/dev-test@^0.9.11":
   version "0.9.11"
@@ -170,15 +172,13 @@
     tslint "^5.9.1"
     tslint-xo "^0.5.0"
 
-"@dxcli/dev@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.2.tgz#849c030a9509353f83e8d41de1cc63edbb988b27"
+"@dxcli/dev@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.3.tgz#84e3fc690d80a832acf3dd9fab6b59122a08ad60"
   dependencies:
     "@dxcli/dev-nyc-config" "^0.0.3"
-    "@dxcli/dev-semantic-release" "^0.1.0"
+    "@dxcli/dev-semantic-release" "^0.2.0"
     "@dxcli/dev-tslint" "^0.0.17"
-    "@dxcli/engine" "^0.1.11"
-    "@dxcli/version" "^0.1.5"
     "@types/ansi-styles" "^2.0.30"
     "@types/chai" "^4.1.2"
     "@types/lodash" "^4.14.97"
@@ -201,7 +201,7 @@
     ts-node "^4.1.0"
     typescript "^2.6.2"
 
-"@dxcli/engine@^0.1.11", "@dxcli/engine@^0.1.12":
+"@dxcli/engine@^0.1.12":
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.12.tgz#a2572ce83d0ff10e47cc545d3b2ad77eef7132fa"
   dependencies:
@@ -244,13 +244,13 @@
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@dxcli/screen/-/screen-0.0.1.tgz#9af4e8d0e5a9475e9e4b5f2da775b0447ff72fc2"
 
-"@dxcli/version@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.5.tgz#4542e8e97fb2efeb19b4694d88c0730d5b97c7dd"
+"@dxcli/version@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.6.tgz#8534d27aee0154f9a17cf00a4e0b3f579bee517c"
   dependencies:
-    "@dxcli/command" "^0.1.13"
-    "@dxcli/config" "^0.1.22"
-    cli-ux "^3.1.5"
+    "@dxcli/command" "^0.1.19"
+    "@dxcli/config" "^0.1.26"
+    cli-ux "^3.2.1"
 
 "@heroku/linewrap@^1.0.0":
   version "1.0.0"
@@ -309,7 +309,7 @@
     lodash "^4.17.4"
     parse-json "^4.0.0"
 
-"@semantic-release/git@^2.0.2":
+"@semantic-release/git@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-2.0.3.tgz#4348a525ec6dfeb9c43ab4ee8d06813583d05644"
   dependencies:
@@ -1124,7 +1124,7 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-ux@^3.1.5, cli-ux@^3.1.6, cli-ux@^3.2.0, cli-ux@^3.2.1:
+cli-ux@^3.1.6, cli-ux@^3.2.0, cli-ux@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-3.2.1.tgz#1fa07b7f8f1861d7d7099133ab414c4d6f1fb438"
   dependencies:
@@ -4441,7 +4441,7 @@ scoped-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scoped-regex/-/scoped-regex-1.0.0.tgz#a346bb1acd4207ae70bd7c0c7ca9e566b6baddb8"
 
-semantic-release@^12.2.2:
+semantic-release@^12.2.5:
   version "12.2.5"
   resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-12.2.5.tgz#595cdffc4226a1974c3257052b6ee259c2353568"
   dependencies:

@@ -302,15 +302,18 @@ class App extends Generator {
     const dependencies: string[] = []
     const devDependencies = [
       '@dxcli/dev',
+      'nps',
       'nps-utils',
       'husky',
     ]
     if (this.mocha) {
       if (this.type !== 'multi') devDependencies.push('@dxcli/engine')
       devDependencies.push('@dxcli/dev-test')
-    } else {
-      devDependencies.push('nps')
     }
+    devDependencies.push(
+      'mocha',
+      'chai',
+    )
     if (this.ts) {
       devDependencies.push('@dxcli/config')
     }
@@ -319,6 +322,9 @@ class App extends Generator {
         '@dxcli/engine',
         '@dxcli/version',
       )
+    }
+    if (this.type === 'plugin') {
+      devDependencies.push('@dxcli/engine')
     }
     if (['plugin', 'single', 'multi'].includes(this.type)) {
         dependencies.push(
@@ -393,6 +399,7 @@ class App extends Generator {
 
   private _writePlugin() {
     if (!this.fromScratch) return
+    this.fs.copyTpl(this.templatePath(`plugin/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath(`plugin/src/commands/hello.${this._ext}`), this.destinationPath(`src/commands/hello.${this._ext}`), this)
     // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this.ts) {

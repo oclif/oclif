@@ -7,7 +7,7 @@ sh.set('-ev')
 
 module.exports = (type, features) => {
   return test
-    .env({CIRCLECI: undefined})
+    .env({CI: undefined})
     .do(ctx => {
       process.chdir(path.join(__dirname, '..'))
       let options = ''

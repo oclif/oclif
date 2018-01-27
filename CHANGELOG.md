@@ -1,3 +1,12 @@
+<a name="0.23.3"></a>
+## [0.23.3](https://github.com/dxcli/create-dxcli/compare/ad28e28c93f1a8490992616b7a7db8755e582060...v0.23.3) (2018-01-27)
+
+
+### Bug Fixes
+
+* add templates to pack ([ea06630](https://github.com/dxcli/create-dxcli/commit/ea06630))
+* default to not having options ([72dd9d9](https://github.com/dxcli/create-dxcli/commit/72dd9d9))
+
 <a name="0.23.2"></a>
 ## [0.23.2](https://github.com/dxcli/create-dxcli/compare/417c8753c63422e93e7c59368274483be27b8a9b...v0.23.2) (2018-01-27)
 

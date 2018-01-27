@@ -14,7 +14,6 @@ jobs:
             - v1-yarn-{{ .Environment.CIRCLE_JOB }}-{{checksum ".circleci/config.yml"}}-master-
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
-      - run: .circleci/circleci
       - run: yarn exec nps test.base
       - store_test_results: &store_test_results
           path: ~/cli/reports

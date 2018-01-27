@@ -27,8 +27,8 @@ module.exports = {
     test: {
       base: concurrent(test('base')),
       plugin: concurrent(test('plugin')),
-      typescript: concurrent(test('typescript')),
-      everything: concurrent(test('everything')),
+      single: concurrent(test('single')),
+      multi: concurrent(test('multi')),
     },
     release: hidden('semantic-release -e @dxcli/dev-semantic-release'),
   },

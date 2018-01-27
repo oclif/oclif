@@ -1,10 +1,5 @@
 environment:
   nodejs_version: "9"
-  matrix:
-    - TEST_TYPE: base
-    - TEST_TYPE: single
-    - TEST_TYPE: plugin
-    - TEST_TYPE: multi
 cache:
   - '%LOCALAPPDATA%\Yarn -> appveyor.yml'
   - node_modules -> yarn.lock
@@ -17,12 +12,7 @@ install:
   - git config --global user.name "dxcli"
   - yarn
 test_script:
-  - npx nps lint
-  - npx nps test.%TEST_TYPE%.everything
-  - npx nps test.%TEST_TYPE%.mocha
-  - npx nps test.%TEST_TYPE%.plain
-  - npx nps test.%TEST_TYPE%.semantic-release
-  - npx nps test.%TEST_TYPE%.typescript
+  - .\node_modules\.bin\nps ci.test
 after_test:
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH

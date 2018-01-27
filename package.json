@@ -6,18 +6,29 @@
   "bin": "bin/run",
   "bugs": "https://github.com/dxcli/create-dxcli/issues",
   "dependencies": {
-    "generator-dxcli": "1.15.3"
+    "@dxcli/engine": "^0.1.11",
+    "@dxcli/version": "^0.1.5",
+    "cli-ux": "^3.2.1",
+    "sort-pjson": "^1.0.2",
+    "yeoman-environment": "^2.0.5",
+    "yeoman-generator": "^2.0.2",
+    "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@dxcli/command": "^0.1.1",
-    "@dxcli/dev-semantic-release": "^0.0.3",
-    "eslint": "^4.16.0",
-    "eslint-config-dxcli": "^1.1.4",
+    "@dxcli/dev": "^2.0.1",
+    "@dxcli/dev-test": "^0.9.11",
+    "@types/shelljs": "^0.7.7",
+    "@types/yeoman-generator": "^2.0.1",
+    "@types/yosay": "^0.0.29",
     "husky": "^0.14.3",
-    "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
-    "nyc": "^11.4.1",
-    "shelljs": "^0.8.0"
+    "shelljs": "^0.8.1"
+  },
+  "dxcli": {
+    "commands": "./lib/commands",
+    "plugins": [
+      "@dxcli/version"
+    ]
   },
   "engines": {
     "node": ">=8.0.0"
@@ -30,10 +41,13 @@
     "dxcli"
   ],
   "license": "MIT",
+  "main": "lib/index.js",
   "repository": "dxcli/create-dxcli",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
     "precommit": "nps lint",
+    "prepare": "nps build",
     "test": "nps test"
-  }
+  },
+  "types": "lib/index.d.ts"
 }

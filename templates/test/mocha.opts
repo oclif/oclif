@@ -1,0 +1,5 @@
+--require test/helpers/init.js
+<%= ts ? '--require ts-node/register\n--require source-map-support/register\n--watch-extensions ts\n' : '' _%>
+--recursive
+--reporter spec
+--timeout 5000

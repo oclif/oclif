@@ -17,9 +17,12 @@ const linters = {
 <%_ if (semantic_release) { _%>
   commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
 <%_ } _%>
-<%_ if (ts) { _%>
+<%_ if (ts && mocha) { _%>
   tsc: script('tsc -p test --noEmit', 'syntax check with tsc'),
   tslint: script('tslint -p test', 'lint ts files'),
+<%_ } else if (ts) { _%>
+  tsc: script('tsc -p . --noEmit', 'syntax check with tsc'),
+  tslint: script('tslint -p .', 'lint ts files'),
 <%_ } _%>
 }
 

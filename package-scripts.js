@@ -16,11 +16,12 @@ let test = type => {
     mocha = type => `MOCHA_FILE=reports/mocha-${type}.xml ${m} --reporter mocha-junit-reporter`
   }
 
-  let tests = concurrent([
-    `${mocha('plain')} test/commands/${type}/plain.test.ts`,
-    `${mocha('mocha')} test/commands/${type}/mocha.test.ts`,
-    `${mocha('typescript')} test/commands/${type}/typescript.test.ts`,
-    `${mocha('everything')} test/commands/${type}/everything.test.ts`,
+  let s = process.platform === 'win32' ? series : concurrent
+  let tests = s([
+    `${mocha('plain')} test/commands/${type}/plain.test.js`,
+    `${mocha('mocha')} test/commands/${type}/mocha.test.js`,
+    `${mocha('typescript')} test/commands/${type}/typescript.test.js`,
+    `${mocha('everything')} test/commands/${type}/everything.test.js`,
   ])
   if (process.env.CI) {
     const nyc = 'nyc --extensions ts'

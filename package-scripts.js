@@ -23,7 +23,7 @@ let test = type => {
     `${mocha('everything')} test/commands/${type}/everything.test.ts`,
   ])
   if (process.env.CI) {
-    const nyc = 'nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc'
+    const nyc = 'nyc --extensions ts'
     return series(mkdirp('reports'), `${nyc} ${tests}`, `${nyc} report --reporter text-lcov > coverage.lcov`)
   }
   return tests

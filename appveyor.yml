@@ -18,10 +18,7 @@ install:
   - yarn
 test_script:
   - npx nps lint
-  - npx mocha test/commands/%TEST_TYPE%/plain.test.ts
-  - npx mocha test/commands/%TEST_TYPE%/mocha.test.ts
-  - npx mocha test/commands/%TEST_TYPE%/typescript.test.ts
-  - npx mocha test/commands/%TEST_TYPE%/everything.test.ts
+  - npx nps test.%TEST_TYPE%
 after_test:
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH

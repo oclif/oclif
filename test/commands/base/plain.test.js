@@ -1,6 +1,6 @@
-import run from '../../run'
+const run = require('../../run')
 
 describe('base', () => {
   run('base', 'plain')
-  .it()
+    .it()
 })

@@ -58,6 +58,10 @@ examples.forEach(example => {
 
   sh.exec(`create-dxcli ${type} --force --defaults ${options}`)
   sh.exec('git add -A')
-  sh.exec(`git commit -m "fix: create-dxcli ${version}"`)
-  sh.exec('git push')
+  try {
+    sh.exec(`git commit -m "fix: create-dxcli ${version}"`)
+    sh.exec('git push')
+  } catch (err) {
+    console.error(err)
+  }
 })

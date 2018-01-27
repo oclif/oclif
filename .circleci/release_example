@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const sh = require('shelljs')
+
+sh.set('-ev')
+
+const example = process.env.CIRCLE_JOB
+const [, type,, format] = example.split('-')
+
+console.dir({type, format})
+
+const options = format === 'typescript' ?
+  '--options=typescript,mocha,semantic-release' :
+  '--options=mocha,semantic-release'
+
+sh.cd(`examples/${example}`)
+sh.exec(`yarn create dxcli ${type} --defaults ${options}`)

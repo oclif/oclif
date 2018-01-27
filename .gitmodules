@@ -1,0 +1,12 @@
+[submodule "examples/example-single-cli-javascript"]
+	path = examples/example-single-cli-javascript
+	url = git@github.com:dxcli/example-single-cli-javascript
+[submodule "examples/example-single-cli-typescript"]
+	path = examples/example-single-cli-typescript
+	url = git@github.com:dxcli/example-single-cli-typescript
+[submodule "examples/example-multi-cli-typescript"]
+	path = examples/example-multi-cli-typescript
+	url = git@github.com:dxcli/example-multi-cli-typescript
+[submodule "examples/example-multi-cli-javascript"]
+	path = examples/example-multi-cli-javascript
+	url = git@github.com:dxcli/example-multi-cli-javascript

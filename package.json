@@ -8,8 +8,8 @@
   "dependencies": {
     "@dxcli/command": "^0.2.0",
     "@dxcli/config": "^0.1.28",
-    "@dxcli/engine": "^0.1.13",
-    "@dxcli/version": "^0.1.10",
+    "@dxcli/engine": "^0.1.14",
+    "@dxcli/version": "^0.1.11",
     "cli-ux": "^3.3.7",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",

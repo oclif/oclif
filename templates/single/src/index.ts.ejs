@@ -6,7 +6,7 @@ export default class <%- _.upperFirst(_.camelCase(name)) %> extends Command {
     name: flags.string({char: 'n', description: 'name to print'})
   }
 
-  async run () {
+  async run() {
     const name = this.flags.name || 'world'
     cli.log(`hello ${name}!`)
   }

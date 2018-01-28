@@ -310,6 +310,9 @@ class App extends Generator {
     if (this.mocha) {
       if (this.type !== 'multi') devDependencies.push('@dxcli/engine')
     }
+    if (this.semantic_release) {
+      devDependencies.push('@dxcli/dev-semantic-release')
+    }
     devDependencies.push(
       '@dxcli/dev-test',
       'mocha',

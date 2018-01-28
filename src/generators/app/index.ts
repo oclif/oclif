@@ -210,8 +210,8 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    this.pjson.scripts.test = defaults.scripts.test || 'nps test -l warn'
-    this.pjson.scripts.precommit = defaults.scripts.precommit || 'nps lint -l warn'
+    this.pjson.scripts.test = 'nps test -l warn'
+    this.pjson.scripts.precommit = 'nps lint -l warn'
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'dxcli-plugin' : 'dxcli']
     this.pjson.homepage = defaults.homepage || `https://github.com/${defaults.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${defaults.repository}/issues`
@@ -223,10 +223,10 @@ class App extends Generator {
       }
     }
     if (this.ts) {
-      this.pjson.scripts.prepublishOnly = defaults.scripts.prepublishOnly || 'rm -rf lib && nps build'
+      this.pjson.scripts.prepublishOnly = 'rm -rf lib && nps build'
     }
     if (this.semantic_release) {
-      this.pjson.scripts.commitmsg = defaults.scripts.commitmsg || 'dxcli-commitlint'
+      this.pjson.scripts.commitmsg = 'dxcli-commitlint'
     }
   }
 

@@ -1,3 +1,11 @@
+<a name="0.26.1"></a>
+## [0.26.1](https://github.com/dxcli/create-dxcli/compare/9c5e20478e77703ac148281ca7ea6cd5f12fd94e...v0.26.1) (2018-01-28)
+
+
+### Bug Fixes
+
+* add dev deps ([98ea830](https://github.com/dxcli/create-dxcli/commit/98ea830))
+
 <a name="0.26.0"></a>
 # [0.26.0](https://github.com/dxcli/create-dxcli/compare/7d6f27655c4fd780b53a50598ae2d0450360368f...v0.26.0) (2018-01-27)
 

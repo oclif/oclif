@@ -1,3 +1,11 @@
+<a name="0.26.3"></a>
+## [0.26.3](https://github.com/dxcli/create-dxcli/compare/ff9c542edabdddafc3d011841b26d949f0dd3275...v0.26.3) (2018-01-28)
+
+
+### Bug Fixes
+
+* add semantic-release step if not mocha ([143532c](https://github.com/dxcli/create-dxcli/commit/143532c))
+
 <a name="0.26.2"></a>
 ## [0.26.2](https://github.com/dxcli/create-dxcli/compare/98ea830cd9edbfabac3453ce41fb2ba2bd145de7...v0.26.2) (2018-01-28)
 

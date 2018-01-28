@@ -1,3 +1,11 @@
+<a name="0.26.2"></a>
+## [0.26.2](https://github.com/dxcli/create-dxcli/compare/98ea830cd9edbfabac3453ce41fb2ba2bd145de7...v0.26.2) (2018-01-28)
+
+
+### Bug Fixes
+
+* add [@dxcli](https://github.com/dxcli)/dev-semantic-release ([ff9c542](https://github.com/dxcli/create-dxcli/commit/ff9c542))
+
 <a name="0.26.1"></a>
 ## [0.26.1](https://github.com/dxcli/create-dxcli/compare/9c5e20478e77703ac148281ca7ea6cd5f12fd94e...v0.26.1) (2018-01-28)
 

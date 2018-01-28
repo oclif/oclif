@@ -46,12 +46,12 @@ if (process.env.CI) {
 
 test = concurrent({
   ...linters,
-  test: series(<%- ts ? "'nps build', " : ''%>test),
+  test: series(<%- ts ? "'nps build -l warn', " : ''%>test),
 })
 
 if (process.env.CI) test = series(mkdirp('reports'), test)
 <%_ } else if (ts) { _%>
-let test = concurrent({...linters, build: 'nps build'})
+let test = concurrent({...linters, build: 'nps build -l warn'})
 <%_ } else { _%>
 let test = concurrent(linters)
 <%_ } _%>

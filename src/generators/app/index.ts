@@ -316,6 +316,9 @@ class App extends Generator {
           '@dxcli/command',
           'cli-ux',
         )
+        devDependencies.push(
+          '@dxcli/engine',
+        )
         break
       case 'plugin':
         dependencies.push(
@@ -342,11 +345,16 @@ class App extends Generator {
       devDependencies.push('mocha', 'chai')
       if (this.type !== 'base') devDependencies.push(
         '@dxcli/dev-test',
-        '@dxcli/tslint',
       )
     }
     if (this.semantic_release) devDependencies.push('@dxcli/semantic-release')
-    if (this.ts) devDependencies.push('typescript', 'ts-node')
+    if (this.ts) {
+      devDependencies.push(
+        'typescript',
+        'ts-node',
+        '@dxcli/tslint',
+      )
+    }
     Promise.all([
       this.yarnInstall(devDependencies, {dev: true, ignoreScripts: true}),
       this.yarnInstall(dependencies),

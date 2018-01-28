@@ -1,3 +1,11 @@
+<a name="0.26.6"></a>
+## [0.26.6](https://github.com/dxcli/create-dxcli/compare/a1a4a082b225ad1b94b3705bcd84f71ef692368d...v0.26.6) (2018-01-28)
+
+
+### Bug Fixes
+
+* ensure /lib is always gitignored for ts ([07c7e38](https://github.com/dxcli/create-dxcli/commit/07c7e38))
+
 <a name="0.26.5"></a>
 ## [0.26.5](https://github.com/dxcli/create-dxcli/compare/efd2846e5c3ac9e356baac4d2bf32b88c1ba0e53...v0.26.5) (2018-01-28)
 

@@ -1,4 +1,4 @@
-const {expect, test} = require('@dxcli/dev-test')
+const {expect, test} = require('@dxcli/test')
 
 describe('hooks', () => {
   test

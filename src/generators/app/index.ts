@@ -346,7 +346,7 @@ class App extends Generator {
         'chai',
       )
       if (this.type !== 'base') devDependencies.push(
-        '@dxcli/dev-test',
+        '@dxcli/test',
       )
     }
     if (this.semantic_release) devDependencies.push('@dxcli/semantic-release')

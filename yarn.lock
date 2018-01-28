@@ -119,13 +119,6 @@
     lodash "^4.17.4"
     read-pkg "^3.0.0"
 
-"@dxcli/dev-test@^0.9.12":
-  version "0.9.12"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev-test/-/dev-test-0.9.12.tgz#a944edef971a6a9a22974936854e6c38edcdedc7"
-  dependencies:
-    fancy-test "^0.5.5"
-    lodash "^4.17.4"
-
 "@dxcli/dev@^2.0.12":
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.12.tgz#027bcaf96d6c67eb730aa077a1625fdf4e079379"
@@ -155,7 +148,7 @@
     cli-ux "^3.2.1"
     debug "^3.1.0"
 
-"@dxcli/loader@^0.2.5":
+"@dxcli/loader@^0.2.5", "@dxcli/loader@^0.2.8":
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@dxcli/loader/-/loader-0.2.8.tgz#a704e704d0682e82ab0ad2d1393cbe326986c922"
   dependencies:
@@ -206,6 +199,13 @@
     "@semantic-release/npm" "^2.6.4"
     execa "^0.9.0"
     semantic-release "^12.2.5"
+
+"@dxcli/test@^0.9.15":
+  version "0.9.15"
+  resolved "https://registry.yarnpkg.com/@dxcli/test/-/test-0.9.15.tgz#fcd9be75dd4f7b26cdced6f3227ca80916fc7400"
+  dependencies:
+    fancy-test "^0.6.3"
+    lodash "^4.17.4"
 
 "@dxcli/tslint@^0.0.23":
   version "0.0.23"
@@ -1888,9 +1888,9 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
 
-fancy-test@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-0.5.5.tgz#e87b189a853af335c76bbcb98704db5ec8380c27"
+fancy-test@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-0.6.3.tgz#cbcdb3bd2e969245e9885fda9d23c5874ef199e3"
   dependencies:
     lodash "^4.17.4"
     stdout-stderr "^0.1.4"

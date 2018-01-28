@@ -9,6 +9,7 @@
     "@dxcli/command": "^0.1.22",
     "@dxcli/config": "^0.1.27",
     "@dxcli/engine": "^0.1.12",
+    "@dxcli/loader": "^0.2.8",
     "@dxcli/parser": "^0.0.5",
     "@dxcli/version": "^0.1.6",
     "cli-ux": "^3.2.2",
@@ -22,8 +23,8 @@
   },
   "devDependencies": {
     "@dxcli/dev": "^2.0.12",
-    "@dxcli/dev-test": "^0.9.12",
     "@dxcli/semantic-release": "^0.3.3",
+    "@dxcli/test": "^0.9.15",
     "@dxcli/tslint": "^0.0.23",
     "@semantic-release/exec": "^2.0.0",
     "@types/shelljs": "^0.7.7",

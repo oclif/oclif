@@ -6,11 +6,12 @@ const tmp = require('tmp')
 
 sh.set('-ev')
 
+// remove CI env var so tests don't run nyc
 const {CI} = process.env
+delete process.env.CI
 
 module.exports = (type, features) => {
   return test
-    .env({CI: undefined})
     .retries(CI ? 1 : 0)
     .do(ctx => {
       process.chdir(path.join(__dirname, '..'))

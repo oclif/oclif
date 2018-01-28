@@ -13,12 +13,13 @@ const sh = require('shelljs')
 const path = require('path')
 
 sh.set('-e')
-sh.set('+v')
 
 setColors(['dim'])
 
 const testTypes = ['base', 'plugin', 'single', 'multi', 'command']
 const tests = testTypes.map(cmd => {
+  const {silent} = sh.config
+  sh.config.silent = true
   let mocha = 'mocha --forbid-only'
   const base = path.join('test/commands', cmd)
   sh.pushd(base)
@@ -32,6 +33,7 @@ const tests = testTypes.map(cmd => {
   if (process.env.CIRCLECI) {
     tests = series(mkdirp('reports'), tests)
   }
+  sh.config.silent = silent
   return [cmd, series('nps build', tests)]
 })
 

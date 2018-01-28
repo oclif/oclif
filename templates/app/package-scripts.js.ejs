@@ -19,55 +19,51 @@ const linters = {
 <%_ if (semantic_release) { _%>
   commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
 <%_ } _%>
-<%_ if (ts && mocha) { _%>
-  tsc: script('tsc -p test --noEmit', 'syntax check with tsc'),
-  tslint: script('tslint -p test', 'lint ts files'),
-<%_ } else if (ts) { _%>
-  tsc: script('tsc -p . --noEmit', 'syntax check with tsc'),
-  tslint: script('tslint -p .', 'lint ts files'),
-<%_ } _%>
-}
-
-const scripts = {
-  ...linters,
-  lint: concurrent(linters),
 <%_ if (ts) { _%>
-  build: series('rm -rf lib', 'tsc'),
-<%_ } _%>
-<%_ if (mocha) { _%>
-  test: script(concurrent.nps(...Object.keys(linters), 'mocha'), 'lint and run all tests'),
-  mocha: script('mocha --forbid-only "test/**/*.test.<%= _ext %>"', 'run all mocha tests'),
-<%_ } else { _%>
-  test: concurrent(linters),
+  tsc: script('tsc -p <%- ts ? 'test' : '.' %> --noEmit', 'syntax check with tsc'),
+  tslint: script('tslint -p <%- ts ? 'test' : '.' %>', 'lint ts files'),
 <%_ } _%>
 }
 
 <%_ if (mocha) { _%>
+let test = 'mocha --forbid-only "test/**/*.test.<%- _ext %>"'
 if (process.env.CI) {
   if (process.env.CIRCLECI) {
-    scripts.test.script = series(mkdirp('reports'), scripts.test.script)
     // add mocha junit reporter
-    scripts.mocha.script = crossEnv(`MOCHA_FILE=reports/mocha.xml ${scripts.mocha.script} --reporter mocha-junit-reporter`)
+    test = crossEnv(`MOCHA_FILE=reports/mocha.xml ${test} --reporter mocha-junit-reporter`)
     // add eslint reporter
-    scripts.eslint.script = `${scripts.eslint.script} --format junit --output-file reports/eslint.xml`
+    linters.eslint.script = `${linters.eslint.script} --format junit --output-file reports/eslint.xml`
 <%_ if (ts) { _%>
     // add tslint reporter
-    scripts.tslint.script = `${scripts.tslint.script} --format junit > reports/tslint.xml`
+    linters.tslint.script = `${linters.tslint.script} --format junit > reports/tslint.xml`
 <%_ } _%>
-    scripts.release = 'semantic-release -e @dxcli/semantic-release'
   }
   // add code coverage reporting with nyc
   const nyc = 'nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc'
   const nycReport = `${nyc} report --reporter text-lcov > coverage.lcov`
-  scripts.mocha.script = series(`${nyc} ${scripts.mocha.script}`, nycReport)
+  test = series(`${nyc} ${test}`, nycReport)
 }
 
-<%_ } else if (mocha) { _%>
-if (process.env.CI) {
-  if (process.env.CIRCLECI) {
-    scripts.release = 'semantic-release -e @dxcli/semantic-release'
-  }
-}
+test = concurrent({
+  ...linters,
+  test: series(<%- ts ? "'nps build', " : ''%>test),
+})
 
+if (process.env.CI) test = series(mkdirp('reports'), test)
+<%_ } else { _%>
+let test = concurrent(linters)
 <%_ } _%>
-module.exports = {scripts}
+
+module.exports = {
+  scripts: {
+    ...linters,
+<%_ if (ts) { _%>
+    build: series('rm -rf lib', 'tsc'),
+<%_ } _%>
+    lint: concurrent(linters),
+    test,
+<%_ if (semantic_release) { _%>
+    release: 'semantic-release -e @dxcli/semantic-release',
+<%_ } _%>
+  },
+}

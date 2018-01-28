@@ -10,7 +10,6 @@
     "rootDirs": [
       "./src"
     ],
-    "sourceMap": true,
     "strict": true,
     "target": "es2017"
   },

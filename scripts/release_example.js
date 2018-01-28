@@ -32,7 +32,7 @@ module.exports = (_, options) => {
     const d = path.join(__dirname, '../tmp/examples', example)
     sh.mkdir('-p', path.dirname(d))
     sh.exec(`git clone git@github.com:dxcli/${example} ${d}`)
-    sh.cd(d)
+    sh.pushd(d)
     const pjson = fs.readJSONSync('package.json')
 
     let files = sh.ls('-A', '.')
@@ -55,5 +55,6 @@ module.exports = (_, options) => {
     } catch (err) {
       console.error(err)
     }
+    sh.popd()
   })
 }

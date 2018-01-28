@@ -110,6 +110,15 @@
     debug "^3.1.0"
     tslib "^1.9.0"
 
+"@dxcli/command@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.2.0.tgz#d076919322cd7b9f61ff2144d46eaa47f62863c0"
+  dependencies:
+    "@dxcli/parser" "^0.0.5"
+    debug "^3.1.0"
+    lodash "^4.17.4"
+    tslib "^1.9.0"
+
 "@dxcli/config@^0.1.28":
   version "0.1.28"
   resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.28.tgz#76131f25b1725eba3ebf9609d4552cd5372147b8"

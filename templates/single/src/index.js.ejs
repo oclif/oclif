@@ -3,7 +3,7 @@ const {cli} = require('cli-ux')
 <%_ const klass = _.upperFirst(_.camelCase(name.split(':').slice(-1).join(':') + ':command')) _%>
 
 class <%- klass %> extends Command {
-  async run () {
+  async run() {
     const name = this.flags.name || 'world'
     cli.log(`hello ${name}!`)
   }

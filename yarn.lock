@@ -102,14 +102,6 @@
   dependencies:
     find-up "^2.1.0"
 
-"@dxcli/command@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.23.tgz#93a77b455ca1eddafc58e7966a3127dec5be420b"
-  dependencies:
-    "@dxcli/parser" "^0.0.5"
-    debug "^3.1.0"
-    tslib "^1.9.0"
-
 "@dxcli/command@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.2.0.tgz#d076919322cd7b9f61ff2144d46eaa47f62863c0"
@@ -147,11 +139,12 @@
     eslint-config-dxcli "^1.2.0"
     nyc "^11.4.1"
 
-"@dxcli/engine@^0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.13.tgz#46bc63407b12cedfa8a31b92b1314c25dcf37980"
+"@dxcli/engine@^0.1.14":
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.14.tgz#f43ef9650351c4d81dbe7c8fe0b04124e1c876b5"
   dependencies:
     "@dxcli/loader" "^0.2.9"
+    cli-ux "^3.2.1"
     debug "^3.1.0"
 
 "@dxcli/loader@^0.2.9":
@@ -217,14 +210,13 @@
     tslint "^5.9.1"
     tslint-xo "^0.5.0"
 
-"@dxcli/version@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.10.tgz#1ccfc410777b4d5fce71c8f576c482a953785651"
+"@dxcli/version@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.11.tgz#3da33522af0c46ce13da3665e2a26833179af080"
   dependencies:
-    "@dxcli/command" "^0.1.23"
+    "@dxcli/command" "^0.2.0"
     "@dxcli/config" "^0.1.28"
-    "@dxcli/parser" "^0.0.5"
-    cli-ux "^3.3.6"
+    cli-ux "^3.3.7"
 
 "@heroku/linewrap@^1.0.0":
   version "1.0.0"
@@ -1084,27 +1076,7 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-ux@^3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-3.3.6.tgz#99b8ef6965d03786d9396eb29d413a5dc14f0cef"
-  dependencies:
-    "@dxcli/screen" "^0.0.1"
-    "@heroku/linewrap" "^1.0.0"
-    ansi-styles "^3.2.0"
-    cardinal "^1.0.0"
-    chalk "^2.3.0"
-    clean-stack "^1.3.0"
-    extract-stack "^1.0.0"
-    fs-extra "^5.0.0"
-    indent-string "^3.2.0"
-    lodash "^4.17.4"
-    node-notifier "^5.2.1"
-    password-prompt "^1.0.4"
-    semver "^5.5.0"
-    strip-ansi "^4.0.0"
-    supports-color "^5.1.0"
-
-cli-ux@^3.3.7:
+cli-ux@^3.2.1, cli-ux@^3.3.7:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-3.3.7.tgz#523531287fce59726371724a00fd47e1cc6ef64c"
   dependencies:

@@ -29,27 +29,12 @@ examples.forEach(example => {
   sh.mkdir('-p', path.dirname(d))
   sh.exec(`git clone git@github.com:dxcli/${example} ${d}`)
   sh.cd(d)
-
-  sh.rm('-rf', [
-  '.circleci',
-  '.editorconfig',
-  '.eslintignore',
-  '.eslintrc',
-  '.gitattributes',
-  '.gitignore',
-  'README.md',
-  'appveyor.yml',
-  'bin',
-  'lib',
-  'package-scripts.js',
-  'src',
-  'test',
-  'tsconfig.json',
-  'tslint.json',
-  'yarn.lock',
-  ])
-
   const pjson = fs.readJSONSync('package.json')
+
+  let files = sh.ls('-A', '.')
+  files = files.filter(f => !['.git', 'CHANGELOG.md'].includes(f))
+  sh.rm('-rf', files)
+
   fs.outputJSONSync('package.json', {
     name: `@dxcli/${example}`,
     repository: `dxcli/${example}`,

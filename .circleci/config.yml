@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: node:latest
     working_directory: ~/cli
-    steps:
+    steps: &base_steps
       - checkout
       - restore_cache: &restore_cache
           keys:
@@ -23,77 +23,64 @@ jobs:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn
-  node-latest-single:
-    <<: *test
-    steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.single
-      - store_test_results: *store_test_results
   node-latest-plugin:
     <<: *test
-    steps:
+    steps: &plugin_steps
       - checkout
       - restore_cache: *restore_cache
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.plugin
+      - store_test_results: *store_test_results
+  node-latest-single:
+    <<: *test
+    steps: &single_steps
+      - checkout
+      - restore_cache: *restore_cache
+      - run: .circleci/yarn
+      - run: .circleci/setup_git
+      - run: yarn exec nps test.single
       - store_test_results: *store_test_results
   node-latest-multi:
     <<: *test
-    steps:
+    steps: &multi_steps
       - checkout
       - restore_cache: *restore_cache
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
-  node-8-base:
+  node-latest-command:
     <<: *test
     docker:
       - image: node:8
-    steps:
+    steps: &command_steps
       - checkout
       - restore_cache: *restore_cache
       - run: .circleci/yarn
       - run: .circleci/setup_git
-      - run: yarn exec nps test.base
+      - run: yarn exec nps test.command
       - store_test_results: *store_test_results
+  node-8-base: &node_8
+    <<: *test
+    docker:
+      - image: node:8
+    steps: *base_steps
   node-8-single:
-    <<: *test
-    docker:
-      - image: node:8
-    steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.single
-      - store_test_results: *store_test_results
+    <<: *node_8
+    steps: *single_steps
   node-8-plugin:
-    <<: *test
-    docker:
-      - image: node:8
-    steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.plugin
-      - store_test_results: *store_test_results
+    <<: *node_8
+    steps: *plugin_steps
+  node-8-single:
+    <<: *node_8
+    steps: *single_steps
   node-8-multi:
-    <<: *test
-    docker:
-      - image: node:8
-    steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.multi
-      - store_test_results: *store_test_results
+    <<: *node_8
+    steps: *multi_steps
+  node-8-command:
+    <<: *node_8
+    steps: *command_steps
 
   lint:
     <<: *test
@@ -126,10 +113,7 @@ workflows:
       - node-latest-single
       - node-latest-plugin
       - node-latest-multi
-      # - node-8-base
-      # - node-8-single
-      # - node-8-plugin
-      # - node-8-multi
+      - node-latest-command
       - release:
           context: org-global
           filters:
@@ -140,10 +124,7 @@ workflows:
             - node-latest-single
             - node-latest-plugin
             - node-latest-multi
-            # - node-8-base
-            # - node-8-single
-            # - node-8-plugin
-            # - node-8-multi
+            - node-latest-command
   nightly:
     triggers:
       - schedule:
@@ -158,7 +139,9 @@ workflows:
       - node-latest-single
       - node-latest-plugin
       - node-latest-multi
+      - node-latest-command
       - node-8-base
       - node-8-single
       - node-8-plugin
       - node-8-multi
+      - node-8-command

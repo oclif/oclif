@@ -10,14 +10,16 @@ sh.exec('yarn link')
 const version = process.argv[2]
 
 const examples = [
-  'example-multi-cli-javascript',
-  'example-multi-cli-typescript',
-  'example-single-cli-javascript',
-  'example-single-cli-typescript',
+  'example-single-js',
+  'example-single-ts',
+  'example-plugin-js',
+  'example-plugin-ts',
+  'example-multi-js',
+  'example-multi-ts',
 ]
 
 examples.forEach(example => {
-  const [, type,, format] = example.split('-')
+  const [, type, format] = example.split('-')
 
   const options = format === 'typescript' ?
     '--options=typescript,mocha,semantic-release' :

@@ -16,7 +16,9 @@ const tests = testTypes.map(cmd => {
   let tests = _(['plain', 'mocha', 'typescript', 'everything'])
     .map(t => [t, `test/commands/${cmd}/${t}.test.js`])
     .map(([t, s]) => [t, process.env.CIRCLECI ? `MOCHA_FILE=reports/mocha-${t}.xml ${mocha} --reporter mocha-junit-reporter ${s}` : `${mocha} ${s}`])
-  tests = series(...tests.map(t => t[1]).value())
+  tests = process.platform === 'win32' ?
+    series(...tests.map(t => t[1]).value()) :
+    concurrent(tests.fromPairs().value())
   if (process.env.CIRCLECI) {
     return [cmd, series(mkdirp('reports'), tests)]
   }

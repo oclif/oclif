@@ -1,4 +1,4 @@
-const {test} = require('@dxcli/dev-test')
+const {test} = require('@dxcli/test')
 const path = require('path')
 const sh = require('shelljs')
 const npmPath = require('npm-run-path')

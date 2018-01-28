@@ -1,4 +1,4 @@
-import {expect, test} from '@dxcli/dev-test'
+import {expect, test} from '@dxcli/test'
 
 import cmd from '../src'
 

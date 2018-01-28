@@ -1,6 +1,1 @@
-const run = require('../../run')
-
-describe('base', () => {
-  run('base', 'typescript')
-    .it()
-})
+require('../../run')(module.filename)

@@ -1,6 +1,1 @@
-const run = require('../../run')
-
-describe('base', () => {
-  run('base', 'plain')
-    .it()
-})
+require('../../run')(module.filename)

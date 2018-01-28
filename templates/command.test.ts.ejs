@@ -1,0 +1,17 @@
+import {expect, test} from '@dxcli/test'
+
+const command = '<%- name %>'
+
+describe(command, () => {
+  test
+  .stdout()
+  .command([command])
+  .do(ctx => expect(ctx.stdout).to.contain('hello world from <%- name %>!'))
+  .it()
+
+  test
+  .stdout()
+  .command([command, '--name', 'jeff'])
+  .do(ctx => expect(ctx.stdout).to.contain('hello jeff from <%- name %>!'))
+  .it()
+})

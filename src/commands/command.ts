@@ -1,26 +1,25 @@
 import {flags} from '@dxcli/command'
 
-import Base from './command_base'
+import Base from '../command_base'
+
+export interface Options {
+  name: string
+  defaults?: boolean
+  force?: boolean
+}
 
 export default abstract class AppCommand extends Base {
   static flags: flags.Input = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
-    options: flags.string({description: '(typescript|semantic-release|mocha)'}),
     force: flags.boolean({description: 'overwrite existing files'}),
   }
   static args = [
-    {name: 'path', required: false}
+    {name: 'name', description: 'name of command', required: true}
   ]
 
-  abstract type: string
-
   async run () {
-    const options = this.flags.options ? this.flags.options.split(',') : []
-
-    await super.generate('app', {
-      type: this.type,
-      path: this.args.path,
-      options,
+    await super.generate('command', {
+      name: this.args.name,
       defaults: this.flags.defaults,
       force: this.flags.force
     })

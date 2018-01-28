@@ -120,9 +120,9 @@
     lodash "^4.17.4"
     read-pkg "^3.0.0"
 
-"@dxcli/dev@^2.0.13":
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.13.tgz#b564d56df2bea15ef9a6943ad2903a1116a92765"
+"@dxcli/dev@^2.0.14":
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.14.tgz#44834aa54dc60a11737e583a1716405207ab81a2"
   dependencies:
     "@dxcli/nyc-config" "^0.0.4"
     "@types/ansi-styles" "^2.0.30"
@@ -135,7 +135,7 @@
     "@types/read-pkg" "^3.0.0"
     "@types/strip-ansi" "^3.0.0"
     "@types/supports-color" "^3.1.0"
-    eslint-config-dxcli "^1.1.7"
+    eslint-config-dxcli "^1.2.0"
     nyc "^11.4.1"
 
 "@dxcli/engine@^0.1.13":
@@ -201,9 +201,9 @@
     fancy-test "^0.6.3"
     lodash "^4.17.4"
 
-"@dxcli/tslint@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.0.24.tgz#32c19a574828d643bcb446cbfc0b2dbbbf1c1da0"
+"@dxcli/tslint@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.1.0.tgz#502049b826b731d191de00994bdfbb0bb3b04dec"
   dependencies:
     tslint "^5.9.1"
     tslint-xo "^0.5.0"
@@ -1627,9 +1627,9 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-dxcli@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/eslint-config-dxcli/-/eslint-config-dxcli-1.1.7.tgz#c3cd73bfe21259fd5a77de04199f49f1f89ec5a4"
+eslint-config-dxcli@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-dxcli/-/eslint-config-dxcli-1.2.0.tgz#77b5d51dc97fa25c777d2a696f8a2e9a07a07d4e"
   dependencies:
     eslint-config-xo-space "^0.17.0"
     eslint-plugin-node "^5.2.1"
@@ -2124,8 +2124,8 @@ git-up@^2.0.0:
     parse-url "^1.3.0"
 
 git-url-parse@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/git-url-parse/-/git-url-parse-8.0.0.tgz#249430c84e6b11ebae630136f50d7993eb03e211"
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/git-url-parse/-/git-url-parse-8.0.1.tgz#eb3fa427e294d214d9abbeb59637cc8646279c00"
   dependencies:
     git-up "^2.0.0"
 

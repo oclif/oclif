@@ -23,7 +23,7 @@
     "@dxcli/dev": "^2.0.13",
     "@dxcli/semantic-release": "^0.3.3",
     "@dxcli/test": "^0.9.17",
-    "@dxcli/tslint": "^0.0.24",
+    "@dxcli/tslint": "^0.1.0",
     "@semantic-release/exec": "^2.0.0",
     "@types/shelljs": "^0.7.7",
     "@types/yeoman-generator": "^2.0.1",

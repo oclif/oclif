@@ -9,15 +9,23 @@ const {
 const script = (script, description) => description ? {script, description} : {script}
 const hidden = script => ({script, hiddenFromHelp: true})
 const _ = require('lodash')
+const sh = require('shelljs')
+const path = require('path')
+
+sh.set('-e')
+sh.set('+v')
 
 setColors(['dim'])
 
-const testTypes = ['base', 'plugin', 'single', 'multi']
+const testTypes = ['base', 'plugin', 'single', 'multi', 'command']
 const tests = testTypes.map(cmd => {
   let mocha = 'mocha --forbid-only'
-  let tests = _(['plain', 'mocha', 'typescript', 'everything'])
-    .map(t => [t, `test/commands/${cmd}/${t}.test.js`])
+  const base = path.join('test/commands', cmd)
+  sh.pushd(base)
+  let tests = _(sh.ls())
+    .map(t => [t.split('.')[0], path.join(base, t)])
     .map(([t, s]) => [t, process.env.CIRCLECI ? `MOCHA_FILE=reports/mocha-${t}.xml ${mocha} --reporter mocha-junit-reporter ${s}` : `${mocha} ${s}`])
+  sh.popd()
   tests = process.env.TEST_SERIES === '1' ?
     series(...tests.map(t => t[1]).value()) :
     concurrent(tests.fromPairs().value())

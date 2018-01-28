@@ -1,3 +1,1 @@
-import run from '@dxcli/engine'
-export {run}
-export default run
+export {run} from '@dxcli/engine'

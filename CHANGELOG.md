@@ -1,3 +1,11 @@
+<a name="0.26.9"></a>
+## [0.26.9](https://github.com/dxcli/create-dxcli/compare/528615137fba7d8637271a044617d55005aae769...v0.26.9) (2018-01-28)
+
+
+### Bug Fixes
+
+* overwrite scripts ([fc9bba9](https://github.com/dxcli/create-dxcli/commit/fc9bba9))
+
 <a name="0.26.8"></a>
 ## [0.26.8](https://github.com/dxcli/create-dxcli/compare/3d851bad9ce5223acd0f8cf38b8ac60d290e565d...v0.26.8) (2018-01-28)
 

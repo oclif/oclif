@@ -223,7 +223,7 @@ class App extends Generator {
       }
     }
     if (this.ts) {
-      this.pjson.scripts.prepublishOnly = 'rm -rf lib && nps build'
+      this.pjson.scripts.prepublishOnly = 'nps build'
     }
     if (this.semantic_release) {
       this.pjson.scripts.commitmsg = 'dxcli-commitlint'

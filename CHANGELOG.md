@@ -1,3 +1,11 @@
+<a name="0.26.5"></a>
+## [0.26.5](https://github.com/dxcli/create-dxcli/compare/efd2846e5c3ac9e356baac4d2bf32b88c1ba0e53...v0.26.5) (2018-01-28)
+
+
+### Bug Fixes
+
+* add mocha-junit-reporter ([a1a4a08](https://github.com/dxcli/create-dxcli/commit/a1a4a08))
+
 <a name="0.26.3"></a>
 ## [0.26.3](https://github.com/dxcli/create-dxcli/compare/ff9c542edabdddafc3d011841b26d949f0dd3275...v0.26.3) (2018-01-28)
 

@@ -341,8 +341,8 @@ class App extends Generator {
     if (this.mocha) {
       devDependencies.push('mocha', 'chai')
       if (this.type !== 'base') devDependencies.push(
-        '@dxcli/dev-test',
-        '@dxcli/dev-tslint',
+        '@dxcli/test',
+        '@dxcli/tslint',
       )
     }
     if (this.semantic_release) devDependencies.push('@dxcli/semantic-release')

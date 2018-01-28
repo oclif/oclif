@@ -1,7 +1,8 @@
-import Command, {flags} from '@dxcli/command'
-import {createEnv} from 'yeoman-environment'
+import {flags} from '@dxcli/command'
 
-export default abstract class AppCommand extends Command {
+import Base from './command_base'
+
+export default abstract class AppCommand extends Base {
   static flags: flags.Input = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
     options: flags.string({description: '(typescript|semantic-release|mocha)'}),
@@ -14,15 +15,14 @@ export default abstract class AppCommand extends Command {
   abstract type: string
 
   async run() {
-    const env = createEnv()
-
-    env.register(
-      require.resolve('./generators/app'),
-      'dxcli:app'
-    )
-
     const options = this.flags.options ? this.flags.options.split(',') : []
 
-    await env.run('dxcli:app', {type: this.type, path: this.args.path, options, defaults: this.flags.defaults, force: this.flags.force})
+    await super.generate('app', {
+      type: this.type,
+      path: this.args.path,
+      options,
+      defaults: this.flags.defaults,
+      force: this.flags.force
+    })
   }
 }

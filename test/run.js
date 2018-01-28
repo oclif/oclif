@@ -51,21 +51,21 @@ module.exports = file => {
             break
           case 'single':
             build(cmd, name)
-            sh.exec('node ./bin/run')
             sh.exec('yarn test')
+            sh.exec('node ./bin/run')
             break
           case 'multi':
             build(cmd, name)
+            sh.exec('yarn test')
             sh.exec('node ./bin/run version')
             sh.exec('node ./bin/run hello')
-            sh.exec('yarn test')
             break
           case 'command':
             build('plugin', name)
             generate('command foo:bar:baz --defaults --force')
+            sh.exec('yarn test')
             sh.exec('node ./bin/run hello')
             sh.exec('node ./bin/run foo:bar:baz')
-            sh.exec('yarn test')
             break
         }
       })

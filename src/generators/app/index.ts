@@ -36,7 +36,6 @@ class App extends Generator {
   type: 'single' | 'multi' | 'plugin' | 'base'
   path: string
   pjson: any
-  tsconfig: any
   fromScratch: boolean
   githubUser: string | undefined
   answers: {
@@ -253,7 +252,6 @@ class App extends Generator {
 
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('tslint.json'), this.destinationPath('tslint.json'), this)
-      this.tsconfig = this.fs.readJSON(this.destinationPath('tsconfig.json'), {compilerOptions: {outDir: './lib'}})
       this.fs.copyTpl(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'), this)
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
@@ -367,11 +365,6 @@ class App extends Generator {
     })
   }
 
-  private get _tsOutDir(): string | undefined {
-    if (!this.ts || !this.tsconfig || !this.tsconfig.compilerOptions || !this.tsconfig.compilerOptions.outDir) return
-    return this.tsconfig.compilerOptions.outDir.replace(/^\./, '')
-  }
-
   private _gitignore(): string {
     const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []
     return _([
@@ -381,7 +374,7 @@ class App extends Generator {
       '/coverage',
       '/node_modules',
       '/tmp',
-      this._tsOutDir,
+      this.ts && '/lib',
       this.mocha && '/.nyc_output',
     ])
       .concat(existing)
@@ -394,7 +387,7 @@ class App extends Generator {
   private _eslintignore(): string {
     const existing = this.fs.exists(this.destinationPath('.eslintignore')) ? this.fs.read(this.destinationPath('.eslintignore')).split('\n') : []
     return _([
-      this._tsOutDir,
+      this.ts && '/lib',
     ])
       .concat(existing)
       .compact()

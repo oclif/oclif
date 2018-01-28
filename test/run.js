@@ -32,11 +32,5 @@ module.exports = (type, features) => {
       ctx.dir = dir
       process.env = npmPath.env({env: process.env})
       ctx.expectation = `build ${type} with ${features}`
-
-      switch (features) {
-        case 'typescript':
-          sh.exec('nps build')
-          break
-      }
     })
 }

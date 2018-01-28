@@ -1,3 +1,11 @@
+<a name="0.26.7"></a>
+## [0.26.7](https://github.com/dxcli/create-dxcli/compare/07c7e38f5bc38e72c78975a441ec9ea51608b4ed...v0.26.7) (2018-01-28)
+
+
+### Bug Fixes
+
+* send args to yarn ([3d851ba](https://github.com/dxcli/create-dxcli/commit/3d851ba))
+
 <a name="0.26.6"></a>
 ## [0.26.6](https://github.com/dxcli/create-dxcli/compare/a1a4a082b225ad1b94b3705bcd84f71ef692368d...v0.26.6) (2018-01-28)
 

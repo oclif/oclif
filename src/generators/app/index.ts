@@ -305,17 +305,21 @@ class App extends Generator {
       'nps',
       'nps-utils',
       'husky',
+      'eslint',
     ]
     if (this.mocha) {
       if (this.type !== 'multi') devDependencies.push('@dxcli/engine')
-      devDependencies.push('@dxcli/dev-test')
     }
     devDependencies.push(
+      '@dxcli/dev-test',
       'mocha',
       'chai',
     )
     if (this.ts) {
-      devDependencies.push('@dxcli/config')
+      devDependencies.push(
+        '@dxcli/config',
+        'typescript',
+      )
     }
     if (this.type === 'multi') {
       dependencies.push(

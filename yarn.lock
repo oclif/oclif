@@ -200,16 +200,16 @@
     execa "^0.9.0"
     semantic-release "^12.2.5"
 
-"@dxcli/test@^0.9.15":
-  version "0.9.15"
-  resolved "https://registry.yarnpkg.com/@dxcli/test/-/test-0.9.15.tgz#fcd9be75dd4f7b26cdced6f3227ca80916fc7400"
+"@dxcli/test@^0.9.16":
+  version "0.9.16"
+  resolved "https://registry.yarnpkg.com/@dxcli/test/-/test-0.9.16.tgz#831a34adcdb088169ff096714ce98155a3364f01"
   dependencies:
     fancy-test "^0.6.3"
     lodash "^4.17.4"
 
-"@dxcli/tslint@^0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.0.23.tgz#c9877ec9927bb958c1a71edac3263007ce64b22d"
+"@dxcli/tslint@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.0.24.tgz#32c19a574828d643bcb446cbfc0b2dbbbf1c1da0"
   dependencies:
     tslint "^5.9.1"
     tslint-xo "^0.5.0"

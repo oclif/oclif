@@ -5,6 +5,8 @@ const {
   crossEnv,
   mkdirp,
   series,
+<%_ } else if (ts) { _%>
+  series,
 <%_ } _%>
 } = require('nps-utils')
 
@@ -29,6 +31,9 @@ const linters = {
 const scripts = {
   ...linters,
   lint: concurrent(linters),
+<%_ if (ts) { _%>
+  build: series('rm -rf lib', 'tsc'),
+<%_ } _%>
 <%_ if (mocha) { _%>
   test: script(concurrent.nps(...Object.keys(linters), 'mocha'), 'lint and run all tests'),
   mocha: script('mocha --forbid-only "test/**/*.test.<%= _ext %>"', 'run all mocha tests'),

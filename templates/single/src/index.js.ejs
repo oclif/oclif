@@ -1,15 +1,16 @@
 const {Command, flags} = require('@dxcli/command')
 const {cli} = require('cli-ux')
+<%_ const klass = _.upperFirst(_.camelCase(name.split(':').slice(-1).join(':') + ':command')) _%>
 
-class CLI extends Command {
-  async run() {
+class <%- klass %> extends Command {
+  async run () {
     const name = this.flags.name || 'world'
     cli.log(`hello ${name}!`)
   }
 }
 
-CLI.flags = {
+<%- klass %>.flags = {
   name: flags.string({char: 'n', description: 'name to print'}),
 }
 
-module.exports = CLI
+module.exports = <%- klass %>

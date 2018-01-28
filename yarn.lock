@@ -126,9 +126,9 @@
     fancy-test "^0.5.5"
     lodash "^4.17.4"
 
-"@dxcli/dev@^2.0.11":
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.11.tgz#f58ba8e87dc6c6207d4d41051727194d5ee11b3f"
+"@dxcli/dev@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.12.tgz#027bcaf96d6c67eb730aa077a1625fdf4e079379"
   dependencies:
     "@dxcli/nyc-config" "^0.0.4"
     "@types/ansi-styles" "^2.0.30"
@@ -142,6 +142,7 @@
     "@types/strip-ansi" "^3.0.0"
     "@types/supports-color" "^3.1.0"
     eslint-config-dxcli "^1.1.6"
+    nps-utils "^1.5.0"
     nyc "^11.4.1"
 
 "@dxcli/engine@^0.1.12":
@@ -206,9 +207,9 @@
     semantic-release "^12.2.5"
     shelljs "^0.8.1"
 
-"@dxcli/tslint@^0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.0.22.tgz#2dae5b04a116b9eeda728876ebacc919237cbb5e"
+"@dxcli/tslint@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.0.23.tgz#c9877ec9927bb958c1a71edac3263007ce64b22d"
   dependencies:
     tslint "^5.9.1"
     tslint-xo "^0.5.0"

@@ -1,3 +1,20 @@
+<a name="0.26.4"></a>
+## [0.26.4](https://github.com/dxcli/create-dxcli/compare/143532cbea80d4f7fc697f9178773f17073643a2...v0.26.4) (2018-01-28)
+
+
+### Bug Fixes
+
+* add dev deps for single ([efc07dc](https://github.com/dxcli/create-dxcli/commit/efc07dc))
+* add peerDependencies ([7be5fd1](https://github.com/dxcli/create-dxcli/commit/7be5fd1))
+* fixed references to deps ([353cac2](https://github.com/dxcli/create-dxcli/commit/353cac2))
+* only build on release ([dba0a63](https://github.com/dxcli/create-dxcli/commit/dba0a63))
+* only build on release ([0f5e7db](https://github.com/dxcli/create-dxcli/commit/0f5e7db))
+* only build on release ([fecec26](https://github.com/dxcli/create-dxcli/commit/fecec26))
+* release example plugins ([4500eed](https://github.com/dxcli/create-dxcli/commit/4500eed))
+* rename dev packages ([e85a5cf](https://github.com/dxcli/create-dxcli/commit/e85a5cf))
+* tests should use chai ([16fdb7b](https://github.com/dxcli/create-dxcli/commit/16fdb7b))
+* use tmp dir on CI ([c98a8e4](https://github.com/dxcli/create-dxcli/commit/c98a8e4))
+
 <a name="0.26.3"></a>
 ## [0.26.3](https://github.com/dxcli/create-dxcli/compare/ff9c542edabdddafc3d011841b26d949f0dd3275...v0.26.3) (2018-01-28)
 

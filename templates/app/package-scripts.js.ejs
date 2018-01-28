@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/filename-case */
+
 const {
   setColors,
   concurrent,

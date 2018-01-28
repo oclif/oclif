@@ -102,7 +102,7 @@
   dependencies:
     find-up "^2.1.0"
 
-"@dxcli/command@^0.1.18", "@dxcli/command@^0.1.21", "@dxcli/command@^0.1.22":
+"@dxcli/command@^0.1.22":
   version "0.1.22"
   resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.22.tgz#ed98cfc94d3a0f98f155523d0a149d7990e6a818"
   dependencies:
@@ -117,7 +117,7 @@
     debug "^3.1.0"
     tslib "^1.9.0"
 
-"@dxcli/config@^0.1.26", "@dxcli/config@^0.1.27":
+"@dxcli/config@^0.1.27":
   version "0.1.27"
   resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.27.tgz#639d82e555d2a09cffeff065324279988df02e1f"
   dependencies:
@@ -137,9 +137,9 @@
     lodash "^4.17.4"
     read-pkg "^3.0.0"
 
-"@dxcli/dev@^2.0.12":
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.12.tgz#027bcaf96d6c67eb730aa077a1625fdf4e079379"
+"@dxcli/dev@^2.0.13":
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@dxcli/dev/-/dev-2.0.13.tgz#b564d56df2bea15ef9a6943ad2903a1116a92765"
   dependencies:
     "@dxcli/nyc-config" "^0.0.4"
     "@types/ansi-styles" "^2.0.30"
@@ -152,28 +152,21 @@
     "@types/read-pkg" "^3.0.0"
     "@types/strip-ansi" "^3.0.0"
     "@types/supports-color" "^3.1.0"
-    eslint-config-dxcli "^1.1.6"
-    nps-utils "^1.5.0"
+    eslint-config-dxcli "^1.1.7"
     nyc "^11.4.1"
 
-"@dxcli/engine@^0.1.12":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.12.tgz#a2572ce83d0ff10e47cc545d3b2ad77eef7132fa"
+"@dxcli/engine@^0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.13.tgz#46bc63407b12cedfa8a31b92b1314c25dcf37980"
   dependencies:
-    "@dxcli/command" "^0.1.18"
-    "@dxcli/config" "^0.1.26"
-    "@dxcli/loader" "^0.2.5"
-    cli-ux "^3.2.1"
+    "@dxcli/loader" "^0.2.9"
     debug "^3.1.0"
 
-"@dxcli/loader@^0.2.5", "@dxcli/loader@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@dxcli/loader/-/loader-0.2.8.tgz#a704e704d0682e82ab0ad2d1393cbe326986c922"
+"@dxcli/loader@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@dxcli/loader/-/loader-0.2.9.tgz#4022b2b790650efb3015961c892aa081beecb838"
   dependencies:
-    "@dxcli/command" "^0.1.21"
-    "@dxcli/config" "^0.1.27"
     "@dxcli/manifest-file" "^0.0.4"
-    cli-ux "^3.2.2"
     debug "^3.1.0"
     globby "^7.1.1"
     lodash "^4.17.4"
@@ -1099,7 +1092,7 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-ux@^3.2.1, cli-ux@^3.2.2:
+cli-ux@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-3.2.2.tgz#7836bdca210cd8d70f6d26adb7c2fb5b3e4842fc"
   dependencies:
@@ -1651,9 +1644,9 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-dxcli@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/eslint-config-dxcli/-/eslint-config-dxcli-1.1.6.tgz#f14d8bd748108dd57725a052f627524dedee8f4c"
+eslint-config-dxcli@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/eslint-config-dxcli/-/eslint-config-dxcli-1.1.7.tgz#c3cd73bfe21259fd5a77de04199f49f1f89ec5a4"
   dependencies:
     eslint-config-xo-space "^0.17.0"
     eslint-plugin-node "^5.2.1"

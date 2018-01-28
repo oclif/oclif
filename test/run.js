@@ -2,8 +2,11 @@ const {test} = require('@dxcli/dev-test')
 const path = require('path')
 const sh = require('shelljs')
 const npmPath = require('npm-run-path')
+const tmp = require('tmp')
 
 sh.set('-ev')
+
+const {CI} = process.env
 
 module.exports = (type, features) => {
   return test
@@ -14,7 +17,7 @@ module.exports = (type, features) => {
       if (features === 'everything') options = '--options=typescript,mocha,semantic-release'
       if (features === 'typescript') options = '--options=typescript'
       if (features === 'mocha') options = '--options=mocha'
-      let dir = path.join(__dirname, `../tmp/test-${type}/${features}`)
+      let dir = CI ? tmp.tmpNameSync() : path.join(__dirname, `../tmp/test-${type}/${features}`)
       sh.rm('-rf', dir)
       sh.exec(`node ./bin/run ${type} ${dir} --defaults ${options}`)
       sh.cd(dir)

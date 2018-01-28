@@ -37,6 +37,8 @@
     "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
     "shelljs": "^0.8.1",
+    "tmp": "^0.0.33",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   },
   "dxcli": {

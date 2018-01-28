@@ -120,10 +120,11 @@
     lodash "^4.17.4"
     tslib "^1.9.0"
 
-"@dxcli/config@^0.1.31":
-  version "0.1.31"
-  resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.31.tgz#9303597715b07ccd2de4fb2aa84b7e30b22dbd3f"
+"@dxcli/config@^0.1.32":
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.32.tgz#b07b33cc9f91031ff795983bacf8a84f60294ecb"
   dependencies:
+    cli-ux "^3.3.8"
     debug "^3.1.0"
     fs-extra "^5.0.0"
     load-json-file "^4.0.0"
@@ -148,17 +149,17 @@
     eslint-config-dxcli "^1.2.0"
     nyc "^11.4.1"
 
-"@dxcli/engine@^0.1.15":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.15.tgz#95a48cd4e08649fd9451fad7b25a9ac014867d49"
+"@dxcli/engine@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@dxcli/engine/-/engine-0.1.17.tgz#77f067fd8ff187e12da16d06ac251e4b75cf23cf"
   dependencies:
-    "@dxcli/loader" "^0.2.10"
+    "@dxcli/loader" "^0.2.12"
     cli-ux "^3.3.8"
     debug "^3.1.0"
 
-"@dxcli/loader@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@dxcli/loader/-/loader-0.2.10.tgz#cb77814d82e6a931c8d00ef6af646dd47e8de43c"
+"@dxcli/loader@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@dxcli/loader/-/loader-0.2.12.tgz#d4e65c71d344de28c7434b9457ae50fef089d646"
   dependencies:
     "@dxcli/manifest-file" "^0.1.0"
     cli-ux "^3.3.8"

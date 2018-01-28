@@ -12,16 +12,9 @@ module.exports = {
     '@semantic-release/github',
   ],
   publish: [
-    {
-      path: '@semantic-release/exec',
-      cmd: './.circleci/release_example ${nextRelease.version} ${nextRelease.type} ${nextRelease.notes}',
-    },
+    {path: './scripts/release_example'},
     '@semantic-release/changelog',
     '@semantic-release/npm',
-    {
-      path: '@semantic-release/git',
-      assets: ['package.json', 'CHANGELOG.md'],
-    },
     '@semantic-release/github',
   ],
 }

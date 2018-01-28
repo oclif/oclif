@@ -7,7 +7,7 @@ const path = require('path')
 sh.set('-ev')
 
 sh.exec('yarn link')
-const version = process.argv[2]
+const [,, version, releaseType, notes] = process.argv
 
 const examples = [
   'example-single-js',
@@ -61,7 +61,7 @@ examples.forEach(example => {
   sh.exec(`create-dxcli ${type} --force --defaults ${options}`)
   sh.exec('git add -A')
   try {
-    sh.exec(`git commit -m "fix: create-dxcli ${version}"`)
+    sh.exec(`git commit -m "${releaseType === 'patch' ? 'fix' : 'feat'}: create-dxcli v${version}"\n\n${notes}`)
     sh.exec('git push')
   } catch (err) {
     console.error(err)

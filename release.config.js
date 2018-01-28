@@ -14,7 +14,7 @@ module.exports = {
   publish: [
     {
       path: '@semantic-release/exec',
-      cmd: './.circleci/release_example ${nextRelease.version}',
+      cmd: './.circleci/release_example ${nextRelease.version} ${nextRelease.type} ${nextRelease.notes}',
     },
     '@semantic-release/changelog',
     '@semantic-release/npm',

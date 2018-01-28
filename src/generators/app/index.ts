@@ -403,7 +403,7 @@ class App extends Generator {
 
   private _writePlugin() {
     if (!this.fromScratch) return
-    this.fs.copyTpl(this.templatePath(`plugin/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
+    this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
     this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {name: 'hello', _})
     if (this.ts) {
@@ -416,7 +416,11 @@ class App extends Generator {
 
   private _writeSingle() {
     if (!this.fromScratch) return
-    this.fs.copyTpl(this.templatePath(`single/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
+    if (this.ts) {
+      this.fs.copyTpl(this.templatePath('single/bin/run.ts'), this.destinationPath('bin/run'), this)
+    } else {
+      this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), this)
+    }
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
     this.fs.copyTpl(this.templatePath(`single/src/index.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {name: this.pjson.name, _})
     if (this.mocha) {
@@ -427,7 +431,7 @@ class App extends Generator {
   private _writeMulti() {
     if (!this.fromScratch) return
     this._writePlugin()
-    this.fs.copyTpl(this.templatePath(`multi/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
+    this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
     this.fs.copyTpl(this.templatePath(`multi/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
   }

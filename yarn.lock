@@ -111,18 +111,18 @@
     lodash "^4.17.4"
     tslib "^1.9.0"
 
-"@dxcli/command@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.2.3.tgz#244ffea9939bd3a4b6cd9defe5f8657a5041cb93"
+"@dxcli/command@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.2.4.tgz#697dd134d60b409e2a42b86260835e78967d10de"
   dependencies:
     "@dxcli/parser" "^0.0.5"
     debug "^3.1.0"
     lodash "^4.17.4"
     tslib "^1.9.0"
 
-"@dxcli/config@^0.1.32":
-  version "0.1.32"
-  resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.32.tgz#b07b33cc9f91031ff795983bacf8a84f60294ecb"
+"@dxcli/config@^0.1.33":
+  version "0.1.33"
+  resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.33.tgz#b29c059c2f5b8b764f00ccf42b2ea7aaa4f962e4"
   dependencies:
     cli-ux "^3.3.8"
     debug "^3.1.0"

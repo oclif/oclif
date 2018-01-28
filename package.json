@@ -6,8 +6,8 @@
   "bin": "bin/run",
   "bugs": "https://github.com/dxcli/create-dxcli/issues",
   "dependencies": {
-    "@dxcli/command": "^0.2.3",
-    "@dxcli/config": "^0.1.32",
+    "@dxcli/command": "^0.2.4",
+    "@dxcli/config": "^0.1.33",
     "@dxcli/engine": "^0.1.17",
     "@dxcli/version": "^0.1.12",
     "cli-ux": "^3.3.8",

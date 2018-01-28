@@ -1,3 +1,11 @@
+<a name="0.26.11"></a>
+## [0.26.11](https://github.com/dxcli/create-dxcli/compare/0a289a10ba1d162b296678aba732140938038534...v0.26.11) (2018-01-28)
+
+
+### Bug Fixes
+
+* parser is now exported from command ([6f192b1](https://github.com/dxcli/create-dxcli/commit/6f192b1))
+
 <a name="0.26.10"></a>
 ## [0.26.10](https://github.com/dxcli/create-dxcli/compare/fc9bba9e38d40f726eb0b52af2635e6f91cc0412...v0.26.10) (2018-01-28)
 

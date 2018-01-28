@@ -14,7 +14,7 @@ export default abstract class AppCommand extends Base {
 
   abstract type: string
 
-  async run () {
+  async run() {
     const options = this.flags.options ? this.flags.options.split(',') : []
 
     await super.generate('app', {

@@ -16,22 +16,22 @@ class CommandGenerator extends Generator {
     devDependencies: {[name: string]: string}
   }
 
-  get _path () { return this.options.name.split(':').join('/') }
-  get _ts () { return this.pjson.devDependencies.typescript }
-  get _ext () { return this._ts ? 'ts' : 'js' }
-  get _mocha () { return this.pjson.devDependencies.mocha }
+  get _path() { return this.options.name.split(':').join('/') }
+  get _ts() { return this.pjson.devDependencies.typescript }
+  get _ext() { return this._ts ? 'ts' : 'js' }
+  get _mocha() { return this.pjson.devDependencies.mocha }
 
-  constructor (args: any, public options: Options) {
+  constructor(args: any, public options: Options) {
     super(args, options)
   }
 
-  async prompting () {
+  async prompting() {
     this.pjson = this.fs.readJSON('package.json')
     if (!this.pjson) throw new Error('not in a project directory')
     this.log(yosay(`Adding a command to ${this.pjson.name} Version: ${version}`))
   }
 
-  writing () {
+  writing() {
     this.sourceRoot(path.join(__dirname, '../../../templates'))
     this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/${this._path}.${this._ext}`), {...this.options, _})
     // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)

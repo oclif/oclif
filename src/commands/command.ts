@@ -17,7 +17,7 @@ export default abstract class AppCommand extends Base {
     {name: 'name', description: 'name of command', required: true}
   ]
 
-  async run () {
+  async run() {
     await super.generate('command', {
       name: this.args.name,
       defaults: this.flags.defaults,

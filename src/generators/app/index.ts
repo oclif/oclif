@@ -11,7 +11,7 @@ const fixpack = require('fixpack')
 const debug = require('debug')('generator-dxcli')
 const {version} = require('../../../package.json')
 
-function stringToArray (s: string) {
+function stringToArray(s: string) {
   const keywords: string[] = []
 
   s.split(',').forEach((keyword: string) => {
@@ -56,9 +56,9 @@ class App extends Generator {
   mocha: boolean
   semantic_release: boolean
   ts: boolean
-  get _ext () { return this.ts ? 'ts' : 'js' }
+  get _ext() { return this.ts ? 'ts' : 'js' }
 
-  constructor (args: any, opts: any) {
+  constructor(args: any, opts: any) {
     super(args, opts)
 
     this.type = opts.type
@@ -71,7 +71,7 @@ class App extends Generator {
     }
   }
 
-  async prompting () {
+  async prompting() {
     if (process.env.DXCLI_CREATE_DEFAULTS === '1') this.options.defaults = true
     let msg
     switch (this.type) {
@@ -230,7 +230,7 @@ class App extends Generator {
     }
   }
 
-  writing () {
+  writing() {
     this.sourceRoot(path.join(__dirname, '../../../templates'))
 
     switch (this.type) {
@@ -296,7 +296,7 @@ class App extends Generator {
     }
   }
 
-  install () {
+  install() {
     const dependencies: string[] = []
     const devDependencies = [
       '@dxcli/dev',
@@ -362,7 +362,7 @@ class App extends Generator {
     })
   }
 
-  private _gitignore (): string {
+  private _gitignore(): string {
     const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []
     return _([
       '*-debug.log',
@@ -381,7 +381,7 @@ class App extends Generator {
       .join('\n') + '\n'
   }
 
-  private _eslintignore (): string {
+  private _eslintignore(): string {
     const existing = this.fs.exists(this.destinationPath('.eslintignore')) ? this.fs.read(this.destinationPath('.eslintignore')).split('\n') : []
     return _([
       this.ts && '/lib',
@@ -393,7 +393,7 @@ class App extends Generator {
       .join('\n') + '\n'
   }
 
-  private _writeBase () {
+  private _writeBase() {
     if (!this.fromScratch) return
     this.fs.copyTpl(this.templatePath(`base/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
     if (this.mocha) {
@@ -401,7 +401,7 @@ class App extends Generator {
     }
   }
 
-  private _writePlugin () {
+  private _writePlugin() {
     if (!this.fromScratch) return
     this.fs.copyTpl(this.templatePath(`plugin/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
@@ -414,7 +414,7 @@ class App extends Generator {
     }
   }
 
-  private _writeSingle () {
+  private _writeSingle() {
     if (!this.fromScratch) return
     this.fs.copyTpl(this.templatePath(`single/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
@@ -424,7 +424,7 @@ class App extends Generator {
     }
   }
 
-  private _writeMulti () {
+  private _writeMulti() {
     if (!this.fromScratch) return
     this._writePlugin()
     this.fs.copyTpl(this.templatePath(`multi/bin/run.${this._ext}`), this.destinationPath('bin/run'), this)

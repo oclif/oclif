@@ -10,12 +10,12 @@ sh.set('-ev')
 const {CI} = process.env
 delete process.env.CI
 
-function generate (args) {
+function generate(args) {
   const run = path.join(__dirname, '../bin/run')
   sh.exec(`node ${run} ${args}`)
 }
 
-function build (type, features) {
+function build(type, features) {
   let options = ''
   if (features === 'everything') options = '--options=typescript,mocha,semantic-release'
   if (features === 'typescript') options = '--options=typescript'

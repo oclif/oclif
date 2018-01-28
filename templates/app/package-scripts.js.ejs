@@ -57,5 +57,12 @@ if (process.env.CI) {
   scripts.mocha.script = series(`${nyc} ${scripts.mocha.script}`, nycReport)
 }
 
+<%_ } else if (mocha) { _%>
+if (process.env.CI) {
+  if (process.env.CIRCLECI) {
+    scripts.release = 'semantic-release -e @dxcli/dev-semantic-release'
+  }
+}
+
 <%_ } _%>
 module.exports = {scripts}

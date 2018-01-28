@@ -50,6 +50,8 @@ test = concurrent({
 })
 
 if (process.env.CI) test = series(mkdirp('reports'), test)
+<%_ } else if (ts) { _%>
+let test = concurrent({...linters, build: 'nps build'})
 <%_ } else { _%>
 let test = concurrent(linters)
 <%_ } _%>

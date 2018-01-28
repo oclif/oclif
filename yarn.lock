@@ -102,10 +102,18 @@
   dependencies:
     find-up "^2.1.0"
 
-"@dxcli/command@^0.1.18", "@dxcli/command@^0.1.19", "@dxcli/command@^0.1.21", "@dxcli/command@^0.1.22":
+"@dxcli/command@^0.1.18", "@dxcli/command@^0.1.21", "@dxcli/command@^0.1.22":
   version "0.1.22"
   resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.22.tgz#ed98cfc94d3a0f98f155523d0a149d7990e6a818"
   dependencies:
+    debug "^3.1.0"
+    tslib "^1.9.0"
+
+"@dxcli/command@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.23.tgz#93a77b455ca1eddafc58e7966a3127dec5be420b"
+  dependencies:
+    "@dxcli/parser" "^0.0.5"
     debug "^3.1.0"
     tslib "^1.9.0"
 
@@ -214,13 +222,14 @@
     tslint "^5.9.1"
     tslint-xo "^0.5.0"
 
-"@dxcli/version@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.6.tgz#8534d27aee0154f9a17cf00a4e0b3f579bee517c"
+"@dxcli/version@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.7.tgz#68a7d9134d3c03b65305fe5ed4de075702429d2e"
   dependencies:
-    "@dxcli/command" "^0.1.19"
-    "@dxcli/config" "^0.1.26"
-    cli-ux "^3.2.1"
+    "@dxcli/command" "^0.1.22"
+    "@dxcli/config" "^0.1.27"
+    "@dxcli/parser" "^0.0.5"
+    cli-ux "^3.2.2"
 
 "@heroku/linewrap@^1.0.0":
   version "1.0.0"

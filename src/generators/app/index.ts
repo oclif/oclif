@@ -309,7 +309,6 @@ class App extends Generator {
       case 'base': break
       case 'single':
         dependencies.push(
-          '@dxcli/parser',
           '@dxcli/config',
           '@dxcli/command',
           'cli-ux',
@@ -321,7 +320,6 @@ class App extends Generator {
       case 'plugin':
         dependencies.push(
           '@dxcli/config',
-          '@dxcli/parser',
           '@dxcli/command',
           'cli-ux',
         )
@@ -332,7 +330,6 @@ class App extends Generator {
       case 'multi':
         dependencies.push(
           '@dxcli/engine',
-          '@dxcli/parser',
           '@dxcli/config',
           '@dxcli/command',
           '@dxcli/version',

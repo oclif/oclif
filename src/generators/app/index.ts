@@ -182,7 +182,7 @@ class App extends Generator {
           message: 'components to include',
           choices: [
             {name: 'typescript', checked: this.fromScratch ? false : !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.devDependencies['@dxcli/dev-semantic-release']},
+            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.devDependencies['@dxcli/semantic-release']},
             {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -227,7 +227,7 @@ class App extends Generator {
       this.pjson.scripts.prepare = defaults.scripts.prepare || 'rm -rf lib && tsc'
     }
     if (this.semantic_release) {
-      this.pjson.scripts.commitmsg = defaults.scripts.commitmsg || 'dxcli-dev-commitmsg'
+      this.pjson.scripts.commitmsg = defaults.scripts.commitmsg || 'dxcli-commitlint'
     }
   }
 
@@ -307,38 +307,46 @@ class App extends Generator {
       'husky',
       'eslint',
     ]
-    if (this.mocha) {
-      if (this.type !== 'multi') devDependencies.push('@dxcli/engine')
-    }
-    if (this.semantic_release) {
-      devDependencies.push('@dxcli/dev-semantic-release')
-    }
-    devDependencies.push(
-      '@dxcli/dev-test',
-      'mocha',
-      'chai',
-    )
-    if (this.ts) {
-      devDependencies.push(
-        '@dxcli/config',
-        'typescript',
-      )
-    }
-    if (this.type === 'multi') {
-      dependencies.push(
-        '@dxcli/engine',
-        '@dxcli/version',
-      )
-    }
-    if (this.type === 'plugin') {
-      devDependencies.push('@dxcli/engine')
-    }
-    if (['plugin', 'single', 'multi'].includes(this.type)) {
+    switch (this.type) {
+      case 'base': break
+      case 'single':
         dependencies.push(
+          '@dxcli/parser',
+          '@dxcli/config',
           '@dxcli/command',
           'cli-ux',
         )
+        break
+      case 'plugin':
+        dependencies.push(
+          '@dxcli/config',
+          '@dxcli/parser',
+          '@dxcli/command',
+          'cli-ux',
+        )
+        devDependencies.push(
+          '@dxcli/engine',
+        )
+        break
+      case 'multi':
+        dependencies.push(
+          '@dxcli/engine',
+          '@dxcli/parser',
+          '@dxcli/config',
+          '@dxcli/command',
+          '@dxcli/version',
+          'cli-ux',
+        )
     }
+    if (this.mocha) {
+      devDependencies.push('mocha', 'chai')
+      if (this.type !== 'base') devDependencies.push(
+        '@dxcli/dev-test',
+        '@dxcli/dev-tslint',
+      )
+    }
+    if (this.semantic_release) devDependencies.push('@dxcli/semantic-release')
+    if (this.ts) devDependencies.push('typescript', 'ts-node')
     Promise.all([
       this.yarnInstall(devDependencies, {dev: true, ignoreScripts: true}),
       this.yarnInstall(dependencies),

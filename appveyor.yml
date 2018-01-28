@@ -5,6 +5,7 @@ environment:
     - TEST_TYPE: single
     - TEST_TYPE: plugin
     - TEST_TYPE: multi
+    - TEST_TYPE: command
 cache:
   - '%LOCALAPPDATA%\Yarn -> appveyor.yml'
   - node_modules -> yarn.lock

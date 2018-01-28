@@ -1,7 +1,7 @@
 {
   "name": "create-dxcli",
   "description": "dxcli: create your own CLI",
-  "version": "0.26.7",
+  "version": "0.26.8",
   "author": "Jeff Dickey @jdxcode",
   "bin": "bin/run",
   "bugs": "https://github.com/dxcli/create-dxcli/issues",

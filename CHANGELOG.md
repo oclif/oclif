@@ -1,3 +1,11 @@
+<a name="0.26.8"></a>
+## [0.26.8](https://github.com/dxcli/create-dxcli/compare/3d851bad9ce5223acd0f8cf38b8ac60d290e565d...v0.26.8) (2018-01-28)
+
+
+### Bug Fixes
+
+* lower loglevel ([5286151](https://github.com/dxcli/create-dxcli/commit/5286151))
+
 <a name="0.26.7"></a>
 ## [0.26.7](https://github.com/dxcli/create-dxcli/compare/07c7e38f5bc38e72c78975a441ec9ea51608b4ed...v0.26.7) (2018-01-28)
 

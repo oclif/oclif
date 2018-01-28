@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 

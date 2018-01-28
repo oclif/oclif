@@ -20,9 +20,9 @@ const tests = testTypes.map(cmd => {
     series(...tests.map(t => t[1]).value()) :
     concurrent(tests.fromPairs().value())
   if (process.env.CIRCLECI) {
-    return [cmd, series(mkdirp('reports'), tests)]
+    tests = series(mkdirp('reports'), tests)
   }
-  return [cmd, tests]
+  return [cmd, series('nps build', tests)]
 })
 
 module.exports = {

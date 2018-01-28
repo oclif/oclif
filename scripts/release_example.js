@@ -50,7 +50,7 @@ module.exports = (_, options) => {
     sh.exec(`create-dxcli ${type} --force --defaults ${options}`)
     sh.exec('git add -A')
     try {
-      execa.sync('git', ['commit', '-m', `"${releaseType === 'patch' ? 'fix' : 'feat'}: create-dxcli v${version}"\n\n${notes}`], {stdio: 'inherit'})
+      execa.sync('git', ['commit', '-m', `${releaseType === 'patch' ? 'fix' : 'feat'}: create-dxcli v${version}\n\n${notes}`], {stdio: 'inherit'})
       sh.exec('git push')
     } catch (err) {
       console.error(err)

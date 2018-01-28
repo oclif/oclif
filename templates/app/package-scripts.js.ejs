@@ -49,7 +49,7 @@ if (process.env.CI) {
     // add tslint reporter
     scripts.tslint.script = `${scripts.tslint.script} --format junit > reports/tslint.xml`
 <%_ } _%>
-    scripts.release = 'semantic-release -e @dxcli/dev-semantic-release'
+    scripts.release = 'semantic-release -e @dxcli/semantic-release'
   }
   // add code coverage reporting with nyc
   const nyc = 'nyc --nycrc-path node_modules/@dxcli/dev-nyc-config/.nycrc'
@@ -60,7 +60,7 @@ if (process.env.CI) {
 <%_ } else if (mocha) { _%>
 if (process.env.CI) {
   if (process.env.CIRCLECI) {
-    scripts.release = 'semantic-release -e @dxcli/dev-semantic-release'
+    scripts.release = 'semantic-release -e @dxcli/semantic-release'
   }
 }
 

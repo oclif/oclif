@@ -1,3 +1,13 @@
+<a name="0.26.10"></a>
+## [0.26.10](https://github.com/dxcli/create-dxcli/compare/fc9bba9e38d40f726eb0b52af2635e6f91cc0412...v0.26.10) (2018-01-28)
+
+
+### Bug Fixes
+
+* rename dev-test to test ([2a2bf9b](https://github.com/dxcli/create-dxcli/commit/2a2bf9b))
+* run build before tests ([05765fa](https://github.com/dxcli/create-dxcli/commit/05765fa))
+* run nps build before release ([0a289a1](https://github.com/dxcli/create-dxcli/commit/0a289a1))
+
 <a name="0.26.9"></a>
 ## [0.26.9](https://github.com/dxcli/create-dxcli/compare/528615137fba7d8637271a044617d55005aae769...v0.26.9) (2018-01-28)
 

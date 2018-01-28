@@ -1,3 +1,3 @@
 {
-  "extends": "@dxcli/dev-tslint"
+  "extends": "@dxcli/tslint"
 }

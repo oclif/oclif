@@ -201,9 +201,9 @@
     fancy-test "^0.6.3"
     lodash "^4.17.4"
 
-"@dxcli/tslint@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.0.24.tgz#32c19a574828d643bcb446cbfc0b2dbbbf1c1da0"
+"@dxcli/tslint@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@dxcli/tslint/-/tslint-0.1.0.tgz#502049b826b731d191de00994bdfbb0bb3b04dec"
   dependencies:
     tslint "^5.9.1"
     tslint-xo "^0.5.0"

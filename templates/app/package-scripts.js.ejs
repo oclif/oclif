@@ -20,8 +20,8 @@ const linters = {
   commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
 <%_ } _%>
 <%_ if (ts) { _%>
-  tsc: script('tsc -p <%- ts ? 'test' : '.' %> --noEmit', 'syntax check with tsc'),
-  tslint: script('tslint -p <%- ts ? 'test' : '.' %>', 'lint ts files'),
+  tsc: script('tsc -p <%- mocha ? 'test' : '.' %> --noEmit', 'syntax check with tsc'),
+  tslint: script('tslint -p <%- mocha ? 'test' : '.' %>', 'lint ts files'),
 <%_ } _%>
 }
 

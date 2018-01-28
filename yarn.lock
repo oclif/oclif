@@ -193,9 +193,9 @@
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@dxcli/screen/-/screen-0.0.1.tgz#9af4e8d0e5a9475e9e4b5f2da775b0447ff72fc2"
 
-"@dxcli/semantic-release@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@dxcli/semantic-release/-/semantic-release-0.2.4.tgz#a63405c690fbdbcd9b9b21a8c865976b5faaf4b0"
+"@dxcli/semantic-release@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@dxcli/semantic-release/-/semantic-release-0.3.3.tgz#b3e058935a9064b51defcbc16766b346df5904f0"
   dependencies:
     "@commitlint/cli" "^6.0.2"
     "@commitlint/config-conventional" "^6.0.2"
@@ -204,8 +204,8 @@
     "@semantic-release/git" "^2.0.3"
     "@semantic-release/github" "^3.0.3"
     "@semantic-release/npm" "^2.6.4"
+    execa "^0.9.0"
     semantic-release "^12.2.5"
-    shelljs "^0.8.1"
 
 "@dxcli/tslint@^0.0.23":
   version "0.0.23"

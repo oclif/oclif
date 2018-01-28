@@ -102,13 +102,6 @@
   dependencies:
     find-up "^2.1.0"
 
-"@dxcli/command@^0.1.22":
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.22.tgz#ed98cfc94d3a0f98f155523d0a149d7990e6a818"
-  dependencies:
-    debug "^3.1.0"
-    tslib "^1.9.0"
-
 "@dxcli/command@^0.1.23":
   version "0.1.23"
   resolved "https://registry.yarnpkg.com/@dxcli/command/-/command-0.1.23.tgz#93a77b455ca1eddafc58e7966a3127dec5be420b"
@@ -116,16 +109,6 @@
     "@dxcli/parser" "^0.0.5"
     debug "^3.1.0"
     tslib "^1.9.0"
-
-"@dxcli/config@^0.1.27":
-  version "0.1.27"
-  resolved "https://registry.yarnpkg.com/@dxcli/config/-/config-0.1.27.tgz#639d82e555d2a09cffeff065324279988df02e1f"
-  dependencies:
-    debug "^3.1.0"
-    fs-extra "^5.0.0"
-    load-json-file "^4.0.0"
-    lodash "^4.17.4"
-    read-pkg "^3.0.0"
 
 "@dxcli/config@^0.1.28":
   version "0.1.28"
@@ -211,9 +194,9 @@
     execa "^0.9.0"
     semantic-release "^12.2.5"
 
-"@dxcli/test@^0.9.16":
-  version "0.9.16"
-  resolved "https://registry.yarnpkg.com/@dxcli/test/-/test-0.9.16.tgz#831a34adcdb088169ff096714ce98155a3364f01"
+"@dxcli/test@^0.9.17":
+  version "0.9.17"
+  resolved "https://registry.yarnpkg.com/@dxcli/test/-/test-0.9.17.tgz#62cd039b8d15e7dcfca30dd5d8cead5d36b042ee"
   dependencies:
     fancy-test "^0.6.3"
     lodash "^4.17.4"
@@ -225,12 +208,12 @@
     tslint "^5.9.1"
     tslint-xo "^0.5.0"
 
-"@dxcli/version@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.7.tgz#68a7d9134d3c03b65305fe5ed4de075702429d2e"
+"@dxcli/version@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@dxcli/version/-/version-0.1.8.tgz#2c63e14087d7d6de93657b3e962386611d84049c"
   dependencies:
-    "@dxcli/command" "^0.1.22"
-    "@dxcli/config" "^0.1.27"
+    "@dxcli/command" "^0.1.23"
+    "@dxcli/config" "^0.1.28"
     "@dxcli/parser" "^0.0.5"
     cli-ux "^3.2.2"
 

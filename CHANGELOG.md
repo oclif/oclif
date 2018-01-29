@@ -1,3 +1,11 @@
+<a name="0.28.1"></a>
+## [0.28.1](https://github.com/dxcli/create-dxcli/compare/8b36b615cd0c96adc92e8f6dc4765f5dac5c2778...v0.28.1) (2018-01-29)
+
+
+### Bug Fixes
+
+* explicitly add [@dxcli](https://github.com/dxcli)/nyc-config ([9944ead](https://github.com/dxcli/create-dxcli/commit/9944ead))
+
 <a name="0.28.0"></a>
 # [0.28.0](https://github.com/dxcli/create-dxcli/compare/v0.27.1...v0.28.0) (2018-01-28)
 

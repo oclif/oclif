@@ -1,11 +1,11 @@
 ---
 version: 2
 jobs:
-  node-latest-base: &test
+  node-latest-multi: &test
     docker:
       - image: node:latest
     working_directory: ~/cli
-    steps: &base_steps
+    steps: &multi_steps
       - checkout
       - restore_cache: &restore_cache
           keys:
@@ -14,7 +14,7 @@ jobs:
             - v1-yarn-{{checksum ".circleci/config.yml"}}-master-
       - run: .circleci/yarn
       - run: .circleci/setup_git
-      - run: yarn exec nps test.base
+      - run: yarn exec nps test.multi
       - store_test_results: &store_test_results
           path: ~/cli/reports
       - save_cache:
@@ -23,6 +23,15 @@ jobs:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn
+  node-latest-base:
+    <<: *test
+    steps: &base_steps
+      - checkout
+      - restore_cache: *restore_cache
+      - run: .circleci/yarn
+      - run: .circleci/setup_git
+      - run: yarn exec nps test.base
+      - store_test_results: *store_test_results
   node-latest-plugin:
     <<: *test
     steps: &plugin_steps
@@ -40,15 +49,6 @@ jobs:
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.single
-      - store_test_results: *store_test_results
-  node-latest-multi:
-    <<: *test
-    steps: &multi_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.multi
       - store_test_results: *store_test_results
   node-latest-command:
     <<: *test

@@ -1,3 +1,11 @@
+<a name="0.28.3"></a>
+## [0.28.3](https://github.com/dxcli/create-dxcli/compare/18a1dfdc393bd422f91dca9d845d68e60218875b...v0.28.3) (2018-01-29)
+
+
+### Bug Fixes
+
+* add commitlint ([f60d9f2](https://github.com/dxcli/create-dxcli/commit/f60d9f2))
+
 <a name="0.28.2"></a>
 ## [0.28.2](https://github.com/dxcli/create-dxcli/compare/9944eaddcd40b9a8fc523306736b67b2e038909c...v0.28.2) (2018-01-29)
 

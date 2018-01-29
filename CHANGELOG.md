@@ -1,3 +1,12 @@
+<a name="0.28.5"></a>
+## [0.28.5](https://github.com/dxcli/create-dxcli/compare/8183ae5f69e6614981fcd3760b6993bccc8de40a...v0.28.5) (2018-01-29)
+
+
+### Bug Fixes
+
+* add semantic-release locally instead ([c8bc421](https://github.com/dxcli/create-dxcli/commit/c8bc421))
+* dev dep ([46dd0a3](https://github.com/dxcli/create-dxcli/commit/46dd0a3))
+
 <a name="0.28.4"></a>
 ## [0.28.4](https://github.com/dxcli/create-dxcli/compare/f60d9f2cb363ca0788b036b47a01cec67cb9aa4d...v0.28.4) (2018-01-29)
 

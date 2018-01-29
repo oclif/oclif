@@ -1,3 +1,11 @@
+<a name="0.28.4"></a>
+## [0.28.4](https://github.com/dxcli/create-dxcli/compare/f60d9f2cb363ca0788b036b47a01cec67cb9aa4d...v0.28.4) (2018-01-29)
+
+
+### Bug Fixes
+
+* semantic-release bin ([8183ae5](https://github.com/dxcli/create-dxcli/commit/8183ae5))
+
 <a name="0.28.2"></a>
 ## [0.28.2](https://github.com/dxcli/create-dxcli/compare/9944eaddcd40b9a8fc523306736b67b2e038909c...v0.28.2) (2018-01-29)
 

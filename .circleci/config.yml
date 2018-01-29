@@ -9,16 +9,16 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-master-
+            - v1-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+            - v1-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
+            - v1-yarn-{{checksum ".circleci/config.yml"}}-master-
       - run: .circleci/yarn
       - run: .circleci/setup_git
       - run: yarn exec nps test.base
       - store_test_results: &store_test_results
           path: ~/cli/reports
       - save_cache:
-          key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
+          key: v1-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
           paths:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn

@@ -181,7 +181,7 @@ class App extends Generator {
           message: 'components to include',
           choices: [
             {name: 'typescript', checked: this.fromScratch ? false : !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.devDependencies['@dxcli/semantic-release']},
+            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.scripts.commitmsg},
             {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -226,7 +226,7 @@ class App extends Generator {
       this.pjson.scripts.prepublishOnly = 'nps build'
     }
     if (this.semantic_release) {
-      this.pjson.scripts.commitmsg = 'dxcli-commitlint'
+      this.pjson.scripts.commitmsg = 'commitlint -x @commitlint/config-conventional -e $GIT_PARAMS'
     }
   }
 
@@ -347,7 +347,6 @@ class App extends Generator {
         '@dxcli/test',
       )
     }
-    if (this.semantic_release) devDependencies.push('@dxcli/semantic-release')
     if (this.ts) {
       devDependencies.push(
         'typescript',

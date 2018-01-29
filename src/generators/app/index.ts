@@ -341,6 +341,7 @@ class App extends Generator {
         'mocha',
         'mocha-junit-reporter',
         'chai',
+        '@dxcli/nyc-config',
       )
       if (this.type !== 'base') devDependencies.push(
         '@dxcli/test',

@@ -1,3 +1,12 @@
+<a name="0.28.2"></a>
+## [0.28.2](https://github.com/dxcli/create-dxcli/compare/9944eaddcd40b9a8fc523306736b67b2e038909c...v0.28.2) (2018-01-29)
+
+
+### Bug Fixes
+
+* fetch semantic release when needed ([db289ca](https://github.com/dxcli/create-dxcli/commit/db289ca))
+* fetch semantic release when needed ([7340723](https://github.com/dxcli/create-dxcli/commit/7340723))
+
 <a name="0.28.1"></a>
 ## [0.28.1](https://github.com/dxcli/create-dxcli/compare/8b36b615cd0c96adc92e8f6dc4765f5dac5c2778...v0.28.1) (2018-01-29)
 

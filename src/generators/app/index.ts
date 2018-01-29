@@ -354,6 +354,12 @@ class App extends Generator {
         '@dxcli/tslint',
       )
     }
+    if (this.semantic_release) {
+      devDependencies.push(
+        '@commitlint/cli',
+        '@commitlint/config-conventional',
+      )
+    }
     Promise.all([
       this.yarnInstall(devDependencies, {dev: true, ignoreScripts: true}),
       this.yarnInstall(dependencies),

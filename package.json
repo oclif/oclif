@@ -6,9 +6,9 @@
   "bin": "bin/run",
   "bugs": "https://github.com/dxcli/create-dxcli/issues",
   "dependencies": {
-    "@dxcli/command": "^0.2.4",
-    "@dxcli/config": "^0.1.33",
-    "@dxcli/engine": "^0.1.17",
+    "@dxcli/command": "^0.2.5",
+    "@dxcli/config": "^0.1.37",
+    "@dxcli/engine": "^0.1.18",
     "@dxcli/version": "^0.1.12",
     "cli-ux": "^3.3.8",
     "debug": "^3.1.0",
@@ -20,7 +20,7 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@dxcli/dev": "^2.0.15",
+    "@dxcli/dev": "^2.0.16",
     "@dxcli/semantic-release": "^0.3.3",
     "@dxcli/test": "^0.9.18",
     "@dxcli/tslint": "^0.1.3",

@@ -344,7 +344,6 @@ class App extends Generator {
         'mocha',
         'mocha-junit-reporter',
         'chai',
-        '@dxcli/nyc-config',
       )
       if (this.type !== 'base') devDependencies.push(
         '@dxcli/test',
@@ -386,12 +385,9 @@ class App extends Generator {
     return _([
       '*-debug.log',
       '*-error.log',
-      '/coverage.lcov',
-      '/coverage',
       '/node_modules',
       '/tmp',
       this.ts && '/lib',
-      this.mocha && '/.nyc_output',
     ])
       .concat(existing)
       .compact()

@@ -250,6 +250,8 @@ class App extends Generator {
       ]
     }
 
+    if (this.pjson.dxcli.plugins) this.pjson.dxcli.plugins.sort()
+
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('tslint.json'), this.destinationPath('tslint.json'), this)
       this.fs.copyTpl(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'), this)

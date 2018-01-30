@@ -1,4 +1,4 @@
-import {expect, test} from '@dxcli/test'
+import {expect, test} from '@anycli/test'
 
 describe('hooks', () => {
   test

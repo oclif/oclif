@@ -23,7 +23,7 @@ if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
 
-yarn add -D nyc @dxcli/nyc-config
+yarn add -D nyc @anycli/nyc-config
 yarn test
 
 curl -s https://codecov.io/bash | bash

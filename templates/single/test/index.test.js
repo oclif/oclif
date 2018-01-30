@@ -1,4 +1,4 @@
-const {expect, test} = require('@dxcli/test')
+const {expect, test} = require('@anycli/test')
 const cmd = require('..')
 
 describe('command', () => {

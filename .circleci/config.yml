@@ -104,7 +104,7 @@ jobs:
 
 workflows:
   version: 2
-  create-dxcli:
+  anycli:
     jobs:
       - lint
       - node-latest-base

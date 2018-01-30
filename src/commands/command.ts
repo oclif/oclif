@@ -1,4 +1,4 @@
-import {flags} from '@dxcli/command'
+import {flags} from '@anycli/command'
 
 import Base from '../command_base'
 

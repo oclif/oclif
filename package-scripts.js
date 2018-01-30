@@ -51,6 +51,6 @@ module.exports = {
       default: series.nps(...testTypes.map(t => `test.${t}`)),
       ..._.fromPairs(tests),
     },
-    release: hidden('semantic-release -e @dxcli/semantic-release'),
+    release: hidden('dxcli-semantic-release'),
   },
 }

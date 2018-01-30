@@ -9,13 +9,17 @@ export interface Options {
 }
 
 export default abstract class AppCommand extends Base {
-  static flags: flags.Input = {
+  static flags: flags.Input<AppCommand['flags']> = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
     force: flags.boolean({description: 'overwrite existing files'}),
   }
   static args = [
     {name: 'name', description: 'name of command', required: true}
   ]
+  flags: {
+    defaults?: boolean
+    force?: boolean
+  }
 
   async run() {
     await super.generate('command', {

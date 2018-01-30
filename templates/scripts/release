@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -ex
+
+.circleci/setup_git
+
+PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
+
+yarn global add -D @dxcli/semantic-release@1
+yarn install --frozen-lockfile
+yarn exec nps release

@@ -12,10 +12,7 @@ jobs:
             - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
             - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
             - v0-yarn-{{checksum ".circleci/config.yml"}}-master-
-      - run: .circleci/setup_git
-      - run: .circleci/yarn
-      - run: yarn test
-      - run: curl -s https://codecov.io/bash | bash
+      - run: .circleci/test
       - store_test_results: &store_test_results
           path: ~/cli/reports
       - save_cache: &save_cache
@@ -31,10 +28,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/setup_git
-      - run: .circleci/yarn
-      - run: yarn test
-      - run: curl -s https://codecov.io/bash | bash
+      - run: .circleci/test
       - store_test_results: *store_test_results
 <%_ if (semantic_release) { _%>
   release:
@@ -43,10 +37,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/setup_git
-      - run: .circleci/yarn
-      - run: yarn add -D @dxcli/semantic-release@1
-      - run: yarn exec nps release
+      - run: .circleci/release
 <%_ } _%>
 
 workflows:

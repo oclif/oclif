@@ -20,16 +20,18 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^6.0.2",
+    "@commitlint/config-conventional": "^6.0.2",
     "@dxcli/dev": "^2.0.16",
-    "@dxcli/semantic-release": "^1.0.0",
-    "@dxcli/test": "^0.9.19",
+    "@dxcli/nyc-config": "^0.0.4",
     "@dxcli/tslint": "^0.1.3",
-    "@semantic-release/exec": "^2.0.0",
     "@types/shelljs": "^0.7.7",
     "@types/yeoman-generator": "^2.0.1",
     "@types/yosay": "^0.0.29",
+    "chai": "^4.1.2",
     "eslint": "^4.16.0",
     "execa": "^0.9.0",
+    "fancy-test": "^0.6.5",
     "fs-extra": "^5.0.0",
     "husky": "^0.14.3",
     "mocha": "^5.0.0",
@@ -64,9 +66,9 @@
   "main": "lib/index.js",
   "repository": "dxcli/create-dxcli",
   "scripts": {
-    "commitmsg": "dxcli-commitlint",
+    "commitmsg": "commitlint -x @commitlint/config-conventional -e $GIT_PARAMS",
     "precommit": "nps lint -l warn",
-    "prepublishOnly": "rm -rf lib && tsc",
+    "prepublishOnly": "nps build",
     "test": "nps test -l warn"
   },
   "types": "lib/index.d.ts"

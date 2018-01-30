@@ -100,9 +100,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/yarn
-      - run: .circleci/setup_git
-      - run: ./node_modules/.bin/nps release
+      - run: .circleci/release
 
 workflows:
   version: 2

@@ -1,9 +1,13 @@
 import {Command, flags} from '@dxcli/command'
 import cli from 'cli-ux'
+<%_ const klass = _.upperFirst(_.camelCase(name)) _%>
 
-export default class <%- _.upperFirst(_.camelCase(name)) %> extends Command {
-  static flags = {
+export default class <%- klass %> extends Command {
+  static flags: flags.Input<<%- klass %>['flags']> = {
     name: flags.string({char: 'n', description: 'name to print'})
+  }
+  flags: {
+    name?: string
   }
 
   async run() {

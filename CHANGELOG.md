@@ -1,3 +1,11 @@
+<a name="0.28.9"></a>
+## [0.28.9](https://github.com/dxcli/create-dxcli/compare/73b448b21887b61367c36fa0e11be2f81fb713d2...v0.28.9) (2018-01-30)
+
+
+### Bug Fixes
+
+* fixed typescript output ([b3bde94](https://github.com/dxcli/create-dxcli/commit/b3bde94))
+
 <a name="0.28.8"></a>
 ## [0.28.8](https://github.com/dxcli/create-dxcli/compare/21f25d0e1f56b6572cc2851f75cb295564979377...v0.28.8) (2018-01-30)
 

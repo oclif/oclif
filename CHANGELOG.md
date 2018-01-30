@@ -1,3 +1,14 @@
+<a name="0.28.6"></a>
+## [0.28.6](https://github.com/dxcli/create-dxcli/compare/46dd0a312345b951713ebb5ef14c538dd4aaa3e8...v0.28.6) (2018-01-30)
+
+
+### Bug Fixes
+
+* reduce dependencies needed in dev ([2a0bbad](https://github.com/dxcli/create-dxcli/commit/2a0bbad))
+* semantic-release bin ([2fcef58](https://github.com/dxcli/create-dxcli/commit/2fcef58))
+* semantic-release bin ([ba77257](https://github.com/dxcli/create-dxcli/commit/ba77257))
+* semantic-release bin ([6addee5](https://github.com/dxcli/create-dxcli/commit/6addee5))
+
 <a name="0.28.5"></a>
 ## [0.28.5](https://github.com/dxcli/create-dxcli/compare/8183ae5f69e6614981fcd3760b6993bccc8de40a...v0.28.5) (2018-01-29)
 

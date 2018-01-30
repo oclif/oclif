@@ -10,7 +10,6 @@ install:
   - git submodule update --init --recursive
   - git config --global user.email "dxcli@example.com"
   - git config --global user.name "dxcli"
-  - yarn
   - yarn add -D nyc @dxcli/nyc-config
 test_script:
   - yarn test

@@ -6,6 +6,6 @@ set -ex
 
 PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 
-yarn global add -D @dxcli/semantic-release@1
+yarn global add @dxcli/semantic-release@1
 yarn install --frozen-lockfile
 yarn exec nps release

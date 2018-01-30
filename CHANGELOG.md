@@ -1,3 +1,11 @@
+<a name="0.28.10"></a>
+## [0.28.10](https://github.com/dxcli/create-dxcli/compare/b3bde9437d06c69b4bd2a9ef7206444020c80aea...v0.28.10) (2018-01-30)
+
+
+### Bug Fixes
+
+* only push eslint if it is not empty ([ef9a649](https://github.com/dxcli/create-dxcli/commit/ef9a649))
+
 <a name="0.28.9"></a>
 ## [0.28.9](https://github.com/dxcli/create-dxcli/compare/73b448b21887b61367c36fa0e11be2f81fb713d2...v0.28.9) (2018-01-30)
 

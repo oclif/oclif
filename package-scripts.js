@@ -7,7 +7,6 @@ const {
   mkdirp,
 } = require('nps-utils')
 const script = (script, description) => description ? {script, description} : {script}
-const hidden = script => ({script, hiddenFromHelp: true})
 const _ = require('lodash')
 const sh = require('shelljs')
 const path = require('path')
@@ -51,6 +50,5 @@ module.exports = {
       default: series.nps(...testTypes.map(t => `test.${t}`)),
       ..._.fromPairs(tests),
     },
-    release: hidden('dxcli-semantic-release'),
   },
 }

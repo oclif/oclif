@@ -1,3 +1,11 @@
+<a name="0.28.15"></a>
+## [0.28.15](https://github.com/dxcli/create-dxcli/compare/b7292967965fc9c1b8135930d6edb421bf4b4d1f...v0.28.15) (2018-01-30)
+
+
+### Bug Fixes
+
+* slight performance boost in appveyor ([314398b](https://github.com/dxcli/create-dxcli/commit/314398b))
+
 <a name="0.28.12"></a>
 ## [0.28.12](https://github.com/dxcli/create-dxcli/compare/67fe975beaf5f96ccb66b5b8eb1a6ed505cc27fa...v0.28.12) (2018-01-30)
 

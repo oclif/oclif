@@ -1,3 +1,12 @@
+<a name="0.28.7"></a>
+## [0.28.7](https://github.com/dxcli/create-dxcli/compare/2fcef58bfab09e2901374ed2c5bcd76f3c06f92e...v0.28.7) (2018-01-30)
+
+
+### Bug Fixes
+
+* add nyc config ([21f25d0](https://github.com/dxcli/create-dxcli/commit/21f25d0))
+* semantic-release bin ([813d91b](https://github.com/dxcli/create-dxcli/commit/813d91b))
+
 <a name="0.28.6"></a>
 ## [0.28.6](https://github.com/dxcli/create-dxcli/compare/46dd0a312345b951713ebb5ef14c538dd4aaa3e8...v0.28.6) (2018-01-30)
 

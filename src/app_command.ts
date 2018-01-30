@@ -3,7 +3,7 @@ import {flags} from '@dxcli/command'
 import Base from './command_base'
 
 export default abstract class AppCommand extends Base {
-  static flags: flags.Input = {
+  static flags: flags.Input<AppCommand['flags']> = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
     options: flags.string({description: '(typescript|semantic-release|mocha)'}),
     force: flags.boolean({description: 'overwrite existing files'}),
@@ -11,6 +11,11 @@ export default abstract class AppCommand extends Base {
   static args = [
     {name: 'path', required: false}
   ]
+  flags: {
+    defaults?: boolean
+    options?: string
+    force?: boolean
+  }
 
   abstract type: string
 

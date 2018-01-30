@@ -1,3 +1,11 @@
+<a name="0.28.13"></a>
+## [0.28.13](https://github.com/dxcli/create-dxcli/compare/b0216f1b244f70a4bdbde1ce1fca6ada36edef9f...v0.28.13) (2018-01-30)
+
+
+### Bug Fixes
+
+* remove release task from nps ([38e15dd](https://github.com/dxcli/create-dxcli/commit/38e15dd))
+
 <a name="0.28.12"></a>
 ## [0.28.12](https://github.com/dxcli/create-dxcli/compare/67fe975beaf5f96ccb66b5b8eb1a6ed505cc27fa...v0.28.12) (2018-01-30)
 

@@ -6,12 +6,14 @@ describe(command, () => {
   test
   .stdout()
   .command([command])
-  .do(ctx => expect(ctx.stdout).to.contain('hello world from <%- name %>!'))
-  .it()
+  .it('runs hello', ctx => {
+    expect(ctx.stdout).to.contain('hello world from <%- name %>!')
+  })
 
   test
   .stdout()
   .command([command, '--name', 'jeff'])
-  .do(ctx => expect(ctx.stdout).to.contain('hello jeff from <%- name %>!'))
-  .it()
+  .it('runs hello --name jeff', ctx => {
+    expect(ctx.stdout).to.contain('hello jeff from <%- name %>!')
+  })
 })

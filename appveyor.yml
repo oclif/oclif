@@ -16,8 +16,8 @@ install:
   - git config --global user.name "dxcli"
   - yarn
 test_script:
-  - npx nps lint
-  - npx nps test.%TEST_TYPE%
+  - .\node_modules\.bin\nps lint
+  - .\node_modules\.bin\nps test.%TEST_TYPE%
 after_test:
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH

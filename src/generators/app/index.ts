@@ -8,7 +8,7 @@ import yosay = require('yosay')
 
 const sortPjson = require('sort-pjson')
 const fixpack = require('fixpack')
-const debug = require('debug')('generator-dxcli')
+const debug = require('debug')('generator-anycli')
 const {version} = require('../../../package.json')
 
 function stringToArray(s: string) {
@@ -72,17 +72,16 @@ class App extends Generator {
   }
 
   async prompting() {
-    if (process.env.DXCLI_CREATE_DEFAULTS === '1') this.options.defaults = true
     let msg
     switch (this.type) {
       case 'single':
-        msg = 'Time to build a single command CLI with dxcli!'
+        msg = 'Time to build a single command CLI with anycli!'
         break
       case 'multi':
-        msg = 'Time to build a multi command CLI with dxcli!'
+        msg = 'Time to build a multi command CLI with anycli!'
         break
       default:
-        msg = `Time to build a dxcli ${this.type}!`
+        msg = `Time to build a anycli ${this.type}!`
     }
     this.log(yosay(`${msg} Version: ${version}`))
 
@@ -212,7 +211,7 @@ class App extends Generator {
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     this.pjson.scripts.test = 'nps test -l warn'
     this.pjson.scripts.precommit = 'nps lint -l warn'
-    this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'dxcli-plugin' : 'dxcli']
+    this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']
     this.pjson.homepage = defaults.homepage || `https://github.com/${defaults.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${defaults.repository}/issues`
 
@@ -236,22 +235,22 @@ class App extends Generator {
     switch (this.type) {
       case 'multi':
       case 'plugin':
-        this.pjson.dxcli = {
+        this.pjson.anycli = {
           commands: `./${this.ts ? 'lib' : 'src'}/commands`,
           // hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
-          ...this.pjson.dxcli,
+          ...this.pjson.anycli,
         }
         break
         default:
     }
-    if (this.type === 'multi' && !this.pjson.dxcli.plugins) {
-      this.pjson.dxcli.plugins = [
-        '@dxcli/version',
+    if (this.type === 'multi' && !this.pjson.anycli.plugins) {
+      this.pjson.anycli.plugins = [
+        '@anycli/version',
       ]
     }
 
-    if (this.pjson.dxcli && _.isArray(this.pjson.dxcli.plugins)) {
-      this.pjson.dxcli.plugins.sort()
+    if (this.pjson.anycli && _.isArray(this.pjson.anycli.plugins)) {
+      this.pjson.anycli.plugins.sort()
     }
 
     if (this.ts) {
@@ -311,36 +310,36 @@ class App extends Generator {
       'nps-utils',
       'husky',
       'eslint',
-      'eslint-config-dxcli',
+      'eslint-config-anycli',
     ]
     switch (this.type) {
       case 'base': break
       case 'single':
         dependencies.push(
-          '@dxcli/config',
-          '@dxcli/command',
+          '@anycli/config',
+          '@anycli/command',
           'cli-ux',
         )
         devDependencies.push(
-          '@dxcli/engine',
+          '@anycli/engine',
         )
         break
       case 'plugin':
         dependencies.push(
-          '@dxcli/config',
-          '@dxcli/command',
+          '@anycli/config',
+          '@anycli/command',
           'cli-ux',
         )
         devDependencies.push(
-          '@dxcli/engine',
+          '@anycli/engine',
         )
         break
       case 'multi':
         dependencies.push(
-          '@dxcli/engine',
-          '@dxcli/config',
-          '@dxcli/command',
-          '@dxcli/version',
+          '@anycli/engine',
+          '@anycli/config',
+          '@anycli/command',
+          '@anycli/version',
           'cli-ux',
         )
     }
@@ -351,7 +350,7 @@ class App extends Generator {
         'chai',
       )
       if (this.type !== 'base') devDependencies.push(
-        '@dxcli/test',
+        '@anycli/test',
       )
     }
     if (this.ts) {
@@ -368,7 +367,7 @@ class App extends Generator {
         // '@types/supports-color',
         'typescript',
         'ts-node',
-        '@dxcli/tslint',
+        '@anycli/tslint',
       )
     }
     if (this.semantic_release) {

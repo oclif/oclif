@@ -9,7 +9,7 @@ sh.set('-ev')
 // remove CI env var so tests don't run nyc
 const {CI} = process.env
 delete process.env.CI
-process.env.CREATE_DXCLI_DEBUG = '1'
+process.env.ANYCLI_DEBUG = '1'
 
 function generate(args) {
   const run = path.join(__dirname, '../bin/run')

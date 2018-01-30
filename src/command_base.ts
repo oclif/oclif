@@ -1,4 +1,4 @@
-import Command from '@dxcli/command'
+import Command from '@anycli/command'
 import {createEnv} from 'yeoman-environment'
 
 export default abstract class CommandBase extends Command {
@@ -7,9 +7,9 @@ export default abstract class CommandBase extends Command {
 
     env.register(
       require.resolve(`./generators/${type}`),
-      `dxcli:${type}`
+      `anycli:${type}`
     )
 
-    await env.run(`dxcli:${type}`, generatorOptions)
+    await env.run(`anycli:${type}`, generatorOptions)
   }
 }

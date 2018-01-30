@@ -25,7 +25,7 @@ module.exports = (_, options) => {
   examples.forEach(example => {
     const [, type, format] = example.split('-')
 
-    const options = format === 'typescript' ?
+    const options = format === 'ts' ?
       '--options=typescript,mocha,semantic-release' :
       '--options=mocha,semantic-release'
 

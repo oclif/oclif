@@ -1,3 +1,11 @@
+<a name="0.28.12"></a>
+## [0.28.12](https://github.com/dxcli/create-dxcli/compare/67fe975beaf5f96ccb66b5b8eb1a6ed505cc27fa...v0.28.12) (2018-01-30)
+
+
+### Bug Fixes
+
+* add nyc to appveyor ([b0216f1](https://github.com/dxcli/create-dxcli/commit/b0216f1))
+
 <a name="0.28.10"></a>
 ## [0.28.10](https://github.com/dxcli/create-dxcli/compare/b3bde9437d06c69b4bd2a9ef7206444020c80aea...v0.28.10) (2018-01-30)
 

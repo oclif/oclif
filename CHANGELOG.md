@@ -1,3 +1,12 @@
+<a name="0.28.14"></a>
+## [0.28.14](https://github.com/dxcli/create-dxcli/compare/38e15dd09586c4f228cec3b8ceb4723371f4e816...v0.28.14) (2018-01-30)
+
+
+### Bug Fixes
+
+* sort plugins if exists ([b729296](https://github.com/dxcli/create-dxcli/commit/b729296))
+* sort plugins if exists ([8d8fe71](https://github.com/dxcli/create-dxcli/commit/8d8fe71))
+
 <a name="0.28.12"></a>
 ## [0.28.12](https://github.com/dxcli/create-dxcli/compare/67fe975beaf5f96ccb66b5b8eb1a6ed505cc27fa...v0.28.12) (2018-01-30)
 

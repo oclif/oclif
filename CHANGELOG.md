@@ -1,3 +1,11 @@
+<a name="0.28.11"></a>
+## [0.28.11](https://github.com/dxcli/create-dxcli/compare/ef9a649c070fe8271addfb41bd0ba5a774a8745b...v0.28.11) (2018-01-30)
+
+
+### Bug Fixes
+
+* use new test format ([67fe975](https://github.com/dxcli/create-dxcli/commit/67fe975))
+
 <a name="0.28.10"></a>
 ## [0.28.10](https://github.com/dxcli/create-dxcli/compare/b3bde9437d06c69b4bd2a9ef7206444020c80aea...v0.28.10) (2018-01-30)
 

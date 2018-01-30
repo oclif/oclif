@@ -281,7 +281,8 @@ class App extends Generator {
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
     this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
-    this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
+    const eslintignore = this._eslintignore()
+    if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
     this.fs.copyTpl(this.templatePath('package-scripts.js.ejs'), this.destinationPath('package-scripts.js'), this)
 
     switch (this.type) {

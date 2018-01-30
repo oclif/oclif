@@ -1,4 +1,4 @@
-const {test} = require('@dxcli/test')
+const {fancy} = require('fancy-test')
 const path = require('path')
 const sh = require('shelljs')
 const npmPath = require('npm-run-path')
@@ -38,7 +38,7 @@ module.exports = file => {
   const cmd = path.basename(f.dir)
 
   describe(cmd, () => {
-    test
+    fancy
       .retries(CI ? 1 : 0)
       .do(() => {
         switch (cmd) {

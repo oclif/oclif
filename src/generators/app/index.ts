@@ -180,9 +180,9 @@ class App extends Generator {
           name: 'options',
           message: 'components to include',
           choices: [
+            {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
             {name: 'typescript', checked: this.fromScratch ? false : !!this.pjson.devDependencies.typescript},
             {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.scripts.commitmsg},
-            {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
@@ -266,7 +266,10 @@ class App extends Generator {
     }
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
-    this.fs.copyTpl(this.templatePath('scripts/yarn'), this.destinationPath('.circleci/yarn'), this)
+    this.fs.copyTpl(this.templatePath('scripts/test'), this.destinationPath('.circleci/test'), this)
+    if (this.semantic_release) {
+      this.fs.copyTpl(this.templatePath('scripts/release'), this.destinationPath('.circleci/release'), this)
+    }
     this.fs.copyTpl(this.templatePath('scripts/setup_git'), this.destinationPath('.circleci/setup_git'), this)
     this.fs.copyTpl(this.templatePath('README.md.ejs'), this.destinationPath('README.md'), this)
     this.fs.copyTpl(this.templatePath('circle.yml.ejs'), this.destinationPath('.circleci/config.yml'), this)
@@ -299,11 +302,11 @@ class App extends Generator {
   install() {
     const dependencies: string[] = []
     const devDependencies = [
-      '@dxcli/dev',
       'nps',
       'nps-utils',
       'husky',
       'eslint',
+      'eslint-config-dxcli',
     ]
     switch (this.type) {
       case 'base': break
@@ -349,6 +352,16 @@ class App extends Generator {
     }
     if (this.ts) {
       devDependencies.push(
+        // '@types/ansi-styles',
+        '@types/chai',
+        '@types/lodash',
+        '@types/mocha',
+        '@types/nock',
+        '@types/node',
+        '@types/node-notifier',
+        '@types/read-pkg',
+        // '@types/strip-ansi',
+        // '@types/supports-color',
         'typescript',
         'ts-node',
         '@dxcli/tslint',

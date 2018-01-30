@@ -2,6 +2,8 @@
 
 set -ex
 
+.circleci/setup_git
+
 PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 
 CLI_ENGINE_UTIL_YARN_ARGS="--frozen-lockfile"
@@ -20,3 +22,8 @@ yarn install $CLI_ENGINE_UTIL_YARN_ARGS
 if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
+
+yarn add nyc
+yarn test
+
+curl -s https://codecov.io/bash | bash

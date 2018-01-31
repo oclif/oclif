@@ -1,5 +1,5 @@
 {
-  "name": "anycli",
+  "name": "@anycli/anycli",
   "description": "anycli: create your own CLI",
   "version": "0.28.16",
   "author": "Jeff Dickey @jdxcode",

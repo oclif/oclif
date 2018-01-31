@@ -7,7 +7,7 @@
   "bugs": "https://github.com/anycli/anycli/issues",
   "dependencies": {
     "@anycli/command": "^0.2.9",
-    "@anycli/config": "^0.1.41",
+    "@anycli/config": "^0.2.0",
     "@anycli/engine": "^0.1.26",
     "@anycli/version": "^0.1.14",
     "cli-ux": "^3.3.8",

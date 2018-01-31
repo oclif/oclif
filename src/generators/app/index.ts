@@ -340,6 +340,8 @@ class App extends Generator {
           '@anycli/config',
           '@anycli/command',
           '@anycli/version',
+          '@anycli/not-found',
+          '@anycli/help',
           'cli-ux',
         )
     }

@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@anycli/command@^0.2.8", "@anycli/command@^0.2.9":
+"@anycli/command@^0.2.9":
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/@anycli/command/-/command-0.2.9.tgz#658ea8c623e047bc924582d5a885434aed22ed41"
   dependencies:
@@ -11,9 +11,9 @@
     lodash "^4.17.4"
     tslib "^1.9.0"
 
-"@anycli/config@^0.1.41":
-  version "0.1.41"
-  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-0.1.41.tgz#b18b9a6da0202254a5e52991206419188aa75766"
+"@anycli/config@^0.2.0", "@anycli/config@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-0.2.1.tgz#d32fe5036cd194c34ca32ee6bc5e1a4b0ca3c86f"
   dependencies:
     cli-ux "^3.3.8"
     debug "^3.1.0"
@@ -22,20 +22,20 @@
     lodash "^4.17.4"
     read-pkg "^3.0.0"
 
-"@anycli/engine@^0.1.26":
-  version "0.1.26"
-  resolved "https://registry.yarnpkg.com/@anycli/engine/-/engine-0.1.26.tgz#7c7d06a2527f5b3176eda34e9ef0c0d89d347f40"
+"@anycli/engine@^0.1.29":
+  version "0.1.29"
+  resolved "https://registry.yarnpkg.com/@anycli/engine/-/engine-0.1.29.tgz#fcc83ca4b8ef5c0f0f9f01a16579d3ef24cfdce7"
   dependencies:
-    "@anycli/manifest-file" "^0.1.0"
+    "@anycli/manifest-file" "^0.2.0"
     cli-ux "^3.3.9"
     debug "^3.1.0"
     fs-extra "^5.0.0"
     globby "^7.1.1"
     lodash "^4.17.4"
 
-"@anycli/manifest-file@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@anycli/manifest-file/-/manifest-file-0.1.1.tgz#b05f983c4b90e46d9f30ea3f023a409cfdda1232"
+"@anycli/manifest-file@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@anycli/manifest-file/-/manifest-file-0.2.0.tgz#f9f70fd2afb44178fe907f2a35ad8746eeb1ee97"
   dependencies:
     debug "^3.1.0"
     fs-extra "^5.0.0"
@@ -55,18 +55,19 @@
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@anycli/screen/-/screen-0.0.3.tgz#f0afd970c3ed725702948a45a874ede1fdd9362e"
 
-"@anycli/tslint@^0.1.3":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@anycli/tslint/-/tslint-0.1.4.tgz#9c8d73e07198633a1afdca69cda4b5b844ab3a72"
+"@anycli/tslint@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@anycli/tslint/-/tslint-0.2.0.tgz#192a612e3664f7a18fe6ed693de94de6d4563882"
   dependencies:
     tslint "^5.9.1"
-    tslint-xo "^0.5.0"
+    tslint-xo "^0.6.0"
 
-"@anycli/version@^0.1.14":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@anycli/version/-/version-0.1.14.tgz#c5f376e9093a07339cb8970b7bed390990dc0101"
+"@anycli/version@^0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@anycli/version/-/version-0.1.15.tgz#81751d98c9f431833ca5b29e2b08aabc17edf44b"
   dependencies:
-    "@anycli/command" "^0.2.8"
+    "@anycli/command" "^0.2.9"
+    "@anycli/config" "^0.2.0"
     cli-ux "^3.3.9"
 
 "@commitlint/cli@^6.0.2":
@@ -1005,11 +1006,12 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-anycli@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-anycli/-/eslint-config-anycli-1.2.2.tgz#8d52cf3594056944918806b6e3003ba3228a800b"
+eslint-config-anycli@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-anycli/-/eslint-config-anycli-1.3.0.tgz#35f970a1b382aa5ebe1353b96a6855461b4a1de0"
   dependencies:
     eslint-config-xo-space "^0.17.0"
+    eslint-plugin-mocha "^4.11.0"
     eslint-plugin-node "^5.2.1"
     eslint-plugin-unicorn "^3.0.1"
 
@@ -1022,6 +1024,12 @@ eslint-config-xo-space@^0.17.0:
 eslint-config-xo@^0.18.0:
   version "0.18.2"
   resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.18.2.tgz#0a157120875619929e735ffd6b185c41e8a187af"
+
+eslint-plugin-mocha@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-4.11.0.tgz#91193a2f55e20a5e35974054a0089d30198ee578"
+  dependencies:
+    ramda "^0.24.1"
 
 eslint-plugin-node@^5.2.1:
   version "5.2.1"
@@ -2340,6 +2348,10 @@ q@^1.4.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
+ramda@^0.24.1:
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
+
 rc@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/rc/-/rc-0.6.0.tgz#e1c930059af831c85413fe275ae2f40f4e3c5371"
@@ -2915,19 +2927,19 @@ tslint-eslint-rules@^4.1.1:
     tslib "^1.0.0"
     tsutils "^1.4.0"
 
-tslint-microsoft-contrib@^5.0.1:
+tslint-microsoft-contrib@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.0.2.tgz#ecc2a797f777a12f0066944cec0c81a9e7c59ee9"
   dependencies:
     tsutils "^2.12.1"
 
-tslint-xo@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/tslint-xo/-/tslint-xo-0.5.0.tgz#56e591dcd2731de35e7462a0dfa1214731ba9f27"
+tslint-xo@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/tslint-xo/-/tslint-xo-0.6.0.tgz#95a05b8dcac7aaa1f4d6ca1397a3c4c45a8b848e"
   dependencies:
     tslint-consistent-codestyle "^1.11.0"
     tslint-eslint-rules "^4.1.1"
-    tslint-microsoft-contrib "^5.0.1"
+    tslint-microsoft-contrib "^5.0.2"
 
 tslint@^5.9.1:
   version "5.9.1"

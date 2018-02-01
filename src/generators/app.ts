@@ -36,7 +36,6 @@ class App extends Generator {
   type: 'single' | 'multi' | 'plugin' | 'base'
   path: string
   pjson: any
-  fromScratch!: boolean
   githubUser: string | undefined
   answers!: {
     name: string
@@ -114,7 +113,6 @@ class App extends Generator {
       },
       options: this.options,
     }
-    this.fromScratch = Object.keys(this.pjson.dependencies).length === 0
     if (this.options.defaults) {
       this.answers = defaults
     } else {
@@ -180,9 +178,9 @@ class App extends Generator {
           name: 'options',
           message: 'components to include',
           choices: [
-            {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
-            {name: 'typescript', checked: this.fromScratch ? false : !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.fs.exists('.commitlintrc.js')},
+            {name: 'mocha', checked: !!this.pjson.devDependencies.mocha},
+            {name: 'typescript', checked: !!this.pjson.devDependencies.typescript},
+            {name: 'semantic-release', checked: !!this.fs.exists('.commitlintrc.js')},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
@@ -192,7 +190,6 @@ class App extends Generator {
           message: 'npm files to pack',
           default: (answers: any) => answers.options.typescript ? '/lib' : '/src',
           filter: stringToArray as any,
-          when: this.fromScratch,
         },
       ]) as any
     }
@@ -426,7 +423,6 @@ class App extends Generator {
   }
 
   private _writeBase() {
-    if (!this.fromScratch) return
     this.fs.copyTpl(this.templatePath(`base/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
     if (this.mocha) {
       this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
@@ -434,7 +430,6 @@ class App extends Generator {
   }
 
   private _writePlugin() {
-    if (!this.fromScratch) return
     let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const cmd = `${bin} hello`
@@ -451,7 +446,6 @@ class App extends Generator {
   }
 
   private _writeSingle() {
-    if (!this.fromScratch) return
     let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const opts = {...this as any, _, bin, cmd: bin, name: this.pjson.name}
@@ -464,7 +458,6 @@ class App extends Generator {
   }
 
   private _writeMulti() {
-    if (!this.fromScratch) return
     this._writePlugin()
     this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)

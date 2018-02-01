@@ -1,3 +1,17 @@
+<a name="0.32.0"></a>
+# [0.32.0](https://github.com/anycli/cli/compare/2fbd4f9f2e3c06f8a8092b2cd3e759759784d4a1...v0.32.0) (2018-02-01)
+
+
+### Bug Fixes
+
+* do not set anycli if empty ([3c7bab9](https://github.com/anycli/cli/commit/3c7bab9))
+
+
+### Features
+
+* add cache step to circleci ([3efa4c5](https://github.com/anycli/cli/commit/3efa4c5))
+* add cache step to circleci ([fcef9fa](https://github.com/anycli/cli/commit/fcef9fa))
+
 <a name="0.31.1"></a>
 ## [0.31.1](https://github.com/anycli/cli/compare/ec2886542814433b5fa2942efbd0b98a8ea48ace...v0.31.1) (2018-02-01)
 

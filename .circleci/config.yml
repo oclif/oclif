@@ -86,6 +86,9 @@ jobs:
     <<: *test
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v0-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
       - run: yarn global add greenkeeper-lockfile@1
       - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
       - save_cache:

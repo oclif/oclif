@@ -9,27 +9,62 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-master-
-      - run: .circleci/test
+            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v0-{{checksum ".circleci/config.yml"}}
+            - v0
+      - run: .circleci/setup_git
+      - run: .circleci/greenkeeper
+      - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1<%- semantic_release ? " @commitlint/cli@6 @commitlint/config-conventional@6" : "" %>
+      <%_ if (mocha) { _%>
+      - run:
+          name: yarn test
+          when: always
+          environment: {MOCHA_FILE: reports/mocha.xml}
+          command: |
+            mkdir -p reports
+            yarn exec nyc -- --nycrc-path node_modules/@anycli/nyc-config/.nycrc yarn test --reporter mocha-junit-reporter
+      - run:
+          name: submit code coverage
+          command: |
+          yarn exec nyc -- --nycrc-path node_modules/@anycli/nyc-config/.nycrc report --reporter text-lcov > coverage.lcov
+          curl -s https://codecov.io/bash | bash
+      <%_ } else { _%>
+      - run: yarn test
+      <%_ } _%>
+      <%_ if (['single', 'multi', 'plugin'].includes(type)) { _%>
+      - run:
+          when: always
+          command: ./bin/run -v
+      <%_ } _%>
+      <%_ if (['single', 'multi'].includes(type)) { _%>
+      - run:
+          when: always
+          command: ./bin/run --help
+      <%_ } _%>
+      <%_ if (semantic_release) { _%>
+      - run:
+          name: check if commits match conventional-changelog spec
+          when: always
+          command: yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master
+      <%_ } _%>
       - store_test_results: &store_test_results
           path: ~/cli/reports
-      - save_cache: &save_cache
-          key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-          paths:
-            - ~/cli/node_modules
-            - /usr/local/share/.cache/yarn
-            - /usr/local/share/.config/yarn
   node-8:
     <<: *test
     docker:
       - image: node:8
+  cache:
+    <<: *test
     steps:
       - checkout
-      - restore_cache: *restore_cache
-      - run: .circleci/test
-      - store_test_results: *store_test_results
+      - yarn global add greenkeeper-lockfile@1
+      - yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1<%- semantic_release ? " @commitlint/cli@6 @commitlint/config-conventional@6" : "" %>
+      - save_cache:
+          key: v0-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          paths:
+            - ~/cli/node_modules
+            - /usr/local/share/.cache/yarn
+            - /usr/local/share/.config/yarn
 <%_ if (semantic_release) { _%>
   release:
     <<: *test
@@ -37,6 +72,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
+      - run: .circleci/setup_git
       - run: .circleci/release
 <%_ } _%>
 
@@ -46,6 +82,9 @@ workflows:
     jobs:
       - node-latest
       - node-8
+      - cache:
+          filters:
+            branches: {only: master}
 <%_ if (semantic_release) { _%>
       - release:
           context: org-global

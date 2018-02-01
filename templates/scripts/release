@@ -2,8 +2,6 @@
 
 set -ex
 
-.circleci/setup_git
-
 PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 
 yarn global add @anycli/semantic-release@1 semantic-release@12

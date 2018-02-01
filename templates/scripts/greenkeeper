@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -ex
+
+PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
+
+if [[ "$CIRCLE_BRANCH" != greenkeeper/* ]]; then
+  exit 0
+fi
+
+if [[ ! -x "$(command -v greenkeeper-lockfile-update)" ]]; then
+  yarn global add greenkeeper-lockfile@1
+fi
+
+greenkeeper-lockfile-update
+yarn install "$CLI_ENGINE_UTIL_YARN_ARGS"
+greenkeeper-lockfile-upload

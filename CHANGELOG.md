@@ -1,3 +1,11 @@
+<a name="0.31.0"></a>
+# [0.31.0](https://github.com/anycli/anycli/compare/e324c141548c6c025271fa0a4da721de670a60a7...v0.31.0) (2018-02-01)
+
+
+### Features
+
+* rename package to [@anycli](https://github.com/anycli)/cli ([ec28865](https://github.com/anycli/anycli/commit/ec28865))
+
 <a name="0.30.7"></a>
 ## [0.30.7](https://github.com/anycli/anycli/compare/8257b7a1b19e0a6c907b962ed11e4df735856062...v0.30.7) (2018-02-01)
 

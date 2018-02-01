@@ -214,7 +214,7 @@ class App extends Generator {
     // this.pjson.scripts.precommit = 'yarn run lint'
     this.pjson.scripts.lint = 'concurrently "eslint ."'
     if (this.mocha) {
-      this.pjson.scripts.test = 'mocha --forbid-only "test/**/*.test.ts"'
+      this.pjson.scripts.test = `mocha --forbid-only "test/**/*.test.${this._ext}"`
     } else {
       this.pjson.scripts.test = 'echo NO TESTS'
     }

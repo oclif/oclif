@@ -6,9 +6,9 @@
   "bin": "bin/run",
   "bugs": "https://github.com/anycli/anycli/issues",
   "dependencies": {
-    "@anycli/command": "^0.3.2",
-    "@anycli/config": "^0.2.10",
-    "@anycli/engine": "^0.1.39",
+    "@anycli/command": "^0.3.3",
+    "@anycli/config": "^0.2.11",
+    "@anycli/engine": "^0.1.42",
     "@anycli/version": "^0.1.19",
     "cli-ux": "^3.3.12",
     "debug": "^3.1.0",

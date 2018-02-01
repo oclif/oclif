@@ -12,6 +12,12 @@ install:
   - git config --global user.name "anycli"
   - yarn add -D nyc @anycli/nyc-config
 test_script:
+<%_ if (type === 'single' || type === 'multi') { _%>
+  - .\bin\run --version
+  - .\bin\run --help
+<%_ } else if (type === 'plugin') { _%>
+  - .\bin\run --help
+<%_ } _%>
   - yarn exec nyc -- --nycrc-path node_modules/@anycli/nyc-config/.nycrc yarn test
 after_test:
   - yarn exec nyc -- --nycrc-path node_modules/@anycli/nyc-config/.nycrc report --reporter text-lcov > coverage.lcov

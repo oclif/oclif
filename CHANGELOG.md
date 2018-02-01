@@ -1,3 +1,17 @@
+<a name="0.29.0"></a>
+# [0.29.0](https://github.com/anycli/anycli/compare/844ab18e55794c4b6ac36168e0648b1e8222044f...v0.29.0) (2018-02-01)
+
+
+### Bug Fixes
+
+* consolidate commands and tests ([b90320a](https://github.com/anycli/anycli/commit/b90320a))
+* fixed command generator ([8c5c179](https://github.com/anycli/anycli/commit/8c5c179))
+
+
+### Features
+
+* use new parser model ([7e7f7d3](https://github.com/anycli/anycli/commit/7e7f7d3))
+
 <a name="0.28.16"></a>
 ## [0.28.16](https://github.com/dxcli/create-dxcli/compare/314398bb37631a1eefafb9a60ffbbac5d0594db0...v0.28.16) (2018-01-30)
 

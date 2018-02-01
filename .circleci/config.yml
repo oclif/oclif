@@ -105,6 +105,7 @@ jobs:
     steps:
       - add_ssh_keys
       - checkout
+      - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: .circleci/release
 

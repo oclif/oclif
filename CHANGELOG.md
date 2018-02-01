@@ -1,3 +1,12 @@
+<a name="0.31.1"></a>
+## [0.31.1](https://github.com/anycli/cli/compare/ec2886542814433b5fa2942efbd0b98a8ea48ace...v0.31.1) (2018-02-01)
+
+
+### Bug Fixes
+
+* rename repo ([37ca4cc](https://github.com/anycli/cli/commit/37ca4cc))
+* use new linter rules ([2fbd4f9](https://github.com/anycli/cli/commit/2fbd4f9))
+
 <a name="0.31.0"></a>
 # [0.31.0](https://github.com/anycli/anycli/compare/e324c141548c6c025271fa0a4da721de670a60a7...v0.31.0) (2018-02-01)
 

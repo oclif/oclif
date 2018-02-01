@@ -56,6 +56,11 @@ class App extends Generator {
   semantic_release!: boolean
   ts!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
+  get _bin() {
+    let bin = this.pjson.anycli && (this.pjson.anycli.bin || this.pjson.anycli.dirname) || this.pjson.name
+    if (bin.includes('/')) bin = bin.split('/').pop()
+    return bin
+  }
 
   constructor(args: any, opts: any) {
     super(args, opts)
@@ -285,7 +290,7 @@ class App extends Generator {
     if (_.isEmpty(this.pjson.anycli)) delete this.pjson.anycli
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
-    this.fs.copyTpl(this.templatePath('scripts/test.ejs'), this.destinationPath('.circleci/test'), this)
+    this.fs.copyTpl(this.templatePath('scripts/greenkeeper'), this.destinationPath('.circleci/greenkeeper'), this)
     if (this.semantic_release) {
       this.fs.copyTpl(this.templatePath('scripts/release'), this.destinationPath('.circleci/release'), this)
     }
@@ -431,8 +436,7 @@ class App extends Generator {
   }
 
   private _writePlugin() {
-    let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
-    if (bin.includes('/')) bin = bin.split('/').pop()
+    const bin = this._bin
     const cmd = `${bin} hello`
     const opts = {...this as any, _, bin, cmd}
     this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), opts)
@@ -447,8 +451,7 @@ class App extends Generator {
   }
 
   private _writeSingle() {
-    let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
-    if (bin.includes('/')) bin = bin.split('/').pop()
+    const bin = this._bin
     const opts = {...this as any, _, bin, cmd: bin, name: this.pjson.name}
     this.fs.copyTpl(this.templatePath(`single/bin/run.${this._ext}`), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)

@@ -11,6 +11,12 @@ class <%- klass %> extends Command {
 }
 
 <%- klass %>.flags = {
+<%_ if (type === 'single') { _%>
+  // add --version flag to show CLI version
+  version: flags.version(),
+  // add --help flag to show CLI version
+  help: flags.help(),
+<%_ } _%>
   name: flags.string({char: 'n', description: 'name to print'}),
 }
 

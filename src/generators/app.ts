@@ -244,9 +244,16 @@ class App extends Generator {
         break
         default:
     }
+    if (this.type === 'plugin' && !this.pjson.anycli.devPlugins) {
+      this.pjson.anycli.plugins = [
+        '@anycli/help',
+      ]
+    }
     if (this.type === 'multi' && !this.pjson.anycli.plugins) {
       this.pjson.anycli.plugins = [
         '@anycli/version',
+        '@anycli/help',
+        '@anycli/not-found',
       ]
     }
 
@@ -319,6 +326,7 @@ class App extends Generator {
         dependencies.push(
           '@anycli/config',
           '@anycli/command',
+          '@anycli/help',
           'cli-ux',
         )
         devDependencies.push(
@@ -333,6 +341,7 @@ class App extends Generator {
         devDependencies.push(
           '@anycli/engine',
           '@anycli/config',
+          '@anycli/help',
         )
         break
       case 'multi':
@@ -443,16 +452,16 @@ class App extends Generator {
     if (!this.fromScratch) return
     let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
-    const opts = {...this as any, _, bin, cmd: bin}
+    const opts = {...this as any, _, bin, cmd: bin, name: this.pjson.name}
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('single/bin/run.ts'), this.destinationPath('bin/run'), opts)
     } else {
       this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), opts)
     }
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
-    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {...opts, name: 'hello'})
+    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), opts)
     if (this.mocha) {
-      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), {...opts, name: 'hello'})
+      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
     }
   }
 

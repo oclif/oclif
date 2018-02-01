@@ -4,6 +4,8 @@ jobs:
   node-latest-multi: &test
     docker:
       - image: node:latest
+    environment:
+      - TEST_SERIES: 1
     working_directory: ~/cli
     steps: &multi_steps
       - checkout

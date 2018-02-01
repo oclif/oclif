@@ -6,11 +6,11 @@
   "bin": "bin/run",
   "bugs": "https://github.com/anycli/anycli/issues",
   "dependencies": {
-    "@anycli/command": "^0.2.9",
-    "@anycli/config": "^0.2.1",
-    "@anycli/engine": "^0.1.29",
-    "@anycli/version": "^0.1.15",
-    "cli-ux": "^3.3.8",
+    "@anycli/command": "^0.2.24",
+    "@anycli/config": "^0.2.8",
+    "@anycli/engine": "^0.1.38",
+    "@anycli/version": "^0.1.19",
+    "cli-ux": "^3.3.11",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",
     "lodash": "^4.17.4",
@@ -20,10 +20,10 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@anycli/tslint": "^0.2.0",
-    "@commitlint/cli": "^6.0.2",
-    "@commitlint/config-conventional": "^6.0.2",
-    "@types/lodash": "^4.14.98",
+    "@anycli/tslint": "^0.2.1",
+    "@commitlint/cli": "^6.0.5",
+    "@commitlint/config-conventional": "^6.0.4",
+    "@types/lodash": "^4.14.99",
     "@types/read-pkg": "^3.0.0",
     "@types/shelljs": "^0.7.7",
     "@types/yeoman-generator": "^2.0.1",
@@ -32,7 +32,7 @@
     "eslint": "^4.16.0",
     "eslint-config-anycli": "^1.3.0",
     "execa": "^0.9.0",
-    "fancy-test": "^0.6.5",
+    "fancy-test": "^0.6.6",
     "fs-extra": "^5.0.0",
     "husky": "^0.14.3",
     "mocha": "^5.0.0",
@@ -43,7 +43,7 @@
     "shelljs": "^0.8.1",
     "tmp": "^0.0.33",
     "ts-node": "^4.1.0",
-    "typescript": "^2.6.2"
+    "typescript": "^2.7.1"
   },
   "anycli": {
     "commands": "./lib/commands",

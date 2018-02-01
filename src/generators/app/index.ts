@@ -32,13 +32,13 @@ class App extends Generator {
     'semantic-release': boolean
     typescript: boolean
   }
-  args: {[k: string]: string}
+  args!: {[k: string]: string}
   type: 'single' | 'multi' | 'plugin' | 'base'
   path: string
   pjson: any
-  fromScratch: boolean
+  fromScratch!: boolean
   githubUser: string | undefined
-  answers: {
+  answers!: {
     name: string
     description: string
     version: string
@@ -53,9 +53,9 @@ class App extends Generator {
       'semantic-release': boolean
     }
   }
-  mocha: boolean
-  semantic_release: boolean
-  ts: boolean
+  mocha!: boolean
+  semantic_release!: boolean
+  ts!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
 
   constructor(args: any, opts: any) {
@@ -326,12 +326,12 @@ class App extends Generator {
         break
       case 'plugin':
         dependencies.push(
-          '@anycli/config',
           '@anycli/command',
           'cli-ux',
         )
         devDependencies.push(
           '@anycli/engine',
+          '@anycli/config',
         )
         break
       case 'multi':
@@ -423,14 +423,17 @@ class App extends Generator {
 
   private _writePlugin() {
     if (!this.fromScratch) return
+    let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
+    if (bin.includes('/')) bin = bin.split('/').pop()
+    const cmd = `${bin} hello`
     this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
-    this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {name: 'hello', _})
+    this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {name: 'hello', _, bin, cmd})
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), this)
     }
     if (this.mocha) {
-      this.fs.copyTpl(this.templatePath(`command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {name: 'hello', _})
+      this.fs.copyTpl(this.templatePath(`command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {name: 'hello', _, bin, cmd})
     }
   }
 

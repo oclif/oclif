@@ -1,3 +1,12 @@
+<a name="0.30.6"></a>
+## [0.30.6](https://github.com/anycli/anycli/compare/ad3544b65ff6246708646393eaf7ce036b737898...v0.30.6) (2018-02-01)
+
+
+### Bug Fixes
+
+* add smoke tests to appveyor ([f33a88d](https://github.com/anycli/anycli/commit/f33a88d))
+* fix nyc on circle ([8257b7a](https://github.com/anycli/anycli/commit/8257b7a))
+
 <a name="0.30.4"></a>
 ## [0.30.4](https://github.com/anycli/anycli/compare/65d35c53097297d46163b4976a1f18cf53bfed38...v0.30.4) (2018-02-01)
 

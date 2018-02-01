@@ -75,9 +75,9 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v0-{{checksum ".circleci/config.yml"}}
-            - v0
+            - v001-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v001-{{checksum ".circleci/config.yml"}}
+            - v001
       - run: .circleci/greenkeeper
       - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
@@ -88,12 +88,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v0-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+            - v001-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
       - run: yarn global add greenkeeper-lockfile@1
       - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
       - run: nps test.command
       - save_cache:
-          key: v0-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          key: v001-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn

@@ -211,13 +211,19 @@ class App extends Generator {
     this.pjson.license = this.answers.license || defaults.license
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     this.pjson.scripts.posttest = 'yarn run lint'
-    this.pjson.scripts.precommit = 'yarn run lint'
+    // this.pjson.scripts.precommit = 'yarn run lint'
+    this.pjson.scripts.lint = 'concurrently "eslint ."'
     if (this.mocha) {
       this.pjson.scripts.test = 'mocha --forbid-only "test/**/*.test.ts"'
     } else {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
+      if (this.mocha) {
+        this.pjson.scripts.lint += ' "tsc -p test --noEmit" "tslint -p test"'
+      } else {
+        this.pjson.scripts.lint += ' "tsc -p . --noEmit" "tslint -p ."'
+      }
       this.pjson.scripts.build = 'rm -rf lib && tsc'
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
@@ -320,7 +326,7 @@ class App extends Generator {
   install() {
     const dependencies: string[] = []
     const devDependencies = [
-      'husky',
+      'concurrently',
       'eslint',
       'eslint-config-anycli',
     ]

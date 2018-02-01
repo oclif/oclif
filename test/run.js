@@ -26,9 +26,9 @@ function build(type, features) {
   sh.rm('-rf', dir)
   generate(`${type} ${dir} --defaults ${options}`)
   sh.cd(dir)
-  sh.exec('git add .')
-  sh.exec('git commit -nm init')
-  sh.exec('git checkout -B origin/master')
+  // sh.exec('git add .')
+  // sh.exec('git commit -nm init')
+  // sh.exec('git checkout -B origin/master')
   process.env = npmPath.env({env: process.env})
 }
 

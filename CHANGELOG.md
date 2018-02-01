@@ -1,3 +1,11 @@
+<a name="0.30.0"></a>
+# [0.30.0](https://github.com/anycli/anycli/compare/b90320a5dd3ef9e5808995c38d7d16d86b32ea03...v0.30.0) (2018-02-01)
+
+
+### Features
+
+* added --help and --version ([07e5a96](https://github.com/anycli/anycli/commit/07e5a96))
+
 <a name="0.29.0"></a>
 # [0.29.0](https://github.com/anycli/anycli/compare/844ab18e55794c4b6ac36168e0648b1e8222044f...v0.29.0) (2018-02-01)
 

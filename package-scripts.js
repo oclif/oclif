@@ -40,9 +40,8 @@ module.exports = {
   scripts: {
     build: 'rm -rf lib && tsc',
     lint: {
-      default: concurrent.nps('lint.eslint', 'lint.commitlint', 'lint.tsc', 'lint.tslint'),
+      default: concurrent.nps('lint.eslint', 'lint.tsc', 'lint.tslint'),
       eslint: script('eslint .', 'lint js files'),
-      commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
       tsc: script('tsc --noEmit', 'syntax check with tsc'),
       tslint: script('tslint -p .', 'lint ts files'),
     },

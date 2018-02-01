@@ -11,27 +11,23 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v1-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-            - v1-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-
-            - v1-yarn-{{checksum ".circleci/config.yml"}}-master-
-      - run: .circleci/yarn
+            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v0-{{checksum ".circleci/config.yml"}}
+            - v0
+      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
+      - run: yarn --frozen-lockfile
       - run: yarn exec nps test.multi
       - store_test_results: &store_test_results
           path: ~/cli/reports
-      - save_cache:
-          key: v1-yarn-{{checksum ".circleci/config.yml"}}-{{ .Branch }}-{{checksum "yarn.lock"}}
-          paths:
-            - ~/cli/node_modules
-            - /usr/local/share/.cache/yarn
-            - /usr/local/share/.config/yarn
   node-latest-base:
     <<: *test
     steps: &base_steps
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/yarn
+      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
+      - run: yarn --frozen-lockfile
       - run: yarn exec nps test.base
       - store_test_results: *store_test_results
   node-latest-plugin:
@@ -39,8 +35,9 @@ jobs:
     steps: &plugin_steps
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/yarn
+      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
+      - run: yarn --frozen-lockfile
       - run: yarn exec nps test.plugin
       - store_test_results: *store_test_results
   node-latest-single:
@@ -48,8 +45,9 @@ jobs:
     steps: &single_steps
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/yarn
+      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
+      - run: yarn --frozen-lockfile
       - run: yarn exec nps test.single
       - store_test_results: *store_test_results
   node-latest-command:
@@ -59,8 +57,9 @@ jobs:
     steps: &command_steps
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/yarn
+      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
+      - run: yarn --frozen-lockfile
       - run: yarn exec nps test.command
       - store_test_results: *store_test_results
   node-8-base: &node_8
@@ -84,6 +83,19 @@ jobs:
     <<: *node_8
     steps: *command_steps
 
+  cache:
+    <<: *test
+    steps:
+      - checkout
+      - run: yarn global add greenkeeper-lockfile@1
+      - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
+      - save_cache:
+          key: v0-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          paths:
+            - ~/cli/node_modules
+            - /usr/local/share/.cache/yarn
+            - /usr/local/share/.config/yarn
+
   lint:
     <<: *test
     docker:
@@ -91,8 +103,10 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - run: .circleci/yarn
+      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
+      - run: yarn add -D @commitlint/cli@6 @commitlint/config-conventional@6
+      - run: yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master
       - run: yarn exec nps lint
       - store_test_results: *store_test_results
 
@@ -114,6 +128,9 @@ workflows:
       - node-latest-plugin
       - node-latest-multi
       - node-latest-command
+      - cache:
+          filters:
+            branches: {only: master}
       - release:
           context: org-global
           filters:

@@ -23,7 +23,7 @@ if [[ "$CLI_ENGINE_GREENKEEPER_BRANCH" == 1 ]]; then
   greenkeeper-lockfile-upload
 fi
 
-yarn add -D nyc @anycli/nyc-config mocha-junit-reporter<%- semantic_release ? " @commitlint/cli @commitlint/config-conventional" : "" %>
+yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1<%- semantic_release ? " @commitlint/cli@6 @commitlint/config-conventional@6" : "" %>
 
 mkdir -p reports
 NYC=(yarn exec nyc --nycrc-path node_modules/@anycli/nyc-config/.nycrc)
@@ -34,5 +34,5 @@ MOCHA_FILE=reports/mocha.xml "${NYC[@]}" yarn run test --reporter mocha-junit-re
 curl -s https://codecov.io/bash | bash
 
 <%_ if (semantic_release) { _%>
-yarn exec commitlint --from origin/master
+yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master
 <%_ } _%>

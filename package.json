@@ -1,9 +1,11 @@
 {
-  "name": "@anycli/anycli",
+  "name": "@anycli/cli",
   "description": "anycli: create your own CLI",
   "version": "0.30.7",
   "author": "Jeff Dickey @jdxcode",
-  "bin": "bin/run",
+  "bin": {
+    "anycli": "bin/run"
+  },
   "bugs": "https://github.com/anycli/anycli/issues",
   "dependencies": {
     "@anycli/command": "^0.3.3",
@@ -23,9 +25,9 @@
     "@anycli/tslint": "^0.2.1",
     "@commitlint/cli": "^6.0.5",
     "@commitlint/config-conventional": "^6.0.4",
-    "@types/lodash": "^4.14.99",
+    "@types/lodash": "^4.14.100",
     "@types/read-pkg": "^3.0.0",
-    "@types/shelljs": "^0.7.7",
+    "@types/shelljs": "^0.7.8",
     "@types/yeoman-generator": "^2.0.1",
     "@types/yosay": "^0.0.29",
     "chai": "^4.1.2",

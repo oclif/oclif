@@ -212,18 +212,19 @@ class App extends Generator {
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     this.pjson.scripts.posttest = 'yarn run lint'
     // this.pjson.scripts.precommit = 'yarn run lint'
-    this.pjson.scripts.lint = 'concurrently "eslint ."'
+    if (this.ts && this.mocha) {
+      this.pjson.scripts.lint = 'concurrently "eslint ." "tsc -p test --noEmit" "tslint -p test"'
+    } else if (this.ts) {
+      this.pjson.scripts.lint = 'concurrently "eslint ." "tsc -p . --noEmit" "tslint -p ."'
+    } else {
+      this.pjson.scripts.lint = 'eslint .'
+    }
     if (this.mocha) {
       this.pjson.scripts.test = `mocha --forbid-only "test/**/*.test.${this._ext}"`
     } else {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      if (this.mocha) {
-        this.pjson.scripts.lint += ' "tsc -p test --noEmit" "tslint -p test"'
-      } else {
-        this.pjson.scripts.lint += ' "tsc -p . --noEmit" "tslint -p ."'
-      }
       this.pjson.scripts.build = 'rm -rf lib && tsc'
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
@@ -326,7 +327,6 @@ class App extends Generator {
   install() {
     const dependencies: string[] = []
     const devDependencies = [
-      'concurrently',
       'eslint',
       'eslint-config-anycli',
     ]
@@ -389,6 +389,7 @@ class App extends Generator {
         'typescript',
         'ts-node',
         '@anycli/tslint',
+        'concurrently',
       )
     }
     Promise.all([

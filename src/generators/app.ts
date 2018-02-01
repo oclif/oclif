@@ -9,7 +9,7 @@ import yosay = require('yosay')
 const sortPjson = require('sort-pjson')
 const fixpack = require('fixpack')
 const debug = require('debug')('generator-anycli')
-const {version} = require('../../../package.json')
+const {version} = require('../../package.json')
 
 function stringToArray(s: string) {
   const keywords: string[] = []
@@ -230,7 +230,7 @@ class App extends Generator {
   }
 
   writing() {
-    this.sourceRoot(path.join(__dirname, '../../../templates'))
+    this.sourceRoot(path.join(__dirname, '../../templates'))
 
     switch (this.type) {
       case 'multi':

@@ -119,9 +119,6 @@ workflows:
       - node-latest-plugin: {requires: [lint] }
       - node-latest-multi: {requires: [lint] }
       - node-latest-command: {requires: [lint] }
-      - cache:
-          filters:
-            branches: {only: master}
       - release:
           context: org-global
           filters:
@@ -133,6 +130,7 @@ workflows:
             - node-latest-plugin
             - node-latest-multi
             - node-latest-command
+      - cache: {requires: [release] }
   nightly:
     triggers:
       - schedule:

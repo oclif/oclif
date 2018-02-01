@@ -31,6 +31,7 @@ hello myname from <%- name %>!
 `,
     '$ <%- cmd %> file outputs "hello world!" to file',
     '$ <%- cmd %> --force',
+    '$ <%- cmd %> --help',
   ]
 <%_ if (type !== 'single') { _%>
 
@@ -39,6 +40,13 @@ hello myname from <%- name %>!
 <%_ } _%>
 
   static flags = {
+<%_ if (type === 'single') { _%>
+    // add --version flag to show CLI version
+    version: flags.version(),
+    // add --help flag to show CLI version
+    help: flags.help(),
+
+<%_ } _%>
     // flag with a value (-n, --name=VALUE)
     name: flags.string({
       char: 'n',                    // shorter flag version

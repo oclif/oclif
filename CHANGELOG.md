@@ -1,3 +1,15 @@
+<a name="0.32.2"></a>
+## [0.32.2](https://github.com/anycli/cli/compare/ab60f814c2806cc5b61dfd92d565167cf0e06474...v0.32.2) (2018-02-01)
+
+
+### Bug Fixes
+
+* add yarn circle step ([52610cd](https://github.com/anycli/cli/commit/52610cd))
+* fixed greenkeeper script ([b8be73b](https://github.com/anycli/cli/commit/b8be73b))
+* fixed greenkeeper script ([d904f25](https://github.com/anycli/cli/commit/d904f25))
+* restore cache if exact match ([0f27493](https://github.com/anycli/cli/commit/0f27493))
+* use new circle config ([2c9d9c7](https://github.com/anycli/cli/commit/2c9d9c7))
+
 <a name="0.32.1"></a>
 ## [0.32.1](https://github.com/anycli/cli/compare/3efa4c533d1fc76ec4f737132eb60ea7322fe9d3...v0.32.1) (2018-02-01)
 

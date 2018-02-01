@@ -1,3 +1,11 @@
+<a name="0.30.4"></a>
+## [0.30.4](https://github.com/anycli/anycli/compare/65d35c53097297d46163b4976a1f18cf53bfed38...v0.30.4) (2018-02-01)
+
+
+### Bug Fixes
+
+* added some smoke tests ([24664f1](https://github.com/anycli/anycli/commit/24664f1))
+
 <a name="0.30.3"></a>
 ## [0.30.3](https://github.com/anycli/anycli/compare/93b3f16c2ecd2f512f78c00f010fbc178bebcf6c...v0.30.3) (2018-02-01)
 

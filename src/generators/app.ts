@@ -339,9 +339,6 @@ class App extends Generator {
           '@anycli/help',
           'cli-ux',
         )
-        devDependencies.push(
-          '@anycli/engine',
-        )
         break
       case 'plugin':
         dependencies.push(
@@ -458,11 +455,7 @@ class App extends Generator {
     let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const opts = {...this as any, _, bin, cmd: bin, name: this.pjson.name}
-    if (this.ts) {
-      this.fs.copyTpl(this.templatePath('single/bin/run.ts'), this.destinationPath('bin/run'), opts)
-    } else {
-      this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), opts)
-    }
+    this.fs.copyTpl(this.templatePath(`single/bin/run.${this._ext}`), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
     this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), opts)
     if (this.mocha) {

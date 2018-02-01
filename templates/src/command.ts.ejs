@@ -2,7 +2,11 @@ import {Command, flags, parse} from '@anycli/command'
 import cli from 'cli-ux'
 <%_ const klass = _.upperFirst(_.camelCase(name)) _%>
 
+<%_ if (type === 'single') { _%>
+class <%- klass %> extends Command {
+<%_ } else { _%>
 export default class <%- klass %> extends Command {
+<%_ } _%>
   static title = 'scaffolded command that says hello'
 <%_ if (type !== 'single') { _%>
 
@@ -107,3 +111,7 @@ hello myname from <%- name %>!
     // this.options.args.file and this.options.argv[0] is a string or undefined
   }
 }
+<%_ if (type === 'single') { _%>
+
+export = <%- klass %>
+<%_ } _%>

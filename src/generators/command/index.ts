@@ -11,10 +11,7 @@ import {Options} from '../../commands/command'
 const {version} = require('../../../package.json')
 
 class CommandGenerator extends Generator {
-  pjson: {
-    name: string
-    devDependencies: {[name: string]: string}
-  }
+  pjson!: any
 
   get _path() { return this.options.name.split(':').join('/') }
   get _ts() { return this.pjson.devDependencies.typescript }
@@ -33,11 +30,15 @@ class CommandGenerator extends Generator {
 
   writing() {
     this.sourceRoot(path.join(__dirname, '../../../templates'))
-    this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/${this._path}.${this._ext}`), {...this.options, _})
+    let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
+    if (bin.includes('/')) bin = bin.split('/').pop()
+    const cmd = `${bin} ${this.options.name}`
+    const opts = {...this.options, cmd, _}
+    this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/${this._path}.${this._ext}`), opts)
     // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this._mocha) {
       // this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
-      this.fs.copyTpl(this.templatePath(`command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), {...this.options, _})
+      this.fs.copyTpl(this.templatePath(`command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), opts)
     }
     // this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
   }

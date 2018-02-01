@@ -1,10 +1,11 @@
-const {Command, flags} = require('@anycli/command')
+const {Command, flags, parse} = require('@anycli/command')
 const {cli} = require('cli-ux')
 <%_ const klass = _.upperFirst(_.camelCase(name.split(':').slice(-1).join(':') + ':command')) _%>
 
 class <%- klass %> extends Command {
   async run() {
-    const name = this.flags.name || 'world'
+    const options = parse(this.argv, <%- klass %>)
+    const name = options.flags.name || 'world'
     cli.log(`hello ${name} from <%- name %>!`)
   }
 }

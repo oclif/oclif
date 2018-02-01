@@ -1,3 +1,11 @@
+<a name="0.32.1"></a>
+## [0.32.1](https://github.com/anycli/cli/compare/3efa4c533d1fc76ec4f737132eb60ea7322fe9d3...v0.32.1) (2018-02-01)
+
+
+### Bug Fixes
+
+* fixed circle config ([9a8166e](https://github.com/anycli/cli/commit/9a8166e))
+
 <a name="0.32.0"></a>
 # [0.32.0](https://github.com/anycli/cli/compare/2fbd4f9f2e3c06f8a8092b2cd3e759759784d4a1...v0.32.0) (2018-02-01)
 

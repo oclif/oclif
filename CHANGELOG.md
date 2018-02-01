@@ -1,3 +1,15 @@
+<a name="0.30.1"></a>
+## [0.30.1](https://github.com/anycli/anycli/compare/1a728bb4cdb10c64b68cccadfbf17eb2ca6ec840...v0.30.1) (2018-02-01)
+
+
+### Bug Fixes
+
+* fixed linters ([5ac2d4c](https://github.com/anycli/anycli/commit/5ac2d4c))
+* fixed mocha in js ([dbc44bf](https://github.com/anycli/anycli/commit/dbc44bf))
+* fixed single bin script ([a8a4b33](https://github.com/anycli/anycli/commit/a8a4b33))
+* fixing single ([354f46b](https://github.com/anycli/anycli/commit/354f46b))
+* only use concurrently when needed ([bd567e1](https://github.com/anycli/anycli/commit/bd567e1))
+
 <a name="0.30.0"></a>
 # [0.30.0](https://github.com/anycli/anycli/compare/b90320a5dd3ef9e5808995c38d7d16d86b32ea03...v0.30.0) (2018-02-01)
 

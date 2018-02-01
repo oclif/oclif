@@ -4,13 +4,13 @@ anycli
 anycli: create your own CLI
 
 [![Version](https://img.shields.io/npm/v/anycli.svg)](https://npmjs.org/package/anycli)
-[![CircleCI](https://circleci.com/gh/anycli/anycli/tree/master.svg?style=svg)](https://circleci.com/gh/anycli/anycli/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/anycli/anycli?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/anycli/branch/master)
-[![Codecov](https://codecov.io/gh/anycli/anycli/branch/master/graph/badge.svg)](https://codecov.io/gh/anycli/anycli)
-[![Greenkeeper](https://badges.greenkeeper.io/anycli/anycli.svg)](https://greenkeeper.io/)
+[![CircleCI](https://circleci.com/gh/anycli/cli/tree/master.svg?style=svg)](https://circleci.com/gh/anycli/cli/tree/master)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/anycli/cli?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/anycli/branch/master)
+[![Codecov](https://codecov.io/gh/anycli/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/anycli/cli)
+[![Greenkeeper](https://badges.greenkeeper.io/anycli/cli.svg)](https://greenkeeper.io/)
 [![Known Vulnerabilities](https://snyk.io/test/npm/anycli/badge.svg)](https://snyk.io/test/npm/anycli)
 [![Downloads/week](https://img.shields.io/npm/dw/anycli.svg)](https://npmjs.org/package/anycli)
-[![License](https://img.shields.io/npm/l/anycli.svg)](https://github.com/anycli/anycli/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/anycli.svg)](https://github.com/anycli/cli/blob/master/package.json)
 
 Useful Repos
 ------------

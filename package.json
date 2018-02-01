@@ -6,7 +6,7 @@
   "bin": {
     "anycli": "bin/run"
   },
-  "bugs": "https://github.com/anycli/anycli/issues",
+  "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
     "@anycli/command": "^0.3.3",
     "@anycli/config": "^0.2.11",
@@ -61,13 +61,13 @@
     "/lib",
     "/templates"
   ],
-  "homepage": "https://github.com/anycli/anycli",
+  "homepage": "https://github.com/anycli/cli",
   "keywords": [
     "anycli"
   ],
   "license": "MIT",
   "main": "lib/index.js",
-  "repository": "anycli/anycli",
+  "repository": "anycli/cli",
   "scripts": {
     "commitmsg": "commitlint -x @commitlint/config-conventional -e $GIT_PARAMS",
     "precommit": "nps lint -l warn",

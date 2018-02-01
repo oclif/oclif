@@ -1,3 +1,12 @@
+<a name="0.30.2"></a>
+## [0.30.2](https://github.com/anycli/anycli/compare/354f46b0486648b434bb66d72e7387325f3f9ff0...v0.30.2) (2018-02-01)
+
+
+### Bug Fixes
+
+* fix commitlint ([9aa2212](https://github.com/anycli/anycli/commit/9aa2212))
+* fix yarn execs ([93b3f16](https://github.com/anycli/anycli/commit/93b3f16))
+
 <a name="0.30.1"></a>
 ## [0.30.1](https://github.com/anycli/anycli/compare/1a728bb4cdb10c64b68cccadfbf17eb2ca6ec840...v0.30.1) (2018-02-01)
 

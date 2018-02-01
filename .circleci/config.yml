@@ -10,7 +10,6 @@ jobs:
     steps: &multi_steps
       - checkout
       - attach_workspace: {at: node_modules}
-      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
       - run: yarn exec nps test.multi
@@ -21,7 +20,6 @@ jobs:
     steps: &base_steps
       - checkout
       - attach_workspace: {at: node_modules}
-      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
       - run: yarn exec nps test.base
@@ -31,7 +29,6 @@ jobs:
     steps: &plugin_steps
       - checkout
       - attach_workspace: {at: node_modules}
-      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
       - run: yarn exec nps test.plugin
@@ -41,7 +38,6 @@ jobs:
     steps: &single_steps
       - checkout
       - attach_workspace: {at: node_modules}
-      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
       - run: yarn exec nps test.single
@@ -53,7 +49,6 @@ jobs:
     steps: &command_steps
       - checkout
       - attach_workspace: {at: node_modules}
-      - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
       - run: yarn exec nps test.command
@@ -88,7 +83,7 @@ jobs:
             - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
             - v0-{{checksum ".circleci/config.yml"}}
             - v0
-      - run: yarn global add greenkeeper-lockfile@1
+      - run: .circleci/greenkeeper
       - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
 

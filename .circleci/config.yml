@@ -106,6 +106,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - run: .circleci/setup_git
+      - run: .circleci/release
 
 workflows:
   version: 2

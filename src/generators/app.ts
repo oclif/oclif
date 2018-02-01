@@ -182,7 +182,7 @@ class App extends Generator {
           choices: [
             {name: 'mocha', checked: this.fromScratch ? false : !!this.pjson.devDependencies.mocha},
             {name: 'typescript', checked: this.fromScratch ? false : !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.pjson.scripts.commitmsg},
+            {name: 'semantic-release', checked: this.fromScratch ? false : !!this.fs.exists('.commitlintrc.js')},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
@@ -210,8 +210,17 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    this.pjson.scripts.test = 'nps test -l warn'
-    this.pjson.scripts.precommit = 'nps lint -l warn'
+    this.pjson.scripts.posttest = 'yarn run lint'
+    this.pjson.scripts.precommit = 'yarn run lint'
+    if (this.mocha) {
+      this.pjson.scripts.test = 'mocha --forbid-only "test/**/*.test.ts"'
+    } else {
+      this.pjson.scripts.test = 'echo NO TESTS'
+    }
+    if (this.ts) {
+      this.pjson.scripts.build = 'rm -rf lib && tsc'
+      this.pjson.scripts.prepublishOnly = 'yarn run build'
+    }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']
     this.pjson.homepage = defaults.homepage || `https://github.com/${defaults.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${defaults.repository}/issues`
@@ -221,12 +230,6 @@ class App extends Generator {
       if (this.ts) {
         this.pjson.types = defaults.types || 'lib/index.d.ts'
       }
-    }
-    if (this.ts) {
-      this.pjson.scripts.prepublishOnly = 'nps build'
-    }
-    if (this.semantic_release) {
-      this.pjson.scripts.commitmsg = 'commitlint -x @commitlint/config-conventional -e $GIT_PARAMS'
     }
   }
 
@@ -277,7 +280,7 @@ class App extends Generator {
     }
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
-    this.fs.copyTpl(this.templatePath('scripts/test'), this.destinationPath('.circleci/test'), this)
+    this.fs.copyTpl(this.templatePath('scripts/test.ejs'), this.destinationPath('.circleci/test'), this)
     if (this.semantic_release) {
       this.fs.copyTpl(this.templatePath('scripts/release'), this.destinationPath('.circleci/release'), this)
     }
@@ -287,14 +290,17 @@ class App extends Generator {
     this.fs.copyTpl(this.templatePath('appveyor.yml'), this.destinationPath('appveyor.yml'), this)
 
     // git
-    if (this.fromScratch) this.spawnCommandSync('git', ['init'])
+    // if (this.fromScratch) this.spawnCommandSync('git', ['init'])
     this.fs.copyTpl(this.templatePath('gitattributes'), this.destinationPath('.gitattributes'), this)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
     this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
     const eslintignore = this._eslintignore()
     if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
-    this.fs.copyTpl(this.templatePath('package-scripts.js.ejs'), this.destinationPath('package-scripts.js'), this)
+    // this.fs.copyTpl(this.templatePath('package-scripts.js.ejs'), this.destinationPath('package-scripts.js'), this)
+    // if (this.semantic_release) {
+    //   this.fs.copyTpl(this.templatePath('.commitlintrc.js'), this.destinationPath('.commitlintrc.js'), this)
+    // }
 
     switch (this.type) {
       case 'single':
@@ -314,8 +320,6 @@ class App extends Generator {
   install() {
     const dependencies: string[] = []
     const devDependencies = [
-      'nps',
-      'nps-utils',
       'husky',
       'eslint',
       'eslint-config-anycli',
@@ -379,12 +383,6 @@ class App extends Generator {
         'typescript',
         'ts-node',
         '@anycli/tslint',
-      )
-    }
-    if (this.semantic_release) {
-      devDependencies.push(
-        '@commitlint/cli',
-        '@commitlint/config-conventional',
       )
     }
     Promise.all([

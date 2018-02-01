@@ -12,8 +12,9 @@ install:
   - git config --global user.name "anycli"
   - yarn add -D nyc @anycli/nyc-config
 test_script:
-  - yarn test
+  - yarn exec nyc --nycrc-path node_modules/@anycli/nyc-config/.nycrc yarn test
 after_test:
+  - yarn exec nyc --nycrc-path node_modules/@anycli/nyc-config/.nycrc report --reporter text-lcov > coverage.lcov
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
       Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh

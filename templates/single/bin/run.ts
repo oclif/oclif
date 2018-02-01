@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('..').default.run()
+require('@anycli/engine').run()

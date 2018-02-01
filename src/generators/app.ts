@@ -282,6 +282,7 @@ class App extends Generator {
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('fixpack/config.json'))
     }
+    if (_.isEmpty(this.pjson.anycli)) delete this.pjson.anycli
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
     this.fs.copyTpl(this.templatePath('scripts/test.ejs'), this.destinationPath('.circleci/test'), this)

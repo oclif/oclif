@@ -12,9 +12,9 @@
     lodash "^4.17.4"
     tslib "^1.9.0"
 
-"@anycli/command@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@anycli/command/-/command-0.3.2.tgz#2dde4dafd3bc1bb2c2cb90a765821dc85053c401"
+"@anycli/command@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@anycli/command/-/command-0.3.3.tgz#38f2d56fee0c18ad528c3a42d90ae9c97b17d652"
   dependencies:
     "@anycli/parser" "^3.0.4"
     cli-ux "^3.3.12"
@@ -22,9 +22,9 @@
     lodash "^4.17.4"
     tslib "^1.9.0"
 
-"@anycli/config@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-0.2.10.tgz#17ec0e6f0ffff1f0d49e63dad6d3d09e625fe734"
+"@anycli/config@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-0.2.11.tgz#1b043946b18e159e6e44195aa4fef309b79f8ede"
   dependencies:
     cli-ux "^3.3.10"
     debug "^3.1.0"
@@ -44,26 +44,26 @@
     lodash "^4.17.4"
     read-pkg "^3.0.0"
 
-"@anycli/engine@^0.1.39":
-  version "0.1.39"
-  resolved "https://registry.yarnpkg.com/@anycli/engine/-/engine-0.1.39.tgz#0d2bc14de3f339b3cc5c6f042ca09ee2f0e4f253"
+"@anycli/engine@^0.1.42":
+  version "0.1.42"
+  resolved "https://registry.yarnpkg.com/@anycli/engine/-/engine-0.1.42.tgz#584274b6c4c9a8b8ad5563cc3070921afbe0910d"
   dependencies:
-    "@anycli/manifest-file" "^0.3.0"
+    "@anycli/manifest-file" "^0.3.3"
     cli-ux "^3.3.12"
     debug "^3.1.0"
     fs-extra "^5.0.0"
     globby "^7.1.1"
     lodash "^4.17.4"
 
-"@anycli/manifest-file@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@anycli/manifest-file/-/manifest-file-0.3.0.tgz#544fa71b797106e1471c290fc6a6c99d25254a40"
+"@anycli/manifest-file@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@anycli/manifest-file/-/manifest-file-0.3.3.tgz#9cf398b411037be01b00b0d1fd3cf2a40178dcf5"
   dependencies:
     debug "^3.1.0"
     fs-extra "^5.0.0"
     load-json-file "^4.0.0"
     lodash "^4.17.4"
-    rwlockfile "^2.0.21"
+    rwlockfile "^2.0.23"
 
 "@anycli/parser@^3.0.2":
   version "3.0.2"
@@ -2576,9 +2576,9 @@ run-async@^2.0.0, run-async@^2.2.0:
   dependencies:
     is-promise "^2.1.0"
 
-rwlockfile@^2.0.21:
-  version "2.0.21"
-  resolved "https://registry.yarnpkg.com/rwlockfile/-/rwlockfile-2.0.21.tgz#c2eb13d77df18dbb268dcd28017df17d5a97f8a8"
+rwlockfile@^2.0.23:
+  version "2.0.23"
+  resolved "https://registry.yarnpkg.com/rwlockfile/-/rwlockfile-2.0.23.tgz#1bc2341e9d63b78a0b5399220dfcecfbc4c0edc1"
   dependencies:
     fs-extra "^5.0.0"
     is-process-active "^1.0.1"

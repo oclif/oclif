@@ -23,8 +23,8 @@ const tests = testTypes.map(cmd => {
   const base = path.join('test/commands', cmd)
   sh.pushd(base)
   let tests = _(sh.ls())
-    .map(t => [t.split('.')[0], path.join(base, t)])
-    .map(([t, s]) => [t, process.env.CIRCLECI ? `MOCHA_FILE=reports/mocha-${t}.xml ${mocha} --reporter mocha-junit-reporter ${s}` : `${mocha} ${s}`])
+  .map(t => [t.split('.')[0], path.join(base, t)])
+  .map(([t, s]) => [t, process.env.CIRCLECI ? `MOCHA_FILE=reports/mocha-${t}.xml ${mocha} --reporter mocha-junit-reporter ${s}` : `${mocha} ${s}`])
   sh.popd()
   tests = process.env.TEST_SERIES === '1' ?
     series(...tests.map(t => t[1]).value()) :

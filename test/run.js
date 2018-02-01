@@ -39,46 +39,46 @@ module.exports = file => {
 
   describe(cmd, () => {
     fancy
-      .retries(CI ? 1 : 0)
-      .do(() => {
-        switch (cmd) {
-          case 'base':
-            build(cmd, name)
-            sh.exec('yarn test')
-            break
-          case 'plugin':
-            build(cmd, name)
-            sh.exec('yarn test')
-            sh.exec('node ./bin/run')
-            sh.exec('node ./bin/run --help')
-            break
-          case 'single':
-            build(cmd, name)
-            sh.exec('yarn test')
-            sh.exec('node ./bin/run -v')
-            sh.exec('node ./bin/run')
-            sh.exec('node ./bin/run --help')
-            break
-          case 'multi':
-            build(cmd, name)
-            sh.exec('yarn test')
-            sh.exec('node ./bin/run -v')
-            sh.exec('node ./bin/run version')
-            sh.exec('node ./bin/run hello')
-            sh.exec('node ./bin/run help hello')
-            sh.exec('node ./bin/run hello --help')
-            break
-          case 'command':
-            build('plugin', name)
-            generate('command foo:bar:baz --defaults --force')
-            sh.exec('yarn test')
-            sh.exec('node ./bin/run hello')
-            sh.exec('node ./bin/run foo:bar:baz')
-            sh.exec('node ./bin/run help foo:bar:baz')
-            sh.exec('node ./bin/run foo:bar:baz --help')
-            break
-        }
-      })
-      .it([cmd, name].join(':'))
+    .retries(CI ? 1 : 0)
+    .do(() => {
+      switch (cmd) {
+      case 'base':
+        build(cmd, name)
+        sh.exec('yarn test')
+        break
+      case 'plugin':
+        build(cmd, name)
+        sh.exec('yarn test')
+        sh.exec('node ./bin/run')
+        sh.exec('node ./bin/run --help')
+        break
+      case 'single':
+        build(cmd, name)
+        sh.exec('yarn test')
+        sh.exec('node ./bin/run -v')
+        sh.exec('node ./bin/run')
+        sh.exec('node ./bin/run --help')
+        break
+      case 'multi':
+        build(cmd, name)
+        sh.exec('yarn test')
+        sh.exec('node ./bin/run -v')
+        sh.exec('node ./bin/run version')
+        sh.exec('node ./bin/run hello')
+        sh.exec('node ./bin/run help hello')
+        sh.exec('node ./bin/run hello --help')
+        break
+      case 'command':
+        build('plugin', name)
+        generate('command foo:bar:baz --defaults --force')
+        sh.exec('yarn test')
+        sh.exec('node ./bin/run hello')
+        sh.exec('node ./bin/run foo:bar:baz')
+        sh.exec('node ./bin/run help foo:bar:baz')
+        sh.exec('node ./bin/run foo:bar:baz --help')
+        break
+      }
+    })
+    .it([cmd, name].join(':'))
   })
 }

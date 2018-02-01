@@ -4,10 +4,12 @@ import cli from 'cli-ux'
 
 export default class <%- klass %> extends Command {
   static title = 'scaffolded command that says hello'
+<%_ if (type !== 'single') { _%>
 
   // hide the command from help
   // can also set hidden on args and flags
   // static hidden = true
+<%_ } _%>
 
   // usage is set by default
   // add your own by setting this variable
@@ -30,9 +32,11 @@ hello myname from <%- name %>!
     '$ <%- cmd %> file outputs "hello world!" to file',
     '$ <%- cmd %> --force',
   ]
+<%_ if (type !== 'single') { _%>
 
   // allow running this command by running `$ <%- bin %> foobar`
   // static aliases = ['foobar']
+<%_ } _%>
 
   static flags = {
     // flag with a value (-n, --name=VALUE)

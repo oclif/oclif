@@ -95,6 +95,7 @@ class App extends Generator {
       engines: {},
       devDependencies: {},
       dependencies: {},
+      anycli: {},
       ...this.fs.readJSON('package.json', {}),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
@@ -426,28 +427,32 @@ class App extends Generator {
     let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const cmd = `${bin} hello`
-    this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), this)
-    this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
-    this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {name: 'hello', _, bin, cmd})
+    const opts = {...this as any, _, bin, cmd}
+    this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), opts)
+    this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
+    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {...opts, name: 'hello'})
     if (this.ts) {
-      this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), this)
+      this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
     }
     if (this.mocha) {
-      this.fs.copyTpl(this.templatePath(`command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {name: 'hello', _, bin, cmd})
+      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
     }
   }
 
   private _writeSingle() {
     if (!this.fromScratch) return
+    let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
+    if (bin.includes('/')) bin = bin.split('/').pop()
+    const opts = {...this as any, _, bin, cmd: bin}
     if (this.ts) {
-      this.fs.copyTpl(this.templatePath('single/bin/run.ts'), this.destinationPath('bin/run'), this)
+      this.fs.copyTpl(this.templatePath('single/bin/run.ts'), this.destinationPath('bin/run'), opts)
     } else {
-      this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), this)
+      this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), opts)
     }
-    this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
-    this.fs.copyTpl(this.templatePath(`single/src/index.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {name: this.pjson.name, _})
+    this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
+    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {...opts, name: 'hello'})
     if (this.mocha) {
-      this.fs.copyTpl(this.templatePath(`single/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
+      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), {...opts, name: 'hello'})
     }
   }
 

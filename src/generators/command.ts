@@ -34,12 +34,12 @@ class CommandGenerator extends Generator {
     let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const cmd = `${bin} ${this.options.name}`
-    const opts = {...this.options, bin, cmd, _}
-    this.fs.copyTpl(this.templatePath(`command.${this._ext}.ejs`), this.destinationPath(`src/commands/${this._path}.${this._ext}`), opts)
+    const opts = {...this.options, bin, cmd, _, type: 'command'}
+    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/${this._path}.${this._ext}`), opts)
     // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this._mocha) {
       // this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
-      this.fs.copyTpl(this.templatePath(`command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), opts)
+      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), opts)
     }
     // this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
   }

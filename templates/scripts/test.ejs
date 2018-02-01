@@ -25,6 +25,13 @@ fi
 
 yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1<%- semantic_release ? " @commitlint/cli@6 @commitlint/config-conventional@6" : "" %>
 
+<%_ if (type === 'single' || type === 'multi') { _%>
+./bin/run -v
+./bin/run --help
+<%_ } else if (type === 'plugin') { _%>
+./bin/run --help
+<%_ } _%>
+
 mkdir -p reports
 NYC=(yarn exec nyc -- --nycrc-path node_modules/@anycli/nyc-config/.nycrc)
 
@@ -32,13 +39,6 @@ MOCHA_FILE=reports/mocha.xml "${NYC[@]}" yarn test --reporter mocha-junit-report
 
 "${NYC[@]}" report --reporter text-lcov > coverage.lcov
 curl -s https://codecov.io/bash | bash
-
-<%_ if (type === 'single' || type === 'multi') { _%>
-./bin/run -v
-./bin/run --help
-<%_ } else if (type === 'plugin') { _%>
-./bin/run --help
-<%_ } _%>
 <%_ if (semantic_release) { _%>
 
 yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master

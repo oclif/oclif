@@ -9,11 +9,7 @@ jobs:
     working_directory: ~/cli
     steps: &multi_steps
       - checkout
-      - restore_cache: &restore_cache
-          keys:
-            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v0-{{checksum ".circleci/config.yml"}}
-            - v0
+      - attach_workspace: {at: node_modules}
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
@@ -24,7 +20,7 @@ jobs:
     <<: *test
     steps: &base_steps
       - checkout
-      - restore_cache: *restore_cache
+      - attach_workspace: {at: node_modules}
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
@@ -34,7 +30,7 @@ jobs:
     <<: *test
     steps: &plugin_steps
       - checkout
-      - restore_cache: *restore_cache
+      - attach_workspace: {at: node_modules}
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
@@ -44,7 +40,7 @@ jobs:
     <<: *test
     steps: &single_steps
       - checkout
-      - restore_cache: *restore_cache
+      - attach_workspace: {at: node_modules}
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
@@ -56,7 +52,7 @@ jobs:
       - image: node:8
     steps: &command_steps
       - checkout
-      - restore_cache: *restore_cache
+      - attach_workspace: {at: node_modules}
       - run: .circleci/greenkeeper
       - run: .circleci/setup_git
       - run: yarn --frozen-lockfile
@@ -82,6 +78,19 @@ jobs:
   node-8-command:
     <<: *node_8
     steps: *command_steps
+
+  yarn:
+    <<: *test
+    steps:
+      - checkout
+      - restore_cache: &restore_cache
+          keys:
+            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v0-{{checksum ".circleci/config.yml"}}
+            - v0
+      - run: yarn global add greenkeeper-lockfile@1
+      - run: yarn add -D nyc@11 @anycli/nyc-config@0 mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
+      - persist_to_workspace: {root: node_modules,  paths: ["*"]}
 
   cache:
     <<: *test
@@ -122,12 +131,13 @@ workflows:
   version: 2
   anycli:
     jobs:
-      - lint
-      - node-latest-base
-      - node-latest-single
-      - node-latest-plugin
-      - node-latest-multi
-      - node-latest-command
+      - yarn
+      - lint: {requires: [yarn] }
+      - node-latest-base: {requires: [yarn] }
+      - node-latest-single: {requires: [yarn] }
+      - node-latest-plugin: {requires: [yarn] }
+      - node-latest-multi: {requires: [yarn] }
+      - node-latest-command: {requires: [yarn] }
       - cache:
           filters:
             branches: {only: master}
@@ -151,14 +161,15 @@ workflows:
               only:
                 - master
     jobs:
-      - lint
-      - node-latest-base
-      - node-latest-single
-      - node-latest-plugin
-      - node-latest-multi
-      - node-latest-command
-      - node-8-base
-      - node-8-single
-      - node-8-plugin
-      - node-8-multi
-      - node-8-command
+      - yarn
+      - lint: {requires: [yarn] }
+      - node-latest-base: {requires: [yarn] }
+      - node-latest-single: {requires: [yarn] }
+      - node-latest-plugin: {requires: [yarn] }
+      - node-latest-multi: {requires: [yarn] }
+      - node-latest-command: {requires: [yarn] }
+      - node-8-base: {requires: [yarn] }
+      - node-8-single: {requires: [yarn] }
+      - node-8-plugin: {requires: [yarn] }
+      - node-8-multi: {requires: [yarn] }
+      - node-8-command: {requires: [yarn] }

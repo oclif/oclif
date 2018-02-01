@@ -1,3 +1,11 @@
+<a name="0.30.5"></a>
+## [0.30.5](https://github.com/anycli/anycli/compare/24664f10e2e7bc0597fa71aa17ff459769167315...v0.30.5) (2018-02-01)
+
+
+### Bug Fixes
+
+* dont try to get version of plugin ([ad3544b](https://github.com/anycli/anycli/commit/ad3544b))
+
 <a name="0.30.4"></a>
 ## [0.30.4](https://github.com/anycli/anycli/compare/65d35c53097297d46163b4976a1f18cf53bfed38...v0.30.4) (2018-02-01)
 

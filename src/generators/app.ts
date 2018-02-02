@@ -245,7 +245,8 @@ class App extends Generator {
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest > .anycli.manifest.json')
+      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest -o .anycli.manifest.json')
+      this.pjson.scripts.postpublish = 'rm .anycli.manifest.json'
       this.pjson.files.push('.anycli.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']

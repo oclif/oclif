@@ -9,6 +9,7 @@ jobs:
     working_directory: ~/cli
     steps: &multi_steps
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: yarn exec nps test.multi
@@ -18,6 +19,7 @@ jobs:
     <<: *test
     steps: &base_steps
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: yarn exec nps test.base
@@ -26,6 +28,7 @@ jobs:
     <<: *test
     steps: &plugin_steps
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: yarn exec nps test.plugin
@@ -34,6 +37,7 @@ jobs:
     <<: *test
     steps: &single_steps
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: yarn exec nps test.single
@@ -44,6 +48,7 @@ jobs:
       - image: node:8
     steps: &command_steps
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: yarn exec nps test.command

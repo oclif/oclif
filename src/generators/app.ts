@@ -1,6 +1,7 @@
 // tslint:disable no-floating-promises
 // tslint:disable no-console
 
+import * as fs from 'fs'
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
@@ -11,19 +12,19 @@ const fixpack = require('fixpack')
 const debug = require('debug')('generator-anycli')
 const {version} = require('../../package.json')
 
-function stringToArray(s: string) {
-  const keywords: string[] = []
+// function stringToArray(s: string) {
+//   const keywords: string[] = []
 
-  s.split(',').forEach((keyword: string) => {
-    if (!keyword.length) {
-      return false
-    }
+//   s.split(',').forEach((keyword: string) => {
+//     if (!keyword.length) {
+//       return false
+//     }
 
-    return keywords.push(keyword.trim())
-  })
+//     return keywords.push(keyword.trim())
+//   })
 
-  return keywords
-}
+//   return keywords
+// }
 
 class App extends Generator {
   options: {
@@ -118,6 +119,10 @@ class App extends Generator {
       },
       options: this.options,
     }
+    try {
+      let yml = this.fs.read('.circleci/config.yml')
+      this.options['semantic-release'] = yml.includes('semantic-release')
+    } catch { }
     if (this.options.defaults) {
       this.answers = defaults
     } else {
@@ -175,7 +180,7 @@ class App extends Generator {
           type: 'input',
           name: 'github.repo',
           message: 'github name of repository (https://github.com/owner/REPO)',
-          default: (answers: any) => (this.pjson.repository ? this.pjson.repository : answers.name).split('/').pop(),
+          default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
           when: !this.pjson.repository,
         },
         {
@@ -185,17 +190,17 @@ class App extends Generator {
           choices: [
             {name: 'mocha', checked: !!this.pjson.devDependencies.mocha},
             {name: 'typescript', checked: !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: !!this.fs.exists('.commitlintrc.js')},
+            {name: 'semantic-release', checked: this.options['semantic-release']},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
-        {
-          type: 'string',
-          name: 'files',
-          message: 'npm files to pack',
-          default: (answers: any) => answers.options.typescript ? '/lib' : '/src',
-          filter: stringToArray as any,
-        },
+        // {
+        //   type: 'string',
+        //   name: 'files',
+        //   message: 'npm files to pack',
+        //   default: (answers: any) => answers.options.typescript ? '/lib' : '/src',
+        //   filter: stringToArray as any,
+        // },
       ]) as any
     }
     debug(this.answers)
@@ -231,8 +236,8 @@ class App extends Generator {
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']
-    this.pjson.homepage = defaults.homepage || `https://github.com/${defaults.repository}`
-    this.pjson.bugs = defaults.bugs || `https://github.com/${defaults.repository}/issues`
+    this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
+    this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
 
     if (this.type !== 'plugin') {
       this.pjson.main = defaults.main || (this.ts ? 'lib/index.js' : 'src/index.js')
@@ -258,14 +263,14 @@ class App extends Generator {
     }
     if (this.type === 'plugin' && !this.pjson.anycli.devPlugins) {
       this.pjson.anycli.plugins = [
-        '@anycli/help',
+        '@anycli/help-plugin',
       ]
     }
     if (this.type === 'multi' && !this.pjson.anycli.plugins) {
       this.pjson.anycli.plugins = [
-        '@anycli/version',
-        '@anycli/help',
-        '@anycli/not-found',
+        '@anycli/version-plugin',
+        '@anycli/help-plugin',
+        '@anycli/not-found-plugin',
       ]
     }
 
@@ -280,7 +285,7 @@ class App extends Generator {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
       }
     }
-    if (this.mocha) {
+    if (this.mocha && !this.fs.exists('test')) {
       this.fs.copyTpl(this.templatePath('test/helpers/init.js'), this.destinationPath('test/helpers/init.js'), this)
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
     }
@@ -431,8 +436,10 @@ class App extends Generator {
   }
 
   private _writeBase() {
-    this.fs.copyTpl(this.templatePath(`base/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
-    if (this.mocha) {
+    if (!fs.existsSync('src')) {
+      this.fs.copyTpl(this.templatePath(`base/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
+    }
+    if (this.mocha && !fs.existsSync('test')) {
       this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
     }
   }
@@ -443,11 +450,13 @@ class App extends Generator {
     const opts = {...this as any, _, bin, cmd}
     this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
-    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {...opts, name: 'hello'})
+    if (!this.fs.exists(`src/commands/hello.test.${this._ext}`)) {
+      this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {...opts, name: 'hello'})
+    }
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
     }
-    if (this.mocha) {
+    if (this.mocha && !this.fs.exists(`test/commands/hello.test.${this._ext}`)) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
     }
   }
@@ -457,8 +466,10 @@ class App extends Generator {
     const opts = {...this as any, _, bin, cmd: bin, name: this.pjson.name}
     this.fs.copyTpl(this.templatePath(`single/bin/run.${this._ext}`), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
-    this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), opts)
-    if (this.mocha) {
+    if (!this.fs.exists(`src/index.${this._ext}`)) {
+      this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), opts)
+    }
+    if (this.mocha && !this.fs.exists(`test/index.test.${this._ext}`)) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
     }
   }
@@ -467,7 +478,9 @@ class App extends Generator {
     this._writePlugin()
     this.fs.copyTpl(this.templatePath('bin/run'), this.destinationPath('bin/run'), this)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), this)
-    this.fs.copyTpl(this.templatePath(`multi/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
+    if (!this.fs.exists(`src/index.${this._ext}`)) {
+      this.fs.copyTpl(this.templatePath(`multi/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
+    }
   }
 }
 

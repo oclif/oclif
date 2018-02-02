@@ -13,8 +13,8 @@
     tslib "^1.9.0"
 
 "@anycli/command@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@anycli/command/-/command-0.3.3.tgz#38f2d56fee0c18ad528c3a42d90ae9c97b17d652"
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@anycli/command/-/command-0.3.4.tgz#c02b07f0f309192021cd76fa66b3f88db173025e"
   dependencies:
     "@anycli/parser" "^3.0.4"
     cli-ux "^3.3.12"
@@ -44,26 +44,27 @@
     lodash "^4.17.4"
     read-pkg "^3.0.0"
 
-"@anycli/engine@^0.1.42":
-  version "0.1.42"
-  resolved "https://registry.yarnpkg.com/@anycli/engine/-/engine-0.1.42.tgz#584274b6c4c9a8b8ad5563cc3070921afbe0910d"
+"@anycli/engine@^0.1.45":
+  version "0.1.45"
+  resolved "https://registry.yarnpkg.com/@anycli/engine/-/engine-0.1.45.tgz#5fc102c3d3bad895b1b2fe7c628e1b28d7ee5e8b"
   dependencies:
-    "@anycli/manifest-file" "^0.3.3"
+    "@anycli/manifest-file" "^0.3.8"
     cli-ux "^3.3.12"
     debug "^3.1.0"
     fs-extra "^5.0.0"
     globby "^7.1.1"
     lodash "^4.17.4"
 
-"@anycli/manifest-file@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@anycli/manifest-file/-/manifest-file-0.3.3.tgz#9cf398b411037be01b00b0d1fd3cf2a40178dcf5"
+"@anycli/manifest-file@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@anycli/manifest-file/-/manifest-file-0.3.8.tgz#d175a27e1d2009a14080c7e8dd808c1c856de468"
   dependencies:
+    cli-ux "^3.3.12"
     debug "^3.1.0"
     fs-extra "^5.0.0"
     load-json-file "^4.0.0"
     lodash "^4.17.4"
-    rwlockfile "^2.0.23"
+    proper-lockfile "^3.0.2"
 
 "@anycli/parser@^3.0.2":
   version "3.0.2"
@@ -86,8 +87,8 @@
   resolved "https://registry.yarnpkg.com/@anycli/screen/-/screen-0.0.3.tgz#f0afd970c3ed725702948a45a874ede1fdd9362e"
 
 "@anycli/tslint@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@anycli/tslint/-/tslint-0.2.1.tgz#17295a3a4c579884cd3aea7ed1d8c07d11ecc624"
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@anycli/tslint/-/tslint-0.2.2.tgz#46e899f58019600fc6a7191e7fde47d6b4513df1"
   dependencies:
     tslint "^5.9.1"
     tslint-xo "^0.6.0"
@@ -1276,7 +1277,7 @@ got@^7.0.0:
     url-parse-lax "^1.0.0"
     url-to-options "^1.0.1"
 
-graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -1455,12 +1456,6 @@ is-path-inside@^1.0.0:
 is-plain-obj@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-1.1.0.tgz#71a50c8429dfca773c92a390a4a03b39fcd51d3e"
-
-is-process-active@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/is-process-active/-/is-process-active-1.0.1.tgz#63616541f447d84b71783cb2002360cf7e690b4f"
-  dependencies:
-    debug "^3.1.0"
 
 is-promise@^2.1.0:
   version "2.1.0"
@@ -2071,6 +2066,13 @@ progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
 
+proper-lockfile@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/proper-lockfile/-/proper-lockfile-3.0.2.tgz#d30b3b83ecb157e08fe0d411f2393bc384b77ad1"
+  dependencies:
+    graceful-fs "^4.1.11"
+    retry "^0.10.1"
+
 ps-tree@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ps-tree/-/ps-tree-1.1.0.tgz#b421b24140d6203f1ed3c76996b4427b08e8c014"
@@ -2235,6 +2237,10 @@ restore-cursor@^2.0.0:
     onetime "^2.0.0"
     signal-exit "^3.0.2"
 
+retry@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/retry/-/retry-0.10.1.tgz#e76388d217992c252750241d3d3956fed98d8ff4"
+
 rimraf@^2.2.8, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
@@ -2246,14 +2252,6 @@ run-async@^2.0.0, run-async@^2.2.0:
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
   dependencies:
     is-promise "^2.1.0"
-
-rwlockfile@^2.0.23:
-  version "2.0.23"
-  resolved "https://registry.yarnpkg.com/rwlockfile/-/rwlockfile-2.0.23.tgz#1bc2341e9d63b78a0b5399220dfcecfbc4c0edc1"
-  dependencies:
-    fs-extra "^5.0.0"
-    is-process-active "^1.0.1"
-    uuid "^3.2.1"
 
 rx-lite-aggregates@^4.0.8:
   version "4.0.8"
@@ -2704,10 +2702,6 @@ util-deprecate@~1.0.1:
 uuid@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
-
-uuid@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
 v8flags@^3.0.0:
   version "3.0.1"

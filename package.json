@@ -8,10 +8,12 @@
   },
   "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
-    "@anycli/command": "^0.3.3",
+    "@anycli/command": "^0.3.5",
     "@anycli/config": "^0.2.11",
-    "@anycli/engine": "^0.1.45",
-    "@anycli/version": "^0.1.19",
+    "@anycli/engine": "^0.1.47",
+    "@anycli/plugin-help": "^0.3.6",
+    "@anycli/plugin-not-found": "^0.1.10",
+    "@anycli/plugin-version": "^0.1.19",
     "cli-ux": "^3.3.12",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",
@@ -46,7 +48,9 @@
   "anycli": {
     "commands": "./lib/commands",
     "plugins": [
-      "@anycli/version"
+      "@anycli/plugin-help",
+      "@anycli/plugin-version",
+      "@anycli/plugin-not-found"
     ]
   },
   "engines": {

@@ -3,15 +3,13 @@ const {expect, test} = require('@anycli/test')
 const cmd = require('..')
 <%_ } _%>
 
-const command = '<%- name %>'
-
-describe(command, () => {
+describe('<%- name %>', () => {
   test
   .stdout()
 <%_ if (type === 'single') { _%>
   .do(() => cmd.run([]))
 <%_ } else { _%>
-  .command([command])
+  .command(['<%- name %>'])
 <%_ } _%>
   .it('runs hello', ctx => {
     expect(ctx.stdout).to.contain('hello world from <%- name %>!')
@@ -22,7 +20,7 @@ describe(command, () => {
 <%_ if (type === 'single') { _%>
   .do(() => cmd.run(['--name', 'jeff']))
 <%_ } else { _%>
-  .command([command, '--name', 'jeff'])
+  .command(['<%- name %>', '--name', 'jeff'])
 <%_ } _%>
   .it('runs hello --name jeff', ctx => {
     expect(ctx.stdout).to.contain('hello jeff from <%- name %>!')

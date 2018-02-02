@@ -1,3 +1,12 @@
+<a name="0.32.5"></a>
+## [0.32.5](https://github.com/anycli/cli/compare/20de5dcd2abf943b2d5004d1027c09208b910c3d...v0.32.5) (2018-02-02)
+
+
+### Bug Fixes
+
+* fixed global add ([6e5fb0e](https://github.com/anycli/cli/commit/6e5fb0e))
+* move setup_git into greenkeeper ([b6c87d9](https://github.com/anycli/cli/commit/b6c87d9))
+
 <a name="0.32.4"></a>
 ## [0.32.4](https://github.com/anycli/cli/compare/47f9b65b3f6ac03e687a7063ad51bcb905f9edf2...v0.32.4) (2018-02-02)
 

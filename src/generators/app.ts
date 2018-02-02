@@ -245,7 +245,8 @@ class App extends Generator {
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest > lib/.anycli.manifest.json')
+      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest > .anycli.manifest.json')
+      this.pjson.files.push('.anycli.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
@@ -255,7 +256,7 @@ class App extends Generator {
       this.pjson.anycli.bin = this.answers.bin || this._bin
       this.pjson.bin = this.pjson.bin || {}
       this.pjson.bin[this.pjson.anycli.bin] = './bin/run'
-      this.pjson.files.unshift('/bin')
+      this.pjson.files.push('/bin')
     }
     if (this.type !== 'plugin') {
       this.pjson.main = defaults.main || (this.ts ? 'lib/index.js' : 'src/index.js')
@@ -311,6 +312,7 @@ class App extends Generator {
       fixpack(this.destinationPath('./package.json'), require('fixpack/config.json'))
     }
     if (_.isEmpty(this.pjson.anycli)) delete this.pjson.anycli
+    this.pjson.files = _.uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
     this.fs.copyTpl(this.templatePath('scripts/greenkeeper'), this.destinationPath('.circleci/greenkeeper'), this)

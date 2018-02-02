@@ -1,3 +1,11 @@
+<a name="0.32.16"></a>
+## [0.32.16](https://github.com/anycli/cli/compare/8e8b9a79f0f93bf3a7e6104f6a619b4d24bb4d52...v0.32.16) (2018-02-02)
+
+
+### Bug Fixes
+
+* use yarn, not yarn install ([ff61a7f](https://github.com/anycli/cli/commit/ff61a7f))
+
 <a name="0.32.15"></a>
 ## [0.32.15](https://github.com/anycli/cli/compare/a95f10cf176d975537cb1696c8ab8ddcd4b2efd3...v0.32.15) (2018-02-02)
 

@@ -21,5 +21,5 @@ if [[ ! -x "$(command -v greenkeeper-lockfile-update)" ]]; then
 fi
 
 greenkeeper-lockfile-update
-yarn install "$CLI_ENGINE_UTIL_YARN_ARGS"
+yarn install
 greenkeeper-lockfile-upload

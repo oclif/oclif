@@ -218,11 +218,6 @@ class App extends Generator {
     this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name
-    if (['single', 'multi'].includes(this.type)) {
-      this.pjson.anycli.bin = this.answers.bin || this._bin
-      this.pjson.bin = this.pjson.bin || {}
-      this.pjson.bin[this.pjson.anycli.bin] = './bin/run'
-    }
     this.pjson.description = this.answers.description || defaults.description
     this.pjson.version = this.answers.version || defaults.version
     this.pjson.engines.node = this.answers.engines ? this.answers.engines.node : defaults.engines.node
@@ -252,6 +247,12 @@ class App extends Generator {
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
 
+    if (['single', 'multi'].includes(this.type)) {
+      this.pjson.anycli.bin = this.answers.bin || this._bin
+      this.pjson.bin = this.pjson.bin || {}
+      this.pjson.bin[this.pjson.anycli.bin] = './bin/run'
+      this.pjson.files.unshift('/bin')
+    }
     if (this.type !== 'plugin') {
       this.pjson.main = defaults.main || (this.ts ? 'lib/index.js' : 'src/index.js')
       if (this.ts) {

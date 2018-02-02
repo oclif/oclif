@@ -1,3 +1,12 @@
+<a name="0.32.6"></a>
+## [0.32.6](https://github.com/anycli/cli/compare/dd9da5f0c60bca1c06ed4ebd7edfecce6643356a...v0.32.6) (2018-02-02)
+
+
+### Bug Fixes
+
+* circle cache improvements ([7e9c3d0](https://github.com/anycli/cli/commit/7e9c3d0))
+* fixed plugin circle config ([85b5640](https://github.com/anycli/cli/commit/85b5640))
+
 <a name="0.32.5"></a>
 ## [0.32.5](https://github.com/anycli/cli/compare/20de5dcd2abf943b2d5004d1027c09208b910c3d...v0.32.5) (2018-02-02)
 

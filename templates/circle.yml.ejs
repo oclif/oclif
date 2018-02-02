@@ -23,6 +23,12 @@ jobs:
     steps:
       - checkout
       - attach_workspace: {at: node_modules}
+      <%_ if (['single', 'multi'].includes(type)) { _%>
+      - run: ./bin/run -v
+      <%_ } _%>
+      <%_ if (['single', 'multi', 'plugin'].includes(type)) { _%>
+      - run: ./bin/run --help
+      <%_ } _%>
       <%_ if (mocha) { _%>
       - run: |
           mkdir -p reports
@@ -31,12 +37,6 @@ jobs:
           curl -s https://codecov.io/bash | bash
       <%_ } else { _%>
       - run: yarn test
-      <%_ } _%>
-      <%_ if (['single', 'multi', 'plugin'].includes(type)) { _%>
-      - run: ./bin/run -v
-      <%_ } _%>
-      <%_ if (['single', 'multi'].includes(type)) { _%>
-      - run: ./bin/run --help
       <%_ } _%>
       <%_ if (semantic_release) { _%>
       - run: yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master

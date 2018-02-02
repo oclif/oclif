@@ -81,6 +81,7 @@ jobs:
           keys:
             - v0-release-{{checksum ".circleci/config.yml"}}
             - v0
+      - attach_workspace: {at: node_modules}
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
           yarn global add @anycli/semantic-release@1 semantic-release@12

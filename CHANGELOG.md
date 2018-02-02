@@ -1,3 +1,11 @@
+<a name="0.32.4"></a>
+## [0.32.4](https://github.com/anycli/cli/compare/47f9b65b3f6ac03e687a7063ad51bcb905f9edf2...v0.32.4) (2018-02-02)
+
+
+### Bug Fixes
+
+* fixed restore cache step ([20de5dc](https://github.com/anycli/cli/commit/20de5dc))
+
 <a name="0.32.3"></a>
 ## [0.32.3](https://github.com/anycli/cli/compare/de0ad4e688db399401aef571acdd2990d5e0ae77...v0.32.3) (2018-02-01)
 

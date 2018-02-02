@@ -294,7 +294,7 @@ class App extends Generator {
     // if (this.semantic_release) {
     //   this.fs.copyTpl(this.templatePath('scripts/release'), this.destinationPath('.circleci/release'), this)
     // }
-    this.fs.copyTpl(this.templatePath('scripts/setup_git'), this.destinationPath('.circleci/setup_git'), this)
+    // this.fs.copyTpl(this.templatePath('scripts/setup_git'), this.destinationPath('.circleci/setup_git'), this)
     this.fs.copyTpl(this.templatePath('README.md.ejs'), this.destinationPath('README.md'), this)
     this.fs.copyTpl(this.templatePath('circle.yml.ejs'), this.destinationPath('.circleci/config.yml'), this)
     this.fs.copyTpl(this.templatePath('appveyor.yml.ejs'), this.destinationPath('appveyor.yml'), this)

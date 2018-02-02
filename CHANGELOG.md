@@ -1,3 +1,13 @@
+<a name="0.32.8"></a>
+## [0.32.8](https://github.com/anycli/cli/compare/daa43ead11cd86d0d73cc8b999bc4658864c01c0...v0.32.8) (2018-02-02)
+
+
+### Bug Fixes
+
+* add another retry ([6dfe207](https://github.com/anycli/cli/commit/6dfe207))
+* add another workflow for caching ([5fe5d11](https://github.com/anycli/cli/commit/5fe5d11))
+* cache after release ([a7e0d14](https://github.com/anycli/cli/commit/a7e0d14))
+
 <a name="0.32.7"></a>
 ## [0.32.7](https://github.com/anycli/cli/compare/85b56406a591cde36f9586fbac671850d7b80848...v0.32.7) (2018-02-02)
 

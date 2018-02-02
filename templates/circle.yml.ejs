@@ -110,6 +110,8 @@ workflows:
             - node-latest
             - node-8
 <%_ } _%>
+  "<%= pjson.name %>-cache":
+    jobs:
       - cache:
           filters:
             tags:

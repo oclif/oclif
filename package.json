@@ -1,7 +1,7 @@
 {
   "name": "@anycli/cli",
   "description": "anycli: create your own CLI",
-  "version": "0.32.7",
+  "version": "0.32.8",
   "author": "Jeff Dickey @jdxcode",
   "bin": {
     "anycli": "bin/run"

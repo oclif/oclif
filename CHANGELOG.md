@@ -1,3 +1,12 @@
+<a name="0.32.15"></a>
+## [0.32.15](https://github.com/anycli/cli/compare/a95f10cf176d975537cb1696c8ab8ddcd4b2efd3...v0.32.15) (2018-02-02)
+
+
+### Bug Fixes
+
+* fixed indentation ([0ee469a](https://github.com/anycli/cli/commit/0ee469a))
+* use strings instead of variable ([8e8b9a7](https://github.com/anycli/cli/commit/8e8b9a7))
+
 <a name="0.32.14"></a>
 ## [0.32.14](https://github.com/anycli/cli/compare/f2d3b5d77719508cd3247e294efeeaee9def7fb6...v0.32.14) (2018-02-02)
 

@@ -54,6 +54,7 @@ module.exports = file => {
         sh.exec('yarn test')
         sh.exec('node ./bin/run')
         sh.exec('node ./bin/run --help')
+        sh.exec('yarn run prepublishOnly')
         break
       case 'single':
         build(cmd, name)
@@ -70,6 +71,7 @@ module.exports = file => {
         sh.exec('node ./bin/run hello')
         sh.exec('node ./bin/run help hello')
         sh.exec('node ./bin/run hello --help')
+        sh.exec('yarn run prepublishOnly')
         break
       case 'command':
         build('plugin', name)
@@ -79,6 +81,7 @@ module.exports = file => {
         sh.exec('node ./bin/run foo:bar:baz')
         sh.exec('node ./bin/run help foo:bar:baz')
         sh.exec('node ./bin/run foo:bar:baz --help')
+        sh.exec('yarn run prepublishOnly')
         break
       }
     })

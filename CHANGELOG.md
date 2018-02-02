@@ -1,3 +1,12 @@
+<a name="0.32.11"></a>
+## [0.32.11](https://github.com/anycli/cli/compare/1384b55ba5218bded587c7bcb7ceeff41da69f1e...v0.32.11) (2018-02-02)
+
+
+### Bug Fixes
+
+* consolidate circle jobs ([d72884d](https://github.com/anycli/cli/commit/d72884d))
+* consolidate circle jobs ([9f3c2f2](https://github.com/anycli/cli/commit/9f3c2f2))
+
 <a name="0.32.10"></a>
 ## [0.32.10](https://github.com/anycli/cli/compare/43335e983141cb2c2379579d6b7f673a94d6cdf5...v0.32.10) (2018-02-02)
 

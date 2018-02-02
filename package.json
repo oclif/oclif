@@ -3,14 +3,24 @@
   "description": "anycli: create your own CLI",
   "version": "0.33.2",
   "author": "Jeff Dickey @jdxcode",
+  "anycli": {
+    "commands": "./lib/commands",
+    "plugins": [
+      "@anycli/plugin-help",
+      "@anycli/plugin-not-found",
+      "@anycli/plugin-version"
+    ],
+    "bin": "anycli"
+  },
   "bin": {
-    "anycli": "bin/run"
+    "anycli": "./bin/run"
   },
   "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
     "@anycli/command": "^0.3.7",
     "@anycli/config": "^0.3.0",
-    "@anycli/engine": "^0.3.1",
+    "@anycli/dev-cli": "^0.1.3",
+    "@anycli/engine": "^0.3.2",
     "@anycli/plugin-help": "^0.4.6",
     "@anycli/plugin-not-found": "^0.1.14",
     "@anycli/plugin-version": "^0.1.30",
@@ -45,18 +55,11 @@
     "ts-node": "^4.1.0",
     "typescript": "^2.7.1"
   },
-  "anycli": {
-    "commands": "./lib/commands",
-    "plugins": [
-      "@anycli/plugin-help",
-      "@anycli/plugin-version",
-      "@anycli/plugin-not-found"
-    ]
-  },
   "engines": {
     "node": ">=8.0.0"
   },
   "files": [
+    ".anycli.manifest.json",
     "/bin",
     "/lib",
     "/templates"
@@ -69,8 +72,12 @@
   "main": "lib/index.js",
   "repository": "anycli/cli",
   "scripts": {
-    "prepublishOnly": "nps build",
-    "test": "nps test -l warn"
+    "build": "rm -rf lib && tsc",
+    "lint": "nps lint",
+    "postpublish": "rm .anycli.manifest.json",
+    "posttest": "yarn run lint",
+    "prepublishOnly": "yarn run build && anycli-dev manifest -o .anycli.manifest.json",
+    "test": "nps test"
   },
   "types": "lib/index.d.ts"
 }

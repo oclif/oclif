@@ -11,6 +11,8 @@ const {CI} = process.env
 delete process.env.CI
 process.env.ANYCLI_DEBUG = '1'
 
+process.env.YARN_MUTEX = `file:${tmp.tmpNameSync()}`
+
 function generate(args) {
   const run = path.join(__dirname, '../bin/run')
   sh.exec(`node ${run} ${args}`)

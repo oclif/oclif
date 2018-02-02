@@ -392,9 +392,11 @@ class App extends Generator {
         'concurrently',
       )
     }
+    let yarnOpts = {} as any
+    if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
     Promise.all([
-      this.yarnInstall(devDependencies, {dev: true, ignoreScripts: true}),
-      this.yarnInstall(dependencies),
+      this.yarnInstall(devDependencies, {...yarnOpts, dev: true, ignoreScripts: true}),
+      this.yarnInstall(dependencies, yarnOpts),
     ]).then(() => {
       console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
     })

@@ -23,7 +23,6 @@ jobs:
     steps:
       - checkout
       - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
       <%_ if (mocha) { _%>
       - run: |
           mkdir -p reports
@@ -85,7 +84,6 @@ jobs:
       - attach_workspace: {at: node_modules}
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
-          .circleci/setup_git
           yarn global add @anycli/semantic-release@1 semantic-release@12
           semantic-release -e @anycli/semantic-release
 <%_ } _%>

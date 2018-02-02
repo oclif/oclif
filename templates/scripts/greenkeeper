@@ -10,6 +10,12 @@ if [[ "$CIRCLE_BRANCH" != greenkeeper/* ]]; then
   exit 0
 fi
 
+if [[ ! -z "$GIT_EMAIL" ]] & [[ ! -z "$GIT_USERNAME" ]]; then
+  git config --global push.default simple
+  git config --global user.email "$GIT_EMAIL"
+  git config --global user.name "$GIT_USERNAME"
+fi
+
 if [[ ! -x "$(command -v greenkeeper-lockfile-update)" ]]; then
   yarn global add greenkeeper-lockfile@1
 fi

@@ -7,6 +7,7 @@ import * as path from 'path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
+const nps = require('nps-utils')
 const sortPjson = require('sort-pjson')
 const fixpack = require('fixpack')
 const debug = require('debug')('generator-anycli')
@@ -243,6 +244,9 @@ class App extends Generator {
       this.pjson.scripts.build = 'rm -rf lib && tsc'
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
+    if (['plugin', 'multi'].includes(this.type)) {
+      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest > .anycli.manifest.json')
+    }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
@@ -368,6 +372,7 @@ class App extends Generator {
           'cli-ux',
         )
         devDependencies.push(
+          '@anycli/dev-cli',
           '@anycli/engine',
           '@anycli/config',
           '@anycli/plugin-help',
@@ -375,6 +380,7 @@ class App extends Generator {
         break
       case 'multi':
         dependencies.push(
+          '@anycli/dev-cli',
           '@anycli/engine',
           '@anycli/config',
           '@anycli/command',

@@ -1,3 +1,13 @@
+<a name="0.32.13"></a>
+## [0.32.13](https://github.com/anycli/cli/compare/8ba2b5f0b87683fb1d06a2a521afb69913a80129...v0.32.13) (2018-02-02)
+
+
+### Bug Fixes
+
+* improve experience when overwiting existing base ([f79dfef](https://github.com/anycli/cli/commit/f79dfef))
+* updated deps ([f2d3b5d](https://github.com/anycli/cli/commit/f2d3b5d))
+* use new plugins ([7c58310](https://github.com/anycli/cli/commit/7c58310))
+
 <a name="0.32.12"></a>
 ## [0.32.12](https://github.com/anycli/cli/compare/fc47d6447cfb798bd4892ae6cc42ae91ed2402c1...v0.32.12) (2018-02-02)
 

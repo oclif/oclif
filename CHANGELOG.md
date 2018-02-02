@@ -1,3 +1,12 @@
+<a name="0.33.2"></a>
+## [0.33.2](https://github.com/anycli/cli/compare/14802aa23e3b81793163c602caff56cd277a3db0...v0.33.2) (2018-02-02)
+
+
+### Bug Fixes
+
+* disable yarn check for now ([5637b46](https://github.com/anycli/cli/commit/5637b46))
+* use -o for manifest building ([2171042](https://github.com/anycli/cli/commit/2171042))
+
 <a name="0.33.1"></a>
 ## [0.33.1](https://github.com/anycli/cli/compare/2fc517cccdb4117269247694f9add20f088173c2...v0.33.1) (2018-02-02)
 

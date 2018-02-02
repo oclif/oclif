@@ -3,6 +3,7 @@ const path = require('path')
 const sh = require('shelljs')
 const npmPath = require('npm-run-path')
 const tmp = require('tmp')
+const os = require('os')
 
 sh.set('-ev')
 
@@ -11,7 +12,7 @@ const {CI} = process.env
 delete process.env.CI
 process.env.ANYCLI_DEBUG = '1'
 
-process.env.YARN_MUTEX = `file:${tmp.tmpNameSync()}`
+process.env.YARN_MUTEX = `file:${path.join(os.tmpdir(), 'yarn.mutex')}`
 
 function generate(args) {
   const run = path.join(__dirname, '../bin/run')
@@ -41,7 +42,7 @@ module.exports = file => {
 
   describe(cmd, () => {
     fancy
-    .retries(CI ? 2 : 0)
+    .retries(CI ? 1 : 0)
     .do(() => {
       switch (cmd) {
       case 'base':

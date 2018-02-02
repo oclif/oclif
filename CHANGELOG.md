@@ -1,3 +1,11 @@
+<a name="0.32.12"></a>
+## [0.32.12](https://github.com/anycli/cli/compare/fc47d6447cfb798bd4892ae6cc42ae91ed2402c1...v0.32.12) (2018-02-02)
+
+
+### Bug Fixes
+
+* do not install dev deps on release ([8ba2b5f](https://github.com/anycli/cli/commit/8ba2b5f))
+
 <a name="0.32.11"></a>
 ## [0.32.11](https://github.com/anycli/cli/compare/1384b55ba5218bded587c7bcb7ceeff41da69f1e...v0.32.11) (2018-02-02)
 

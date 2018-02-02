@@ -41,7 +41,7 @@ module.exports = file => {
 
   describe(cmd, () => {
     fancy
-    .retries(CI ? 1 : 0)
+    .retries(CI ? 2 : 0)
     .do(() => {
       switch (cmd) {
       case 'base':

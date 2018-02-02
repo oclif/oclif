@@ -1,3 +1,11 @@
+<a name="0.33.0"></a>
+# [0.33.0](https://github.com/anycli/cli/compare/ff61a7fdc6a8d248e256f5396c74e94d4a6b81f9...v0.33.0) (2018-02-02)
+
+
+### Features
+
+* add manifest to package ([2fc517c](https://github.com/anycli/cli/commit/2fc517c))
+
 <a name="0.32.16"></a>
 ## [0.32.16](https://github.com/anycli/cli/compare/8e8b9a79f0f93bf3a7e6104f6a619b4d24bb4d52...v0.32.16) (2018-02-02)
 

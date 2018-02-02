@@ -40,6 +40,7 @@ class App extends Generator {
   githubUser: string | undefined
   answers!: {
     name: string
+    bin: string
     description: string
     version: string
     engines: {node: string}
@@ -136,6 +137,13 @@ class App extends Generator {
         },
         {
           type: 'input',
+          name: 'bin',
+          message: 'command bin name the CLI will export',
+          default: (answers: any) => (answers.name || this._bin).split('/').pop(),
+          when: ['single', 'multi'].includes(this.type) && !this.pjson.anycli.bin,
+        },
+        {
+          type: 'input',
           name: 'description',
           message: 'description',
           default: defaults.description,
@@ -210,6 +218,11 @@ class App extends Generator {
     this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name
+    if (['single', 'multi'].includes(this.type)) {
+      this.pjson.anycli.bin = this.answers.bin || this._bin
+      this.pjson.bin = this.pjson.bin || {}
+      this.pjson.bin[this.pjson.anycli.bin] = './bin/run'
+    }
     this.pjson.description = this.answers.description || defaults.description
     this.pjson.version = this.answers.version || defaults.version
     this.pjson.engines.node = this.answers.engines ? this.answers.engines.node : defaults.engines.node

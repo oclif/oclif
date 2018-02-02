@@ -22,7 +22,10 @@ jobs:
       <%_ } _%>
     steps:
       - checkout
-      - attach_workspace: {at: node_modules}
+      - restore_cache: &restore_cache
+          keys:
+            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v0-yarn-{{checksum ".circleci/config.yml"}}
       <%_ if (['single', 'multi'].includes(type)) { _%>
       - run: ./bin/run -v
       <%_ } _%>
@@ -47,48 +50,19 @@ jobs:
     <<: *test
     docker:
       - image: node:8
-  yarn:
-    <<: *test
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v0-yarn-{{checksum ".circleci/config.yml"}}
-            - v0-yarn
-      - run: .circleci/greenkeeper
-      - run: yarn global add greenkeeper-lockfile@1
-      - run: yarn add -D $DEPS
-      - persist_to_workspace: {root: node_modules,  paths: ["*"]}
-  cache:
-    <<: *test
-    steps:
-      - checkout
-      - attach_workspace: {at: node_modules}
-      - run: yarn global add greenkeeper-lockfile@1
-      - run: yarn add -D $DEPS
-      - save_cache:
-          key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
-          paths:
-            - /usr/local/share/.cache/yarn
-            - /usr/local/share/.config/yarn
 <%_ if (semantic_release) { _%>
   release:
     <<: *test
     steps:
       - add_ssh_keys
       - checkout
-      - restore_cache:
-          keys:
-            - v0-release-{{checksum ".circleci/config.yml"}}
-            - v0
-      - attach_workspace: {at: node_modules}
+      - restore_cache: *restore_cache
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
           yarn global add @anycli/semantic-release@1 semantic-release@12
           semantic-release -e @anycli/semantic-release
       - save_cache:
-          key: v0-release-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:
             - ~/cli/node_modules
             - /usr/local/share/.cache/yarn
@@ -99,9 +73,8 @@ workflows:
   version: 2
   "<%= pjson.name %>":
     jobs:
-      - yarn
-      - node-latest: {requires: [yarn] }
-      - node-8: {requires: [yarn] }
+      - node-latest
+      - node-8
 <%_ if (semantic_release) { _%>
       - release:
           context: org-global
@@ -111,4 +84,3 @@ workflows:
             - node-latest
             - node-8
 <%_ } _%>
-      - cache: {requires: [release] }

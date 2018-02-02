@@ -22,6 +22,16 @@
     lodash "^4.17.4"
     tslib "^1.9.0"
 
+"@anycli/command@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@anycli/command/-/command-0.3.6.tgz#02aadc38cee7bc4acb2069732cb1591dfc339c29"
+  dependencies:
+    "@anycli/parser" "^3.0.4"
+    cli-ux "^3.3.12"
+    debug "^3.1.0"
+    lodash "^4.17.4"
+    tslib "^1.9.0"
+
 "@anycli/config@^0.2.11":
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/@anycli/config/-/config-0.2.11.tgz#1b043946b18e159e6e44195aa4fef309b79f8ede"
@@ -63,11 +73,11 @@
     chalk "^2.3.0"
     lodash "^4.17.4"
 
-"@anycli/plugin-help@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@anycli/plugin-help/-/plugin-help-0.3.6.tgz#f7f8aac308c0a91dfb5f7f0ca79c91d4585bc4d7"
+"@anycli/plugin-help@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@anycli/plugin-help/-/plugin-help-0.3.7.tgz#aefde35b0b49b1598e893ed83910955bd24419ef"
   dependencies:
-    "@anycli/command" "^0.3.4"
+    "@anycli/command" "^0.3.6"
     "@anycli/screen" "^0.0.3"
     chalk "^2.3.0"
     cli-ux "^3.3.12"
@@ -86,11 +96,11 @@
     cli-ux "^3.3.12"
     string-similarity "^1.2.0"
 
-"@anycli/plugin-version@^0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@anycli/plugin-version/-/plugin-version-0.1.19.tgz#8a4e9b3e44acb810cb1db82db71bf9dc1048b297"
+"@anycli/plugin-version@^0.1.20":
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@anycli/plugin-version/-/plugin-version-0.1.20.tgz#c0b3bc5711d33bc7a71ef0264611165aab64ae3c"
   dependencies:
-    "@anycli/command" "^0.3.4"
+    "@anycli/command" "^0.3.5"
     cli-ux "^3.3.12"
 
 "@anycli/screen@^0.0.3":

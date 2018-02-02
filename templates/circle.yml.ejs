@@ -53,9 +53,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v0-{{checksum ".circleci/config.yml"}}
-            - v0
+            - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v0-yarn-{{checksum ".circleci/config.yml"}}
+            - v0-yarn
       - run: .circleci/greenkeeper
       - run: yarn global add greenkeeper-lockfile@1
       - run: yarn add -D $DEPS
@@ -64,14 +64,10 @@ jobs:
     <<: *test
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-      - attach_workspace: {at: node_modules}
-      - run: yarn global add greenkeeper-lockfile@1<%- semantic_release ? ' @anycli/semantic-release@1 semantic-release@12' : '' %>
+      - run: yarn global add greenkeeper-lockfile@1
       - run: yarn add -D $DEPS
       - save_cache:
-          key: v001-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn
@@ -81,11 +77,20 @@ jobs:
     steps:
       - add_ssh_keys
       - checkout
-      - attach_workspace: {at: node_modules}
+      - restore_cache:
+          keys:
+            - v0-release-{{checksum ".circleci/config.yml"}}
+            - v0
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
           yarn global add @anycli/semantic-release@1 semantic-release@12
           semantic-release -e @anycli/semantic-release
+      - save_cache:
+          key: v0-release-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          paths:
+            - ~/cli/node_modules
+            - /usr/local/share/.cache/yarn
+            - /usr/local/share/.config/yarn
 <%_ } _%>
 
 workflows:
@@ -103,9 +108,10 @@ workflows:
           requires:
             - node-latest
             - node-8
-      - cache: { requires: [release] }
-<%_ } else { _%>
+<%_ } _%>
       - cache:
           filters:
-            branches: {only: master}
-<%_ } _%>
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

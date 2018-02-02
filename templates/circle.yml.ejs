@@ -69,7 +69,7 @@ jobs:
           keys:
             - v0-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
       - attach_workspace: {at: node_modules}
-      - run: yarn global add greenkeeper-lockfile@1<%- semantic_release ? '@anycli/semantic-release@1 semantic-release@12' : '' %>
+      - run: yarn global add greenkeeper-lockfile@1<%- semantic_release ? ' @anycli/semantic-release@1 semantic-release@12' : '' %>
       - run: yarn add -D $DEPS
       - save_cache:
           key: v001-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}

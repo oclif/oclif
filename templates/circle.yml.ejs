@@ -26,6 +26,8 @@ jobs:
           keys:
             - v0-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
             - v0-yarn-{{checksum ".circleci/config.yml"}}
+      - run: .circleci/greenkeeper
+      - run: yarn add -D $DEPS
       <%_ if (['single', 'multi'].includes(type)) { _%>
       - run: ./bin/run -v
       <%_ } _%>
@@ -57,9 +59,10 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
+      - run: yarn add -D $DEPS
+      - run: yarn global add @anycli/semantic-release@1 semantic-release@12
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
-          yarn global add @anycli/semantic-release@1 semantic-release@12
           semantic-release -e @anycli/semantic-release
       - save_cache:
           key: v0-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}

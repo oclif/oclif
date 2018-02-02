@@ -6,7 +6,7 @@ PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 
 if [[ "$CIRCLE_BRANCH" != greenkeeper/* ]]; then
   yarn
-  yarn check
+  # yarn check
   exit 0
 fi
 

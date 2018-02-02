@@ -1,3 +1,11 @@
+<a name="0.32.9"></a>
+## [0.32.9](https://github.com/anycli/cli/compare/a7e0d141cf5a65a9faf202998a5c53c32fcb695c...v0.32.9) (2018-02-02)
+
+
+### Bug Fixes
+
+* fixed yarn mutex ([43335e9](https://github.com/anycli/cli/commit/43335e9))
+
 <a name="0.32.8"></a>
 ## [0.32.8](https://github.com/anycli/cli/compare/daa43ead11cd86d0d73cc8b999bc4658864c01c0...v0.32.8) (2018-02-02)
 

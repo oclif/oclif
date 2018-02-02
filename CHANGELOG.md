@@ -1,3 +1,12 @@
+<a name="0.32.7"></a>
+## [0.32.7](https://github.com/anycli/cli/compare/85b56406a591cde36f9586fbac671850d7b80848...v0.32.7) (2018-02-02)
+
+
+### Bug Fixes
+
+* add mutex so tests can run in parallel ([b03b605](https://github.com/anycli/cli/commit/b03b605))
+* attach workspace when releasing ([daa43ea](https://github.com/anycli/cli/commit/daa43ea))
+
 <a name="0.32.6"></a>
 ## [0.32.6](https://github.com/anycli/cli/compare/dd9da5f0c60bca1c06ed4ebd7edfecce6643356a...v0.32.6) (2018-02-02)
 

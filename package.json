@@ -11,7 +11,7 @@
     "@anycli/command": "^0.3.6",
     "@anycli/config": "^0.2.11",
     "@anycli/engine": "^0.1.47",
-    "@anycli/plugin-help": "^0.3.7",
+    "@anycli/plugin-help": "^0.4.0",
     "@anycli/plugin-not-found": "^0.1.10",
     "@anycli/plugin-version": "^0.1.20",
     "cli-ux": "^3.3.12",

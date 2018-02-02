@@ -1,3 +1,11 @@
+<a name="0.32.10"></a>
+## [0.32.10](https://github.com/anycli/cli/compare/43335e983141cb2c2379579d6b7f673a94d6cdf5...v0.32.10) (2018-02-02)
+
+
+### Bug Fixes
+
+* use name in concurrently ([1384b55](https://github.com/anycli/cli/commit/1384b55))
+
 <a name="0.32.9"></a>
 ## [0.32.9](https://github.com/anycli/cli/compare/a7e0d141cf5a65a9faf202998a5c53c32fcb695c...v0.32.9) (2018-02-02)
 

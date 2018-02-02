@@ -263,14 +263,14 @@ class App extends Generator {
     }
     if (this.type === 'plugin' && !this.pjson.anycli.devPlugins) {
       this.pjson.anycli.plugins = [
-        '@anycli/help-plugin',
+        '@anycli/plugin-help',
       ]
     }
     if (this.type === 'multi' && !this.pjson.anycli.plugins) {
       this.pjson.anycli.plugins = [
-        '@anycli/version-plugin',
-        '@anycli/help-plugin',
-        '@anycli/not-found-plugin',
+        '@anycli/plugin-version',
+        '@anycli/plugin-help',
+        '@anycli/plugin-not-found',
       ]
     }
 
@@ -344,7 +344,7 @@ class App extends Generator {
         dependencies.push(
           '@anycli/config',
           '@anycli/command',
-          '@anycli/help',
+          '@anycli/plugin-help',
           'cli-ux',
         )
         break
@@ -356,7 +356,7 @@ class App extends Generator {
         devDependencies.push(
           '@anycli/engine',
           '@anycli/config',
-          '@anycli/help',
+          '@anycli/plugin-help',
         )
         break
       case 'multi':
@@ -364,9 +364,9 @@ class App extends Generator {
           '@anycli/engine',
           '@anycli/config',
           '@anycli/command',
-          '@anycli/version',
-          '@anycli/not-found',
-          '@anycli/help',
+          '@anycli/plugin-version',
+          '@anycli/plugin-not-found',
+          '@anycli/plugin-help',
           'cli-ux',
         )
     }
@@ -450,13 +450,13 @@ class App extends Generator {
     const opts = {...this as any, _, bin, cmd}
     this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
-    if (!this.fs.exists(`src/commands/hello.test.${this._ext}`)) {
+    if (!fs.existsSync('src/commands')) {
       this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {...opts, name: 'hello'})
     }
     if (this.ts) {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
     }
-    if (this.mocha && !this.fs.exists(`test/commands/hello.test.${this._ext}`)) {
+    if (this.mocha && !fs.existsSync('test')) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
     }
   }

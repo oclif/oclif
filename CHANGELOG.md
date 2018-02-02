@@ -1,3 +1,12 @@
+<a name="0.33.1"></a>
+## [0.33.1](https://github.com/anycli/cli/compare/2fc517cccdb4117269247694f9add20f088173c2...v0.33.1) (2018-02-02)
+
+
+### Bug Fixes
+
+* fixed manifest location ([14802aa](https://github.com/anycli/cli/commit/14802aa))
+* fixed manifest location ([36f79a8](https://github.com/anycli/cli/commit/36f79a8))
+
 <a name="0.33.0"></a>
 # [0.33.0](https://github.com/anycli/cli/compare/ff61a7fdc6a8d248e256f5396c74e94d4a6b81f9...v0.33.0) (2018-02-02)
 

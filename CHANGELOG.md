@@ -1,3 +1,12 @@
+<a name="0.32.14"></a>
+## [0.32.14](https://github.com/anycli/cli/compare/f2d3b5d77719508cd3247e294efeeaee9def7fb6...v0.32.14) (2018-02-02)
+
+
+### Bug Fixes
+
+* add bin scripts to files ([a95f10c](https://github.com/anycli/cli/commit/a95f10c))
+* added bin script to pjson ([190cb30](https://github.com/anycli/cli/commit/190cb30))
+
 <a name="0.32.13"></a>
 ## [0.32.13](https://github.com/anycli/cli/compare/8ba2b5f0b87683fb1d06a2a521afb69913a80129...v0.32.13) (2018-02-02)
 

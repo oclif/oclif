@@ -17,7 +17,7 @@
   },
   "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
-    "@anycli/command": "^0.3.7",
+    "@anycli/command": "^1.0.0",
     "@anycli/config": "^0.3.0",
     "@anycli/dev-cli": "^0.1.3",
     "@anycli/engine": "^0.3.2",

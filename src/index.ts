@@ -1,3 +1,1 @@
-import run from '@anycli/engine'
-export {run}
-export default run
+export {run} from '@anycli/command'

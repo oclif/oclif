@@ -1,4 +1,4 @@
-import {flags, parse} from '@anycli/command'
+import {flags} from '@anycli/command'
 
 import Base from './command_base'
 
@@ -12,18 +12,18 @@ export default abstract class AppCommand extends Base {
     {name: 'path', required: false}
   ]
 
-  options = parse(this.argv, AppCommand)
   abstract type: string
 
   async run() {
-    const options = this.options.flags.options ? this.options.flags.options.split(',') : []
+    const {flags, args} = this.parse(AppCommand)
+    const options = flags.options ? flags.options.split(',') : []
 
     await super.generate('app', {
       type: this.type,
-      path: this.options.args.path,
+      path: args.path,
       options,
-      defaults: this.options.flags.defaults,
-      force: this.options.flags.force
+      defaults: flags.defaults,
+      force: flags.force
     })
   }
 }

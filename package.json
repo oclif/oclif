@@ -7,8 +7,7 @@
     "commands": "./lib/commands",
     "plugins": [
       "@anycli/plugin-help",
-      "@anycli/plugin-not-found",
-      "@anycli/plugin-version"
+      "@anycli/plugin-not-found"
     ],
     "bin": "anycli"
   },
@@ -17,13 +16,11 @@
   },
   "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
-    "@anycli/command": "^0.3.7",
-    "@anycli/config": "^0.3.0",
-    "@anycli/dev-cli": "^0.1.3",
-    "@anycli/engine": "^0.3.2",
-    "@anycli/plugin-help": "^0.4.6",
-    "@anycli/plugin-not-found": "^0.1.14",
-    "@anycli/plugin-version": "^0.1.30",
+    "@anycli/command": "^1.2.4",
+    "@anycli/config": "^1.1.2",
+    "@anycli/dev-cli": "^0.1.5",
+    "@anycli/plugin-help": "^0.6.0",
+    "@anycli/plugin-not-found": "^0.1.15",
     "cli-ux": "^3.3.13",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",
@@ -34,17 +31,17 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@anycli/tslint": "^0.2.1",
+    "@anycli/tslint": "^0.2.5",
     "@types/lodash": "^4.14.100",
     "@types/read-pkg": "^3.0.0",
     "@types/shelljs": "^0.7.8",
     "@types/yeoman-generator": "^2.0.1",
     "@types/yosay": "^0.0.29",
     "chai": "^4.1.2",
-    "eslint": "^4.16.0",
-    "eslint-config-anycli": "^1.3.1",
+    "eslint": "^4.17.0",
+    "eslint-config-anycli": "^1.3.2",
     "execa": "^0.9.0",
-    "fancy-test": "^0.6.6",
+    "fancy-test": "^0.6.10",
     "fs-extra": "^5.0.0",
     "mocha": "^5.0.0",
     "npm-run-path": "^2.0.2",

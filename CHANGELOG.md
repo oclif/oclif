@@ -1,3 +1,11 @@
+<a name="0.33.3"></a>
+## [0.33.3](https://github.com/anycli/cli/compare/5637b46450e185e9591be63475d2ca7fb819a3af...v0.33.3) (2018-02-03)
+
+
+### Bug Fixes
+
+* use simpler command/config setup ([b5b7377](https://github.com/anycli/cli/commit/b5b7377))
+
 <a name="0.33.2"></a>
 ## [0.33.2](https://github.com/anycli/cli/compare/14802aa23e3b81793163c602caff56cd277a3db0...v0.33.2) (2018-02-02)
 

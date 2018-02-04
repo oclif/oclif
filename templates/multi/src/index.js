@@ -1,1 +1,1 @@
-module.exports = require('@anycli/engine')
+module.exports = require('@anycli/command')

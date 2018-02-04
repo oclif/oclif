@@ -288,7 +288,6 @@ class App extends Generator {
     }
     if (this.type === 'multi' && !this.pjson.anycli.plugins) {
       this.pjson.anycli.plugins = [
-        '@anycli/plugin-version',
         '@anycli/plugin-help',
         '@anycli/plugin-not-found',
       ]
@@ -376,7 +375,6 @@ class App extends Generator {
         )
         devDependencies.push(
           '@anycli/dev-cli',
-          '@anycli/engine',
           '@anycli/config',
           '@anycli/plugin-help',
         )
@@ -384,10 +382,8 @@ class App extends Generator {
       case 'multi':
         dependencies.push(
           '@anycli/dev-cli',
-          '@anycli/engine',
           '@anycli/config',
           '@anycli/command',
-          '@anycli/plugin-version',
           '@anycli/plugin-not-found',
           '@anycli/plugin-help',
           'cli-ux',

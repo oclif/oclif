@@ -229,9 +229,9 @@ class App extends Generator {
     this.pjson.scripts.posttest = 'yarn run lint'
     // this.pjson.scripts.precommit = 'yarn run lint'
     if (this.ts && this.mocha) {
-      this.pjson.scripts.lint = 'concurrently -p command "eslint ." "tsc -p test --noEmit" "tslint -p test"'
+      this.pjson.scripts.lint = 'concurrently -p command "eslint ." "tsc -p test --noEmit" "tslint -p test -t stylish"'
     } else if (this.ts) {
-      this.pjson.scripts.lint = 'concurrently -p command "eslint ." "tsc -p . --noEmit" "tslint -p ."'
+      this.pjson.scripts.lint = 'concurrently -p command "eslint ." "tsc -p . --noEmit" "tslint -p . -t stylish"'
     } else {
       this.pjson.scripts.lint = 'eslint .'
     }

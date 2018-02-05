@@ -1,3 +1,11 @@
+<a name="0.33.8"></a>
+## [0.33.8](https://github.com/anycli/cli/compare/8d34141c7ca7b1263eb04528305c0941f3f787de...v0.33.8) (2018-02-05)
+
+
+### Bug Fixes
+
+* move help to devPlugins for pluginsg ([157f1d6](https://github.com/anycli/cli/commit/157f1d6))
+
 <a name="0.33.7"></a>
 ## [0.33.7](https://github.com/anycli/cli/compare/bf2bfabfd95af2de5250acd4b2edfa9c559d7a5b...v0.33.7) (2018-02-05)
 

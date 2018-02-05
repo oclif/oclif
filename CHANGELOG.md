@@ -1,3 +1,12 @@
+<a name="0.33.6"></a>
+## [0.33.6](https://github.com/anycli/cli/compare/9542a1f6be95f8ea2abbe6d520cc21498c2372ee...v0.33.6) (2018-02-05)
+
+
+### Bug Fixes
+
+* add globby ([bf2bfab](https://github.com/anycli/cli/commit/bf2bfab))
+* updates from config/command ([b2d0733](https://github.com/anycli/cli/commit/b2d0733))
+
 <a name="0.33.5"></a>
 ## [0.33.5](https://github.com/anycli/cli/compare/88c28e9209d7e55ad196f39bc358fefb8130177d...v0.33.5) (2018-02-05)
 

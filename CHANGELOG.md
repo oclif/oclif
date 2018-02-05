@@ -1,3 +1,11 @@
+<a name="0.33.5"></a>
+## [0.33.5](https://github.com/anycli/cli/compare/88c28e9209d7e55ad196f39bc358fefb8130177d...v0.33.5) (2018-02-05)
+
+
+### Bug Fixes
+
+* use stylist tslint formatter ([9542a1f](https://github.com/anycli/cli/commit/9542a1f))
+
 <a name="0.33.4"></a>
 ## [0.33.4](https://github.com/anycli/cli/compare/b5b737797a9b7fbe9e1b762818e10e4f3b1e5380...v0.33.4) (2018-02-04)
 

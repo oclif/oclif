@@ -282,7 +282,7 @@ class App extends Generator {
         default:
     }
     if (this.type === 'plugin' && !this.pjson.anycli.devPlugins) {
-      this.pjson.anycli.plugins = [
+      this.pjson.anycli.devPlugins = [
         '@anycli/plugin-help',
       ]
     }

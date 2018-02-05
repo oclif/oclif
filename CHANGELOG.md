@@ -1,3 +1,11 @@
+<a name="0.33.7"></a>
+## [0.33.7](https://github.com/anycli/cli/compare/bf2bfabfd95af2de5250acd4b2edfa9c559d7a5b...v0.33.7) (2018-02-05)
+
+
+### Bug Fixes
+
+* globby not needed for single ([8d34141](https://github.com/anycli/cli/commit/8d34141))
+
 <a name="0.33.6"></a>
 ## [0.33.6](https://github.com/anycli/cli/compare/9542a1f6be95f8ea2abbe6d520cc21498c2372ee...v0.33.6) (2018-02-05)
 

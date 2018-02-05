@@ -362,9 +362,9 @@ class App extends Generator {
           '@anycli/command',
           '@anycli/plugin-help',
         )
-        devDependencies.push(
-          'globby',
-        )
+        // devDependencies.push(
+        //   'globby',
+        // )
         break
       case 'plugin':
         dependencies.push(

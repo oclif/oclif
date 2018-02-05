@@ -1,5 +1,4 @@
 import {Command, flags} from '@anycli/command'
-import cli from 'cli-ux'
 <%_ const klass = _.upperFirst(_.camelCase(name)) _%>
 
 <%_ if (type === 'single') { _%>
@@ -95,9 +94,9 @@ hello myname from <%- name %>!
     const {args, flags} = this.parse(<%- klass %>)
 
     const name = flags.name || 'world'
-    cli.log(`hello ${name} from <%- name %>!`)
+    this.log(`hello ${name} from <%- name %>!`)
     if (args.file && flags.force) {
-      cli.log(`you input ${args.file}`)
+      this.log(`you input ${args.file}`)
     }
   }
 }

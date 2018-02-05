@@ -229,9 +229,9 @@ class App extends Generator {
     this.pjson.scripts.posttest = 'yarn run lint'
     // this.pjson.scripts.precommit = 'yarn run lint'
     if (this.ts && this.mocha) {
-      this.pjson.scripts.lint = 'concurrently -p command "eslint ." "tsc -p test --noEmit" "tslint -p test -t stylish"'
+      this.pjson.scripts.lint = 'concurrently -p command "tsc -p test --noEmit" "tslint -p test -t stylish"'
     } else if (this.ts) {
-      this.pjson.scripts.lint = 'concurrently -p command "eslint ." "tsc -p . --noEmit" "tslint -p . -t stylish"'
+      this.pjson.scripts.lint = 'concurrently -p command "tsc -p . --noEmit" "tslint -p . -t stylish"'
     } else {
       this.pjson.scripts.lint = 'eslint .'
     }
@@ -289,11 +289,10 @@ class App extends Generator {
     if (this.type === 'multi' && !this.pjson.anycli.plugins) {
       this.pjson.anycli.plugins = [
         '@anycli/plugin-help',
-        '@anycli/plugin-not-found',
       ]
     }
 
-    if (this.pjson.anycli && _.isArray(this.pjson.anycli.plugins)) {
+    if (this.pjson.anycli && Array.isArray(this.pjson.anycli.plugins)) {
       this.pjson.anycli.plugins.sort()
     }
 
@@ -354,10 +353,7 @@ class App extends Generator {
 
   install() {
     const dependencies: string[] = []
-    const devDependencies = [
-      'eslint',
-      'eslint-config-anycli',
-    ]
+    const devDependencies: string[] = []
     switch (this.type) {
       case 'base': break
       case 'single':
@@ -365,13 +361,11 @@ class App extends Generator {
           '@anycli/config',
           '@anycli/command',
           '@anycli/plugin-help',
-          'cli-ux',
         )
         break
       case 'plugin':
         dependencies.push(
           '@anycli/command',
-          'cli-ux',
         )
         devDependencies.push(
           '@anycli/dev-cli',
@@ -381,12 +375,12 @@ class App extends Generator {
         break
       case 'multi':
         dependencies.push(
-          '@anycli/dev-cli',
           '@anycli/config',
           '@anycli/command',
-          '@anycli/plugin-not-found',
           '@anycli/plugin-help',
-          'cli-ux',
+        )
+        devDependencies.push(
+          '@anycli/dev-cli',
         )
     }
     if (this.mocha) {
@@ -402,18 +396,19 @@ class App extends Generator {
       devDependencies.push(
         // '@types/ansi-styles',
         '@types/chai',
-        '@types/lodash',
         '@types/mocha',
-        '@types/nock',
         '@types/node',
-        '@types/node-notifier',
-        '@types/read-pkg',
         // '@types/strip-ansi',
         // '@types/supports-color',
         'typescript',
         'ts-node',
         '@anycli/tslint',
         'concurrently',
+      )
+    } else {
+      devDependencies.push(
+        'eslint',
+        'eslint-config-anycli',
       )
     }
     let yarnOpts = {} as any

@@ -1,4 +1,4 @@
-import {flags, parse} from '@anycli/command'
+import {flags} from '@anycli/command'
 
 import Base from '../command_base'
 
@@ -16,13 +16,13 @@ export default abstract class AppCommand extends Base {
   static args = [
     {name: 'name', description: 'name of command', required: true}
   ]
-  options = parse(this.argv, AppCommand)
 
   async run() {
+    const {flags, args} = this.parse(AppCommand)
     await super.generate('command', {
-      name: this.options.args.name,
-      defaults: this.options.flags.defaults,
-      force: this.options.flags.force
+      name: args.name,
+      defaults: flags.defaults,
+      force: flags.force
     })
   }
 }

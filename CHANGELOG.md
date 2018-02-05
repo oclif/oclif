@@ -1,3 +1,11 @@
+<a name="0.33.9"></a>
+## [0.33.9](https://github.com/anycli/cli/compare/157f1d6807d1771dd7de7f5e2107a01e0d5fb6c3...v0.33.9) (2018-02-05)
+
+
+### Bug Fixes
+
+* add catch handler ([b8848a4](https://github.com/anycli/cli/commit/b8848a4))
+
 <a name="0.33.8"></a>
 ## [0.33.8](https://github.com/anycli/cli/compare/8d34141c7ca7b1263eb04528305c0941f3f787de...v0.33.8) (2018-02-05)
 

@@ -362,6 +362,9 @@ class App extends Generator {
           '@anycli/command',
           '@anycli/plugin-help',
         )
+        devDependencies.push(
+          'globby',
+        )
         break
       case 'plugin':
         dependencies.push(
@@ -371,6 +374,7 @@ class App extends Generator {
           '@anycli/dev-cli',
           '@anycli/config',
           '@anycli/plugin-help',
+          'globby',
         )
         break
       case 'multi':
@@ -378,6 +382,7 @@ class App extends Generator {
           '@anycli/config',
           '@anycli/command',
           '@anycli/plugin-help',
+          'globby',
         )
         devDependencies.push(
           '@anycli/dev-cli',

@@ -1,3 +1,12 @@
+<a name="0.33.13"></a>
+## [0.33.13](https://github.com/anycli/cli/compare/50c303f3dd8f173c3f470cf26f964231f8d1f626...v0.33.13) (2018-02-06)
+
+
+### Bug Fixes
+
+* add config to deps ([354683d](https://github.com/anycli/cli/commit/354683d))
+* add errors to deps ([fd0e9ed](https://github.com/anycli/cli/commit/fd0e9ed))
+
 <a name="0.33.12"></a>
 ## [0.33.12](https://github.com/anycli/cli/compare/90afa69f0516a721736925c11997cb6b6cfb5051...v0.33.12) (2018-02-06)
 

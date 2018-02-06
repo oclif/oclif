@@ -475,7 +475,7 @@ class App extends Generator {
     if (!fs.existsSync('src/commands')) {
       this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {...opts, name: 'hello'})
     }
-    if (this.ts) {
+    if (this.ts && this.type !== 'multi') {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
     }
     if (this.mocha && !fs.existsSync('test')) {

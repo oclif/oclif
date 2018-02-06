@@ -370,10 +370,10 @@ class App extends Generator {
       case 'plugin':
         dependencies.push(
           '@anycli/command',
+          '@anycli/config',
         )
         devDependencies.push(
           '@anycli/dev-cli',
-          '@anycli/config',
           '@anycli/errors',
           '@anycli/plugin-help',
           'globby',

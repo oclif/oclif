@@ -1,3 +1,12 @@
+<a name="0.33.10"></a>
+## [0.33.10](https://github.com/anycli/cli/compare/b8848a46e2df42be7883cc424cbfd340998c8e16...v0.33.10) (2018-02-06)
+
+
+### Bug Fixes
+
+* use [@anycli](https://github.com/anycli)/errors ([348d7e8](https://github.com/anycli/cli/commit/348d7e8))
+* use [@anycli](https://github.com/anycli)/errors ([82530fd](https://github.com/anycli/cli/commit/82530fd))
+
 <a name="0.33.9"></a>
 ## [0.33.9](https://github.com/anycli/cli/compare/157f1d6807d1771dd7de7f5e2107a01e0d5fb6c3...v0.33.9) (2018-02-05)
 

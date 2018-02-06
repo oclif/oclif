@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
 require('@anycli/command').run()
+.catch(require('@anycli/errors/handle'))

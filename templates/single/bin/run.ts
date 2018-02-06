@@ -7,3 +7,4 @@ const dev = fs.existsSync(path.join(__dirname, '../tsconfig.json'))
 if (dev) require('ts-node/register')
 
 require(`../${dev ? 'src' : 'lib'}`).run()
+.catch(require('@anycli/errors/handle'))

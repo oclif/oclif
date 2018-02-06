@@ -1,7 +1,4 @@
 #!/usr/bin/env node
 
 require('@anycli/command').run()
-.catch(err => {
-  console.error(err.stack)
-  process.exitCode = 1
-})
+.catch(require('@anycli/errors/handle'))

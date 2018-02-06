@@ -360,6 +360,7 @@ class App extends Generator {
         dependencies.push(
           '@anycli/config',
           '@anycli/command',
+          '@anycli/errors',
           '@anycli/plugin-help',
         )
         // devDependencies.push(
@@ -373,6 +374,7 @@ class App extends Generator {
         devDependencies.push(
           '@anycli/dev-cli',
           '@anycli/config',
+          '@anycli/errors',
           '@anycli/plugin-help',
           'globby',
         )
@@ -381,6 +383,7 @@ class App extends Generator {
         dependencies.push(
           '@anycli/config',
           '@anycli/command',
+          '@anycli/errors',
           '@anycli/plugin-help',
           'globby',
         )

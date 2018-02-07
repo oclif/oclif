@@ -1,3 +1,12 @@
+<a name="0.33.14"></a>
+## [0.33.14](https://github.com/anycli/cli/compare/f78cf18904abbddb98172a79f231cf8368648da5...v0.33.14) (2018-02-07)
+
+
+### Bug Fixes
+
+* add manifest to gitignore ([692ca32](https://github.com/anycli/cli/commit/692ca32))
+* bump cache ([9773ed7](https://github.com/anycli/cli/commit/9773ed7))
+
 <a name="0.33.13"></a>
 ## [0.33.13](https://github.com/anycli/cli/compare/50c303f3dd8f173c3f470cf26f964231f8d1f626...v0.33.13) (2018-02-06)
 

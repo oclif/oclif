@@ -16,11 +16,11 @@
   },
   "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
-    "@anycli/command": "^1.2.13",
-    "@anycli/config": "^1.3.24",
+    "@anycli/command": "^1.2.14",
+    "@anycli/config": "^1.3.32",
     "@anycli/errors": "^0.2.1",
-    "@anycli/plugin-help": "^0.6.8",
-    "@anycli/plugin-not-found": "^0.1.17",
+    "@anycli/plugin-help": "^0.6.9",
+    "@anycli/plugin-not-found": "^0.1.18",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",
     "lodash": "^4.17.5",
@@ -30,7 +30,7 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@anycli/dev-cli": "^0.3.2",
+    "@anycli/dev-cli": "^0.3.3",
     "@anycli/tslint": "^0.2.7",
     "@types/lodash": "^4.14.101",
     "@types/read-pkg": "^3.0.0",

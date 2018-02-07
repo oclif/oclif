@@ -30,7 +30,7 @@
     "yosay": "^2.0.1"
   },
   "devDependencies": {
-    "@anycli/dev-cli": "^0.3.1",
+    "@anycli/dev-cli": "^0.3.2",
     "@anycli/tslint": "^0.2.7",
     "@types/lodash": "^4.14.101",
     "@types/read-pkg": "^3.0.0",

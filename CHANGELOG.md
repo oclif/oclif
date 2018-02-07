@@ -1,3 +1,12 @@
+<a name="0.33.19"></a>
+## [0.33.19](https://github.com/anycli/cli/compare/b66c1e9187e0b4fe6e137fbe52df87c73408ebcb...v0.33.19) (2018-02-07)
+
+
+### Bug Fixes
+
+* add docs and readme to semantic-release ([75b4a74](https://github.com/anycli/cli/commit/75b4a74))
+* bump dev-cli ([6d4764f](https://github.com/anycli/cli/commit/6d4764f))
+
 <a name="0.33.18"></a>
 ## [0.33.18](https://github.com/anycli/cli/compare/39e5b5f234e033780a5942e355898a53c51a21f8...v0.33.18) (2018-02-07)
 

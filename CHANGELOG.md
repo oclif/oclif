@@ -1,3 +1,11 @@
+<a name="0.33.21"></a>
+## [0.33.21](https://github.com/anycli/cli/compare/da22f7faec395b0776d53ddf65941ed0c5829457...v0.33.21) (2018-02-07)
+
+
+### Bug Fixes
+
+* added docs ([b5d798e](https://github.com/anycli/cli/commit/b5d798e))
+
 <a name="0.33.20"></a>
 ## [0.33.20](https://github.com/anycli/cli/compare/6d4764f1a1f96dc3fbe842ed942dd9964e1e451a...v0.33.20) (2018-02-07)
 

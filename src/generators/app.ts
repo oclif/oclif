@@ -247,8 +247,9 @@ class App extends Generator {
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest')
       if (this.semantic_release) this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev readme')
-      else this.pjson.scripts.version = nps.series('anycli-dev readme', 'git add README.md')
-      this.pjson.scripts.postpublish = 'rm .anycli.manifest.json'
+      this.pjson.scripts.version = nps.series('anycli-dev readme', 'git add README.md')
+      this.pjson.scripts.clean = 'rm -f .anycli.manifest.json'
+      this.pjson.scripts.postpublish = this.pjson.scripts.preversion = 'yarn run clean'
       this.pjson.files.push('.anycli.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']

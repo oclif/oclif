@@ -8,20 +8,16 @@
   dependencies:
     "@anycli/parser" "^3.2.6"
 
-"@anycli/config@^1.3.31":
-  version "1.3.31"
-  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-1.3.31.tgz#33d3b39d2ed46383bbf952f789403681306676c2"
-
 "@anycli/config@^1.3.32":
   version "1.3.32"
   resolved "https://registry.yarnpkg.com/@anycli/config/-/config-1.3.32.tgz#6e27153046cbb7cdc3783b698628221afeaf4010"
 
-"@anycli/dev-cli@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@anycli/dev-cli/-/dev-cli-0.3.3.tgz#f5f72dcb500ecf142dacabdc31eafc1d445b7d8b"
+"@anycli/dev-cli@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@anycli/dev-cli/-/dev-cli-0.3.4.tgz#2f20b8a928febc61db4fd76bde56d1b63538bc26"
   dependencies:
     "@anycli/command" "^1.2.14"
-    "@anycli/config" "^1.3.31"
+    "@anycli/config" "^1.3.32"
     "@anycli/errors" "^0.2.1"
     "@anycli/plugin-help" "^0.6.9"
     lodash.template "^4.4.0"

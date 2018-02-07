@@ -1,3 +1,11 @@
+<a name="0.33.20"></a>
+## [0.33.20](https://github.com/anycli/cli/compare/6d4764f1a1f96dc3fbe842ed942dd9964e1e451a...v0.33.20) (2018-02-07)
+
+
+### Bug Fixes
+
+* added clean step ([da22f7f](https://github.com/anycli/cli/commit/da22f7f))
+
 <a name="0.33.19"></a>
 ## [0.33.19](https://github.com/anycli/cli/compare/b66c1e9187e0b4fe6e137fbe52df87c73408ebcb...v0.33.19) (2018-02-07)
 

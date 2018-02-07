@@ -1,7 +1,7 @@
 {
   "name": "hkcl",
   "description": "anycli: create your own CLI",
-  "version": "0.33.17",
+  "version": "0.33.18",
   "author": "Jeff Dickey @jdxcode",
   "anycli": {
     "commands": "./lib/commands",

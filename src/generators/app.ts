@@ -64,6 +64,7 @@ class App extends Generator {
     if (bin.includes('/')) bin = bin.split('/').pop()
     return bin
   }
+  repository?: string
 
   constructor(args: any, opts: any) {
     super(args, opts)
@@ -120,6 +121,10 @@ class App extends Generator {
         ...this.pjson.engines,
       },
       options: this.options,
+    }
+    this.repository = defaults.repository
+    if (this.repository && (this.repository as any).url) {
+      this.repository = (this.repository as any).url
     }
     try {
       let yml = this.fs.read('.circleci/config.yml')
@@ -182,7 +187,7 @@ class App extends Generator {
           type: 'input',
           name: 'github.user',
           message: 'github owner of repository (https://github.com/OWNER/repo)',
-          default: defaults.repository.split('/').slice(0, -1).pop(),
+          default: repository.split('/').slice(0, -1).pop(),
           when: !this.pjson.repository,
         },
         {

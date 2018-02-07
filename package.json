@@ -19,7 +19,7 @@
     "@anycli/command": "^1.2.14",
     "@anycli/config": "^1.3.32",
     "@anycli/errors": "^0.2.1",
-    "@anycli/plugin-help": "^0.6.9",
+    "@anycli/plugin-help": "^0.7.0",
     "@anycli/plugin-not-found": "^0.1.18",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",

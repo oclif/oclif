@@ -432,6 +432,7 @@ class App extends Generator {
   private _gitignore(): string {
     const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []
     return _([
+      '.anycli.manifest.json',
       '*-debug.log',
       '*-error.log',
       '/node_modules',

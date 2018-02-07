@@ -1,3 +1,11 @@
+<a name="0.33.18"></a>
+## [0.33.18](https://github.com/anycli/cli/compare/39e5b5f234e033780a5942e355898a53c51a21f8...v0.33.18) (2018-02-07)
+
+
+### Bug Fixes
+
+* use git add when not using semantic release ([b66c1e9](https://github.com/anycli/cli/commit/b66c1e9))
+
 <a name="0.33.17"></a>
 ## [0.33.17](https://github.com/anycli/cli/compare/76c5225195f83f661decc00dba24f45ecf80638c...v0.33.17) (2018-02-07)
 

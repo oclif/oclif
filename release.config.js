@@ -15,7 +15,10 @@ module.exports = {
     {path: './scripts/release_example'},
     '@semantic-release/changelog',
     '@semantic-release/npm',
-    '@semantic-release/git',
+    {
+      path: '@semantic-release/git',
+      assets: ['package.json', 'CHANGELOG.md', 'README.md', 'docs'],
+    },
     '@semantic-release/github',
   ],
 }

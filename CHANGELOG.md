@@ -1,3 +1,11 @@
+<a name="0.33.15"></a>
+## [0.33.15](https://github.com/anycli/cli/compare/9773ed77910d557b0f37bac7650beeea8c3bf9a3...v0.33.15) (2018-02-07)
+
+
+### Bug Fixes
+
+* updated dev-cli ([587e09a](https://github.com/anycli/cli/commit/587e09a))
+
 <a name="0.33.14"></a>
 ## [0.33.14](https://github.com/anycli/cli/compare/f78cf18904abbddb98172a79f231cf8368648da5...v0.33.14) (2018-02-07)
 

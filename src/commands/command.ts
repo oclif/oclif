@@ -9,6 +9,8 @@ export interface Options {
 }
 
 export default abstract class AppCommand extends Base {
+  static description = 'add a command to an existing CLI or plugin'
+
   static flags = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
     force: flags.boolean({description: 'overwrite existing files'}),

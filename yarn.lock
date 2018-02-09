@@ -2,43 +2,27 @@
 # yarn lockfile v1
 
 
-"@anycli/command@^1.2.14":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@anycli/command/-/command-1.2.14.tgz#de8e1be33f64143c49242c0deb7bf9a06a826813"
-  dependencies:
-    "@anycli/parser" "^3.2.6"
-
-"@anycli/command@^1.2.16", "@anycli/command@^1.2.18", "@anycli/command@^1.2.19":
+"@anycli/command@^1.2.18", "@anycli/command@^1.2.19":
   version "1.2.19"
   resolved "https://registry.yarnpkg.com/@anycli/command/-/command-1.2.19.tgz#11a2f35a2438c4ae96026d28d4974ea8947d59b3"
   dependencies:
     "@anycli/parser" "^3.2.6"
 
-"@anycli/config@^1.3.40", "@anycli/config@^1.3.44":
-  version "1.3.44"
-  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-1.3.44.tgz#096d280b50b1237c238e362b24ede2224f1b0c34"
+"@anycli/config@^1.3.45":
+  version "1.3.45"
+  resolved "https://registry.yarnpkg.com/@anycli/config/-/config-1.3.45.tgz#c92c96bab9fcb5b1347d85ef1dbeb93324f31182"
 
-"@anycli/dev-cli@^0.3.8":
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/@anycli/dev-cli/-/dev-cli-0.3.8.tgz#88ff28a78eed2b44a14343bb69a4fd2d4c9959eb"
+"@anycli/dev-cli@^0.3.10":
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@anycli/dev-cli/-/dev-cli-0.3.10.tgz#c00172c353c354aaebdb51815bd7b4eb3900ea7f"
   dependencies:
-    "@anycli/command" "^1.2.16"
-    "@anycli/config" "^1.3.40"
-    "@anycli/errors" "^0.2.1"
-    "@anycli/plugin-help" "^0.7.0"
+    "@anycli/command" "^1.2.19"
+    "@anycli/config" "^1.3.45"
+    "@anycli/errors" "^0.2.2"
+    "@anycli/plugin-help" "^0.7.2"
     lodash.template "^4.4.0"
     normalize-package-data "^2.4.0"
     require-resolve "^0.0.2"
-
-"@anycli/errors@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@anycli/errors/-/errors-0.2.1.tgz#719a95cd9c23838c65929da5d625a7537dd7d035"
-  dependencies:
-    clean-stack "^1.3.0"
-    fs-extra "^5.0.0"
-    indent-string "^3.2.0"
-    strip-ansi "^4.0.0"
-    wrap-ansi "^3.0.1"
 
 "@anycli/errors@^0.2.2":
   version "0.2.2"
@@ -53,18 +37,6 @@
 "@anycli/parser@^3.2.6":
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/@anycli/parser/-/parser-3.2.6.tgz#bbd119a80709099179a9f11af0dc44b68c54575b"
-
-"@anycli/plugin-help@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@anycli/plugin-help/-/plugin-help-0.7.0.tgz#dda7324ab6f5d8bf16deb4f7017301196ea1b22e"
-  dependencies:
-    "@anycli/command" "^1.2.14"
-    chalk "^2.3.0"
-    indent-string "^3.2.0"
-    lodash.template "^4.4.0"
-    string-width "^2.1.1"
-    widest-line "^2.0.0"
-    wrap-ansi "^3.0.1"
 
 "@anycli/plugin-help@^0.7.2":
   version "0.7.2"
@@ -121,9 +93,9 @@
     "@types/rx" "*"
     "@types/through" "*"
 
-"@types/lodash@^4.14.101":
-  version "4.14.101"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.101.tgz#512f6c9e1749890f4d024e98cb995a63f562d458"
+"@types/lodash@^4.14.102":
+  version "4.14.102"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.102.tgz#586a3e22385fc79b07cef9c5a1c8a5387986fbc8"
 
 "@types/minimatch@*":
   version "3.0.3"

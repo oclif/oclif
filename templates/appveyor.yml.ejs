@@ -6,7 +6,7 @@ cache:
 
 install:
   - ps: Install-Product node $env:nodejs_version x64
-  - yarn add -D nyc@11 @oclif/nyc-config@0
+  - yarn add -D nyc@11 @oclif/nyc-config@1
 test_script:
 <%_ if (type === 'single' || type === 'multi') { _%>
   - .\bin\run --version

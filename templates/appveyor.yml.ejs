@@ -6,7 +6,7 @@ cache:
 
 install:
   - ps: Install-Product node $env:nodejs_version x64
-  - yarn add -D nyc@11 @anycli/nyc-config@0
+  - yarn add -D nyc@11 @oclif/nyc-config@0
 test_script:
 <%_ if (type === 'single' || type === 'multi') { _%>
   - .\bin\run --version
@@ -14,9 +14,9 @@ test_script:
 <%_ } else if (type === 'plugin') { _%>
   - .\bin\run --help
 <%_ } _%>
-  - .\node_modules\.bin\nyc --nycrc-path node_modules/@anycli/nyc-config/.nycrc yarn test
+  - .\node_modules\.bin\nyc --nycrc-path node_modules/@oclif/nyc-config/.nycrc yarn test
 after_test:
-  - .\node_modules\.bin\nyc --nycrc-path node_modules/@anycli/nyc-config/.nycrc report --reporter text-lcov > coverage.lcov
+  - .\node_modules\.bin\nyc --nycrc-path node_modules/@oclif/nyc-config/.nycrc report --reporter text-lcov > coverage.lcov
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
       Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh

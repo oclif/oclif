@@ -24,14 +24,14 @@ class CommandGenerator extends Generator {
 
   async prompting() {
     this.pjson = this.fs.readJSON('package.json')
-    this.pjson.anycli = this.pjson.anycli || {}
+    this.pjson.oclif = this.pjson.oclif || {}
     if (!this.pjson) throw new Error('not in a project directory')
     this.log(yosay(`Adding a command to ${this.pjson.name} Version: ${version}`))
   }
 
   writing() {
     this.sourceRoot(path.join(__dirname, '../../templates'))
-    let bin = this.pjson.anycli.bin || this.pjson.anycli.dirname || this.pjson.name
+    let bin = this.pjson.oclif.bin || this.pjson.oclif.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const cmd = `${bin} ${this.options.name}`
     const opts = {...this.options, bin, cmd, _, type: 'command'}

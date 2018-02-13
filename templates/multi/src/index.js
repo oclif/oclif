@@ -1,1 +1,1 @@
-module.exports = require('@anycli/command')
+module.exports = require('@oclif/command')

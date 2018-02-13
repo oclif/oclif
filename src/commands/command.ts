@@ -1,4 +1,4 @@
-import {flags} from '@anycli/command'
+import {flags} from '@oclif/command'
 
 import Base from '../command_base'
 

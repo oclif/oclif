@@ -4,5 +4,5 @@ set -ex
 
 PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 
-yarn global add @anycli/semantic-release@1 semantic-release@12
-semantic-release -e @anycli/semantic-release
+yarn global add @oclif/semantic-release@1 semantic-release@12
+semantic-release -e @oclif/semantic-release

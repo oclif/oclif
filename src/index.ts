@@ -1,1 +1,1 @@
-export {run} from '@anycli/command'
+export {run} from '@oclif/command'

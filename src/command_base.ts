@@ -1,4 +1,4 @@
-import Command from '@anycli/command'
+import Command from '@oclif/command'
 import {createEnv} from 'yeoman-environment'
 
 export default abstract class CommandBase extends Command {
@@ -7,9 +7,9 @@ export default abstract class CommandBase extends Command {
 
     env.register(
       require.resolve(`./generators/${type}`),
-      `anycli:${type}`
+      `oclif:${type}`
     )
 
-    await env.run(`anycli:${type}`, generatorOptions)
+    await env.run(`oclif:${type}`, generatorOptions)
   }
 }

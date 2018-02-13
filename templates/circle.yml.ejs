@@ -1,7 +1,7 @@
 <%_
 let deps = [
   'nyc@11',
-  '@anycli/nyc-config@0',
+  '@oclif/nyc-config@0',
   'mocha-junit-reporter@1',
 ]
 if (semantic_release) deps.push('@commitlint/cli@6', '@commitlint/config-conventional@6')
@@ -16,7 +16,7 @@ jobs:
     working_directory: ~/cli
     environment:
       <%_ if (mocha) { _%>
-      NYC: "yarn exec nyc -- --nycrc-path node_modules/@anycli/nyc-config/.nycrc"
+      NYC: "yarn exec nyc -- --nycrc-path node_modules/@oclif/nyc-config/.nycrc"
       MOCHA_FILE: "reports/mocha.xml"
       <%_ } _%>
     steps:
@@ -58,11 +58,11 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: yarn global add @anycli/semantic-release@1 semantic-release@12
+      - run: yarn global add @oclif/semantic-release@1 semantic-release@12
       - run: yarn --frozen-lockfile
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
-          semantic-release -e @anycli/semantic-release
+          semantic-release -e @oclif/semantic-release
       - save_cache:
           key: v1-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:

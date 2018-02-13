@@ -10,7 +10,7 @@ sh.set('-ev')
 // remove CI env var so tests don't run nyc
 const {CI} = process.env
 delete process.env.CI
-process.env.ANYCLI_DEBUG = '1'
+process.env.OCLIF_DEBUG = '1'
 
 process.env.YARN_MUTEX = `file:${path.join(os.tmpdir(), 'yarn.mutex')}`
 

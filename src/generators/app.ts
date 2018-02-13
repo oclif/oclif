@@ -10,7 +10,7 @@ import yosay = require('yosay')
 const nps = require('nps-utils')
 const sortPjson = require('sort-pjson')
 const fixpack = require('fixpack')
-const debug = require('debug')('generator-anycli')
+const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
 // function stringToArray(s: string) {
@@ -60,7 +60,7 @@ class App extends Generator {
   ts!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
-    let bin = this.pjson.anycli && (this.pjson.anycli.bin || this.pjson.anycli.dirname) || this.pjson.name
+    let bin = this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname) || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     return bin
   }
@@ -83,13 +83,13 @@ class App extends Generator {
     let msg
     switch (this.type) {
       case 'single':
-        msg = 'Time to build a single command CLI with anycli!'
+        msg = 'Time to build a single command CLI with oclif!'
         break
       case 'multi':
-        msg = 'Time to build a multi command CLI with anycli!'
+        msg = 'Time to build a multi command CLI with oclif!'
         break
       default:
-        msg = `Time to build a anycli ${this.type}!`
+        msg = `Time to build a oclif ${this.type}!`
     }
     this.log(yosay(`${msg} Version: ${version}`))
 
@@ -103,7 +103,7 @@ class App extends Generator {
       engines: {},
       devDependencies: {},
       dependencies: {},
-      anycli: {},
+      oclif: {},
       ...this.fs.readJSON('package.json', {}),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
@@ -146,7 +146,7 @@ class App extends Generator {
           name: 'bin',
           message: 'command bin name the CLI will export',
           default: (answers: any) => (answers.name || this._bin).split('/').pop(),
-          when: ['single', 'multi'].includes(this.type) && !this.pjson.anycli.bin,
+          when: ['single', 'multi'].includes(this.type) && !this.pjson.oclif.bin,
         },
         {
           type: 'input',
@@ -234,9 +234,9 @@ class App extends Generator {
     this.pjson.scripts.posttest = 'yarn run lint'
     // this.pjson.scripts.precommit = 'yarn run lint'
     if (this.ts && this.mocha) {
-      this.pjson.scripts.lint = 'concurrently -p command "tsc -p test --noEmit" "tslint -p test -t stylish"'
+      this.pjson.scripts.lint = 'tsc -p test --noEmit && tslint -p test -t stylish'
     } else if (this.ts) {
-      this.pjson.scripts.lint = 'concurrently -p command "tsc -p . --noEmit" "tslint -p . -t stylish"'
+      this.pjson.scripts.lint = 'tsc -p . --noEmit && tslint -p . -t stylish'
     } else {
       this.pjson.scripts.lint = 'eslint .'
     }
@@ -250,21 +250,21 @@ class App extends Generator {
       this.pjson.scripts.prepublishOnly = 'yarn run build'
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev manifest')
-      if (this.semantic_release) this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'anycli-dev readme')
-      this.pjson.scripts.version = nps.series('anycli-dev readme', 'git add README.md')
-      this.pjson.scripts.clean = 'rm -f .anycli.manifest.json'
+      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'oclif-dev manifest')
+      if (this.semantic_release) this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'oclif-dev readme')
+      this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
+      this.pjson.scripts.clean = 'rm -f .oclif.manifest.json'
       this.pjson.scripts.postpublish = this.pjson.scripts.preversion = 'yarn run clean'
-      this.pjson.files.push('.anycli.manifest.json')
+      this.pjson.files.push('.oclif.manifest.json')
     }
-    this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'anycli-plugin' : 'anycli']
+    this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
 
     if (['single', 'multi'].includes(this.type)) {
-      this.pjson.anycli.bin = this.answers.bin || this._bin
+      this.pjson.oclif.bin = this.answers.bin || this._bin
       this.pjson.bin = this.pjson.bin || {}
-      this.pjson.bin[this.pjson.anycli.bin] = './bin/run'
+      this.pjson.bin[this.pjson.oclif.bin] = './bin/run'
       this.pjson.files.push('/bin')
     }
     if (this.type !== 'plugin') {
@@ -281,27 +281,27 @@ class App extends Generator {
     switch (this.type) {
       case 'multi':
       case 'plugin':
-        this.pjson.anycli = {
+        this.pjson.oclif = {
           commands: `./${this.ts ? 'lib' : 'src'}/commands`,
           // hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
-          ...this.pjson.anycli,
+          ...this.pjson.oclif,
         }
         break
         default:
     }
-    if (this.type === 'plugin' && !this.pjson.anycli.devPlugins) {
-      this.pjson.anycli.devPlugins = [
-        '@anycli/plugin-help',
+    if (this.type === 'plugin' && !this.pjson.oclif.devPlugins) {
+      this.pjson.oclif.devPlugins = [
+        '@oclif/plugin-help',
       ]
     }
-    if (this.type === 'multi' && !this.pjson.anycli.plugins) {
-      this.pjson.anycli.plugins = [
-        '@anycli/plugin-help',
+    if (this.type === 'multi' && !this.pjson.oclif.plugins) {
+      this.pjson.oclif.plugins = [
+        '@oclif/plugin-help',
       ]
     }
 
-    if (this.pjson.anycli && Array.isArray(this.pjson.anycli.plugins)) {
-      this.pjson.anycli.plugins.sort()
+    if (this.pjson.oclif && Array.isArray(this.pjson.oclif.plugins)) {
+      this.pjson.oclif.plugins.sort()
     }
 
     if (this.ts) {
@@ -318,7 +318,7 @@ class App extends Generator {
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('fixpack/config.json'))
     }
-    if (_.isEmpty(this.pjson.anycli)) delete this.pjson.anycli
+    if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
@@ -366,10 +366,10 @@ class App extends Generator {
       case 'base': break
       case 'single':
         dependencies.push(
-          '@anycli/config',
-          '@anycli/command',
-          '@anycli/errors',
-          '@anycli/plugin-help',
+          '@oclif/config',
+          '@oclif/command',
+          '@oclif/errors',
+          '@oclif/plugin-help',
         )
         // devDependencies.push(
         //   'globby',
@@ -377,26 +377,26 @@ class App extends Generator {
         break
       case 'plugin':
         dependencies.push(
-          '@anycli/command',
-          '@anycli/config',
-          '@anycli/errors',
+          '@oclif/command',
+          '@oclif/config',
+          '@oclif/errors',
         )
         devDependencies.push(
-          '@anycli/dev-cli',
-          '@anycli/plugin-help',
+          '@oclif/dev-cli',
+          '@oclif/plugin-help',
           'globby',
         )
         break
       case 'multi':
         dependencies.push(
-          '@anycli/config',
-          '@anycli/command',
-          '@anycli/errors',
-          '@anycli/plugin-help',
+          '@oclif/config',
+          '@oclif/command',
+          '@oclif/errors',
+          '@oclif/plugin-help',
           'globby',
         )
         devDependencies.push(
-          '@anycli/dev-cli',
+          '@oclif/dev-cli',
         )
     }
     if (this.mocha) {
@@ -405,7 +405,7 @@ class App extends Generator {
         'chai',
       )
       if (this.type !== 'base') devDependencies.push(
-        '@anycli/test',
+        '@oclif/test',
       )
     }
     if (this.ts) {
@@ -418,13 +418,13 @@ class App extends Generator {
         // '@types/supports-color',
         'typescript',
         'ts-node',
-        '@anycli/tslint',
-        'concurrently',
+        '@oclif/tslint',
+        'tslint',
       )
     } else {
       devDependencies.push(
         'eslint',
-        'eslint-config-anycli',
+        'eslint-config-oclif',
       )
     }
     let yarnOpts = {} as any
@@ -440,7 +440,7 @@ class App extends Generator {
   private _gitignore(): string {
     const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []
     return _([
-      '.anycli.manifest.json',
+      '.oclif.manifest.json',
       '*-debug.log',
       '*-error.log',
       '/node_modules',

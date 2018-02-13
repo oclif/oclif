@@ -13,8 +13,8 @@ cache:
 
 install:
   - ps: Install-Product node $env:nodejs_version x64
-  - git config --global user.email "anycli@example.com"
-  - git config --global user.name "anycli"
+  - git config --global user.email "oclif@example.com"
+  - git config --global user.name "oclif"
   - yarn
 test_script:
   - .\node_modules\.bin\nps lint

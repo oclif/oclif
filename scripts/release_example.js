@@ -31,7 +31,7 @@ module.exports = (_, options) => {
 
     const d = path.join(__dirname, '../tmp/examples', example)
     sh.mkdir('-p', path.dirname(d))
-    sh.exec(`git clone git@github.com:anycli/${example} ${d}`)
+    sh.exec(`git clone git@github.com:oclif/${example} ${d}`)
     sh.pushd(d)
     const pjson = fs.readJSONSync('package.json')
 
@@ -40,17 +40,17 @@ module.exports = (_, options) => {
     sh.rm('-rf', files)
 
     fs.outputJSONSync('package.json', {
-      name: `@anycli/${example}`,
-      repository: `anycli/${example}`,
+      name: `@oclif/${example}`,
+      repository: `oclif/${example}`,
       author: pjson.author,
       version: pjson.version,
       description: pjson.description,
     })
 
-    sh.exec(`anycli ${type} --force --defaults ${options}`)
+    sh.exec(`oclif ${type} --force --defaults ${options}`)
     sh.exec('git add -A')
     try {
-      execa.sync('git', ['commit', '-m', `${releaseType === 'patch' ? 'fix' : 'feat'}: anycli v${version}\n\n${notes}`], {stdio: 'inherit'})
+      execa.sync('git', ['commit', '-m', `${releaseType === 'patch' ? 'fix' : 'feat'}: oclif v${version}\n\n${notes}`], {stdio: 'inherit'})
       sh.exec('git push')
     } catch (err) {
       console.error(err)

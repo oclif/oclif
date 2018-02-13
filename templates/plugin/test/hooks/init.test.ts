@@ -1,4 +1,4 @@
-import {expect, test} from '@anycli/test'
+import {expect, test} from '@oclif/test'
 
 describe('hooks', () => {
   test

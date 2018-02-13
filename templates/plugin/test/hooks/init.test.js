@@ -1,4 +1,4 @@
-const {expect, test} = require('@anycli/test')
+const {expect, test} = require('@oclif/test')
 
 describe('hooks', () => {
   test

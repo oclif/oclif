@@ -1,3 +1,11 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/oclif/cli/compare/cb1ab3507bc44d6039a4b9ce226a8ba7e5e4f247...v1.0.1) (2018-02-13)
+
+
+### Bug Fixes
+
+* oclif rename ([d4c5efe](https://github.com/oclif/cli/commit/d4c5efe))
+
 <a name="1.0.0"></a>
 # 1.0.0 (2018-02-13)
 

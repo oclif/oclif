@@ -1,3 +1,11 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/oclif/cli/compare/7e918c9d6a503d0ff1a8a262a545d0a2f3588478...v1.0.4) (2018-02-13)
+
+
+### Bug Fixes
+
+* use v1 of nyc-config ([5c832ff](https://github.com/oclif/cli/commit/5c832ff))
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/oclif/cli/compare/d4c5efe21fdcaace6560ec3c6afb237c8b8d80e5...v1.0.2) (2018-02-13)
 

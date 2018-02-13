@@ -45,9 +45,8 @@ module.exports = {
       tsc: script('tsc --noEmit', 'syntax check with tsc'),
       tslint: script('tslint -p .', 'lint ts files'),
     },
-    test: {
+    test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
-      ..._.fromPairs(tests),
-    },
+    }, _.fromPairs(tests)),
   },
 }

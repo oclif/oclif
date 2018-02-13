@@ -371,9 +371,6 @@ class App extends Generator {
           '@oclif/errors',
           '@oclif/plugin-help',
         )
-        // devDependencies.push(
-        //   'globby',
-        // )
         break
       case 'plugin':
         dependencies.push(

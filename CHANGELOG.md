@@ -1,3 +1,12 @@
+<a name="1.0.6"></a>
+## [1.0.6](https://github.com/oclif/cli/compare/17f19f2e9b37dfd62f51f15cbdf542158ace16d8...v1.0.6) (2018-02-13)
+
+
+### Bug Fixes
+
+* make linter happy ([c344697](https://github.com/oclif/cli/commit/c344697))
+* updated deps ([2b8fa8a](https://github.com/oclif/cli/commit/2b8fa8a))
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/oclif/cli/compare/5c832ff35260be26461fc15bd40a8b0fe82c9f9e...v1.0.5) (2018-02-13)
 

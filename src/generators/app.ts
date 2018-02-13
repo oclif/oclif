@@ -83,10 +83,10 @@ class App extends Generator {
     let msg
     switch (this.type) {
       case 'single':
-        msg = 'Time to build a single command CLI with oclif!'
+        msg = 'Time to build a single-command CLI with oclif!'
         break
       case 'multi':
-        msg = 'Time to build a multi command CLI with oclif!'
+        msg = 'Time to build a multi-command CLI with oclif!'
         break
       default:
         msg = `Time to build a oclif ${this.type}!`

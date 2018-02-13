@@ -1,3 +1,11 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/oclif/cli/compare/c3446976042b13715d7e3c4c2b07804f6fea81c1...v1.1.0) (2018-02-13)
+
+
+### Features
+
+* add readme content ([12af0a7](https://github.com/oclif/cli/commit/12af0a7))
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/oclif/cli/compare/17f19f2e9b37dfd62f51f15cbdf542158ace16d8...v1.0.6) (2018-02-13)
 

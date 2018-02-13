@@ -11,9 +11,7 @@
     ],
     "bin": "anycli"
   },
-  "bin": {
-    "anycli": "./bin/run"
-  },
+  "bin": "./bin/run",
   "bugs": "https://github.com/anycli/cli/issues",
   "dependencies": {
     "@anycli/command": "^1.2.19",

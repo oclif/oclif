@@ -1,3 +1,11 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/oclif/cli/compare/d4c5efe21fdcaace6560ec3c6afb237c8b8d80e5...v1.0.2) (2018-02-13)
+
+
+### Bug Fixes
+
+* updated tslint ([8b465d4](https://github.com/oclif/cli/commit/8b465d4))
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/oclif/cli/compare/cb1ab3507bc44d6039a4b9ce226a8ba7e5e4f247...v1.0.1) (2018-02-13)
 

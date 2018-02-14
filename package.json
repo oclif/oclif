@@ -3,14 +3,6 @@
   "description": "oclif: create your own CLI",
   "version": "1.1.0",
   "author": "Jeff Dickey @jdxcode",
-  "oclif": {
-    "commands": "./lib/commands",
-    "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-not-found"
-    ],
-    "bin": "oclif"
-  },
   "bin": "./bin/run",
   "bugs": "https://github.com/oclif/cli/issues",
   "dependencies": {
@@ -22,6 +14,7 @@
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",
     "lodash": "^4.17.5",
+    "nps-utils": "^1.5.0",
     "sort-pjson": "^1.0.2",
     "yeoman-environment": "^2.0.5",
     "yeoman-generator": "^2.0.2",
@@ -45,7 +38,6 @@
     "mocha": "^5.0.0",
     "npm-run-path": "^2.0.2",
     "nps": "^5.7.1",
-    "nps-utils": "^1.5.0",
     "shelljs": "^0.8.1",
     "tmp": "^0.0.33",
     "ts-node": "^4.1.0",
@@ -67,6 +59,14 @@
   ],
   "license": "MIT",
   "main": "lib/index.js",
+  "oclif": {
+    "commands": "./lib/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-not-found"
+    ],
+    "bin": "oclif"
+  },
   "repository": "oclif/cli",
   "scripts": {
     "build": "rm -rf lib && tsc",

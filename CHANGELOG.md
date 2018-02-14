@@ -1,3 +1,13 @@
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/oclif/cli/compare/12af0a7fe82da6c5b7e38b3e9505e218e51f565d...v1.1.1) (2018-02-14)
+
+
+### Bug Fixes
+
+* fixed lint issue ([218101c](https://github.com/oclif/cli/commit/218101c))
+* move nps-utils to deps ([52c0012](https://github.com/oclif/cli/commit/52c0012))
+* remove unused title ([234d83a](https://github.com/oclif/cli/commit/234d83a))
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/oclif/cli/compare/c3446976042b13715d7e3c4c2b07804f6fea81c1...v1.1.0) (2018-02-13)
 

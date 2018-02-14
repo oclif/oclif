@@ -73,7 +73,8 @@
     "lint": "nps lint",
     "postpublish": "rm .oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepublishOnly": "yarn run build && oclif-dev manifest && oclif-dev readme",
+    "prepublishOnly": "yarn run build && oclif-dev manifest",
+    "version": "oclif-dev readme && git add README.md",
     "test": "nps test"
   },
   "types": "lib/index.d.ts"

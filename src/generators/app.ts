@@ -430,6 +430,9 @@ class App extends Generator {
       this.yarnInstall(devDependencies, {...yarnOpts, dev: true, ignoreScripts: true}),
       this.yarnInstall(dependencies, yarnOpts),
     ]).then(() => {
+      if (['plugin', 'multi'].includes(this.type)) {
+        this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])
+      }
       console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
     })
   }

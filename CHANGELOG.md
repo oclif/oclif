@@ -1,3 +1,16 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/oclif/cli/compare/65b831cdf4e3c85748f7a2b71331d37961087be9...v1.2.0) (2018-02-14)
+
+
+### Bug Fixes
+
+* set bin for plugins ([c8d0f11](https://github.com/oclif/cli/commit/c8d0f11))
+
+
+### Features
+
+* added readme toc ([2cdba83](https://github.com/oclif/cli/commit/2cdba83))
+
 <a name="1.1.2"></a>
 ## [1.1.2](https://github.com/oclif/cli/compare/218101cb0c3124a5676ea22b05cf4b4defeb0208...v1.1.2) (2018-02-14)
 

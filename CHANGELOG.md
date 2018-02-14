@@ -1,3 +1,11 @@
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/oclif/cli/compare/218101cb0c3124a5676ea22b05cf4b4defeb0208...v1.1.2) (2018-02-14)
+
+
+### Bug Fixes
+
+* automatically replace readme on generation ([65b831c](https://github.com/oclif/cli/commit/65b831c))
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/oclif/cli/compare/12af0a7fe82da6c5b7e38b3e9505e218e51f565d...v1.1.1) (2018-02-14)
 

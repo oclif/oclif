@@ -1,7 +1,7 @@
-oclif
-======
+oclif: Open CLI Framework
+=========================
 
-oclif: create your own CLI
+Create your own CLI
 
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)
 [![CircleCI](https://circleci.com/gh/oclif/oclif/tree/master.svg?style=svg)](https://circleci.com/gh/oclif/oclif/tree/master)

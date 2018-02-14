@@ -12,20 +12,25 @@ oclif: create your own CLI
 [![Downloads/week](https://img.shields.io/npm/dw/oclif.svg)](https://npmjs.org/package/oclif)
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/cli/blob/master/package.json)
 
+<!-- toc -->
+
 Useful Repos
 ------------
 
 **Plugins**
 
-* [@oclif/version](https://github.com/oclif/version) - `mycli -v|--version|version`. Show the current version.
 * [@oclif/not-found](https://github.com/oclif/not-found) - Display a friendly "did you mean" message if a command is not found.
 * [@oclif/plugins](https://github.com/oclif/plugins) - Allow users to add plugins to extend your CLI.
-* [@oclif/autoupdate](https://github.com/oclif/autoupdate) - Add autoupdate support to the CLI.
-* [@oclif/autocomplete](https://github.com/oclif/autocomplete) - Add bash/zsh autocomplete.
+* [@oclif/update](https://github.com/oclif/update) - Add autoupdate support to the CLI.
+* [TODO: @oclif/autocomplete](https://github.com/oclif/autocomplete) - Add bash/zsh autocomplete.
 
 Building your own plugin
 ------------------------
 
 Writing code for plugins is essentially the same as writing within a CLI. They can export 3 different types: commands, hooks, and other plugins.
 
-Run `yarn create oclif plugin mynewplugin` to create a plugin a new directory. This will come with a sample command and hook
+Run `npx oclif plugin mynewplugin` to create a plugin in a new directory. This will come with a sample command called `hello`.
+
+<!-- install -->
+<!-- usage -->
+<!-- commands -->

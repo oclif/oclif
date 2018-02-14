@@ -17,18 +17,18 @@
   dependencies:
     "@oclif/parser" "^3.2.8"
 
-"@oclif/config@^1.3.45", "@oclif/config@^1.3.49":
-  version "1.3.49"
-  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.49.tgz#3ab3714b6ddf56c551cb0f696d241952cbca259b"
+"@oclif/config@^1.3.51", "@oclif/config@^1.3.52":
+  version "1.3.52"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.52.tgz#505711fdaecee880131c2fcec4d2b54d7c0b93c8"
 
-"@oclif/dev-cli@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.0.2.tgz#dd4dab98c28457542545289792ade373d4697efe"
+"@oclif/dev-cli@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.2.4.tgz#9f9c07d1fce3c26ef14e65594762ffc249492a2f"
   dependencies:
     "@oclif/command" "^1.2.22"
-    "@oclif/config" "^1.3.45"
+    "@oclif/config" "^1.3.51"
     "@oclif/errors" "^1.0.1"
-    "@oclif/plugin-help" "^1.0.0"
+    "@oclif/plugin-help" "^1.0.1"
     lodash.template "^4.4.0"
     normalize-package-data "^2.4.0"
     require-resolve "^0.0.2"
@@ -47,7 +47,7 @@
   version "3.2.8"
   resolved "https://registry.yarnpkg.com/@oclif/parser/-/parser-3.2.8.tgz#2b2e35b5c075d200d70950923acd64e258c5ae1d"
 
-"@oclif/plugin-help@^1.0.0", "@oclif/plugin-help@^1.0.1":
+"@oclif/plugin-help@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.0.1.tgz#1421438edfade7fa6aed4ae9b4aa6a8ff2d226d3"
   dependencies:
@@ -898,14 +898,14 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-oclif@^1.3.2:
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-1.3.6.tgz#38a404cd71af3594ad1324cab83751c6fa470861"
+eslint-config-oclif@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-1.3.7.tgz#fbd09d16acdc42e554d526b372070386f7a06ecc"
   dependencies:
     eslint-config-xo-space "^0.17.0"
     eslint-plugin-mocha "^4.11.0"
     eslint-plugin-node "^6.0.0"
-    eslint-plugin-unicorn "^3.0.1"
+    eslint-plugin-unicorn "^4.0.1"
 
 eslint-config-xo-space@^0.17.0:
   version "0.17.0"
@@ -932,9 +932,9 @@ eslint-plugin-node@^6.0.0:
     resolve "^1.3.3"
     semver "^5.4.1"
 
-eslint-plugin-unicorn@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-3.0.1.tgz#dae02614a53b921541a9318a46e50ab5bdeb5d7c"
+eslint-plugin-unicorn@^4.0.1:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-4.0.2.tgz#845de915e7a975f15779466fc92cc01973bbf103"
   dependencies:
     clean-regexp "^1.0.0"
     eslint-ast-utils "^1.0.0"
@@ -943,6 +943,7 @@ eslint-plugin-unicorn@^3.0.1:
     lodash.kebabcase "^4.0.1"
     lodash.snakecase "^4.0.1"
     lodash.upperfirst "^4.2.0"
+    safe-regex "^1.1.0"
 
 eslint-scope@^3.7.1:
   version "3.7.1"
@@ -2049,9 +2050,9 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mocha@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.0.tgz#cccac988b0bc5477119cba0e43de7af6d6ad8f4e"
+mocha@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.1.tgz#759b62c836b0732382a62b6b1fb245ec1bc943ac"
   dependencies:
     browser-stdout "1.3.0"
     commander "2.11.0"
@@ -2501,7 +2502,7 @@ readable-stream@^2.0.2, readable-stream@^2.1.4, readable-stream@^2.1.5, readable
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
 
-"readdir-enhanced@github:mrmlnc/readdir-enhanced#ISSUE-11_monkey_fix":
+readdir-enhanced@mrmlnc/readdir-enhanced#ISSUE-11_monkey_fix:
   version "2.2.0"
   resolved "https://codeload.github.com/mrmlnc/readdir-enhanced/tar.gz/1580afe4fdf21cd191c202ec599d1ca7d0ab062d"
   dependencies:
@@ -2603,6 +2604,10 @@ restore-cursor@^2.0.0:
     onetime "^2.0.0"
     signal-exit "^3.0.2"
 
+ret@~0.1.10:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
+
 rimraf@^2.2.8, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
@@ -2632,6 +2637,12 @@ rx@2.3.24:
 safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
+
+safe-regex@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
+  dependencies:
+    ret "~0.1.10"
 
 scoped-regex@^1.0.0:
   version "1.0.0"

@@ -12,6 +12,10 @@ module.exports = {
     '@semantic-release/github',
   ],
   publish: [
+    {
+      path: '@semantic-release/exec',
+      cmd: 'yarn run version',
+    },
     {path: './scripts/release_example'},
     '@semantic-release/changelog',
     '@semantic-release/npm',

@@ -29,7 +29,8 @@ hello world from <%- name %>!
     `$ <%- cmd %> --name myname
 hello myname from <%- name %>!
 `,
-    '$ <%- cmd %> ./afile outputs "hello world!" to ./afile',
+    `$ <%- cmd %> ./afile
+# outputs "hello world!" to ./afile`,
     '$ <%- cmd %> --force',
     '$ <%- cmd %> --help',
   ]

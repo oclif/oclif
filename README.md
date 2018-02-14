@@ -4,13 +4,13 @@ oclif
 oclif: create your own CLI
 
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)
-[![CircleCI](https://circleci.com/gh/oclif/cli/tree/master.svg?style=svg)](https://circleci.com/gh/oclif/cli/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/cli?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/oclif/branch/master)
-[![Codecov](https://codecov.io/gh/oclif/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/oclif/cli)
-[![Greenkeeper](https://badges.greenkeeper.io/oclif/cli.svg)](https://greenkeeper.io/)
+[![CircleCI](https://circleci.com/gh/oclif/oclif/tree/master.svg?style=svg)](https://circleci.com/gh/oclif/oclif/tree/master)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/oclif?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/oclif/branch/master)
+[![Codecov](https://codecov.io/gh/oclif/oclif/branch/master/graph/badge.svg)](https://codecov.io/gh/oclif/oclif)
+[![Greenkeeper](https://badges.greenkeeper.io/oclif/oclif.svg)](https://greenkeeper.io/)
 [![Known Vulnerabilities](https://snyk.io/test/npm/oclif/badge.svg)](https://snyk.io/test/npm/oclif)
 [![Downloads/week](https://img.shields.io/npm/dw/oclif.svg)](https://npmjs.org/package/oclif)
-[![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/cli/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/master/package.json)
 
 <!-- toc -->
 

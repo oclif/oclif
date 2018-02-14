@@ -1,3 +1,11 @@
+<a name="1.2.5"></a>
+## [1.2.5](https://github.com/oclif/cli/compare/6f858e466b938c9c09865e35c9cd579ba2a030cb...v1.2.5) (2018-02-14)
+
+
+### Bug Fixes
+
+* run version command ([7997c86](https://github.com/oclif/cli/commit/7997c86))
+
 <a name="1.2.4"></a>
 ## [1.2.4](https://github.com/oclif/cli/compare/1171d36e5984234c2e964857ebd4f168792726d5...v1.2.4) (2018-02-14)
 

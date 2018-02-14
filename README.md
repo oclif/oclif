@@ -13,6 +13,15 @@ Create your own CLI
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/master/package.json)
 
 <!-- toc -->
+* [Description](#description)
+* [Features](#features)
+* [Install](#install)
+* [Usage](#usage)
+* [Commands](#commands)
+* [Examples](#examples)
+* [Plugins](#plugins)
+* [Building your own plugin](#buildingyourownplugin)
+<!-- tocstop -->
 
 # Description
 
@@ -35,8 +44,123 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 ```
 
 <!-- install -->
+# Install
+
+with yarn:
+```
+$ yarn global add oclif
+```
+
+or with npm:
+```
+$ npm install -g oclif
+```
+<!-- installstop -->
 <!-- usage -->
+# Usage
+
+```sh-session
+$ oclif COMMAND
+running command...
+$ oclif (-v|--version|version)
+oclif/1.2.4 (linux-x64) node-v9.5.0
+$ oclif --help [COMMAND]
+USAGE
+  $ oclif COMMAND [OPTIONS]
+...
+```
+<!-- usagestop -->
 <!-- commands -->
+# Commands
+
+* [oclif command NAME [OPTIONS]](#command)
+* [oclif help [COMMAND] [OPTIONS]](#help)
+* [oclif multi [PATH] [OPTIONS]](#multi)
+* [oclif plugin [PATH] [OPTIONS]](#plugin)
+* [oclif single [PATH] [OPTIONS]](#single)
+## command NAME [OPTIONS]
+
+add a command to an existing CLI or plugin
+
+```
+USAGE
+  $ oclif command NAME [OPTIONS]
+
+ARGUMENTS
+  NAME  name of command
+
+OPTIONS
+  --defaults  use defaults for every setting
+  --force     overwrite existing files
+```
+
+_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/command.ts)_
+
+## help [COMMAND] [OPTIONS]
+
+display help for oclif
+
+```
+USAGE
+  $ oclif help [COMMAND] [OPTIONS]
+
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.0.1/src/commands/help.ts)_
+
+## multi [PATH] [OPTIONS]
+
+generate a new multi-command CLI
+
+```
+USAGE
+  $ oclif multi [PATH] [OPTIONS]
+
+OPTIONS
+  --defaults         use defaults for every setting
+  --force            overwrite existing files
+  --options=options  (typescript|semantic-release|mocha)
+```
+
+_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/multi.ts)_
+
+## plugin [PATH] [OPTIONS]
+
+create a new CLI plugin
+
+```
+USAGE
+  $ oclif plugin [PATH] [OPTIONS]
+
+OPTIONS
+  --defaults         use defaults for every setting
+  --force            overwrite existing files
+  --options=options  (typescript|semantic-release|mocha)
+```
+
+_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/plugin.ts)_
+
+## single [PATH] [OPTIONS]
+
+generate a new single-command CLI
+
+```
+USAGE
+  $ oclif single [PATH] [OPTIONS]
+
+OPTIONS
+  --defaults         use defaults for every setting
+  --force            overwrite existing files
+  --options=options  (typescript|semantic-release|mocha)
+```
+
+_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/single.ts)_
+<!-- commandsstop -->
 
 # Examples
 

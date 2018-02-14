@@ -9,6 +9,12 @@ class <%- klass %> extends Command {
   }
 }
 
+<%- klass %>.description = `
+Describe the command here
+...
+Extra documentation goes here
+`
+
 <%- klass %>.flags = {
 <%_ if (type === 'single') { _%>
   // add --version flag to show CLI version

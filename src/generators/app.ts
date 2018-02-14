@@ -266,6 +266,8 @@ class App extends Generator {
       this.pjson.bin = this.pjson.bin || {}
       this.pjson.bin[this.pjson.oclif.bin] = './bin/run'
       this.pjson.files.push('/bin')
+    } else if (this.type === 'plugin') {
+      this.pjson.oclif.bin = 'oclif-example'
     }
     if (this.type !== 'plugin') {
       this.pjson.main = defaults.main || (this.ts ? 'lib/index.js' : 'src/index.js')

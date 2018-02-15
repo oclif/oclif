@@ -208,6 +208,7 @@ static flags = [
     description: 'name to print', // help description for flag
     hidden: false,                // hide from help
     multiple: false,              // allow setting this flag multiple times
+    // env: 'MY_NAME',            // default to value of environment variable
     // options: ['a', 'b'],       // only allow the value to be from a discrete set
     // parse: input => 'output',  // instead of the user input, return a differnt value
     // default: 'world',          // default value if flag not passed
@@ -224,6 +225,39 @@ static flags = [
   }),
 ]
 ```
+
+## Custom Flags
+
+For larger CLIs, it can be useful to declare a custom flag that can be shared amongst multiple commands. Here is an example of a custom flag:
+
+```js
+// flags.ts
+import {flags} from '@oclif
+function getTeam(): string | undefined {
+  // imagine this reads a configuration file or something to find the team
+}
+export const team = flags.build({
+  char: 't',
+  description: 'team to use',
+  default: () => getTeam(),
+})
+
+// commands/mycommand.ts
+import {team} from '../flags'
+import Command from '@oclif/command'
+
+export class MyCLI extends Command {
+  static flags = {
+    team: team(),
+  }
+
+  async run() {
+    const {flags} = this.parse(MyCLI)
+    if (flags.team) console.log(`--team is ${flags.team}`)
+}
+```
+
+In the Heroku CLI, we use flags for our --app flag which takes advantage of a lot of functionality. It can be useful [to see how that is done](https://github.com/heroku/cli-engine-heroku/blob/oclif/src/flags/app.ts) to get ideas for making custom flags.
 
 # Examples
 

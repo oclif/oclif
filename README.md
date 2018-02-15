@@ -261,12 +261,14 @@ In the Heroku CLI, we use flags for our `--app` flag which takes advantage of a 
 
 # Examples
 
-* [Multi-command CLI (typescript)](https://github.com/oclif/example-multi-ts)
-* [Multi-command CLI (javascript)](https://github.com/oclif/example-multi-js)
-* [Single-command CLI (typescript)](https://github.com/oclif/example-single-ts)
-* [Single-command CLI (javascript)](https://github.com/oclif/example-single-js)
-* [Multi-command CLI Plugin (typescript)](https://github.com/oclif/example-single-ts)
-* [Multi-command CLI Plugin (javascript)](https://github.com/oclif/example-plugin-js)
+* TypeScript
+  * [Multi-command CLI](https://github.com/oclif/example-multi-ts)
+  * [Single-command CLI](https://github.com/oclif/example-single-ts)
+  * [Multi-command CLI Plugin](https://github.com/oclif/example-single-ts)
+* JavaScript
+  * [Multi-command CLI](https://github.com/oclif/example-multi-js)
+  * [Single-command CLI](https://github.com/oclif/example-single-js)
+  * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-js)
 
 # Topics
 

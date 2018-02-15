@@ -36,9 +36,7 @@ Create your own CLI
 
 # Description
 
-This is a framework for building CLIs in Node.js. This framework was built out of the [Heroku CLI](https://cli.heroku.com) but generalized to build any custom CLI. It's designed both for simple CLIs that can be just a single file with a few flag options, or for very complex CLIs that have many commands (like git or heroku).
-
-Most CLI tools for Node are simple flag parsers but oclif is much more than that—though without the overhead of making simple CLIs quick to write with minimal boilerplate.
+This is a framework for building CLIs in Node.js. This framework was built out of the [Heroku CLI](https://cli.heroku.com) but generalized to build any custom CLI. It's designed both for simple CLIs that can be just a single file with a few flag options, or for very complex CLIs that have subcommands (like git or heroku).
 
 # Features
 
@@ -80,7 +78,7 @@ With oclif you can create 2 different CLI types, single and multi.
 
 Single CLIs are like `ls` or `cat`. They can accept arguments and flags. Single CLIs can optionally be just be a single file.
 
-Multi CLIs are like `git` or `heroku`. They have subcommands that are themselves single CLI commands. In the `package.json` there is a field `oclif.commands` that points to a directory. This directory contains all the subcommands for the CLI. For example, if you wanted a CLI called `mycli` with the commands `mycli create` and `mycli destroy`, you would have a project like the following:
+Multi CLIs are like `git` or `heroku`. They have subcommands that are themselves single CLIs. In the `package.json` there is a field `oclif.commands` that points to a directory. This directory contains all the subcommands for the CLI. For example, if you had a CLI called `mycli` with the commands `mycli create` and `mycli destroy`, you would have a project like the following:
 
 ```
 package.json
@@ -398,7 +396,7 @@ export class MyCommand extends Command {
 
 # Topics
 
-As CLIs grow it can be useful to nest commands within topics. This is supported simply by placing commands in subdirectories. For example, with the Heroku CLI we have a topic `heroku config` with commands like `heroku config`, `heroku config:set` and `heroku config:get`. The directory structure looks like this:
+As CLIs grow it can be useful to nest commands within topics. This is supported simply by placing command files in subdirectories. For example, with the Heroku CLI we have a topic `heroku config` with commands like `heroku config`, `heroku config:set` and `heroku config:get`. The directory structure looks like this:
 
 ```
 package.json

@@ -32,9 +32,9 @@
   version "1.3.52"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.52.tgz#505711fdaecee880131c2fcec4d2b54d7c0b93c8"
 
-"@oclif/dev-cli@^1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.2.7.tgz#c86d4eedb2afc6e174637967cb9891f2151cd168"
+"@oclif/dev-cli@^1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.2.8.tgz#cafc35332582aba5bf856561c86a7f36d7a563b1"
   dependencies:
     "@oclif/command" "^1.2.25"
     "@oclif/config" "^1.3.52"

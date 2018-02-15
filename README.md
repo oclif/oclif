@@ -57,7 +57,7 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 # Requirements
 
-Only Node 8+ is supported. Node 6 will be out of LTS in April of 2019 and we will not support it ever. At that point we will continue to support the current LTS version of node.
+Only Node 8+ is supported. Node 6 will reach end-of-life April 2019. At that point we will continue to support the current LTS version of node.
 
 <!-- install -->
 # Install

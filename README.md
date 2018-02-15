@@ -215,7 +215,7 @@ static args = [
 Flag options are non-positional arguments passed to the command. For example, if this command was run like this:
 
 ```
-mycli --force --output=./myfile
+$ mycli --force --output=./myfile
 ```
 
 _(= is optional)_

@@ -6,21 +6,7 @@ class <%- klass %> extends Command {
 <%_ } else { _%>
 export default class <%- klass %> extends Command {
 <%_ } _%>
-  static description = `
-Describe the command here
-...
-Extra documentation goes here
-`
-<%_ if (type !== 'single') { _%>
-  // hide the command from help
-  // can also set hidden on args and flags
-  // static hidden = true
-<%_ } _%>
-
-  // usage is set by default
-  // add your own by setting this variable
-  // can be a string or array
-  // static usage = 'title of command'
+  static description = 'describe the command here'
 
   static examples = [
     `$ <%- cmd %>
@@ -29,16 +15,7 @@ hello world from ./src/<%- name %>.ts!
     `$ <%- cmd %> --name myname
 hello myname from .src/<%- name %>.ts!
 `,
-    `$ <%- cmd %> ./afile
-# outputs "hello world!" to ./afile`,
-    '$ <%- cmd %> --force',
-    '$ <%- cmd %> --help',
   ]
-<%_ if (type !== 'single') { _%>
-
-  // allow running this command by running `$ <%- bin %> foobar`
-  // static aliases = ['foobar']
-<%_ } _%>
 
   static flags = {
 <%_ if (type === 'single') { _%>
@@ -49,53 +26,19 @@ hello myname from .src/<%- name %>.ts!
 
 <%_ } _%>
     // flag with a value (-n, --name=VALUE)
-    name: flags.string({
-      char: 'n',                    // shorter flag version
-      description: 'name to print', // help description for flag
-      hidden: false,                // hide from help
-      multiple: false,              // allow setting this flag multiple times
-      // env: 'MY_NAME',            // default to value of environment variable
-      // options: ['a', 'b'],       // only allow the value to be from a discrete set
-      // parse: input => 'output',  // instead of the user input, return a differnt value
-      // default: 'world',          // default value if flag not passed
-      // required: false,           // make flag required (this is not common and you should probably use an argument instead)
-    }),
-
-    // flag with no value (-f, --force)
-    force: flags.boolean({
-      char: 'f',
-
-      // by default boolean flags may also be reversed with `--no-` (in this case: `--no-force`)
-      // the flag will be set to false if reversed
-      // set this to false to disable this functionality
-      // allowNo: false,
-    }),
+    name: flags.string({char: 'n', description: 'name to print'}),
+    force: flags.boolean({char: 'f'}),
   }
 
-  static args = [
-    {
-      name: 'file',                  // name of arg to show in help and reference with args[name]
-      required: false,               // make the arg required with `required: true`
-      description: 'file to output', // help description
-      // hidden: true,               // hide this flag from help
-      // parse: input => 'output',   // instead of the user input, return a differnt value
-      // default: 'world',           // default value if no arg input
-      // options: ['a', 'b'],        // only allow input to be from a discrete set
-    },
-  ]
+  static args = [{name: 'file'}]
 
-  // this makes the parser not fail when it receives invalid arguments
-  // set it to off if you need to accept variable arguments
-  // static strict = false
-
-  // entry point of command
   async run() {
     const {args, flags} = this.parse(<%- klass %>)
 
     const name = flags.name || 'world'
     this.log(`hello ${name} from ./src/<%- name %>.ts!`)
     if (args.file && flags.force) {
-      this.log(`you input ${args.file}`)
+      this.log(`you input --force and --file: ${args.file}`)
     }
   }
 }

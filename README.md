@@ -218,7 +218,7 @@ Flag options are non-positional arguments passed to the command. For example, if
 $ mycli --force --output=./myfile
 ```
 
-_(= is optional)_
+_= is optional_
 
 It would be declared like this:
 

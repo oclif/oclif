@@ -232,7 +232,7 @@ For larger CLIs, it can be useful to declare a custom flag that can be shared am
 
 ```js
 // flags.ts
-import {flags} from '@oclif
+import {flags} from '@oclif/command'
 function getTeam(): string | undefined {
   // imagine this reads a configuration file or something to find the team
 }

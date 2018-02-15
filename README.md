@@ -32,6 +32,7 @@ Create your own CLI
 * [Plugins](#plugins)
 * [Building your own plugin](#building-your-own-plugin)
 * [Commands](#commands)
+* [Related Repositories](#related-repositories)
 <!-- tocstop -->
 
 # Description
@@ -446,7 +447,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.2.11/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.2.12/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -463,7 +464,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.0.2/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.0.3/src/commands/help.ts)_
 
 ## multi [PATH]
 
@@ -479,7 +480,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.2.11/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.2.12/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -495,7 +496,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.2.11/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.2.12/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -511,7 +512,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.2.11/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.2.12/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # Related Repositories

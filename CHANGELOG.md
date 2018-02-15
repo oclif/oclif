@@ -1,3 +1,11 @@
+<a name="1.2.13"></a>
+## [1.2.13](https://github.com/oclif/oclif/compare/dddd42000930bfb37a2d573042863cdbe96e1613...v1.2.13) (2018-02-15)
+
+
+### Bug Fixes
+
+* fixed node version check ([c4de729](https://github.com/oclif/oclif/commit/c4de729))
+
 <a name="1.2.12"></a>
 ## [1.2.12](https://github.com/oclif/oclif/compare/f1829b73960bacd99efe1668a9e93bf23e578e62...v1.2.12) (2018-02-15)
 

@@ -24,10 +24,10 @@ Extra documentation goes here
 
   static examples = [
     `$ <%- cmd %>
-hello world from <%- name %>!
+hello world from ./src/<%- name %>.ts!
 `,
     `$ <%- cmd %> --name myname
-hello myname from <%- name %>!
+hello myname from .src/<%- name %>.ts!
 `,
     `$ <%- cmd %> ./afile
 # outputs "hello world!" to ./afile`,
@@ -92,7 +92,7 @@ hello myname from <%- name %>!
     const {args, flags} = this.parse(<%- klass %>)
 
     const name = flags.name || 'world'
-    this.log(`hello ${name} from <%- name %>!`)
+    this.log(`hello ${name} from ./src/<%- name %>.ts!`)
     if (args.file && flags.force) {
       this.log(`you input ${args.file}`)
     }

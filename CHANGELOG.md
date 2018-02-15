@@ -1,3 +1,11 @@
+<a name="1.2.12"></a>
+## [1.2.12](https://github.com/oclif/oclif/compare/f1829b73960bacd99efe1668a9e93bf23e578e62...v1.2.12) (2018-02-15)
+
+
+### Bug Fixes
+
+* fixed repo link ([dddd420](https://github.com/oclif/oclif/commit/dddd420))
+
 <a name="1.2.11"></a>
 ## [1.2.11](https://github.com/oclif/cli/compare/bbfac28675d71d64cfd8ab037856b7963555830c...v1.2.11) (2018-02-15)
 

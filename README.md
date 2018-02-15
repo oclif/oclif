@@ -83,7 +83,7 @@ Multi CLIs are like `git` or `heroku`. They have subcommands that are themselves
 ```
 package.json
 src/
-└── commands
+└── commands/
     ├── create.ts
     └── destroy.ts
 ```
@@ -401,8 +401,8 @@ As CLIs grow it can be useful to nest commands within topics. This is supported 
 ```
 package.json
 src/
-└── commands
-    └── config
+└── commands/
+    └── config/
         ├── index.ts
         ├── set.ts
         └── get.ts

@@ -1,3 +1,11 @@
+<a name="1.2.8"></a>
+## [1.2.8](https://github.com/oclif/cli/compare/32ca869f48afcda131db592f9dc6a6a5cd30e193...v1.2.8) (2018-02-15)
+
+
+### Bug Fixes
+
+* use github for snyk ([842fa27](https://github.com/oclif/cli/commit/842fa27))
+
 <a name="1.2.7"></a>
 ## [1.2.7](https://github.com/oclif/cli/compare/6bf6fcd9ac7e7271c225fef36b3ab91baac14a82...v1.2.7) (2018-02-15)
 

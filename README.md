@@ -336,6 +336,15 @@ can be multiline
   // defaults to true
   // set it to false if you need to accept variable arguments
   static strict = false
+
+  async run() {
+    // show a warning
+    this.warn('uh oh!')
+    // exit with an error message
+    this.error('uh oh!!!')
+    // exit with status code
+    this.exit(1)
+  }
 }
 ```
 
@@ -352,11 +361,6 @@ export default abstract class extends Command {
     loglevel: flags.string({options: ['error', 'warn', 'info', 'debug']})
   }
 
-  async run() {
-    const {flags} = this.parse(this.constructor)
-    this.flags = flags
-  }
-
   log(msg, level) {
     switch (this.flags.loglevel) {
     case 'error':
@@ -365,6 +369,18 @@ export default abstract class extends Command {
     // a complete example would need to have all the levels
     }
   }
+
+  async init(err) {
+    // do some initialization
+    const {flags} = this.parse(this.constructor)
+    this.flags = flags
+  }
+  async catch(err) {
+    // handle any error from the command
+  }
+  async finally(err) {
+    // called after run and catch regardless of whether or not the command errored
+  }
 }
 
 // src/commands/mycommand.ts
@@ -372,7 +388,6 @@ import Command from '../base'
 
 export class MyCommand extends Command {
   async run() {
-    await super.run()
     this.log('information', 'info')
     this.log('uh oh!', 'error')
   }

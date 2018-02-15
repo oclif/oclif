@@ -50,21 +50,7 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 Only Node 8+ is supported. Node 6 will be out of LTS in April of 2019 and we will not support it ever. At that point we will continue to support the current LTS version of node.
 
-<!-- install -->
-# Install
-
-with yarn:
-```
-$ yarn global add oclif
-```
-
-or with npm:
-```
-$ npm install -g oclif
-```
-<!-- installstop -->
-<!-- usage -->
-# Usage
+# CLI Types
 
 With oclif you can create 2 different CLI types, single and multi.
 
@@ -80,19 +66,94 @@ src/
     └── destroy.ts
 ```
 
+Multi-command CLIs may also include [plugins](#plugins).
+
 See below for information on [nesting commands within topics](#topics).
 
-```sh-session
-$ oclif COMMAND
-running command...
-$ oclif (-v|--version|version)
-oclif/1.2.5 (linux-x64) node-v9.5.0
-$ oclif --help [COMMAND]
-USAGE
-  $ oclif COMMAND [OPTIONS]
-...
+<!-- install -->
+# Install
+
+with yarn:
 ```
-<!-- usagestop -->
+$ yarn global add oclif
+```
+
+or with npm:
+```
+$ npm install -g oclif
+```
+<!-- installstop -->
+
+# Usage
+
+Creating a single-command CLI:
+
+```sh-session
+$ oclif single mynewcli
+? npm package name (mynewcli): mynewcli
+# creates new cli in directory "mynewcli"
+$ cd mynewcli
+$ ./bin/run
+hello world from ./src/index.js!
+```
+
+Creating a multi-command CLI:
+
+```sh-session
+$ oclif multi mynewcli
+? npm package name (mynewcli): mynewcli
+# creates new cli in directory "mynewcli"
+$ cd mynewcli
+$ ./bin/run --version
+mynewcli/0.0.0 darwin-x64 node-v9.5.0
+$ ./bin/run --help
+USAGE
+  $ mynewcli [COMMAND]
+
+COMMANDS
+  hello
+  help   display help for mynewcli
+
+$ ./bin/run hello
+hello world from ./src/hello.js!
+```
+
+# Examples
+
+* [Multi-command CLI (typescript)](https://github.com/oclif/example-multi-ts)
+* [Multi-command CLI (javascript)](https://github.com/oclif/example-multi-js)
+* [Single-command CLI (typescript)](https://github.com/oclif/example-single-ts)
+* [Single-command CLI (javascript)](https://github.com/oclif/example-single-js)
+* [Multi-command CLI Plugin (typescript)](https://github.com/oclif/example-single-ts)
+* [Multi-command CLI Plugin (javascript)](https://github.com/oclif/example-plugin-js)
+
+# Topics
+
+As CLIs grow it can be useful to nest commands within topics. This is supported simply by placing commands in subdirectories. For example, with the Heroku CLI we have a topic `heroku config` with commands like `heroku config`, `heroku config:set` and `heroku config:get`. The directory structure looks like this:
+
+```
+package.json
+src/
+└── commands
+    └── config
+        ├── index.ts
+        ├── set.ts
+        └── get.ts
+```
+
+# Plugins
+
+* [@oclif/not-found](https://github.com/oclif/not-found) - Display a friendly "did you mean" message if a command is not found.
+* [@oclif/plugins](https://github.com/oclif/plugins) - Allow users to add plugins to extend your CLI.
+* [@oclif/update](https://github.com/oclif/update) - Add autoupdate support to the CLI.
+* [TODO: @oclif/autocomplete](https://github.com/oclif/autocomplete) - Add bash/zsh autocomplete.
+
+# Building your own plugin
+
+Writing code for plugins is essentially the same as writing within a CLI. They can export 3 different types: commands, hooks, and other plugins.
+
+Run `npx oclif plugin mynewplugin` to create a plugin in a new directory. This will come with a sample command called `hello`.
+
 <!-- commands -->
 # Commands
 
@@ -184,39 +245,3 @@ OPTIONS
 
 _See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/single.ts)_
 <!-- commandsstop -->
-
-# Examples
-
-* [Multi-command CLI (typescript)](https://github.com/oclif/example-multi-ts)
-* [Multi-command CLI (javascript)](https://github.com/oclif/example-multi-js)
-* [Single-command CLI (typescript)](https://github.com/oclif/example-single-ts)
-* [Single-command CLI (javascript)](https://github.com/oclif/example-single-js)
-* [Multi-command CLI Plugin (typescript)](https://github.com/oclif/example-single-ts)
-* [Multi-command CLI Plugin (javascript)](https://github.com/oclif/example-plugin-js)
-
-# Plugins
-
-* [@oclif/not-found](https://github.com/oclif/not-found) - Display a friendly "did you mean" message if a command is not found.
-* [@oclif/plugins](https://github.com/oclif/plugins) - Allow users to add plugins to extend your CLI.
-* [@oclif/update](https://github.com/oclif/update) - Add autoupdate support to the CLI.
-* [TODO: @oclif/autocomplete](https://github.com/oclif/autocomplete) - Add bash/zsh autocomplete.
-
-# Topics
-
-As CLIs grow it can be useful to nest commands within topics. This is supported simply by placing commands in subdirectories. For example, with the Heroku CLI we have a topic `heroku config` with commands like `heroku config`, `heroku config:set` and `heroku config:get`. The directory structure looks like this:
-
-```
-package.json
-src/
-└── commands
-    └── config
-        ├── index.ts
-        ├── set.ts
-        └── get.ts
-```
-
-# Building your own plugin
-
-Writing code for plugins is essentially the same as writing within a CLI. They can export 3 different types: commands, hooks, and other plugins.
-
-Run `npx oclif plugin mynewplugin` to create a plugin in a new directory. This will come with a sample command called `hello`.

@@ -264,7 +264,7 @@ static flags = [
 For larger CLIs, it can be useful to declare a custom flag that can be shared amongst multiple commands. Here is an example of a custom flag:
 
 ```js
-// flags.ts
+// src/flags.ts
 import {flags} from '@oclif/command'
 function getTeam() {
   // imagine this reads a configuration file or something to find the team
@@ -275,7 +275,7 @@ export const team = flags.build({
   default: () => getTeam(),
 })
 
-// commands/mycommand.ts
+// src/commands/mycommand.ts
 import {team} from '../flags'
 import Command from '@oclif/command'
 
@@ -334,6 +334,44 @@ can be multiline
   // defaults to true
   // set it to false if you need to accept variable arguments
   static strict = false
+}
+```
+
+# Command Base Class
+
+Use inheritance to share functionality between common commands:
+
+```js
+// src/base.ts
+import Command, {flags} from '@oclif/command'
+
+export default abstract class extends Command {
+  static flags = {
+    loglevel: flags.string({options: ['error', 'warn', 'info', 'debug']})
+  }
+
+  async run() {
+    const {flags} = this.parse(this.constructor)
+    this.flags = flags
+  }
+
+  log(msg, level) {
+    switch (this.flags.loglevel) {
+    case 'error':
+      if (level === 'error') console.error(msg)
+      break
+    // a complete example would need to have all the levels
+    }
+  }
+}
+
+// src/commands/mycommand.ts
+import Command from '../base'
+
+export class MyCommand extends Command {
+  async run() {
+    await super.run()
+  }
 }
 ```
 

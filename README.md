@@ -264,12 +264,12 @@ Run `npx oclif plugin mynewplugin` to create a plugin in a new directory. This w
 <!-- commands -->
 # Commands
 
-* [oclif command NAME [OPTIONS]](#command)
-* [oclif help [COMMAND] [OPTIONS]](#help)
-* [oclif multi [PATH] [OPTIONS]](#multi)
-* [oclif plugin [PATH] [OPTIONS]](#plugin)
-* [oclif single [PATH] [OPTIONS]](#single)
-## command NAME [OPTIONS]
+* [oclif command NAME](#command)
+* [oclif help [COMMAND]](#help)
+* [oclif multi [PATH]](#multi)
+* [oclif plugin [PATH]](#plugin)
+* [oclif single [PATH]](#single)
+## command NAME
 
 add a command to an existing CLI or plugin
 
@@ -285,9 +285,9 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.9/src/commands/command.ts)_
 
-## help [COMMAND] [OPTIONS]
+## help [COMMAND]
 
 display help for oclif
 
@@ -304,7 +304,7 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.0.2/src/commands/help.ts)_
 
-## multi [PATH] [OPTIONS]
+## multi [PATH]
 
 generate a new multi-command CLI
 
@@ -318,9 +318,9 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.9/src/commands/multi.ts)_
 
-## plugin [PATH] [OPTIONS]
+## plugin [PATH]
 
 create a new CLI plugin
 
@@ -334,9 +334,9 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.9/src/commands/plugin.ts)_
 
-## single [PATH] [OPTIONS]
+## single [PATH]
 
 generate a new single-command CLI
 
@@ -350,5 +350,5 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.9/src/commands/single.ts)_
 <!-- commandsstop -->

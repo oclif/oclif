@@ -15,13 +15,14 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@heroku/linewrap/-/linewrap-1.0.0.tgz#a9d4e99f0a3e423a899b775f5f3d6747a1ff15c6"
 
-"@oclif/command@^1.2.23":
-  version "1.2.23"
-  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.2.23.tgz#12bd96c3b4839a712f364d9aa36e463ba870d906"
+"@mrmlnc/readdir-enhanced@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
   dependencies:
-    "@oclif/parser" "^3.2.8"
+    call-me-maybe "^1.0.1"
+    glob-to-regexp "^0.3.0"
 
-"@oclif/command@^1.2.25":
+"@oclif/command@^1.2.23", "@oclif/command@^1.2.25":
   version "1.2.25"
   resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.2.25.tgz#b3be729b18886b08b4ff2614d56f6d6adc69a396"
   dependencies:
@@ -52,10 +53,6 @@
     indent-string "^3.2.0"
     strip-ansi "^4.0.0"
     wrap-ansi "^3.0.1"
-
-"@oclif/parser@^3.2.8":
-  version "3.2.8"
-  resolved "https://registry.yarnpkg.com/@oclif/parser/-/parser-3.2.8.tgz#2b2e35b5c075d200d70950923acd64e258c5ae1d"
 
 "@oclif/parser@^3.2.9":
   version "3.2.9"
@@ -117,8 +114,8 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
 
 "@types/node@*":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.5.tgz#d2a90c634208173d1b1a0a6ba9f1df3de62edcf5"
+  version "9.4.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
 "@types/normalize-package-data@*":
   version "2.4.0"
@@ -1156,13 +1153,13 @@ fast-deep-equal@^1.0.0:
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
 
 fast-glob@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-2.0.3.tgz#25a5a6926ac89559a0ff600db21f9c51623b737f"
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-2.0.4.tgz#a4b9f49e36175f5ef1a3456f580226a6e7abcc9e"
   dependencies:
+    "@mrmlnc/readdir-enhanced" "^2.2.1"
     glob-parent "3.1.0"
     merge2 "1.2.1"
     micromatch "3.1.5"
-    readdir-enhanced mrmlnc/readdir-enhanced#ISSUE-11_monkey_fix
 
 fast-json-stable-stringify@^2.0.0:
   version "2.0.0"
@@ -1717,8 +1714,8 @@ is-utf8@^0.2.0:
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
 
 is-windows@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.1.tgz#310db70f742d259a16a369202b51af84233310d9"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
 
 isarray@0.0.1:
   version "0.0.1"
@@ -2518,13 +2515,6 @@ readable-stream@^2.0.2, readable-stream@^2.1.4, readable-stream@^2.1.5, readable
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
 
-readdir-enhanced@mrmlnc/readdir-enhanced#ISSUE-11_monkey_fix:
-  version "2.2.0"
-  resolved "https://codeload.github.com/mrmlnc/readdir-enhanced/tar.gz/1580afe4fdf21cd191c202ec599d1ca7d0ab062d"
-  dependencies:
-    call-me-maybe "^1.0.1"
-    glob-to-regexp "^0.3.0"
-
 readline-sync@^1.4.7:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/readline-sync/-/readline-sync-1.4.8.tgz#2e3b296fa64a35b2b011a754e46a235d46985de8"
@@ -3102,8 +3092,8 @@ tslint-eslint-rules@^4.1.1:
     tsutils "^1.4.0"
 
 tslint-microsoft-contrib@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.0.2.tgz#ecc2a797f777a12f0066944cec0c81a9e7c59ee9"
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.0.3.tgz#6fc3e238179cd72045c2b422e4d655f4183a8d5c"
   dependencies:
     tsutils "^2.12.1"
 

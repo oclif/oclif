@@ -120,14 +120,25 @@ $ ./bin/run hello
 hello world from ./src/hello.js!
 ```
 
+# Examples
+
+* TypeScript
+  * [Multi-command CLI](https://github.com/oclif/example-multi-ts)
+  * [Single-command CLI](https://github.com/oclif/example-single-ts)
+  * [Multi-command CLI Plugin](https://github.com/oclif/example-single-ts)
+* JavaScript
+  * [Multi-command CLI](https://github.com/oclif/example-multi-js)
+  * [Single-command CLI](https://github.com/oclif/example-single-js)
+  * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-js)
+
 # Command Options
 
-A basic command looks like the following:
+A basic command looks like the following in TypeScript:
 
 ```js
 import Command from '@oclif/command'
 
-export default class extends Command {
+export class MyCommand extends Command {
   static description = 'description of this example command'
 
   async run() {
@@ -136,9 +147,27 @@ export default class extends Command {
 }
 ```
 
-The only part that is required is the run function. Accept user input with arguments and flag options.
+The only part that is required is the run function. Accept user input with [arguments](#arguments) and [flag options](#flag-options).
 
-## Arguments
+In JavaScript:
+
+```js
+const {Command} = require('@oclif/command')
+
+class MyCommand extends Command {
+  async run() {
+    console.log('running my command')
+  }
+}
+
+MyCommand.description = 'description of this example command'
+
+module.exports = MyCommand
+```
+
+Note that the following examples will be in TypeScript. As JavaScript does not yet have static class properties, you will have to add them to the class after it is declared like we did with the description above.
+
+# Arguments
 
 Arguments are positional arguments passed to the command. For example, if this command was run with `mycli arg1 arg2` it would be declared like this:
 
@@ -177,7 +206,7 @@ static args = [
 ]
 ```
 
-## Flag Options
+# Flag Options
 
 Flag options are non-positional arguments passed to the command. For example, if this command was run with `mycli --force --output=./myfile` (= is optional) it would be declared like this:
 
@@ -233,7 +262,7 @@ For larger CLIs, it can be useful to declare a custom flag that can be shared am
 ```js
 // flags.ts
 import {flags} from '@oclif/command'
-function getTeam(): string | undefined {
+function getTeam() {
   // imagine this reads a configuration file or something to find the team
 }
 export const team = flags.build({
@@ -254,21 +283,55 @@ export class MyCLI extends Command {
   async run() {
     const {flags} = this.parse(MyCLI)
     if (flags.team) console.log(`--team is ${flags.team}`)
+  }
 }
 ```
 
 In the Heroku CLI, we use flags for our `--app` flag which takes advantage of a lot of functionality. It can be useful [to see how that is done](https://github.com/heroku/cli-engine-heroku/blob/oclif/src/flags/app.ts) to get ideas for making custom flags.
 
-# Examples
+# Aliases
 
-* TypeScript
-  * [Multi-command CLI](https://github.com/oclif/example-multi-ts)
-  * [Single-command CLI](https://github.com/oclif/example-single-ts)
-  * [Multi-command CLI Plugin](https://github.com/oclif/example-single-ts)
-* JavaScript
-  * [Multi-command CLI](https://github.com/oclif/example-multi-js)
-  * [Single-command CLI](https://github.com/oclif/example-single-js)
-  * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-js)
+Aliases let you define a string that maps to a command. This command can be run as `mycli config`, `mycli config:index`, or `mycli config:list`: (this only applies to multi-CLIs)
+
+```js
+import Command, {flags} from '@oclif/command'
+
+export class ConfigIndex extends Command {
+  static aliases = ['config:index', 'config:list']
+}
+```
+
+# Other Command Options
+
+```js
+import Command, {flags} from '@oclif/command'
+
+export class MyCommand extends Command {
+  static description = `
+description of my command
+can be multiline
+`
+
+  // hide the command from help
+  static hidden = false
+
+  // custom usage string for help
+  // this overrides the default usage
+  static usage = 'mycommand --myflag'
+
+  // examples to add to help
+  // each can be multiline
+  static examples = [
+    '$ mycommand --force',
+    '$ mycommand --help',
+  ]
+
+  // this makes the parser not fail when it receives invalid arguments
+  // defaults to true
+  // set it to false if you need to accept variable arguments
+  static strict = false
+}
+```
 
 # Topics
 

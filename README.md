@@ -371,6 +371,8 @@ import Command from '../base'
 export class MyCommand extends Command {
   async run() {
     await super.run()
+    this.log('information', 'info')
+    this.log('uh oh!', 'error')
   }
 }
 ```

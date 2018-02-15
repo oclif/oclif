@@ -46,6 +46,10 @@ Most CLI tools for Node are simple flag parsers but oclif is much more than that
 $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user has in their account
 ```
 
+# Requirements
+
+Only Node 8+ is supported. Node 6 will be out of LTS in April of 2019 and we will not support it ever. At that point we will continue to support the current LTS version of node.
+
 <!-- install -->
 # Install
 
@@ -61,6 +65,22 @@ $ npm install -g oclif
 <!-- installstop -->
 <!-- usage -->
 # Usage
+
+With oclif you can create 2 different CLI types, single and multi.
+
+Single CLIs are like `ls` or `cat`. They can accept arguments and flags. Single CLIs can optionally be just be a single file.
+
+Multi CLIs are like `git` or `heroku`. They have subcommands that are themselves single CLIs commands. In the `package.json` there is a field `oclif.commands` that points to a directory. This directory contains all the subcommands for the CLI. For example, if you wanted a CLI called `mycli` with the commands `mycli create` and `mycli destroy`, you would have a project like the following:
+
+```
+package.json
+src/
+└── commands
+    ├── create.ts
+    └── destroy.ts
+```
+
+See below for information on [nesting commands within topics](#topics).
 
 ```sh-session
 $ oclif COMMAND
@@ -180,6 +200,20 @@ _See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.5/src
 * [@oclif/plugins](https://github.com/oclif/plugins) - Allow users to add plugins to extend your CLI.
 * [@oclif/update](https://github.com/oclif/update) - Add autoupdate support to the CLI.
 * [TODO: @oclif/autocomplete](https://github.com/oclif/autocomplete) - Add bash/zsh autocomplete.
+
+# Topics
+
+As CLIs grow it can be useful to nest commands within topics. This is supported simply by placing commands in subdirectories. For example, with the Heroku CLI we have a topic `heroku config` with commands like `heroku config`, `heroku config:set` and `heroku config:get`. The directory structure looks like this:
+
+```
+package.json
+src/
+└── commands
+    └── config
+        ├── index.ts
+        ├── set.ts
+        └── get.ts
+```
 
 # Building your own plugin
 

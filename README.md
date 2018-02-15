@@ -18,11 +18,10 @@ Create your own CLI
 * [Description](#description)
 * [Features](#features)
 * [Requirements](#requirements)
-* [CLI Types](#cli-types)
 * [Install](#install)
+* [CLI Types](#cli-types)
 * [Usage](#usage)
-* [creates new cli in directory "mynewcli"](#creates-new-cli-in-directory-"mynewcli")
-* [creates new cli in directory "mynewcli"](#creates-new-cli-in-directory-"mynewcli")
+* [Command Options](#command-options)
 * [Examples](#examples)
 * [Topics](#topics)
 * [Plugins](#plugins)
@@ -286,7 +285,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.7/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/command.ts)_
 
 ## help [COMMAND] [OPTIONS]
 
@@ -319,7 +318,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.7/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/multi.ts)_
 
 ## plugin [PATH] [OPTIONS]
 
@@ -335,7 +334,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.7/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/plugin.ts)_
 
 ## single [PATH] [OPTIONS]
 
@@ -351,5 +350,5 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.7/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.8/src/commands/single.ts)_
 <!-- commandsstop -->

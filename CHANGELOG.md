@@ -1,3 +1,11 @@
+<a name="1.2.9"></a>
+## [1.2.9](https://github.com/oclif/cli/compare/842fa2723d9026a4d9dd6d52194a989c0b30ae7a...v1.2.9) (2018-02-15)
+
+
+### Bug Fixes
+
+* improve docs ([cc5fd9b](https://github.com/oclif/cli/commit/cc5fd9b))
+
 <a name="1.2.8"></a>
 ## [1.2.8](https://github.com/oclif/cli/compare/32ca869f48afcda131db592f9dc6a6a5cd30e193...v1.2.8) (2018-02-15)
 

@@ -44,6 +44,7 @@ Most CLI tools for Node are simple flag parsers but oclif is much more than that
 
 * **Flag/Argument parsing** - No CLI framework would be complete without a flag parser. We've built a custom one from years of experimentation that we feel consistently handles user input flexible enough for the user to be able to easily use the CLI in ways they expect, but without comprisiming strictness guarantees to the developer.
 * **CLI Generator** - Run a single command to scaffold out a fully functional CLI and get started quickly. See [Usage](#usage) below.
+* **Testing Helpers** - We've put a lot of work into making commands easily testable and easy to mock out stdout/stderr. The generator will automatically create [scaffolded tests](https://github.com/oclif/example-multi-ts/blob/master/test/commands/hello.test.ts).
 * **Auto-documentation** - By default you can pass `--help` to the CLI to get help such as flag options and argument information. This information is also automatically placed in the README whenever the npm package of the CLI is published. See the [multi-command CLI example](https://github.com/oclif/example-multi-ts)
 * **Advanced plugin capabilility** - Using plugins, users of the CLI can extend it with new functionality, a CLI can be split into modular components, and functionality can be shared amongst multiple CLIs. See [Building your own plugin](#buildingyourownplugin) below.
 * **Hooks** - Use lifecycle hooks to run functionality any time a CLI starts, or on custom triggers. Use this whenever custom functionality needs to be shared between various components of the CLI.
@@ -411,10 +412,11 @@ src/
 
 # Plugins
 
-* [@oclif/not-found](https://github.com/oclif/not-found) - Display a friendly "did you mean" message if a command is not found.
-* [@oclif/plugins](https://github.com/oclif/plugins) - Allow users to add plugins to extend your CLI.
-* [@oclif/update](https://github.com/oclif/update) - Add autoupdate support to the CLI.
-* [TODO: @oclif/autocomplete](https://github.com/oclif/autocomplete) - Add bash/zsh autocomplete.
+* [@oclif/plugin-not-found](https://github.com/oclif/plugin-not-found) - Display a friendly "did you mean" message if a command is not found.
+* [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins) - Allow users to add plugins to extend your CLI.
+* [@oclif/plugin-update](https://github.com/oclif/plugin-update) - Add autoupdate support to the CLI.
+* [@oclif/plugin-help](https://github.com/oclif/plugin-help) - Help plugin for oclif.
+* [TODO: @oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete) - Add bash/zsh autocomplete.
 
 # Building your own plugin
 
@@ -513,3 +515,11 @@ OPTIONS
 
 _See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.2.11/src/commands/single.ts)_
 <!-- commandsstop -->
+
+# Related Repositories
+
+* [@oclif/command](https://github.com/oclif/command) - Base command for oclif. This can be used directly without the generator.
+* [@oclif/config](https://github.com/oclif/config) - Most of the core setup for oclif lives here.
+* [@oclif/errors](https://github.com/oclif/errors) - Renders and logs errors from commands.
+* [@oclif/cli-ux](https://github.com/oclif/cli-ux) - Library for common CLI UI utilities.
+* [@oclif/test](https://github.com/oclif/test) - Test helper for oclif.

@@ -4,7 +4,7 @@
   "version": "1.2.11",
   "author": "Jeff Dickey @jdxcode",
   "bin": "./bin/run",
-  "bugs": "https://github.com/oclif/cli/issues",
+  "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@oclif/command": "^1.2.25",
     "@oclif/config": "^1.3.52",
@@ -53,7 +53,7 @@
     "/lib",
     "/templates"
   ],
-  "homepage": "https://github.com/oclif/cli",
+  "homepage": "https://github.com/oclif/oclif",
   "keywords": [
     "oclif"
   ],
@@ -67,7 +67,7 @@
     ],
     "bin": "oclif"
   },
-  "repository": "oclif/cli",
+  "repository": "oclif/oclif",
   "scripts": {
     "build": "rm -rf lib && tsc",
     "lint": "nps lint",

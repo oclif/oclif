@@ -307,6 +307,8 @@ export class ConfigIndex extends Command {
 
 # Other Command Options
 
+[See the base class to get an idea of what methods can be called on a command](https://github.com/oclif/command/blob/master/src/command.ts).
+
 ```js
 import Command, {flags} from '@oclif/command'
 

@@ -212,7 +212,15 @@ static args = [
 
 # Flag Options
 
-Flag options are non-positional arguments passed to the command. For example, if this command was run with `mycli --force --output=./myfile` (= is optional) it would be declared like this:
+Flag options are non-positional arguments passed to the command. For example, if this command was run like this:
+
+```
+mycli --force --output=./myfile
+```
+
+_(= is optional)_
+
+It would be declared like this:
 
 ```js
 import Command, {flags} from '@oclif/command'

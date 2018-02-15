@@ -1,3 +1,12 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/oclif/oclif/compare/59e3e32f39f251414f10224cfe49c5f2bee44090...v1.3.0) (2018-02-15)
+
+
+### Features
+
+* add LICENSE if salesforce repo + mit ([17f4b2a](https://github.com/oclif/oclif/commit/17f4b2a))
+* add LICENSE if salesforce repo + mit ([94847e5](https://github.com/oclif/oclif/commit/94847e5))
+
 <a name="1.2.14"></a>
 ## [1.2.14](https://github.com/oclif/oclif/compare/c4de729b1570ef0f3e544693c94ca008ff4557f8...v1.2.14) (2018-02-15)
 

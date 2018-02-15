@@ -1,3 +1,13 @@
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/oclif/oclif/compare/17f4b2a47249c8568bf4e0e65961b01d5461cb8e...v1.3.1) (2018-02-15)
+
+
+### Bug Fixes
+
+* updated dev-cli ([dc18085](https://github.com/oclif/oclif/commit/dc18085))
+* use shield style for circle ([6bb89b6](https://github.com/oclif/oclif/commit/6bb89b6))
+* use shield style for circle ([d0533a6](https://github.com/oclif/oclif/commit/d0533a6))
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/oclif/oclif/compare/59e3e32f39f251414f10224cfe49c5f2bee44090...v1.3.0) (2018-02-15)
 

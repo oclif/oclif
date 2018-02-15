@@ -34,11 +34,11 @@ Create your own CLI
 * [Related Repositories](#related-repositories)
 <!-- tocstop -->
 
-# Description
+# 🗒 Description
 
 This is a framework for building CLIs in Node.js. This framework was built out of the [Heroku CLI](https://cli.heroku.com) but generalized to build any custom CLI. It's designed both for simple CLIs that can be just a single file with a few flag options, or for very complex CLIs that have subcommands (like git or heroku).
 
-# Features
+# ✨ Features
 
 * **Flag/Argument parsing** - No CLI framework would be complete without a flag parser. We've built a custom one from years of experimentation that we feel consistently handles user input flexible enough for the user to be able to easily use the CLI in ways they expect, but without comprisiming strictness guarantees to the developer.
 * **CLI Generator** - Run a single command to scaffold out a fully functional CLI and get started quickly. See [Usage](#usage) below.
@@ -54,25 +54,11 @@ This is a framework for building CLIs in Node.js. This framework was built out o
 $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user has in their account
 ```
 
-# Requirements
+# 📌 Requirements
 
 Only Node 8+ is supported. Node 6 will reach end-of-life April 2019. At that point we will continue to support the current LTS version of node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are on Node 8.
 
-<!-- install -->
-# Install
-
-with yarn:
-```
-$ yarn global add oclif
-```
-
-or with npm:
-```
-$ npm install -g oclif
-```
-<!-- installstop -->
-
-# CLI Types
+# 🌈 CLI Types
 
 With oclif you can create 2 different CLI types, single and multi.
 
@@ -92,12 +78,12 @@ Multi-command CLIs may also include [plugins](#plugins).
 
 See below for information on [nesting commands within topics](#topics).
 
-# Usage
+# 🏗 Usage
 
 Creating a single-command CLI:
 
 ```sh-session
-$ oclif single mynewcli
+$ npx oclif single mynewcli
 ? npm package name (mynewcli): mynewcli
 $ cd mynewcli
 $ ./bin/run
@@ -107,7 +93,7 @@ hello world from ./src/index.js!
 Creating a multi-command CLI:
 
 ```sh-session
-$ oclif multi mynewcli
+$ npx oclif multi mynewcli
 ? npm package name (mynewcli): mynewcli
 $ cd mynewcli
 $ ./bin/run --version
@@ -124,7 +110,7 @@ $ ./bin/run hello
 hello world from ./src/hello.js!
 ```
 
-# Examples
+# 📚 Examples
 
 * TypeScript
   * [Multi-command CLI](https://github.com/oclif/example-multi-ts)
@@ -135,7 +121,7 @@ hello world from ./src/hello.js!
   * [Single-command CLI](https://github.com/oclif/example-single-js)
   * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-js)
 
-# Command Options
+# 🛠 Command Options
 
 A basic command looks like the following in TypeScript:
 
@@ -171,7 +157,7 @@ module.exports = MyCommand
 
 Note that the following examples will be in TypeScript. As JavaScript does not yet have static class properties, you will have to add them to the class after it is declared like we did with the description above.
 
-# Arguments
+# 🔧 Arguments
 
 Arguments are positional arguments passed to the command. For example, if this command was run with `mycli arg1 arg2` it would be declared like this:
 
@@ -210,7 +196,7 @@ static args = [
 ]
 ```
 
-# Flag Options
+# 🔨 Flag Options
 
 Flag options are non-positional arguments passed to the command. For example, if this command was run like this:
 
@@ -301,7 +287,7 @@ export class MyCLI extends Command {
 
 In the Heroku CLI, we use flags for our `--app` flag which takes advantage of a lot of functionality. It can be useful [to see how that is done](https://github.com/heroku/cli-engine-heroku/blob/oclif/src/flags/app.ts) to get ideas for making custom flags.
 
-# Aliases
+# 👥 Aliases
 
 Aliases let you define a string that maps to a command. This command can be run as `mycli config`, `mycli config:index`, or `mycli config:list`: (this only applies to multi-CLIs)
 
@@ -313,7 +299,7 @@ export class ConfigIndex extends Command {
 }
 ```
 
-# Other Command Options
+# ⚙️ Other Command Options
 
 [See the base class to get an idea of what methods can be called on a command](https://github.com/oclif/command/blob/master/src/command.ts).
 
@@ -356,7 +342,7 @@ can be multiline
 }
 ```
 
-# Command Base Class
+# 🌱 Command Base Class
 
 Use inheritance to share functionality between common commands:
 
@@ -402,7 +388,7 @@ export class MyCommand extends Command {
 }
 ```
 
-# Topics
+# 📦 Topics
 
 As CLIs grow it can be useful to nest commands within topics. This is supported simply by placing command files in subdirectories. For example, with the Heroku CLI we have a topic `heroku config` with commands like `heroku config`, `heroku config:set` and `heroku config:get`. The directory structure looks like this:
 
@@ -416,7 +402,7 @@ src/
         └── get.ts
 ```
 
-# Plugins
+# 🎁 Plugins
 
 * [@oclif/plugin-not-found](https://github.com/oclif/plugin-not-found) - Display a friendly "did you mean" message if a command is not found.
 * [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins) - Allow users to add plugins to extend your CLI.
@@ -424,7 +410,7 @@ src/
 * [@oclif/plugin-help](https://github.com/oclif/plugin-help) - Help plugin for oclif.
 * [TODO: @oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete) - Add bash/zsh autocomplete.
 
-# Building your own plugin
+# 💼 Building your own plugin
 
 Writing code for plugins is essentially the same as writing within a CLI. They can export 3 different types: commands, hooks, and other plugins.
 
@@ -522,7 +508,7 @@ OPTIONS
 _See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.0/src/commands/single.ts)_
 <!-- commandsstop -->
 
-# Related Repositories
+# 🏭 Related Repositories
 
 * [@oclif/command](https://github.com/oclif/command) - Base command for oclif. This can be used directly without the generator.
 * [@oclif/config](https://github.com/oclif/config) - Most of the core setup for oclif lives here.

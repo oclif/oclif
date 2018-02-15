@@ -17,12 +17,17 @@ Create your own CLI
 <!-- toc -->
 * [Description](#description)
 * [Features](#features)
+* [Requirements](#requirements)
+* [CLI Types](#cli-types)
 * [Install](#install)
 * [Usage](#usage)
-* [Commands](#commands)
+* [creates new cli in directory "mynewcli"](#creates-new-cli-in-directory-"mynewcli")
+* [creates new cli in directory "mynewcli"](#creates-new-cli-in-directory-"mynewcli")
 * [Examples](#examples)
+* [Topics](#topics)
 * [Plugins](#plugins)
 * [Building your own plugin](#building-your-own-plugin)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Description
@@ -178,7 +183,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.6/src/commands/command.ts)_
 
 ## help [COMMAND] [OPTIONS]
 
@@ -211,7 +216,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.6/src/commands/multi.ts)_
 
 ## plugin [PATH] [OPTIONS]
 
@@ -227,7 +232,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.6/src/commands/plugin.ts)_
 
 ## single [PATH] [OPTIONS]
 
@@ -243,5 +248,5 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.6/src/commands/single.ts)_
 <!-- commandsstop -->

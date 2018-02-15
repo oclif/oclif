@@ -53,11 +53,12 @@ hello myname from .src/<%- name %>.ts!
       char: 'n',                    // shorter flag version
       description: 'name to print', // help description for flag
       hidden: false,                // hide from help
-      required: false,              // make flag required (probably should use an arg instead of a required flag though)
       multiple: false,              // allow setting this flag multiple times
+      // env: 'MY_NAME',            // default to value of environment variable
       // options: ['a', 'b'],       // only allow the value to be from a discrete set
       // parse: input => 'output',  // instead of the user input, return a differnt value
       // default: 'world',          // default value if flag not passed
+      // required: false,           // make flag required (this is not common and you should probably use an argument instead)
     }),
 
     // flag with no value (-f, --force)

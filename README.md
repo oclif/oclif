@@ -55,6 +55,20 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 Only Node 8+ is supported. Node 6 will be out of LTS in April of 2019 and we will not support it ever. At that point we will continue to support the current LTS version of node.
 
+<!-- install -->
+# Install
+
+with yarn:
+```
+$ yarn global add oclif
+```
+
+or with npm:
+```
+$ npm install -g oclif
+```
+<!-- installstop -->
+
 # CLI Types
 
 With oclif you can create 2 different CLI types, single and multi.
@@ -75,20 +89,6 @@ Multi-command CLIs may also include [plugins](#plugins).
 
 See below for information on [nesting commands within topics](#topics).
 
-<!-- install -->
-# Install
-
-with yarn:
-```
-$ yarn global add oclif
-```
-
-or with npm:
-```
-$ npm install -g oclif
-```
-<!-- installstop -->
-
 # Usage
 
 Creating a single-command CLI:
@@ -96,7 +96,6 @@ Creating a single-command CLI:
 ```sh-session
 $ oclif single mynewcli
 ? npm package name (mynewcli): mynewcli
-# creates new cli in directory "mynewcli"
 $ cd mynewcli
 $ ./bin/run
 hello world from ./src/index.js!
@@ -107,7 +106,6 @@ Creating a multi-command CLI:
 ```sh-session
 $ oclif multi mynewcli
 ? npm package name (mynewcli): mynewcli
-# creates new cli in directory "mynewcli"
 $ cd mynewcli
 $ ./bin/run --version
 mynewcli/0.0.0 darwin-x64 node-v9.5.0
@@ -121,6 +119,111 @@ COMMANDS
 
 $ ./bin/run hello
 hello world from ./src/hello.js!
+```
+
+# Command Options
+
+A basic command looks like the following:
+
+```js
+import Command from '@oclif/command'
+
+export default class extends Command {
+  static description = 'description of this example command'
+
+  async run() {
+    console.log('running my command')
+  }
+}
+```
+
+The only part that is required is the run function. Accept user input with arguments and flag options.
+
+## Arguments
+
+Arguments are positional arguments passed to the command. For example, if this command was run with `mycli arg1 arg2` it would be declared like this:
+
+```js
+import Command from '@oclif/command'
+
+export class MyCLI extends Command {
+  static args = [
+    {name: 'firstArg'},
+    {name: 'secondArg'},
+  ]
+
+  async run() {
+    // can get args as an object
+    const {args} = this.parse(MyCLI)
+    console.log(`running my command with args: ${args.firstArg}, ${args.secondArg}`)
+    // can also get the args as an array
+    const {argv} = this.parse(MyCLI)
+    console.log(`running my command with args: ${argv[0]}, ${argv[1]}`)
+  }
+}
+```
+
+Here are the options arguments can have:
+```js
+static args = [
+  {
+    name: 'file',                  // name of arg to show in help and reference with args[name]
+    required: false,               // make the arg required with `required: true`
+    description: 'file to output', // help description
+    // hidden: true,               // hide this flag from help
+    // parse: input => 'output',   // instead of the user input, return a differnt value
+    // default: 'world',           // default value if no arg input
+    // options: ['a', 'b'],        // only allow input to be from a discrete set
+  }
+]
+```
+
+## Flag Options
+
+Flag options are non-positional arguments passed to the command. For example, if this command was run with `mycli --force --output=./myfile` it would be declared like this:
+
+```js
+import Command, {flags} from '@oclif/command'
+
+export class MyCLI extends Command {
+  static flags = {
+    // can pass either --force or -f
+    force: flags.boolean({char: 'f'}),
+    file: flags.string(),
+  }
+
+  async run() {
+    const {flags} = this.parse(MyCLI)
+    if (flags.force) console.log('--force is set')
+    if (flags.file) console.log(`--file is: ${flags.file}`)
+  }
+}
+```
+
+Here are the options flags can have:
+
+```js
+static flags = [
+  name: flags.string({
+    char: 'n',                    // shorter flag version
+    description: 'name to print', // help description for flag
+    hidden: false,                // hide from help
+    multiple: false,              // allow setting this flag multiple times
+    // options: ['a', 'b'],       // only allow the value to be from a discrete set
+    // parse: input => 'output',  // instead of the user input, return a differnt value
+    // default: 'world',          // default value if flag not passed
+    // required: false,           // make flag required (this is not common and you should probably use an argument instead)
+  }),
+
+  // flag with no value (-f, --force)
+  force: flags.boolean({
+    char: 'f',
+    // by default boolean flags may also be reversed with `--no-` (in this case: `--no-force`)
+    // the flag will be set to false if reversed
+    // set this to false to disable this functionality
+    // allowNo: false,
+  }),
+]
 ```
 
 # Examples

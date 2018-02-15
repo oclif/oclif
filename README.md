@@ -20,7 +20,7 @@ Create your own CLI
 * [Commands](#commands)
 * [Examples](#examples)
 * [Plugins](#plugins)
-* [Building your own plugin](#buildingyourownplugin)
+* [Building your own plugin](#building-your-own-plugin)
 <!-- tocstop -->
 
 # Description
@@ -64,7 +64,7 @@ $ npm install -g oclif
 $ oclif COMMAND
 running command...
 $ oclif (-v|--version|version)
-oclif/1.2.4 (linux-x64) node-v9.5.0
+oclif/1.2.5 (linux-x64) node-v9.5.0
 $ oclif --help [COMMAND]
 USAGE
   $ oclif COMMAND [OPTIONS]
@@ -85,7 +85,7 @@ add a command to an existing CLI or plugin
 
 ```
 USAGE
-  $ oclif command NAME [OPTIONS]
+  $ oclif command NAME
 
 ARGUMENTS
   NAME  name of command
@@ -95,7 +95,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/command.ts)_
 
 ## help [COMMAND] [OPTIONS]
 
@@ -103,7 +103,7 @@ display help for oclif
 
 ```
 USAGE
-  $ oclif help [COMMAND] [OPTIONS]
+  $ oclif help [COMMAND]
 
 ARGUMENTS
   COMMAND  command to show help for
@@ -112,7 +112,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.0.1/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.0.2/src/commands/help.ts)_
 
 ## multi [PATH] [OPTIONS]
 
@@ -120,7 +120,7 @@ generate a new multi-command CLI
 
 ```
 USAGE
-  $ oclif multi [PATH] [OPTIONS]
+  $ oclif multi [PATH]
 
 OPTIONS
   --defaults         use defaults for every setting
@@ -128,7 +128,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/multi.ts)_
 
 ## plugin [PATH] [OPTIONS]
 
@@ -136,7 +136,7 @@ create a new CLI plugin
 
 ```
 USAGE
-  $ oclif plugin [PATH] [OPTIONS]
+  $ oclif plugin [PATH]
 
 OPTIONS
   --defaults         use defaults for every setting
@@ -144,7 +144,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/plugin.ts)_
 
 ## single [PATH] [OPTIONS]
 
@@ -152,7 +152,7 @@ generate a new single-command CLI
 
 ```
 USAGE
-  $ oclif single [PATH] [OPTIONS]
+  $ oclif single [PATH]
 
 OPTIONS
   --defaults         use defaults for every setting
@@ -160,7 +160,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.4/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/cli/blob/v1.2.5/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # Examples

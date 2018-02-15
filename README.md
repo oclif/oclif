@@ -14,24 +14,23 @@ Create your own CLI
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/master/package.json)
 
 <!-- toc -->
-* [Description](#description)
-* [Features](#features)
-* [Requirements](#requirements)
-* [Install](#install)
-* [CLI Types](#cli-types)
-* [Usage](#usage)
-* [Examples](#examples)
-* [Command Options](#command-options)
-* [Arguments](#arguments)
-* [Flag Options](#flag-options)
-* [Aliases](#aliases)
-* [Other Command Options](#other-command-options)
-* [Command Base Class](#command-base-class)
-* [Topics](#topics)
-* [Plugins](#plugins)
-* [Building your own plugin](#building-your-own-plugin)
+* [🗒 Description](#description)
+* [✨ Features](#features)
+* [📌 Requirements](#requirements)
+* [🌈 CLI Types](#cli-types)
+* [🏗 Usage](#usage)
+* [📚 Examples](#examples)
+* [🛠 Command Options](#command-options)
+* [🔧 Arguments](#arguments)
+* [🔨 Flag Options](#flag-options)
+* [👥 Aliases](#aliases)
+* [⚙️ Other Command Options](#other-command-options)
+* [🌱 Command Base Class](#command-base-class)
+* [📦 Topics](#topics)
+* [🎁 Plugins](#plugins)
+* [💼 Building your own plugin](#building-your-own-plugin)
 * [Commands](#commands)
-* [Related Repositories](#related-repositories)
+* [🏭 Related Repositories](#related-repositories)
 <!-- tocstop -->
 
 # 🗒 Description
@@ -440,7 +439,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.3.0/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.3.1/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -473,7 +472,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.3.0/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.3.1/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -489,7 +488,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.3.0/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.3.1/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -505,7 +504,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.0/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.1/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

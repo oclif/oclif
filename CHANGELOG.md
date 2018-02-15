@@ -1,3 +1,11 @@
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/oclif/oclif/compare/6bb89b6e1ce6f17c1a57c6671c1df4178b595da8...v1.3.2) (2018-02-15)
+
+
+### Bug Fixes
+
+* add emojis to readme ([fb7765c](https://github.com/oclif/oclif/commit/fb7765c))
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/oclif/oclif/compare/17f4b2a47249c8568bf4e0e65961b01d5461cb8e...v1.3.1) (2018-02-15)
 

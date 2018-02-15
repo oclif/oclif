@@ -1,3 +1,11 @@
+<a name="1.2.10"></a>
+## [1.2.10](https://github.com/oclif/cli/compare/cc5fd9bebd22c10810622feefe21b7c8e3703225...v1.2.10) (2018-02-15)
+
+
+### Bug Fixes
+
+* updated dev-cli ([bbfac28](https://github.com/oclif/cli/commit/bbfac28))
+
 <a name="1.2.9"></a>
 ## [1.2.9](https://github.com/oclif/cli/compare/842fa2723d9026a4d9dd6d52194a989c0b30ae7a...v1.2.9) (2018-02-15)
 

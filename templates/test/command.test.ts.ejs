@@ -13,7 +13,7 @@ describe('<%- name %>', () => {
   .command(['<%- name %>'])
 <%_ } _%>
   .it('runs hello', ctx => {
-    expect(ctx.stdout).to.contain('hello world from ./src/<%- name %>.ts!')
+    expect(ctx.stdout).to.contain('hello world')
   })
 
   test
@@ -24,6 +24,6 @@ describe('<%- name %>', () => {
   .command(['<%- name %>', '--name', 'jeff'])
 <%_ } _%>
   .it('runs hello --name jeff', ctx => {
-    expect(ctx.stdout).to.contain('hello jeff from ./src/<%- name %>.ts!')
+    expect(ctx.stdout).to.contain('hello jeff')
   })
 })

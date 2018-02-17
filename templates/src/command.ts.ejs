@@ -36,7 +36,7 @@ hello myname from .src/<%- name %>.ts!
     const {args, flags} = this.parse(<%- klass %>)
 
     const name = flags.name || 'world'
-    this.log(`hello ${name} from ./src/<%- name %>.ts!`)
+    this.log(`hello ${name} from ${__filename}!`)
     if (args.file && flags.force) {
       this.log(`you input --force and --file: ${args.file}`)
     }

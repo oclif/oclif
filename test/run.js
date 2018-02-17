@@ -52,6 +52,7 @@ module.exports = file => {
       case 'plugin':
         build(cmd, name)
         sh.exec('yarn test')
+        sh.exec('node ./bin/run hello')
         sh.exec('node ./bin/run')
         sh.exec('node ./bin/run --help')
         sh.exec('yarn run prepublishOnly')

@@ -5,7 +5,7 @@ class <%- klass %> extends Command {
   async run() {
     const {flags} = this.parse(<%- klass %>)
     const name = flags.name || 'world'
-    this.log(`hello ${name} from ./src/<%- name %>.js!`)
+    this.log(`hello ${name} from ${__filename}!`)
   }
 }
 

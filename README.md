@@ -1,5 +1,5 @@
-oclif: Open CLI Framework
-=========================
+oclif: Node.JS Open CLI Framework
+=================================
 
 [![Join the chat at https://gitter.im/oclif/oclif](https://badges.gitter.im/oclif/oclif.svg)](https://gitter.im/oclif/oclif?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)

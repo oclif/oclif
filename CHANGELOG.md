@@ -1,3 +1,11 @@
+<a name="1.3.6"></a>
+## [1.3.6](https://github.com/oclif/oclif/compare/3ffd29af6122becb6f9006df364c5092ef9fad08...v1.3.6) (2018-02-17)
+
+
+### Bug Fixes
+
+* show full path to file ([c9741f7](https://github.com/oclif/oclif/commit/c9741f7))
+
 <a name="1.3.5"></a>
 ## [1.3.5](https://github.com/oclif/oclif/compare/8359976eda2665452ecb138291355444ab699809...v1.3.5) (2018-02-17)
 

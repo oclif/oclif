@@ -419,7 +419,7 @@ class App extends Generator {
         // '@types/strip-ansi',
         // '@types/supports-color',
         'typescript',
-        'ts-node',
+        'ts-node@5',
         '@oclif/tslint',
         'tslint',
       )

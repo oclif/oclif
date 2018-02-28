@@ -1,3 +1,11 @@
+<a name="1.3.8"></a>
+## [1.3.8](https://github.com/oclif/oclif/compare/0d6ab82e4db4f99e28273af25425fc9f3919334d...v1.3.8) (2018-02-28)
+
+
+### Bug Fixes
+
+* fixed ts-node compatibility ([a45f405](https://github.com/oclif/oclif/commit/a45f405))
+
 <a name="1.3.7"></a>
 ## [1.3.7](https://github.com/oclif/oclif/compare/c9741f7ac908f44d963dadda9c19aa1a50fd0ad6...v1.3.7) (2018-02-17)
 

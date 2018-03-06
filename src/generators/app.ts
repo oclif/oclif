@@ -200,11 +200,11 @@ class App extends Generator {
         {
           type: 'checkbox',
           name: 'options',
-          message: 'components to include',
+          message: 'optional components to include',
           choices: [
-            {name: 'mocha', checked: !!this.pjson.devDependencies.mocha},
-            {name: 'typescript', checked: !!this.pjson.devDependencies.typescript},
-            {name: 'semantic-release', checked: this.options['semantic-release']},
+            {name: 'mocha (testing framework)', value: 'mocha', checked: true},
+            {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
+            {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },

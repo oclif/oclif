@@ -1,3 +1,12 @@
+<a name="1.3.9"></a>
+## [1.3.9](https://github.com/oclif/oclif/compare/a45f4058f9492d8c7cb7cf4a6906a709b34165e9...v1.3.9) (2018-03-08)
+
+
+### Bug Fixes
+
+* add component descriptions and default mocha and ts ([#42](https://github.com/oclif/oclif/issues/42)) ([bbea1b6](https://github.com/oclif/oclif/commit/bbea1b6))
+* add component descriptions and option to skip ([25cf71e](https://github.com/oclif/oclif/commit/25cf71e))
+
 <a name="1.3.8"></a>
 ## [1.3.8](https://github.com/oclif/oclif/compare/0d6ab82e4db4f99e28273af25425fc9f3919334d...v1.3.8) (2018-02-28)
 

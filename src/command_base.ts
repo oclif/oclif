@@ -10,6 +10,11 @@ export default abstract class CommandBase extends Command {
       `oclif:${type}`
     )
 
-    await env.run(`oclif:${type}`, generatorOptions)
+    await new Promise((resolve, reject) => {
+      env.run(`oclif:${type}`, generatorOptions, (err: Error, results: any) => {
+        if (err) reject(err)
+        else resolve(results)
+      })
+    })
   }
 }

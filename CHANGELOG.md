@@ -1,3 +1,11 @@
+<a name="1.3.10"></a>
+## [1.3.10](https://github.com/oclif/oclif/compare/bbea1b6c7c4d0c3a90a0da7ca37766448561730a...v1.3.10) (2018-03-15)
+
+
+### Bug Fixes
+
+* return a promise from yeoman callback style so it actually awaits ([#43](https://github.com/oclif/oclif/issues/43)) ([c22f423](https://github.com/oclif/oclif/commit/c22f423))
+
 <a name="1.3.9"></a>
 ## [1.3.9](https://github.com/oclif/oclif/compare/a45f4058f9492d8c7cb7cf4a6906a709b34165e9...v1.3.9) (2018-03-08)
 

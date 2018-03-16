@@ -512,3 +512,7 @@ _See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.9/s
 * [@oclif/errors](https://github.com/oclif/errors) - Renders and logs errors from commands.
 * [@oclif/cli-ux](https://github.com/oclif/cli-ux) - Library for common CLI UI utilities.
 * [@oclif/test](https://github.com/oclif/test) - Test helper for oclif.
+
+# 📣 Feedback
+
+If you have any suggestions or just want to let us know what you think of oclif, send us a message at <heroku-cli@salesforce.com>

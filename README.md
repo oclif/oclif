@@ -185,7 +185,7 @@ static args = [
     name: 'file',                  // name of arg to show in help and reference with args[name]
     required: false,               // make the arg required with `required: true`
     description: 'file to output', // help description
-    // hidden: true,               // hide this flag from help
+    // hidden: true,               // hide this arg from help
     // parse: input => 'output',   // instead of the user input, return a differnt value
     // default: 'world',           // default value if no arg input
     // options: ['a', 'b'],        // only allow input to be from a discrete set

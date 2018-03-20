@@ -12,7 +12,7 @@ oclif: Node.JS Open CLI Framework
 
 <!-- toc -->
 * [🗒 Description](#-description)
-* [:rocket: Getting Started Guide](#getting-started-guide)
+* [:rocket: Getting Started Guide](#-getting-started-guide)
 * [✨ Features](#-features)
 * [📌 Requirements](#-requirements)
 * [🌈 CLI Types](#-cli-types)

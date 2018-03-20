@@ -1,3 +1,11 @@
+<a name="1.3.11"></a>
+## [1.3.11](https://github.com/oclif/oclif/compare/c22f423a73ba134afb1087b125413de6fb5a223e...v1.3.11) (2018-03-20)
+
+
+### Bug Fixes
+
+* bump dependencies ([edacb13](https://github.com/oclif/oclif/commit/edacb13))
+
 <a name="1.3.10"></a>
 ## [1.3.10](https://github.com/oclif/oclif/compare/bbea1b6c7c4d0c3a90a0da7ca37766448561730a...v1.3.10) (2018-03-15)
 

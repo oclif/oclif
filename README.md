@@ -12,7 +12,7 @@ oclif: Node.JS Open CLI Framework
 
 <!-- toc -->
 * [🗒 Description](#-description)
-* [:rocket: Getting Started Tutorial](#-getting-started-tutorial)
+* [🚀 Getting Started Guide](#-getting-started-tutorial)
 * [✨ Features](#-features)
 * [📌 Requirements](#-requirements)
 * [🌈 CLI Types](#-cli-types)
@@ -29,6 +29,7 @@ oclif: Node.JS Open CLI Framework
 * [💼 Building your own plugin](#-building-your-own-plugin)
 * [Commands](#commands)
 * [🏭 Related Repositories](#-related-repositories)
+* [📣 Feedback](#-feedback)
 <!-- tocstop -->
 
 # 🗒 Description
@@ -442,7 +443,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.3.9/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.3.10/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -459,7 +460,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.1.5/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.1.6/src/commands/help.ts)_
 
 ## multi [PATH]
 
@@ -475,7 +476,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.3.9/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.3.10/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -491,7 +492,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.3.9/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.3.10/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -507,7 +508,7 @@ OPTIONS
   --options=options  (typescript|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.9/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.10/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

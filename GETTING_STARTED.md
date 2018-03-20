@@ -26,7 +26,7 @@ Let's start with the single-command CLI as that is the simplest. You can call yo
 
 An alternative way of doing this without npx and within an existing directory, is to create a new folder and run:
 
-```
+```sh-session
 $ npm install -g mynewcli
 $ mkdir `mynewcli
 $ cd mynewcli
@@ -37,14 +37,23 @@ $ oclif single`
 You'll now see some questions asking you to describe various aspects of your CLI. Once you register your CLI with npm, these would feed into the listing for your CLI. For now, feel free to just leave these blanks and press “enter” for each one, which will set everything to default values. 
 
 **? npm package name** *the name of the package as it will be listed on npm. *
+
 ? **command bin name the CLI will export:** *the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner. *
+
 ? **description** *this description is part of the npm package details. This description will stay local until you publish to npm*
+
 ? **author: ***The author is l**isted when you register your CLI on NPM*
+
 ? **version** *each time you publish a new version this number will automatically increment. *
+
 ? **license** *MIT License is set as default *
+
 ? **node version supported** *oclif may only support versions of Node greater than 8.0, which is the default set here*
+
 ? **github owner of repository (https://github.com/OWNER/repo)** *owner of the Github repo*
+
 ? **github name of repository (https://github.com/owner/REPO)** *name of the Github repo *
+
 ? **optional components to include** 
 
 Next you'll be asked if you want to use mocha, typescript or semantic release. In this tutorial I'm going to use mocha as that is the simplest Javascript framework. 
@@ -55,26 +64,26 @@ When your CLI is ready, you'll see a message ending with the following:
 
 Your CLI has been created locally and the relevant code is in the mynewcli folder in your cur folder. You can go over there by running
 
-```
+```sh-session
 $ cd mynewcli
 ```
 
 For trying your cli locally,  “./bin/run” is the equivalent of the command “mynewcli”. You'll see placeholder output. 
 
-```
+```sh-session
 $ ./bin/run
 hello world from ./src/index.ts!
 ```
 
 To run mynewcli instead of ./bin/run you'll need to publish your CLI locally using npm. 
 
-```
+```sh-session
 $ npm install -g .
 ```
 
 Now you can test your CLI by running mynewcli
 
-```
+```sh-session
 $ mynewcli
 hello world from /Users/nsamsami/mynewcli/src/index.ts
 ```
@@ -85,7 +94,7 @@ In this step you'll take control of the CLI command you have at your disposal. O
 
 This index file is where the code for your commands lives. A basic command in js looks like this: 
 
-```
+```js
 import {Command} from '@oclif/command'
 export class MyCommand extends Command {
   static description = 'description of this example command'
@@ -98,7 +107,7 @@ export class MyCommand extends Command {
 
 A basic flag in TypeScript looks like this: 
 
-```
+```js
 import {Command, flags} from '@oclif/command'
 export class MyCommand extends Command {
   static flags = {
@@ -120,8 +129,8 @@ You can add flags or arguments.
 For example, you can add a new flag that allows the user to set location.  
 
 
-```
-`const name =` flags.name || 'world'`
+```js
+const name = ` flags.name || 'world'`
 const location = flags.location || 'location'`
 ```
 
@@ -129,13 +138,13 @@ const location = flags.location || 'location'`
 
 To publish to npm, just run:
 
-```
+```sh-session
 $ yarn publish
 ```
 
 Then anyone can install your CLI with the following:
 
-```
+```sh-session
 $ npm install -g mynewcli
 $ mynewcli --help
 ```

@@ -405,6 +405,17 @@ src/
         └── get.ts
 ```
 
+The help descriptions will be the description of the first command within a directory. If you'd like to customize the help description, add it to the `package.json` like so:
+
+```js
+{
+  "oclif":
+    "topics": {
+      "config": { "description": "manage heroku config variables" }
+    }
+}
+```
+
 # 🎁 Plugins
 
 * [@oclif/plugin-not-found](https://github.com/oclif/plugin-not-found) - Display a friendly "did you mean" message if a command is not found.

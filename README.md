@@ -505,6 +505,10 @@ OPTIONS
 _See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.9/src/commands/single.ts)_
 <!-- commandsstop -->
 
+# Getting Started Guide
+
+The [Getting Started tutorial](https://github.com/oclif/oclif/blob/master/GETTING_STARTED.md) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
+
 # 🏭 Related Repositories
 
 * [@oclif/command](https://github.com/oclif/command) - Base command for oclif. This can be used directly without the generator.

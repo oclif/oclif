@@ -12,7 +12,7 @@ Next, install [Yarn](https://yarnpkg.com/en/) for dependency management.
 
 You can check it's installed by running `$ yarn`.
 
-## CREATING YOUR FIRST CLI WITH OCLIF
+## Creating Your First CLI with oclif
 
 Now you're ready to create your first CLI with oclif. There are three stages: CLI creation, command development, and publishing to NPM. 
 
@@ -88,7 +88,7 @@ $ mynewcli
 hello world from /Users/nsamsami/mynewcli/src/index.ts
 ```
 
-### COMMAND DEVELOPMENT
+### Command Development
 
 In this step you'll take control of the CLI command you have at your disposal. Open the ./src/index.ts fil in a text editor (such as Sublime or TextEdit) 
 
@@ -134,7 +134,7 @@ const name = ` flags.name || 'world'`
 const location = flags.location || 'location'`
 ```
 
-### PUBLISHING TO NPM
+### Publishing to npm
 
 To publish to npm, just run:
 

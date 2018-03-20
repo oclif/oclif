@@ -142,7 +142,11 @@ To publish to npm, just run:
 $ yarn publish
 ```
 
-Then anyone can install your CLI with the following:
+You'll need to [register with npm](https://www.npmjs.com/signup) and have verified your email address in order to publish. 
+
+You'll also need to select a package name for your CLI that is not already in use. (Note: if you attempt to publish under an existing package name, npm will have restricted publishing to the user associated with that package, so you will see a permission error.) 
+
+After you have published, anyone can install your CLI with the following:
 
 ```sh-session
 $ npm install -g mynewcli

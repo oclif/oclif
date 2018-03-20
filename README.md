@@ -27,7 +27,7 @@ oclif: Node.JS Open CLI Framework
 * [🎁 Plugins](#-plugins)
 * [💼 Building your own plugin](#-building-your-own-plugin)
 * [Commands](#commands)
-* [Getting Started Guide](#-getting-started-guide)
+* [Getting Started Guide](#getting-started-guide)
 * [🏭 Related Repositories](#-related-repositories)
 <!-- tocstop -->
 

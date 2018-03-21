@@ -1,3 +1,11 @@
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/oclif/oclif/compare/009490b5de98bb9e71874abee253eb1be85f38d1...v1.4.0) (2018-03-21)
+
+
+### Features
+
+* add tslint component option ([#63](https://github.com/oclif/oclif/issues/63)) ([e3a7943](https://github.com/oclif/oclif/commit/e3a7943))
+
 <a name="1.3.14"></a>
 ## [1.3.14](https://github.com/oclif/oclif/compare/64971883b1df554d06a13a8242694f34c517b1e6...v1.3.14) (2018-03-21)
 

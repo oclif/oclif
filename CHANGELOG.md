@@ -1,3 +1,11 @@
+<a name="1.3.14"></a>
+## [1.3.14](https://github.com/oclif/oclif/compare/64971883b1df554d06a13a8242694f34c517b1e6...v1.3.14) (2018-03-21)
+
+
+### Bug Fixes
+
+* add -h and -v flags for single ([#62](https://github.com/oclif/oclif/issues/62)) ([009490b](https://github.com/oclif/oclif/commit/009490b))
+
 <a name="1.3.13"></a>
 ## [1.3.13](https://github.com/oclif/oclif/compare/d91482b5a701198d554bde2495be924ece3486cc...v1.3.13) (2018-03-21)
 

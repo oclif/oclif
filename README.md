@@ -385,6 +385,11 @@ export default abstract class extends Command {
 import Command from '../base'
 
 export class MyCommand extends Command {
+  static flags = {
+    ...Command.flags,
+    extraflag: flags.string()
+  }
+  
   async run() {
     this.log('information', 'info')
     this.log('uh oh!', 'error')
@@ -410,10 +415,11 @@ The help descriptions will be the description of the first command within a dire
 
 ```js
 {
-  "oclif":
+  "oclif": {
     "topics": {
       "config": { "description": "manage heroku config variables" }
     }
+  }
 }
 ```
 

@@ -1,0 +1,1 @@
+This project uses [conventional changelog](https://conventionalcommits.org) and commits will need to fit the correct format for CI to pass and the change to be entered into the [CHANGELOG](./CHANGELOG.md) correctly.

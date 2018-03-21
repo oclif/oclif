@@ -1,3 +1,11 @@
+<a name="1.3.13"></a>
+## [1.3.13](https://github.com/oclif/oclif/compare/d91482b5a701198d554bde2495be924ece3486cc...v1.3.13) (2018-03-21)
+
+
+### Bug Fixes
+
+* use version long flag for circle test ([#61](https://github.com/oclif/oclif/issues/61)) ([6497188](https://github.com/oclif/oclif/commit/6497188))
+
 <a name="1.3.12"></a>
 ## [1.3.12](https://github.com/oclif/oclif/compare/edacb134324c59c5a778ff3fd870804800662eeb...v1.3.12) (2018-03-21)
 

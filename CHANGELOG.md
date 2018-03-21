@@ -1,3 +1,11 @@
+<a name="1.3.12"></a>
+## [1.3.12](https://github.com/oclif/oclif/compare/edacb134324c59c5a778ff3fd870804800662eeb...v1.3.12) (2018-03-21)
+
+
+### Bug Fixes
+
+* readme template ([#60](https://github.com/oclif/oclif/issues/60)) ([d91482b](https://github.com/oclif/oclif/commit/d91482b))
+
 <a name="1.3.11"></a>
 ## [1.3.11](https://github.com/oclif/oclif/compare/c22f423a73ba134afb1087b125413de6fb5a223e...v1.3.11) (2018-03-20)
 

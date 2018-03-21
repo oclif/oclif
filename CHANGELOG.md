@@ -1,3 +1,11 @@
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/oclif/oclif/compare/e3a7943855ffbe96de697541025a90cf59194076...v1.4.1) (2018-03-21)
+
+
+### Bug Fixes
+
+* remove noUnusedLocals and noUnusedParameters as these are checked with tslint ([06e2c46](https://github.com/oclif/oclif/commit/06e2c46))
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/oclif/oclif/compare/009490b5de98bb9e71874abee253eb1be85f38d1...v1.4.0) (2018-03-21)
 

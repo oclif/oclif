@@ -33,6 +33,7 @@ class App extends Generator {
     mocha: boolean
     'semantic-release': boolean
     typescript: boolean
+    tslint: boolean
   }
   args!: {[k: string]: string}
   type: 'single' | 'multi' | 'plugin' | 'base'
@@ -52,12 +53,14 @@ class App extends Generator {
     options: {
       mocha: boolean
       typescript: boolean
+      tslint: boolean
       'semantic-release': boolean
     }
   }
   mocha!: boolean
   semantic_release!: boolean
   ts!: boolean
+  tslint!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
     let bin = this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname) || this.pjson.name
@@ -76,6 +79,7 @@ class App extends Generator {
       mocha: opts.options.includes('mocha'),
       'semantic-release': opts.options.includes('semantic-release'),
       typescript: opts.options.includes('typescript'),
+      tslint: opts.options.includes('tslint'),
     }
   }
 
@@ -204,6 +208,7 @@ class App extends Generator {
           choices: [
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
+            {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -220,6 +225,7 @@ class App extends Generator {
     debug(this.answers)
     this.options = this.answers.options
     this.ts = this.options.typescript
+    this.tslint = this.options.tslint
     this.mocha = this.options.mocha
     this.semantic_release = this.options['semantic-release']
 
@@ -233,10 +239,10 @@ class App extends Generator {
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     this.pjson.scripts.posttest = 'yarn run lint'
     // this.pjson.scripts.precommit = 'yarn run lint'
-    if (this.ts && this.mocha) {
-      this.pjson.scripts.lint = 'tsc -p test --noEmit && tslint -p test -t stylish'
-    } else if (this.ts) {
-      this.pjson.scripts.lint = 'tsc -p . --noEmit && tslint -p . -t stylish'
+    if (this.ts) {
+      const tsProject = this.mocha ? 'test' : '.'
+      this.pjson.scripts.lint = `tsc -p ${tsProject} --noEmit`
+      if (this.tslint) this.pjson.scripts.lint += ` && tslint -p ${tsProject} -t stylish`
     } else {
       this.pjson.scripts.lint = 'eslint .'
     }
@@ -307,7 +313,9 @@ class App extends Generator {
     }
 
     if (this.ts) {
-      this.fs.copyTpl(this.templatePath('tslint.json'), this.destinationPath('tslint.json'), this)
+      if (this.tslint) {
+        this.fs.copyTpl(this.templatePath('tslint.json'), this.destinationPath('tslint.json'), this)
+      }
       this.fs.copyTpl(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'), this)
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
@@ -420,9 +428,14 @@ class App extends Generator {
         // '@types/supports-color',
         'typescript',
         'ts-node@5',
-        '@oclif/tslint',
-        'tslint',
+        'tslib',
       )
+      if (this.tslint) {
+        devDependencies.push(
+          '@oclif/tslint',
+          'tslint',
+        )
+      }
     } else {
       devDependencies.push(
         'eslint',

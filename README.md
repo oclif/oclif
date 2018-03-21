@@ -485,7 +485,7 @@ USAGE
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (typescript|semantic-release|mocha)
+  --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
 _See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.3.12/src/commands/multi.ts)_
@@ -501,7 +501,7 @@ USAGE
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (typescript|semantic-release|mocha)
+  --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
 _See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.3.12/src/commands/plugin.ts)_
@@ -517,7 +517,7 @@ USAGE
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (typescript|semantic-release|mocha)
+  --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
 _See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.3.12/src/commands/single.ts)_

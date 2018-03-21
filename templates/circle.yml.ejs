@@ -28,7 +28,7 @@ jobs:
       - run: .circleci/greenkeeper
       - run: yarn add -D <%- deps %>
       <%_ if (['single', 'multi'].includes(type)) { _%>
-      - run: ./bin/run -v
+      - run: ./bin/run --version
       <%_ } _%>
       <%_ if (['single', 'multi', 'plugin'].includes(type)) { _%>
       - run: ./bin/run --help

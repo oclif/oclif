@@ -417,7 +417,8 @@ The help descriptions will be the description of the first command within a dire
 {
   "oclif": {
     "topics": {
-      "config": { "description": "manage heroku config variables" }
+      "apps:favorites": { "description": "manage favorite apps" },
+      "config": { "description": "manage heroku config variables" },
     }
   }
 }

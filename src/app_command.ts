@@ -9,7 +9,7 @@ export default abstract class AppCommand extends Base {
     force: flags.boolean({description: 'overwrite existing files'}),
   }
   static args = [
-    {name: 'path', required: false}
+    {name: 'path', required: false, description: 'path to project, defaults to current directory'}
   ]
 
   abstract type: string

@@ -1,3 +1,11 @@
+<a name="1.4.8"></a>
+## [1.4.8](https://github.com/oclif/oclif/compare/2b401936d29dce1e9f5ce32ab383886377776af4...v1.4.8) (2018-03-22)
+
+
+### Bug Fixes
+
+* only need 1 example ([5ef966f](https://github.com/oclif/oclif/commit/5ef966f))
+
 <a name="1.4.7"></a>
 ## [1.4.7](https://github.com/oclif/oclif/compare/241741aedd890b37be615972da35f02596cde082...v1.4.7) (2018-03-22)
 

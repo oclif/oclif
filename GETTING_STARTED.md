@@ -20,13 +20,13 @@ Let's start with the single-command CLI as that is the simplest. You can call yo
 
 *npx is included in npm and automatically runs and installs the oclif generator. *
 
-An alternative way of doing this without npx and within an existing directory, is to create a new folder and run:
+An alternative way of doing this without npx, run the following commands:
 
 ```sh-session
-$ npm install -g mynewcli
-$ mkdir `mynewcli
+$ mkdir mynewcli
 $ cd mynewcli
-$ oclif single`
+$ npm install oclif --save
+$ node_modules/.bin/oclif single
 ```
 
 

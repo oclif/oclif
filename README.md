@@ -462,7 +462,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.6/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -489,13 +489,16 @@ generate a new multi-command CLI
 USAGE
   $ oclif multi [PATH]
 
+ARGUMENTS
+  PATH  path to project, defaults to current directory
+
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.6/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -505,13 +508,16 @@ create a new CLI plugin
 USAGE
   $ oclif plugin [PATH]
 
+ARGUMENTS
+  PATH  path to project, defaults to current directory
+
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.6/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -521,13 +527,16 @@ generate a new single-command CLI
 USAGE
   $ oclif single [PATH]
 
+ARGUMENTS
+  PATH  path to project, defaults to current directory
+
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.6/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

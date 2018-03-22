@@ -211,10 +211,10 @@ class App extends Generator {
           name: 'options',
           message: 'optional components to include',
           choices: [
+            {name: 'yarn (npm alternative)', value: 'yarn', checked: this.options.yarn || hasYarn},
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
-            {name: 'yarn', value: 'yarn (npm alternative)', checked: this.options.yarn || hasYarn},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -244,7 +244,8 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    this.pjson.scripts.posttest = 'yarn run lint'
+    let npm = this.yarn ? 'yarn' : 'npm'
+    this.pjson.scripts.posttest = `${npm} run lint`
     // this.pjson.scripts.precommit = 'yarn run lint'
     if (this.ts) {
       const tsProject = this.mocha ? 'test' : '.'
@@ -260,14 +261,14 @@ class App extends Generator {
     }
     if (this.ts) {
       this.pjson.scripts.build = 'rm -rf lib && tsc'
-      this.pjson.scripts.prepublishOnly = 'yarn run build'
+      this.pjson.scripts.prepublishOnly = `${npm} run build`
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'oclif-dev manifest')
       if (this.semantic_release) this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'oclif-dev readme')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.scripts.clean = 'rm -f .oclif.manifest.json'
-      this.pjson.scripts.postpublish = this.pjson.scripts.preversion = 'yarn run clean'
+      this.pjson.scripts.postpublish = this.pjson.scripts.preversion = `${npm} run clean`
       this.pjson.files.push('.oclif.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']

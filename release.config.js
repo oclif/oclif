@@ -14,7 +14,7 @@ module.exports = {
   publish: [
     {
       path: '@semantic-release/exec',
-      cmd: 'yarn run version',
+      cmd: 'OCLIF_NEXT_VERSION={nextRelease.version} yarn run version',
     },
     {path: './scripts/release_example'},
     '@semantic-release/changelog',

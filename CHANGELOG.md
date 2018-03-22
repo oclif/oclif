@@ -1,3 +1,11 @@
+<a name="1.4.10"></a>
+## [1.4.10](https://github.com/oclif/oclif/compare/71576609c182f8fbffbffdf408671c5cb9c4a0b6...v1.4.10) (2018-03-22)
+
+
+### Bug Fixes
+
+* use npm for scripts if not yarn ([01370d2](https://github.com/oclif/oclif/commit/01370d2))
+
 <a name="1.4.9"></a>
 ## [1.4.9](https://github.com/oclif/oclif/compare/5ef966fc1f4165983c9ff6ca8250e7e5d61c79bf...v1.4.9) (2018-03-22)
 

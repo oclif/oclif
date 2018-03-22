@@ -1,3 +1,11 @@
+<a name="1.4.7"></a>
+## [1.4.7](https://github.com/oclif/oclif/compare/241741aedd890b37be615972da35f02596cde082...v1.4.7) (2018-03-22)
+
+
+### Bug Fixes
+
+* add path argument description ([c37e724](https://github.com/oclif/oclif/commit/c37e724))
+
 <a name="1.4.6"></a>
 ## [1.4.6](https://github.com/oclif/oclif/compare/032b2319d756e0817f96c6311cbaa3a027f6b0e2...v1.4.6) (2018-03-22)
 

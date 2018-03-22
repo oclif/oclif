@@ -1,3 +1,11 @@
+<a name="1.4.6"></a>
+## [1.4.6](https://github.com/oclif/oclif/compare/032b2319d756e0817f96c6311cbaa3a027f6b0e2...v1.4.6) (2018-03-22)
+
+
+### Bug Fixes
+
+* build manifest ([241741a](https://github.com/oclif/oclif/commit/241741a))
+
 <a name="1.4.5"></a>
 ## [1.4.5](https://github.com/oclif/oclif/compare/4d774b17451c873cb736c8d458b884a4d2916474...v1.4.5) (2018-03-22)
 

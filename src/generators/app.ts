@@ -7,6 +7,7 @@ import * as path from 'path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
+const hasYarn = require('has-yarn')()
 const nps = require('nps-utils')
 const sortPjson = require('sort-pjson')
 const fixpack = require('fixpack')
@@ -34,6 +35,7 @@ class App extends Generator {
     'semantic-release': boolean
     typescript: boolean
     tslint: boolean
+    yarn: boolean
   }
   args!: {[k: string]: string}
   type: 'single' | 'multi' | 'plugin' | 'base'
@@ -54,6 +56,7 @@ class App extends Generator {
       mocha: boolean
       typescript: boolean
       tslint: boolean
+      yarn: boolean
       'semantic-release': boolean
     }
   }
@@ -61,6 +64,7 @@ class App extends Generator {
   semantic_release!: boolean
   ts!: boolean
   tslint!: boolean
+  yarn!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
     let bin = this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname) || this.pjson.name
@@ -80,6 +84,7 @@ class App extends Generator {
       'semantic-release': opts.options.includes('semantic-release'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
+      yarn: opts.options.includes('yarn'),
     }
   }
 
@@ -209,6 +214,7 @@ class App extends Generator {
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
+            {name: 'yarn', value: 'yarn (npm alternative)', checked: this.options.yarn || hasYarn},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -226,6 +232,7 @@ class App extends Generator {
     this.options = this.answers.options
     this.ts = this.options.typescript
     this.tslint = this.options.tslint
+    this.yarn = this.options.yarn
     this.mocha = this.options.mocha
     this.semantic_release = this.options['semantic-release']
 
@@ -444,9 +451,11 @@ class App extends Generator {
     }
     let yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
+    const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
+    const dev = this.yarn ? {dev: true} : {only: 'dev'}
     Promise.all([
-      this.yarnInstall(devDependencies, {...yarnOpts, dev: true, ignoreScripts: true}),
-      this.yarnInstall(dependencies, yarnOpts),
+      install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
+      install(dependencies, yarnOpts),
     ]).then(() => {
       if (['plugin', 'multi'].includes(this.type)) {
         this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])

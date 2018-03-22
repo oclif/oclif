@@ -1,3 +1,11 @@
+<a name="1.4.2"></a>
+## [1.4.2](https://github.com/oclif/oclif/compare/526742b20961a3d04c8ad7f4367eb3d6213e4ba6...v1.4.2) (2018-03-22)
+
+
+### Bug Fixes
+
+* updated dev-cli ([c9307e7](https://github.com/oclif/oclif/commit/c9307e7))
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/oclif/oclif/compare/e3a7943855ffbe96de697541025a90cf59194076...v1.4.1) (2018-03-21)
 

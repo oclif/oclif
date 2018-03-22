@@ -22,13 +22,11 @@ $ npx oclif single mynewcli
 
 *npx is included in npm and automatically runs and installs the oclif generator. *
 
-An alternative way of doing this without npx, run the following commands:
+Alternatively, to setup without npx:
 
 ```sh-session
 $ npm install -g oclif
-$ mkdir mynewcli
-$ cd mynewcli
-$ oclif single
+$ oclif single mynewcli
 ```
 
 You'll now see some questions asking you to describe various aspects of your CLI. Once you register your CLI with npm, these would feed into the listing for your CLI. For now, feel free to just leave these blanks and press “enter” for each one, which will set everything to default values. 

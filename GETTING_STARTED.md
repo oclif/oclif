@@ -14,10 +14,10 @@ Now you're ready to create your first CLI with oclif. There are three stages: CL
 
 ### CLI Creation
 
-Let's start with the single-command CLI as that is the simplest. You can call your CLI anything you like by replacing “mynewcli” with a word of your choice. The name of your CLI can be anything you like as long as it meets the [npm restrictions](https://docs.npmjs.com/files/package.json#name). 
+Let's start with a multi-command CLI. You can call your CLI anything you like by replacing `mynewcli` with a name of your choice. The name of your CLI can be anything you like as long as it meets the [npm restrictions](https://docs.npmjs.com/files/package.json#name). 
 
 ```sh-session
-$ npx oclif single mynewcli
+$ npx oclif multi mynewcli
 ```
 
 *npx is included in npm and automatically runs and installs the oclif generator.*
@@ -26,10 +26,12 @@ Alternatively, to setup without npx:
 
 ```sh-session
 $ npm install -g oclif
-$ oclif single mynewcli
+$ oclif multi mynewcli
 ```
 
-You'll now see some questions asking you to describe various aspects of your CLI. Once you register your CLI with npm, these would feed into the listing for your CLI. For now, feel free to just leave these blanks and press “enter” for each one, which will set everything to default values. 
+You'll now see some questions asking you to describe various aspects of your CLI. Once you register your CLI with npm, these would feed into the listing for your CLI. For now, feel free to just use the defaults for each option.
+
+For reference, here are the options and what they do:
 
 * **npm package name** the name of the package as it will be listed on npm.
 * **command bin name the CLI will export:** the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner.
@@ -41,88 +43,80 @@ You'll now see some questions asking you to describe various aspects of your CLI
 * **github owner of repository (https://github.com/OWNER/repo)** owner of the Github repo
 * **github name of repository (https://github.com/owner/REPO)** name of the Github repo
 
-Next you'll be asked if you want to use mocha, typescript or semantic release. In this tutorial I'm going to use mocha as that is the simplest Javascript framework. 
-
 When your CLI is ready, you'll see a message ending with the following: 
 
 ```
 Created mynewcli in /Users/nsamsami/mynewcli
 ```
 
-Your CLI has been created locally and the relevant code is in the mynewcli folder in your cur folder. You can go over there by running
+Your CLI has been created locally and the relevant code is in the `mynewcli` directory. You can go over there by running:
 
 ```sh-session
 $ cd mynewcli
 ```
 
-For trying your cli locally,  “./bin/run” is the equivalent of the command “mynewcli”. You'll see placeholder output. 
+For trying your CLI locally, `$ ./bin/run` is the equivalent of the command `$ mynewcli` when users install your CLI. You can now run the CLI which includes one "hello world" command:
 
 ```sh-session
-$ ./bin/run
-hello world from ./src/index.ts!
+$ ./bin/run hello
+hello world from ./src/commands/hello.ts!
+$ ./bin/run help
+USAGE
+  $ mynewcli [COMMAND]
+
+COMMANDS
+  hello  describe the command here
+  help   display help for mynewcli
+$ ./bin/run help hello
+describe the command here
+
+USAGE
+  $ mynewcli hello [FILE]
+
+OPTIONS
+  -f, --force
+  -n, --name=name  name to print
+
+EXAMPLES
+  $ example-multi-ts hello
+  hello world from ./src/hello.ts!
 ```
 
-To run mynewcli instead of ./bin/run you'll need to link your CLI locally using npm. 
+To run `$ mynewcli` instead of `$ ./bin/run` you'll need to link your CLI locally using npm:
 
 ```sh-session
 $ npm link
-```
-
-Now you can test your CLI by running mynewcli
-
-```sh-session
 $ mynewcli
-hello world from /Users/nsamsami/mynewcli/src/index.ts
+USAGE
+...
 ```
 
 ### Command Development
 
-In this step you'll take control of the CLI command you have at your disposal. Open `./src/index.ts`
-This index file is where the code for your commands lives. 
-
-A basic command in TypeScript looks like this: 
+Create a new command called "goodbye" either by moving `./src/commands/hello.ts` to `./src/commands/goodbye.ts` or by running the command generator with `npx oclif command goodbye`. Open `./src/commands/goodbye.ts` and replace it with the following
 
 ```js
-import {Command, flags} from '@oclif/command'
-export class MyCommand extends Command {
-  static flags = {
-    // add --version flag to show CLI version
-    version: flags.version(),
-    // add --help flag to show CLI version
-    help: flags.help(),
-    name: flags.string({char: 'n', description: 'name to print'}),
-    location: flags.string({char: 'l', description: 'location to print'}),
-  }
+import {Command} from '@oclif/command'
+export class GoodbyeCommand extends Command {
   async run() {
-    console.log('running my command')
+    console.log('goodbye, world!')
   }
 }
 ```
 
-You can add flags or arguments. 
-
-For example, you can add a new flag that allows the user to set location.  
-
-```js
-const name = flags.name || 'world'
-const location = flags.location || 'location'
-```
+<!-- TODO: link to command API reference -->
 
 ### Publishing to npm
 
-To publish to npm, just run:
+When you're ready to release your CLI, simply publish to npm:
 
 ```sh-session
 $ npm publish
-```
-
-You'll need to [register with npm](https://www.npmjs.com/signup) and have verified your email address in order to publish. 
-
-You'll also need to select a package name for your CLI that is not already in use. (Note: if you attempt to publish under an existing package name, npm will have restricted publishing to the user associated with that package, so you will see a permission error.) 
-
-After you have published, anyone can install your CLI with the following:
-
-```sh-session
 $ npm install -g mynewcli
-$ mynewcli --help
+$ mynewcli
+# OR
+$ npx mynewcli
 ```
+
+*You'll need to [register with npm](https://www.npmjs.com/signup) and have verified your email address in order to publish.*
+*You'll also need to select a package name for your CLI that is not already in use. (Note: if you attempt to publish under an existing package name, npm will have restricted publishing to the user associated with that package, so you will see a permission error.)*

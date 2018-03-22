@@ -40,9 +40,9 @@
   version "1.3.59"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.59.tgz#10cc39757654850458b2d3f899155af2e069deb5"
 
-"@oclif/dev-cli@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.3.0.tgz#57c5f1cabae56e9807e68b5a63cba0aeaeb85558"
+"@oclif/dev-cli@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.3.1.tgz#6b8c7cfb38b14168e698192e6e4483c943b6a2a7"
   dependencies:
     "@oclif/command" "^1.4.2"
     "@oclif/config" "^1.3.59"

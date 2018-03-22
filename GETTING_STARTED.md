@@ -31,8 +31,7 @@ $ oclif single mynewcli
 
 You'll now see some questions asking you to describe various aspects of your CLI. Once you register your CLI with npm, these would feed into the listing for your CLI. For now, feel free to just leave these blanks and press “enter” for each one, which will set everything to default values. 
 
-**? npm package name** *the name of the package as it will be listed on npm. *
-
+* **npm package name** the name of the package as it will be listed on npm.
 * **command bin name the CLI will export:** the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner.
 * **description** this description is part of the npm package details. This description will stay local until you publish to npm
 * **author: The author is listed when you register your CLI on NPM

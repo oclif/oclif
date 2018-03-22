@@ -8,10 +8,6 @@ oclif is written in Node. You'll need Node as well as npm, which is a package ma
 
 If you do not have them already, follow the instructions here to install npm and Node together: https://docs.npmjs.com/getting-started/installing-node
 
-Next, install [Yarn](https://yarnpkg.com/en/) for dependency management. 
-
-You can check it's installed by running `$ yarn`.
-
 ## Creating Your First CLI with oclif
 
 Now you're ready to create your first CLI with oclif. There are three stages: CLI creation, command development, and publishing to NPM. 
@@ -139,7 +135,7 @@ const location = flags.location || 'location'`
 To publish to npm, just run:
 
 ```sh-session
-$ yarn publish
+$ npm publish
 ```
 
 You'll need to [register with npm](https://www.npmjs.com/signup) and have verified your email address in order to publish. 

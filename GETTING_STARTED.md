@@ -33,29 +33,22 @@ You'll now see some questions asking you to describe various aspects of your CLI
 
 **? npm package name** *the name of the package as it will be listed on npm. *
 
-? **command bin name the CLI will export:** *the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner. *
-
-? **description** *this description is part of the npm package details. This description will stay local until you publish to npm*
-
-? **author: ***The author is l**isted when you register your CLI on NPM*
-
-? **version** *each time you publish a new version this number will automatically increment. *
-
-? **license** *MIT License is set as default *
-
-? **node version supported** *oclif may only support versions of Node greater than 8.0, which is the default set here*
-
-? **github owner of repository (https://github.com/OWNER/repo)** *owner of the Github repo*
-
-? **github name of repository (https://github.com/owner/REPO)** *name of the Github repo *
-
-? **optional components to include** 
+* **command bin name the CLI will export:** the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner.
+* **description** this description is part of the npm package details. This description will stay local until you publish to npm
+* **author: The author is listed when you register your CLI on NPM
+* **version** each time you publish a new version this number will automatically increment.
+* **license** MIT License is set as default
+* **node version supported** *oclif only supports versions of Node greater than 8.0, which is the default set here
+* **github owner of repository (https://github.com/OWNER/repo)** owner of the Github repo
+* **github name of repository (https://github.com/owner/REPO)** name of the Github repo
 
 Next you'll be asked if you want to use mocha, typescript or semantic release. In this tutorial I'm going to use mocha as that is the simplest Javascript framework. 
 
 When your CLI is ready, you'll see a message ending with the following: 
 
-`Created mynewcli in /Users/nsamsami/mynewcli`
+```
+Created mynewcli in /Users/nsamsami/mynewcli
+```
 
 Your CLI has been created locally and the relevant code is in the mynewcli folder in your cur folder. You can go over there by running
 
@@ -70,10 +63,10 @@ $ ./bin/run
 hello world from ./src/index.ts!
 ```
 
-To run mynewcli instead of ./bin/run you'll need to publish your CLI locally using npm. 
+To run mynewcli instead of ./bin/run you'll need to link your CLI locally using npm. 
 
 ```sh-session
-$ npm install -g .
+$ npm link
 ```
 
 Now you can test your CLI by running mynewcli
@@ -85,22 +78,10 @@ hello world from /Users/nsamsami/mynewcli/src/index.ts
 
 ### Command Development
 
-In this step you'll take control of the CLI command you have at your disposal. Open the ./src/index.ts fil in a text editor (such as Sublime or TextEdit) 
+In this step you'll take control of the CLI command you have at your disposal. Open `./src/index.ts`
+This index file is where the code for your commands lives. 
 
-This index file is where the code for your commands lives. A basic command in js looks like this: 
-
-```js
-import {Command} from '@oclif/command'
-export class MyCommand extends Command {
-  static description = 'description of this example command'
-  
-  async run() {
-    console.log('running my command')
-  }
-}
-```
-
-A basic flag in TypeScript looks like this: 
+A basic command in TypeScript looks like this: 
 
 ```js
 import {Command, flags} from '@oclif/command'
@@ -123,10 +104,9 @@ You can add flags or arguments.
 
 For example, you can add a new flag that allows the user to set location.  
 
-
 ```js
-const name = ` flags.name || 'world'`
-const location = flags.location || 'location'`
+const name = flags.name || 'world'
+const location = flags.location || 'location'
 ```
 
 ### Publishing to npm

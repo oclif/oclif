@@ -462,7 +462,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.9/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -498,7 +498,7 @@ OPTIONS
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.9/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -517,7 +517,7 @@ OPTIONS
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.9/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -536,7 +536,7 @@ OPTIONS
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.7/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.9/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

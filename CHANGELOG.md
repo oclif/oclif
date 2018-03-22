@@ -1,3 +1,11 @@
+<a name="1.4.9"></a>
+## [1.4.9](https://github.com/oclif/oclif/compare/5ef966fc1f4165983c9ff6ca8250e7e5d61c79bf...v1.4.9) (2018-03-22)
+
+
+### Bug Fixes
+
+* make yarn optional ([#76](https://github.com/oclif/oclif/issues/76)) ([7157660](https://github.com/oclif/oclif/commit/7157660))
+
 <a name="1.4.7"></a>
 ## [1.4.7](https://github.com/oclif/oclif/compare/241741aedd890b37be615972da35f02596cde082...v1.4.7) (2018-03-22)
 

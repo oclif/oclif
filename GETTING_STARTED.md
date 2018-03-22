@@ -20,7 +20,7 @@ Let's start with the single-command CLI as that is the simplest. You can call yo
 $ npx oclif single mynewcli
 ```
 
-*npx is included in npm and automatically runs and installs the oclif generator. *
+*npx is included in npm and automatically runs and installs the oclif generator.*
 
 Alternatively, to setup without npx:
 

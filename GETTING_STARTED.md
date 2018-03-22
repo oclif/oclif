@@ -16,19 +16,20 @@ Now you're ready to create your first CLI with oclif. There are three stages: CL
 
 Let's start with the single-command CLI as that is the simplest. You can call your CLI anything you like by replacing “mynewcli” with a word of your choice. The name of your CLI can be anything you like as long as it meets the [npm restrictions](https://docs.npmjs.com/files/package.json#name). 
 
-`$ npx oclif single mynewcli`
+```sh-session
+$ npx oclif single mynewcli
+```
 
 *npx is included in npm and automatically runs and installs the oclif generator. *
 
 An alternative way of doing this without npx, run the following commands:
 
 ```sh-session
+$ npm install -g oclif
 $ mkdir mynewcli
 $ cd mynewcli
-$ npm install oclif --save
-$ node_modules/.bin/oclif single
+$ oclif single
 ```
-
 
 You'll now see some questions asking you to describe various aspects of your CLI. Once you register your CLI with npm, these would feed into the listing for your CLI. For now, feel free to just leave these blanks and press “enter” for each one, which will set everything to default values. 
 

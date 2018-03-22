@@ -74,7 +74,7 @@
     "postpublish": "rm .oclif.manifest.json",
     "posttest": "yarn run lint",
     "prepublishOnly": "yarn run build && oclif-dev manifest",
-    "version": "oclif-dev readme && git add README.md",
+    "version": "oclif-dev readme && oclif-dev manifest && git add README.md",
     "test": "nps test"
   },
   "types": "lib/index.d.ts"

@@ -91,6 +91,8 @@ USAGE
 ...
 ```
 
+_**Note:** You can also use `mynewcli hello --help`. The `--help` flag works anywhere the user places it and cannot be overridden._
+
 ### Command Development
 
 Create a new command called "goodbye" either by moving `./src/commands/hello.ts` to `./src/commands/goodbye.ts` or by running the command generator with `npx oclif command goodbye`. Open `./src/commands/goodbye.ts` and replace it with the following

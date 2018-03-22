@@ -34,12 +34,12 @@ You'll now see some questions asking you to describe various aspects of your CLI
 For reference, here are the options and what they do:
 
 * **npm package name** the name of the package as it will be listed on npm.
-* **command bin name the CLI will export:** the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner.
+* **command bin name the CLI will export** the word the user will type to invoke the cli, e.g., “heroku” in the case of the Heroku command line interface. You may use any word here but be careful about using a word that may conflict with commonly used command line terms such as grep. In the case of conflict, the terminal will use what is loaded in the path sooner.
 * **description** this description is part of the npm package details. This description will stay local until you publish to npm
-* **author: The author is listed when you register your CLI on NPM
+* **author** The author is listed when you register your CLI on NPM
 * **version** each time you publish a new version this number will automatically increment.
 * **license** MIT License is set as default
-* **node version supported** *oclif only supports versions of Node greater than 8.0, which is the default set here
+* **node version supported** oclif only supports versions of Node greater than 8.0, which is the default set here
 * **github owner of repository (https://github.com/OWNER/repo)** owner of the Github repo
 * **github name of repository (https://github.com/owner/REPO)** name of the Github repo
 

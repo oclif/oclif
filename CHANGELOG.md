@@ -1,3 +1,11 @@
+<a name="1.4.5"></a>
+## [1.4.5](https://github.com/oclif/oclif/compare/4d774b17451c873cb736c8d458b884a4d2916474...v1.4.5) (2018-03-22)
+
+
+### Bug Fixes
+
+* set OCLIF_NEXT_VERSION ([032b231](https://github.com/oclif/oclif/commit/032b231))
+
 <a name="1.4.4"></a>
 ## [1.4.4](https://github.com/oclif/oclif/compare/f9a733a0c78d4f9e2a8a22d3fc7320cf2d978398...v1.4.4) (2018-03-22)
 

@@ -18,7 +18,7 @@ oclif: Node.JS Open CLI Framework
 * [🌈 CLI Types](#-cli-types)
 * [🏗 Usage](#-usage)
 * [📚 Examples](#-examples)
-* [Commands](#commands)
+* [🔨 Commands](#-commands)
 * [🏭 Related Repositories](#-related-repositories)
 * [🦔 Learn More](#-learn-more)
 * [📣 Feedback](#-feedback)
@@ -118,9 +118,9 @@ hello world from ./src/hello.js!
   * [Single-command CLI](https://github.com/oclif/example-single-js)
   * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-js)
 
-<!-- commands -->
-# Commands
+# 🔨 Commands
 
+<!-- commands -->
 * [oclif command NAME](#command-name)
 * [oclif help [COMMAND]](#help-command)
 * [oclif hook NAME](#hook-name)

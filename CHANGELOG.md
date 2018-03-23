@@ -1,3 +1,11 @@
+<a name="1.5.1"></a>
+## [1.5.1](https://github.com/oclif/oclif/compare/4106708e3fa2332fcada0361c76a1071f61315a8...v1.5.1) (2018-03-23)
+
+
+### Bug Fixes
+
+* add usage/command headers explicitly ([d24456b](https://github.com/oclif/oclif/commit/d24456b))
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/oclif/oclif/compare/f8337999b5a22cbe9bfa90a7d7a026a1a15a333b...v1.5.0) (2018-03-23)
 

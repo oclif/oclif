@@ -123,6 +123,7 @@ hello world from ./src/hello.js!
 
 * [oclif command NAME](#command-name)
 * [oclif help [COMMAND]](#help-command)
+* [oclif hook NAME](#hook-name)
 * [oclif multi [PATH]](#multi-path)
 * [oclif plugin [PATH]](#plugin-path)
 * [oclif single [PATH]](#single-path)
@@ -142,7 +143,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.5.0/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -161,6 +162,25 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.1.6/src/commands/help.ts)_
 
+## hook NAME
+
+add a hook to an existing CLI or plugin
+
+```
+USAGE
+  $ oclif hook NAME
+
+ARGUMENTS
+  NAME  name of hook (snake_case)
+
+OPTIONS
+  --defaults     use defaults for every setting
+  --event=event  [default: init] event to run hook on
+  --force        overwrite existing files
+```
+
+_See code: [src/commands/hook.ts](https://github.com/oclif/oclif/blob/v1.5.0/src/commands/hook.ts)_
+
 ## multi [PATH]
 
 generate a new multi-command CLI
@@ -178,7 +198,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.5.0/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -197,7 +217,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.5.0/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -216,7 +236,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.5.0/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

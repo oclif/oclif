@@ -1,3 +1,11 @@
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/oclif/oclif/compare/f8337999b5a22cbe9bfa90a7d7a026a1a15a333b...v1.5.0) (2018-03-23)
+
+
+### Features
+
+* add hook generator ([#77](https://github.com/oclif/oclif/issues/77)) ([4106708](https://github.com/oclif/oclif/commit/4106708))
+
 <a name="1.4.12"></a>
 ## [1.4.12](https://github.com/oclif/oclif/compare/43ebebaec031697f7e1595e79771d15c76e11cd6...v1.4.12) (2018-03-23)
 

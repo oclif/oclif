@@ -67,6 +67,17 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.command
       - store_test_results: *store_test_results
+  node-latest-hook:
+    <<: *lint
+    docker:
+      - image: node:8
+    steps: &hook_steps
+      - checkout
+      - restore_cache: *restore_cache
+      - attach_workspace: {at: node_modules}
+      - run: .circleci/setup_git
+      - run: yarn exec nps test.hook
+      - store_test_results: *store_test_results
   node-8-base: &node_8
     <<: *lint
     docker:
@@ -87,6 +98,9 @@ jobs:
   node-8-command:
     <<: *node_8
     steps: *command_steps
+  node-8-hook:
+    <<: *node_8
+    steps: *hook_steps
 
   cache:
     <<: *lint
@@ -149,8 +163,10 @@ workflows:
       - node-latest-plugin: {requires: [lint] }
       - node-latest-multi: {requires: [lint] }
       - node-latest-command: {requires: [lint] }
+      - node-latest-hook: {requires: [lint] }
       - node-8-base: {requires: [lint] }
       - node-8-single: {requires: [lint] }
       - node-8-plugin: {requires: [lint] }
       - node-8-multi: {requires: [lint] }
       - node-8-command: {requires: [lint] }
+      - node-8-hook: {requires: [lint] }

@@ -84,6 +84,15 @@ module.exports = file => {
         sh.exec('node ./bin/run foo:bar:baz --help')
         sh.exec('yarn run prepublishOnly')
         break
+      case 'hook':
+        build('plugin', name)
+        generate('hook myhook --defaults --force')
+        // TODO: remove this compilation step
+        sh.exec('tsc')
+        sh.exec('yarn test')
+        sh.exec('node ./bin/run hello')
+        sh.exec('yarn run prepublishOnly')
+        break
       }
     })
     .it([cmd, name].join(':'))

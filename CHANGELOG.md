@@ -1,3 +1,12 @@
+<a name="1.4.11"></a>
+## [1.4.11](https://github.com/oclif/oclif/compare/01370d252da66e25b80a2947ec38e4db21101a61...v1.4.11) (2018-03-23)
+
+
+### Bug Fixes
+
+* move docs to oclif.io ([43ebeba](https://github.com/oclif/oclif/commit/43ebeba))
+* move docs to oclif.io ([c067401](https://github.com/oclif/oclif/commit/c067401))
+
 <a name="1.4.10"></a>
 ## [1.4.10](https://github.com/oclif/oclif/compare/71576609c182f8fbffbffdf408671c5cb9c4a0b6...v1.4.10) (2018-03-22)
 

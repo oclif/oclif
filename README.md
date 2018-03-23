@@ -18,15 +18,6 @@ oclif: Node.JS Open CLI Framework
 * [🌈 CLI Types](#-cli-types)
 * [🏗 Usage](#-usage)
 * [📚 Examples](#-examples)
-* [🛠 Command Options](#-command-options)
-* [🔧 Arguments](#-arguments)
-* [🔨 Flag Options](#-flag-options)
-* [👥 Aliases](#-aliases)
-* [⚙️ Other Command Options](#-other-command-options)
-* [🌱 Command Base Class](#-command-base-class)
-* [📦 Topics](#-topics)
-* [🎁 Plugins](#-plugins)
-* [💼 Building your own plugin](#-building-your-own-plugin)
 * [Commands](#commands)
 * [🏭 Related Repositories](#-related-repositories)
 * [🦔 Learn More](#-learn-more)
@@ -151,7 +142,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.10/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -187,7 +178,7 @@ OPTIONS
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.10/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -206,7 +197,7 @@ OPTIONS
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.10/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -225,7 +216,7 @@ OPTIONS
   --options=options  (typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.10/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

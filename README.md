@@ -142,7 +142,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/command.ts)_
 
 ## help [COMMAND]
 
@@ -175,10 +175,10 @@ ARGUMENTS
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (typescript|tslint|semantic-release|mocha)
+  --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/multi.ts)_
 
 ## plugin [PATH]
 
@@ -194,10 +194,10 @@ ARGUMENTS
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (typescript|tslint|semantic-release|mocha)
+  --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/plugin.ts)_
 
 ## single [PATH]
 
@@ -213,10 +213,10 @@ ARGUMENTS
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (typescript|tslint|semantic-release|mocha)
+  --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.11/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.4.12/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

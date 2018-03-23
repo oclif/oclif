@@ -1,3 +1,11 @@
+<a name="1.4.12"></a>
+## [1.4.12](https://github.com/oclif/oclif/compare/43ebebaec031697f7e1595e79771d15c76e11cd6...v1.4.12) (2018-03-23)
+
+
+### Bug Fixes
+
+* document yarn flag ([f833799](https://github.com/oclif/oclif/commit/f833799))
+
 <a name="1.4.11"></a>
 ## [1.4.11](https://github.com/oclif/oclif/compare/01370d252da66e25b80a2947ec38e4db21101a61...v1.4.11) (2018-03-23)
 

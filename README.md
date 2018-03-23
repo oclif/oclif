@@ -32,7 +32,7 @@ This is a framework for building CLIs in Node.js. This framework was built out o
 
 # 🚀 Getting Started Tutorial
 
-The [Getting Started tutorial](https://github.com/oclif/oclif/blob/master/GETTING_STARTED.md) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
+The [Getting Started tutorial](http://oclif.io/docs/introduction.html) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
 
 # ✨ Features
 

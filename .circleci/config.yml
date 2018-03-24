@@ -148,6 +148,7 @@ workflows:
             - node-latest-plugin
             - node-latest-multi
             - node-latest-command
+            - node-latest-hook
   nightly:
     triggers:
       - schedule:

@@ -121,12 +121,13 @@ hello world from ./src/hello.js!
 # 🔨 Commands
 
 <!-- commands -->
-* [oclif command NAME](#command-name)
-* [oclif help [COMMAND]](#help-command)
-* [oclif hook NAME](#hook-name)
-* [oclif multi [PATH]](#multi-path)
-* [oclif plugin [PATH]](#plugin-path)
-* [oclif single [PATH]](#single-path)
+* [oclif command NAME](#oclif-command-name)
+* [oclif help [COMMAND]](#oclif-help-command)
+* [oclif hook NAME](#oclif-hook-name)
+* [oclif multi [PATH]](#oclif-multi-path)
+* [oclif plugin [PATH]](#oclif-plugin-path)
+* [oclif single [PATH]](#oclif-single-path)
+
 ## oclif command NAME
 
 add a command to an existing CLI or plugin
@@ -143,7 +144,7 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.5.2/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.5.3/src/commands/command.ts)_
 
 ## oclif help [COMMAND]
 
@@ -160,7 +161,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.1.6/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.1.7/src/commands/help.ts)_
 
 ## oclif hook NAME
 
@@ -179,7 +180,7 @@ OPTIONS
   --force        overwrite existing files
 ```
 
-_See code: [src/commands/hook.ts](https://github.com/oclif/oclif/blob/v1.5.2/src/commands/hook.ts)_
+_See code: [src/commands/hook.ts](https://github.com/oclif/oclif/blob/v1.5.3/src/commands/hook.ts)_
 
 ## oclif multi [PATH]
 
@@ -198,7 +199,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.5.2/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.5.3/src/commands/multi.ts)_
 
 ## oclif plugin [PATH]
 
@@ -217,7 +218,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.5.2/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.5.3/src/commands/plugin.ts)_
 
 ## oclif single [PATH]
 
@@ -236,7 +237,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.5.2/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.5.3/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

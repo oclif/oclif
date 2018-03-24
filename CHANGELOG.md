@@ -1,3 +1,11 @@
+<a name="1.5.3"></a>
+## [1.5.3](https://github.com/oclif/oclif/compare/90ffc41943efe6c0de36d8793097581737c7a5b5...v1.5.3) (2018-03-24)
+
+
+### Bug Fixes
+
+* updated deps ([367e189](https://github.com/oclif/oclif/commit/367e189))
+
 <a name="1.5.2"></a>
 ## [1.5.2](https://github.com/oclif/oclif/compare/d24456ba28f0ea2d4e392dda30a4543a461fc6c5...v1.5.2) (2018-03-23)
 

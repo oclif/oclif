@@ -1,3 +1,11 @@
+<a name="1.5.4"></a>
+## [1.5.4](https://github.com/oclif/oclif/compare/367e189144af37df10373e4a20e9d22106e97e29...v1.5.4) (2018-03-24)
+
+
+### Bug Fixes
+
+* [@oclif](https://github.com/oclif)/errors no longer directly required ([c82d5f4](https://github.com/oclif/oclif/commit/c82d5f4))
+
 <a name="1.5.3"></a>
 ## [1.5.3](https://github.com/oclif/oclif/compare/90ffc41943efe6c0de36d8793097581737c7a5b5...v1.5.3) (2018-03-24)
 

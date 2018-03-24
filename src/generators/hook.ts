@@ -37,7 +37,7 @@ class HookGenerator extends Generator {
     }
     this.pjson.oclif = this.pjson.oclif || {}
     let hooks = this.pjson.oclif.hooks = this.pjson.oclif.hooks || {}
-    let p = `./${this._ts ? 'lib' : 'src'}/hooks/${this.options.event}/${this.options.name}.js`
+    let p = `./${this._ts ? 'lib' : 'src'}/hooks/${this.options.event}/${this.options.name}`
     if (hooks[this.options.event]) {
       hooks[this.options.event] = _.castArray(hooks[this.options.event])
       hooks[this.options.event].push(p)

@@ -408,10 +408,10 @@ class App extends Generator {
           '@oclif/config',
           '@oclif/command',
           '@oclif/plugin-help',
-          'globby',
         )
         devDependencies.push(
           '@oclif/dev-cli',
+          'globby',
         )
     }
     if (this.mocha) {

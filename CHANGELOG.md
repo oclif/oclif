@@ -1,3 +1,11 @@
+<a name="1.5.6"></a>
+## [1.5.6](https://github.com/oclif/oclif/compare/19579350dadf5007c5155cd9c41834345acb17f3...v1.5.6) (2018-03-24)
+
+
+### Bug Fixes
+
+* updated command/config ([e6446ca](https://github.com/oclif/oclif/commit/e6446ca))
+
 <a name="1.5.5"></a>
 ## [1.5.5](https://github.com/oclif/oclif/compare/c82d5f484a425261cbe28692aabc3c30b5827550...v1.5.5) (2018-03-24)
 

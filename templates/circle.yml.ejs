@@ -46,7 +46,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - restore_cache: *restore_cache
-      - run: yarn global add @oclif/semantic-release@1 semantic-release@12
+      - run: yarn global add @oclif/semantic-release@2 semantic-release@15
       - run: yarn --frozen-lockfile
       - run: |
           export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH

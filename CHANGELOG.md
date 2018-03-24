@@ -1,3 +1,11 @@
+<a name="1.7.4"></a>
+## [1.7.4](https://github.com/oclif/oclif/compare/v1.7.3...v1.7.4) (2018-03-24)
+
+
+### Bug Fixes
+
+* updated plugin-help ([19df489](https://github.com/oclif/oclif/commit/19df489))
+
 <a name="1.7.3"></a>
 ## [1.7.3](https://github.com/oclif/oclif/compare/v1.7.2...v1.7.3) (2018-03-24)
 

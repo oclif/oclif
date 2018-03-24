@@ -1,3 +1,11 @@
+<a name="1.5.7"></a>
+## [1.5.7](https://github.com/oclif/oclif/compare/e6446ca65238f4ab21f3e30f0391bf4e49cc6f95...v1.5.7) (2018-03-24)
+
+
+### Bug Fixes
+
+* fixed yarn detection ([214be06](https://github.com/oclif/oclif/commit/214be06))
+
 <a name="1.5.6"></a>
 ## [1.5.6](https://github.com/oclif/oclif/compare/19579350dadf5007c5155cd9c41834345acb17f3...v1.5.6) (2018-03-24)
 

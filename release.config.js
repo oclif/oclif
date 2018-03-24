@@ -11,7 +11,7 @@ module.exports = {
     '@semantic-release/git',
     '@semantic-release/github',
   ],
-  publish: [
+  prepare: [
     {
       path: '@semantic-release/exec',
       cmd: 'OCLIF_NEXT_VERSION=${nextRelease.version} yarn run version',

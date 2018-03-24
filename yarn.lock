@@ -96,11 +96,11 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/plugin-help@^1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.1.7.tgz#04d53cbe57b8ea6b966746e4bd200576a1070918"
+"@oclif/plugin-help@^1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.1.8.tgz#56a14731102af40ab20589bc9cb13da13c64b2d9"
   dependencies:
-    "@oclif/command" "^1.4.2"
+    "@oclif/command" "^1.4.4"
     chalk "^2.3.2"
     indent-string "^3.2.0"
     lodash.template "^4.4.0"
@@ -108,12 +108,12 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/plugin-not-found@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.4.tgz#5dbe863cc3f036a01fc0c3f4be2b92d9eed8ffae"
+"@oclif/plugin-not-found@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.5.tgz#45ed23895cb19564ca14df9b75c570670ad31a44"
   dependencies:
     "@heroku-cli/color" "^1.1.3"
-    "@oclif/command" "^1.4.2"
+    "@oclif/command" "^1.4.4"
     string-similarity "^1.2.0"
 
 "@oclif/tslint@^1.0.2":

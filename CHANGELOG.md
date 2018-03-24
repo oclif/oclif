@@ -1,3 +1,11 @@
+<a name="1.5.8"></a>
+## [1.5.8](https://github.com/oclif/oclif/compare/214be061c7f17287a12474e0dff4d39cc63e8109...v1.5.8) (2018-03-24)
+
+
+### Bug Fixes
+
+* fix hooks to work with ts-node ([e117a85](https://github.com/oclif/oclif/commit/e117a85)), closes [#78](https://github.com/oclif/oclif/issues/78)
+
 <a name="1.5.7"></a>
 ## [1.5.7](https://github.com/oclif/oclif/compare/e6446ca65238f4ab21f3e30f0391bf4e49cc6f95...v1.5.7) (2018-03-24)
 

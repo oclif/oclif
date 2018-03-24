@@ -71,9 +71,7 @@ src/
     └── destroy.ts
 ```
 
-Multi-command CLIs may also include [plugins](#-plugins).
-
-See below for information on [nesting commands within topics](#-topics).
+Multi-command CLIs may also include [plugins](https://oclif.io/docs/plugins.html).
 
 # 🏗 Usage
 

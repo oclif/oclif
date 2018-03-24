@@ -26,8 +26,8 @@ module.exports = (_, options) => {
     const [, type, format] = example.split('-')
 
     const options = format === 'ts' ?
-      '--options=typescript,mocha,semantic-release' :
-      '--options=mocha,semantic-release'
+      '--options=yarn,typescript,mocha,semantic-release' :
+      '--options=yarn,mocha,semantic-release'
 
     const d = path.join(__dirname, '../tmp/examples', example)
     sh.mkdir('-p', path.dirname(d))

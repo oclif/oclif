@@ -45,6 +45,15 @@
     debug "^3.1.0"
     semver "^5.5.0"
 
+"@oclif/command@^1.4.5":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.5.tgz#470df74446b9534e58bd513ef827419979e25b93"
+  dependencies:
+    "@oclif/errors" "^1.0.2"
+    "@oclif/parser" "^3.2.9"
+    debug "^3.1.0"
+    semver "^5.5.0"
+
 "@oclif/config@^1.3.59":
   version "1.3.59"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.59.tgz#10cc39757654850458b2d3f899155af2e069deb5"
@@ -96,9 +105,9 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/plugin-help@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.1.8.tgz#56a14731102af40ab20589bc9cb13da13c64b2d9"
+"@oclif/plugin-help@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.0.tgz#26163d6561783779ad4ac174e596b3e3e186155e"
   dependencies:
     "@oclif/command" "^1.4.4"
     chalk "^2.3.2"

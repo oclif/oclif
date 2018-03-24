@@ -1,3 +1,14 @@
+<a name="1.7.2"></a>
+## [1.7.2](https://github.com/oclif/oclif/compare/v1.7.1...v1.7.2) (2018-03-24)
+
+
+### Bug Fixes
+
+* add yarn to examples ([b4cd8b3](https://github.com/oclif/oclif/commit/b4cd8b3))
+* fixed semantic-release config ([a4f69f1](https://github.com/oclif/oclif/commit/a4f69f1))
+* update semantic-release ([9f45593](https://github.com/oclif/oclif/commit/9f45593))
+* update semantic-release ([d2e3159](https://github.com/oclif/oclif/commit/d2e3159))
+
 <a name="1.7.1"></a>
 ## [1.7.1](https://github.com/oclif/oclif/compare/7b683610ea2e5f16d622a0b7ebb6b9d2ee484b07...v1.7.1) (2018-03-24)
 

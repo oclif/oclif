@@ -8,9 +8,10 @@
   "dependencies": {
     "@oclif/command": "^1.4.5",
     "@oclif/config": "^1.3.60",
-    "@oclif/errors": "^1.0.2",
+    "@oclif/errors": "^1.0.3",
     "@oclif/plugin-help": "^1.2.1",
     "@oclif/plugin-not-found": "^1.0.5",
+    "@oclif/plugin-warn-if-update-available": "^1.0.2",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",
     "lodash": "^4.17.5",
@@ -63,6 +64,7 @@
     "commands": "./lib/commands",
     "plugins": [
       "@oclif/plugin-help",
+      "@oclif/plugin-warn-if-update-available",
       "@oclif/plugin-not-found"
     ],
     "bin": "oclif"

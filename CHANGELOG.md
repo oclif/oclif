@@ -1,3 +1,11 @@
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/oclif/oclif/compare/c45448e97858b789a91f765c631c91c7f8263f9f...v1.7.0) (2018-03-24)
+
+
+### Features
+
+* removes snyk readme template badge ([#80](https://github.com/oclif/oclif/issues/80)) ([7b68361](https://github.com/oclif/oclif/commit/7b68361)), closes [oclif/oclif#69](https://github.com/oclif/oclif/issues/69)
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/oclif/oclif/compare/e117a8559b1ad84c8110df71906ca4c975ab529f...v1.6.0) (2018-03-24)
 

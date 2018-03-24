@@ -87,8 +87,6 @@ module.exports = file => {
       case 'hook':
         build('plugin', name)
         generate('hook myhook --defaults --force')
-        // TODO: remove this compilation step
-        sh.exec('tsc')
         sh.exec('yarn test')
         sh.exec('node ./bin/run hello')
         sh.exec('yarn run prepublishOnly')

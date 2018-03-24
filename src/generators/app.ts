@@ -1,19 +1,24 @@
 // tslint:disable no-floating-promises
 // tslint:disable no-console
 
+import {execSync} from 'child_process'
 import * as fs from 'fs'
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
-const hasYarn = require('has-yarn')()
 const nps = require('nps-utils')
 const sortPjson = require('sort-pjson')
 const fixpack = require('fixpack')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
+let hasYarn = false
+try {
+  execSync('yarn -v')
+  hasYarn = true
+} catch {}
 // function stringToArray(s: string) {
 //   const keywords: string[] = []
 

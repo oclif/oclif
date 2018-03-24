@@ -365,10 +365,6 @@ class App extends Generator {
     this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
     const eslintignore = this._eslintignore()
     if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
-    // this.fs.copyTpl(this.templatePath('package-scripts.js.ejs'), this.destinationPath('package-scripts.js'), this)
-    // if (this.semantic_release) {
-    //   this.fs.copyTpl(this.templatePath('.commitlintrc.js'), this.destinationPath('.commitlintrc.js'), this)
-    // }
 
     switch (this.type) {
       case 'single':

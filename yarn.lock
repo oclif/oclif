@@ -64,6 +64,12 @@
   dependencies:
     debug "^3.1.0"
 
+"@oclif/config@^1.3.61":
+  version "1.3.61"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.61.tgz#1d2293d1c78dc9d88e408afd35dea9a6dccecf84"
+  dependencies:
+    debug "^3.1.0"
+
 "@oclif/dev-cli@^1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.4.2.tgz#cd849b2f634606c9dda71caf6d32e5bf31611c6a"
@@ -135,13 +141,14 @@
     "@oclif/command" "^1.4.4"
     string-similarity "^1.2.0"
 
-"@oclif/plugin-warn-if-update-available@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-1.0.2.tgz#10a4cc123ed208977c7c68f1ed6fa95d98304765"
+"@oclif/plugin-warn-if-update-available@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-1.2.1.tgz#34799ccbea901b41bc49e0f7ab50ce5596ddaabb"
   dependencies:
     "@oclif/command" "^1.4.5"
     "@oclif/config" "^1.3.60"
     "@oclif/errors" "^1.0.3"
+    chalk "^2.3.2"
     debug "^3.1.0"
     fs-extra "^5.0.0"
     http-call "^5.1.0"

@@ -105,9 +105,9 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/plugin-help@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.0.tgz#26163d6561783779ad4ac174e596b3e3e186155e"
+"@oclif/plugin-help@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.1.tgz#5537779e5a1cfb812d54333111c861d06771c18f"
   dependencies:
     "@oclif/command" "^1.4.4"
     chalk "^2.3.2"

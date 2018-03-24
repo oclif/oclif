@@ -40,9 +40,9 @@
   version "1.3.59"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.59.tgz#10cc39757654850458b2d3f899155af2e069deb5"
 
-"@oclif/dev-cli@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.4.1.tgz#bb9d22506aa698dc5d68d42a6c9f58bd8b790ac0"
+"@oclif/dev-cli@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.4.2.tgz#cd849b2f634606c9dda71caf6d32e5bf31611c6a"
   dependencies:
     "@oclif/command" "^1.4.2"
     "@oclif/config" "^1.3.59"
@@ -81,12 +81,24 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/plugin-not-found@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.3.tgz#374421fb981c9e3f28f658b95c33365d59787446"
+"@oclif/plugin-help@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.1.7.tgz#04d53cbe57b8ea6b966746e4bd200576a1070918"
+  dependencies:
+    "@oclif/command" "^1.4.2"
+    chalk "^2.3.2"
+    indent-string "^3.2.0"
+    lodash.template "^4.4.0"
+    string-width "^2.1.1"
+    widest-line "^2.0.0"
+    wrap-ansi "^3.0.1"
+
+"@oclif/plugin-not-found@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.4.tgz#5dbe863cc3f036a01fc0c3f4be2b92d9eed8ffae"
   dependencies:
     "@heroku-cli/color" "^1.1.3"
-    "@oclif/command" "^1.4.1"
+    "@oclif/command" "^1.4.2"
     string-similarity "^1.2.0"
 
 "@oclif/tslint@^1.0.2":
@@ -312,6 +324,12 @@ ansi-styles@^3.0.0, ansi-styles@^3.2.0:
   dependencies:
     color-convert "^1.9.0"
 
+ansi-styles@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
+  dependencies:
+    color-convert "^1.9.0"
+
 any-shell-escape@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/any-shell-escape/-/any-shell-escape-0.1.1.tgz#d55ab972244c71a9a5e1ab0879f30bf110806959"
@@ -525,6 +543,14 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.3.1:
     ansi-styles "^3.2.0"
     escape-string-regexp "^1.0.5"
     supports-color "^5.2.0"
+
+chalk@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.2.tgz#250dc96b07491bfd601e648d66ddf5f60c7a5c65"
+  dependencies:
+    ansi-styles "^3.2.1"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.3.0"
 
 chardet@^0.4.0:
   version "0.4.2"
@@ -922,34 +948,34 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-oclif@^1.3.8:
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-1.3.8.tgz#901b2b9603b0e7c1b4f028fa48a7fb5098fe2a68"
+eslint-config-oclif@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-1.4.0.tgz#a165329e015bc3841d23bd374d70c2f96dc1078c"
   dependencies:
-    eslint-config-xo-space "^0.17.0"
-    eslint-plugin-mocha "^4.11.0"
-    eslint-plugin-node "^6.0.0"
+    eslint-config-xo-space "^0.18.0"
+    eslint-plugin-mocha "^4.12.1"
+    eslint-plugin-node "^6.0.1"
     eslint-plugin-unicorn "^4.0.2"
 
-eslint-config-xo-space@^0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-xo-space/-/eslint-config-xo-space-0.17.0.tgz#b712feb4f4547e28001900cbeecc9c2f2f456af2"
+eslint-config-xo-space@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-xo-space/-/eslint-config-xo-space-0.18.0.tgz#92c8130b1ebaad9162bb822fdc8bc8e9f4fa5b8a"
   dependencies:
-    eslint-config-xo "^0.18.0"
+    eslint-config-xo "^0.20.0"
 
-eslint-config-xo@^0.18.0:
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.18.2.tgz#0a157120875619929e735ffd6b185c41e8a187af"
+eslint-config-xo@^0.20.0:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.20.1.tgz#ad04db35e62bacedcf7b7e8a76388364a78d616d"
 
-eslint-plugin-mocha@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-4.11.0.tgz#91193a2f55e20a5e35974054a0089d30198ee578"
+eslint-plugin-mocha@^4.12.1:
+  version "4.12.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-4.12.1.tgz#dbacc543b178b4536ec5b19d7f8e8864d85404bf"
   dependencies:
-    ramda "^0.24.1"
+    ramda "^0.25.0"
 
-eslint-plugin-node@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-6.0.0.tgz#5ad5ee6b5346aec6cc9cde0b8619caed2c6d8f25"
+eslint-plugin-node@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-6.0.1.tgz#bf19642298064379315d7a4b2a75937376fa05e4"
   dependencies:
     ignore "^3.3.6"
     minimatch "^3.0.4"
@@ -2448,9 +2474,9 @@ pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
 
-ramda@^0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
 
 rc@^0.6.0:
   version "0.6.0"
@@ -2964,6 +2990,12 @@ supports-color@^3.2.3:
 supports-color@^5.1.0, supports-color@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.2.0.tgz#b0d5333b1184dd3666cbe5aa0b45c5ac7ac17a4a"
+  dependencies:
+    has-flag "^3.0.0"
+
+supports-color@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.3.0.tgz#5b24ac15db80fa927cf5227a4a33fd3c4c7676c0"
   dependencies:
     has-flag "^3.0.0"
 

@@ -1,3 +1,13 @@
+<a name="1.7.3"></a>
+## [1.7.3](https://github.com/oclif/oclif/compare/v1.7.2...v1.7.3) (2018-03-24)
+
+
+### Bug Fixes
+
+* add hook to circle ([a4da315](https://github.com/oclif/oclif/commit/a4da315))
+* fixed hook circle config test ([3f4ab92](https://github.com/oclif/oclif/commit/3f4ab92))
+* updated plugin-help ([cb53bb3](https://github.com/oclif/oclif/commit/cb53bb3))
+
 <a name="1.7.2"></a>
 ## [1.7.2](https://github.com/oclif/oclif/compare/v1.7.1...v1.7.2) (2018-03-24)
 

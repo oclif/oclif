@@ -1,3 +1,11 @@
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/oclif/oclif/compare/e117a8559b1ad84c8110df71906ca4c975ab529f...v1.6.0) (2018-03-24)
+
+
+### Features
+
+* removes greenkeeper readme template badge ([#81](https://github.com/oclif/oclif/issues/81)) ([c45448e](https://github.com/oclif/oclif/commit/c45448e)), closes [oclif/oclif#70](https://github.com/oclif/oclif/issues/70)
+
 <a name="1.5.8"></a>
 ## [1.5.8](https://github.com/oclif/oclif/compare/214be061c7f17287a12474e0dff4d39cc63e8109...v1.5.8) (2018-03-24)
 

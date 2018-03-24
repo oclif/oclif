@@ -136,6 +136,7 @@ workflows:
       - node-latest-plugin: {requires: [lint] }
       - node-latest-multi: {requires: [lint] }
       - node-latest-command: {requires: [lint] }
+      - node-latest-hook: {requires: [lint] }
       - cache: {requires: [release] }
       - release:
           context: org-global

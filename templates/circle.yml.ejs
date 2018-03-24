@@ -1,12 +1,3 @@
-<%_
-let deps = [
-  'nyc@11',
-  '@oclif/nyc-config@1',
-  'mocha-junit-reporter@1',
-]
-if (semantic_release) deps.push('@commitlint/cli@6', '@commitlint/config-conventional@6')
-deps = deps.join(' ')
-_%>
 ---
 version: 2
 jobs:
@@ -26,7 +17,7 @@ jobs:
             - v1-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
             - v1-yarn-{{checksum ".circleci/config.yml"}}
       - run: .circleci/greenkeeper
-      - run: yarn add -D <%- deps %>
+      - run: yarn add -D nyc@11 @oclif/nyc-config@1 mocha-junit-reporter@1
       <%_ if (['single', 'multi'].includes(type)) { _%>
       - run: ./bin/run --version
       <%_ } _%>
@@ -41,9 +32,6 @@ jobs:
           curl -s https://codecov.io/bash | bash
       <%_ } else { _%>
       - run: yarn test
-      <%_ } _%>
-      <%_ if (semantic_release) { _%>
-      - run: yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master
       <%_ } _%>
       - store_test_results: &store_test_results
           path: ~/cli/reports

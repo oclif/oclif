@@ -1,3 +1,11 @@
+<a name="1.7.1"></a>
+## [1.7.1](https://github.com/oclif/oclif/compare/7b683610ea2e5f16d622a0b7ebb6b9d2ee484b07...v1.7.1) (2018-03-24)
+
+
+### Bug Fixes
+
+* remove commitlint ([#83](https://github.com/oclif/oclif/issues/83)) ([b5c6327](https://github.com/oclif/oclif/commit/b5c6327))
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/oclif/oclif/compare/c45448e97858b789a91f765c631c91c7f8263f9f...v1.7.0) (2018-03-24)
 

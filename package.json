@@ -9,7 +9,7 @@
     "@oclif/command": "^1.4.5",
     "@oclif/config": "^1.3.60",
     "@oclif/errors": "^1.0.2",
-    "@oclif/plugin-help": "^1.2.0",
+    "@oclif/plugin-help": "^1.2.1",
     "@oclif/plugin-not-found": "^1.0.5",
     "debug": "^3.1.0",
     "fixpack": "^2.3.1",

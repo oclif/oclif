@@ -36,9 +36,24 @@
     "@oclif/parser" "^3.2.9"
     semver "^5.5.0"
 
+"@oclif/command@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.4.tgz#12188c81ac11cd74c30aeba4b3c57380f15d8d54"
+  dependencies:
+    "@oclif/errors" "^1.0.2"
+    "@oclif/parser" "^3.2.9"
+    debug "^3.1.0"
+    semver "^5.5.0"
+
 "@oclif/config@^1.3.59":
   version "1.3.59"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.59.tgz#10cc39757654850458b2d3f899155af2e069deb5"
+
+"@oclif/config@^1.3.60":
+  version "1.3.60"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.3.60.tgz#e5e1b1cf14d68dd55c489bc5f76594073dec0568"
+  dependencies:
+    debug "^3.1.0"
 
 "@oclif/dev-cli@^1.4.2":
   version "1.4.2"

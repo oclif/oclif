@@ -38,7 +38,6 @@ jobs:
           mkdir -p reports
           $NYC yarn test --reporter mocha-junit-reporter
           $NYC report --reporter text-lcov > coverage.lcov
-          curl -s https://codecov.io/bash | bash
       <%_ } else { _%>
       - run: yarn test
       <%_ } _%>

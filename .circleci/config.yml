@@ -11,9 +11,9 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v3-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v3-{{checksum ".circleci/config.yml"}}
-            - v3
+            - v4-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v4-{{checksum ".circleci/config.yml"}}
+            - v4
       - run: .circleci/greenkeeper
       - run: yarn add -D mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
       - run: yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master
@@ -108,12 +108,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v3-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+            - v4-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
       - run: yarn global add greenkeeper-lockfile@1
       - run: yarn add -D mocha-junit-reporter@1
       - run: yarn exec nps test.command
       - save_cache:
-          key: v3-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          key: v4-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn

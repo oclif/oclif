@@ -1,3 +1,12 @@
+<a name="1.5.5"></a>
+## [1.5.5](https://github.com/oclif/oclif/compare/c82d5f484a425261cbe28692aabc3c30b5827550...v1.5.5) (2018-03-24)
+
+
+### Bug Fixes
+
+* fixed npm devDependencies ([1957935](https://github.com/oclif/oclif/commit/1957935))
+* move globby to devDependencies ([9f07b24](https://github.com/oclif/oclif/commit/9f07b24))
+
 <a name="1.5.4"></a>
 ## [1.5.4](https://github.com/oclif/oclif/compare/367e189144af37df10373e4a20e9d22106e97e29...v1.5.4) (2018-03-24)
 

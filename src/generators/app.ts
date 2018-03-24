@@ -450,7 +450,7 @@ class App extends Generator {
     let yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
-    const dev = this.yarn ? {dev: true} : {only: 'dev'}
+    const dev = this.yarn ? {dev: true} : {'save-dev': true}
     Promise.all([
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
       install(dependencies, yarnOpts),

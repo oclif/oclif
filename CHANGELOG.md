@@ -1,3 +1,11 @@
+<a name="1.7.7"></a>
+## [1.7.7](https://github.com/oclif/oclif/compare/v1.7.6...v1.7.7) (2018-03-25)
+
+
+### Bug Fixes
+
+* updated command ([bd7921f](https://github.com/oclif/oclif/commit/bd7921f))
+
 <a name="1.7.6"></a>
 ## [1.7.6](https://github.com/oclif/oclif/compare/v1.7.5...v1.7.6) (2018-03-24)
 

@@ -1,3 +1,11 @@
+<a name="1.7.9"></a>
+## [1.7.9](https://github.com/oclif/oclif/compare/v1.7.8...v1.7.9) (2018-03-25)
+
+
+### Bug Fixes
+
+* move release script into semantic-release ([020e633](https://github.com/oclif/oclif/commit/020e633))
+
 <a name="1.7.8"></a>
 ## [1.7.8](https://github.com/oclif/oclif/compare/v1.7.7...v1.7.8) (2018-03-25)
 

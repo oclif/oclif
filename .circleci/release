@@ -9,3 +9,5 @@ PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
 yarn global add @oclif/semantic-release@2 semantic-release@15
 yarn install --frozen-lockfile
 semantic-release -e @oclif/semantic-release
+
+./scripts/release_create_oclif.js

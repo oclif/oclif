@@ -1,3 +1,11 @@
+<a name="1.7.8"></a>
+## [1.7.8](https://github.com/oclif/oclif/compare/v1.7.7...v1.7.8) (2018-03-25)
+
+
+### Bug Fixes
+
+* automate create-oclif publishing ([bffcc90](https://github.com/oclif/oclif/commit/bffcc90))
+
 <a name="1.7.7"></a>
 ## [1.7.7](https://github.com/oclif/oclif/compare/v1.7.6...v1.7.7) (2018-03-25)
 

@@ -24,4 +24,12 @@ module.exports = {
       assets: ['package.json', 'CHANGELOG.md', 'README.md', 'docs'],
     },
   ],
+  publish: [
+    '@semantic-release/npm',
+    '@semantic-release/github',
+    {
+      path: '@semantic-release/exec',
+      cmd: './scripts/release_create_oclif.js',
+    },
+  ],
 }

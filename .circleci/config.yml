@@ -15,8 +15,7 @@ jobs:
             - v4-{{checksum ".circleci/config.yml"}}
             - v4
       - run: .circleci/greenkeeper
-      - run: yarn add -D mocha-junit-reporter@1 @commitlint/cli@6 @commitlint/config-conventional@6
-      - run: yarn exec commitlint -- -x @commitlint/config-conventional --from origin/master
+      - run: yarn add -D mocha-junit-reporter@1
       - run: yarn exec nps lint
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
   node-latest-multi:

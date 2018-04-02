@@ -1,3 +1,11 @@
+<a name="1.7.11"></a>
+## [1.7.11](https://github.com/oclif/oclif/compare/v1.7.10...v1.7.11) (2018-04-02)
+
+
+### Bug Fixes
+
+* **generators/command:** assert cwd is a project ([#94](https://github.com/oclif/oclif/issues/94)) ([192f268](https://github.com/oclif/oclif/commit/192f268))
+
 <a name="1.7.10"></a>
 ## [1.7.10](https://github.com/oclif/oclif/compare/v1.7.9...v1.7.10) (2018-03-28)
 

@@ -24,8 +24,8 @@ class CommandGenerator extends Generator {
 
   async prompting() {
     this.pjson = this.fs.readJSON('package.json')
-    this.pjson.oclif = this.pjson.oclif || {}
     if (!this.pjson) throw new Error('not in a project directory')
+    this.pjson.oclif = this.pjson.oclif || {}
     this.log(yosay(`Adding a command to ${this.pjson.name} Version: ${version}`))
   }
 

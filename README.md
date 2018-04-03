@@ -1,5 +1,6 @@
 
-[!](https://user-images.githubusercontent.com/449385/38243295-e0a47d58-372e-11e8-9bc0-8c02a6f4d2ac.png)  
+<img src="https://user-images.githubusercontent.com/449385/38243295-e0a47d58-372e-11e8-9bc0-8c02a6f4d2ac.png" width="260" height="73">  
+
 
 oclif: Node.JS Open CLI Framework
 =================================

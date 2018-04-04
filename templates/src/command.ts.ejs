@@ -8,12 +8,14 @@ export default class <%- klass %> extends Command {
 <%_ } _%>
   static description = 'describe the command here'
 
+<%_ if (name === 'hello') { _%>
   static examples = [
     `$ <%- cmd %>
 hello world from ./src/<%- name %>.ts!
 `,
   ]
 
+<%_ } _%>
   static flags = {
 <%_ if (type === 'single') { _%>
     // add --version flag to show CLI version

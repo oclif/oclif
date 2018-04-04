@@ -34,7 +34,7 @@ class CommandGenerator extends Generator {
     let bin = this.pjson.oclif.bin || this.pjson.oclif.dirname || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     const cmd = `${bin} ${this.options.name}`
-    const opts = {...this.options, bin, cmd, _, type: 'command'}
+    const opts = {...this.options, bin, cmd, _, type: 'command', path: this._path}
     this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/${this._path}.${this._ext}`), opts)
     // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this._mocha) {

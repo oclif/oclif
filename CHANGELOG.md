@@ -1,3 +1,12 @@
+<a name="1.7.12"></a>
+## [1.7.12](https://github.com/oclif/oclif/compare/v1.7.11...v1.7.12) (2018-04-04)
+
+
+### Bug Fixes
+
+* only show examples if generating hello command ([147a317](https://github.com/oclif/oclif/commit/147a317))
+* show ts path in example command instead of js path ([12869c4](https://github.com/oclif/oclif/commit/12869c4))
+
 <a name="1.7.11"></a>
 ## [1.7.11](https://github.com/oclif/oclif/compare/v1.7.10...v1.7.11) (2018-04-02)
 

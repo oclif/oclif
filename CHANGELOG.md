@@ -1,3 +1,11 @@
+<a name="1.7.13"></a>
+## [1.7.13](https://github.com/oclif/oclif/compare/v1.7.12...v1.7.13) (2018-04-04)
+
+
+### Bug Fixes
+
+* fixed commands directory in example ([2d8b964](https://github.com/oclif/oclif/commit/2d8b964))
+
 <a name="1.7.12"></a>
 ## [1.7.12](https://github.com/oclif/oclif/compare/v1.7.11...v1.7.12) (2018-04-04)
 

@@ -471,6 +471,7 @@ class App extends Generator {
       '*-error.log',
       '/node_modules',
       '/tmp',
+      this.yarn ? 'package-lock.json' : 'yarn.lock',
       this.ts && '/lib',
     ])
       .concat(existing)

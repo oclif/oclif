@@ -248,7 +248,7 @@ class App extends Generator {
     this.pjson.author = this.answers.author || defaults.author
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
-    this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     let npm = this.yarn ? 'yarn' : 'npm'
     this.pjson.scripts.posttest = `${npm} run lint`
     // this.pjson.scripts.precommit = 'yarn run lint'

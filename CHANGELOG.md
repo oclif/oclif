@@ -1,3 +1,11 @@
+<a name="1.7.16"></a>
+## [1.7.16](https://github.com/oclif/oclif/compare/v1.7.15...v1.7.16) (2018-04-06)
+
+
+### Bug Fixes
+
+* remove declarations from test tslint ([3d8181b](https://github.com/oclif/oclif/commit/3d8181b))
+
 <a name="1.7.15"></a>
 ## [1.7.15](https://github.com/oclif/oclif/compare/v1.7.14...v1.7.15) (2018-04-06)
 

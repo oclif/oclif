@@ -1,3 +1,11 @@
+<a name="1.7.15"></a>
+## [1.7.15](https://github.com/oclif/oclif/compare/v1.7.14...v1.7.15) (2018-04-06)
+
+
+### Bug Fixes
+
+* use package-lock.json or yarn.lock from root only ([9cb57ac](https://github.com/oclif/oclif/commit/9cb57ac))
+
 <a name="1.7.14"></a>
 ## [1.7.14](https://github.com/oclif/oclif/compare/v1.7.13...v1.7.14) (2018-04-05)
 

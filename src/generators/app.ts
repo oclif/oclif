@@ -250,14 +250,12 @@ class App extends Generator {
     this.pjson.license = this.answers.license || defaults.license
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     let npm = this.yarn ? 'yarn' : 'npm'
-    this.pjson.scripts.posttest = `${npm} run lint`
-    // this.pjson.scripts.precommit = 'yarn run lint'
     if (this.ts) {
       const tsProject = this.mocha ? 'test' : '.'
-      this.pjson.scripts.lint = `tsc -p ${tsProject} --noEmit`
-      if (this.tslint) this.pjson.scripts.lint += ` && tslint -p ${tsProject} -t stylish`
+      this.pjson.scripts.posttest = `tsc -p ${tsProject} --noEmit`
+      if (this.tslint) this.pjson.scripts.posttest += ` && tslint -p ${tsProject} -t stylish`
     } else {
-      this.pjson.scripts.lint = 'eslint .'
+      this.pjson.scripts.posttest = 'eslint .'
     }
     if (this.mocha) {
       this.pjson.scripts.test = `mocha --forbid-only "test/**/*.test.${this._ext}"`

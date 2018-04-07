@@ -1,3 +1,11 @@
+<a name="1.7.19"></a>
+## [1.7.19](https://github.com/oclif/oclif/compare/v1.7.18...v1.7.19) (2018-04-07)
+
+
+### Bug Fixes
+
+* gitignore /dist ([d0bb4f0](https://github.com/oclif/oclif/commit/d0bb4f0))
+
 <a name="1.7.18"></a>
 ## [1.7.18](https://github.com/oclif/oclif/compare/v1.7.17...v1.7.18) (2018-04-07)
 

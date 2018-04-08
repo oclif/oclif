@@ -264,14 +264,12 @@ class App extends Generator {
     }
     if (this.ts) {
       this.pjson.scripts.build = 'rm -rf lib && tsc'
-      this.pjson.scripts.prepublishOnly = `${npm} run build`
+      this.pjson.scripts.prepack = `${npm} run build`
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'oclif-dev manifest')
-      if (this.semantic_release) this.pjson.scripts.prepublishOnly = nps.series(this.pjson.scripts.prepublishOnly, 'oclif-dev readme')
+      this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest')
+      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rm -f .oclif.manifest.json')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
-      this.pjson.scripts.clean = 'rm -f .oclif.manifest.json'
-      this.pjson.scripts.postpublish = this.pjson.scripts.preversion = `${npm} run clean`
       this.pjson.files.push('.oclif.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']

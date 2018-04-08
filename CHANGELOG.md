@@ -1,3 +1,14 @@
+<a name="1.7.21"></a>
+## [1.7.21](https://github.com/oclif/oclif/compare/v1.7.20...v1.7.21) (2018-04-08)
+
+
+### Bug Fixes
+
+* simplify npm script usage ([8e17b32](https://github.com/oclif/oclif/commit/8e17b32))
+* simplify npm script usage ([417cd49](https://github.com/oclif/oclif/commit/417cd49))
+* use npm pack in test ([7474932](https://github.com/oclif/oclif/commit/7474932))
+* use npm pack in test ([1a4de12](https://github.com/oclif/oclif/commit/1a4de12))
+
 <a name="1.7.20"></a>
 ## [1.7.20](https://github.com/oclif/oclif/compare/v1.7.19...v1.7.20) (2018-04-08)
 

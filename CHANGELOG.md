@@ -1,3 +1,11 @@
+<a name="1.7.20"></a>
+## [1.7.20](https://github.com/oclif/oclif/compare/v1.7.19...v1.7.20) (2018-04-08)
+
+
+### Bug Fixes
+
+* define help flag on initial command ([e1b68a3](https://github.com/oclif/oclif/commit/e1b68a3))
+
 <a name="1.7.19"></a>
 ## [1.7.19](https://github.com/oclif/oclif/compare/v1.7.18...v1.7.19) (2018-04-07)
 

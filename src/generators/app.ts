@@ -327,6 +327,10 @@ class App extends Generator {
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
       }
+    } else {
+      this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
+      const eslintignore = this._eslintignore()
+      if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
     }
     if (this.mocha && !this.fs.exists('test')) {
       this.fs.copyTpl(this.templatePath('test/helpers/init.js'), this.destinationPath('test/helpers/init.js'), this)
@@ -356,9 +360,6 @@ class App extends Generator {
     this.fs.copyTpl(this.templatePath('gitattributes'), this.destinationPath('.gitattributes'), this)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
-    this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
-    const eslintignore = this._eslintignore()
-    if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
 
     switch (this.type) {
       case 'single':

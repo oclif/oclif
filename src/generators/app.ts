@@ -263,8 +263,7 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.build = 'rm -rf lib && tsc'
-      this.pjson.scripts.prepack = `${npm} run build`
+      this.pjson.scripts.prepack = `rm -rf lib && tsc`
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest')

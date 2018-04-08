@@ -1,3 +1,12 @@
+<a name="1.7.22"></a>
+## [1.7.22](https://github.com/oclif/oclif/compare/v1.7.21...v1.7.22) (2018-04-08)
+
+
+### Bug Fixes
+
+* fixed lint issues ([3048e06](https://github.com/oclif/oclif/commit/3048e06))
+* remove unneeded script ([016849f](https://github.com/oclif/oclif/commit/016849f))
+
 <a name="1.7.21"></a>
 ## [1.7.21](https://github.com/oclif/oclif/compare/v1.7.20...v1.7.21) (2018-04-08)
 

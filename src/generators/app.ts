@@ -503,8 +503,9 @@ class App extends Generator {
     const opts = {...this as any, _, bin, cmd}
     this.fs.copyTpl(this.templatePath('plugin/bin/run'), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
+    const commandPath = this.destinationPath(`src/commands/hello.${this._ext}`)
     if (!fs.existsSync('src/commands')) {
-      this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/commands/hello.${this._ext}`), {...opts, name: 'hello'})
+      this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), commandPath, {...opts, name: 'hello', path: commandPath.replace(process.cwd(), '.')})
     }
     if (this.ts && this.type !== 'multi') {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
@@ -519,8 +520,9 @@ class App extends Generator {
     const opts = {...this as any, _, bin, cmd: bin, name: this.pjson.name}
     this.fs.copyTpl(this.templatePath(`single/bin/run.${this._ext}`), this.destinationPath('bin/run'), opts)
     this.fs.copyTpl(this.templatePath('bin/run.cmd'), this.destinationPath('bin/run.cmd'), opts)
+    const commandPath = this.destinationPath(`src/index.${this._ext}`)
     if (!this.fs.exists(`src/index.${this._ext}`)) {
-      this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), opts)
+      this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {...opts, path: commandPath.replace(process.cwd(), '.')})
     }
     if (this.mocha && !this.fs.exists(`test/index.test.${this._ext}`)) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)

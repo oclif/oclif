@@ -249,7 +249,6 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    let npm = this.yarn ? 'yarn' : 'npm'
     if (this.ts) {
       const tsProject = this.mocha ? 'test' : '.'
       this.pjson.scripts.posttest = `tsc -p ${tsProject} --noEmit`
@@ -263,7 +262,7 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepack = `rm -rf lib && tsc`
+      this.pjson.scripts.prepack = 'rm -rf lib && tsc'
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest')

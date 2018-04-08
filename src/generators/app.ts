@@ -463,7 +463,7 @@ class App extends Generator {
       '.oclif.manifest.json',
       '*-debug.log',
       '*-error.log',
-      '/node_modules',
+      'node_modules',
       '/tmp',
       '/dist',
       this.yarn ? '/package-lock.json' : '/yarn.lock',

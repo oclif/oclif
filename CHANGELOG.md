@@ -1,3 +1,11 @@
+<a name="1.7.24"></a>
+## [1.7.24](https://github.com/oclif/oclif/compare/v1.7.23...v1.7.24) (2018-04-08)
+
+
+### Bug Fixes
+
+* lock down deps ([ac95a07](https://github.com/oclif/oclif/commit/ac95a07))
+
 <a name="1.7.23"></a>
 ## [1.7.23](https://github.com/oclif/oclif/compare/v1.7.22...v1.7.23) (2018-04-08)
 

@@ -383,64 +383,61 @@ class App extends Generator {
       case 'base': break
       case 'single':
         dependencies.push(
-          '@oclif/config',
-          '@oclif/command',
-          '@oclif/plugin-help',
+          '@oclif/config@1',
+          '@oclif/command@1',
+          '@oclif/plugin-help@1',
         )
         break
       case 'plugin':
         dependencies.push(
-          '@oclif/command',
-          '@oclif/config',
+          '@oclif/command@1',
+          '@oclif/config@1',
         )
         devDependencies.push(
-          '@oclif/dev-cli',
-          '@oclif/plugin-help',
-          'globby',
+          '@oclif/dev-cli@1',
+          '@oclif/plugin-help@1',
+          'globby@8',
         )
         break
       case 'multi':
         dependencies.push(
-          '@oclif/config',
-          '@oclif/command',
-          '@oclif/plugin-help',
+          '@oclif/config@1',
+          '@oclif/command@1',
+          '@oclif/plugin-help@1',
         )
         devDependencies.push(
-          '@oclif/dev-cli',
-          'globby',
+          '@oclif/dev-cli@1',
+          'globby@8',
         )
     }
     if (this.mocha) {
       devDependencies.push(
-        'mocha',
-        'chai',
+        'mocha@5',
+        'chai@4',
       )
       if (this.type !== 'base') devDependencies.push(
-        '@oclif/test',
+        '@oclif/test@1',
       )
     }
     if (this.ts) {
       devDependencies.push(
-        // '@types/ansi-styles',
-        '@types/chai',
-        '@types/mocha',
-        '@types/node',
-        // '@types/strip-ansi',
-        // '@types/supports-color',
-        'typescript',
+        '@types/chai@4',
+        '@types/mocha@5',
+        '@types/node@9',
+        'typescript@2.8',
         'ts-node@5',
-        'tslib',
+        'tslib@1',
       )
       if (this.tslint) {
         devDependencies.push(
-          '@oclif/tslint',
-          'tslint',
+          '@oclif/tslint@1',
+          'tslint@5',
         )
       }
     } else {
       devDependencies.push(
-        'eslint',
-        'eslint-config-oclif',
+        'eslint@4',
+        'eslint-config-oclif@1',
       )
     }
     let yarnOpts = {} as any

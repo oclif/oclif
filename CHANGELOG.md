@@ -1,3 +1,11 @@
+<a name="1.7.26"></a>
+## [1.7.26](https://github.com/oclif/oclif/compare/v1.7.25...v1.7.26) (2018-04-09)
+
+
+### Bug Fixes
+
+* add descriptions for circle tasks ([494d6ac](https://github.com/oclif/oclif/commit/494d6ac))
+
 <a name="1.7.25"></a>
 ## [1.7.25](https://github.com/oclif/oclif/compare/v1.7.24...v1.7.25) (2018-04-09)
 

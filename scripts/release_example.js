@@ -48,6 +48,9 @@ module.exports = (_, options) => {
     })
 
     sh.exec(`oclif ${type} --force --defaults ${options}`)
+    if (type === 'multi') {
+      sh.exec(`oclif command goodbye --force --defaults ${options}`)
+    }
     sh.exec('git add -A')
     try {
       execa.sync('git', ['commit', '-m', `${releaseType === 'patch' ? 'fix' : 'feat'}: oclif v${version}\n\n${notes}`], {stdio: 'inherit'})

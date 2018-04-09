@@ -1,3 +1,12 @@
+<a name="1.7.28"></a>
+## [1.7.28](https://github.com/oclif/oclif/compare/v1.7.27...v1.7.28) (2018-04-09)
+
+
+### Bug Fixes
+
+* add another command to multi examples ([3fc97ec](https://github.com/oclif/oclif/commit/3fc97ec))
+* command example generation ([41c00ca](https://github.com/oclif/oclif/commit/41c00ca))
+
 <a name="1.7.27"></a>
 ## [1.7.27](https://github.com/oclif/oclif/compare/v1.7.26...v1.7.27) (2018-04-09)
 

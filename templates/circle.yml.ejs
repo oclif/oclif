@@ -17,7 +17,7 @@ jobs:
             - v1-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
             - v1-yarn-{{checksum ".circleci/config.yml"}}
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
             .circleci/greenkeeper
             yarn add -D nyc@11 @oclif/nyc-config@1 mocha-junit-reporter@1
@@ -29,7 +29,7 @@ jobs:
       <%_ } _%>
       <%_ if (mocha) { _%>
       - run:
-          name: yarn test
+          name: Testing
           command: |
             mkdir -p reports
             $NYC yarn test --reporter mocha-junit-reporter
@@ -52,17 +52,17 @@ jobs:
       - checkout
       - restore_cache: *restore_cache
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
             yarn global add @oclif/semantic-release@3 semantic-release@15
             yarn --frozen-lockfile
       - run:
-          name: semantic-release
+          name: Cutting release
           command: |
             export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
             semantic-release -e @oclif/semantic-release
       - run:
-          name: add dev packages to cache
+          name: Add dev packages to cache
           command: yarn add -D nyc@11 @oclif/nyc-config@1 mocha-junit-reporter@1
       - save_cache:
           key: v1-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}

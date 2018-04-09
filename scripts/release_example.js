@@ -49,7 +49,7 @@ module.exports = (_, options) => {
 
     sh.exec(`oclif ${type} --force --defaults ${options}`)
     if (type === 'multi') {
-      sh.exec(`oclif command goodbye --force --defaults ${options}`)
+      sh.exec(`oclif command goodbye --force --defaults`)
     }
     sh.exec('git add -A')
     try {

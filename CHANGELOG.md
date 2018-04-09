@@ -1,3 +1,11 @@
+<a name="1.7.27"></a>
+## [1.7.27](https://github.com/oclif/oclif/compare/v1.7.26...v1.7.27) (2018-04-09)
+
+
+### Bug Fixes
+
+* generate readme before packing ([fe9be07](https://github.com/oclif/oclif/commit/fe9be07))
+
 <a name="1.7.26"></a>
 ## [1.7.26](https://github.com/oclif/oclif/compare/v1.7.25...v1.7.26) (2018-04-09)
 

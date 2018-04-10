@@ -29,8 +29,10 @@ jobs:
       <%_ if (mocha) { _%>
       - run:
           name: Testing
+          command: $NYC yarn test
+      - run:
+          name: Submitting code coverage to codecov
           command: |
-            $NYC yarn test
             $NYC report --reporter text-lcov > coverage.lcov
             curl -s https://codecov.io/bash | bash
       <%_ } else { _%>

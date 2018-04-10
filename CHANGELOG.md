@@ -1,3 +1,11 @@
+<a name="1.7.30"></a>
+## [1.7.30](https://github.com/oclif/oclif/compare/v1.7.29...v1.7.30) (2018-04-10)
+
+
+### Bug Fixes
+
+* break up code coverage into its own step ([0f2ecae](https://github.com/oclif/oclif/commit/0f2ecae))
+
 <a name="1.7.29"></a>
 ## [1.7.29](https://github.com/oclif/oclif/compare/v1.7.28...v1.7.29) (2018-04-10)
 

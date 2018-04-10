@@ -8,7 +8,6 @@ jobs:
     environment:
       <%_ if (mocha) { _%>
       NYC: "yarn exec nyc -- --nycrc-path node_modules/@oclif/nyc-config/.nycrc"
-      MOCHA_FILE: "reports/mocha.xml"
       <%_ } _%>
     steps:
       - checkout
@@ -31,15 +30,12 @@ jobs:
       - run:
           name: Testing
           command: |
-            mkdir -p reports
             $NYC yarn test
             $NYC report --reporter text-lcov > coverage.lcov
             curl -s https://codecov.io/bash | bash
       <%_ } else { _%>
       - run: yarn test
       <%_ } _%>
-      - store_test_results: &store_test_results
-          path: ~/cli/reports
   node-8:
     <<: *test
     docker:

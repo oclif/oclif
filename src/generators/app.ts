@@ -257,7 +257,7 @@ class App extends Generator {
       this.pjson.scripts.posttest = 'eslint .'
     }
     if (this.mocha) {
-      this.pjson.scripts.test = `mocha --forbid-only "test/**/*.test.${this._ext}"`
+      this.pjson.scripts.test = `nyc mocha --forbid-only "test/**/*.test.${this._ext}"`
     } else {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
@@ -326,13 +326,14 @@ class App extends Generator {
       this.fs.copyTpl(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'), this)
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
+        this.fs.copyTpl(this.templatePath('nycrc'), this.destinationPath('.nycrc'), this)
       }
     } else {
       this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
       const eslintignore = this._eslintignore()
       if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
     }
-    if (this.mocha && !this.fs.exists('test')) {
+    if (this.mocha) {
       this.fs.copyTpl(this.templatePath('test/helpers/init.js'), this.destinationPath('test/helpers/init.js'), this)
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
     }

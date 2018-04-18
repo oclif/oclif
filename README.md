@@ -124,14 +124,14 @@ hello world from ./src/hello.js!
 # 🔨 Commands
 
 <!-- commands -->
-* [oclif command NAME](#oclif-command-name)
-* [oclif help [COMMAND]](#oclif-help-command)
-* [oclif hook NAME](#oclif-hook-name)
-* [oclif multi [PATH]](#oclif-multi-path)
-* [oclif plugin [PATH]](#oclif-plugin-path)
-* [oclif single [PATH]](#oclif-single-path)
+* [`oclif command NAME`](#oclif-command-name)
+* [`oclif help [COMMAND]`](#oclif-help-command)
+* [`oclif hook NAME`](#oclif-hook-name)
+* [`oclif multi [PATH]`](#oclif-multi-path)
+* [`oclif plugin [PATH]`](#oclif-plugin-path)
+* [`oclif single [PATH]`](#oclif-single-path)
 
-## oclif command NAME
+## `oclif command NAME`
 
 add a command to an existing CLI or plugin
 
@@ -147,9 +147,9 @@ OPTIONS
   --force     overwrite existing files
 ```
 
-_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.7.31/src/commands/command.ts)_
+_See code: [src/commands/command.ts](https://github.com/oclif/oclif/blob/v1.7.32/src/commands/command.ts)_
 
-## oclif help [COMMAND]
+## `oclif help [COMMAND]`
 
 display help for oclif
 
@@ -166,7 +166,7 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.2.4/src/commands/help.ts)_
 
-## oclif hook NAME
+## `oclif hook NAME`
 
 add a hook to an existing CLI or plugin
 
@@ -183,9 +183,9 @@ OPTIONS
   --force        overwrite existing files
 ```
 
-_See code: [src/commands/hook.ts](https://github.com/oclif/oclif/blob/v1.7.31/src/commands/hook.ts)_
+_See code: [src/commands/hook.ts](https://github.com/oclif/oclif/blob/v1.7.32/src/commands/hook.ts)_
 
-## oclif multi [PATH]
+## `oclif multi [PATH]`
 
 generate a new multi-command CLI
 
@@ -202,9 +202,9 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.7.31/src/commands/multi.ts)_
+_See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.7.32/src/commands/multi.ts)_
 
-## oclif plugin [PATH]
+## `oclif plugin [PATH]`
 
 create a new CLI plugin
 
@@ -221,9 +221,9 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.7.31/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.7.32/src/commands/plugin.ts)_
 
-## oclif single [PATH]
+## `oclif single [PATH]`
 
 generate a new single-command CLI
 
@@ -240,7 +240,7 @@ OPTIONS
   --options=options  (yarn|typescript|tslint|semantic-release|mocha)
 ```
 
-_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.7.31/src/commands/single.ts)_
+_See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.7.32/src/commands/single.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

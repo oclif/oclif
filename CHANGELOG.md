@@ -1,3 +1,11 @@
+<a name="1.7.32"></a>
+## [1.7.32](https://github.com/oclif/oclif/compare/v1.7.31...v1.7.32) (2018-04-18)
+
+
+### Bug Fixes
+
+* use npm instead of yarn in CI scripts when not using yarn ([#108](https://github.com/oclif/oclif/issues/108)) ([04fc972](https://github.com/oclif/oclif/commit/04fc972))
+
 <a name="1.7.31"></a>
 ## [1.7.31](https://github.com/oclif/oclif/compare/v1.7.30...v1.7.31) (2018-04-17)
 

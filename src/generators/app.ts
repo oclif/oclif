@@ -268,7 +268,7 @@ class App extends Generator {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
       this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rm -f .oclif.manifest.json')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
-      this.pjson.files.push('.oclif.manifest.json')
+      this.pjson.files.push('/.oclif.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`

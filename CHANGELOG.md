@@ -1,3 +1,11 @@
+<a name="1.7.34"></a>
+## [1.7.34](https://github.com/oclif/oclif/compare/v1.7.33...v1.7.34) (2018-04-20)
+
+
+### Bug Fixes
+
+* only add root manifest ([e09b530](https://github.com/oclif/oclif/commit/e09b530))
+
 <a name="1.7.33"></a>
 ## [1.7.33](https://github.com/oclif/oclif/compare/v1.7.32...v1.7.33) (2018-04-20)
 

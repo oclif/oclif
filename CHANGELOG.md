@@ -1,3 +1,11 @@
+<a name="1.7.33"></a>
+## [1.7.33](https://github.com/oclif/oclif/compare/v1.7.32...v1.7.33) (2018-04-20)
+
+
+### Bug Fixes
+
+* gitignore nyc_output ([270c5ef](https://github.com/oclif/oclif/commit/270c5ef))
+
 <a name="1.7.32"></a>
 ## [1.7.32](https://github.com/oclif/oclif/compare/v1.7.31...v1.7.32) (2018-04-18)
 

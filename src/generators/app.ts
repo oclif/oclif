@@ -466,6 +466,7 @@ class App extends Generator {
       'node_modules',
       '/tmp',
       '/dist',
+      '/.nyc_output',
       this.yarn ? '/package-lock.json' : '/yarn.lock',
       this.ts && '/lib',
     ])

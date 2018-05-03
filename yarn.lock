@@ -43,19 +43,28 @@
     debug "^3.1.0"
     semver "^5.5.0"
 
-"@oclif/config@^1.6.16":
-  version "1.6.16"
-  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.6.16.tgz#6bcb03bf30ee54eeafa788777d965bf47bb5047d"
+"@oclif/command@^1.4.19":
+  version "1.4.19"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.19.tgz#7158eec97d9b4c4a109181e6a71bd83d34757254"
+  dependencies:
+    "@oclif/errors" "^1.0.6"
+    "@oclif/parser" "^3.3.3"
+    debug "^3.1.0"
+    semver "^5.5.0"
+
+"@oclif/config@^1.6.17":
+  version "1.6.17"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.6.17.tgz#e9608f56e5acd49fcaf3bbfcc3e8818d81b1ba12"
   dependencies:
     debug "^3.1.0"
 
-"@oclif/dev-cli@^1.13.13":
-  version "1.13.13"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.13.13.tgz#40f60c002f2f915c11d9f7a09d2f46967ecc072a"
+"@oclif/dev-cli@^1.13.14":
+  version "1.13.14"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.13.14.tgz#fcfb899f6da512c6cdaf21e01667ec58217c677a"
   dependencies:
-    "@oclif/command" "^1.4.18"
-    "@oclif/config" "^1.6.16"
-    "@oclif/errors" "^1.0.7"
+    "@oclif/command" "^1.4.19"
+    "@oclif/config" "^1.6.17"
+    "@oclif/errors" "^1.0.8"
     "@oclif/plugin-help" "^1.2.7"
     cli-ux "^3.4.1"
     debug "^3.1.0"
@@ -76,9 +85,9 @@
     strip-ansi "^4.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/errors@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@oclif/errors/-/errors-1.0.7.tgz#13d7205801944c341534370e65140d21ab929e24"
+"@oclif/errors@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@oclif/errors/-/errors-1.0.8.tgz#2f8239267506bb7c3f5fd776144c2686e5b7fff7"
   dependencies:
     clean-stack "^1.3.0"
     fs-extra "^6.0.0"
@@ -109,6 +118,18 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
+"@oclif/plugin-help@^1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.8.tgz#35c3edd97d192d5bd741f95cc9e3642dfa6d9902"
+  dependencies:
+    "@oclif/command" "^1.4.19"
+    chalk "^2.4.1"
+    indent-string "^3.2.0"
+    lodash.template "^4.4.0"
+    string-width "^2.1.1"
+    widest-line "^2.0.0"
+    wrap-ansi "^3.0.1"
+
 "@oclif/plugin-not-found@^1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.8.tgz#5d71f8b9acfc5b45563196eebd3214313a06a14b"
@@ -117,13 +138,13 @@
     "@oclif/command" "^1.4.18"
     string-similarity "^1.2.0"
 
-"@oclif/plugin-warn-if-update-available@^1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-1.3.7.tgz#175aef19d0aa2caf8d75e3d3e97124664d5670a4"
+"@oclif/plugin-warn-if-update-available@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-1.3.8.tgz#bc42e86b83a29a138c8b7ee4e8c38ac066f9adf3"
   dependencies:
-    "@oclif/command" "^1.4.18"
-    "@oclif/config" "^1.6.16"
-    "@oclif/errors" "^1.0.7"
+    "@oclif/command" "^1.4.19"
+    "@oclif/config" "^1.6.17"
+    "@oclif/errors" "^1.0.8"
     chalk "^2.4.1"
     debug "^3.1.0"
     fs-extra "^6.0.0"

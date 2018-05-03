@@ -266,9 +266,9 @@ class App extends Generator {
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
-      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rm -f .oclif.manifest.json')
+      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rm -f oclif.manifest.json')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
-      this.pjson.files.push('/.oclif.manifest.json')
+      this.pjson.files.push('/oclif.manifest.json')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
@@ -460,7 +460,6 @@ class App extends Generator {
   private _gitignore(): string {
     const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []
     return _([
-      '.oclif.manifest.json',
       '*-debug.log',
       '*-error.log',
       'node_modules',

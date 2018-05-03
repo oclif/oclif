@@ -1,3 +1,11 @@
+<a name="1.7.37"></a>
+## [1.7.37](https://github.com/oclif/oclif/compare/v1.7.36...v1.7.37) (2018-05-03)
+
+
+### Bug Fixes
+
+* rename oclif manifest to not be a dotfile ([84d16a2](https://github.com/oclif/oclif/commit/84d16a2))
+
 <a name="1.7.36"></a>
 ## [1.7.36](https://github.com/oclif/oclif/compare/v1.7.35...v1.7.36) (2018-05-01)
 

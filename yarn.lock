@@ -34,20 +34,20 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@oclif/command@^1.4.18":
-  version "1.4.18"
-  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.18.tgz#1095bab6917287a5e87eb7529d4d39d7fc53d362"
+"@oclif/command@^1.4.19":
+  version "1.4.19"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.19.tgz#7158eec97d9b4c4a109181e6a71bd83d34757254"
   dependencies:
     "@oclif/errors" "^1.0.6"
     "@oclif/parser" "^3.3.3"
     debug "^3.1.0"
     semver "^5.5.0"
 
-"@oclif/command@^1.4.19":
-  version "1.4.19"
-  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.19.tgz#7158eec97d9b4c4a109181e6a71bd83d34757254"
+"@oclif/command@^1.4.20":
+  version "1.4.20"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.20.tgz#7368c9c9f7f596fc8efffd7ec89118feed5203d8"
   dependencies:
-    "@oclif/errors" "^1.0.6"
+    "@oclif/errors" "^1.0.8"
     "@oclif/parser" "^3.3.3"
     debug "^3.1.0"
     semver "^5.5.0"
@@ -58,14 +58,14 @@
   dependencies:
     debug "^3.1.0"
 
-"@oclif/dev-cli@^1.13.14":
-  version "1.13.14"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.13.14.tgz#fcfb899f6da512c6cdaf21e01667ec58217c677a"
+"@oclif/dev-cli@^1.13.15":
+  version "1.13.15"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.13.15.tgz#cc02e5b8c1fdb9b04973926e5b9f034c3f7ed64c"
   dependencies:
-    "@oclif/command" "^1.4.19"
+    "@oclif/command" "^1.4.20"
     "@oclif/config" "^1.6.17"
     "@oclif/errors" "^1.0.8"
-    "@oclif/plugin-help" "^1.2.7"
+    "@oclif/plugin-help" "^1.2.10"
     cli-ux "^3.4.1"
     debug "^3.1.0"
     fs-extra "^6.0.0"
@@ -106,11 +106,11 @@
     "@oclif/linewrap" "^1.0.0"
     chalk "^2.4.0"
 
-"@oclif/plugin-help@^1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.7.tgz#4fdfa9cfe53b8bc68b6fabba1126e13debebc87b"
+"@oclif/plugin-help@^1.2.10":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.10.tgz#c2bb2b8f09027bf5a55e96346b8525d4dcff8c3e"
   dependencies:
-    "@oclif/command" "^1.4.18"
+    "@oclif/command" "^1.4.20"
     chalk "^2.4.1"
     indent-string "^3.2.0"
     lodash.template "^4.4.0"
@@ -118,24 +118,12 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
-"@oclif/plugin-help@^1.2.8":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-1.2.8.tgz#35c3edd97d192d5bd741f95cc9e3642dfa6d9902"
-  dependencies:
-    "@oclif/command" "^1.4.19"
-    chalk "^2.4.1"
-    indent-string "^3.2.0"
-    lodash.template "^4.4.0"
-    string-width "^2.1.1"
-    widest-line "^2.0.0"
-    wrap-ansi "^3.0.1"
-
-"@oclif/plugin-not-found@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.8.tgz#5d71f8b9acfc5b45563196eebd3214313a06a14b"
+"@oclif/plugin-not-found@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.9.tgz#6758cf2fe349190256db4c9ba497e7fe9b53f27e"
   dependencies:
     "@heroku-cli/color" "^1.1.3"
-    "@oclif/command" "^1.4.18"
+    "@oclif/command" "^1.4.19"
     string-similarity "^1.2.0"
 
 "@oclif/plugin-warn-if-update-available@^1.3.8":
@@ -3385,9 +3373,9 @@ tslint-xo@^0.7.0:
     tslint-eslint-rules "^5.1.0"
     tslint-microsoft-contrib "^5.0.2"
 
-tslint@^5.9.1:
-  version "5.9.1"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.9.1.tgz#1255f87a3ff57eb0b0e1f0e610a8b4748046c9ae"
+tslint@^5.10.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.10.0.tgz#11e26bccb88afa02dd0d9956cae3d4540b5f54c3"
   dependencies:
     babel-code-frame "^6.22.0"
     builtin-modules "^1.1.1"

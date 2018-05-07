@@ -384,62 +384,62 @@ class App extends Generator {
       case 'base': break
       case 'single':
         dependencies.push(
-          '@oclif/config@1',
-          '@oclif/command@1',
-          '@oclif/plugin-help@1',
+          '@oclif/config@^1',
+          '@oclif/command@^1',
+          '@oclif/plugin-help@^1',
         )
         break
       case 'plugin':
         dependencies.push(
-          '@oclif/command@1',
-          '@oclif/config@1',
+          '@oclif/command@^1',
+          '@oclif/config@^1',
         )
         devDependencies.push(
-          '@oclif/dev-cli@1',
-          '@oclif/plugin-help@1',
-          'globby@8',
+          '@oclif/dev-cli@^1',
+          '@oclif/plugin-help@^1',
+          'globby@^8',
         )
         break
       case 'multi':
         dependencies.push(
-          '@oclif/config@1',
-          '@oclif/command@1',
-          '@oclif/plugin-help@1',
+          '@oclif/config@^1',
+          '@oclif/command@^1',
+          '@oclif/plugin-help@^1',
         )
         devDependencies.push(
-          '@oclif/dev-cli@1',
-          'globby@8',
+          '@oclif/dev-cli@^1',
+          'globby@^8',
         )
     }
     if (this.mocha) {
       devDependencies.push(
-        'mocha@5',
-        'nyc@11',
-        'chai@4',
+        'mocha@^5',
+        'nyc@^11',
+        'chai@^4',
       )
       if (this.type !== 'base') devDependencies.push(
-        '@oclif/test@1',
+        '@oclif/test@^1',
       )
     }
     if (this.ts) {
       devDependencies.push(
-        '@types/chai@4',
-        '@types/mocha@5',
-        '@types/node@9',
-        'typescript@2.8',
-        'ts-node@5',
-        'tslib@1',
+        '@types/chai@^4',
+        '@types/mocha@^5',
+        '@types/node@^9',
+        'typescript@^2.8',
+        'ts-node@^5',
+        'tslib@^1',
       )
       if (this.tslint) {
         devDependencies.push(
-          '@oclif/tslint@1',
-          'tslint@5',
+          '@oclif/tslint@^1',
+          'tslint@^5',
         )
       }
     } else {
       devDependencies.push(
-        'eslint@4',
-        'eslint-config-oclif@1',
+        'eslint@^4',
+        'eslint-config-oclif@^1',
       )
     }
     let yarnOpts = {} as any

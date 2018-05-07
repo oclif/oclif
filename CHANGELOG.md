@@ -1,3 +1,11 @@
+<a name="1.7.40"></a>
+## [1.7.40](https://github.com/oclif/oclif/compare/v1.7.39...v1.7.40) (2018-05-07)
+
+
+### Bug Fixes
+
+* ts-node 6 ([98580b1](https://github.com/oclif/oclif/commit/98580b1))
+
 <a name="1.7.39"></a>
 ## [1.7.39](https://github.com/oclif/oclif/compare/v1.7.38...v1.7.39) (2018-05-07)
 

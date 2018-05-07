@@ -1,3 +1,11 @@
+<a name="1.7.39"></a>
+## [1.7.39](https://github.com/oclif/oclif/compare/v1.7.38...v1.7.39) (2018-05-07)
+
+
+### Bug Fixes
+
+* use caret versions ([8f582e8](https://github.com/oclif/oclif/commit/8f582e8))
+
 <a name="1.7.38"></a>
 ## [1.7.38](https://github.com/oclif/oclif/compare/v1.7.37...v1.7.38) (2018-05-04)
 

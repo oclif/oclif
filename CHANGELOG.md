@@ -1,3 +1,11 @@
+<a name="1.7.42"></a>
+## [1.7.42](https://github.com/oclif/oclif/compare/v1.7.41...v1.7.42) (2018-05-10)
+
+
+### Bug Fixes
+
+* [@typs](https://github.com/typs)/node@10 ([e9b6991](https://github.com/oclif/oclif/commit/e9b6991))
+
 <a name="1.7.41"></a>
 ## [1.7.41](https://github.com/oclif/oclif/compare/v1.7.40...v1.7.41) (2018-05-10)
 

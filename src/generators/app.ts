@@ -425,7 +425,7 @@ class App extends Generator {
       devDependencies.push(
         '@types/chai@^4',
         '@types/mocha@^5',
-        '@types/node@^9',
+        '@types/node@^10',
         'typescript@^2.8',
         'ts-node@^6',
         'tslib@^1',

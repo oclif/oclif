@@ -422,13 +422,15 @@ class App extends Generator {
       )
     }
     if (this.ts) {
+      dependencies.push(
+        'tslib@^1',
+      )
       devDependencies.push(
         '@types/chai@^4',
         '@types/mocha@^5',
         '@types/node@^10',
         'typescript@^2.8',
         'ts-node@^6',
-        'tslib@^1',
       )
       if (this.tslint) {
         devDependencies.push(

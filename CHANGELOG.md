@@ -1,3 +1,11 @@
+<a name="1.7.45"></a>
+## [1.7.45](https://github.com/oclif/oclif/compare/v1.7.44...v1.7.45) (2018-05-13)
+
+
+### Bug Fixes
+
+* flush stdout on exit ([69c0e3e](https://github.com/oclif/oclif/commit/69c0e3e))
+
 <a name="1.7.44"></a>
 ## [1.7.44](https://github.com/oclif/oclif/compare/v1.7.43...v1.7.44) (2018-05-11)
 

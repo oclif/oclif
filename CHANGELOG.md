@@ -1,3 +1,11 @@
+<a name="1.7.46"></a>
+## [1.7.46](https://github.com/oclif/oclif/compare/v1.7.45...v1.7.46) (2018-05-14)
+
+
+### Bug Fixes
+
+* updated deps ([6077f5a](https://github.com/oclif/oclif/commit/6077f5a))
+
 <a name="1.7.45"></a>
 ## [1.7.45](https://github.com/oclif/oclif/compare/v1.7.44...v1.7.45) (2018-05-13)
 

@@ -1,3 +1,11 @@
+<a name="1.7.50"></a>
+## [1.7.50](https://github.com/oclif/oclif/compare/v1.7.49...v1.7.50) (2018-05-24)
+
+
+### Bug Fixes
+
+* add yarn.lock to npm files for plugins ([06f5893](https://github.com/oclif/oclif/commit/06f5893))
+
 <a name="1.7.49"></a>
 ## [1.7.49](https://github.com/oclif/oclif/compare/v1.7.48...v1.7.49) (2018-05-22)
 

@@ -270,6 +270,10 @@ class App extends Generator {
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')
     }
+    if (this.type === 'plugin' && hasYarn) {
+      // for plugins, add yarn.lock file to package so we can lock plugin dependencies
+      this.pjson.files.push('/yarn.lock')
+    }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`

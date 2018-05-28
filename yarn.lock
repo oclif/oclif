@@ -124,6 +124,18 @@
     widest-line "^2.0.0"
     wrap-ansi "^3.0.1"
 
+"@oclif/plugin-help@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-2.0.0.tgz#126f00af0b3274a5479ab70cb7619887049473c1"
+  dependencies:
+    "@oclif/command" "^1.4.29"
+    chalk "^2.4.1"
+    indent-string "^3.2.0"
+    lodash.template "^4.4.0"
+    string-width "^2.1.1"
+    widest-line "^2.0.0"
+    wrap-ansi "^3.0.1"
+
 "@oclif/plugin-not-found@^1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-1.0.9.tgz#6758cf2fe349190256db4c9ba497e7fe9b53f27e"

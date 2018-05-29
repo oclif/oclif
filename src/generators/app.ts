@@ -262,11 +262,11 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepack = 'rm -rf lib && tsc'
+      this.pjson.scripts.prepack = 'rimraf lib && tsc'
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
-      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rm -f oclif.manifest.json')
+      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rimraf oclif.manifest.json')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')
     }
@@ -402,6 +402,7 @@ class App extends Generator {
           '@oclif/dev-cli@^1',
           '@oclif/plugin-help@^1',
           'globby@^8',
+          'rimraf',
         )
         break
       case 'multi':
@@ -413,6 +414,7 @@ class App extends Generator {
         devDependencies.push(
           '@oclif/dev-cli@^1',
           'globby@^8',
+          'rimraf',
         )
     }
     if (this.mocha) {

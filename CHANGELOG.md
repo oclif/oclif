@@ -1,3 +1,11 @@
+<a name="1.7.52"></a>
+## [1.7.52](https://github.com/oclif/oclif/compare/v1.7.51...v1.7.52) (2018-05-30)
+
+
+### Bug Fixes
+
+* command descriptions not showing up in the help ([#124](https://github.com/oclif/oclif/issues/124)) ([dd37310](https://github.com/oclif/oclif/commit/dd37310))
+
 <a name="1.7.51"></a>
 ## [1.7.51](https://github.com/oclif/oclif/compare/v1.7.50...v1.7.51) (2018-05-28)
 

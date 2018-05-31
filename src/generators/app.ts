@@ -390,7 +390,7 @@ class App extends Generator {
         dependencies.push(
           '@oclif/config@^1',
           '@oclif/command@^1',
-          '@oclif/plugin-help@^1',
+          '@oclif/plugin-help@^2',
         )
         break
       case 'plugin':
@@ -400,7 +400,7 @@ class App extends Generator {
         )
         devDependencies.push(
           '@oclif/dev-cli@^1',
-          '@oclif/plugin-help@^1',
+          '@oclif/plugin-help@^2',
           'globby@^8',
         )
         break
@@ -408,7 +408,7 @@ class App extends Generator {
         dependencies.push(
           '@oclif/config@^1',
           '@oclif/command@^1',
-          '@oclif/plugin-help@^1',
+          '@oclif/plugin-help@^2',
         )
         devDependencies.push(
           '@oclif/dev-cli@^1',
@@ -433,7 +433,7 @@ class App extends Generator {
         '@types/chai@^4',
         '@types/mocha@^5',
         '@types/node@^10',
-        'typescript@^2.8',
+        'typescript@^2.9',
         'ts-node@^6',
       )
       if (this.tslint) {

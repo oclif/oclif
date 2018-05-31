@@ -1,5 +1,5 @@
 environment:
-  nodejs_version: "9"
+  nodejs_version: "10"
   # TEST_SERIES: "1"
   matrix:
     - TEST_TYPE: base

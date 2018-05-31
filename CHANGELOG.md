@@ -1,3 +1,11 @@
+<a name="1.7.53"></a>
+## [1.7.53](https://github.com/oclif/oclif/compare/v1.7.52...v1.7.53) (2018-05-31)
+
+
+### Bug Fixes
+
+* typescript 2.9 ([3c2b1ea](https://github.com/oclif/oclif/commit/3c2b1ea))
+
 <a name="1.7.52"></a>
 ## [1.7.52](https://github.com/oclif/oclif/compare/v1.7.51...v1.7.52) (2018-05-30)
 

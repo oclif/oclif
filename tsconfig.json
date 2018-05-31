@@ -5,7 +5,8 @@
     "importHelpers": true,
     "module": "commonjs",
     "outDir": "./lib",
-    "pretty": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "rootDirs": [
       "./src"
     ],

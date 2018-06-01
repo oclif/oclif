@@ -1,3 +1,13 @@
+<a name="1.7.54"></a>
+## [1.7.54](https://github.com/oclif/oclif/compare/v1.7.53...v1.7.54) (2018-06-01)
+
+
+### Bug Fixes
+
+* add tslib ([360924a](https://github.com/oclif/oclif/commit/360924a))
+* path names for eslint ([64808b3](https://github.com/oclif/oclif/commit/64808b3))
+* typescript 2.9 ([0774d0f](https://github.com/oclif/oclif/commit/0774d0f))
+
 <a name="1.7.53"></a>
 ## [1.7.53](https://github.com/oclif/oclif/compare/v1.7.52...v1.7.53) (2018-05-31)
 

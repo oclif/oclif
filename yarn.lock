@@ -52,9 +52,9 @@
     debug "^3.1.0"
     semver "^5.5.0"
 
-"@oclif/command@^1.4.31":
-  version "1.4.31"
-  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.31.tgz#14aece1d9d9e53cc5a5dc03d17cf315cd55818f9"
+"@oclif/command@^1.4.32":
+  version "1.4.32"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.32.tgz#1cb2eb9637340a1ac69da35e407316688f736647"
   dependencies:
     "@oclif/errors" "^1.1.2"
     "@oclif/parser" "^3.4.1"
@@ -73,11 +73,12 @@
   dependencies:
     debug "^3.1.0"
 
-"@oclif/config@^1.6.24":
-  version "1.6.24"
-  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.6.24.tgz#ee11b171af91aba686f6b5109d8baf2509e20c16"
+"@oclif/config@^1.6.27":
+  version "1.6.27"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.6.27.tgz#d3de1cff71301784c8e4ee3903d3f7db21a18c3f"
   dependencies:
     debug "^3.1.0"
+    tslib "^1.9.2"
 
 "@oclif/dev-cli@^1.13.29":
   version "1.13.29"
@@ -1336,9 +1337,9 @@ extract-stack@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/extract-stack/-/extract-stack-1.0.0.tgz#b97acaf9441eea2332529624b732fc5a1c8165fa"
 
-fancy-test@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-1.1.0.tgz#c6bd432c9f816cc6fb048bb98c9a57f1fa517074"
+fancy-test@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-1.1.2.tgz#570db0c24ac49f49d780385abbee121757de5e46"
   dependencies:
     "@types/chai" "^4.1.3"
     "@types/lodash" "^4.14.109"

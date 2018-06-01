@@ -17,6 +17,7 @@
     "lodash": "^4.17.10",
     "nps-utils": "^1.5.0",
     "sort-pjson": "^1.0.2",
+    "tslib": "^1.9.2",
     "yeoman-environment": "^2.2.0",
     "yeoman-generator": "^2.0.5",
     "yosay": "^2.0.2"

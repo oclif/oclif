@@ -2,10 +2,10 @@
 // tslint:disable no-console
 
 import {execSync} from 'child_process'
-import fs from 'fs'
-import _ from 'lodash'
-import path from 'path'
-import Generator from 'yeoman-generator'
+import * as fs from 'fs'
+import * as _ from 'lodash'
+import * as path from 'path'
+import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
 const nps = require('nps-utils')

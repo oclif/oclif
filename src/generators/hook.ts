@@ -1,9 +1,9 @@
 // tslint:disable no-floating-promises
 // tslint:disable no-console
 
-import _ from 'lodash'
-import path from 'path'
-import Generator from 'yeoman-generator'
+import * as _ from 'lodash'
+import * as path from 'path'
+import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
 import {Options} from '../commands/hook'

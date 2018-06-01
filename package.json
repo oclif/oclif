@@ -7,7 +7,7 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@oclif/command": "^1.4.31",
-    "@oclif/config": "^1.6.22",
+    "@oclif/config": "^1.6.24",
     "@oclif/errors": "^1.1.2",
     "@oclif/plugin-help": "^2.0.4",
     "@oclif/plugin-not-found": "^1.0.9",
@@ -33,7 +33,7 @@
     "eslint": "^4.19.1",
     "eslint-config-oclif": "^1.5.1",
     "execa": "^0.10.0",
-    "fancy-test": "^1.0.9",
+    "fancy-test": "^1.1.0",
     "fs-extra": "^6.0.1",
     "globby": "^8.0.1",
     "mocha": "^5.2.0",

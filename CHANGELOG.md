@@ -1,3 +1,11 @@
+<a name="1.7.56"></a>
+## [1.7.56](https://github.com/oclif/oclif/compare/v1.7.55...v1.7.56) (2018-06-01)
+
+
+### Bug Fixes
+
+* nyc@12 ([8984592](https://github.com/oclif/oclif/commit/8984592))
+
 <a name="1.7.55"></a>
 ## [1.7.55](https://github.com/oclif/oclif/compare/v1.7.54...v1.7.55) (2018-06-01)
 

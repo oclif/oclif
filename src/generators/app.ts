@@ -262,6 +262,7 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
+      this.pjson.scripts.prepare = 'rm -rf lib && tsc'
       this.pjson.scripts.prepack = 'rm -rf lib && tsc'
     }
     if (['plugin', 'multi'].includes(this.type)) {

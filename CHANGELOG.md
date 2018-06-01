@@ -1,3 +1,14 @@
+<a name="1.7.55"></a>
+## [1.7.55](https://github.com/oclif/oclif/compare/v1.7.54...v1.7.55) (2018-06-01)
+
+
+### Bug Fixes
+
+* add prepare step ([dd927fb](https://github.com/oclif/oclif/commit/dd927fb))
+* remove es module config ([80ef22b](https://github.com/oclif/oclif/commit/80ef22b))
+* updated deps ([64a13d1](https://github.com/oclif/oclif/commit/64a13d1))
+* updated fancy-test ([a58f942](https://github.com/oclif/oclif/commit/a58f942))
+
 <a name="1.7.54"></a>
 ## [1.7.54](https://github.com/oclif/oclif/compare/v1.7.53...v1.7.54) (2018-06-01)
 

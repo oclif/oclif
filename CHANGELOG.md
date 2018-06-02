@@ -1,3 +1,11 @@
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/oclif/oclif/compare/v1.7.56...v1.8.0) (2018-06-02)
+
+
+### Features
+
+* add oclif badge ([620707c](https://github.com/oclif/oclif/commit/620707c))
+
 <a name="1.7.56"></a>
 ## [1.7.56](https://github.com/oclif/oclif/compare/v1.7.55...v1.7.56) (2018-06-01)
 

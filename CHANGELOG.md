@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/oclif/oclif/compare/v1.8.0...v1.8.1) (2018-06-10)
+
+
+### Bug Fixes
+
+* updated deps ([50604af](https://github.com/oclif/oclif/commit/50604af))
+
 <a name="1.8.0"></a>
 # [1.8.0](https://github.com/oclif/oclif/compare/v1.7.56...v1.8.0) (2018-06-02)
 

@@ -249,6 +249,7 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    const isWin32 = process.platform === 'win32'
     if (this.ts) {
       const tsProject = this.mocha ? 'test' : '.'
       this.pjson.scripts.posttest = `tsc -p ${tsProject} --noEmit`
@@ -262,11 +263,11 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepare = 'rm -rf lib && tsc'
+      this.pjson.scripts.prepare = `${isWin32 ? 'rimraf' : 'rm -rf'} lib && tsc`
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
-      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, 'rimraf oclif.manifest.json')
+      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, `${isWin32 ? 'rimraf' : 'rm -rf'} oclif.manifest.json`)
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')
     }
@@ -402,8 +403,12 @@ class App extends Generator {
           '@oclif/dev-cli@^1',
           '@oclif/plugin-help@^2',
           'globby@^8',
-          'rimraf',
         )
+        if (process.platform === 'win32') {
+          devDependencies.push(
+            'rimraf',
+          )
+        }
         break
       case 'multi':
         dependencies.push(
@@ -414,8 +419,12 @@ class App extends Generator {
         devDependencies.push(
           '@oclif/dev-cli@^1',
           'globby@^8',
-          'rimraf',
         )
+        if (process.platform === 'win32') {
+          devDependencies.push(
+            'rimraf',
+          )
+        }
     }
     if (this.mocha) {
       devDependencies.push(

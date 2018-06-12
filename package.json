@@ -7,7 +7,7 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@oclif/command": "^1.4.33",
-    "@oclif/config": "^1.6.27",
+    "@oclif/config": "^1.6.28",
     "@oclif/errors": "^1.1.2",
     "@oclif/plugin-help": "^2.0.5",
     "@oclif/plugin-not-found": "^1.0.9",
@@ -23,7 +23,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1.13.30",
+    "@oclif/dev-cli": "^1.13.31",
     "@oclif/tslint": "^1.1.2",
     "@types/lodash": "^4.14.109",
     "@types/read-pkg": "^3.0.0",
@@ -42,7 +42,7 @@
     "nps": "^5.9.0",
     "shelljs": "^0.8.2",
     "tmp": "^0.0.33",
-    "ts-node": "^6.1.0",
+    "ts-node": "^6.1.1",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1"
   },

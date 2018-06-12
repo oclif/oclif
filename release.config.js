@@ -16,7 +16,7 @@ module.exports = {
       path: '@semantic-release/exec',
       cmd: 'OCLIF_NEXT_VERSION=${nextRelease.version} yarn run version',
     },
-    {path: './scripts/release_example'},
+    {path: './scripts/release-example'},
     '@semantic-release/changelog',
     '@semantic-release/npm',
     {
@@ -29,7 +29,7 @@ module.exports = {
     '@semantic-release/github',
     {
       path: '@semantic-release/exec',
-      cmd: './scripts/release_create_oclif.js',
+      cmd: './scripts/release-create-oclif.js',
     },
   ],
 }

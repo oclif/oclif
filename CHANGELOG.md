@@ -1,3 +1,63 @@
+## [1.8.1](https://github.com/oclif/oclif/compare/v1.8.0...v1.8.1) (2018-06-10)
+
+
+### Bug Fixes
+
+* updated deps ([50604af](https://github.com/oclif/oclif/commit/50604af))
+
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/oclif/oclif/compare/v1.7.56...v1.8.0) (2018-06-02)
+
+
+### Features
+
+* add oclif badge ([620707c](https://github.com/oclif/oclif/commit/620707c))
+
+<a name="1.7.56"></a>
+## [1.7.56](https://github.com/oclif/oclif/compare/v1.7.55...v1.7.56) (2018-06-01)
+
+
+### Bug Fixes
+
+* nyc@12 ([8984592](https://github.com/oclif/oclif/commit/8984592))
+
+<a name="1.7.55"></a>
+## [1.7.55](https://github.com/oclif/oclif/compare/v1.7.54...v1.7.55) (2018-06-01)
+
+
+### Bug Fixes
+
+* add prepare step ([dd927fb](https://github.com/oclif/oclif/commit/dd927fb))
+* remove es module config ([80ef22b](https://github.com/oclif/oclif/commit/80ef22b))
+* updated deps ([64a13d1](https://github.com/oclif/oclif/commit/64a13d1))
+* updated fancy-test ([a58f942](https://github.com/oclif/oclif/commit/a58f942))
+
+<a name="1.7.54"></a>
+## [1.7.54](https://github.com/oclif/oclif/compare/v1.7.53...v1.7.54) (2018-06-01)
+
+
+### Bug Fixes
+
+* add tslib ([360924a](https://github.com/oclif/oclif/commit/360924a))
+* path names for eslint ([64808b3](https://github.com/oclif/oclif/commit/64808b3))
+* typescript 2.9 ([0774d0f](https://github.com/oclif/oclif/commit/0774d0f))
+
+<a name="1.7.53"></a>
+## [1.7.53](https://github.com/oclif/oclif/compare/v1.7.52...v1.7.53) (2018-05-31)
+
+
+### Bug Fixes
+
+* typescript 2.9 ([3c2b1ea](https://github.com/oclif/oclif/commit/3c2b1ea))
+
+<a name="1.7.52"></a>
+## [1.7.52](https://github.com/oclif/oclif/compare/v1.7.51...v1.7.52) (2018-05-30)
+
+
+### Bug Fixes
+
+* command descriptions not showing up in the help ([#124](https://github.com/oclif/oclif/issues/124)) ([dd37310](https://github.com/oclif/oclif/commit/dd37310))
+
 <a name="1.7.51"></a>
 ## [1.7.51](https://github.com/oclif/oclif/compare/v1.7.50...v1.7.51) (2018-05-28)
 

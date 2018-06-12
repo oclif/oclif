@@ -262,7 +262,7 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepack = 'rimraf lib && tsc'
+      this.pjson.scripts.prepare = 'rm -rf lib && tsc'
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
@@ -390,7 +390,7 @@ class App extends Generator {
         dependencies.push(
           '@oclif/config@^1',
           '@oclif/command@^1',
-          '@oclif/plugin-help@^1',
+          '@oclif/plugin-help@^2',
         )
         break
       case 'plugin':
@@ -400,7 +400,7 @@ class App extends Generator {
         )
         devDependencies.push(
           '@oclif/dev-cli@^1',
-          '@oclif/plugin-help@^1',
+          '@oclif/plugin-help@^2',
           'globby@^8',
           'rimraf',
         )
@@ -409,7 +409,7 @@ class App extends Generator {
         dependencies.push(
           '@oclif/config@^1',
           '@oclif/command@^1',
-          '@oclif/plugin-help@^1',
+          '@oclif/plugin-help@^2',
         )
         devDependencies.push(
           '@oclif/dev-cli@^1',
@@ -420,7 +420,7 @@ class App extends Generator {
     if (this.mocha) {
       devDependencies.push(
         'mocha@^5',
-        'nyc@^11',
+        'nyc@^12',
         'chai@^4',
       )
       if (this.type !== 'base') devDependencies.push(
@@ -435,7 +435,7 @@ class App extends Generator {
         '@types/chai@^4',
         '@types/mocha@^5',
         '@types/node@^10',
-        'typescript@^2.8',
+        'typescript@^2.9',
         'ts-node@^6',
       )
       if (this.tslint) {

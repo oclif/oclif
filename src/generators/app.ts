@@ -452,7 +452,7 @@ class App extends Generator {
         'eslint-config-oclif@^1',
       )
     }
-    if (process.platform === 'win32') devDependencies.push('rimraf')
+    if (isWindows) devDependencies.push('rimraf')
     let yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)

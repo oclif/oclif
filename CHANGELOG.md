@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/oclif/oclif/compare/v1.8.1...v1.8.2) (2018-06-12)
+
+
+### Bug Fixes
+
+* Add rimraf to devDependencies for single and multi projects and use it in npm scripts ([#123](https://github.com/oclif/oclif/issues/123)) ([764ade1](https://github.com/oclif/oclif/commit/764ade1))
+
 ## [1.8.1](https://github.com/oclif/oclif/compare/v1.8.0...v1.8.1) (2018-06-10)
 
 

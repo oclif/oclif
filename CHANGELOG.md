@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/oclif/oclif/compare/v1.8.2...v1.8.3) (2018-06-14)
+
+
+### Bug Fixes
+
+* add shrinkwrap file ([819e971](https://github.com/oclif/oclif/commit/819e971))
+
 ## [1.8.2](https://github.com/oclif/oclif/compare/v1.8.1...v1.8.2) (2018-06-12)
 
 

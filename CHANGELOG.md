@@ -1,3 +1,10 @@
+## [1.8.4](https://github.com/oclif/oclif/compare/v1.8.3...v1.8.4) (2018-06-14)
+
+
+### Bug Fixes
+
+* js setups ([ab161e5](https://github.com/oclif/oclif/commit/ab161e5))
+
 ## [1.8.3](https://github.com/oclif/oclif/compare/v1.8.2...v1.8.3) (2018-06-14)
 
 

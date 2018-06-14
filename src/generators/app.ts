@@ -266,13 +266,14 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepack = this.pjson.scripts.prepare = `${rmrf} lib && tsc`
+      this.pjson.scripts.prepack = this.pjson.scripts.prepare = nps.series(`${rmrf} lib`, 'tsc')
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
-      this.pjson.scripts.postpack = nps.series(this.pjson.scripts.postpack, `${rmf} oclif.manifest.json`)
+      this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc', 'oclif-dev manifest', 'oclif-dev readme', 'npm shrinkwrap')
+      this.pjson.scripts.postpack = `${rmf} oclif.manifest.json`
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')
+      this.pjson.files.push('/npm-shrinkwrap.json')
     }
     if (this.type === 'plugin' && hasYarn) {
       // for plugins, add yarn.lock file to package so we can lock plugin dependencies

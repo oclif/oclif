@@ -32,7 +32,7 @@
     "@types/yosay": "^0.0.29",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
-    "eslint-config-oclif": "^1.5.1",
+    "eslint-config-oclif": "^2.0.0",
     "execa": "^0.10.0",
     "fancy-test": "^1.1.4",
     "fs-extra": "^6.0.1",

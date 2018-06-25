@@ -1104,24 +1104,24 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-oclif@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-1.5.1.tgz#e8c5f31b8bb7383a666a506c3f6e91dbc861ecc5"
+eslint-config-oclif@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-2.0.0.tgz#51ee194f67f3315c1832f732873fd34b92992e94"
   dependencies:
-    eslint-config-xo-space "^0.18.0"
+    eslint-config-xo-space "^0.19.0"
     eslint-plugin-mocha "^5.0.0"
     eslint-plugin-node "^6.0.1"
     eslint-plugin-unicorn "^4.0.3"
 
-eslint-config-xo-space@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-xo-space/-/eslint-config-xo-space-0.18.0.tgz#92c8130b1ebaad9162bb822fdc8bc8e9f4fa5b8a"
+eslint-config-xo-space@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-xo-space/-/eslint-config-xo-space-0.19.0.tgz#73af4d047f8f0bfa86028f9c31bf795127becdde"
   dependencies:
-    eslint-config-xo "^0.20.0"
+    eslint-config-xo "^0.23.0"
 
-eslint-config-xo@^0.20.0:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.20.1.tgz#ad04db35e62bacedcf7b7e8a76388364a78d616d"
+eslint-config-xo@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.23.0.tgz#6f68c49145f90aac345deb7e88026af390116aae"
 
 eslint-plugin-mocha@^5.0.0:
   version "5.0.0"

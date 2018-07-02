@@ -1,3 +1,10 @@
+## [1.8.6](https://github.com/oclif/oclif/compare/v1.8.5...v1.8.6) (2018-07-02)
+
+
+### Bug Fixes
+
+* updated deps ([6f71fed](https://github.com/oclif/oclif/commit/6f71fed))
+
 ## [1.8.5](https://github.com/oclif/oclif/compare/v1.8.4...v1.8.5) (2018-06-16)
 
 

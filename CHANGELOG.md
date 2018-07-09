@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/oclif/oclif/compare/v1.8.6...v1.9.0) (2018-07-09)
+
+
+### Features
+
+* make circleci optional ([#137](https://github.com/oclif/oclif/issues/137)) ([259d304](https://github.com/oclif/oclif/commit/259d304))
+
 ## [1.8.6](https://github.com/oclif/oclif/compare/v1.8.5...v1.8.6) (2018-07-02)
 
 

@@ -226,7 +226,7 @@ class App extends Generator {
           choices: [
             {name: 'yarn (npm alternative)', value: 'yarn', checked: this.options.yarn || hasYarn},
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
-            {name: 'circleci (continuos integration/delivery service)', value: 'circleci', checked: true},
+            {name: 'circleci (continuous integration/delivery service)', value: 'circleci', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}

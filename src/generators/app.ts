@@ -42,6 +42,7 @@ class App extends Generator {
     defaults?: boolean
     mocha: boolean
     circleci: boolean
+    appveyor: boolean
     'semantic-release': boolean
     typescript: boolean
     tslint: boolean
@@ -65,6 +66,7 @@ class App extends Generator {
     options: {
       mocha: boolean
       circleci: boolean
+      appveyor: boolean
       typescript: boolean
       tslint: boolean
       yarn: boolean
@@ -73,6 +75,7 @@ class App extends Generator {
   }
   mocha!: boolean
   circleci!: boolean
+  appveyor!: boolean
   semantic_release!: boolean
   ts!: boolean
   tslint!: boolean
@@ -94,6 +97,7 @@ class App extends Generator {
       defaults: opts.defaults,
       mocha: opts.options.includes('mocha'),
       circleci: opts.options.includes('circleci'),
+      appveyor: opts.options.includes('appveyor'),
       'semantic-release': opts.options.includes('semantic-release'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
@@ -227,6 +231,7 @@ class App extends Generator {
             {name: 'yarn (npm alternative)', value: 'yarn', checked: this.options.yarn || hasYarn},
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'circleci (continuous integration/delivery service)', value: 'circleci', checked: true},
+            {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
@@ -249,6 +254,7 @@ class App extends Generator {
     this.yarn = this.options.yarn
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
+    this.appveyor = this.options.appveyor
     this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name
@@ -367,8 +373,10 @@ class App extends Generator {
       // this.fs.copyTpl(this.templatePath('scripts/setup_git'), this.destinationPath('.circleci/setup_git'), this)
       this.fs.copyTpl(this.templatePath('circle.yml.ejs'), this.destinationPath('.circleci/config.yml'), this)
     }
+    if (this.appveyor) {
+      this.fs.copyTpl(this.templatePath('appveyor.yml.ejs'), this.destinationPath('appveyor.yml'), this)
+    }
     this.fs.copyTpl(this.templatePath('README.md.ejs'), this.destinationPath('README.md'), this)
-    this.fs.copyTpl(this.templatePath('appveyor.yml.ejs'), this.destinationPath('appveyor.yml'), this)
     if (this.pjson.license === 'MIT' && (this.pjson.repository.startsWith('oclif') || this.pjson.repository.startsWith('heroku'))) {
       this.fs.copyTpl(this.templatePath('LICENSE.mit'), this.destinationPath('LICENSE'), this)
     }

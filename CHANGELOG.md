@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/oclif/oclif/compare/v1.11.1...v1.11.2) (2018-08-17)
+
+
+### Bug Fixes
+
+* use greenkeeper-lockfile@2 ([1e99237](https://github.com/oclif/oclif/commit/1e99237))
+
 ## [1.11.1](https://github.com/oclif/oclif/compare/v1.11.0...v1.11.1) (2018-08-17)
 
 

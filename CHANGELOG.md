@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/oclif/oclif/compare/v1.11.0...v1.11.1) (2018-08-17)
+
+
+### Bug Fixes
+
+* updated oclif and dev-cli ([e2adf70](https://github.com/oclif/oclif/commit/e2adf70))
+
 # [1.11.0](https://github.com/oclif/oclif/compare/v1.10.3...v1.11.0) (2018-08-17)
 
 

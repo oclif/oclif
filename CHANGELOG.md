@@ -1,3 +1,12 @@
+# [1.10.0](https://github.com/oclif/oclif/compare/v1.9.0...v1.10.0) (2018-08-17)
+
+
+### Features
+
+* make appveyor optional ([#138](https://github.com/oclif/oclif/issues/138)) ([74d17c1](https://github.com/oclif/oclif/commit/74d17c1))
+* make codecov optional ([#139](https://github.com/oclif/oclif/issues/139)) ([30c6aff](https://github.com/oclif/oclif/commit/30c6aff))
+* typescript 3.x ([5badc7a](https://github.com/oclif/oclif/commit/5badc7a))
+
 # [1.9.0](https://github.com/oclif/oclif/compare/v1.8.6...v1.9.0) (2018-07-09)
 
 

@@ -1,3 +1,11 @@
+## [1.10.1](https://github.com/oclif/oclif/compare/v1.10.0...v1.10.1) (2018-08-17)
+
+
+### Bug Fixes
+
+* add circleci,appveyor,codecov to examples ([5cc3f54](https://github.com/oclif/oclif/commit/5cc3f54))
+* always use --save with npm ([#149](https://github.com/oclif/oclif/issues/149)) ([151af6f](https://github.com/oclif/oclif/commit/151af6f))
+
 # [1.10.0](https://github.com/oclif/oclif/compare/v1.9.0...v1.10.0) (2018-08-17)
 
 

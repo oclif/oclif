@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/oclif/oclif/compare/v1.10.3...v1.11.0) (2018-08-17)
+
+
+### Bug Fixes
+
+* updated oclif ([edd7fd8](https://github.com/oclif/oclif/commit/edd7fd8))
+
+
+### Features
+
+* typescript 3 and ts-node 7 ([9c58896](https://github.com/oclif/oclif/commit/9c58896))
+
 ## [1.10.3](https://github.com/oclif/oclif/compare/v1.10.2...v1.10.3) (2018-08-17)
 
 

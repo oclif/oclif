@@ -5,15 +5,15 @@
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/<%= pjson.name %>.svg)](https://npmjs.org/package/<%= pjson.name %>)
-<% if (circleci) { %>
+<%_ if (circleci) { _%>
 [![CircleCI](https://circleci.com/gh/<%= repository %>/tree/master.svg?style=shield)](https://circleci.com/gh/<%= repository %>/tree/master)
-<% } %>
-<% if (appveyor) { %>
+<%_ } _%>
+<%_ if (appveyor) { _%>
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/<%= repository %>?branch=master&svg=true)](https://ci.appveyor.com/project/<%= repository %>/branch/master)
-<% } %>
-<% if (codecov) { %>
+<%_ } _%>
+<%_ if (codecov) { _%>
 [![Codecov](https://codecov.io/gh/<%= repository %>/branch/master/graph/badge.svg)](https://codecov.io/gh/<%= repository %>)
-<% } %>
+<%_ } _%>
 [![Downloads/week](https://img.shields.io/npm/dw/<%= pjson.name %>.svg)](https://npmjs.org/package/<%= pjson.name %>)
 [![License](https://img.shields.io/npm/l/<%= pjson.name %>.svg)](https://github.com/<%= repository %>/blob/master/package.json)
 

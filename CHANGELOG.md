@@ -1,3 +1,11 @@
+## [1.10.2](https://github.com/oclif/oclif/compare/v1.10.1...v1.10.2) (2018-08-17)
+
+
+### Bug Fixes
+
+* generate readme ([185ef6c](https://github.com/oclif/oclif/commit/185ef6c))
+* newlines in readme ([5281952](https://github.com/oclif/oclif/commit/5281952))
+
 ## [1.10.1](https://github.com/oclif/oclif/compare/v1.10.0...v1.10.1) (2018-08-17)
 
 

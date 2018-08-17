@@ -38,37 +38,37 @@
     supports-color "^5.4.0"
     tslib "^1"
 
-"@oclif/command@^1.4.21", "@oclif/command@^1.4.30", "@oclif/command@^1.4.33", "@oclif/command@^1.4.34", "@oclif/command@^1.4.36":
-  version "1.4.36"
-  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.4.36.tgz#cca1e02d8264f34be9c2d692a3c81efc0de15fdf"
+"@oclif/command@^1.4.21", "@oclif/command@^1.4.30", "@oclif/command@^1.4.34", "@oclif/command@^1.4.36", "@oclif/command@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.5.0.tgz#d5276a19506349fff0254b0dd98e3b8a2bd971aa"
   dependencies:
     "@oclif/errors" "^1.1.2"
-    "@oclif/parser" "^3.5.2"
+    "@oclif/parser" "^3.6.0"
     debug "^3.1.0"
     semver "^5.5.0"
 
-"@oclif/config@^1.6.17", "@oclif/config@^1.6.33":
-  version "1.6.33"
-  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.6.33.tgz#61906143b30751d96dd29991c20c214bf4d9e4ff"
+"@oclif/config@^1.6.17", "@oclif/config@^1.6.33", "@oclif/config@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.7.0.tgz#deb465093d10a1ee802cca7580cd2d33f78d9d60"
   dependencies:
     debug "^3.1.0"
-    tslib "^1.9.2"
+    tslib "^1.9.3"
 
-"@oclif/dev-cli@^1.15.4":
-  version "1.15.4"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.15.4.tgz#ffd91e36adcb08dcecc7b8c905428ba0ca17bef3"
+"@oclif/dev-cli@^1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.16.0.tgz#a535deac47f87891760fa230d7b8084466266734"
   dependencies:
-    "@oclif/command" "^1.4.33"
+    "@oclif/command" "^1.4.36"
     "@oclif/config" "^1.6.33"
     "@oclif/errors" "^1.1.2"
     "@oclif/plugin-help" "^2.0.5"
-    cli-ux "^4.7.2"
+    cli-ux "^4.7.3"
     debug "^3.1.0"
-    fs-extra "^6.0.1"
+    fs-extra "^7.0.0"
     lodash "^4.17.10"
     normalize-package-data "^2.4.0"
     qqjs "^0.3.10"
-    tslib "^1.9.2"
+    tslib "^1.9.3"
 
 "@oclif/errors@^1.0.11", "@oclif/errors@^1.1.2":
   version "1.1.2"
@@ -84,9 +84,9 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@oclif/linewrap/-/linewrap-1.0.0.tgz#aedcb64b479d4db7be24196384897b5000901d91"
 
-"@oclif/parser@^3.5.2":
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/@oclif/parser/-/parser-3.5.3.tgz#fa5d0cc616a18240bcaefab02c7b7c9cb322656c"
+"@oclif/parser@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@oclif/parser/-/parser-3.6.0.tgz#8d0b4c3e012aa1f0d59a6936b3dedec318b11a6d"
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     chalk "^2.4.1"
@@ -644,7 +644,7 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-ux@^4.7.2, cli-ux@^4.7.3:
+cli-ux@^4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-4.7.3.tgz#5b7f5e70105fde53883c5307a88e2f29f64236c4"
   dependencies:
@@ -3380,7 +3380,7 @@ tslib@1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
 
-tslib@^1, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.2, tslib@^1.9.3:
+tslib@^1, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 

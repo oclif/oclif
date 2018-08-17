@@ -6,8 +6,8 @@
   "bin": "./bin/run",
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/command": "^1.4.36",
-    "@oclif/config": "^1.6.33",
+    "@oclif/command": "^1.5.0",
+    "@oclif/config": "^1.7.0",
     "@oclif/errors": "^1.1.2",
     "@oclif/plugin-help": "^2.0.5",
     "@oclif/plugin-not-found": "^1.1.4",
@@ -23,7 +23,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1.15.4",
+    "@oclif/dev-cli": "^1.16.0",
     "@oclif/tslint": "^2.0.0",
     "@types/lodash": "^4.14.116",
     "@types/read-pkg": "^3.0.0",

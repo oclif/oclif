@@ -5,10 +5,12 @@
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/<%= pjson.name %>.svg)](https://npmjs.org/package/<%= pjson.name %>)
-<% if(circleci) { %>
+<% if (circleci) { %>
 [![CircleCI](https://circleci.com/gh/<%= repository %>/tree/master.svg?style=shield)](https://circleci.com/gh/<%= repository %>/tree/master)
 <% } %>
+<% if (appveyor) { %>
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/<%= repository %>?branch=master&svg=true)](https://ci.appveyor.com/project/<%= repository %>/branch/master)
+<% } %>
 <% if (codecov) { %>
 [![Codecov](https://codecov.io/gh/<%= repository %>/branch/master/graph/badge.svg)](https://codecov.io/gh/<%= repository %>)
 <% } %>

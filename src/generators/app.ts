@@ -42,6 +42,7 @@ class App extends Generator {
     defaults?: boolean
     mocha: boolean
     circleci: boolean
+    codecov: boolean
     'semantic-release': boolean
     typescript: boolean
     tslint: boolean
@@ -65,6 +66,7 @@ class App extends Generator {
     options: {
       mocha: boolean
       circleci: boolean
+      codecov: boolean
       typescript: boolean
       tslint: boolean
       yarn: boolean
@@ -73,6 +75,7 @@ class App extends Generator {
   }
   mocha!: boolean
   circleci!: boolean
+  codecov!: boolean
   semantic_release!: boolean
   ts!: boolean
   tslint!: boolean
@@ -94,6 +97,7 @@ class App extends Generator {
       defaults: opts.defaults,
       mocha: opts.options.includes('mocha'),
       circleci: opts.options.includes('circleci'),
+      codecov: opts.options.includes('codecov'),
       'semantic-release': opts.options.includes('semantic-release'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
@@ -227,6 +231,7 @@ class App extends Generator {
             {name: 'yarn (npm alternative)', value: 'yarn', checked: this.options.yarn || hasYarn},
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'circleci (continuous integration/delivery service)', value: 'circleci', checked: true},
+            {name: 'codecov (online code coverage report viewer)', value: 'codecov', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
@@ -249,6 +254,7 @@ class App extends Generator {
     this.yarn = this.options.yarn
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
+    this.codecov = this.options.codecov
     this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name

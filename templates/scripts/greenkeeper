@@ -17,7 +17,7 @@ if [[ ! -z "$GIT_EMAIL" ]] & [[ ! -z "$GIT_USERNAME" ]]; then
 fi
 
 if [[ ! -x "$(command -v greenkeeper-lockfile-update)" ]]; then
-  yarn global add greenkeeper-lockfile@1
+  yarn global add greenkeeper-lockfile@2
 fi
 
 greenkeeper-lockfile-update

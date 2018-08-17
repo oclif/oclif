@@ -481,15 +481,17 @@ class App extends Generator {
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
-    Promise.all([
+    return Promise.all([
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
       install(dependencies, {...yarnOpts, ...save}),
-    ]).then(() => {
-      if (['plugin', 'multi'].includes(this.type)) {
-        this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])
-      }
-      console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
-    })
+    ])
+  }
+
+  end() {
+    if (['plugin', 'multi'].includes(this.type)) {
+      this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])
+    }
+    console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }
 
   private _gitignore(): string {

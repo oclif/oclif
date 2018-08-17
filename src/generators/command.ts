@@ -44,6 +44,10 @@ class CommandGenerator extends Generator {
     }
     // this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
   }
+
+  end() {
+    this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])
+  }
 }
 
 export = CommandGenerator

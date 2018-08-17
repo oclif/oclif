@@ -480,9 +480,10 @@ class App extends Generator {
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
+    const save = this.yarn ? {} : {save: true}
     Promise.all([
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
-      install(dependencies, yarnOpts),
+      install(dependencies, {...yarnOpts, ...save}),
     ]).then(() => {
       if (['plugin', 'multi'].includes(this.type)) {
         this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])

@@ -1,6 +1,6 @@
 import {flags} from '@oclif/command'
 
-import Base from '../command_base'
+import Base from '../command-base'
 
 export interface Options {
   name: string

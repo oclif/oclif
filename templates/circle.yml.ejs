@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Testing
           command: <%- yarn ? 'yarn' : 'npm' %> test
-      <%_ if (mocha) { _%>
+      <%_ if (mocha && codecov) { _%>
       - run:
           name: Submitting code coverage to codecov
           command: |

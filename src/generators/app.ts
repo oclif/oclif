@@ -43,6 +43,7 @@ class App extends Generator {
     mocha: boolean
     circleci: boolean
     appveyor: boolean
+    codecov: boolean
     'semantic-release': boolean
     typescript: boolean
     tslint: boolean
@@ -67,6 +68,7 @@ class App extends Generator {
       mocha: boolean
       circleci: boolean
       appveyor: boolean
+      codecov: boolean
       typescript: boolean
       tslint: boolean
       yarn: boolean
@@ -76,6 +78,7 @@ class App extends Generator {
   mocha!: boolean
   circleci!: boolean
   appveyor!: boolean
+  codecov!: boolean
   semantic_release!: boolean
   ts!: boolean
   tslint!: boolean
@@ -98,6 +101,7 @@ class App extends Generator {
       mocha: opts.options.includes('mocha'),
       circleci: opts.options.includes('circleci'),
       appveyor: opts.options.includes('appveyor'),
+      codecov: opts.options.includes('codecov'),
       'semantic-release': opts.options.includes('semantic-release'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
@@ -232,6 +236,7 @@ class App extends Generator {
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'circleci (continuous integration/delivery service)', value: 'circleci', checked: true},
             {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor', checked: true},
+            {name: 'codecov (online code coverage report viewer)', value: 'codecov', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
             {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
@@ -255,6 +260,7 @@ class App extends Generator {
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
     this.appveyor = this.options.appveyor
+    this.codecov = this.options.codecov
     this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name

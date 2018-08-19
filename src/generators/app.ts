@@ -471,7 +471,7 @@ class App extends Generator {
       }
     } else {
       devDependencies.push(
-        'eslint@^4',
+        'eslint@^5',
         'eslint-config-oclif@^1',
       )
     }

@@ -1,3 +1,10 @@
+## [1.11.3](https://github.com/oclif/oclif/compare/v1.11.2...v1.11.3) (2018-08-22)
+
+
+### Bug Fixes
+
+* update eslint to latest major in generator ([#152](https://github.com/oclif/oclif/issues/152)) ([7d72d21](https://github.com/oclif/oclif/commit/7d72d21))
+
 ## [1.11.2](https://github.com/oclif/oclif/compare/v1.11.1...v1.11.2) (2018-08-17)
 
 

@@ -471,8 +471,8 @@ class App extends Generator {
       }
     } else {
       devDependencies.push(
-        'eslint@^4',
-        'eslint-config-oclif@^1',
+        'eslint@^5',
+        'eslint-config-oclif@^3',
       )
     }
     if (isWindows) devDependencies.push('rimraf')

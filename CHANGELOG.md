@@ -1,3 +1,10 @@
+## [1.11.4](https://github.com/oclif/oclif/compare/v1.11.3...v1.11.4) (2018-08-22)
+
+
+### Bug Fixes
+
+* updated yeoman and update warning ([deea525](https://github.com/oclif/oclif/commit/deea525))
+
 ## [1.11.3](https://github.com/oclif/oclif/compare/v1.11.2...v1.11.3) (2018-08-22)
 
 

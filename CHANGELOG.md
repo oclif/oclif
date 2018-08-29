@@ -1,3 +1,13 @@
+## [1.11.5](https://github.com/oclif/oclif/compare/v1.11.4...v1.11.5) (2018-08-29)
+
+
+### Bug Fixes
+
+* fixpack -> [@oclif](https://github.com/oclif)/fixpack ([a69c4be](https://github.com/oclif/oclif/commit/a69c4be))
+* hide yarn output when not found ([a3897b1](https://github.com/oclif/oclif/commit/a3897b1))
+* set project path for single CLIs ([3ec87bc](https://github.com/oclif/oclif/commit/3ec87bc)), closes [#161](https://github.com/oclif/oclif/issues/161)
+* use [@oclif](https://github.com/oclif)/fixpack to fix audit warning ([0c2aa20](https://github.com/oclif/oclif/commit/0c2aa20))
+
 ## [1.11.4](https://github.com/oclif/oclif/compare/v1.11.3...v1.11.4) (2018-08-22)
 
 

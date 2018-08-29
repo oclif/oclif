@@ -20,7 +20,7 @@ const rmf = isWindows ? 'rimraf' : 'rm -f'
 
 let hasYarn = false
 try {
-  execSync('yarn -v')
+  execSync('yarn -v', {stdio: 'ignore'})
   hasYarn = true
 } catch {}
 // function stringToArray(s: string) {

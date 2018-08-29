@@ -10,7 +10,7 @@ import yosay = require('yosay')
 
 const nps = require('nps-utils')
 const sortPjson = require('sort-pjson')
-const fixpack = require('fixpack')
+const fixpack = require('@oclif/fixpack')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 

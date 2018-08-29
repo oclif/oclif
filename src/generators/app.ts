@@ -365,7 +365,7 @@ class App extends Generator {
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
     }
     if (this.fs.exists(this.destinationPath('./package.json'))) {
-      fixpack(this.destinationPath('./package.json'), require('fixpack/config.json'))
+      fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
     }
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())

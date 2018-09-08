@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.17.0",
-    "@oclif/tslint": "^2.0.0",
+    "@oclif/tslint": "^3.1.0",
     "@types/lodash": "^4.14.116",
     "@types/read-pkg": "^3.0.0",
     "@types/shelljs": "^0.8.0",

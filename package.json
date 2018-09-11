@@ -13,7 +13,7 @@
     "@oclif/plugin-help": "^2.1.0",
     "@oclif/plugin-not-found": "^1.2.0",
     "@oclif/plugin-warn-if-update-available": "^1.5.2",
-    "debug": "^3.1.0",
+    "debug": "^4.0.0",
     "lodash": "^4.17.10",
     "nps-utils": "^1.7.0",
     "sort-pjson": "^1.0.3",

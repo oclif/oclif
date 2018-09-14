@@ -112,14 +112,14 @@ class App extends Generator {
   async prompting() {
     let msg
     switch (this.type) {
-      case 'single':
-        msg = 'Time to build a single-command CLI with oclif!'
-        break
-      case 'multi':
-        msg = 'Time to build a multi-command CLI with oclif!'
-        break
-      default:
-        msg = `Time to build a oclif ${this.type}!`
+    case 'single':
+      msg = 'Time to build a single-command CLI with oclif!'
+      break
+    case 'multi':
+      msg = 'Time to build a multi-command CLI with oclif!'
+      break
+    default:
+      msg = `Time to build a oclif ${this.type}!`
     }
     this.log(yosay(`${msg} Version: ${version}`))
 
@@ -321,15 +321,15 @@ class App extends Generator {
     this.sourceRoot(path.join(__dirname, '../../templates'))
 
     switch (this.type) {
-      case 'multi':
-      case 'plugin':
-        this.pjson.oclif = {
-          commands: `./${this.ts ? 'lib' : 'src'}/commands`,
+    case 'multi':
+    case 'plugin':
+      this.pjson.oclif = {
+        commands: `./${this.ts ? 'lib' : 'src'}/commands`,
           // hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
-          ...this.pjson.oclif,
-        }
-        break
-        default:
+        ...this.pjson.oclif,
+      }
+      break
+    default:
     }
     if (this.type === 'plugin' && !this.pjson.oclif.devPlugins) {
       this.pjson.oclif.devPlugins = [
@@ -394,17 +394,17 @@ class App extends Generator {
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
 
     switch (this.type) {
-      case 'single':
-        this._writeSingle()
-        break
-      case 'plugin':
-        this._writePlugin()
-        break
-      case 'multi':
-        this._writeMulti()
-        break
-      default:
-        this._writeBase()
+    case 'single':
+      this._writeSingle()
+      break
+    case 'plugin':
+      this._writePlugin()
+      break
+    case 'multi':
+      this._writeMulti()
+      break
+    default:
+      this._writeBase()
     }
   }
 
@@ -412,32 +412,32 @@ class App extends Generator {
     const dependencies: string[] = []
     const devDependencies: string[] = []
     switch (this.type) {
-      case 'base': break
-      case 'single':
-        dependencies.push(
+    case 'base': break
+    case 'single':
+      dependencies.push(
           '@oclif/config@^1',
           '@oclif/command@^1',
           '@oclif/plugin-help@^2',
         )
-        break
-      case 'plugin':
-        dependencies.push(
+      break
+    case 'plugin':
+      dependencies.push(
           '@oclif/command@^1',
           '@oclif/config@^1',
         )
-        devDependencies.push(
+      devDependencies.push(
           '@oclif/dev-cli@^1',
           '@oclif/plugin-help@^2',
           'globby@^8',
         )
-        break
-      case 'multi':
-        dependencies.push(
+      break
+    case 'multi':
+      dependencies.push(
           '@oclif/config@^1',
           '@oclif/command@^1',
           '@oclif/plugin-help@^2',
         )
-        devDependencies.push(
+      devDependencies.push(
           '@oclif/dev-cli@^1',
           'globby@^8',
         )
@@ -445,7 +445,7 @@ class App extends Generator {
     if (this.mocha) {
       devDependencies.push(
         'mocha@^5',
-        'nyc@^12',
+        'nyc@^13',
         'chai@^4',
       )
       if (this.type !== 'base') devDependencies.push(
@@ -465,14 +465,14 @@ class App extends Generator {
       )
       if (this.tslint) {
         devDependencies.push(
-          '@oclif/tslint@^1',
+          '@oclif/tslint@^3',
           'tslint@^5',
         )
       }
     } else {
       devDependencies.push(
-        'eslint@^5',
-        'eslint-config-oclif@^3',
+        'eslint@^5.5',
+        'eslint-config-oclif@^3.1',
       )
     }
     if (isWindows) devDependencies.push('rimraf')

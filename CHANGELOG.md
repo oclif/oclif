@@ -1,3 +1,10 @@
+## [1.11.7](https://github.com/oclif/oclif/compare/v1.11.6...v1.11.7) (2018-09-14)
+
+
+### Bug Fixes
+
+* greenkeeper-lockfile no longer necessary ([8f55fd0](https://github.com/oclif/oclif/commit/8f55fd0))
+
 ## [1.11.6](https://github.com/oclif/oclif/compare/v1.11.5...v1.11.6) (2018-09-14)
 
 

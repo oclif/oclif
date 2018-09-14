@@ -55,8 +55,8 @@ module.exports = (_, options) => {
     try {
       execa.sync('git', ['commit', '-m', `${releaseType === 'patch' ? 'fix' : 'feat'}: oclif v${version}\n\n${notes}`], {stdio: 'inherit'})
       sh.exec('git push')
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
     }
     sh.popd()
   })

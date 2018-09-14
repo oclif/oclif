@@ -1,3 +1,10 @@
+## [1.11.6](https://github.com/oclif/oclif/compare/v1.11.5...v1.11.6) (2018-09-14)
+
+
+### Bug Fixes
+
+* updated eslint and tslint ([c2ae997](https://github.com/oclif/oclif/commit/c2ae997))
+
 ## [1.11.5](https://github.com/oclif/oclif/compare/v1.11.4...v1.11.5) (2018-08-29)
 
 

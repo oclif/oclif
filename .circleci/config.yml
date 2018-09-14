@@ -14,7 +14,6 @@ jobs:
             - v5-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
             - v5-{{checksum ".circleci/config.yml"}}
             - v5
-      - run: .circleci/greenkeeper
       - run: yarn add -D mocha-junit-reporter@1
       - run: yarn exec nps lint
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
@@ -108,7 +107,6 @@ jobs:
       - restore_cache:
           keys:
             - v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
-      - run: yarn global add greenkeeper-lockfile@1
       - run: yarn add -D mocha-junit-reporter@1
       - run: yarn exec nps test.command
       - save_cache:

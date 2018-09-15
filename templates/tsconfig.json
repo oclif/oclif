@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "module": "commonjs",
-    "outDir": "./lib",
-    "rootDirs": [ "./src" ],
+    "outDir": "lib",
+    "rootDir": "src",
     "strict": true,
     "target": "es2017",
-    "typeRoots": [ "./node_modules/@types" ]
+    "composite": true
   },
   "include": [
-    "./src/**/*"
+    "src/**/*"
   ]
 }

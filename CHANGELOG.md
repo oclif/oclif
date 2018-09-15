@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/oclif/oclif/compare/v1.12.0...v1.12.1) (2018-09-15)
+
+
+### Bug Fixes
+
+* source-map-register is not needed ([dfd3170](https://github.com/oclif/oclif/commit/dfd3170))
+
 # [1.12.0](https://github.com/oclif/oclif/compare/v1.11.7...v1.12.0) (2018-09-15)
 
 

@@ -22,3 +22,4 @@ test_script:
   - .\node_modules\.bin\nps test.%TEST_TYPE%
 
 build: off
+skip_branch_with_pr: true

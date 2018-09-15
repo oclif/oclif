@@ -265,13 +265,15 @@ class App extends Generator {
       ]) as any
     }
     debug(this.answers)
-    this.options = {
-      ...this.answers.ci,
-      mocha: this.answers.mocha,
-      tslint: this.answers.tslint,
-      eslint: this.answers.eslint,
-      typescript: this.answers.typescript,
-      yarn: this.answers.pkg === 'yarn',
+    if (!this.options.defaults) {
+      this.options = {
+        ...this.answers.ci,
+        mocha: this.answers.mocha,
+        tslint: this.answers.tslint,
+        eslint: this.answers.eslint,
+        typescript: this.answers.typescript,
+        yarn: this.answers.pkg === 'yarn',
+      }
     }
     this.ts = this.options.typescript
     this.tslint = this.options.tslint

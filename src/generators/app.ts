@@ -44,7 +44,6 @@ class App extends Generator {
     circleci: boolean
     appveyor: boolean
     codecov: boolean
-    'semantic-release': boolean
     typescript: boolean
     tslint: boolean
     yarn: boolean
@@ -72,14 +71,12 @@ class App extends Generator {
       typescript: boolean
       tslint: boolean
       yarn: boolean
-      'semantic-release': boolean
     }
   }
   mocha!: boolean
   circleci!: boolean
   appveyor!: boolean
   codecov!: boolean
-  semantic_release!: boolean
   ts!: boolean
   tslint!: boolean
   yarn!: boolean
@@ -102,7 +99,6 @@ class App extends Generator {
       circleci: opts.options.includes('circleci'),
       appveyor: opts.options.includes('appveyor'),
       codecov: opts.options.includes('codecov'),
-      'semantic-release': opts.options.includes('semantic-release'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
       yarn: opts.options.includes('yarn'),
@@ -156,10 +152,6 @@ class App extends Generator {
     if (this.repository && (this.repository as any).url) {
       this.repository = (this.repository as any).url
     }
-    try {
-      let yml = this.fs.read('.circleci/config.yml')
-      this.options['semantic-release'] = yml.includes('semantic-release')
-    } catch { }
     if (this.options.defaults) {
       this.answers = defaults
     } else {
@@ -239,7 +231,6 @@ class App extends Generator {
             {name: 'codecov (online code coverage report viewer)', value: 'codecov', checked: true},
             {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
             {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
-            {name: 'semantic-release (automated version management)', value: 'semantic-release', checked: this.options['semantic-release']}
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
@@ -261,7 +252,6 @@ class App extends Generator {
     this.circleci = this.options.circleci
     this.appveyor = this.options.appveyor
     this.codecov = this.options.codecov
-    this.semantic_release = this.options['semantic-release']
 
     this.pjson.name = this.answers.name || defaults.name
     this.pjson.description = this.answers.description || defaults.description

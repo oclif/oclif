@@ -5,7 +5,7 @@ import Base from './command-base'
 export default abstract class AppCommand extends Base {
   static flags = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
-    options: flags.string({description: '(yarn|typescript|tslint|semantic-release|mocha)'}),
+    options: flags.string({description: '(yarn|typescript|tslint|mocha)'}),
     force: flags.boolean({description: 'overwrite existing files'}),
   }
   static args = [

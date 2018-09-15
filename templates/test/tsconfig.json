@@ -1,11 +1,9 @@
 {
-  "declaration": false,
   "extends": "../tsconfig",
   "compilerOptions": {
-    "sourceMap": true
+    "noEmit": true
   },
-  "include": [
-    "./**/*",
-    "../src/**/*"
+  "references": [
+    {"path": ".."}
   ]
 }

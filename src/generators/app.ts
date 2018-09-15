@@ -361,7 +361,6 @@ class App extends Generator {
       if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
     }
     if (this.mocha) {
-      this.fs.copyTpl(this.templatePath('test/helpers/init.js'), this.destinationPath('test/helpers/init.js'), this)
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
     }
     if (this.fs.exists(this.destinationPath('./package.json'))) {
@@ -372,10 +371,6 @@ class App extends Generator {
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
     if (this.circleci) {
-      // if (this.semantic_release) {
-      //   this.fs.copyTpl(this.templatePath('scripts/release'), this.destinationPath('.circleci/release'), this)
-      // }
-      // this.fs.copyTpl(this.templatePath('scripts/setup_git'), this.destinationPath('.circleci/setup_git'), this)
       this.fs.copyTpl(this.templatePath('circle.yml.ejs'), this.destinationPath('.circleci/config.yml'), this)
     }
     if (this.appveyor) {
@@ -385,10 +380,6 @@ class App extends Generator {
     if (this.pjson.license === 'MIT' && (this.pjson.repository.startsWith('oclif') || this.pjson.repository.startsWith('heroku'))) {
       this.fs.copyTpl(this.templatePath('LICENSE.mit'), this.destinationPath('LICENSE'), this)
     }
-
-    // git
-    // if (this.fromScratch) this.spawnCommandSync('git', ['init'])
-    this.fs.copyTpl(this.templatePath('gitattributes'), this.destinationPath('.gitattributes'), this)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
 

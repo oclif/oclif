@@ -1,5 +1,0 @@
-* text=auto
-*.js text eol=lf
-<%_ if (ts) { _%>
-*.ts text eol=lf
-<%_ } _%>

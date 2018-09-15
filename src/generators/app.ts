@@ -63,6 +63,7 @@ class App extends Generator {
     author: string
     files: string
     license: string
+    pkg: string
     options: {
       mocha: boolean
       circleci: boolean
@@ -70,7 +71,6 @@ class App extends Generator {
       codecov: boolean
       typescript: boolean
       tslint: boolean
-      yarn: boolean
     }
   }
   mocha!: boolean
@@ -101,7 +101,7 @@ class App extends Generator {
       codecov: opts.options.includes('codecov'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
-      yarn: opts.options.includes('yarn'),
+      yarn: opts.options.includes('yarn') || hasYarn,
     }
   }
 
@@ -220,11 +220,20 @@ class App extends Generator {
           when: !this.pjson.repository,
         },
         {
+          type: 'list',
+          name: 'pkg',
+          message: 'package manager',
+          choices: [
+            {name: 'npm', value: 'npm'},
+            {name: 'yarn', value: 'yarn'},
+          ],
+          default: () => this.options.yarn || hasYarn ? 1 : 0,
+        },
+        {
           type: 'checkbox',
           name: 'options',
           message: 'optional components to include',
           choices: [
-            {name: 'yarn (npm alternative)', value: 'yarn', checked: this.options.yarn || hasYarn},
             {name: 'mocha (testing framework)', value: 'mocha', checked: true},
             {name: 'circleci (continuous integration/delivery service)', value: 'circleci', checked: true},
             {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor', checked: true},
@@ -244,7 +253,10 @@ class App extends Generator {
       ]) as any
     }
     debug(this.answers)
-    this.options = this.answers.options
+    this.options = {
+      ...this.answers.options,
+      yarn: this.answers.pkg === 'yarn',
+    }
     this.ts = this.options.typescript
     this.tslint = this.options.tslint
     this.yarn = this.options.yarn

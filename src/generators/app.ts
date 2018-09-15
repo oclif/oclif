@@ -261,11 +261,9 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    if (this.ts) {
-      const tsProject = this.mocha ? 'test' : '.'
-      this.pjson.scripts.posttest = `tsc -p ${tsProject} --noEmit`
-      if (this.tslint) this.pjson.scripts.posttest += ` && tslint -p ${tsProject} -t stylish`
-    } else {
+    if (this.tslint) {
+      this.pjson.scripts.posttest = `tslint -p ${this.mocha ? 'test' : '.'} -t stylish`
+    } else if (!this.ts) {
       this.pjson.scripts.posttest = 'eslint .'
     }
     if (this.mocha) {
@@ -274,10 +272,10 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepack = this.pjson.scripts.prepare = nps.series(`${rmrf} lib`, 'tsc')
+      this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepare, 'oclif-dev manifest', 'oclif-dev readme', 'npm shrinkwrap')
+      this.pjson.scripts.prepack = nps.series('oclif-dev manifest', 'oclif-dev readme', 'npm shrinkwrap')
       this.pjson.scripts.postpack = `${rmf} oclif.manifest.json npm-shrinkwrap.json`
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')

@@ -46,6 +46,7 @@ class App extends Generator {
     codecov: boolean
     typescript: boolean
     tslint: boolean
+    eslint: boolean
     yarn: boolean
   }
   args!: {[k: string]: string}
@@ -58,19 +59,19 @@ class App extends Generator {
     bin: string
     description: string
     version: string
-    engines: {node: string}
     github: {repo: string, user: string}
     author: string
     files: string
     license: string
     pkg: string
-    options: {
-      mocha: boolean
+    typescript: boolean
+    tslint: boolean
+    eslint: boolean
+    mocha: boolean
+    ci: {
       circleci: boolean
       appveyor: boolean
       codecov: boolean
-      typescript: boolean
-      tslint: boolean
     }
   }
   mocha!: boolean
@@ -79,6 +80,7 @@ class App extends Generator {
   codecov!: boolean
   ts!: boolean
   tslint!: boolean
+  eslint!: boolean
   yarn!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
@@ -101,6 +103,7 @@ class App extends Generator {
       codecov: opts.options.includes('codecov'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
+      eslint: opts.options.includes('eslint'),
       yarn: opts.options.includes('yarn') || hasYarn,
     }
   }
@@ -200,29 +203,22 @@ class App extends Generator {
         },
         {
           type: 'input',
-          name: 'engines.node',
-          message: 'node version supported',
-          default: defaults.engines.node,
-          when: !this.pjson.engines.node,
-        },
-        {
-          type: 'input',
           name: 'github.user',
-          message: 'github owner of repository (https://github.com/OWNER/repo)',
+          message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
           default: repository.split('/').slice(0, -1).pop(),
           when: !this.pjson.repository,
         },
         {
           type: 'input',
           name: 'github.repo',
-          message: 'github name of repository (https://github.com/owner/REPO)',
+          message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
           default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
           when: !this.pjson.repository,
         },
         {
           type: 'list',
           name: 'pkg',
-          message: 'package manager',
+          message: 'Select a package manager',
           choices: [
             {name: 'npm', value: 'npm'},
             {name: 'yarn', value: 'yarn'},
@@ -230,31 +226,51 @@ class App extends Generator {
           default: () => this.options.yarn || hasYarn ? 1 : 0,
         },
         {
+          type: 'confirm',
+          name: 'typescript',
+          message: 'TypeScript',
+          default: () => true
+        },
+        {
+          type: 'confirm',
+          name: 'tslint',
+          message: 'Use tslint (linter for TypeScript)',
+          when: (answers: any) => answers.typescript,
+          default: (answers: any) => answers.typescript
+        },
+        {
+          type: 'confirm',
+          name: 'eslint',
+          message: 'Use eslint (linter for JavaScript)',
+          when: (answers: any) => !answers.typescript,
+          default: (answers: any) => !answers.typescript
+        },
+        {
+          type: 'confirm',
+          name: 'mocha',
+          message: 'Use mocha (testing framework)',
+          default: () => true
+        },
+        {
           type: 'checkbox',
-          name: 'options',
-          message: 'optional components to include',
+          name: 'ci',
+          message: 'Add CI service config',
           choices: [
-            {name: 'mocha (testing framework)', value: 'mocha', checked: true},
-            {name: 'circleci (continuous integration/delivery service)', value: 'circleci', checked: true},
-            {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor', checked: true},
-            {name: 'codecov (online code coverage report viewer)', value: 'codecov', checked: true},
-            {name: 'typescript (static typing for javascript)', value: 'typescript', checked: true},
-            {name: 'tslint (static analysis tool for typescript)', value: 'tslint', checked: true},
+            {name: 'circleci (continuous integration/delivery service)', value: 'circleci'},
+            {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor'},
+            {name: 'codecov (online code coverage report viewer)', value: 'codecov'},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
-        // {
-        //   type: 'string',
-        //   name: 'files',
-        //   message: 'npm files to pack',
-        //   default: (answers: any) => answers.options.typescript ? '/lib' : '/src',
-        //   filter: stringToArray as any,
-        // },
       ]) as any
     }
     debug(this.answers)
     this.options = {
-      ...this.answers.options,
+      ...this.answers.ci,
+      mocha: this.answers.mocha,
+      tslint: this.answers.tslint,
+      eslint: this.answers.eslint,
+      typescript: this.answers.typescript,
       yarn: this.answers.pkg === 'yarn',
     }
     this.ts = this.options.typescript
@@ -264,18 +280,20 @@ class App extends Generator {
     this.circleci = this.options.circleci
     this.appveyor = this.options.appveyor
     this.codecov = this.options.codecov
+    this.eslint = this.options.eslint
 
     this.pjson.name = this.answers.name || defaults.name
     this.pjson.description = this.answers.description || defaults.description
     this.pjson.version = this.answers.version || defaults.version
-    this.pjson.engines.node = this.answers.engines ? this.answers.engines.node : defaults.engines.node
+    this.pjson.engines.node = defaults.engines.node
     this.pjson.author = this.answers.author || defaults.author
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     if (this.tslint) {
       this.pjson.scripts.posttest = `tslint -p ${this.mocha ? 'test' : '.'} -t stylish`
-    } else if (!this.ts) {
+    }
+    if (this.eslint) {
       this.pjson.scripts.posttest = 'eslint .'
     }
     if (this.mocha) {
@@ -354,7 +372,8 @@ class App extends Generator {
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
       }
-    } else {
+    }
+    if (this.eslint) {
       this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
       const eslintignore = this._eslintignore()
       if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
@@ -458,7 +477,8 @@ class App extends Generator {
           'tslint@^5',
         )
       }
-    } else {
+    }
+    if (this.eslint) {
       devDependencies.push(
         'eslint@^5.5',
         'eslint-config-oclif@^3.1',

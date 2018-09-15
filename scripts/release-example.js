@@ -27,7 +27,7 @@ module.exports = (_, options) => {
 
     const options = format === 'ts' ?
       '--options=yarn,typescript,mocha,circleci,appveyor,codecov,tslint' :
-      '--options=yarn,mocha,circleci,appveyor,codecov'
+      '--options=yarn,mocha,circleci,appveyor,codecov,eslint'
 
     const d = path.join(__dirname, '../tmp/examples', example)
     sh.mkdir('-p', path.dirname(d))

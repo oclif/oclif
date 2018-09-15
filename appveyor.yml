@@ -20,11 +20,5 @@ install:
 test_script:
   - .\node_modules\.bin\nps lint
   - .\node_modules\.bin\nps test.%TEST_TYPE%
-after_test:
-  - ps: |
-      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
-      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
-      bash codecov.sh
 
 build: off
-

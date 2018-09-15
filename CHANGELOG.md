@@ -1,3 +1,19 @@
+# [1.12.0](https://github.com/oclif/oclif/compare/v1.11.7...v1.12.0) (2018-09-15)
+
+
+### Bug Fixes
+
+* break linters out into separate question ([a3edcd4](https://github.com/oclif/oclif/commit/a3edcd4))
+* break linters out into separate question ([c8b05f8](https://github.com/oclif/oclif/commit/c8b05f8))
+* break yarn/npm into separate question ([3f80dea](https://github.com/oclif/oclif/commit/3f80dea))
+* remove unnecessary tsc calls ([85082b5](https://github.com/oclif/oclif/commit/85082b5))
+
+
+### Features
+
+* simplify nyc config ([86a2c52](https://github.com/oclif/oclif/commit/86a2c52))
+* use typescript 3.0 project references ([3a9bf0f](https://github.com/oclif/oclif/commit/3a9bf0f))
+
 ## [1.11.7](https://github.com/oclif/oclif/compare/v1.11.6...v1.11.7) (2018-09-14)
 
 

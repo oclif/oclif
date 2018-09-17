@@ -42,6 +42,7 @@ class App extends Generator {
     defaults?: boolean
     mocha: boolean
     circleci: boolean
+    gcb: boolean
     appveyor: boolean
     codecov: boolean
     typescript: boolean
@@ -70,12 +71,14 @@ class App extends Generator {
     mocha: boolean
     ci: {
       circleci: boolean
+      gcb: boolean
       appveyor: boolean
       codecov: boolean
     }
   }
   mocha!: boolean
   circleci!: boolean
+  gcb!: boolean
   appveyor!: boolean
   codecov!: boolean
   ts!: boolean
@@ -100,6 +103,7 @@ class App extends Generator {
       mocha: opts.options.includes('mocha'),
       circleci: opts.options.includes('circleci'),
       appveyor: opts.options.includes('appveyor'),
+      gcb: opts.options.includes('gcb'),
       codecov: opts.options.includes('codecov'),
       typescript: opts.options.includes('typescript'),
       tslint: opts.options.includes('tslint'),
@@ -256,8 +260,9 @@ class App extends Generator {
           name: 'ci',
           message: 'Add CI service config',
           choices: [
-            {name: 'circleci (continuous integration/delivery service)', value: 'circleci'},
-            {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor'},
+            {name: 'circleci', value: 'circleci'},
+            {name: 'google cloud build', value: 'gcb'},
+            {name: 'appveyor', value: 'appveyor'},
             {name: 'codecov (online code coverage report viewer)', value: 'codecov'},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -280,6 +285,7 @@ class App extends Generator {
     this.yarn = this.options.yarn
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
+    this.gcb = this.options.gcb
     this.appveyor = this.options.appveyor
     this.codecov = this.options.codecov
     this.eslint = this.options.eslint
@@ -392,6 +398,9 @@ class App extends Generator {
     this.fs.copyTpl(this.templatePath('editorconfig'), this.destinationPath('.editorconfig'), this)
     if (this.circleci) {
       this.fs.copyTpl(this.templatePath('circle.yml.ejs'), this.destinationPath('.circleci/config.yml'), this)
+    }
+    if (this.gcb) {
+      this.fs.copyTpl(this.templatePath('cloudbuild.yaml.ejs'), this.destinationPath('cloudbuild.yaml'), this)
     }
     if (this.appveyor) {
       this.fs.copyTpl(this.templatePath('appveyor.yml.ejs'), this.destinationPath('appveyor.yml'), this)

@@ -1,3 +1,10 @@
+## [1.12.3](https://github.com/oclif/oclif/compare/v1.12.2...v1.12.3) (2018-10-13)
+
+
+### Bug Fixes
+
+* prepack ([85c0a36](https://github.com/oclif/oclif/commit/85c0a36))
+
 ## [1.12.2](https://github.com/oclif/oclif/compare/v1.12.1...v1.12.2) (2018-10-13)
 
 

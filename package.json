@@ -23,7 +23,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1.19.0",
+    "@oclif/dev-cli": "^1.19.1",
     "@oclif/tslint": "^3.1.0",
     "@types/lodash": "^4.14.117",
     "@types/read-pkg": "^3.0.0",

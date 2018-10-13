@@ -307,7 +307,7 @@ class App extends Generator {
       this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepack = nps.series('oclif-dev manifest', 'oclif-dev readme')
+      this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
       this.pjson.scripts.postpack = `${rmf} oclif.manifest.json`
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')

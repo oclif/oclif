@@ -6,9 +6,9 @@
   "bin": "./bin/run",
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/command": "^1.5.2",
-    "@oclif/config": "^1.8.6",
-    "@oclif/errors": "^1.2.1",
+    "@oclif/command": "^1.5.3",
+    "@oclif/config": "^1.8.7",
+    "@oclif/errors": "^1.2.2",
     "@oclif/fixpack": "^2.3.0",
     "@oclif/plugin-help": "^2.1.2",
     "@oclif/plugin-not-found": "^1.2.1",

@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/oclif/oclif/compare/v1.12.1...v1.12.2) (2018-10-13)
+
+
+### Bug Fixes
+
+* shrinkwrap ([7f86997](https://github.com/oclif/oclif/commit/7f86997))
+
 ## [1.12.1](https://github.com/oclif/oclif/compare/v1.12.0...v1.12.1) (2018-09-15)
 
 

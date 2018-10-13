@@ -307,8 +307,8 @@ class App extends Generator {
       this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
     }
     if (['plugin', 'multi'].includes(this.type)) {
-      this.pjson.scripts.prepack = nps.series('oclif-dev manifest', 'oclif-dev readme', 'npm shrinkwrap')
-      this.pjson.scripts.postpack = `${rmf} oclif.manifest.json npm-shrinkwrap.json`
+      this.pjson.scripts.prepack = nps.series('oclif-dev manifest', 'oclif-dev readme')
+      this.pjson.scripts.postpack = `${rmf} oclif.manifest.json`
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')
       this.pjson.files.push('/npm-shrinkwrap.json')
@@ -495,7 +495,11 @@ class App extends Generator {
     return Promise.all([
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
       install(dependencies, {...yarnOpts, ...save}),
-    ])
+    ]).then(() => {
+      if (!this.yarn) {
+        return this.spawnCommand('npm', ['shrinkwrap'])
+      }
+    })
   }
 
   end() {

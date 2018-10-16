@@ -1,3 +1,10 @@
+## [1.12.5](https://github.com/oclif/oclif/compare/v1.12.4...v1.12.5) (2018-10-16)
+
+
+### Bug Fixes
+
+* default to not using shrinkwrap ([902c350](https://github.com/oclif/oclif/commit/902c350))
+
 ## [1.12.4](https://github.com/oclif/oclif/compare/v1.12.3...v1.12.4) (2018-10-13)
 
 

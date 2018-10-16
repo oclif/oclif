@@ -496,9 +496,9 @@ class App extends Generator {
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
       install(dependencies, {...yarnOpts, ...save}),
     ]).then(() => {
-      if (!this.yarn) {
-        return this.spawnCommand('npm', ['shrinkwrap'])
-      }
+      // if (!this.yarn) {
+      //   return this.spawnCommand('npm', ['shrinkwrap'])
+      // }
     })
   }
 

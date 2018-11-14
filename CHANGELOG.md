@@ -1,3 +1,10 @@
+## [1.12.6](https://github.com/oclif/oclif/compare/v1.12.5...v1.12.6) (2018-11-14)
+
+
+### Bug Fixes
+
+* updated deps ([2ff77ed](https://github.com/oclif/oclif/commit/2ff77ed))
+
 ## [1.12.5](https://github.com/oclif/oclif/compare/v1.12.4...v1.12.5) (2018-10-16)
 
 

@@ -470,7 +470,7 @@ class App extends Generator {
         '@types/chai@^4',
         '@types/mocha@^5',
         '@types/node@^10',
-        'typescript@^3.0',
+        'typescript@^3.2',
         'ts-node@^7',
       )
       if (this.tslint) {

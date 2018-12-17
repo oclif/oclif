@@ -1,3 +1,10 @@
+## [1.12.8](https://github.com/oclif/oclif/compare/v1.12.7...v1.12.8) (2018-12-17)
+
+
+### Bug Fixes
+
+* typescript@3.2 ([#197](https://github.com/oclif/oclif/issues/197)) ([07013c8](https://github.com/oclif/oclif/commit/07013c8))
+
 ## [1.12.7](https://github.com/oclif/oclif/compare/v1.12.6...v1.12.7) (2018-12-03)
 
 

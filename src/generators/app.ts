@@ -470,8 +470,8 @@ class App extends Generator {
         '@types/chai@^4',
         '@types/mocha@^5',
         '@types/node@^10',
-        'typescript@^3.2',
-        'ts-node@^7',
+        'typescript@^3.3',
+        'ts-node@^8',
       )
       if (this.tslint) {
         devDependencies.push(
@@ -482,7 +482,7 @@ class App extends Generator {
     }
     if (this.eslint) {
       devDependencies.push(
-        'eslint@^5.5',
+        'eslint@^5.13',
         'eslint-config-oclif@^3.1',
       )
     }

@@ -1,3 +1,10 @@
+## [1.12.10](https://github.com/oclif/oclif/compare/v1.12.9...v1.12.10) (2019-02-12)
+
+
+### Bug Fixes
+
+* don't include mocha types on no mocha ([#206](https://github.com/oclif/oclif/issues/206)) ([505c43b](https://github.com/oclif/oclif/commit/505c43b))
+
 ## [1.12.9](https://github.com/oclif/oclif/compare/v1.12.8...v1.12.9) (2019-02-11)
 
 

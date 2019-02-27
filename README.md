@@ -30,11 +30,11 @@ oclif: Node.JS Open CLI Framework
 
 This is a framework for building CLIs in Node.js. This framework was built out of the [Heroku CLI](https://cli.heroku.com) but generalized to build any custom CLI. It's designed both for simple CLIs that can be just a single file with a few flag options, or for very complex CLIs that have subcommands (like git or heroku).
 
-[See the docs for more information](http://oclif.io/docs/introduction.html).
+[See the docs for more information](http://oclif.io/docs/introduction).
 
 # 🚀 Getting Started Tutorial
 
-The [Getting Started tutorial](http://oclif.io/docs/introduction.html) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
+The [Getting Started tutorial](http://oclif.io/docs/introduction) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
 
 # ✨ Features
 
@@ -43,10 +43,10 @@ The [Getting Started tutorial](http://oclif.io/docs/introduction.html) is a step
 * **CLI Generator** - Run a single command to scaffold out a fully functional CLI and get started quickly. See [Usage](#-usage) below.
 * **Testing Helpers** - We've put a lot of work into making commands easily testable and easy to mock out stdout/stderr. The generator will automatically create [scaffolded tests](https://github.com/oclif/example-multi-ts/blob/master/test/commands/hello.test.ts).
 * **Auto-documentation** - By default you can pass `--help` to the CLI to get help such as flag options and argument information. This information is also automatically placed in the README whenever the npm package of the CLI is published. See the [multi-command CLI example](https://github.com/oclif/example-multi-ts)
-* **Plugins** - Using [plugins](https://oclif.io/docs/plugins.html), users of the CLI can extend it with new functionality, a CLI can be split into modular components, and functionality can be shared amongst multiple CLIs. See [Building your own plugin](https://oclif.io/docs/plugins.html#building-your-own-plugin).
+* **Plugins** - Using [plugins](https://oclif.io/docs/plugins), users of the CLI can extend it with new functionality, a CLI can be split into modular components, and functionality can be shared amongst multiple CLIs. See [Building your own plugin](https://oclif.io/docs/plugins#building-your-own-plugin).
 * **Hooks** - Use lifecycle hooks to run functionality any time a CLI starts, or on custom triggers. Use this whenever custom functionality needs to be shared between various components of the CLI.
 * **TypeScript (or not)** - Everything in the core of oclif is written in TypeScript and the generator can build fully configured TypeScript CLIs or just plain JavaScript CLIs. By virtue of static properties in TypeScript the syntax is a bit cleaner in TypeScript—but everything will work no matter which language you choose. If you use plugins support, the CLI will automatically use `ts-node` to run the plugins making it easy and fast to use TypeScript with minimal-to-no boilerplate needed for any oclif CLI.
-* **Auto-updating Installers** - oclif can package your CLI into [different installers](https://oclif.io/docs/releasing.html) that will not require the user to already have node installed on the machine. These can be made auto-updatable by using [plugin-update](https://github.com/oclif/plugin-update).
+* **Auto-updating Installers** - oclif can package your CLI into [different installers](https://oclif.io/docs/releasing) that will not require the user to already have node installed on the machine. These can be made auto-updatable by using [plugin-update](https://github.com/oclif/plugin-update).
 * **Everything is Customizable** - Pretty much anything can be swapped out and replaced inside oclif if needed—including the arg/flag parser.
 * **Autocomplete** - Automatically include autocomplete for your CLI. This includes not just command names and flag names, but flag values as well. For example, it's easy to configure the Heroku CLI to have completions for Heroku app names:
 <!--* **Coming soon: man pages** - In addition to in-CLI help through `-help` and the README markdown help generation, the CLI can also automatically create man pages for all of its commands.-->
@@ -75,7 +75,7 @@ src/
     └── destroy.ts
 ```
 
-Multi-command CLIs may also include [plugins](https://oclif.io/docs/plugins.html).
+Multi-command CLIs may also include [plugins](https://oclif.io/docs/plugins).
 
 # 🏗 Usage
 

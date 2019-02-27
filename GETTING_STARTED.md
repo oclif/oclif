@@ -1,1 +1,1 @@
-Moved to http://oclif.io/docs/introduction.html
+Moved to http://oclif.io/docs/introduction

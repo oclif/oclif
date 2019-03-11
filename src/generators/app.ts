@@ -73,6 +73,13 @@ class App extends Generator {
       appveyor: boolean
       codecov: boolean
     }
+    service: {
+      github: boolean
+      githubCE: boolean
+      bitbucket: boolean
+      gitlab: boolean
+      gitlabCE: boolean
+    }
   }
   mocha!: boolean
   circleci!: boolean
@@ -82,6 +89,11 @@ class App extends Generator {
   tslint!: boolean
   eslint!: boolean
   yarn!: boolean
+  github!: boolean
+  githubCE!: boolean
+  bitbucket!: boolean
+  gitlab!: boolean
+  gitlabCE!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
     let bin = this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname) || this.pjson.name
@@ -126,7 +138,7 @@ class App extends Generator {
       this.destinationRoot(path.resolve(this.path))
       process.chdir(this.destinationRoot())
     }
-    this.githubUser = await this.user.github.username().catch(debug)
+    // this.githubUser = await this.user.github.username().catch(debug)
     this.pjson = {
       scripts: {},
       engines: {},
@@ -135,15 +147,15 @@ class App extends Generator {
       oclif: {},
       ...this.fs.readJSON('package.json', {}),
     }
-    let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
-    if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
+    // let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
+    // if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
     const defaults = {
       name: this.determineAppname().replace(/ /g, '-'),
       version: '0.0.0',
       license: 'MIT',
-      author: this.githubUser ? `${this.user.git.name()} @${this.githubUser}` : this.user.git.name(),
+      author: `${this.user.git.name()}`,
       dependencies: {},
-      repository,
+      repository: '',
       ...this.pjson,
       engines: {
         node: '>=8.0.0',
@@ -151,10 +163,10 @@ class App extends Generator {
       },
       options: this.options,
     }
-    this.repository = defaults.repository
-    if (this.repository && (this.repository as any).url) {
-      this.repository = (this.repository as any).url
-    }
+    // this.repository = defaults.repository
+    // if (this.repository && (this.repository as any).url) {
+    //   this.repository = (this.repository as any).url
+    // }
     if (this.options.defaults) {
       this.answers = defaults
     } else {
@@ -202,16 +214,30 @@ class App extends Generator {
           when: !this.pjson.license,
         },
         {
+          type: 'list',
+          name: 'service',
+          message: 'Select your repository service',
+          choices: [
+            {name: 'GitHub', value: 'github'},
+            {name: 'Github-Enterprise', value: 'githubCE'},
+            {name: 'GitLab', value: 'gitlab'},
+            // {name: 'GitLab-CE', value: 'gitlabCE'},
+            // {name: 'BitBucket', value: 'bitbucket'},
+          ]
+        },
+        {
           type: 'input',
           name: 'github.user',
-          message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
-          default: repository.split('/').slice(0, -1).pop(),
+          // message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
+          message: 'What is the username of repository owner',
+          // default: repository.split('/').slice(0, -1).pop(),
           when: !this.pjson.repository,
         },
         {
           type: 'input',
           name: 'github.repo',
-          message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
+          // message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
+          message: 'What is the name of repository',
           default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
           when: !this.pjson.repository,
         },
@@ -291,7 +317,31 @@ class App extends Generator {
     this.pjson.author = this.answers.author || defaults.author
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
-    this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    // this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    //setting pjson repository
+    let repository = `${this.answers.github.user}/${this.answers.github.repo}`
+    if(this.answers.service.github) {
+      this.repository = this.pjson.repository = this.answers.github ? `github:${repository}` : defaults.repository
+      this.pjson.bugs = `https://github.com/${repository}/issues`
+      this.pjson.homepage = `https://github.com/${repository}`
+    }
+    if(this.answers.service.gitlab) {
+      this.repository = this.pjson.repository = this.answers.github ? `gitlab:${repository}` : defaults.repository
+      this.pjson.bugs = `https://gitlab.com/${this.answers.github.user}/${this.pjson.repository}/issues`
+      this.pjson.homepage = `https://gitlab.com/${repository}`
+    }
+    if(this.answers.service.bitbucket) {
+      this.repository = this.pjson.repository = this.answers.github ? `bitbucket:${repository}` : defaults.repository
+      this.pjson.bugs = 'https://bitbucket.org/dashboard/issues'
+      this.pjson.homepage = `https://bitbucket.org/${repository}/src/master/`
+    }
+    // if(this.answers.service.githubCE) {
+    //   this.repository = this.pjson.repository = this.answers.github ? `https://github.example.com/${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    // }
+    // if(this.answers.service.gitlabCE) {
+    //   this.repository = this.pjson.repository = this.answers.github ? `https://gitlab.example.com/${this.answers.github.user}/${this.answers.github.repo}}` : defaults.repository
+    // }
+
     if (this.tslint) {
       this.pjson.scripts.posttest = `tslint -p ${this.mocha ? 'test' : '.'} -t stylish`
     }
@@ -318,8 +368,8 @@ class App extends Generator {
       this.pjson.files.push('/yarn.lock')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
-    this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
-    this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
+    // this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
+    // this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
 
     if (['single', 'multi'].includes(this.type)) {
       this.pjson.oclif.bin = this.answers.bin || this._bin

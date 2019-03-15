@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - node
+
+cache: <%- yarn ? 'yarn' : 'npm' %>
+
+script:
+<%_ if (type === 'single' || type === 'multi') { _%>
+  - .\bin\run --version
+  - .\bin\run --help
+<%_ } else if (type === 'plugin') { _%>
+  - .\bin\run --help
+<%_ } _%>
+  - <%- yarn ? 'yarn' : 'npm' %> run test
+
+<% if(mocha && codecov) { %>
+after_success:
+  - .\node_modules\.bin\nyc report --reporter text-lcov > coverage.lcov
+  - bash < (curl -s https://codecov.io/bash)
+<% } %>

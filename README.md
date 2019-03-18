@@ -14,6 +14,7 @@ oclif: Node.JS Open CLI Framework
 
 <!-- toc -->
 * [🗒 Description](#-description)
+* [Communication](#-communication)
 * [🚀 Getting Started Tutorial](#-getting-started-tutorial)
 * [✨ Features](#-features)
 * [📌 Requirements](#-requirements)
@@ -31,6 +32,13 @@ oclif: Node.JS Open CLI Framework
 This is a framework for building CLIs in Node.js. This framework was built out of the [Heroku CLI](https://cli.heroku.com) but generalized to build any custom CLI. It's designed both for simple CLIs that can be just a single file with a few flag options, or for very complex CLIs that have subcommands (like git or heroku).
 
 [See the docs for more information](http://oclif.io/docs/introduction).
+
+
+# Communication
+
+Want to contribute to the project and don't know where to start. Please join our chat. The communication channel is on **[Spectrum](https://spectrum.chat/oclif)**
+
+  > [spectrum.chat/oclif](https://spectrum.chat/oclif)
 
 # 🚀 Getting Started Tutorial
 

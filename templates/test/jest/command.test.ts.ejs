@@ -1,0 +1,29 @@
+import {test} from '@oclif/test'
+<%_ if (type === 'single') { _%>
+
+import cmd = require('../src')
+<%_ } _%>
+
+describe('<%- name %>', () => {
+  test
+    .stdout()
+<%_ if (type === 'single') { _%>
+    .do(() => cmd.run([]))
+<%_ } else { _%>
+    .command(['<%- name %>'])
+<%_ } _%>
+    .test('runs hello', ctx => {
+      expect(ctx.stdout).toBe('hello world')
+    })
+
+  test
+    .stdout()
+<%_ if (type === 'single') { _%>
+    .do(() => cmd.run(['--name', 'jeff']))
+<%_ } else { _%>
+    .command(['<%- name %>', '--name', 'jeff'])
+<%_ } _%>
+    .test('runs hello --name jeff', ctx => {
+      expect(ctx.stdout).toBe('hello jeff')
+    })
+})

@@ -17,6 +17,7 @@ class HookGenerator extends Generator {
   get _ts() { return this.pjson.devDependencies.typescript }
   get _ext() { return this._ts ? 'ts' : 'js' }
   get _mocha() { return this.pjson.devDependencies.mocha }
+  get _jest() { return this.pjson.devDependencies.jest }
 
   constructor(args: any, public options: Options) {
     super(args, options)
@@ -33,6 +34,9 @@ class HookGenerator extends Generator {
     this.sourceRoot(path.join(__dirname, '../../templates'))
     this.fs.copyTpl(this.templatePath(`src/hook.${this._ext}.ejs`), this.destinationPath(`src/hooks/${this.options.event}/${this.options.name}.${this._ext}`), this)
     if (this._mocha) {
+      this.fs.copyTpl(this.templatePath(`test/hook.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), this)
+    }
+    if (this._jest) {
       this.fs.copyTpl(this.templatePath(`test/hook.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), this)
     }
     this.pjson.oclif = this.pjson.oclif || {}

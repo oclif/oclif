@@ -17,6 +17,7 @@ class CommandGenerator extends Generator {
   get _ts() { return this.pjson.devDependencies.typescript }
   get _ext() { return this._ts ? 'ts' : 'js' }
   get _mocha() { return this.pjson.devDependencies.mocha }
+  get _jest() { return this.pjson.devDependencies.jest }
 
   constructor(args: any, public options: Options) {
     super(args, options)
@@ -40,6 +41,8 @@ class CommandGenerator extends Generator {
     // this.fs.copyTpl(this.templatePath(`plugin/src/hooks/init.${this._ext}`), this.destinationPath(`src/hooks/init.${this._ext}`), this)
     if (this._mocha) {
       // this.fs.copyTpl(this.templatePath(`plugin/test/hooks/init.test.${this._ext}`), this.destinationPath(`test/hooks/init.test.${this._ext}`), this)
+      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), opts)
+    } else if (this._jest) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), opts)
     }
     // this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)

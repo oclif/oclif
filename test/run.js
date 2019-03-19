@@ -21,9 +21,10 @@ function generate(args) {
 
 function build(type, features) {
   let options = ''
-  if (features === 'everything') options = '--options=yarn,typescript,tslint,mocha'
+  if (features === 'everything') options = '--options=yarn,typescript,tslint,mocha,jest'
   if (features === 'typescript') options = '--options=yarn,typescript'
   if (features === 'mocha') options = '--options=yarn,mocha'
+  if (features === 'jest') options = '--options=yarn,jest'
   let dir = CI ? tmp.tmpNameSync() : path.join(__dirname, '../tmp')
   dir = path.join(dir, type, features)
   sh.rm('-rf', dir)

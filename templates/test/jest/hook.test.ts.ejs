@@ -1,0 +1,9 @@
+import {test} from '@oclif/test'
+
+describe('hooks', () => {
+  test
+    .stdout()
+    .hook('init', {id: 'mycommand'})
+    .do(output => expect(output.stdout).toBe('example hook running mycommand'))
+    .test('shows a message')
+})

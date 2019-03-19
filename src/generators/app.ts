@@ -41,6 +41,7 @@ class App extends Generator {
   options: {
     defaults?: boolean
     mocha: boolean
+    jest: boolean
     circleci: boolean
     appveyor: boolean
     codecov: boolean
@@ -69,6 +70,7 @@ class App extends Generator {
     tslint: boolean
     eslint: boolean
     mocha: boolean
+    jest: boolean
     ci: {
       circleci: boolean
       appveyor: boolean
@@ -77,6 +79,7 @@ class App extends Generator {
     }
   }
   mocha!: boolean
+  jest!: boolean
   circleci!: boolean
   appveyor!: boolean
   codecov!: boolean
@@ -101,6 +104,7 @@ class App extends Generator {
     this.options = {
       defaults: opts.defaults,
       mocha: opts.options.includes('mocha'),
+      jest: opts.options.includes('jest'),
       circleci: opts.options.includes('circleci'),
       appveyor: opts.options.includes('appveyor'),
       codecov: opts.options.includes('codecov'),
@@ -256,6 +260,12 @@ class App extends Generator {
           default: () => true
         },
         {
+          type: 'confirm',
+          name: 'jest',
+          message: 'Use jest (testing framework)',
+          default: () => true
+        },
+        {
           type: 'checkbox',
           name: 'ci',
           message: 'Add CI service config',
@@ -274,6 +284,7 @@ class App extends Generator {
       this.options = {
         ...this.answers.ci,
         mocha: this.answers.mocha,
+        jest: this.answers.jest,
         tslint: this.answers.tslint,
         eslint: this.answers.eslint,
         typescript: this.answers.typescript,
@@ -284,6 +295,7 @@ class App extends Generator {
     this.tslint = this.options.tslint
     this.yarn = this.options.yarn
     this.mocha = this.options.mocha
+    this.jest = this.options.jest
     this.circleci = this.options.circleci
     this.appveyor = this.options.appveyor
     this.codecov = this.options.codecov
@@ -305,7 +317,9 @@ class App extends Generator {
       this.pjson.scripts.posttest = 'eslint .'
     }
     if (this.mocha) {
-      this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}mocha --forbid-only "test/**/*.test.${this._ext}"`
+      this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}mocha --forbid-only "test/mocha/**/*.test.${this._ext}"`
+    } else if (this.jest) {
+      this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}jest --forbid-only "test/jest/**/*.test.${this._ext}"`
     } else {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
@@ -380,6 +394,9 @@ class App extends Generator {
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
       }
+      if (this.jest) {
+        this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
+      }
     }
     if (this.eslint) {
       this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
@@ -388,6 +405,9 @@ class App extends Generator {
     }
     if (this.mocha) {
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
+    }
+    if (this.jest) {
+      this.fs.copyTpl(this.templatePath('test/jest.config.js'), this.destinationPath('test/jest.config.js'), this)
     }
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
@@ -472,6 +492,13 @@ class App extends Generator {
         '@oclif/test@^1',
       )
     }
+    if (this.jest) {
+      // jest does not require any dev dependencies
+      // devDependencies.push()
+      if (this.type !== 'base') devDependencies.push(
+        '@oclif/test@^1',
+      )
+    }
     if (this.ts) {
       dependencies.push(
         'tslib@^1',
@@ -485,6 +512,14 @@ class App extends Generator {
         devDependencies.push(
           '@types/chai@^4',
           '@types/mocha@^5',
+        )
+      }
+      if (this.jest) {
+        dependencies.push(
+          '@types/jest-diff@^20',
+        )
+        devDependencies.push(
+          '@types/jest@^24',
         )
       }
       if (this.tslint) {
@@ -561,6 +596,9 @@ class App extends Generator {
     if (this.mocha && !fs.existsSync('test')) {
       this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
     }
+    if (this.jest && !fs.existsSync('test')) {
+      this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
+    }
   }
 
   private _writePlugin() {
@@ -577,7 +615,10 @@ class App extends Generator {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
     }
     if (this.mocha && !fs.existsSync('test')) {
-      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
+      this.fs.copyTpl(this.templatePath(`test/mocha/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
+    }
+    if (this.jest && !fs.existsSync('test')) {
+      this.fs.copyTpl(this.templatePath(`test/jest/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
     }
   }
 
@@ -591,7 +632,10 @@ class App extends Generator {
       this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {...opts, path: commandPath.replace(process.cwd(), '.')})
     }
     if (this.mocha && !this.fs.exists(`test/index.test.${this._ext}`)) {
-      this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
+      this.fs.copyTpl(this.templatePath(`test/mocha/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
+    }
+    if (this.jest && !this.fs.exists(`test/index.test.${this._ext}`)) {
+      this.fs.copyTpl(this.templatePath(`test/jest/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
     }
   }
 

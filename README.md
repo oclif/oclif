@@ -57,7 +57,7 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 # 📌 Requirements
 
-Only Node 8+ is supported. Node 6 will reach end-of-life April 2019. At that point we will continue to support the current LTS version of node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are on Node 8.
+Only Node 8+ is supported. Node 6 will reach end-of-life April 2019. At that point we will continue to support the current LTS version of node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are on Node 8. (Note that this is only true when your cli is run from a script field or a tool like npx, not when installed globally or used through the shebang bin file.)
 
 # 🌈 CLI Types
 

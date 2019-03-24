@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/oclif/oclif/compare/v1.13.0...v1.13.1) (2019-03-24)
+
+
+### Bug Fixes
+
+* test on node 10 ([cf10522](https://github.com/oclif/oclif/commit/cf10522))
+
 # [1.13.0](https://github.com/oclif/oclif/compare/v1.12.10...v1.13.0) (2019-03-17)
 
 

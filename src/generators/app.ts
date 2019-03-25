@@ -319,7 +319,7 @@ class App extends Generator {
     if (this.mocha) {
       this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}mocha --forbid-only "test/mocha/**/*.test.${this._ext}"`
     } else if (this.jest) {
-      this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}jest --forbid-only "test/jest/**/*.test.${this._ext}"`
+      this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}jest "test/jest/**/*.test.${this._ext}"`
     } else {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
@@ -594,10 +594,10 @@ class App extends Generator {
       this.fs.copyTpl(this.templatePath(`base/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
     }
     if (this.mocha && !fs.existsSync('test')) {
-      this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
+      this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/mocha/index.test.${this._ext}`), this)
     }
     if (this.jest && !fs.existsSync('test')) {
-      this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
+      this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/jest/index.test.${this._ext}`), this)
     }
   }
 
@@ -631,11 +631,11 @@ class App extends Generator {
     if (!this.fs.exists(`src/index.${this._ext}`)) {
       this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {...opts, path: commandPath.replace(process.cwd(), '.')})
     }
-    if (this.mocha && !this.fs.exists(`test/index.test.${this._ext}`)) {
-      this.fs.copyTpl(this.templatePath(`test/mocha/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
+    if (this.mocha && !this.fs.exists(`test/mocha/index.test.${this._ext}`)) {
+      this.fs.copyTpl(this.templatePath(`test/mocha/command.test.${this._ext}.ejs`), this.destinationPath(`test/mocha/index.test.${this._ext}`), opts)
     }
-    if (this.jest && !this.fs.exists(`test/index.test.${this._ext}`)) {
-      this.fs.copyTpl(this.templatePath(`test/jest/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
+    if (this.jest && !this.fs.exists(`test/jest/index.test.${this._ext}`)) {
+      this.fs.copyTpl(this.templatePath(`test/jest/command.test.${this._ext}.ejs`), this.destinationPath(`test/jest/index.test.${this._ext}`), opts)
     }
   }
 

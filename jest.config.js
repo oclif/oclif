@@ -5,7 +5,7 @@ module.exports = {
   transform: {'\\.ts$': 'ts-jest/preprocessor'},
   mapCoverage: true,
   coverageReporters: ['lcov', 'text-summary'],
-  // collectCoverage: !!process.env.CI,
+  // collectCoverage: !!`Boolean(process.env.CI)`,
   collectCoverageFrom: ['src/**/*.ts'],
   coveragePathIgnorePatterns: ['/templates/'],
   coverageThreshold: {

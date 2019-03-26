@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 
-import {add} from '../src'
+import {add} from '../../src'
 
 describe('add', () => {
   it('1+2=3', () => {

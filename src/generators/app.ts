@@ -48,6 +48,7 @@ class App extends Generator {
     tslint: boolean
     eslint: boolean
     yarn: boolean
+    travisci: boolean
   }
   args!: {[k: string]: string}
   type: 'single' | 'multi' | 'plugin' | 'base'
@@ -72,6 +73,7 @@ class App extends Generator {
       circleci: boolean
       appveyor: boolean
       codecov: boolean
+      travisci: boolean
     }
     service: {
       github: boolean
@@ -94,6 +96,7 @@ class App extends Generator {
   bitbucket!: boolean
   gitlab!: boolean
   gitlabCE!: boolean
+  travisci!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
     let bin = this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname) || this.pjson.name
@@ -117,6 +120,7 @@ class App extends Generator {
       tslint: opts.options.includes('tslint'),
       eslint: opts.options.includes('eslint'),
       yarn: opts.options.includes('yarn') || hasYarn,
+      travisci: opts.options.includes('travisci'),
     }
   }
 
@@ -285,6 +289,7 @@ class App extends Generator {
             {name: 'circleci (continuous integration/delivery service)', value: 'circleci'},
             {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor'},
             {name: 'codecov (online code coverage report viewer)', value: 'codecov'},
+            {name: 'travisci (continuous integration/delivery service)', value: 'travisci'},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
         },
@@ -309,6 +314,7 @@ class App extends Generator {
     this.appveyor = this.options.appveyor
     this.codecov = this.options.codecov
     this.eslint = this.options.eslint
+    this.travisci = this.options.travisci
 
     this.pjson.name = this.answers.name || defaults.name
     this.pjson.description = this.answers.description || defaults.description
@@ -446,6 +452,10 @@ class App extends Generator {
     if (this.appveyor) {
       this.fs.copyTpl(this.templatePath('appveyor.yml.ejs'), this.destinationPath('appveyor.yml'), this)
     }
+    if (this.travisci) {
+      this.fs.copyTpl(this.templatePath('travis.yml.ejs'), this.destinationPath('.travis.yml'), this)
+    }
+
     this.fs.copyTpl(this.templatePath('README.md.ejs'), this.destinationPath('README.md'), this)
     if (this.pjson.license === 'MIT' && (this.pjson.repository.startsWith('oclif') || this.pjson.repository.startsWith('heroku'))) {
       this.fs.copyTpl(this.templatePath('LICENSE.mit'), this.destinationPath('LICENSE'), this)

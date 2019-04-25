@@ -13,6 +13,7 @@
     "@oclif/plugin-help": "^2.1.6",
     "@oclif/plugin-not-found": "^1.2.2",
     "@oclif/plugin-warn-if-update-available": "^1.5.4",
+    "dargs": "^6.1.0",
     "debug": "^4.1.1",
     "lodash": "^4.17.11",
     "nps-utils": "^1.7.0",

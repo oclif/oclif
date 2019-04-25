@@ -198,7 +198,7 @@ ARGUMENTS
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (yarn|typescript|tslint|mocha)
+  --options=options  (yarn|pnpm|typescript|tslint|mocha)
 ```
 
 _See code: [src/commands/multi.ts](https://github.com/oclif/oclif/blob/v1.13.1/src/commands/multi.ts)_
@@ -217,7 +217,7 @@ ARGUMENTS
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (yarn|typescript|tslint|mocha)
+  --options=options  (yarn|pnpm|typescript|tslint|mocha)
 ```
 
 _See code: [src/commands/plugin.ts](https://github.com/oclif/oclif/blob/v1.13.1/src/commands/plugin.ts)_
@@ -236,7 +236,7 @@ ARGUMENTS
 OPTIONS
   --defaults         use defaults for every setting
   --force            overwrite existing files
-  --options=options  (yarn|typescript|tslint|mocha)
+  --options=options  (yarn|pnpm|typescript|tslint|mocha)
 ```
 
 _See code: [src/commands/single.ts](https://github.com/oclif/oclif/blob/v1.13.1/src/commands/single.ts)_

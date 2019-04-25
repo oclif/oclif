@@ -2,6 +2,7 @@
 // tslint:disable no-console
 
 import {execSync} from 'child_process'
+import * as dargs from 'dargs'
 import * as fs from 'fs'
 import * as _ from 'lodash'
 import * as path from 'path'
@@ -22,6 +23,11 @@ let hasYarn = false
 try {
   execSync('yarn -v', {stdio: 'ignore'})
   hasYarn = true
+} catch {}
+let hasPnpm = false
+try {
+  execSync('pnpm -v', {stdio: 'ignore'})
+  hasPnpm = true
 } catch {}
 // function stringToArray(s: string) {
 //   const keywords: string[] = []
@@ -48,6 +54,7 @@ class App extends Generator {
     tslint: boolean
     eslint: boolean
     yarn: boolean
+    pnpm: boolean
     travisci: boolean
   }
   args!: {[k: string]: string}
@@ -84,6 +91,7 @@ class App extends Generator {
   tslint!: boolean
   eslint!: boolean
   yarn!: boolean
+  pnpm!: boolean
   travisci!: boolean
   get _ext() { return this.ts ? 'ts' : 'js' }
   get _bin() {
@@ -108,6 +116,7 @@ class App extends Generator {
       tslint: opts.options.includes('tslint'),
       eslint: opts.options.includes('eslint'),
       yarn: opts.options.includes('yarn') || hasYarn,
+      pnpm: opts.options.includes('pnpm') || hasPnpm,
       travisci: opts.options.includes('travisci'),
     }
   }
@@ -226,8 +235,13 @@ class App extends Generator {
           choices: [
             {name: 'npm', value: 'npm'},
             {name: 'yarn', value: 'yarn'},
+            {name: 'pnpm', value: 'pnpm'}
           ],
-          default: () => this.options.yarn || hasYarn ? 1 : 0,
+          default: () => (
+            this.options.pnpm || hasPnpm ? 2 :
+              this.options.yarn || hasYarn ? 1 :
+                0
+          ),
         },
         {
           type: 'confirm',
@@ -278,11 +292,13 @@ class App extends Generator {
         eslint: this.answers.eslint,
         typescript: this.answers.typescript,
         yarn: this.answers.pkg === 'yarn',
+        pnpm: this.answers.pkg === 'pnpm'
       }
     }
     this.ts = this.options.typescript
     this.tslint = this.options.tslint
     this.yarn = this.options.yarn
+    this.pnpm = this.options.pnpm
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
     this.appveyor = this.options.appveyor
@@ -319,9 +335,10 @@ class App extends Generator {
       this.pjson.files.push('/oclif.manifest.json')
       this.pjson.files.push('/npm-shrinkwrap.json')
     }
-    if (this.type === 'plugin' && hasYarn) {
-      // for plugins, add yarn.lock file to package so we can lock plugin dependencies
-      this.pjson.files.push('/yarn.lock')
+    if (this.type === 'plugin') {
+      // for plugins, add appropriate lock file to package so we can lock plugin dependencies
+      if (hasYarn) this.pjson.files.push('/yarn.lock')
+      if (hasPnpm) this.pjson.files.push('/pnpm-lock.yaml')
     }
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
@@ -503,7 +520,12 @@ class App extends Generator {
     if (isWindows) devDependencies.push('rimraf')
     let yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
-    const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
+
+    const install = (deps: string[], opts: {[key: string]: string}) => (
+      this.pnpm ? this.spawnCommand('pnpm', ['install', ...deps, ...dargs(opts)]) :
+        this.yarn ? this.yarnInstall(deps, opts)
+          : this.npmInstall(deps, opts)
+    )
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
     return Promise.all([
@@ -532,11 +554,14 @@ class App extends Generator {
       '/tmp',
       '/dist',
       '/.nyc_output',
-      this.yarn ? '/package-lock.json' : '/yarn.lock',
+      this.pnpm ? ['/package-lock.json', '/yarn.lock'] :
+        this.yarn ? ['/pnpm-lock.yaml', '/package-lock.json'] :
+          ['/yarn.lock', '/pnpm-lock.yaml'],
       this.ts && '/lib',
     ])
       .concat(existing)
       .compact()
+      .flatten()
       .uniq()
       .sort()
       .join('\n') + '\n'

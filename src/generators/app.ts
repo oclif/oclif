@@ -310,7 +310,7 @@ class App extends Generator {
       this.pjson.scripts.test = 'echo NO TESTS'
     }
     if (this.ts) {
-      this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
+      this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, `${rmf} tsconfig.tsbuildinfo`, 'tsc -b')
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')

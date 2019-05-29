@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/oclif/oclif/compare/v1.13.1...v1.13.2) (2019-05-29)
+
+
+### Bug Fixes
+
+* update license template copyright year ([9cfaea8](https://github.com/oclif/oclif/commit/9cfaea8))
+
 ## [1.13.1](https://github.com/oclif/oclif/compare/v1.13.0...v1.13.1) (2019-03-24)
 
 

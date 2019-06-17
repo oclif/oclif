@@ -1,3 +1,10 @@
+## [1.13.3](https://github.com/oclif/oclif/compare/v1.13.2...v1.13.3) (2019-06-17)
+
+
+### Bug Fixes
+
+* set "composite": false ([#247](https://github.com/oclif/oclif/issues/247)) ([25fde1c](https://github.com/oclif/oclif/commit/25fde1c))
+
 ## [1.13.2](https://github.com/oclif/oclif/compare/v1.13.1...v1.13.2) (2019-05-29)
 
 

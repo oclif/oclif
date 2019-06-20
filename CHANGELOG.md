@@ -1,3 +1,10 @@
+## [1.13.4](https://github.com/oclif/oclif/compare/v1.13.3...v1.13.4) (2019-06-20)
+
+
+### Bug Fixes
+
+* use correct path separators in travis.yml ([#248](https://github.com/oclif/oclif/issues/248)) ([ec41aa5](https://github.com/oclif/oclif/commit/ec41aa5))
+
 ## [1.13.3](https://github.com/oclif/oclif/compare/v1.13.2...v1.13.3) (2019-06-17)
 
 

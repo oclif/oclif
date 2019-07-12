@@ -1,3 +1,10 @@
+## [1.13.5](https://github.com/oclif/oclif/compare/v1.13.4...v1.13.5) (2019-07-12)
+
+
+### Bug Fixes
+
+* update globby ([#259](https://github.com/oclif/oclif/issues/259)) ([468985e](https://github.com/oclif/oclif/commit/468985e))
+
 ## [1.13.4](https://github.com/oclif/oclif/compare/v1.13.3...v1.13.4) (2019-06-20)
 
 

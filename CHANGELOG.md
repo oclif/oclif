@@ -1,3 +1,10 @@
+## [1.13.6](https://github.com/oclif/oclif/compare/v1.13.5...v1.13.6) (2019-08-28)
+
+
+### Bug Fixes
+
+* update README Requirements ([f2bd11e](https://github.com/oclif/oclif/commit/f2bd11e))
+
 ## [1.13.5](https://github.com/oclif/oclif/compare/v1.13.4...v1.13.5) (2019-07-12)
 
 

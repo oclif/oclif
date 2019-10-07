@@ -56,8 +56,6 @@ jobs:
       - store_test_results: *store_test_results
   node-latest-command:
     <<: *lint
-    docker:
-      - image: node:8
     steps: &command_steps
       - checkout
       - restore_cache: *restore_cache
@@ -67,8 +65,6 @@ jobs:
       - store_test_results: *store_test_results
   node-latest-hook:
     <<: *lint
-    docker:
-      - image: node:8
     steps: &hook_steps
       - checkout
       - restore_cache: *restore_cache
@@ -76,28 +72,51 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.hook
       - store_test_results: *store_test_results
-  node-8-base: &node_8
+  node-12-base: &node_12
     <<: *lint
     docker:
-      - image: node:8
+      - image: node:12
     steps: *base_steps
-  node-8-single:
-    <<: *node_8
+  node-12-single:
+    <<: *node_12
     steps: *single_steps
-  node-8-plugin:
-    <<: *node_8
+  node-12-plugin:
+    <<: *node_12
     steps: *plugin_steps
-  node-8-single:
-    <<: *node_8
+  node-12-single:
+    <<: *node_12
     steps: *single_steps
-  node-8-multi:
-    <<: *node_8
+  node-12-multi:
+    <<: *node_12
     steps: *multi_steps
-  node-8-command:
-    <<: *node_8
+  node-12-command:
+    <<: *node_12
     steps: *command_steps
-  node-8-hook:
-    <<: *node_8
+  node-12-hook:
+    <<: *node_12
+    steps: *hook_steps
+  node-10-base: &node_10
+    <<: *lint
+    docker:
+      - image: node:10
+    steps: *base_steps
+  node-10-single:
+    <<: *node_10
+    steps: *single_steps
+  node-10-plugin:
+    <<: *node_10
+    steps: *plugin_steps
+  node-10-single:
+    <<: *node_10
+    steps: *single_steps
+  node-10-multi:
+    <<: *node_10
+    steps: *multi_steps
+  node-10-command:
+    <<: *node_10
+    steps: *command_steps
+  node-10-hook:
+    <<: *node_10
     steps: *hook_steps
 
   cache:
@@ -163,9 +182,15 @@ workflows:
       - node-latest-multi: {requires: [lint] }
       - node-latest-command: {requires: [lint] }
       - node-latest-hook: {requires: [lint] }
-      - node-8-base: {requires: [lint] }
-      - node-8-single: {requires: [lint] }
-      - node-8-plugin: {requires: [lint] }
-      - node-8-multi: {requires: [lint] }
-      - node-8-command: {requires: [lint] }
-      - node-8-hook: {requires: [lint] }
+      - node-12-base: {requires: [lint] }
+      - node-12-single: {requires: [lint] }
+      - node-12-plugin: {requires: [lint] }
+      - node-12-multi: {requires: [lint] }
+      - node-12-command: {requires: [lint] }
+      - node-12-hook: {requires: [lint] }
+      - node-10-base: {requires: [lint] }
+      - node-10-single: {requires: [lint] }
+      - node-10-plugin: {requires: [lint] }
+      - node-10-multi: {requires: [lint] }
+      - node-10-command: {requires: [lint] }
+      - node-10-hook: {requires: [lint] }

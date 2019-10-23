@@ -319,7 +319,7 @@ class App extends Generator {
       this.pjson.files.push('/oclif.manifest.json')
       this.pjson.files.push('/npm-shrinkwrap.json')
     } else if (this.type === 'single') {
-      nps.series(this.pjson.scripts.prepack, 'oclif-dev readme')
+      this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev readme')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
     }
     if (this.type === 'plugin' && hasYarn) {

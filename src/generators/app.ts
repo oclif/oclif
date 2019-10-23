@@ -318,6 +318,9 @@ class App extends Generator {
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
       this.pjson.files.push('/oclif.manifest.json')
       this.pjson.files.push('/npm-shrinkwrap.json')
+    } else if (this.type === 'single') {
+      nps.series(this.pjson.scripts.prepack, 'oclif-dev readme')
+      this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
     }
     if (this.type === 'plugin' && hasYarn) {
       // for plugins, add yarn.lock file to package so we can lock plugin dependencies
@@ -439,6 +442,9 @@ class App extends Generator {
           '@oclif/command@^1',
           '@oclif/plugin-help@^2',
         )
+      devDependencies.push(
+        '@oclif/dev-cli@^1',
+      )
       break
     case 'plugin':
       dependencies.push(
@@ -517,7 +523,7 @@ class App extends Generator {
   }
 
   end() {
-    if (['plugin', 'multi'].includes(this.type)) {
+    if (['plugin', 'multi', 'single'].includes(this.type)) {
       this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])
     }
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)

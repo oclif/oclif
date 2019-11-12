@@ -1,3 +1,17 @@
+## [1.14.2](https://github.com/oclif/oclif/compare/v1.14.1...v1.14.2) (2019-10-25)
+
+
+### Bug Fixes
+
+* bump nyc version in generator ([#295](https://github.com/oclif/oclif/issues/295)) ([5fdf1b0](https://github.com/oclif/oclif/commit/5fdf1b0d622d8662d7cd33f975c1730e549e33b2))
+
+## [1.14.1](https://github.com/oclif/oclif/compare/v1.14.0...v1.14.1) (2019-10-22)
+
+
+### Bug Fixes
+
+* update oclif deps ([fec3106](https://github.com/oclif/oclif/commit/fec3106ba1fbd4c37fcc5dc97472c9ada549a014))
+
 ## [1.13.6](https://github.com/oclif/oclif/compare/v1.13.5...v1.13.6) (2019-08-28)
 
 

@@ -482,7 +482,7 @@ class App extends Generator {
       )
       if (this.ts) {
         devDependencies.push(
-          'eslint-config-oclif@^.1',
+          'eslint-config-oclif-typescript@^0.1',
         )
       }
     }

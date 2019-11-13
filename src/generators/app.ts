@@ -45,7 +45,6 @@ class App extends Generator {
     appveyor: boolean
     codecov: boolean
     typescript: boolean
-    tslint: boolean
     eslint: boolean
     yarn: boolean
     travisci: boolean
@@ -66,7 +65,6 @@ class App extends Generator {
     license: string
     pkg: string
     typescript: boolean
-    tslint: boolean
     eslint: boolean
     mocha: boolean
     ci: {
@@ -81,7 +79,6 @@ class App extends Generator {
   appveyor!: boolean
   codecov!: boolean
   ts!: boolean
-  tslint!: boolean
   eslint!: boolean
   yarn!: boolean
   travisci!: boolean
@@ -105,7 +102,6 @@ class App extends Generator {
       appveyor: opts.options.includes('appveyor'),
       codecov: opts.options.includes('codecov'),
       typescript: opts.options.includes('typescript'),
-      tslint: opts.options.includes('tslint'),
       eslint: opts.options.includes('eslint'),
       yarn: opts.options.includes('yarn') || hasYarn,
       travisci: opts.options.includes('travisci'),
@@ -237,17 +233,9 @@ class App extends Generator {
         },
         {
           type: 'confirm',
-          name: 'tslint',
-          message: 'Use tslint (linter for TypeScript)',
-          when: (answers: any) => answers.typescript,
-          default: (answers: any) => answers.typescript
-        },
-        {
-          type: 'confirm',
           name: 'eslint',
           message: 'Use eslint (linter for JavaScript)',
-          when: (answers: any) => !answers.typescript,
-          default: (answers: any) => !answers.typescript
+          default: (answers: any) => true
         },
         {
           type: 'confirm',
@@ -274,14 +262,12 @@ class App extends Generator {
       this.options = {
         ...this.answers.ci,
         mocha: this.answers.mocha,
-        tslint: this.answers.tslint,
         eslint: this.answers.eslint,
         typescript: this.answers.typescript,
         yarn: this.answers.pkg === 'yarn',
       }
     }
     this.ts = this.options.typescript
-    this.tslint = this.options.tslint
     this.yarn = this.options.yarn
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
@@ -298,9 +284,6 @@ class App extends Generator {
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
-    if (this.tslint) {
-      this.pjson.scripts.posttest = `tslint -p ${this.mocha ? 'test' : '.'} -t stylish`
-    }
     if (this.eslint) {
       this.pjson.scripts.posttest = 'eslint .'
     }
@@ -311,6 +294,9 @@ class App extends Generator {
     }
     if (this.ts) {
       this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
+      if (this.eslint) {
+        this.pjson.scripts.posttest = `eslint . --ext .ts --config .eslintrc`
+      }
     }
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
@@ -373,18 +359,19 @@ class App extends Generator {
     }
 
     if (this.ts) {
-      if (this.tslint) {
-        this.fs.copyTpl(this.templatePath('tslint.json'), this.destinationPath('tslint.json'), this)
-      }
       this.fs.copyTpl(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'), this)
       if (this.mocha) {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
       }
     }
     if (this.eslint) {
-      this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
       const eslintignore = this._eslintignore()
       if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
+      if (this.ts) {
+        this.fs.copyTpl(this.templatePath('eslintrc.typescript'), this.destinationPath('.eslintrc'), this)
+      } else {
+        this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
+      }
     }
     if (this.mocha) {
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
@@ -487,18 +474,17 @@ class App extends Generator {
           '@types/mocha@^5',
         )
       }
-      if (this.tslint) {
-        devDependencies.push(
-          '@oclif/tslint@^3',
-          'tslint@^5',
-        )
-      }
     }
     if (this.eslint) {
       devDependencies.push(
         'eslint@^5.13',
         'eslint-config-oclif@^3.1',
       )
+      if (this.ts) {
+        devDependencies.push(
+          'eslint-config-oclif@^.1',
+        )
+      }
     }
     if (isWindows) devDependencies.push('rimraf')
     let yarnOpts = {} as any

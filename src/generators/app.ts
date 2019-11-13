@@ -1,6 +1,3 @@
-// tslint:disable no-floating-promises
-// tslint:disable no-console
-
 import {execSync} from 'child_process'
 import * as fs from 'fs'
 import * as _ from 'lodash'
@@ -39,58 +36,78 @@ try {
 
 class App extends Generator {
   options: {
-    defaults?: boolean
-    mocha: boolean
-    circleci: boolean
-    appveyor: boolean
-    codecov: boolean
-    typescript: boolean
-    tslint: boolean
-    eslint: boolean
-    yarn: boolean
-    travisci: boolean
+    defaults?: boolean;
+    mocha: boolean;
+    circleci: boolean;
+    appveyor: boolean;
+    codecov: boolean;
+    typescript: boolean;
+    tslint: boolean;
+    eslint: boolean;
+    yarn: boolean;
+    travisci: boolean;
   }
+
   args!: {[k: string]: string}
+
   type: 'single' | 'multi' | 'plugin' | 'base'
+
   path: string
+
   pjson: any
+
   githubUser: string | undefined
+
   answers!: {
-    name: string
-    bin: string
-    description: string
-    version: string
-    github: {repo: string, user: string}
-    author: string
-    files: string
-    license: string
-    pkg: string
-    typescript: boolean
-    tslint: boolean
-    eslint: boolean
-    mocha: boolean
+    name: string;
+    bin: string;
+    description: string;
+    version: string;
+    github: {repo: string; user: string};
+    author: string;
+    files: string;
+    license: string;
+    pkg: string;
+    typescript: boolean;
+    tslint: boolean;
+    eslint: boolean;
+    mocha: boolean;
     ci: {
-      circleci: boolean
-      appveyor: boolean
-      codecov: boolean
-      travisci: boolean
-    }
+      circleci: boolean;
+      appveyor: boolean;
+      codecov: boolean;
+      travisci: boolean;
+    };
   }
+
   mocha!: boolean
+
   circleci!: boolean
+
   appveyor!: boolean
+
   codecov!: boolean
+
   ts!: boolean
+
   tslint!: boolean
+
   eslint!: boolean
+
   yarn!: boolean
+
   travisci!: boolean
-  get _ext() { return this.ts ? 'ts' : 'js' }
+
+  get _ext() {
+    return this.ts ? 'ts' : 'js'
+  }
+
   get _bin() {
-    let bin = this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname) || this.pjson.name
+    let bin = (this.pjson.oclif && (this.pjson.oclif.bin || this.pjson.oclif.dirname)) || this.pjson.name
     if (bin.includes('/')) bin = bin.split('/').pop()
     return bin
   }
+
   repository?: string
 
   constructor(args: any, opts: any) {
@@ -233,27 +250,27 @@ class App extends Generator {
           type: 'confirm',
           name: 'typescript',
           message: 'TypeScript',
-          default: () => true
+          default: () => true,
         },
         {
           type: 'confirm',
           name: 'tslint',
           message: 'Use tslint (linter for TypeScript)',
           when: (answers: any) => answers.typescript,
-          default: (answers: any) => answers.typescript
+          default: (answers: any) => answers.typescript,
         },
         {
           type: 'confirm',
           name: 'eslint',
           message: 'Use eslint (linter for JavaScript)',
           when: (answers: any) => !answers.typescript,
-          default: (answers: any) => !answers.typescript
+          default: (answers: any) => !answers.typescript,
         },
         {
           type: 'confirm',
           name: 'mocha',
           message: 'Use mocha (testing framework)',
-          default: () => true
+          default: () => true,
         },
         {
           type: 'checkbox',
@@ -297,7 +314,8 @@ class App extends Generator {
     this.pjson.author = this.answers.author || defaults.author
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
-    this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    this.repository = this.pjson.repository
     if (this.tslint) {
       this.pjson.scripts.posttest = `tslint -p ${this.mocha ? 'test' : '.'} -t stylish`
     }
@@ -351,7 +369,7 @@ class App extends Generator {
     case 'plugin':
       this.pjson.oclif = {
         commands: `./${this.ts ? 'lib' : 'src'}/commands`,
-          // hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
+        // hooks: {init: `./${this.ts ? 'lib' : 'src'}/hooks/init`},
         ...this.pjson.oclif,
       }
       break
@@ -435,32 +453,32 @@ class App extends Generator {
     case 'base': break
     case 'single':
       dependencies.push(
-          '@oclif/config@^1',
-          '@oclif/command@^1',
-          '@oclif/plugin-help@^2',
-        )
+        '@oclif/config@^1',
+        '@oclif/command@^1',
+        '@oclif/plugin-help@^2',
+      )
       break
     case 'plugin':
       dependencies.push(
-          '@oclif/command@^1',
-          '@oclif/config@^1',
-        )
+        '@oclif/command@^1',
+        '@oclif/config@^1',
+      )
       devDependencies.push(
-          '@oclif/dev-cli@^1',
-          '@oclif/plugin-help@^2',
-          'globby@^10',
-        )
+        '@oclif/dev-cli@^1',
+        '@oclif/plugin-help@^2',
+        'globby@^10',
+      )
       break
     case 'multi':
       dependencies.push(
-          '@oclif/config@^1',
-          '@oclif/command@^1',
-          '@oclif/plugin-help@^2',
-        )
+        '@oclif/config@^1',
+        '@oclif/command@^1',
+        '@oclif/plugin-help@^2',
+      )
       devDependencies.push(
-          '@oclif/dev-cli@^1',
-          'globby@^10',
-        )
+        '@oclif/dev-cli@^1',
+        'globby@^10',
+      )
     }
     if (this.mocha) {
       devDependencies.push(
@@ -501,7 +519,7 @@ class App extends Generator {
       )
     }
     if (isWindows) devDependencies.push('rimraf')
-    let yarnOpts = {} as any
+    const yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
@@ -535,11 +553,11 @@ class App extends Generator {
       this.yarn ? '/package-lock.json' : '/yarn.lock',
       this.ts && '/lib',
     ])
-      .concat(existing)
-      .compact()
-      .uniq()
-      .sort()
-      .join('\n') + '\n'
+    .concat(existing)
+    .compact()
+    .uniq()
+    .sort()
+    .join('\n') + '\n'
   }
 
   private _eslintignore(): string {
@@ -547,11 +565,11 @@ class App extends Generator {
     return _([
       this.ts && '/lib',
     ])
-      .concat(existing)
-      .compact()
-      .uniq()
-      .sort()
-      .join('\n') + '\n'
+    .concat(existing)
+    .compact()
+    .uniq()
+    .sort()
+    .join('\n') + '\n'
   }
 
   private _writeBase() {

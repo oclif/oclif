@@ -3,10 +3,10 @@ import {flags} from '@oclif/command'
 import Base from '../command-base'
 
 export interface Options {
-  name: string
-  defaults?: boolean
-  force?: boolean
-  event: string
+  name: string;
+  defaults?: boolean;
+  force?: boolean;
+  event: string;
 }
 
 export default abstract class HookCommand extends Base {
@@ -17,8 +17,9 @@ export default abstract class HookCommand extends Base {
     force: flags.boolean({description: 'overwrite existing files'}),
     event: flags.string({description: 'event to run hook on', default: 'init'}),
   }
+
   static args = [
-    {name: 'name', description: 'name of hook (snake_case)', required: true}
+    {name: 'name', description: 'name of hook (snake_case)', required: true},
   ]
 
   async run() {

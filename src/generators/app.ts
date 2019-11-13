@@ -234,7 +234,7 @@ class App extends Generator {
         {
           type: 'confirm',
           name: 'eslint',
-          message: 'Use eslint (linter for JavaScript)',
+          message: 'Use eslint (linter for JavaScript and Typescript)',
           default: (answers: any) => true
         },
         {

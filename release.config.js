@@ -27,9 +27,5 @@ module.exports = {
   publish: [
     '@semantic-release/npm',
     '@semantic-release/github',
-    {
-      path: '@semantic-release/exec',
-      cmd: './scripts/release-create-oclif.js',
-    },
   ],
 }

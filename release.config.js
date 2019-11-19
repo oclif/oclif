@@ -4,7 +4,7 @@ module.exports = {
   verifyConditions: [
     {
       path: '@semantic-release/exec',
-      cmd: 'nps build',
+      cmd: './node_modules/.bin/nps build',
     },
     '@semantic-release/changelog',
     '@semantic-release/npm',

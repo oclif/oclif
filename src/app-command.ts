@@ -5,11 +5,12 @@ import Base from './command-base'
 export default abstract class AppCommand extends Base {
   static flags = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
-    options: flags.string({description: '(yarn|typescript|tslint|mocha)'}),
+    options: flags.string({description: '(yarn|typescript|eslint|mocha)'}),
     force: flags.boolean({description: 'overwrite existing files'}),
   }
+
   static args = [
-    {name: 'path', required: false, description: 'path to project, defaults to current directory'}
+    {name: 'path', required: false, description: 'path to project, defaults to current directory'},
   ]
 
   abstract type: string
@@ -23,7 +24,7 @@ export default abstract class AppCommand extends Base {
       path: args.path,
       options,
       defaults: flags.defaults,
-      force: flags.force
+      force: flags.force,
     })
   }
 }

@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/oclif/oclif/compare/v1.15.0...v1.15.1) (2019-11-19)
+
+
+### Bug Fixes
+
+* nps build step in release ([#306](https://github.com/oclif/oclif/issues/306)) ([1fbf44b](https://github.com/oclif/oclif/commit/1fbf44b15b40adad6c4a61f7d62fff8c4f85fc0a))
+
 # [1.15.0](https://github.com/oclif/oclif/compare/v1.14.2...v1.15.0) (2019-11-19)
 
 

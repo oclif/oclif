@@ -7,7 +7,7 @@ export default abstract class CommandBase extends Command {
 
     env.register(
       require.resolve(`./generators/${type}`),
-      `oclif:${type}`
+      `oclif:${type}`,
     )
 
     await new Promise((resolve, reject) => {

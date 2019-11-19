@@ -1,6 +1,3 @@
-// tslint:disable no-floating-promises
-// tslint:disable no-console
-
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
@@ -13,10 +10,21 @@ const {version} = require('../../package.json')
 class CommandGenerator extends Generator {
   pjson!: any
 
-  get _path() { return this.options.name.split(':').join('/') }
-  get _ts() { return this.pjson.devDependencies.typescript }
-  get _ext() { return this._ts ? 'ts' : 'js' }
-  get _mocha() { return this.pjson.devDependencies.mocha }
+  get _path() {
+    return this.options.name.split(':').join('/')
+  }
+
+  get _ts() {
+    return this.pjson.devDependencies.typescript
+  }
+
+  get _ext() {
+    return this._ts ? 'ts' : 'js'
+  }
+
+  get _mocha() {
+    return this.pjson.devDependencies.mocha
+  }
 
   constructor(args: any, public options: Options) {
     super(args, options)

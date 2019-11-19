@@ -19,7 +19,7 @@ const testTypes = ['base', 'plugin', 'single', 'multi', 'command', 'hook']
 const tests = testTypes.map(cmd => {
   const {silent} = sh.config
   sh.config.silent = true
-  let mocha = 'mocha --forbid-only'
+  const mocha = 'mocha --forbid-only'
   const base = path.join('test/commands', cmd)
   sh.pushd(base)
   let tests = _(sh.ls())
@@ -41,7 +41,7 @@ module.exports = {
     build: 'rm -rf lib && tsc',
     lint: {
       default: concurrent.nps('lint.eslint', 'lint.tsc'),
-      eslint: script('eslint .', 'lint js files'),
+      eslint: script('eslint . --ext .ts --config .eslintrc', 'lint js & ts files'),
       tsc: script('tsc --noEmit', 'syntax check with tsc'),
     },
     test: Object.assign({

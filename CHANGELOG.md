@@ -1,3 +1,15 @@
+# [1.15.0](https://github.com/oclif/oclif/compare/v1.14.2...v1.15.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* only use yarn in circle config if selected as option ([#298](https://github.com/oclif/oclif/issues/298)) ([9914b56](https://github.com/oclif/oclif/commit/9914b56bf16bfcdb5e1b4939bf8502652bacfabb))
+
+
+### Features
+
+* remove tslint and default to eslint ([#305](https://github.com/oclif/oclif/issues/305)) ([9b188d9](https://github.com/oclif/oclif/commit/9b188d9b87d0218ed8704db4452b9bf5eb3a39e8))
+
 ## [1.14.2](https://github.com/oclif/oclif/compare/v1.14.1...v1.14.2) (2019-10-25)
 
 

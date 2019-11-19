@@ -21,7 +21,7 @@ function generate(args) {
 
 function build(type, features) {
   let options = ''
-  if (features === 'everything') options = '--options=yarn,typescript,tslint,mocha'
+  if (features === 'everything') options = '--options=yarn,typescript,eslint,mocha'
   if (features === 'typescript') options = '--options=yarn,typescript'
   if (features === 'mocha') options = '--options=yarn,mocha'
   let dir = CI ? tmp.tmpNameSync() : path.join(__dirname, '../tmp')

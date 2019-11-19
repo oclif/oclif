@@ -444,10 +444,10 @@ class App extends Generator {
     case 'base': break
     case 'single':
       dependencies.push(
-          '@oclif/config@^1',
-          '@oclif/command@^1',
-          '@oclif/plugin-help@^2',
-        )
+        '@oclif/config@^1',
+        '@oclif/command@^1',
+        '@oclif/plugin-help@^2',
+      )
       devDependencies.push(
         '@oclif/dev-cli@^1',
       )

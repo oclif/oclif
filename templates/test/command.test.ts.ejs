@@ -6,24 +6,24 @@ import cmd = require('../src')
 
 describe('<%- name %>', () => {
   test
-    .stdout()
+  .stdout()
 <%_ if (type === 'single') { _%>
-    .do(() => cmd.run([]))
+  .do(() => cmd.run([]))
 <%_ } else { _%>
-    .command(['<%- name %>'])
+  .command(['<%- name %>'])
 <%_ } _%>
-    .it('runs hello', ctx => {
-      expect(ctx.stdout).to.contain('hello world')
-    })
+  .it('runs hello', ctx => {
+    expect(ctx.stdout).to.contain('hello world')
+  })
 
   test
-    .stdout()
+  .stdout()
 <%_ if (type === 'single') { _%>
-    .do(() => cmd.run(['--name', 'jeff']))
+  .do(() => cmd.run(['--name', 'jeff']))
 <%_ } else { _%>
-    .command(['<%- name %>', '--name', 'jeff'])
+  .command(['<%- name %>', '--name', 'jeff'])
 <%_ } _%>
-    .it('runs hello --name jeff', ctx => {
-      expect(ctx.stdout).to.contain('hello jeff')
-    })
+  .it('runs hello --name jeff', ctx => {
+    expect(ctx.stdout).to.contain('hello jeff')
+  })
 })

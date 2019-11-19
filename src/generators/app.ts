@@ -36,15 +36,15 @@ try {
 
 class App extends Generator {
   options: {
-    defaults?: boolean
-    mocha: boolean
-    circleci: boolean
-    appveyor: boolean
-    codecov: boolean
-    typescript: boolean
-    eslint: boolean
-    yarn: boolean
-    travisci: boolean
+    defaults?: boolean;
+    mocha: boolean;
+    circleci: boolean;
+    appveyor: boolean;
+    codecov: boolean;
+    typescript: boolean;
+    eslint: boolean;
+    yarn: boolean;
+    travisci: boolean;
   }
 
   args!: {[k: string]: string}
@@ -58,18 +58,18 @@ class App extends Generator {
   githubUser: string | undefined
 
   answers!: {
-    name: string
-    bin: string
-    description: string
-    version: string
-    github: {repo: string, user: string}
-    author: string
-    files: string
-    license: string
-    pkg: string
-    typescript: boolean
-    eslint: boolean
-    mocha: boolean
+    name: string;
+    bin: string;
+    description: string;
+    version: string;
+    github: {repo: string; user: string};
+    author: string;
+    files: string;
+    license: string;
+    pkg: string;
+    typescript: boolean;
+    eslint: boolean;
+    mocha: boolean;
     ci: {
       circleci: boolean;
       appveyor: boolean;
@@ -124,6 +124,7 @@ class App extends Generator {
     }
   }
 
+  // eslint-disable-next-line complexity
   async prompting() {
     let msg
     switch (this.type) {
@@ -251,7 +252,7 @@ class App extends Generator {
           type: 'confirm',
           name: 'eslint',
           message: 'Use eslint (linter for JavaScript and Typescript)',
-          default: (answers: any) => true
+          default: () => true,
         },
         {
           type: 'confirm',
@@ -299,6 +300,7 @@ class App extends Generator {
     this.pjson.author = this.answers.author || defaults.author
     this.pjson.files = this.answers.files || defaults.files || [(this.ts ? '/lib' : '/src')]
     this.pjson.license = this.answers.license || defaults.license
+    // eslint-disable-next-line no-multi-assign
     this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
     if (this.eslint) {
       this.pjson.scripts.posttest = 'eslint .'
@@ -311,7 +313,7 @@ class App extends Generator {
     if (this.ts) {
       this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
       if (this.eslint) {
-        this.pjson.scripts.posttest = `eslint . --ext .ts --config .eslintrc`
+        this.pjson.scripts.posttest = 'eslint . --ext .ts --config .eslintrc'
       }
     }
     if (['plugin', 'multi'].includes(this.type)) {
@@ -345,6 +347,7 @@ class App extends Generator {
     }
   }
 
+  // eslint-disable-next-line complexity
   writing() {
     this.sourceRoot(path.join(__dirname, '../../templates'))
 

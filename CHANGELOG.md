@@ -1,3 +1,10 @@
+## [1.15.2](https://github.com/oclif/oclif/compare/v1.15.1...v1.15.2) (2019-12-16)
+
+
+### Bug Fixes
+
+* include dev-cli in single cli generation & run readme ([#296](https://github.com/oclif/oclif/issues/296)) ([fcef7c9](https://github.com/oclif/oclif/commit/fcef7c9def2aeceef603cea2441c5a4e6bbc8972))
+
 ## [1.15.1](https://github.com/oclif/oclif/compare/v1.15.0...v1.15.1) (2019-11-19)
 
 

@@ -6,7 +6,7 @@
   "bin": "./bin/run",
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/command": "^1.5.8",
+    "@oclif/command": "^1.6",
     "@oclif/config": "^1.12.6",
     "@oclif/errors": "^1.2.2",
     "@oclif/fixpack": "^2.3.0",

@@ -77,9 +77,6 @@ jobs:
     docker:
       - image: node:12
     steps: *base_steps
-  node-12-single:
-    <<: *node_12
-    steps: *single_steps
   node-12-plugin:
     <<: *node_12
     steps: *plugin_steps
@@ -100,9 +97,6 @@ jobs:
     docker:
       - image: node:10
     steps: *base_steps
-  node-10-single:
-    <<: *node_10
-    steps: *single_steps
   node-10-plugin:
     <<: *node_10
     steps: *plugin_steps

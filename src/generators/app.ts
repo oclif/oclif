@@ -446,7 +446,7 @@ class App extends Generator {
       dependencies.push(
         '@oclif/config@^1',
         '@oclif/command@^1',
-        '@oclif/plugin-help@^2',
+        '@oclif/plugin-help@^3',
       )
       devDependencies.push(
         '@oclif/dev-cli@^1',
@@ -459,7 +459,7 @@ class App extends Generator {
       )
       devDependencies.push(
         '@oclif/dev-cli@^1',
-        '@oclif/plugin-help@^2',
+        '@oclif/plugin-help@^3',
         'globby@^10',
       )
       break
@@ -467,7 +467,7 @@ class App extends Generator {
       dependencies.push(
         '@oclif/config@^1',
         '@oclif/command@^1',
-        '@oclif/plugin-help@^2',
+        '@oclif/plugin-help@^3',
       )
       devDependencies.push(
         '@oclif/dev-cli@^1',

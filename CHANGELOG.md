@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/oclif/oclif/compare/v1.15.2...v1.16.0) (2020-05-07)
+
+
+### Features
+
+* create clis with plugin-help v3 ([#343](https://github.com/oclif/oclif/issues/343)) ([a580350](https://github.com/oclif/oclif/commit/a580350a3988f3ebaa76c16180c0afe7fabdc763))
+
 ## [1.15.2](https://github.com/oclif/oclif/compare/v1.15.1...v1.15.2) (2019-12-16)
 
 

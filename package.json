@@ -6,11 +6,11 @@
   "bin": "./bin/run",
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/command": "^1.5.8",
+    "@oclif/command": "^1.6",
     "@oclif/config": "^1.12.6",
     "@oclif/errors": "^1.2.2",
     "@oclif/fixpack": "^2.3.0",
-    "@oclif/plugin-help": "^2.1.6",
+    "@oclif/plugin-help": "^3",
     "@oclif/plugin-not-found": "^1.2.2",
     "@oclif/plugin-warn-if-update-available": "^1.5.4",
     "debug": "^4.1.1",
@@ -43,7 +43,7 @@
     "shelljs": "^0.8.3",
     "tmp": "^0.0.33",
     "ts-node": "^8.0.2",
-    "typescript": "^3.3.3"
+    "typescript": "^3.7"
   },
   "engines": {
     "node": ">=8.0.0"

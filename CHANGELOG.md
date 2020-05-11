@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/oclif/oclif/compare/v1.16.0...v1.16.1) (2020-05-07)
+
+
+### Bug Fixes
+
+* short circuit with nullish coalescing operator ([#327](https://github.com/oclif/oclif/issues/327)) ([de8a7a0](https://github.com/oclif/oclif/commit/de8a7a0cb633cc9bfd34a6eff5374cda24344df8))
+
 # [1.16.0](https://github.com/oclif/oclif/compare/v1.15.2...v1.16.0) (2020-05-07)
 
 

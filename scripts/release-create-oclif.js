@@ -11,4 +11,6 @@ function x(cmd) {
   execSync(cmd, {stdio: 'inherit'})
 }
 
+// eslint-disable-next-line no-template-curly-in-string, no-useless-escape
+x('echo //registry.npmjs.org/:_authToken=\${NPM_TOKEN} > ~/.npmrc')
 x('npm publish')

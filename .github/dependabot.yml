@@ -1,10 +1,7 @@
 version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: "yarn"
-    # Look for `package.json` and `lock` files in the `root` directory
+  - package-ecosystem: "npm"
     directory: "/"
-    # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
     labels:

@@ -25,7 +25,7 @@
   "devDependencies": {
     "@oclif/dev-cli": "^1.21.0",
     "@types/lodash": "^4.14.121",
-    "@types/read-pkg": "^3.0.0",
+    "@types/read-pkg": "^5.1.0",
     "@types/shelljs": "^0.8.3",
     "@types/yeoman-generator": "^3.0.2",
     "@types/yosay": "^0.0.29",

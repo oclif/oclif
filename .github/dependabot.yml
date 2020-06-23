@@ -9,3 +9,5 @@ updates:
     open-pull-requests-limit: 5
     pull-request-branch-name:
       separator: "-"
+    ignore:
+      - dependency-name: "typescript"

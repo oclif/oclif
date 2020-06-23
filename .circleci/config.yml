@@ -148,16 +148,14 @@ workflows:
   version: 2
   oclif:
     jobs:
+      - lint
       - compile-typescript
-      - lint:
-          requires:
-            - compile-typescript
-      - node-latest-base: {requires: [lint] }
-      - node-latest-single: {requires: [lint] }
-      - node-latest-plugin: {requires: [lint] }
-      - node-latest-multi: {requires: [lint] }
-      - node-latest-command: {requires: [lint] }
-      - node-latest-hook: {requires: [lint] }
+      - node-latest-base: {requires: [lint, compile-typescript] }
+      - node-latest-single: {requires: [lint, compile-typescript] }
+      - node-latest-plugin: {requires: [lint, compile-typescript] }
+      - node-latest-multi: {requires: [lint, compile-typescript] }
+      - node-latest-command: {requires: [lint, compile-typescript] }
+      - node-latest-hook: {requires: [lint, compile-typescript] }
       - cache: {requires: [release] }
       - release:
           context: org-global
@@ -165,6 +163,7 @@ workflows:
             branches: {only: master}
           requires:
             - lint
+            - compile-typescript
             - node-latest-base
             - node-latest-single
             - node-latest-plugin
@@ -180,25 +179,23 @@ workflows:
               only:
                 - master
     jobs:
+      - lint
       - compile-typescript
-      - lint:
-          requires:
-            - compile-typescript
-      - node-latest-base: {requires: [lint] }
-      - node-latest-single: {requires: [lint] }
-      - node-latest-plugin: {requires: [lint] }
-      - node-latest-multi: {requires: [lint] }
-      - node-latest-command: {requires: [lint] }
-      - node-latest-hook: {requires: [lint] }
-      - node-12-base: {requires: [lint] }
-      - node-12-single: {requires: [lint] }
-      - node-12-plugin: {requires: [lint] }
-      - node-12-multi: {requires: [lint] }
-      - node-12-command: {requires: [lint] }
-      - node-12-hook: {requires: [lint] }
-      - node-10-base: {requires: [lint] }
-      - node-10-single: {requires: [lint] }
-      - node-10-plugin: {requires: [lint] }
-      - node-10-multi: {requires: [lint] }
-      - node-10-command: {requires: [lint] }
-      - node-10-hook: {requires: [lint] }
+      - node-latest-base: {requires: [lint, compile-typescript] }
+      - node-latest-single: {requires: [lint, compile-typescript] }
+      - node-latest-plugin: {requires: [lint, compile-typescript] }
+      - node-latest-multi: {requires: [lint, compile-typescript] }
+      - node-latest-command: {requires: [lint, compile-typescript] }
+      - node-latest-hook: {requires: [lint, compile-typescript] }
+      - node-12-base: {requires: [lint, compile-typescript] }
+      - node-12-single: {requires: [lint, compile-typescript] }
+      - node-12-plugin: {requires: [lint, compile-typescript] }
+      - node-12-multi: {requires: [lint, compile-typescript] }
+      - node-12-command: {requires: [lint, compile-typescript] }
+      - node-12-hook: {requires: [lint, compile-typescript] }
+      - node-10-base: {requires: [lint, compile-typescript] }
+      - node-10-single: {requires: [lint, compile-typescript] }
+      - node-10-plugin: {requires: [lint, compile-typescript] }
+      - node-10-multi: {requires: [lint, compile-typescript] }
+      - node-10-command: {requires: [lint, compile-typescript] }
+      - node-10-hook: {requires: [lint, compile-typescript] }

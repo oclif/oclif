@@ -23,7 +23,7 @@ jobs:
       - checkout
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
+      - run: yarn
       - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
   node-latest-multi:
     <<: *lint

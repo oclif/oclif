@@ -17,6 +17,14 @@ jobs:
       - run: yarn add -D mocha-junit-reporter@1
       - run: yarn exec nps lint
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
+  compile-typescript:
+    <<: *lint
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - attach_workspace: {at: node_modules}
+      - run: .circleci/setup_git
+      - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
   node-latest-multi:
     <<: *lint
     steps: &multi_steps
@@ -140,7 +148,10 @@ workflows:
   version: 2
   oclif:
     jobs:
-      - lint
+      - compile-typescript
+      - lint:
+          requires:
+            - compile-typescript
       - node-latest-base: {requires: [lint] }
       - node-latest-single: {requires: [lint] }
       - node-latest-plugin: {requires: [lint] }
@@ -169,7 +180,10 @@ workflows:
               only:
                 - master
     jobs:
-      - lint
+      - compile-typescript
+      - lint:
+          requires:
+            - compile-typescript
       - node-latest-base: {requires: [lint] }
       - node-latest-single: {requires: [lint] }
       - node-latest-plugin: {requires: [lint] }

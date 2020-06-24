@@ -71,12 +71,14 @@
   },
   "repository": "oclif/oclif",
   "scripts": {
-    "lint": "nps lint",
+    "lint": "eslint . --ext .ts --config .eslintrc",
     "postpack": "rm .oclif.manifest.json",
-    "posttest": "yarn run lint",
+    "posttest": "yarn lint",
     "prepack": "rm -rf lib && tsc && oclif-dev manifest",
     "version": "oclif-dev readme && git add README.md",
-    "test": "nps test"
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "build": "rm -rf lib && tsc",
+    "pretest": "yarn build --noEmit"
   },
   "types": "lib/index.d.ts"
 }

@@ -78,7 +78,7 @@
     "version": "oclif-dev readme && git add README.md",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "build": "rm -rf lib && tsc",
-    "pretest": "yarn build --noEmit"
+    "pretest": "yarn build --noEmit && tsc -p test --noEmit"
   },
   "types": "lib/index.d.ts"
 }

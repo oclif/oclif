@@ -43,7 +43,7 @@
     "shelljs": "^0.8.3",
     "tmp": "^0.0.33",
     "ts-node": "^8.0.2",
-    "typescript": "^3.7"
+    "typescript": "3.8.3"
   },
   "engines": {
     "node": ">=8.0.0"

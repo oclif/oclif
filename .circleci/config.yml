@@ -1,201 +1,65 @@
 ---
 version: 2
 jobs:
-  lint: &lint
+  node-latest: &test
     docker:
       - image: node:latest
-    # environment:
-    #   - TEST_SERIES: 1
     working_directory: ~/cli
     steps:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v5-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v5-{{checksum ".circleci/config.yml"}}
-            - v5
-      - run: yarn add -D mocha-junit-reporter@1
-      - run: yarn exec nps lint
-      - persist_to_workspace: {root: node_modules,  paths: ["*"]}
-  compile-typescript:
-    <<: *lint
-    steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: yarn
-      - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
-  node-latest-multi:
-    <<: *lint
-    steps: &multi_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.multi
-      - store_test_results: &store_test_results
-          path: ~/cli/reports
-  node-latest-base:
-    <<: *lint
-    steps: &base_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.base
-      - store_test_results: *store_test_results
-  node-latest-plugin:
-    <<: *lint
-    steps: &plugin_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.plugin
-      - store_test_results: *store_test_results
-  node-latest-single:
-    <<: *lint
-    steps: &single_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.single
-      - store_test_results: *store_test_results
-  node-latest-command:
-    <<: *lint
-    steps: &command_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.command
-      - store_test_results: *store_test_results
-  node-latest-hook:
-    <<: *lint
-    steps: &hook_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.hook
-      - store_test_results: *store_test_results
-  node-12-base: &node_12
-    <<: *lint
+            - v1-npm-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+            - v1-npm-{{checksum ".circleci/config.yml"}}
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Run tests
+          command: yarn test
+  node-12:
+    <<: *test
     docker:
       - image: node:12
-    steps: *base_steps
-  node-12-plugin:
-    <<: *node_12
-    steps: *plugin_steps
-  node-12-single:
-    <<: *node_12
-    steps: *single_steps
-  node-12-multi:
-    <<: *node_12
-    steps: *multi_steps
-  node-12-command:
-    <<: *node_12
-    steps: *command_steps
-  node-12-hook:
-    <<: *node_12
-    steps: *hook_steps
-  node-10-base: &node_10
-    <<: *lint
+  node-10:
+    <<: *test
     docker:
       - image: node:10
-    steps: *base_steps
-  node-10-plugin:
-    <<: *node_10
-    steps: *plugin_steps
-  node-10-single:
-    <<: *node_10
-    steps: *single_steps
-  node-10-multi:
-    <<: *node_10
-    steps: *multi_steps
-  node-10-command:
-    <<: *node_10
-    steps: *command_steps
-  node-10-hook:
-    <<: *node_10
-    steps: *hook_steps
-
-  cache:
-    <<: *lint
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
-      - run: yarn add -D mocha-junit-reporter@1
-      - run: yarn exec nps test.command
-      - save_cache:
-          key: v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
-          paths:
-            - /usr/local/share/.cache/yarn
-            - /usr/local/share/.config/yarn
   release:
-    <<: *lint
+    <<: *test
     steps:
       - add_ssh_keys
       - checkout
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: .circleci/release
+      - restore_cache: *restore_cache
+      - run:
+          name: Install release dependencies
+          command: |
+            yarn global add @oclif/semantic-release@3 semantic-release@17
+            yarn --frozen-lockfile
+      - run:
+          name: Cut release
+          command: |
+            export PATH=/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH
+            semantic-release -e @oclif/semantic-release
+      - save_cache:
+          key: v1-yarn-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          paths:
+            - ~/cli/node_modules
+            - /usr/local/share/.cache/yarn
+            - /usr/local/share/.config/yarn
 
 workflows:
   version: 2
-  oclif:
+  "@oclif/plugin-foo":
     jobs:
-      - lint
-      - compile-typescript
-      - node-latest-base: {requires: [lint, compile-typescript] }
-      - node-latest-single: {requires: [lint, compile-typescript] }
-      - node-latest-plugin: {requires: [lint, compile-typescript] }
-      - node-latest-multi: {requires: [lint, compile-typescript] }
-      - node-latest-command: {requires: [lint, compile-typescript] }
-      - node-latest-hook: {requires: [lint, compile-typescript] }
-      - cache: {requires: [release] }
+      - node-latest
+      - node-12
+      - node-10
       - release:
           context: org-global
           filters:
             branches: {only: master}
           requires:
-            - lint
-            - compile-typescript
-            - node-latest-base
-            - node-latest-single
-            - node-latest-plugin
-            - node-latest-multi
-            - node-latest-command
-            - node-latest-hook
-  nightly:
-    triggers:
-      - schedule:
-          cron: "0 11 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - lint
-      - compile-typescript
-      - node-latest-base: {requires: [lint, compile-typescript] }
-      - node-latest-single: {requires: [lint, compile-typescript] }
-      - node-latest-plugin: {requires: [lint, compile-typescript] }
-      - node-latest-multi: {requires: [lint, compile-typescript] }
-      - node-latest-command: {requires: [lint, compile-typescript] }
-      - node-latest-hook: {requires: [lint, compile-typescript] }
-      - node-12-base: {requires: [lint, compile-typescript] }
-      - node-12-single: {requires: [lint, compile-typescript] }
-      - node-12-plugin: {requires: [lint, compile-typescript] }
-      - node-12-multi: {requires: [lint, compile-typescript] }
-      - node-12-command: {requires: [lint, compile-typescript] }
-      - node-12-hook: {requires: [lint, compile-typescript] }
-      - node-10-base: {requires: [lint, compile-typescript] }
-      - node-10-single: {requires: [lint, compile-typescript] }
-      - node-10-plugin: {requires: [lint, compile-typescript] }
-      - node-10-multi: {requires: [lint, compile-typescript] }
-      - node-10-command: {requires: [lint, compile-typescript] }
-      - node-10-hook: {requires: [lint, compile-typescript] }
+            - node-latest
+            - node-12
+            - node-10

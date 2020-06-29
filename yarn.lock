@@ -1396,14 +1396,13 @@ eslint-ast-utils@^1.0.0:
     lodash.get "^4.4.2"
     lodash.zip "^4.2.0"
 
-eslint-config-oclif-typescript@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif-typescript/-/eslint-config-oclif-typescript-0.1.0.tgz#c310767c5ee8916ea5d08cf027d0317dd52ed8ba"
-  integrity sha512-BjXNJcH2F02MdaSFml9vJskviUFVkLHbTPGM5tinIt98H6klFNKP7/lQ+fB/Goc2wB45usEuuw6+l/fwAv9i7g==
+eslint-config-oclif-typescript@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif-typescript/-/eslint-config-oclif-typescript-0.2.0.tgz#8e2a1c788ce47af73d5bf8a3a0b5b2b6a80f05d6"
+  integrity sha512-BdP5FgjxwqV9LmVnfd4TaxhwdQipY7GJVVuP2AKm+EkKoupSCflSiRqnd2cj8qvVq/IXYPK2eHpRDk5ts8hP9g==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.6.1"
     "@typescript-eslint/parser" "^2.6.1"
-    eslint-config-oclif "^3.1.0"
     eslint-config-xo-space "^0.20.0"
     eslint-plugin-mocha "^5.2.0"
     eslint-plugin-node "^7.0.1"

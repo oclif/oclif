@@ -381,9 +381,9 @@
     "@types/rx-lite-virtualtime" "*"
 
 "@types/shelljs@^0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.8.3.tgz#f713f312dbae49ab5025290007e71ea32998e9a9"
-  integrity sha512-miY41hqc5SkRlsZDod3heDa4OS9xv8G77EMBQuSpqq86HBn66l7F+f8y9YKm+1PIuwC8QEZVwN8YxOOG7Y67fA==
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.8.8.tgz#e439c69929b88a2c8123c1a55e09eb708315addf"
+  integrity sha512-lD3LWdg6j8r0VRBFahJVaxoW0SIcswxKaFUrmKl33RJVeeoNYQAz4uqCJ5Z6v4oIBOsC5GozX+I5SorIKiTcQA==
   dependencies:
     "@types/glob" "*"
     "@types/node" "*"

@@ -13,9 +13,9 @@ export default class Tellmeajoke extends Command {
     const {args, flags} = this.parse(Tellmeajoke)
 
       let res = await axios.get(
-          `https://www.programmableweb.com/api/geek/geek-joke`
+          `https://geek-jokes.sameerkumar.website/api?format=json`
           );
 
-    this.log(res.data)
+    this.log(res.data.joke)
   }
 }

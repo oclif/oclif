@@ -391,11 +391,12 @@
     "@types/node" "*"
 
 "@types/yeoman-generator@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-3.0.2.tgz#9664db41f05d32cf9ab072d8395f0a01605f8c7e"
-  integrity sha512-hP4MX+PQy2EvsIc9u+X55fMaNv/I1tzwGzc1RenF/yuwbIl/dTEijMFU2rTh6uFcmZn1weeLDQ3sYEhdNo3ELw==
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-3.1.4.tgz#21d6599515d41447eb84e2bc45033f1a640bbaf2"
+  integrity sha512-5oG9Qlk119qSHQpSClGonDIs4djxZSPurtg6faHItjeg8cffhkKs4twVYE+Wa0crAKJZDOwSd/Vmc6BSqJtgMA==
   dependencies:
     "@types/inquirer" "*"
+    rxjs ">=6.4.0"
 
 "@types/yosay@^0.0.29":
   version "0.0.29"
@@ -4328,10 +4329,10 @@ rx@2.3.24:
   resolved "https://registry.yarnpkg.com/rx/-/rx-2.3.24.tgz#14f950a4217d7e35daa71bbcbe58eff68ea4b2b7"
   integrity sha1-FPlQpCF9fjXapxu8vljv9o6ksrc=
 
-rxjs@^6.5.3:
-  version "6.5.5"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
-  integrity sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
+rxjs@>=6.4.0, rxjs@^6.5.3:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.0.tgz#af2901eedf02e3a83ffa7f886240ff9018bbec84"
+  integrity sha512-3HMA8z/Oz61DUHe+SdOiQyzIf4tOx5oQHmMir7IZEu6TMqCLHT4LRcmNaUS0NwOz8VLvmmBduMsoaUvMaIiqzg==
   dependencies:
     tslib "^1.9.0"
 

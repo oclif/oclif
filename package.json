@@ -37,7 +37,7 @@
     "fancy-test": "^1.4.3",
     "fs-extra": "^9.0.1",
     "globby": "^11.0.1",
-    "mocha": "^5.2.0",
+    "mocha": "^8.0.1",
     "npm-run-path": "^4.0.1",
     "nps": "^5.9.3",
     "shelljs": "^0.8.3",

@@ -27,7 +27,7 @@
     "@types/lodash": "^4.14.121",
     "@types/read-pkg": "^5.1.0",
     "@types/shelljs": "^0.8.3",
-    "@types/yeoman-generator": "^3.0.2",
+    "@types/yeoman-generator": "^4.11.0",
     "@types/yosay": "^0.0.29",
     "chai": "^4.2.0",
     "eslint": "^7.3.0",

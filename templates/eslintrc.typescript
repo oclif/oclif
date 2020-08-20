@@ -2,5 +2,8 @@
   "extends": [
     "oclif",
     "oclif-typescript"
-  ]
+  ],
+  "rules": {
+    "comma-dangle": "off"
+  }
 }

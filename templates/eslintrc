@@ -1,3 +1,6 @@
 {
   "extends": "oclif"
+},
+"rules": {
+  "comma-dangle": "off"
 }

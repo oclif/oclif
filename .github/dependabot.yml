@@ -3,10 +3,10 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     labels:
       - "dependencies"
-    open-pull-requests-limit: 25
+    open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "-"
     ignore:

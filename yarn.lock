@@ -88,9 +88,9 @@
     tslib "^1.9.3"
 
 "@oclif/dev-cli@^1.21.0":
-  version "1.22.2"
-  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.22.2.tgz#e890f93d0335c0e3faaa25741999776259b2171f"
-  integrity sha512-c7633R37RxrQIpwqPKxjNRm6/jb1yuG8fd16hmNz9Nw+/MUhEtQtKHSCe9ScH8n5M06l6LEo4ldk9LEGtpaWwA==
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@oclif/dev-cli/-/dev-cli-1.23.0.tgz#42ee8aea78abc427f28a26cf4d6f32c4688b17f7"
+  integrity sha512-oao7e2gmCQsF5X0NRdrCmtQkcbCErtvAIYM3tpnfT9dvyUdyGU+plPx9q0iCV5C5qRNB5qh6JbVFqfjJP+djxg==
   dependencies:
     "@oclif/command" "^1.5.13"
     "@oclif/config" "^1.12.12"
@@ -98,7 +98,7 @@
     "@oclif/plugin-help" "^2.1.6"
     cli-ux "^5.2.1"
     debug "^4.1.1"
-    fs-extra "^7.0.1"
+    fs-extra "^9.0.1"
     github-slugger "^1.2.1"
     lodash "^4.17.11"
     normalize-package-data "^2.5.0"

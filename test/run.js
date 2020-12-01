@@ -9,7 +9,7 @@ sh.set('-ev')
 
 const yeoman = require('yeoman-generator')
 if (process.env.CI && process.platform === 'win32') {
-  yeoman.prototype.github.username = () => 'oclifwindows'
+  yeoman.prototype.user.github.username = () => 'oclifwindows'
   sh.exec('git config --global user.name | echo')
 }
 

@@ -7,10 +7,10 @@ const os = require('os')
 
 sh.set('-ev')
 
+const yeoman = require('yeoman-generator')
 if (process.env.CI && process.platform === 'win32') {
-  // eslint-disable-next-line node/no-extraneous-require
-  const yeoman = require('yeoman-generator')
-  yeoman.prototype.user.git.email = () => 'oclifwindows@example.com'
+  yeoman.prototype.github.username = () => 'oclifwindows'
+  sh.exec('git config --global user.name | echo')
 }
 
 // remove CI env var so tests don't run nyc

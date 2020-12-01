@@ -7,6 +7,8 @@ const os = require('os')
 
 sh.set('-ev')
 
+if (process.env.CI && process.platform === 'win32') sh.run('git config --user.email oclifwindows@example.com')
+
 // remove CI env var so tests don't run nyc
 const {CI} = process.env
 delete process.env.CI

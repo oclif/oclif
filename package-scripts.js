@@ -47,6 +47,7 @@ module.exports = {
     },
     test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
+      base: script('echo SKIPPING BASE'),
     }, _.fromPairs(tests)),
   },
 }

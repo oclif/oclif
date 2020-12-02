@@ -15,8 +15,7 @@ sh.set('-e')
 
 setColors(['dim'])
 
-// const testTypes = ['base', 'plugin', 'single', 'multi', 'command', 'hook']
-const testTypes = ['plugin', 'single', 'multi', 'command', 'hook']
+const testTypes = ['base', 'plugin', 'single', 'multi', 'command', 'hook']
 const tests = testTypes.map(cmd => {
   const {silent} = sh.config
   sh.config.silent = true
@@ -47,7 +46,6 @@ module.exports = {
     },
     test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
-      base: script('echo SKIPPING BASE'),
     }, _.fromPairs(tests)),
   },
 }

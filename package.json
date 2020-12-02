@@ -20,7 +20,13 @@
     "tslib": "^2.0.0",
     "yeoman-environment": "^2.3.4",
     "yeoman-generator": "^3.2.0",
-    "yosay": "^2.0.2"
+    "yosay": "^2.0.2",
+    "cli-ux": "^5.2.1",
+    "find-yarn-workspace-root": "^2.0.0",
+    "fs-extra": "^8.1",
+    "github-slugger": "^1.2.1",
+    "normalize-package-data": "^3.0.0",
+    "qqjs": "^0.3.10"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.21.0",
@@ -43,7 +49,19 @@
     "shelljs": "^0.8.3",
     "tmp": "^0.2.1",
     "ts-node": "^9.0.0",
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "@oclif/plugin-legacy": "^1.1.4",
+    "@oclif/test": "^1.2.4",
+    "@types/chai": "^4.1.7",
+    "@types/execa": "^0.9.0",
+    "@types/fs-extra": "^8.1",
+    "@types/lodash.template": "^4.4.6",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.14",
+    "@types/supports-color": "^7.2.0",
+    "@types/write-json-file": "^3.2.1",
+    "aws-sdk": "^2.443.0",
+    "conventional-changelog-cli": "^2.0.17"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -67,7 +85,25 @@
       "@oclif/plugin-warn-if-update-available",
       "@oclif/plugin-not-found"
     ],
-    "bin": "oclif"
+    "bin": "oclif",
+    "dirname": "oclif",
+    "macos": {
+      "identifier": "com.oclif.cli",
+      "sign": "Developer ID Installer: Heroku INC"
+    },
+    "update": {
+      "autoupdate": {
+        "rollout": 50,
+        "debounce": 60
+      },
+      "node": {
+        "version": "12.12.0"
+      },
+      "s3": {
+        "bucket": "oclif-staging",
+        "xz": true
+      }
+    }
   },
   "repository": "oclif/oclif",
   "scripts": {

@@ -8,8 +8,6 @@ import {Command} from '@oclif/command'
 // import {log as action} from '../../tarballs/log'
 
 export default class Publish extends Command {
-  static hidden = true
-
   static description = 'publish an oclif CLI to GitHub Releases'
 
   static hidden = true

@@ -61,11 +61,6 @@ describe('publish', () => {
 
   describe('with filter', () => {
     skipIfWindows
-    .stub(qq, 'x', ({
-      stdout: () => Promise.resolve(),
-      exec: () => Promise.resolve(),
-    }))
-    .stub(qq, 'exists', () => true)
     .stub(aws, 's3', () => ({
       uploadFile: (file: string) => {
         s3UploadedFiles.push(file)
@@ -81,11 +76,6 @@ describe('publish', () => {
 
   describe('without filter', () => {
     skipIfWindows
-    .stub(qq, 'x', ({
-      stdout: () => Promise.resolve(),
-      exec: () => Promise.resolve(),
-    }))
-    .stub(qq, 'exists', () => true)
     .stub(aws, 's3', () => ({
       uploadFile: (file: string) => {
         s3UploadedFiles.push(file)

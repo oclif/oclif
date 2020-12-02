@@ -1,20 +1,22 @@
 // tslint:disable no-implicit-dependencies
-
 import {Command, flags} from '@oclif/command'
 import * as Config from '@oclif/config'
-import Help from '@oclif/plugin-help'
+import {getHelpClass} from '@oclif/plugin-help'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
 import {URL} from 'url'
 
 import {castArray, compact, sortBy, template, uniqBy} from '../util'
+import {HelpCompatibilityWrapper} from '../help-compatibility'
 
 const normalize = require('normalize-package-data')
 const columns = parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
 
 export default class Readme extends Command {
+  static hidden = true
+
   static description = `adds commands to README.md in current directory
 The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
 # Usage
@@ -32,15 +34,19 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
   async run() {
     const {flags} = this.parse(Readme)
-    const config = await Config.load({root: process.cwd(), devPlugins: false, userPlugins: false})
+    const cwd = process.cwd()
+    const readmePath = path.resolve(cwd, 'README.md')
+    const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
+
     try {
-      const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
+      const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
       const plugin = new Config.Plugin({root: p, type: 'core'})
       await plugin.load()
       config.plugins.push(plugin)
     } catch {}
-    await config.runHook('init', {id: 'readme', argv: this.argv})
-    let readme = await fs.readFile('README.md', 'utf8')
+    await (config as Config.Config).runHook('init', {id: 'readme', argv: this.argv})
+    let readme = await fs.readFile(readmePath, 'utf8')
+
     let commands = config.commands
     commands = commands.filter(c => !c.hidden)
     commands = commands.filter(c => c.pluginType === 'core')
@@ -53,7 +59,8 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
     readme = readme.trimRight()
     readme += '\n'
-    await fs.outputFile('README.md', readme)
+
+    await fs.outputFile(readmePath, readme)
   }
 
   replaceTag(readme: string, tag: string, body: string): string {
@@ -142,14 +149,22 @@ USAGE
   renderCommand(config: Config.IConfig, c: Config.Command): string {
     this.debug('rendering command', c.id)
     const title = template({config, command: c})(c.description || '').trim().split('\n')[0]
-    const help = new Help(config, {stripAnsi: true, maxWidth: columns})
+    const HelpClass = getHelpClass(config)
+    const help = new HelpClass(config, {stripAnsi: true, maxWidth: columns})
+    const wrapper = new HelpCompatibilityWrapper(help)
+
     const header = () => `## \`${config.bin} ${this.commandUsage(config, c)}\``
-    return compact([
-      header(),
-      title,
-      '```\n' + help.command(c).trim() + '\n```',
-      this.commandCode(config, c),
-    ]).join('\n\n')
+
+    try {
+      return compact([
+        header(),
+        title,
+        '```\n' + wrapper.formatCommand(c).trim() + '\n```',
+        this.commandCode(config, c),
+      ]).join('\n\n')
+    } catch (error) {
+      this.error(error.message)
+    }
   }
 
   commandCode(config: Config.IConfig, c: Config.Command): string | undefined {
@@ -194,7 +209,7 @@ USAGE
       p = path.join(p, 'index.js')
     } else if (fs.pathExistsSync(p + '.js')) {
       p += '.js'
-    } else if (plugin.pjson.devDependencies.typescript) {
+    } else if (plugin.pjson.devDependencies && plugin.pjson.devDependencies.typescript) {
       // check if non-compiled scripts are available
       const base = p.replace(plugin.root + path.sep, '')
       p = path.join(plugin.root, base.replace(libRegex, 'src' + path.sep))
@@ -205,10 +220,11 @@ USAGE
       } else return
     } else return
     p = p.replace(plugin.root + path.sep, '')
-    if (plugin.pjson.devDependencies.typescript) {
+    if (plugin.pjson.devDependencies && plugin.pjson.devDependencies.typescript) {
       p = p.replace(libRegex, 'src' + path.sep)
       p = p.replace(/\.js$/, '.ts')
     }
+    p = p.replace(/\\/g, '/') // Replace windows '\' by '/'
     return p
   }
 

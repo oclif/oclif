@@ -1,5 +1,6 @@
 import {ArchTypes, PlatformTypes} from '@oclif/config'
 import * as Errors from '@oclif/errors'
+import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import * as path from 'path'
 import * as qq from 'qqjs'
 
@@ -52,9 +53,10 @@ export async function build(c: IConfig, options: {
   }
   const addDependencies = async () => {
     qq.cd(c.workspace())
-    const yarn = await qq.exists.sync([c.root, 'yarn.lock'])
+    const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
+    const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
     if (yarn) {
-      await qq.cp([c.root, 'yarn.lock'], '.')
+      await qq.cp([yarnRoot, 'yarn.lock'], '.')
       await qq.x('yarn --no-progress --production --non-interactive')
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')

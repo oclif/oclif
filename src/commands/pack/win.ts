@@ -81,6 +81,7 @@ Section "Uninstall"
   RMDir /r "$INSTDIR"
   RMDir /r "$LOCALAPPDATA\\${config.dirname}"
   DeleteRegKey /ifempty HKCU "Software\\${config.dirname}"
+  DeleteRegKey HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}"
 SectionEnd
 
 !define Environ 'HKCU "Environment"'

@@ -1,5 +1,5 @@
 {
   "recursive": "true",
   "reporter": "spec",
-  "timeout": 30000
+  "timeout": 60000
 }

@@ -4,6 +4,8 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 export default class Manifest extends Command {
+  static hidden = true
+
   static description = 'generates plugin manifest json'
 
   static args = [

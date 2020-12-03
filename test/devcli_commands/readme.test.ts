@@ -23,7 +23,7 @@ describe('readme', () => {
   })
 
   describe('with custom help that implements formatCommand', () => {
-    const rootPath = path.join(__dirname, '../fixtures/cli-with-custom-help')
+    const rootPath = path.join(__dirname, 'fixtures/cli-with-custom-help')
     const readmePath = path.join(rootPath, 'README.md')
     const originalReadme = fs.readFileSync(readmePath, 'utf8')
 
@@ -40,7 +40,7 @@ describe('readme', () => {
   })
 
   describe('with custom help that implements command', () => {
-    const rootPath = path.join(__dirname, '../fixtures/cli-with-old-school-custom-help')
+    const rootPath = path.join(__dirname, 'fixtures/cli-with-old-school-custom-help')
     const readmePath = path.join(rootPath, 'README.md')
     const originalReadme = fs.readFileSync(readmePath, 'utf8')
 
@@ -57,7 +57,7 @@ describe('readme', () => {
   })
 
   describe('with custom help that does not implement formatCommand', () => {
-    const rootPath = path.join(__dirname, '../fixtures/cli-with-custom-help-no-format-command')
+    const rootPath = path.join(__dirname, 'fixtures/cli-with-custom-help-no-format-command')
     const readmePath = path.join(rootPath, 'README.md')
     const originalReadme = fs.readFileSync(readmePath, 'utf8')
 

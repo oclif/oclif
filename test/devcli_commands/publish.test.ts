@@ -48,7 +48,7 @@ describe('publish', () => {
         }
         const stdout = await qq.x.stdout('./oclif/bin/oclif', ['--version'])
         const sha = await gitSha(process.cwd(), {short: true})
-        expect(stdout).to.contain(`@oclif/dev-cli/${pjson.version}.${sha} ${target} node-v${nodeVersion}`)
+        expect(stdout).to.contain(`oclif/${pjson.version}.${sha} ${target} node-v${nodeVersion}`)
         await qq.rm('oclif')
       }
 

@@ -1,8 +1,8 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
 
-const pjson = require('../package.json')
-const pjsonPath = require.resolve('../package.json')
+const pjson = require('../../package.json')
+const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 
 const skipIfWindows = process.platform === 'win32' ? test.skip() : test

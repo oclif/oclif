@@ -24,3 +24,6 @@ jobs:
       - run: yarn test
         env:
           CI: true
+      - run: yarn devcli
+        env:
+          CI: true

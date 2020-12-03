@@ -5,7 +5,7 @@ import aws from '../../src/aws'
 import {gitSha} from '../../src/tarballs'
 
 const pjson = require('../../package.json')
-const pjsonPath = require.resolve('../package.json')
+const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 const target = [process.platform, process.arch].join('-')
 

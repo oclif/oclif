@@ -28,7 +28,7 @@ describe('publish:win', () => {
   .command(['pack:win'])
   .command(['publish:win'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-dev-x64.exe`)
-    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-dev-x86.exe`)
+    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-x64.exe`)
+    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-x86.exe`)
   })
 })

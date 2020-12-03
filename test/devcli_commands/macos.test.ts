@@ -28,6 +28,6 @@ describe('publish:macos', () => {
   .command(['pack:macos'])
   .command(['publish:macos'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-dev.pkg`)
+    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif.pkg`)
   })
 })

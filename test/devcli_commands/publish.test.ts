@@ -38,18 +38,18 @@ describe('publish', () => {
       const test = async (url: string, expectedSha: string, nodeVersion: string) => {
         const xz = url.endsWith('.tar.xz')
         const ext = xz ? '.tar.xz' : '.tar.gz'
-        await qq.download(url, `oclif-dev${ext}`)
-        const receivedSha = await qq.hash('sha256', `oclif-dev${ext}`)
+        await qq.download(url, `oclif${ext}`)
+        const receivedSha = await qq.hash('sha256', `oclif${ext}`)
         expect(receivedSha).to.equal(expectedSha)
         if (xz) {
-          await qq.x('tar xJf oclif-dev.tar.xz')
+          await qq.x('tar xJf oclif.tar.xz')
         } else {
-          await qq.x('tar xzf oclif-dev.tar.gz')
+          await qq.x('tar xzf oclif.tar.gz')
         }
-        const stdout = await qq.x.stdout('./oclif-dev/bin/oclif-dev', ['--version'])
+        const stdout = await qq.x.stdout('./oclif/bin/oclif', ['--version'])
         const sha = await gitSha(process.cwd(), {short: true})
         expect(stdout).to.contain(`@oclif/dev-cli/${pjson.version}.${sha} ${target} node-v${nodeVersion}`)
-        await qq.rm('oclif-dev')
+        await qq.rm('oclif')
       }
 
       await test(manifest.gz, manifest.sha256gz, nodeVersion)

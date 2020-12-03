@@ -10,7 +10,8 @@ describe('readme', () => {
   .finally(() => fs.writeFile('README.md', readme))
   .command(['readme'])
   .it('runs readme', () => {
-    expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
+    // expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
+    expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
   })
 
   test
@@ -19,7 +20,8 @@ describe('readme', () => {
   .finally(() => fs.remove('docs'))
   .command(['readme', '--multi'])
   .it('runs readme --multi', () => {
-    expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
+    // expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
+    expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
   })
 
   describe('with custom help that implements formatCommand', () => {

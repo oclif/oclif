@@ -1,14 +1,14 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
 
-const pjson = require('../../package.json')
-const pjsonPath = require.resolve('../../package.json')
+const pjson = require('../package.json')
+const pjsonPath = require.resolve('../package.json')
 const originalVersion = pjson.version
 
-const skipIfWindows = process.platform === 'win32' ? test.skip() : test
+const onlyMacos = process.platform === 'darwin' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
-describe('publish:win', () => {
+describe('publish:macos', () => {
   beforeEach(async () => {
     await qq.x(`aws s3 rm --recursive s3://oclif-staging/channels/${testRun}`)
     pjson.version = `${pjson.version}-${testRun}`
@@ -24,11 +24,10 @@ describe('publish:win', () => {
     await qq.writeJSON(pjsonPath, pjson)
   })
 
-  skipIfWindows
-  .command(['pack:win'])
-  .command(['publish:win'])
+  onlyMacos
+  .command(['pack:macos'])
+  .command(['publish:macos'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-x64.exe`)
-    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif-x86.exe`)
+    await qq.download(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/oclif.pkg`)
   })
 })

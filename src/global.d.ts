@@ -1,1 +1,1 @@
-declare module 'yeoman-environment'
+// declare module 'yeoman-environment'

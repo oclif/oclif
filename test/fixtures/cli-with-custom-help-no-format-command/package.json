@@ -1,0 +1,11 @@
+{
+  "name": "cli-with-custom-help-no-format-command",
+  "files": [
+    "/lib"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "cli-with-custom-help",
+    "helpClass": "./lib/help"
+  }
+}

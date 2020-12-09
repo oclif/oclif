@@ -3,5 +3,7 @@
     "oclif",
     "oclif-typescript"
   ],
-  "rules": {}
+  "rules": {
+    "unicorn/no-abusive-eslint-disable": 0
+  }
 }

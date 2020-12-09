@@ -150,7 +150,7 @@ class App extends Generator {
       devDependencies: {},
       dependencies: {},
       oclif: {},
-      ...this.fs.readJSON('package.json', {}),
+      ...(this.fs.readJSON('package.json', {}) as object),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`

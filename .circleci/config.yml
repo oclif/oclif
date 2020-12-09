@@ -120,6 +120,32 @@ jobs:
   node-10-hook:
     <<: *node_10
     steps: *hook_steps
+  node-12-devcli: &node-12-devcli
+    docker:
+      - image: oclif/nsis:12.0.0-16
+    working_directory: ~/cli
+    environment:
+      NYC: "yarn exec nyc -- --nycrc-path node_modules/@oclif/nyc-config/.nycrc"
+    steps:
+      - checkout
+      - restore_cache: &restore_cache
+          keys:
+            - v6-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - v6-yarn-{{checksum ".circleci/config.yml"}}
+      - run: 'echo "Node: `node --version`"'
+      - run: yarn
+      - run: .circleci/loadgpg
+      - run: yarn add -D nyc@13 @oclif/nyc-config@1
+      - run: ./node_modules/.bin/tsc
+      - run: ./bin/run --version
+      - run: ./bin/run --help
+      - run: |
+          $NYC yarn devcli
+          curl -s https://codecov.io/bash | bash
+  node-10-devcli:
+    <<: *node-12-devcli
+    docker:
+      - image: chadian/nsis:10-2
 
   cache:
     <<: *lint
@@ -150,6 +176,8 @@ workflows:
     jobs:
       - lint
       - compile-typescript
+      - node-10-devcli
+      - node-12-devcli
       - node-latest-base: {requires: [lint, compile-typescript] }
       - node-latest-single: {requires: [lint, compile-typescript] }
       - node-latest-plugin: {requires: [lint, compile-typescript] }
@@ -181,6 +209,8 @@ workflows:
     jobs:
       - lint
       - compile-typescript
+      - node-10-devcli
+      - node-12-devcli
       - node-latest-base: {requires: [lint, compile-typescript] }
       - node-latest-single: {requires: [lint, compile-typescript] }
       - node-latest-plugin: {requires: [lint, compile-typescript] }

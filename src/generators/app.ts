@@ -163,7 +163,7 @@ class App extends Generator {
       repository,
       ...this.pjson,
       engines: {
-        node: '>=8.0.0',
+        node: '>=10.0.0',
         ...this.pjson.engines,
       },
       options: this.options,

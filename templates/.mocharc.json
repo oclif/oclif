@@ -1,9 +1,9 @@
 {
   "require": [
-    <%= ts ? '\"ts-node/register\"' : '' _%>
+    <%- ts ? '"ts-node/register"\n' : '\n' _%>
   ],
   "watch-extensions": [
-    <%= ts ? '\"ts\"' : '' _%>
+    <%- ts ? '"ts"\n' : '\n' _%>
   ],
   "recursive": true,
   "reporter": "spec",

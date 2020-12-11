@@ -396,7 +396,7 @@ class App extends Generator {
       }
     }
     if (this.mocha) {
-      this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
+      this.fs.copyTpl(this.templatePath('.mocharc.json'), this.destinationPath('.mocharc.json'), this)
     }
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
@@ -476,8 +476,8 @@ class App extends Generator {
     }
     if (this.mocha) {
       devDependencies.push(
-        'mocha@^5',
-        'nyc@^14',
+        'mocha@^8',
+        'nyc@^15',
         'chai@^4',
       )
       if (this.type !== 'base') devDependencies.push(
@@ -486,28 +486,28 @@ class App extends Generator {
     }
     if (this.ts) {
       dependencies.push(
-        'tslib@^1',
+        'tslib@^2',
       )
       devDependencies.push(
-        '@types/node@^10',
+        '@types/node@^14',
         'typescript@^3.3',
-        'ts-node@^8',
+        'ts-node@^9',
       )
       if (this.mocha) {
         devDependencies.push(
           '@types/chai@^4',
-          '@types/mocha@^5',
+          '@types/mocha@^8',
         )
       }
     }
     if (this.eslint) {
       devDependencies.push(
-        'eslint@^5.13',
+        'eslint@^7',
         'eslint-config-oclif@^3.1',
       )
       if (this.ts) {
         devDependencies.push(
-          'eslint-config-oclif-typescript@^0.1',
+          'eslint-config-oclif-typescript@^0.2',
         )
       }
     }

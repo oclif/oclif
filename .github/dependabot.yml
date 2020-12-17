@@ -11,3 +11,4 @@ updates:
       separator: "-"
     ignore:
       - dependency-name: "typescript"
+      - dependency-name: "fs-extra"

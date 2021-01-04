@@ -780,9 +780,9 @@ atob@^2.1.1:
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
 aws-sdk@^2.443.0:
-  version "2.802.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.802.0.tgz#7215be2437c196f1b0b39a10feffdc1d1b980a62"
-  integrity sha512-PfjBr5Ag4PdcEYPrfMclVWk85kFSJNe7qllZBE8RhYNu+K+Z2pveKfYkC5mqYoKEYIQyI9by9N47F+Tqm1GXtg==
+  version "2.820.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.820.0.tgz#03933a444fed71b86d4726e63ad80af9aba07a96"
+  integrity sha512-OwGHxprG4KX5QC+vc77Xl7RCkJdwwKYPB7Gw3odNlMfdljedw7ICBylsMSBEwi/YjwaPryKPevHdOJAHbTKvQg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"

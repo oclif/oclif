@@ -33,7 +33,7 @@
     "@oclif/plugin-legacy": "^1.1.4",
     "@oclif/test": "^1.2.4",
     "@types/chai": "^4.1.7",
-    "@types/execa": "^0.9.0",
+    "@types/execa": "^2.0.0",
     "@types/fs-extra": "^9.0",
     "@types/lodash": "^4.14.121",
     "@types/lodash.template": "^4.4.6",

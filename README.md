@@ -10,6 +10,8 @@ oclif: Node.JS Open CLI Framework
 [![CircleCI](https://circleci.com/gh/oclif/oclif/tree/master.svg?style=shield)](https://circleci.com/gh/oclif/oclif/tree/master)
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/oclif?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/oclif/branch/master)
 [![Downloads/week](https://img.shields.io/npm/dw/@oclif/command.svg)](https://npmjs.org/package/@oclif/command)
+[![Meercode CI Score](https://meercode.io/badge/oclif/oclif?type=ci-score)](https://meercode.io/oclif/oclif)
+[![Meercode CI Count](https://meercode.io/badge/oclif/oclif?type=ci-count)](https://meercode.io/oclif/oclif)
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/master/package.json)
 
 <!-- toc -->

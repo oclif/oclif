@@ -7,8 +7,8 @@ import {Command} from '@oclif/command'
 // import * as Tarballs from '../../tarballs'
 // import {log as action} from '../../tarballs/log'
 
-export default class Publish extends Command {
-  static description = 'publish an oclif CLI to GitHub Releases'
+export default class Upload extends Command {
+  static description = 'upload an oclif CLI to GitHub Releases'
 
   static hidden = true
 
@@ -17,7 +17,7 @@ export default class Publish extends Command {
     // 'node-version': flags.string({description: 'node version of binary to get', default: process.versions.node, required: true}),
     // xz: flags.boolean({description: 'also create xz tarballs'}),
     // prerelease: flags.boolean({description: 'identify as prerelease'}),
-    // draft: flags.boolean({description: 'create an unpublished release'}),
+    // draft: flags.boolean({description: 'create an unuploaded release'}),
   }
 
   // octokit = new Octokit()
@@ -25,7 +25,7 @@ export default class Publish extends Command {
   async run() {
     this.warn('TODO: finish this')
     // if (!process.env.GH_TOKEN) throw new Error('GH_TOKEN must be set')
-    // const {flags} = this.parse(Publish)
+    // const {flags} = this.parse(Upload)
     // if (process.platform === 'win32') throw new Error('pack does not function on windows')
     // const {'node-version': nodeVersion, prerelease, draft} = flags
     // const channel = flags.prerelease ? 'prerelease' : 'stable'

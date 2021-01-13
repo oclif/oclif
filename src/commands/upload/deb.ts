@@ -4,23 +4,23 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir} from '../../publish-util'
+import {commitAWSDir} from '../../upload-util'
 
-export default class PublishDeb extends Command {
+export default class UploadDeb extends Command {
   static hidden = true
 
-  static description = 'publish deb package built with pack:deb'
+  static description = 'upload deb package built with pack:deb'
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
-    const {flags} = this.parse(PublishDeb)
+    const {flags} = this.parse(UploadDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {s3Config, version, config} = buildConfig
     const dist = (f: string) => buildConfig.dist(qq.join('deb', f))
-    if (!await qq.exists(dist('Release'))) this.error('run "oclif-dev pack:deb" before publishing')
+    if (!await qq.exists(dist('Release'))) this.error('run "oclif-dev pack:deb" before uploading')
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
@@ -45,6 +45,6 @@ export default class PublishDeb extends Command {
     if (await qq.exists(dist('InRelease'))) await upload('InRelease')
     if (await qq.exists(dist('Release.gpg'))) await upload('Release.gpg')
 
-    log(`published deb ${version}`)
+    log(`uploaded deb ${version}`)
   }
 }

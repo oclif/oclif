@@ -5,14 +5,14 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, commitSHA} from '../../publish-util'
+import {commitAWSDir, commitSHA} from '../../upload-util'
 
-export default class Publish extends Command {
+export default class Upload extends Command {
   static hidden = true
 
-  static description = `publish an oclif CLI to S3
+  static description = `upload an oclif CLI to S3
 
-"aws-sdk" will need to be installed as a devDependency to publish.
+"aws-sdk" will need to be installed as a devDependency to upload.
 `
 
   static flags = {
@@ -23,13 +23,13 @@ export default class Publish extends Command {
   buildConfig!: Tarballs.IConfig
 
   async run() {
-    const {flags} = this.parse(Publish)
-    if (process.platform === 'win32') throw new Error('publish does not function on windows')
+    const {flags} = this.parse(Upload)
+    if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targetOpts = flags.targets ? flags.targets.split(',') : undefined
     this.buildConfig = await Tarballs.buildConfig(flags.root, {targets: targetOpts})
     const {s3Config, targets, dist, version, config} = this.buildConfig
     const bin = this.buildConfig.config.pjson.oclif.bin
-    if (!await qq.exists(dist(config.s3Key('versioned', {ext: '.tar.gz'})))) this.error('run "oclif-dev pack" before publishing')
+    if (!await qq.exists(dist(config.s3Key('versioned', {ext: '.tar.gz'})))) this.error('run "oclif-dev pack" before uploading')
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
@@ -47,8 +47,6 @@ export default class Publish extends Command {
 
         const versioned = config.s3Key('versioned', ext, options)
         const key = s3Key()
-        console.dir(this.buildConfig.channel)
-        console.dir(key)
         await aws.s3.uploadFile(dist(versioned), {...TarballS3Options, ContentType: 'application/gzip', Key: key})
       }
       await releaseTarballs('.tar.gz')

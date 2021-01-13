@@ -5,7 +5,8 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, commitSHA} from '../../upload-util'
+import {commitAWSDir} from '../../upload-util'
+import {gitSha} from '../../tarballs'
 
 export default class Upload extends Command {
   static hidden = true
@@ -40,7 +41,7 @@ export default class Upload extends Command {
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
         const s3Key = (): string => {
           const template = '<%- root %><%- bin %>-<%- platform %>-<%- arch %><%- ext %>'
-          const s3Root = commitAWSDir(version)
+          const s3Root = commitAWSDir(version, config.root)
           const _ = require('lodash')
           return _.template(template)({...options, ext, bin, root: s3Root})
         }
@@ -54,6 +55,6 @@ export default class Upload extends Command {
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop
     for (const target of targets) await uploadTarball(target)
-    log(`uploaded ${version}-${commitSHA()} targets`)
+    log(`uploaded ${version}, git SHA ${gitSha(config.root, {short: true})} targets`)
   }
 }

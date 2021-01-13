@@ -26,7 +26,7 @@ export default class UploadDeb extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const remoteBase = commitAWSDir(config.pjson.version)
+    const remoteBase = commitAWSDir(config.pjson.version, config.root)
     const upload = (file: string) => {
       const key = [remoteBase, file].join('')
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: key})

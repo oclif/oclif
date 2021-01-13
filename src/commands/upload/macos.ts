@@ -24,7 +24,7 @@ export default class UploadMacos extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const root = commitAWSDir(config.pjson.version)
+    const root = commitAWSDir(config.pjson.version, config.root)
     const pkg = buildConfig.dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
     const key = `${root}${config.bin}.pkg`
     if (await qq.exists(pkg)) await aws.s3.uploadFile(pkg, {...S3Options, CacheControl: 'max-age=86400', Key: key})

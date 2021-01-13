@@ -1,9 +1,5 @@
-export function commitSHA(): string {
-  const child_process = require('child_process')
-  const sha = child_process.execSync('git rev-parse HEAD').toString().trim().slice(0, 8)
-  return sha
-}
+import {gitSha} from './tarballs/config'
 
-export function commitAWSDir(version: string): string {
-  return `versions/${version}/${commitSHA()}/`
+export function commitAWSDir(version: string, root: string): string {
+  return `versions/${version}/${gitSha(root, {short: true})}/`
 }

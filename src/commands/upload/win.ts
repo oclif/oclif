@@ -24,7 +24,7 @@ export default class UploadWin extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const root = commitAWSDir(config.pjson.version)
+    const root = commitAWSDir(config.pjson.version, config.root)
     const uploadWin = async (arch: 'x64' | 'x86') => {
       const exe = buildConfig.dist(`win/${config.bin}-v${buildConfig.version}-${arch}.exe`)
       const key = `${root}${config.bin}-${arch}.exe`

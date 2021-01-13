@@ -4,7 +4,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSKey} from '../../publish-util'
+import {commitAWSDir} from '../../publish-util'
 
 export default class PublishMacos extends Command {
   static hidden = true
@@ -24,9 +24,10 @@ export default class PublishMacos extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const root = buildConfig.channel === commitAWSKey(config.pjson.version)
+    const root = commitAWSDir(config.pjson.version)
     const pkg = buildConfig.dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
-    if (await qq.exists(pkg)) await aws.s3.uploadFile(pkg, {...S3Options, CacheControl: 'max-age=86400', Key: `${root}${config.bin}.pkg`})
+    const key = `${root}${config.bin}.pkg`
+    if (await qq.exists(pkg)) await aws.s3.uploadFile(pkg, {...S3Options, CacheControl: 'max-age=86400', Key: key})
 
     log(`published macos ${version}`)
   }

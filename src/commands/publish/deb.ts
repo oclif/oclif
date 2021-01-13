@@ -4,7 +4,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSKey} from '../../publish-util'
+import {commitAWSDir} from '../../publish-util'
 
 export default class PublishDeb extends Command {
   static hidden = true
@@ -26,9 +26,10 @@ export default class PublishDeb extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const remoteBase = buildConfig.channel === commitAWSKey(config.pjson.version)
+    const remoteBase = commitAWSDir(config.pjson.version)
     const upload = (file: string) => {
-      return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: [remoteBase, file].join('/')})
+      const key = [remoteBase, file].join('')
+      return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: key})
     }
     const debVersion = `${buildConfig.version.split('-')[0]}-1`
     const uploadDeb = async (arch: 'amd64' | 'i386') => {

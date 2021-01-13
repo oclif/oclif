@@ -4,12 +4,6 @@ export function commitSHA(): string {
   return sha
 }
 
-export function packageVersion(pjson: string): string {
-  const {version} = require(pjson)
-  return version
+export function commitAWSDir(version: string): string {
+  return `versions/${version}/${commitSHA()}/`
 }
-
-export function commitAWSKey(version: string): string {
-  return `versions/${version}/${commitSHA()}`
-}
-

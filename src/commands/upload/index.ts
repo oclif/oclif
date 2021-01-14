@@ -28,7 +28,7 @@ export default class Upload extends Command {
     const targetOpts = flags.targets ? flags.targets.split(',') : undefined
     this.buildConfig = await Tarballs.buildConfig(flags.root, {targets: targetOpts})
     const {s3Config, targets, dist, version, config} = this.buildConfig
-    const bin = this.buildConfig.config.pjson.oclif.bin
+    const bin = this.buildConfig.config.bin
     if (!await qq.exists(dist(config.s3Key('versioned', {ext: '.tar.gz'})))) this.error('run "oclif-dev pack" before uploading')
     const S3Options = {
       Bucket: s3Config.bucket!,
@@ -45,7 +45,7 @@ export default class Upload extends Command {
           return _.template(template)({...options, ext, bin, root: s3Root})
         }
 
-        const versioned = config.s3Key('versioned', ext, options)
+        const versioned = config.s3Key('versioned', ext, options) // on disk file name
         const key = s3TarballKey()
         await aws.s3.uploadFile(dist(versioned), {...TarballS3Options, ContentType: 'application/gzip', Key: key})
       }

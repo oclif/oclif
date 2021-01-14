@@ -28,7 +28,7 @@ export default class UploadDeb extends Command {
 
     const remoteBase = commitAWSDir(config.pjson.version, config.root)
     const upload = (file: string) => {
-      const key = `${remoteBase}apt/${file}`
+      const key = `${remoteBase}/apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: key})
     }
     const uploadDeb = async (arch: 'amd64' | 'i386') => {

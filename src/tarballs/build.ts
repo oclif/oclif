@@ -6,9 +6,9 @@ import * as qq from 'qqjs'
 import {log} from '../log'
 
 import {writeBinScripts} from './bin'
-import {IConfig, IManifest, buildConfig} from './config'
+import {IConfig, IManifest} from './config'
 import {fetchNodeBinary} from './node'
-import {commitAWSDir} from '../upload-util'
+import {s3TarballKey} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -95,20 +95,31 @@ export async function build(c: IConfig, options: {
     // When this pkg starts using oclif/core
     // refactor these new key name creation
     // helpers to oclif/core
-    const s3TarballKey = (ext: string): string => {
-      const template = '<%- root %><%- bin %>-<%- platform %>-<%- arch %><%- ext %>'
-      const s3Root = commitAWSDir(c.version, config.root)
-      const _ = require('lodash')
-      return _.template(template)({...target, ext, bin: c.config.bin, root: s3Root})
-    }
+    const gzTarballKey = s3TarballKey({
+      arch: target.arch,
+      bin: c.config.bin,
+      ext: 'tar.gz',
+      platform: target.platform,
+      root: config.root,
+      version: c.version,
+    })
+
+    const xzTarballKey = s3TarballKey({
+      arch: target.arch,
+      bin: c.config.bin,
+      ext: 'tar.xz',
+      platform: target.platform,
+      root: config.root,
+      version: c.version,
+    })
 
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
       channel: c.channel,
       baseDir: config.s3Key('baseDir', target),
-      gz: config.s3Url(s3TarballKey('.tar.gz')),
-      xz: xz ? config.s3Url(s3TarballKey('.tar.xz')) : undefined,
+      gz: config.s3Url(gzTarballKey),
+      xz: xz ? config.s3Url(xzTarballKey) : undefined,
       sha256gz: await qq.hash('sha256', c.dist(gzDiskKey)),
       sha256xz: xz ? await qq.hash('sha256', c.dist(xzDiskKey)) : undefined,
       node: {

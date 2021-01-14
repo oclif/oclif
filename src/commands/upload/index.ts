@@ -5,7 +5,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, commitSHA} from '../../upload-util'
+import {commitAWSDir, commitSHA, s3TarballKey} from '../../upload-util'
 
 export default class Upload extends Command {
   static hidden = true
@@ -38,15 +38,15 @@ export default class Upload extends Command {
     const uploadTarball = async (options?: {platform: PlatformTypes; arch: ArchTypes}) => {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const s3TarballKey = (): string => {
-          const template = '<%- root %><%- bin %>-<%- platform %>-<%- arch %><%- ext %>'
-          const s3Root = commitAWSDir(version, config.root)
-          const _ = require('lodash')
-          return _.template(template)({...options, ext, bin, root: s3Root})
-        }
-
         const versioned = config.s3Key('versioned', ext, options) // on disk file name
-        const key = s3TarballKey()
+        const key = s3TarballKey({
+          arch: options?.arch!,
+          bin,
+          ext,
+          platform: options?.platform!,
+          root: config.root,
+          version,
+        })
         await aws.s3.uploadFile(dist(versioned), {...TarballS3Options, ContentType: 'application/gzip', Key: key})
       }
 
@@ -57,7 +57,7 @@ export default class Upload extends Command {
       const s3ManifestKey = (): string => {
         const s3Root = commitAWSDir(version, config.root)
         const manifest = config.s3Key('manifest', options)
-        return `${s3Root}${manifest}-buildmanifest`
+        return `${s3Root}/${manifest}-buildmanifest`
       }
       const manifest = s3ManifestKey()
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: manifest})

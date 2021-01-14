@@ -5,8 +5,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir} from '../../upload-util'
-import {gitSha} from '../../tarballs'
+import {commitAWSDir, commitSHA} from '../../upload-util'
 
 export default class Upload extends Command {
   static hidden = true
@@ -55,6 +54,6 @@ export default class Upload extends Command {
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop
     for (const target of targets) await uploadTarball(target)
-    log(`uploaded ${version}, git SHA ${gitSha(config.root, {short: true})} targets`)
+    log(`uploaded ${version}, git SHA ${commitSHA(this.config.root)} targets`)
   }
 }

@@ -7,12 +7,12 @@ import {TARGETS} from '../tarballs/config'
 export default class Promote extends Command {
   static hidden = true
 
-  static description = 'promote cli builds on s3 into a release channel'
+  static description = 'promote CLI builds to a S3 release channel'
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    version: flags.string({description: 'semantic version of cli to promot', required: true}),
-    sha: flags.string({description: '7-digit commit git SHA of cli to promote', required: true}),
+    root: flags.string({char: 'r', description: 'path to the oclif CLI root', default: '.', required: true}),
+    version: flags.string({description: 'semantic version of the CLI to promote', required: true}),
+    sha: flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
     channel: flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
   }
 
@@ -22,27 +22,82 @@ export default class Promote extends Command {
 
     const buildConfig = await Tarballs.buildConfig(root)
     const bucket = buildConfig.s3Config.bucket!
-    if (!bucket) this.error('Cannot determine s3 bucket for promotion')
+    if (!bucket) this.error('Cannot determine S3 bucket for promotion')
+    const bin = buildConfig.config.bin
 
-    // 1. copy tarballs
-    const artifacts = TARGETS
-    for (const artifact of artifacts) {
-      const s3ManifestKey = (): string => {
-        return `versions/${version}/${sha}/${artifact}`
-      }
-      const s3ManifestChannelKey = (): string => {
-        return `channel/${channel}/${artifact}`
-      }
+    const s3VersionObjKey = (object: string, opts: {debian?: boolean} = {}): string => {
+      const apt = opts.debian ? 'apt/' : ''
+      return `versions/${version}/${sha}/${apt}${object}`
+    }
+    const s3ManifestChannelKey = (object: string, opts: {debian?: boolean } = {}): string => {
+      const apt = opts.debian ? 'apt/' : ''
+      return `channel/${channel}/${apt}${object}`
+    }
 
-      aws.s3.copyObject(
+    // copy tarballs manifests
+    for (const target of TARGETS) {
+      const manifest = `${target}`
+      const copySource = `${bucket}/${s3VersionObjKey(manifest)}`
+      const key = s3ManifestChannelKey(manifest)
+      // eslint-disable-next-line no-await-in-loop
+      await aws.s3.copyObject(
         {
           Bucket: bucket,
-          CopySource: s3ManifestKey(),
-          Key: s3ManifestChannelKey(),
+          CopySource: copySource,
+          Key: key,
         },
       )
     }
 
-    // to-do: copy darwin, win & debian
+    // copy darwin pkg
+    const darwinPkgObject = `${bin}.pkg`
+    const darwinCopySource = `${bucket}/${s3VersionObjKey(darwinPkgObject)}`
+    const darwinKey = s3ManifestChannelKey(darwinPkgObject)
+    await aws.s3.copyObject(
+      {
+        Bucket: bucket,
+        CopySource: darwinCopySource,
+        Key: darwinKey,
+      },
+    )
+
+    // copy win exe
+    for (const arch of ['x64', 'x86']) {
+      const winPkgObject = `${bin}-${arch}.exe`
+      const winCopySource = `${bucket}/${s3VersionObjKey(winPkgObject)}`
+      const winKey = s3ManifestChannelKey(winPkgObject)
+      // eslint-disable-next-line no-await-in-loop
+      await aws.s3.copyObject(
+        {
+          Bucket: bucket,
+          CopySource: winCopySource,
+          Key: winKey,
+        },
+      )
+    }
+
+    // copy debian artifacts
+    const debArtifacts = [
+      `${bin}_amd64.deb`,
+      `${bin}_i386.deb`,
+      'Packages.gz',
+      'Packages.xz',
+      'Packages.bz2',
+      'Release',
+      'InRelease',
+      'Release.gpg',
+    ]
+    for (const artifact of debArtifacts) {
+      const debCopySource = `${bucket}/${s3VersionObjKey(artifact, {debian: true})}`
+      const debKey = s3ManifestChannelKey(artifact, {debian: true})
+      // eslint-disable-next-line no-await-in-loop
+      await aws.s3.copyObject(
+        {
+          Bucket: bucket,
+          CopySource: debCopySource,
+          Key: debKey,
+        },
+      )
+    }
   }
 }

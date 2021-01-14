@@ -28,12 +28,11 @@ export default class UploadDeb extends Command {
 
     const remoteBase = commitAWSDir(config.pjson.version, config.root)
     const upload = (file: string) => {
-      const key = [remoteBase, file].join('')
+      const key = `${remoteBase}apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: key})
     }
-    const debVersion = `${buildConfig.version.split('-')[0]}-1`
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
-      const deb = `${config.bin}_${debVersion}_${arch}.deb`
+      const deb = `${config.bin}}_${arch}.deb`
       if (await qq.exists(dist(deb))) await upload(deb)
     }
     await uploadDeb('amd64')

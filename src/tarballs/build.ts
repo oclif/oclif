@@ -8,7 +8,7 @@ import {log} from '../log'
 import {writeBinScripts} from './bin'
 import {IConfig, IManifest} from './config'
 import {fetchNodeBinary} from './node'
-import {s3TarballKey} from '../upload-util'
+import {commitAWSDir, s3Key} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -69,9 +69,20 @@ export async function build(c: IConfig, options: {
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
-    const gzDiskKey = config.s3Key('versioned', '.tar.gz', target)
-    const xzDiskKey = config.s3Key('versioned', '.tar.xz', target)
-    const base = path.basename(gzDiskKey)
+    const gzLocalKey = s3Key('unversioned', '.tar.gz', {
+      arch: target.arch,
+      bin: c.config.bin,
+      platform: target.platform,
+      root: config.root,
+    })
+
+    const xzLocalKey = s3Key('unversioned', '.tar.xz', {
+      arch: target.arch,
+      bin: c.config.bin,
+      platform: target.platform,
+      root: config.root,
+    })
+    const base = path.basename(gzLocalKey)
     log(`building target ${base}`)
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
@@ -83,51 +94,29 @@ export async function build(c: IConfig, options: {
       tmp: qq.join(config.root, 'tmp'),
     })
     if (options.pack === false) return
-    await pack(workspace, c.dist(gzDiskKey))
-    if (xz) await pack(workspace, c.dist(xzDiskKey))
+    await pack(workspace, c.dist(gzLocalKey))
+    if (xz) await pack(workspace, c.dist(xzLocalKey))
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
 
-    // to-do: build uses oclif/config#s3Key helper
-    // for s3 key name templating
-    // so we continue to have to use it in
-    // pack & upload & promote commands;
-    // When this pkg starts using oclif/core
-    // refactor these new key name creation
-    // helpers to oclif/core
-    const gzTarballKey = s3TarballKey({
-      arch: target.arch,
-      bin: c.config.bin,
-      ext: 'tar.gz',
-      platform: target.platform,
-      root: config.root,
-      version: c.version,
-    })
-
-    const xzTarballKey = s3TarballKey({
-      arch: target.arch,
-      bin: c.config.bin,
-      ext: 'tar.xz',
-      platform: target.platform,
-      root: config.root,
-      version: c.version,
-    })
+    const gzCloudKey = `${commitAWSDir(c.version, config.root)}/${gzLocalKey}`
+    const xzCloudKey = `${commitAWSDir(c.version, config.root)}/${xzLocalKey}`
 
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
       channel: c.channel,
-      baseDir: config.s3Key('baseDir', target),
-      gz: config.s3Url(gzTarballKey),
-      xz: xz ? config.s3Url(xzTarballKey) : undefined,
-      sha256gz: await qq.hash('sha256', c.dist(gzDiskKey)),
-      sha256xz: xz ? await qq.hash('sha256', c.dist(xzDiskKey)) : undefined,
+      baseDir: s3Key('baseDir', target),
+      gz: config.s3Url(gzCloudKey),
+      xz: xz ? config.s3Url(xzCloudKey) : undefined,
+      sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
+      sha256xz: xz ? await qq.hash('sha256', c.dist(xzLocalKey)) : undefined,
       node: {
         compatible: config.pjson.engines.node,
         recommended: c.nodeVersion,
       },
     }
-    await qq.writeJSON(c.dist(config.s3Key('manifest', target)), manifest)
+    await qq.writeJSON(c.dist(s3Key('manifest', target)), manifest)
   }
   // const buildBaseTarball = async () => {
   //   if (options.pack === false) return

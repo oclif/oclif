@@ -5,7 +5,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, commitSHA, s3TarballKey} from '../../upload-util'
+import {commitAWSDir, commitSHA, s3Key} from '../../upload-util'
 
 export default class Upload extends Command {
   static hidden = true
@@ -28,8 +28,7 @@ export default class Upload extends Command {
     const targetOpts = flags.targets ? flags.targets.split(',') : undefined
     this.buildConfig = await Tarballs.buildConfig(flags.root, {targets: targetOpts})
     const {s3Config, targets, dist, version, config} = this.buildConfig
-    const bin = this.buildConfig.config.bin
-    if (!await qq.exists(dist(config.s3Key('versioned', {ext: '.tar.gz'})))) this.error('run "oclif-dev pack" before uploading')
+    if (!await qq.exists(dist(s3Key('unversioned', {ext: '.tar.gz'})))) this.error('run "oclif-dev pack" before uploading')
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
@@ -38,16 +37,14 @@ export default class Upload extends Command {
     const uploadTarball = async (options?: {platform: PlatformTypes; arch: ArchTypes}) => {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const versioned = config.s3Key('versioned', ext, options) // on disk file name
-        const key = s3TarballKey({
+        const localKey = s3Key('unversioned', ext, {
           arch: options?.arch!,
-          bin,
-          ext,
+          bin: config.bin,
           platform: options?.platform!,
           root: config.root,
-          version,
         })
-        await aws.s3.uploadFile(dist(versioned), {...TarballS3Options, ContentType: 'application/gzip', Key: key})
+        const cloudKey = `${commitAWSDir(version, config.root)}/${localKey}`
+        await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
       }
 
       await releaseTarballs('.tar.gz')
@@ -56,8 +53,8 @@ export default class Upload extends Command {
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
       const s3ManifestKey = (): string => {
         const s3Root = commitAWSDir(version, config.root)
-        const manifest = config.s3Key('manifest', options)
-        return `${s3Root}/${manifest}-buildmanifest`
+        const manifest = s3Key('manifest', options)
+        return `${s3Root}/${manifest}`
       }
       const manifest = s3ManifestKey()
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: manifest})

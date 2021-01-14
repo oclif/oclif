@@ -3,6 +3,7 @@ import * as path from 'path'
 import * as qq from 'qqjs'
 
 import {compact} from '../util'
+import {s3Key} from '../upload-util'
 
 export const TARGETS = [
   'linux-x64',
@@ -80,8 +81,8 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     nodeVersion: updateConfig.node.version || process.versions.node,
     workspace(target) {
       const base = qq.join(config.root, 'tmp')
-      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), config.s3Key('baseDir', target))
-      return qq.join(base, config.s3Key('baseDir', target))
+      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), s3Key('baseDir', target))
+      return qq.join(base, s3Key('baseDir', target))
     },
     targets: compact(options.targets || updateConfig.node.targets || TARGETS).map(t => {
       const [platform, arch] = t.split('-') as [Config.PlatformTypes, Config.ArchTypes]

@@ -57,7 +57,7 @@ export default class Upload extends Command {
       const s3ManifestKey = (): string => {
         const s3Root = commitAWSDir(version, config.root)
         const manifest = config.s3Key('manifest', options)
-        return `${s3Root}${manifest}`
+        return `${s3Root}${manifest}-buildmanifest`
       }
       const manifest = s3ManifestKey()
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: manifest})

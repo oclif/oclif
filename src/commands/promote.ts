@@ -36,7 +36,7 @@ export default class Promote extends Command {
 
     // copy tarballs manifests
     for (const target of TARGETS) {
-      const manifest = `${target}`
+      const manifest = `${target}-buildmanifest`
       const copySource = `${bucket}/${s3VersionObjKey(manifest)}`
       const key = s3ManifestChannelKey(manifest)
       // eslint-disable-next-line no-await-in-loop

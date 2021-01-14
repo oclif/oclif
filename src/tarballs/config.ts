@@ -4,7 +4,7 @@ import * as qq from 'qqjs'
 
 import {compact} from '../util'
 
-const TARGETS = [
+export const TARGETS = [
   'linux-x64',
   'linux-arm',
   'win32-x64',

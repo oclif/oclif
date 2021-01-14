@@ -76,6 +76,17 @@ export default {
           else resolve(data)
         })
       }),
+      copyObject: (options: S3.Types.CopyObjectRequest) => new Promise((resolve, reject) => {
+        const params = {
+          Bucket: options.Bucket,
+          CopySource: `/${options.Bucket}/${options.CopySource}`,
+          Key: options.Key,
+        }
+        aws.s3.copyObject(params, function (err, data) {
+          if (err) reject(err)
+          else resolve(data)
+        })
+      }),
     }
   },
 }

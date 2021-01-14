@@ -38,7 +38,7 @@ export default class Upload extends Command {
     const uploadTarball = async (options?: {platform: PlatformTypes; arch: ArchTypes}) => {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const s3Key = (): string => {
+        const s3TarballKey = (): string => {
           const template = '<%- root %><%- bin %>-<%- platform %>-<%- arch %><%- ext %>'
           const s3Root = commitAWSDir(version, config.root)
           const _ = require('lodash')
@@ -46,10 +46,21 @@ export default class Upload extends Command {
         }
 
         const versioned = config.s3Key('versioned', ext, options)
-        const key = s3Key()
+        const key = s3TarballKey()
         await aws.s3.uploadFile(dist(versioned), {...TarballS3Options, ContentType: 'application/gzip', Key: key})
       }
+
       await releaseTarballs('.tar.gz')
+      if (this.buildConfig.xz) await releaseTarballs('.tar.xz')
+
+      const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
+      const s3ManifestKey = (): string => {
+        const s3Root = commitAWSDir(version, config.root)
+        const manifest = config.s3Key('manifest', options)
+        return `${s3Root}${manifest}`
+      }
+      const manifest = s3ManifestKey()
+      await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: manifest})
     }
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop

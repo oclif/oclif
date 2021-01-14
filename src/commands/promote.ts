@@ -3,6 +3,7 @@ import {Command, flags} from '@oclif/command'
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
 import {TARGETS} from '../tarballs/config'
+import {cli} from 'cli-ux'
 
 export default class Promote extends Command {
   static hidden = true
@@ -39,6 +40,7 @@ export default class Promote extends Command {
       const manifest = `${target}-buildmanifest`
       const copySource = `${bucket}/${s3VersionObjKey(manifest)}`
       const key = s3ManifestChannelKey(manifest)
+      cli.action.start(`Promoting ${manifest} to ${channel}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -47,12 +49,14 @@ export default class Promote extends Command {
           Key: key,
         },
       )
+      cli.action.stop('successfully')
     }
 
     // copy darwin pkg
     const darwinPkgObject = `${bin}.pkg`
     const darwinCopySource = `${bucket}/${s3VersionObjKey(darwinPkgObject)}`
     const darwinKey = s3ManifestChannelKey(darwinPkgObject)
+    cli.action.start(`Promoting ${darwinPkgObject} to ${channel}`)
     await aws.s3.copyObject(
       {
         Bucket: bucket,
@@ -60,12 +64,14 @@ export default class Promote extends Command {
         Key: darwinKey,
       },
     )
+    cli.action.stop('successfully')
 
     // copy win exe
     for (const arch of ['x64', 'x86']) {
       const winPkgObject = `${bin}-${arch}.exe`
       const winCopySource = `${bucket}/${s3VersionObjKey(winPkgObject)}`
       const winKey = s3ManifestChannelKey(winPkgObject)
+      cli.action.start(`Promoting ${winPkgObject} to ${channel}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -74,6 +80,7 @@ export default class Promote extends Command {
           Key: winKey,
         },
       )
+      cli.action.stop('successfully')
     }
 
     // copy debian artifacts
@@ -90,6 +97,7 @@ export default class Promote extends Command {
     for (const artifact of debArtifacts) {
       const debCopySource = `${bucket}/${s3VersionObjKey(artifact, {debian: true})}`
       const debKey = s3ManifestChannelKey(artifact, {debian: true})
+      cli.action.start(`Promoting ${artifact} to ${channel}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -98,6 +106,7 @@ export default class Promote extends Command {
           Key: debKey,
         },
       )
+      cli.action.stop('successfully')
     }
   }
 }

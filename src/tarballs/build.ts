@@ -1,5 +1,4 @@
 import {ArchTypes, PlatformTypes} from '@oclif/config'
-import * as Errors from '@oclif/errors'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import * as path from 'path'
 import * as qq from 'qqjs'
@@ -7,8 +6,9 @@ import * as qq from 'qqjs'
 import {log} from '../log'
 
 import {writeBinScripts} from './bin'
-import {IConfig, IManifest} from './config'
+import {IConfig, IManifest, buildConfig} from './config'
 import {fetchNodeBinary} from './node'
+import {commitAWSDir} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -69,8 +69,9 @@ export async function build(c: IConfig, options: {
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
-    const key = config.s3Key('versioned', '.tar.gz', target)
-    const base = path.basename(key)
+    const gzDiskKey = config.s3Key('versioned', '.tar.gz', target)
+    const xzDiskKey = config.s3Key('versioned', '.tar.xz', target)
+    const base = path.basename(gzDiskKey)
     log(`building target ${base}`)
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
@@ -82,19 +83,34 @@ export async function build(c: IConfig, options: {
       tmp: qq.join(config.root, 'tmp'),
     })
     if (options.pack === false) return
-    await pack(workspace, c.dist(key))
-    if (xz) await pack(workspace, c.dist(config.s3Key('versioned', '.tar.xz', target)))
+    await pack(workspace, c.dist(gzDiskKey))
+    if (xz) await pack(workspace, c.dist(xzDiskKey))
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
+
+    // to-do: build uses oclif/config#s3Key helper
+    // for s3 key name templating
+    // so we continue to have to use it in
+    // pack & upload & promote commands;
+    // When this pkg starts using oclif/core
+    // refactor these new key name creation
+    // helpers to oclif/core
+    const s3TarballKey = (ext: string): string => {
+      const template = '<%- root %><%- bin %>-<%- platform %>-<%- arch %><%- ext %>'
+      const s3Root = commitAWSDir(c.version, config.root)
+      const _ = require('lodash')
+      return _.template(template)({...target, ext, bin: c.config.bin, root: s3Root})
+    }
+
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
       channel: c.channel,
       baseDir: config.s3Key('baseDir', target),
-      gz: config.s3Url(config.s3Key('versioned', '.tar.gz', target)),
-      xz: xz ? config.s3Url(config.s3Key('versioned', '.tar.xz', target)) : undefined,
-      sha256gz: await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.gz', target))),
-      sha256xz: xz ? await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.xz', target))) : undefined,
+      gz: config.s3Url(s3TarballKey('.tar.gz')),
+      xz: xz ? config.s3Url(s3TarballKey('.tar.xz')) : undefined,
+      sha256gz: await qq.hash('sha256', c.dist(gzDiskKey)),
+      sha256xz: xz ? await qq.hash('sha256', c.dist(xzDiskKey)) : undefined,
       node: {
         compatible: config.pjson.engines.node,
         recommended: c.nodeVersion,
@@ -102,36 +118,36 @@ export async function build(c: IConfig, options: {
     }
     await qq.writeJSON(c.dist(config.s3Key('manifest', target)), manifest)
   }
-  const buildBaseTarball = async () => {
-    if (options.pack === false) return
-    await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.gz')))
-    if (xz) await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.xz')))
-    if (!c.updateConfig.s3.host) {
-      Errors.warn('No S3 bucket or host configured. CLI will not be able to update.')
-      return
-    }
-    const manifest: IManifest = {
-      version: c.version,
-      baseDir: config.s3Key('baseDir'),
-      channel: config.channel,
-      gz: config.s3Url(config.s3Key('versioned', '.tar.gz')),
-      xz: config.s3Url(config.s3Key('versioned', '.tar.xz')),
-      sha256gz: await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.gz'))),
-      sha256xz: xz ? await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.xz'))) : undefined,
-      rollout: (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout) as number,
-      node: {
-        compatible: config.pjson.engines.node,
-        recommended: c.nodeVersion,
-      },
-    }
-    await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest)
-  }
+  // const buildBaseTarball = async () => {
+  //   if (options.pack === false) return
+  //   await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.gz')))
+  //   if (xz) await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.xz')))
+  //   if (!c.updateConfig.s3.host) {
+  //     Errors.warn('No S3 bucket or host configured. CLI will not be able to update.')
+  //     return
+  //   }
+  //   const manifest: IManifest = {
+  //     version: c.version,
+  //     baseDir: config.s3Key('baseDir'),
+  //     channel: config.channel,
+  //     gz: config.s3Url(config.s3Key('versioned', '.tar.gz')),
+  //     xz: config.s3Url(config.s3Key('versioned', '.tar.xz')),
+  //     sha256gz: await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.gz'))),
+  //     sha256xz: xz ? await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.xz'))) : undefined,
+  //     rollout: (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout) as number,
+  //     node: {
+  //       compatible: config.pjson.engines.node,
+  //       recommended: c.nodeVersion,
+  //     },
+  //   }
+  //   await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest)
+  // }
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())
   await updatePJSON()
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
-  await buildBaseTarball()
+  // await buildBaseTarball() // don't build vanilla for now
   for (const target of c.targets) {
     if (!options.platform || options.platform === target.platform) {
       // eslint-disable-next-line no-await-in-loop

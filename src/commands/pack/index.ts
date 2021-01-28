@@ -13,7 +13,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: linux-arm,win32-x64)'}),
+    targets: flags.enum({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)', options: Tarballs.TARGETS, default: Tarballs.TARGETS}),
     xz: flags.boolean({description: 'also build xz', allowNo: true}),
   }
 
@@ -21,8 +21,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
     const prevCwd = qq.cwd()
     if (process.platform === 'win32') throw new Error('pack does not function on windows')
     const {flags} = this.parse(Pack)
-    const targets = flags.targets ? flags.targets.split(',') : undefined
-    const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: flags.targets})
     await Tarballs.build(buildConfig)
     qq.cd(prevCwd)
   }

@@ -17,14 +17,13 @@ export default class Upload extends Command {
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: linux-arm,win32-x64)'}),
+    targets: flags.enum({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)', options: Tarballs.TARGETS, default: Tarballs.TARGETS}),
   }
 
   async run() {
     const {flags} = this.parse(Upload)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
-    const targetOpts = flags.targets ? flags.targets.split(',') : undefined
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: targetOpts})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags.targets})
     const {s3Config, targets, dist, version, config, xz} = buildConfig
 
     for (const target of targets) {

@@ -2,7 +2,6 @@ import {Command, flags} from '@oclif/command'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {TARGETS} from '../tarballs/config'
 import {cli} from 'cli-ux'
 
 export default class Promote extends Command {
@@ -15,7 +14,7 @@ export default class Promote extends Command {
     version: flags.string({description: 'semantic version of the CLI to promote', required: true}),
     sha: flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
     channel: flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
-    targets: flags.string({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)'}),
+    targets: flags.enum({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)', options: Tarballs.TARGETS, default: Tarballs.TARGETS}),
     deb: flags.boolean({char: 'd', description: 'promote debian artifacts'}),
     macos: flags.boolean({char: 'm', description: 'promote MacOS pkg'}),
     win: flags.boolean({char: 'w', description: 'promote Windows exe'}),
@@ -23,30 +22,28 @@ export default class Promote extends Command {
 
   async run() {
     const {flags} = this.parse(Promote)
-    const {channel, sha, version, root, targets} = flags
 
-    const targetOpts = targets ? targets.split(',') : undefined
-    const buildConfig = await Tarballs.buildConfig(root, {targets: targetOpts})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags.targets})
     const {s3Config, config} = buildConfig
 
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
 
     const s3VersionObjKey = (object: string, opts: {debian?: boolean} = {}): string => {
       const apt = opts.debian ? 'apt/' : ''
-      return `versions/${version}/${sha}/${apt}${object}`
+      return `versions/${flags.version}/${flags.sha}/${apt}${object}`
     }
     const s3ManifestChannelKey = (object: string, opts: {debian?: boolean } = {}): string => {
       const apt = opts.debian ? 'apt/' : ''
-      return `channel/${channel}/${apt}${object}`
+      return `channel/${flags.channel}/${apt}${object}`
     }
 
     // copy tarballs manifests
-    for (const target of TARGETS) {
+    for (const target of Tarballs.TARGETS) {
       const manifest = `${target}-buildmanifest`
       const copySource = `${s3Config.bucket}/${s3VersionObjKey(manifest)}`
       const key = s3ManifestChannelKey(manifest)
       // console.log(copySource, key)
-      cli.action.start(`Promoting ${manifest} to ${channel}`)
+      cli.action.start(`Promoting ${manifest} to ${flags.channel}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -63,7 +60,7 @@ export default class Promote extends Command {
     const darwinCopySource = `${s3Config.bucket}/${s3VersionObjKey(darwinPkgObject)}`
     const darwinKey = s3ManifestChannelKey(darwinPkgObject)
     // console.log(darwinCopySource, darwinKey)
-    cli.action.start(`Promoting ${darwinPkgObject} to ${channel}`)
+    cli.action.start(`Promoting ${darwinPkgObject} to ${flags.channel}`)
     await aws.s3.copyObject(
       {
         Bucket: s3Config.bucket,
@@ -79,7 +76,7 @@ export default class Promote extends Command {
       const winCopySource = `${s3Config.bucket}/${s3VersionObjKey(winPkgObject)}`
       const winKey = s3ManifestChannelKey(winPkgObject)
       // console.log(winCopySource, winKey)
-      cli.action.start(`Promoting ${winPkgObject} to ${channel}`)
+      cli.action.start(`Promoting ${winPkgObject} to ${flags.channel}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -106,7 +103,7 @@ export default class Promote extends Command {
       const debCopySource = `${s3Config.bucket}/${s3VersionObjKey(artifact, {debian: true})}`
       const debKey = s3ManifestChannelKey(artifact, {debian: true})
       // console.log(debCopySource, debKey)
-      cli.action.start(`Promoting ${artifact} to ${channel}`)
+      cli.action.start(`Promoting ${artifact} to ${flags.channel}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {

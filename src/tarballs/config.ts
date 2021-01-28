@@ -23,7 +23,6 @@ export interface IConfig {
   tmp: string;
   updateConfig: IConfig['config']['pjson']['oclif']['update'];
   s3Config: IConfig['updateConfig']['s3'];
-  channel: string;
   xz: boolean;
   targets: {platform: Config.PlatformTypes; arch: Config.ArchTypes}[];
   workspace(target?: {platform: Config.PlatformTypes; arch: Config.ArchTypes}): string;
@@ -33,7 +32,6 @@ export interface IConfig {
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IManifest {
   version: string;
-  channel: string;
   gz: string;
   xz?: string;
   sha256gz: string;
@@ -59,7 +57,6 @@ async function Tmp(config: Config.IConfig) {
 
 export async function buildConfig(root: string, options: {xz?: boolean; targets?: string[]} = {}): Promise<IConfig> {
   const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
-  const channel = config.channel
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
   const version = config.version.includes('-') ? `${config.version}.${_gitSha}` : config.version
@@ -74,7 +71,6 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     tmp,
     updateConfig,
     version,
-    channel,
     xz: typeof options.xz === 'boolean' ? options.xz : Boolean(updateConfig.s3.xz),
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     s3Config: updateConfig.s3,

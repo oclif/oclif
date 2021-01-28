@@ -27,7 +27,7 @@ export default class UploadMacos extends Command {
     const localPkg = dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
     const cloudKey = `${root}/${config.bin}.pkg`
 
-    if (!await qq.exists(dist(`macos/${config.bin}-v${buildConfig.version}.pkg`))) this.error('Cannot find MacOS package', {
+    if (!await qq.exists(dist(`macos/${config.bin}-v${buildConfig.version}.pkg`))) this.error('Cannot find MacOS pkg', {
       suggestions: ['Run "oclif-dev pack:macos" before uploading'],
     })
 

@@ -118,36 +118,11 @@ export async function build(c: IConfig, options: {
     }
     await qq.writeJSON(c.dist(s3Key('manifest', target)), manifest)
   }
-  // const buildBaseTarball = async () => {
-  //   if (options.pack === false) return
-  //   await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.gz')))
-  //   if (xz) await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.xz')))
-  //   if (!c.updateConfig.s3.host) {
-  //     Errors.warn('No S3 bucket or host configured. CLI will not be able to update.')
-  //     return
-  //   }
-  //   const manifest: IManifest = {
-  //     version: c.version,
-  //     baseDir: config.s3Key('baseDir'),
-  //     channel: config.channel,
-  //     gz: config.s3Url(config.s3Key('versioned', '.tar.gz')),
-  //     xz: config.s3Url(config.s3Key('versioned', '.tar.xz')),
-  //     sha256gz: await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.gz'))),
-  //     sha256xz: xz ? await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.xz'))) : undefined,
-  //     rollout: (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout) as number,
-  //     node: {
-  //       compatible: config.pjson.engines.node,
-  //       recommended: c.nodeVersion,
-  //     },
-  //   }
-  //   await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest)
-  // }
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())
   await updatePJSON()
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
-  // await buildBaseTarball() // don't build vanilla for now
   for (const target of c.targets) {
     if (!options.platform || options.platform === target.platform) {
       // eslint-disable-next-line no-await-in-loop

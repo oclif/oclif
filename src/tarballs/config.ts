@@ -22,7 +22,7 @@ export interface IConfig {
   version: string;
   tmp: string;
   updateConfig: IConfig['config']['pjson']['oclif']['update'];
-  s3Config: IConfig['updateConfig']['s3'];
+  s3Config: IConfig['updateConfig']['s3'] & {folder?: string};
   xz: boolean;
   targets: {platform: Config.PlatformTypes; arch: Config.ArchTypes}[];
   workspace(target?: {platform: Config.PlatformTypes; arch: Config.ArchTypes}): string;

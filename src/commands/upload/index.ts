@@ -48,7 +48,7 @@ export default class Upload extends Command {
           platform: options?.platform!,
           root: config.root,
         })
-        const cloudKey = `${commitAWSDir(version, config.root)}/${localKey}`
+        const cloudKey = `${commitAWSDir(version, config.root, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
       }
 
@@ -57,7 +57,7 @@ export default class Upload extends Command {
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
       const manifest = s3Key('manifest', options)
-      const cloudKey = `${commitAWSDir(version, config.root)}/${manifest}`
+      const cloudKey = `${commitAWSDir(version, config.root, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
     }
     if (targets.length > 0) log('uploading targets')

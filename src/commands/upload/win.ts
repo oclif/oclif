@@ -32,7 +32,7 @@ export default class UploadWin extends Command {
       })
     }
 
-    const root = commitAWSDir(config.pjson.version, config.root)
+    const root = commitAWSDir(config.pjson.version, config.root, s3Config)
     const uploadWin = async (arch: 'x64' | 'x86') => {
       const localExe = dist(`win/${config.bin}-v${version}-${arch}.exe`)
       const cloudKey = `${root}/${config.bin}-${arch}.exe`

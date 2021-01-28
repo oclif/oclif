@@ -18,7 +18,7 @@ export default class UploadDeb extends Command {
   async run() {
     const {flags} = this.parse(UploadDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, version, config} = buildConfig
+    const {s3Config, config} = buildConfig
     const dist = (f: string) => buildConfig.dist(qq.join('deb', f))
     const S3Options = {
       Bucket: s3Config.bucket!,
@@ -29,7 +29,7 @@ export default class UploadDeb extends Command {
       suggestions: ['Run "oclif-dev pack:deb" before uploading'],
     })
 
-    const cloudBase = commitAWSDir(config.pjson.version, config.root)
+    const cloudBase = commitAWSDir(config.pjson.version, config.root, s3Config)
     const upload = (file: string) => {
       const cloudKey = `${cloudBase}/apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
@@ -48,6 +48,6 @@ export default class UploadDeb extends Command {
     if (await qq.exists(dist('InRelease'))) await upload('InRelease')
     if (await qq.exists(dist('Release.gpg'))) await upload('Release.gpg')
 
-    log(`uploaded deb ${version}`)
+    log(`uploaded deb ${config.version}`)
   }
 }

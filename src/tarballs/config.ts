@@ -81,8 +81,8 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     nodeVersion: updateConfig.node.version || process.versions.node,
     workspace(target) {
       const base = qq.join(config.root, 'tmp')
-      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), s3Key('baseDir', target))
-      return qq.join(base, s3Key('baseDir', target))
+      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), s3Key('baseDir', target, {bin: config.bin}))
+      return qq.join(base, s3Key('baseDir', target, {bin: config.bin}))
     },
     targets: compact(options.targets || updateConfig.node.targets || TARGETS).map(t => {
       const [platform, arch] = t.split('-') as [Config.PlatformTypes, Config.ArchTypes]

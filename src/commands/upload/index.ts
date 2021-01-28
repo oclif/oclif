@@ -28,7 +28,7 @@ export default class Upload extends Command {
     const {s3Config, targets, dist, version, config, xz} = buildConfig
 
     for (const target of targets) {
-      const tarball = dist(s3Key('unversioned', {ext: '.tar.gz', ...target}))
+      const tarball = dist(s3Key('unversioned', {ext: '.tar.gz', bin: config.bin, ...target}))
       // eslint-disable-next-line no-await-in-loop
       if (!await qq.exists(tarball)) this.error(`Cannot find a tarball for ${target.platform}-${target.arch}`, {
         suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],

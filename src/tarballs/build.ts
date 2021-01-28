@@ -106,7 +106,7 @@ export async function build(c: IConfig, options: {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
       channel: c.channel,
-      baseDir: s3Key('baseDir', target),
+      baseDir: s3Key('baseDir', target, {bin: config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
       sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),

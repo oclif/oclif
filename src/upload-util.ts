@@ -22,8 +22,8 @@ export function s3Key(type: keyof PJSON.S3.Templates, ext?: '.tar.gz' | '.tar.xz
   const s3Root = commitAWSDir(options.version, options.root)
   const templates = {
     baseDir: '<%- bin %>',
-    unversioned: '<%- platform %>-<%- arch %><%- ext %>',
-    versioned: 'v<%- version %>-<%- platform %>-<%- arch %><%- ext %>',
+    unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
+    versioned: '<%- bin %>-v<%- version %>-<%- platform %>-<%- arch %><%- ext %>',
     manifest: '<%- platform %>-<%- arch %>-buildmanifest',
   }
   return _.template(templates[type])({...options, root: s3Root})

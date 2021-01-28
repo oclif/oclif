@@ -5,7 +5,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, commitSHA, s3Key} from '../../upload-util'
+import {commitAWSDir, commitSHA, s3ShortKey} from '../../upload-util'
 
 export default class Upload extends Command {
   static hidden = true
@@ -27,7 +27,7 @@ export default class Upload extends Command {
     const {s3Config, targets, dist, version, config, xz} = buildConfig
 
     for (const target of targets) {
-      const tarball = dist(s3Key('unversioned', {ext: '.tar.gz', bin: config.bin, ...target}))
+      const tarball = dist(s3ShortKey('unversioned', {ext: '.tar.gz', bin: config.bin, ...target}))
       // eslint-disable-next-line no-await-in-loop
       if (!await qq.exists(tarball)) this.error(`Cannot find a tarball for ${target.platform}-${target.arch}`, {
         suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],
@@ -42,7 +42,7 @@ export default class Upload extends Command {
     const uploadTarball = async (options?: {platform: PlatformTypes; arch: ArchTypes}) => {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const localKey = s3Key('unversioned', ext, {
+        const localKey = s3ShortKey('unversioned', ext, {
           arch: options?.arch!,
           bin: config.bin,
           platform: options?.platform!,
@@ -56,7 +56,7 @@ export default class Upload extends Command {
       if (xz) await releaseTarballs('.tar.xz')
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
-      const manifest = s3Key('manifest', options)
+      const manifest = s3ShortKey('manifest', options)
       const cloudKey = `${commitAWSDir(version, config.root, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
     }

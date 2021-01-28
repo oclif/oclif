@@ -8,7 +8,7 @@ import {log} from '../log'
 import {writeBinScripts} from './bin'
 import {IConfig, IManifest} from './config'
 import {fetchNodeBinary} from './node'
-import {commitAWSDir, s3Key} from '../upload-util'
+import {commitAWSDir, s3ShortKey} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -69,14 +69,14 @@ export async function build(c: IConfig, options: {
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
-    const gzLocalKey = s3Key('unversioned', '.tar.gz', {
+    const gzLocalKey = s3ShortKey('unversioned', '.tar.gz', {
       arch: target.arch,
       bin: c.config.bin,
       platform: target.platform,
       root: config.root,
     })
 
-    const xzLocalKey = s3Key('unversioned', '.tar.xz', {
+    const xzLocalKey = s3ShortKey('unversioned', '.tar.xz', {
       arch: target.arch,
       bin: c.config.bin,
       platform: target.platform,
@@ -105,7 +105,7 @@ export async function build(c: IConfig, options: {
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
-      baseDir: s3Key('baseDir', target, {bin: config.bin}),
+      baseDir: s3ShortKey('baseDir', target, {bin: config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
       sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
@@ -115,7 +115,7 @@ export async function build(c: IConfig, options: {
         recommended: c.nodeVersion,
       },
     }
-    await qq.writeJSON(c.dist(s3Key('manifest', target)), manifest)
+    await qq.writeJSON(c.dist(s3ShortKey('manifest', target)), manifest)
   }
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())

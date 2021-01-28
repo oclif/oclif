@@ -19,7 +19,7 @@ export function commitAWSDir(version: string, cwd: string, s3Config: TarballConf
 // When this pkg starts using oclif/core
 // refactor this key name lookup
 // helper to oclif/core
-export function s3Key(type: keyof PJSON.S3.Templates, ext?: '.tar.gz' | '.tar.xz' | IConfig.s3Key.Options, options: IConfig.s3Key.Options = {root: '.'}) {
+export function s3ShortKey(type: keyof PJSON.S3.Templates, ext?: '.tar.gz' | '.tar.xz' | IConfig.s3Key.Options, options: IConfig.s3Key.Options = {root: '.'}) {
   if (typeof ext === 'object') options = Object.assign(options, ext)
   else if (ext) options.ext = ext
   const _: typeof Lodash = require('lodash')

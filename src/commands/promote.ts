@@ -15,13 +15,16 @@ export default class Promote extends Command {
     version: flags.string({description: 'semantic version of the CLI to promote', required: true}),
     sha: flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
     channel: flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
+    targets: flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: linux-arm,win32-x64)'}),
   }
 
   async run() {
     const {flags} = this.parse(Promote)
-    const {channel, sha, version, root} = flags
+    const {channel, sha, version, root, targets} = flags
 
-    const buildConfig = await Tarballs.buildConfig(root)
+    const targetOpts = targets ? targets.split(',') : undefined
+    const buildConfig = await Tarballs.buildConfig(root, {targets: targetOpts})
+
     const bucket = buildConfig.s3Config.bucket!
     if (!bucket) this.error('Cannot determine S3 bucket for promotion')
     const bin = buildConfig.config.bin

@@ -18,15 +18,19 @@ export default class UploadMacos extends Command {
   async run() {
     const {flags} = this.parse(UploadMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, version, config} = buildConfig
+    const {s3Config, version, config, dist} = buildConfig
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
-
     const root = commitAWSDir(config.pjson.version, config.root)
-    const localPkg = buildConfig.dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
+    const localPkg = dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
     const cloudKey = `${root}/${config.bin}.pkg`
+
+    if (!await qq.exists(dist(`macos/${config.bin}-v${buildConfig.version}.pkg`))) this.error('Cannot find MacOS package', {
+      suggestions: ['Run "oclif-dev pack:macos" before uploading'],
+    })
+
     if (await qq.exists(localPkg)) await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
 
     log(`uploaded macos ${version}`)

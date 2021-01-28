@@ -15,15 +15,15 @@ export function commitAWSDir(version: string, cwd: string): string {
 // When this pkg starts using oclif/core
 // refactor this key name lookup
 // helper to oclif/core
-export function s3Key(type: keyof PJSON.S3.Templates, ext?: '.tar.gz' | '.tar.xz' | IConfig.s3Key.Options, options: IConfig.s3Key.Options = {}) {
-  if (typeof ext === 'object') options = ext
+export function s3Key(type: keyof PJSON.S3.Templates, ext?: '.tar.gz' | '.tar.xz' | IConfig.s3Key.Options, options: IConfig.s3Key.Options = {root: '.'}) {
+  if (typeof ext === 'object') options = Object.assign(options, ext)
   else if (ext) options.ext = ext
   const _: typeof Lodash = require('lodash')
   const s3Root = commitAWSDir(options.version, options.root)
   const templates = {
     baseDir: '<%- bin %>',
-    unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
-    versioned: '<%- bin %>-v<%- version %>-<%- platform %>-<%- arch %><%- ext %>',
+    unversioned: '<%- platform %>-<%- arch %><%- ext %>',
+    versioned: 'v<%- version %>-<%- platform %>-<%- arch %><%- ext %>',
     manifest: '<%- platform %>-<%- arch %>-buildmanifest',
   }
   return _.template(templates[type])({...options, root: s3Root})

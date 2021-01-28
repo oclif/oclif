@@ -20,15 +20,21 @@ export default class Upload extends Command {
     targets: flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: linux-arm,win32-x64)'}),
   }
 
-  buildConfig!: Tarballs.IConfig
-
   async run() {
     const {flags} = this.parse(Upload)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targetOpts = flags.targets ? flags.targets.split(',') : undefined
-    this.buildConfig = await Tarballs.buildConfig(flags.root, {targets: targetOpts})
-    const {s3Config, targets, dist, version, config} = this.buildConfig
-    if (!await qq.exists(dist(s3Key('unversioned', {ext: '.tar.gz'})))) this.error('run "oclif-dev pack" before uploading')
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: targetOpts})
+    const {s3Config, targets, dist, version, config, xz} = buildConfig
+
+    for (const target of targets) {
+      const tarball = dist(s3Key('unversioned', {ext: '.tar.gz', ...target}))
+      // eslint-disable-next-line no-await-in-loop
+      if (!await qq.exists(tarball)) this.error(`Cannot find a tarball for ${target.platform}-${target.arch}`, {
+        suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],
+      })
+    }
+
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
@@ -48,16 +54,12 @@ export default class Upload extends Command {
       }
 
       await releaseTarballs('.tar.gz')
-      if (this.buildConfig.xz) await releaseTarballs('.tar.xz')
+      if (xz) await releaseTarballs('.tar.xz')
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
-      const s3ManifestKey = (): string => {
-        const s3Root = commitAWSDir(version, config.root)
-        const manifest = s3Key('manifest', options)
-        return `${s3Root}/${manifest}`
-      }
-      const manifest = s3ManifestKey()
-      await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: manifest})
+      const manifest = s3Key('manifest', options)
+      const cloudKey = `${commitAWSDir(version, config.root)}/${manifest}`
+      await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
     }
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop

@@ -20,21 +20,25 @@ export default class UploadDeb extends Command {
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {s3Config, version, config} = buildConfig
     const dist = (f: string) => buildConfig.dist(qq.join('deb', f))
-    if (!await qq.exists(dist('Release'))) this.error('run "oclif-dev pack:deb" before uploading')
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
 
-    const remoteBase = commitAWSDir(config.pjson.version, config.root)
+    if (!await qq.exists(dist('Release'))) this.error('Cannot find debian artifacts', {
+      suggestions: ['Run "oclif-dev pack:deb" before uploading'],
+    })
+
+    const cloudBase = commitAWSDir(config.pjson.version, config.root)
     const upload = (file: string) => {
-      const cloudKey = `${remoteBase}/apt/${file}`
+      const cloudKey = `${cloudBase}/apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
       const deb = `${config.bin}}_${arch}.deb`
       if (await qq.exists(dist(deb))) await upload(deb)
     }
+
     await uploadDeb('amd64')
     await uploadDeb('i386')
     await upload('Packages.gz')

@@ -18,15 +18,23 @@ export default class UploadWin extends Command {
   async run() {
     const {flags} = this.parse(UploadWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, version, config} = buildConfig
+    const {s3Config, version, config, dist} = buildConfig
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
 
+    for (const arch of ['x64', 'x86']) {
+      const key = dist(`win/${config.bin}-v${version}-${arch}.exe`)
+      // eslint-disable-next-line no-await-in-loop
+      if (!await qq.exists(key)) this.error(`Cannot find Windows exe for ${arch}`, {
+        suggestions: ['Run "oclif-dev pack:win" before uploading'],
+      })
+    }
+
     const root = commitAWSDir(config.pjson.version, config.root)
     const uploadWin = async (arch: 'x64' | 'x86') => {
-      const localExe = buildConfig.dist(`win/${config.bin}-v${buildConfig.version}-${arch}.exe`)
+      const localExe = dist(`win/${config.bin}-v${version}-${arch}.exe`)
       const cloudKey = `${root}/${config.bin}-${arch}.exe`
       if (await qq.exists(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }

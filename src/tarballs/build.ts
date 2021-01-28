@@ -99,8 +99,8 @@ export async function build(c: IConfig, options: {
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
 
-    const gzCloudKey = `${commitAWSDir(c.version, config.root)}/${gzLocalKey}`
-    const xzCloudKey = `${commitAWSDir(c.version, config.root)}/${xzLocalKey}`
+    const gzCloudKey = `${commitAWSDir(c.version, config.root, c.updateConfig.s3)}/${gzLocalKey}`
+    const xzCloudKey = `${commitAWSDir(c.version, config.root, c.updateConfig.s3)}/${xzLocalKey}`
 
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,

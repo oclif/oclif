@@ -23,7 +23,7 @@ export default class UploadMacos extends Command {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
-    const root = commitAWSDir(config.pjson.version, config.root)
+    const root = commitAWSDir(config.pjson.version, config.root, s3Config)
     const localPkg = dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
     const cloudKey = `${root}/${config.bin}.pkg`
 

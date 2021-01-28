@@ -56,36 +56,40 @@ export default class Promote extends Command {
     }
 
     // copy darwin pkg
-    const darwinPkgObject = `${config.bin}.pkg`
-    const darwinCopySource = `${s3Config.bucket}/${s3VersionObjKey(darwinPkgObject)}`
-    const darwinKey = s3ManifestChannelKey(darwinPkgObject)
-    // console.log(darwinCopySource, darwinKey)
-    cli.action.start(`Promoting ${darwinPkgObject} to ${flags.channel}`)
-    await aws.s3.copyObject(
-      {
-        Bucket: s3Config.bucket,
-        CopySource: darwinCopySource,
-        Key: darwinKey,
-      },
-    )
-    cli.action.stop('successfully')
-
-    // copy win exe
-    for (const arch of ['x64', 'x86']) {
-      const winPkgObject = `${config.bin}-${arch}.exe`
-      const winCopySource = `${s3Config.bucket}/${s3VersionObjKey(winPkgObject)}`
-      const winKey = s3ManifestChannelKey(winPkgObject)
-      // console.log(winCopySource, winKey)
-      cli.action.start(`Promoting ${winPkgObject} to ${flags.channel}`)
-      // eslint-disable-next-line no-await-in-loop
+    if (flags.macos) {
+      const darwinPkgObject = `${config.bin}.pkg`
+      const darwinCopySource = `${s3Config.bucket}/${s3VersionObjKey(darwinPkgObject)}`
+      const darwinKey = s3ManifestChannelKey(darwinPkgObject)
+      // console.log(darwinCopySource, darwinKey)
+      cli.action.start(`Promoting ${darwinPkgObject} to ${flags.channel}`)
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
-          CopySource: winCopySource,
-          Key: winKey,
+          CopySource: darwinCopySource,
+          Key: darwinKey,
         },
       )
       cli.action.stop('successfully')
+    }
+
+    // copy win exe
+    if (flags.win) {
+      for (const arch of ['x64', 'x86']) {
+        const winPkgObject = `${config.bin}-${arch}.exe`
+        const winCopySource = `${s3Config.bucket}/${s3VersionObjKey(winPkgObject)}`
+        const winKey = s3ManifestChannelKey(winPkgObject)
+        // console.log(winCopySource, winKey)
+        cli.action.start(`Promoting ${winPkgObject} to ${flags.channel}`)
+        // eslint-disable-next-line no-await-in-loop
+        await aws.s3.copyObject(
+          {
+            Bucket: s3Config.bucket,
+            CopySource: winCopySource,
+            Key: winKey,
+          },
+        )
+        cli.action.stop('successfully')
+      }
     }
 
     // copy debian artifacts
@@ -99,20 +103,22 @@ export default class Promote extends Command {
       'InRelease',
       'Release.gpg',
     ]
-    for (const artifact of debArtifacts) {
-      const debCopySource = `${s3Config.bucket}/${s3VersionObjKey(artifact, {debian: true})}`
-      const debKey = s3ManifestChannelKey(artifact, {debian: true})
-      // console.log(debCopySource, debKey)
-      cli.action.start(`Promoting ${artifact} to ${flags.channel}`)
-      // eslint-disable-next-line no-await-in-loop
-      await aws.s3.copyObject(
-        {
-          Bucket: s3Config.bucket,
-          CopySource: debCopySource,
-          Key: debKey,
-        },
-      )
-      cli.action.stop('successfully')
+    if (flags.deb) {
+      for (const artifact of debArtifacts) {
+        const debCopySource = `${s3Config.bucket}/${s3VersionObjKey(artifact, {debian: true})}`
+        const debKey = s3ManifestChannelKey(artifact, {debian: true})
+        // console.log(debCopySource, debKey)
+        cli.action.start(`Promoting ${artifact} to ${flags.channel}`)
+        // eslint-disable-next-line no-await-in-loop
+        await aws.s3.copyObject(
+          {
+            Bucket: s3Config.bucket,
+            CopySource: debCopySource,
+            Key: debKey,
+          },
+        )
+        cli.action.stop('successfully')
+      }
     }
   }
 }

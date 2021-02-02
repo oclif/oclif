@@ -3,6 +3,7 @@ import * as Config from '@oclif/config'
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
+import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
@@ -219,7 +220,8 @@ export default class PackWin extends Command {
       await qq.mv(buildConfig.workspace({platform: 'win32', arch}), [installerBase, 'client'])
       // eslint-disable-next-line no-await-in-loop
       await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
-      const o = buildConfig.dist(`win/${config.bin}-v${buildConfig.version}-${arch}.exe`)
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const o = buildConfig.dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
       await qq.mv([installerBase, 'installer.exe'], o)
       this.log(`built ${o}`)

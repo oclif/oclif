@@ -6,9 +6,9 @@ import * as qq from 'qqjs'
 import {log} from '../log'
 
 import {writeBinScripts} from './bin'
-import {IConfig, IManifest} from './config'
+import {BuildConfig, IManifest} from './config'
 import {fetchNodeBinary} from './node'
-import {commitAWSDir, s3ShortKey} from '../upload-util'
+import {commitAWSDir, templateShortKey} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -21,7 +21,7 @@ const pack = async (from: string, to: string) => {
   qq.cd(prevCwd)
 }
 
-export async function build(c: IConfig, options: {
+export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
 } = {}) {
@@ -69,18 +69,20 @@ export async function build(c: IConfig, options: {
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
-    const gzLocalKey = s3ShortKey('unversioned', '.tar.gz', {
+    const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
       arch: target.arch,
       bin: c.config.bin,
       platform: target.platform,
-      root: config.root,
+      sha: c.gitSha,
+      version: config.version,
     })
 
-    const xzLocalKey = s3ShortKey('unversioned', '.tar.xz', {
+    const xzLocalKey = templateShortKey('versioned', '.tar.xz', {
       arch: target.arch,
       bin: c.config.bin,
       platform: target.platform,
-      root: config.root,
+      sha: c.gitSha,
+      version: config.version,
     })
     const base = path.basename(gzLocalKey)
     log(`building target ${base}`)
@@ -99,13 +101,14 @@ export async function build(c: IConfig, options: {
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
 
-    const gzCloudKey = `${commitAWSDir(c.version, config.root, c.updateConfig.s3)}/${gzLocalKey}`
-    const xzCloudKey = `${commitAWSDir(c.version, config.root, c.updateConfig.s3)}/${xzLocalKey}`
+    const gzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
+    const xzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
 
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
-      baseDir: s3ShortKey('baseDir', target, {bin: config.bin}),
+      sha: c.gitSha,
+      baseDir: templateShortKey('baseDir', target, {bin: config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
       sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
@@ -115,7 +118,7 @@ export async function build(c: IConfig, options: {
         recommended: c.nodeVersion,
       },
     }
-    await qq.writeJSON(c.dist(s3ShortKey('manifest', target)), manifest)
+    await qq.writeJSON(c.dist(templateShortKey('manifest', target)), manifest)
   }
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())

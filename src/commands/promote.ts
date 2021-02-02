@@ -1,8 +1,11 @@
 import {Command, flags} from '@oclif/command'
+import {cli} from 'cli-ux'
+import * as path from 'path'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {cli} from 'cli-ux'
+import {log} from '../log'
+import {templateShortKey, commitAWSDir, channelAWSDir} from '../upload-util'
 
 export default class Promote extends Command {
   static hidden = true
@@ -14,7 +17,11 @@ export default class Promote extends Command {
     version: flags.string({description: 'semantic version of the CLI to promote', required: true}),
     sha: flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
     channel: flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
-    targets: flags.enum({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)', options: Tarballs.TARGETS, default: Tarballs.TARGETS}),
+    targets: flags.string({
+      char: 't',
+      description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)',
+      default: Tarballs.TARGETS.join(','),
+    }),
     deb: flags.boolean({char: 'd', description: 'promote debian artifacts'}),
     macos: flags.boolean({char: 'm', description: 'promote MacOS pkg'}),
     win: flags.boolean({char: 'w', description: 'promote Windows exe'}),
@@ -22,28 +29,23 @@ export default class Promote extends Command {
 
   async run() {
     const {flags} = this.parse(Promote)
-
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags.targets})
+    const targets = flags.targets.split(',')
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
     const {s3Config, config} = buildConfig
 
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
 
-    const s3VersionObjKey = (object: string, opts: {debian?: boolean} = {}): string => {
-      const apt = opts.debian ? 'apt/' : ''
-      return `versions/${flags.version}/${flags.sha}/${apt}${object}`
-    }
-    const s3ManifestChannelKey = (object: string, opts: {debian?: boolean } = {}): string => {
-      const apt = opts.debian ? 'apt/' : ''
-      return `channel/${flags.channel}/${apt}${object}`
-    }
+    const cloudBucketCommitKey = (shortKey: string) => path.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)
+    const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
-    for (const target of Tarballs.TARGETS) {
-      const manifest = `${target}-buildmanifest`
-      const copySource = `${s3Config.bucket}/${s3VersionObjKey(manifest)}`
-      const key = s3ManifestChannelKey(manifest)
-      // console.log(copySource, key)
-      cli.action.start(`Promoting ${manifest} to ${flags.channel}`)
+    for (const target of buildConfig.targets) {
+      const manifest = templateShortKey('manifest', target)
+      const copySource = cloudBucketCommitKey(manifest)
+      // strip version & sha so update/scripts can point to a static channel manifest
+      const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
+      const key = cloudChannelKey(unversionedManifest)
+      log(`Promoting ${manifest} to ${flags.channel} in s3://${s3Config.bucket}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -52,16 +54,16 @@ export default class Promote extends Command {
           Key: key,
         },
       )
-      cli.action.stop('successfully')
     }
 
     // copy darwin pkg
     if (flags.macos) {
-      const darwinPkgObject = `${config.bin}.pkg`
-      const darwinCopySource = `${s3Config.bucket}/${s3VersionObjKey(darwinPkgObject)}`
-      const darwinKey = s3ManifestChannelKey(darwinPkgObject)
-      // console.log(darwinCopySource, darwinKey)
-      cli.action.start(`Promoting ${darwinPkgObject} to ${flags.channel}`)
+      const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha})
+      const darwinCopySource = cloudBucketCommitKey(darwinPkg)
+      // strip version & sha so scripts can point to a static channel pkg
+      const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
+      const darwinKey = cloudChannelKey(unversionedPkg)
+      log(`Promoting ${darwinPkg} to ${flags.channel} in s3://${s3Config.bucket}`)
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
@@ -69,17 +71,18 @@ export default class Promote extends Command {
           Key: darwinKey,
         },
       )
-      cli.action.stop('successfully')
     }
 
     // copy win exe
     if (flags.win) {
-      for (const arch of ['x64', 'x86']) {
-        const winPkgObject = `${config.bin}-${arch}.exe`
-        const winCopySource = `${s3Config.bucket}/${s3VersionObjKey(winPkgObject)}`
-        const winKey = s3ManifestChannelKey(winPkgObject)
-        // console.log(winCopySource, winKey)
-        cli.action.start(`Promoting ${winPkgObject} to ${flags.channel}`)
+      const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+      for (const arch  of archs) {
+        const winPkg = templateShortKey('win32', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+        const winCopySource = cloudBucketCommitKey(winPkg)
+        // strip version & sha so scripts can point to a static channel exe
+        const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
+        const winKey = cloudChannelKey(unversionedExe)
+        log(`Promoting ${winPkg} to ${flags.channel} in s3://${s3Config.bucket}`)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {
@@ -93,9 +96,11 @@ export default class Promote extends Command {
     }
 
     // copy debian artifacts
+    const debVersion = `${config.version}-1`
+    // ^^ see debian_revision: https://www.debian.org/doc/debian-policy/ch-controlfields.html
     const debArtifacts = [
-      `${config.bin}_amd64.deb`,
-      `${config.bin}_i386.deb`,
+      templateShortKey('deb', {bin: config.bin, version: debVersion, arch: 'amd64' as any}),
+      templateShortKey('deb', {bin: config.bin, version: debVersion, arch: 'i386' as any}),
       'Packages.gz',
       'Packages.xz',
       'Packages.bz2',
@@ -105,10 +110,9 @@ export default class Promote extends Command {
     ]
     if (flags.deb) {
       for (const artifact of debArtifacts) {
-        const debCopySource = `${s3Config.bucket}/${s3VersionObjKey(artifact, {debian: true})}`
-        const debKey = s3ManifestChannelKey(artifact, {debian: true})
-        // console.log(debCopySource, debKey)
-        cli.action.start(`Promoting ${artifact} to ${flags.channel}`)
+        const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
+        const debKey = cloudChannelKey(`apt/${artifact}`)
+        log(`Promoting apt/${artifact} to ${flags.channel} in s3://${s3Config.bucket}`)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {
@@ -117,7 +121,6 @@ export default class Promote extends Command {
             Key: debKey,
           },
         )
-        cli.action.stop('successfully')
       }
     }
   }

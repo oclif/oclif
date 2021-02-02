@@ -4,7 +4,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir} from '../../upload-util'
+import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadWin extends Command {
   static hidden = true
@@ -24,18 +24,21 @@ export default class UploadWin extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    for (const arch of ['x64', 'x86']) {
-      const key = dist(`win/${config.bin}-v${version}-${arch}.exe`)
+    const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+    for (const arch of archs) {
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const localKey = dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
-      if (!await qq.exists(key)) this.error(`Cannot find Windows exe for ${arch}`, {
+      if (!await qq.exists(localKey)) this.error(`Cannot find Windows exe for ${arch}`, {
         suggestions: ['Run "oclif-dev pack:win" before uploading'],
       })
     }
 
-    const root = commitAWSDir(config.pjson.version, config.root, s3Config)
+    const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
     const uploadWin = async (arch: 'x64' | 'x86') => {
-      const localExe = dist(`win/${config.bin}-v${version}-${arch}.exe`)
-      const cloudKey = `${root}/${config.bin}-${arch}.exe`
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const localExe = dist(`win32/${templateKey}`)
+      const cloudKey = `${cloudKeyBase}/${templateKey}`
       if (await qq.exists(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
     await uploadWin('x64')

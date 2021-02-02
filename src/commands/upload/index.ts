@@ -5,7 +5,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, commitSHA, s3ShortKey} from '../../upload-util'
+import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class Upload extends Command {
   static hidden = true
@@ -17,17 +17,23 @@ export default class Upload extends Command {
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: flags.enum({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)', options: Tarballs.TARGETS, default: Tarballs.TARGETS}),
+    targets: flags.string({
+      char: 't',
+      description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)',
+      default: Tarballs.TARGETS.join(','),
+    }),
   }
 
   async run() {
     const {flags} = this.parse(Upload)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags.targets})
-    const {s3Config, targets, dist, version, config, xz} = buildConfig
+    const targets = flags.targets.split(',')
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
+    const {s3Config, dist, version, config, xz} = buildConfig
 
-    for (const target of targets) {
-      const tarball = dist(s3ShortKey('unversioned', {ext: '.tar.gz', bin: config.bin, ...target}))
+    // fail early if targets are not built
+    for (const target of buildConfig.targets) {
+      const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version, sha: buildConfig.gitSha, ...target}))
       // eslint-disable-next-line no-await-in-loop
       if (!await qq.exists(tarball)) this.error(`Cannot find a tarball for ${target.platform}-${target.arch}`, {
         suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],
@@ -42,27 +48,30 @@ export default class Upload extends Command {
     const uploadTarball = async (options?: {platform: PlatformTypes; arch: ArchTypes}) => {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const localKey = s3ShortKey('unversioned', ext, {
+        const localKey = templateShortKey('versioned', ext, {
           arch: options?.arch!,
           bin: config.bin,
           platform: options?.platform!,
-          root: config.root,
+          sha: buildConfig.gitSha,
+          version,
         })
-        const cloudKey = `${commitAWSDir(version, config.root, s3Config)}/${localKey}`
+        const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
+        log(`uploaded ${localKey}`)
       }
 
       await releaseTarballs('.tar.gz')
       if (xz) await releaseTarballs('.tar.xz')
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
-      const manifest = s3ShortKey('manifest', options)
-      const cloudKey = `${commitAWSDir(version, config.root, s3Config)}/${manifest}`
+      const manifest = templateShortKey('manifest', options)
+      const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
+      log(`uploaded ${manifest}`)
     }
+
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop
-    for (const target of targets) await uploadTarball(target)
-    log(`uploaded ${version}, git SHA ${commitSHA(this.config.root)} targets`)
+    for (const target of buildConfig.targets) await uploadTarball(target)
   }
 }

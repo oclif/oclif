@@ -4,7 +4,7 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir} from '../../upload-util'
+import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadDeb extends Command {
   static hidden = true
@@ -29,13 +29,13 @@ export default class UploadDeb extends Command {
       suggestions: ['Run "oclif-dev pack:deb" before uploading'],
     })
 
-    const cloudBase = commitAWSDir(config.pjson.version, config.root, s3Config)
+    const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
     const upload = (file: string) => {
-      const cloudKey = `${cloudBase}/apt/${file}`
+      const cloudKey = `${cloudKeyBase}/apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
-      const deb = `${config.bin}}_${arch}.deb`
+      const deb = templateShortKey('deb', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch: arch as any})
       if (await qq.exists(dist(deb))) await upload(deb)
     }
 

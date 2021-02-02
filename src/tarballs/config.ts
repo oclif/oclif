@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as qq from 'qqjs'
 
 import {compact} from '../util'
-import {s3ShortKey} from '../upload-util'
+import {templateShortKey} from '../upload-util'
 
 export const TARGETS = [
   'linux-x64',
@@ -14,15 +14,15 @@ export const TARGETS = [
 ]
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IConfig {
+export interface BuildConfig {
   root: string;
   gitSha: string;
   config: Config.IConfig;
   nodeVersion: string;
   version: string;
   tmp: string;
-  updateConfig: IConfig['config']['pjson']['oclif']['update'];
-  s3Config: IConfig['updateConfig']['s3'] & {folder?: string};
+  updateConfig: BuildConfig['config']['pjson']['oclif']['update'];
+  s3Config: BuildConfig['updateConfig']['s3'] & {folder?: string};
   xz: boolean;
   targets: {platform: Config.PlatformTypes; arch: Config.ArchTypes}[];
   workspace(target?: {platform: Config.PlatformTypes; arch: Config.ArchTypes}): string;
@@ -32,6 +32,7 @@ export interface IConfig {
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IManifest {
   version: string;
+  sha: string;
   gz: string;
   xz?: string;
   sha256gz: string;
@@ -55,7 +56,7 @@ async function Tmp(config: Config.IConfig) {
   return tmp
 }
 
-export async function buildConfig(root: string, options: {xz?: boolean; targets?: string[]} = {}): Promise<IConfig> {
+export async function buildConfig(root: string, options: {xz?: boolean; targets?: string[]} = {}): Promise<BuildConfig> {
   const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
@@ -77,8 +78,8 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     nodeVersion: updateConfig.node.version || process.versions.node,
     workspace(target) {
       const base = qq.join(config.root, 'tmp')
-      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), s3ShortKey('baseDir', {bin: config.bin}))
-      return qq.join(base, s3ShortKey('baseDir', {bin: config.bin}))
+      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
+      return qq.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },
     targets: compact(options.targets || updateConfig.node.targets || TARGETS).map(t => {
       const [platform, arch] = t.split('-') as [Config.PlatformTypes, Config.ArchTypes]

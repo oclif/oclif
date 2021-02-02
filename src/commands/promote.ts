@@ -40,7 +40,13 @@ export default class Promote extends Command {
 
     // copy tarballs manifests
     for (const target of buildConfig.targets) {
-      const manifest = templateShortKey('manifest', target)
+      const manifest = templateShortKey('manifest', {
+        arch: target.arch,
+        bin: config.bin,
+        platform: target.platform,
+        sha: buildConfig.gitSha,
+        version: config.version,
+      })
       const copySource = cloudBucketCommitKey(manifest)
       // strip version & sha so update/scripts can point to a static channel manifest
       const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')

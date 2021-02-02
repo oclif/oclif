@@ -64,7 +64,13 @@ export default class Upload extends Command {
       if (xz) await releaseTarballs('.tar.xz')
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
-      const manifest = templateShortKey('manifest', options)
+      const manifest = templateShortKey('manifest', {
+        arch: options?.arch!,
+        bin: config.bin,
+        platform: options?.platform!,
+        sha: buildConfig.gitSha,
+        version: config.version,
+      })
       const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
       log(`uploaded ${manifest}`)

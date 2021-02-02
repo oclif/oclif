@@ -108,7 +108,7 @@ export async function build(c: BuildConfig, options: {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
       sha: c.gitSha,
-      baseDir: templateShortKey('baseDir', target, {bin: config.bin}),
+      baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
       sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
@@ -118,7 +118,14 @@ export async function build(c: BuildConfig, options: {
         recommended: c.nodeVersion,
       },
     }
-    await qq.writeJSON(c.dist(templateShortKey('manifest', target)), manifest)
+    const manifestFilepath = c.dist(templateShortKey('manifest', {
+      arch: target.arch,
+      bin: c.config.bin,
+      platform: target.platform,
+      sha: c.gitSha,
+      version: config.version,
+    }))
+    await qq.writeJSON(manifestFilepath, manifest)
   }
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())

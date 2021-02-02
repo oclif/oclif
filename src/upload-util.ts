@@ -27,7 +27,7 @@ export function commitAWSDir(version: string, sha: string, s3Config: TarballConf
 export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return path.join(s3SubDir, 'channel', channel)
+  return path.join(s3SubDir, 'channels', channel)
 }
 
 // to-do:

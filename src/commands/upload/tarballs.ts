@@ -7,7 +7,7 @@ import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey} from '../../upload-util'
 
-export default class Upload extends Command {
+export default class UploadTarballs extends Command {
   static hidden = true
 
   static description = `upload an oclif CLI to S3
@@ -25,7 +25,7 @@ export default class Upload extends Command {
   }
 
   async run() {
-    const {flags} = this.parse(Upload)
+    const {flags} = this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets})

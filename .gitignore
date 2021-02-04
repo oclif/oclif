@@ -3,7 +3,7 @@
 /.nyc_output
 /coverage
 /coverage.lcov
-/lib
+#/lib
 /node_modules
 /tmp
 package-lock.json

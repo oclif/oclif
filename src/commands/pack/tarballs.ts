@@ -17,7 +17,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
       description: 'comma-separated targets to pack (e.g.: linux-arm,win32-x64)',
       default: Tarballs.TARGETS.join(','),
     }),
-    xz: flags.boolean({description: 'also build xz', allowNo: true}),
+    xz: flags.boolean({description: 'also build xz', allowNo: true, default: true}),
   }
 
   async run() {

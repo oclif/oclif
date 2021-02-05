@@ -22,13 +22,14 @@ export default class UploadTarballs extends Command {
       description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)',
       default: Tarballs.TARGETS.join(','),
     }),
+    xz: flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
   }
 
   async run() {
     const {flags} = this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targets = flags.targets.split(',')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets, xz: flags.xz})
     const {s3Config, dist, version, config, xz} = buildConfig
 
     // fail early if targets are not built

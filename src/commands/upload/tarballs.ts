@@ -57,7 +57,6 @@ export default class UploadTarballs extends Command {
         })
         const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
-        log(`uploaded ${localKey}`)
       }
 
       await releaseTarballs('.tar.gz')
@@ -73,11 +72,11 @@ export default class UploadTarballs extends Command {
       })
       const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
-      log(`uploaded ${manifest}`)
     }
 
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop
     for (const target of buildConfig.targets) await uploadTarball(target)
+    log(`done uploading tarballs & manifests for v${config.version}-${buildConfig.gitSha}`)
   }
 }

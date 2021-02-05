@@ -44,6 +44,6 @@ export default class UploadWin extends Command {
     await uploadWin('x64')
     await uploadWin('x86')
 
-    log(`uploaded win ${version}`)
+    log(`done uploading windows executables for v${version}-${buildConfig.gitSha}`)
   }
 }

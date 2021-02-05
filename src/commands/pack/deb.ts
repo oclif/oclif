@@ -4,16 +4,7 @@ import * as _ from 'lodash'
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
-import {templateShortKey} from '../../upload-util'
-
-function debArch(arch: Config.ArchTypes) {
-  if (arch === 'x64') return 'amd64'
-  if (arch === 'x86') return 'i386'
-  if (arch === 'arm') return 'armel'
-  throw new Error(`invalid arch: ${arch}`)
-}
-
-const debVersion = (buildConfig: Tarballs.BuildConfig) => `${buildConfig.version.split('-')[0]}-1`
+import {templateShortKey, debVersion, debArch} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
@@ -71,7 +62,7 @@ export default class PackDeb extends Command {
     await qq.emptyDir(dist)
     const build = async (arch: Config.ArchTypes) => {
       const target: {platform: 'linux'; arch: Config.ArchTypes} = {platform: 'linux', arch}
-      const versionedDebBase = templateShortKey('deb', {bin: config.bin, version: debVersion(buildConfig), arch: debArch(arch) as any})
+      const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = qq.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
       await qq.rm(workspace)
       await qq.mkdirp([workspace, 'DEBIAN'])

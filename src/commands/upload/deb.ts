@@ -4,7 +4,8 @@ import * as qq from 'qqjs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey} from '../../upload-util'
+import {commitAWSDir, templateShortKey, debVersion} from '../../upload-util'
+import {build} from '@oclif/command/lib/flags'
 
 export default class UploadDeb extends Command {
   static hidden = true
@@ -35,7 +36,7 @@ export default class UploadDeb extends Command {
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
-      const deb = templateShortKey('deb', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch: arch as any})
+      const deb = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: arch as any})
       if (await qq.exists(dist(deb))) await upload(deb)
     }
 
@@ -48,6 +49,6 @@ export default class UploadDeb extends Command {
     if (await qq.exists(dist('InRelease'))) await upload('InRelease')
     if (await qq.exists(dist('Release.gpg'))) await upload('Release.gpg')
 
-    log(`uploaded deb ${config.version}`)
+    log(`done uploading deb artifacts for v${config.version}-${buildConfig.gitSha}`)
   }
 }

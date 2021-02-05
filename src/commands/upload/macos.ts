@@ -23,7 +23,7 @@ export default class UploadMacos extends Command {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
-    const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
+    const cloudKeyBase = commitAWSDir(version, buildConfig.gitSha, s3Config)
     const templateKey = templateShortKey('macos', {bin: config.bin, version, sha: buildConfig.gitSha})
     const cloudKey = `${cloudKeyBase}/${templateKey}`
     const localPkg = dist(`macos/${templateKey}`)
@@ -33,6 +33,6 @@ export default class UploadMacos extends Command {
       suggestions: ['Run "oclif-dev pack:macos" before uploading'],
     })
 
-    log(`uploaded ${templateKey}`)
+    log(`done uploading macos pkg for v${version}-${buildConfig.gitSha}`)
   }
 }

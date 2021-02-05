@@ -5,7 +5,6 @@ import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey, debVersion} from '../../upload-util'
-import {build} from '@oclif/command/lib/flags'
 
 export default class UploadDeb extends Command {
   static hidden = true

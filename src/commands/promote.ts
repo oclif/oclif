@@ -40,19 +40,19 @@ export default class Promote extends Command {
     const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
+    this.log(`Promoting buildmanifests to ${flags.channel}`)
     for (const target of buildConfig.targets) {
       const manifest = templateShortKey('manifest', {
         arch: target.arch,
         bin: config.bin,
         platform: target.platform,
-        sha: buildConfig.gitSha,
+        sha: flags.sha,
         version: config.version,
       })
       const copySource = cloudBucketCommitKey(manifest)
       // strip version & sha so update/scripts can point to a static channel manifest
       const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
       const key = cloudChannelKey(unversionedManifest)
-      this.log(`Promoting ${copySource} to ${flags.channel} at s3://${s3Config.bucket}/${key}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -66,12 +66,12 @@ export default class Promote extends Command {
 
     // copy darwin pkg
     if (flags.macos) {
+      this.log(`Promoting macos pkg to ${flags.channel}`)
       const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha})
       const darwinCopySource = cloudBucketCommitKey(darwinPkg)
       // strip version & sha so scripts can point to a static channel pkg
       const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
       const darwinKey = cloudChannelKey(unversionedPkg)
-      this.log(`Promoting ${darwinCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${darwinKey}`)
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
@@ -84,6 +84,7 @@ export default class Promote extends Command {
 
     // copy win exe
     if (flags.win) {
+      this.log(`Promoting windows exe to ${flags.channel}`)
       const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
       for (const arch  of archs) {
         const winPkg = templateShortKey('win32', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
@@ -91,7 +92,6 @@ export default class Promote extends Command {
         // strip version & sha so scripts can point to a static channel exe
         const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
         const winKey = cloudChannelKey(unversionedExe)
-        this.log(`Promoting ${winCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${winKey}`)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {
@@ -117,10 +117,10 @@ export default class Promote extends Command {
       'Release.gpg',
     ]
     if (flags.deb) {
+      this.log(`Promoting debian artifacts to ${flags.channel}`)
       for (const artifact of debArtifacts) {
         const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
         const debKey = cloudChannelKey(`apt/${artifact}`)
-        this.log(`Promoting ${debCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${debKey}`)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {

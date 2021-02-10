@@ -47,7 +47,7 @@ export default class Promote extends Command {
         bin: config.bin,
         platform: target.platform,
         sha: flags.sha,
-        version: config.version,
+        version: flags.version,
       })
       const copySource = cloudBucketCommitKey(manifest)
       // strip version & sha so update/scripts can point to a static channel manifest

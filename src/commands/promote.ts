@@ -24,10 +24,12 @@ export default class Promote extends Command {
     deb: flags.boolean({char: 'd', description: 'promote debian artifacts'}),
     macos: flags.boolean({char: 'm', description: 'promote MacOS pkg'}),
     win: flags.boolean({char: 'w', description: 'promote Windows exe'}),
+    'max-age': flags.string({char: 'a', description: 'cache control max-age in seconds', default: '86400'}),
   }
 
   async run() {
     const {flags} = this.parse(Promote)
+    const maxAge = `max-age=${flags['max-age']}`
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
     const {s3Config, config} = buildConfig
@@ -57,6 +59,7 @@ export default class Promote extends Command {
           Bucket: s3Config.bucket,
           CopySource: copySource,
           Key: key,
+          CacheControl: maxAge,
         },
       )
     }
@@ -74,6 +77,7 @@ export default class Promote extends Command {
           Bucket: s3Config.bucket,
           CopySource: darwinCopySource,
           Key: darwinKey,
+          CacheControl: maxAge,
         },
       )
     }
@@ -94,6 +98,7 @@ export default class Promote extends Command {
             Bucket: s3Config.bucket,
             CopySource: winCopySource,
             Key: winKey,
+            CacheControl: maxAge,
           },
         )
         cli.action.stop('successfully')
@@ -122,6 +127,7 @@ export default class Promote extends Command {
             Bucket: s3Config.bucket,
             CopySource: debCopySource,
             Key: debKey,
+            CacheControl: maxAge,
           },
         )
       }

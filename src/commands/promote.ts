@@ -4,7 +4,6 @@ import * as path from 'path'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {log} from '../log'
 import {templateShortKey, commitAWSDir, channelAWSDir, debVersion} from '../upload-util'
 
 export default class Promote extends Command {
@@ -51,7 +50,7 @@ export default class Promote extends Command {
       // strip version & sha so update/scripts can point to a static channel manifest
       const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
       const key = cloudChannelKey(unversionedManifest)
-      log(`Promoting ${copySource} to ${flags.channel} at s3://${s3Config.bucket}/${key}`)
+      this.log(`Promoting ${copySource} to ${flags.channel} at s3://${s3Config.bucket}/${key}`)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
@@ -69,7 +68,7 @@ export default class Promote extends Command {
       // strip version & sha so scripts can point to a static channel pkg
       const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
       const darwinKey = cloudChannelKey(unversionedPkg)
-      log(`Promoting ${darwinCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${darwinKey}`)
+      this.log(`Promoting ${darwinCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${darwinKey}`)
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
@@ -88,7 +87,7 @@ export default class Promote extends Command {
         // strip version & sha so scripts can point to a static channel exe
         const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
         const winKey = cloudChannelKey(unversionedExe)
-        log(`Promoting ${winCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${winKey}`)
+        this.log(`Promoting ${winCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${winKey}`)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {
@@ -116,7 +115,7 @@ export default class Promote extends Command {
       for (const artifact of debArtifacts) {
         const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
         const debKey = cloudChannelKey(`apt/${artifact}`)
-        log(`Promoting ${debCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${debKey}`)
+        this.log(`Promoting ${debCopySource} to ${flags.channel} at s3://${s3Config.bucket}/${debKey}`)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {

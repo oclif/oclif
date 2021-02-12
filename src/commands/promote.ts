@@ -25,6 +25,7 @@ export default class Promote extends Command {
     macos: flags.boolean({char: 'm', description: 'promote MacOS pkg'}),
     win: flags.boolean({char: 'w', description: 'promote Windows exe'}),
     'max-age': flags.string({char: 'a', description: 'cache control max-age in seconds', default: '86400'}),
+    xz: flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
   }
 
   async run() {
@@ -40,7 +41,7 @@ export default class Promote extends Command {
     const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
-    this.log(`Promoting buildmanifests to ${flags.channel}`)
+    this.log(`Promoting buildmanifests & unversioned tarballs to ${flags.channel}`)
     for (const target of buildConfig.targets) {
       const manifest = templateShortKey('manifest', {
         arch: target.arch,
@@ -62,6 +63,50 @@ export default class Promote extends Command {
           CacheControl: maxAge,
         },
       )
+
+      const versionedTarGzName = templateShortKey('versioned', '.tar.gz', {
+        arch: target.arch,
+        bin: config.bin,
+        platform: target.platform,
+        sha: flags.sha,
+        version: flags.version,
+      })
+      const versionedTarGzKey = cloudBucketCommitKey(versionedTarGzName)
+      // strip version & sha so update/scripts can point to a static channel tarball
+      const unversionedTarGzName = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
+      const unversionedTarGzKey = cloudChannelKey(unversionedTarGzName)
+      // eslint-disable-next-line no-await-in-loop
+      await aws.s3.copyObject(
+        {
+          Bucket: s3Config.bucket,
+          CopySource: versionedTarGzKey,
+          Key: key,
+          CacheControl: unversionedTarGzKey,
+        },
+      )
+
+      if (flags.xz) {
+        const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
+          arch: target.arch,
+          bin: config.bin,
+          platform: target.platform,
+          sha: flags.sha,
+          version: flags.version,
+        })
+        const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
+        // strip version & sha so update/scripts can point to a static channel tarball
+        const unversionedTarXzName = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
+        const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
+        // eslint-disable-next-line no-await-in-loop
+        await aws.s3.copyObject(
+          {
+            Bucket: s3Config.bucket,
+            CopySource: versionedTarXzKey,
+            Key: key,
+            CacheControl: unversionedTarXzKey,
+          },
+        )
+      }
     }
 
     // copy darwin pkg

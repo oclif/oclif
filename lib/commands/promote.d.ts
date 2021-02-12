@@ -12,6 +12,7 @@ export default class Promote extends Command {
         macos: import("@oclif/parser/lib/flags").IBooleanFlag<boolean>;
         win: import("@oclif/parser/lib/flags").IBooleanFlag<boolean>;
         'max-age': flags.IOptionFlag<string>;
+        xz: import("@oclif/parser/lib/flags").IBooleanFlag<boolean>;
     };
     run(): Promise<void>;
 }

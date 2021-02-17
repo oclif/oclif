@@ -73,15 +73,15 @@ export default class Promote extends Command {
       })
       const versionedTarGzKey = cloudBucketCommitKey(versionedTarGzName)
       // strip version & sha so update/scripts can point to a static channel tarball
-      const unversionedTarGzName = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
+      const unversionedTarGzName = versionedTarGzName.replace(`-v${flags.version}-${flags.sha}`, '')
       const unversionedTarGzKey = cloudChannelKey(unversionedTarGzName)
       // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
           CopySource: versionedTarGzKey,
-          Key: key,
-          CacheControl: unversionedTarGzKey,
+          Key: unversionedTarGzKey,
+          CacheControl: maxAge,
         },
       )
 
@@ -95,15 +95,15 @@ export default class Promote extends Command {
         })
         const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
         // strip version & sha so update/scripts can point to a static channel tarball
-        const unversionedTarXzName = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
+        const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
         const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
         // eslint-disable-next-line no-await-in-loop
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
             CopySource: versionedTarXzKey,
-            Key: key,
-            CacheControl: unversionedTarXzKey,
+            Key: unversionedTarXzKey,
+            CacheControl: maxAge,
           },
         )
       }

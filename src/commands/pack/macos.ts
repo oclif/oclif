@@ -99,7 +99,7 @@ exit 0
 export default class PackMacos extends Command {
   static hidden = true
 
-  static description = 'pack CLI into MacOS .pkg'
+  static description = 'pack CLI into macOS .pkg'
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),

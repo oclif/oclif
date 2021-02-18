@@ -34,6 +34,7 @@ const aws = {
       cache.s3 = cache.s3 || new (require('aws-sdk/clients/s3') as typeof S3)({
         ...this.creds,
         endpoint: process.env.AWS_S3_ENDPOINT,
+        s3ForcePathStyle: Boolean(process.env.AWS_S3_FORCE_PATH_STYLE),
       })
       return cache.s3
     } catch (error) {

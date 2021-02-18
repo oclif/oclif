@@ -139,7 +139,9 @@ export default class PackMacos extends Command {
       '--scripts', scriptsDir,
     ]
     /* eslint-enable array-element-newline */
-    if (macos.sign) args.push('--sign', macos.sign)
+    if (macos.sign) {
+      args.push('--sign', macos.sign)
+    } else this.debug('Skipping macOS pkg signing')
     if (process.env.OSX_KEYCHAIN) args.push('--keychain', process.env.OSX_KEYCHAIN)
     args.push(dist)
     await qq.x('pkgbuild', args as string[])

@@ -86,6 +86,7 @@ export async function build(c: BuildConfig, options: {
     })
     const base = path.basename(gzLocalKey)
     log(`building target ${base}`)
+    log('copying workspace', c.workspace(), workspace)
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
     await fetchNodeBinary({

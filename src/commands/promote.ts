@@ -22,7 +22,7 @@ export default class Promote extends Command {
       default: Tarballs.TARGETS.join(','),
     }),
     deb: flags.boolean({char: 'd', description: 'promote debian artifacts'}),
-    macos: flags.boolean({char: 'm', description: 'promote MacOS pkg'}),
+    macos: flags.boolean({char: 'm', description: 'promote macOS pkg'}),
     win: flags.boolean({char: 'w', description: 'promote Windows exe'}),
     'max-age': flags.string({char: 'a', description: 'cache control max-age in seconds', default: '86400'}),
     xz: flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
@@ -41,7 +41,7 @@ export default class Promote extends Command {
     const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
-    this.log(`Promoting buildmanifests & unversioned tarballs to ${flags.channel}`)
+    if (buildConfig.targets.length > 0) this.log(`Promoting buildmanifests & unversioned tarballs to ${flags.channel}`)
     for (const target of buildConfig.targets) {
       const manifest = templateShortKey('manifest', {
         arch: target.arch,

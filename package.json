@@ -102,6 +102,14 @@
         "bucket": "oclif-staging",
         "xz": true
       }
+    },
+    "topics": {
+      "pack": {
+        "description": "package an oclif CLI into installable artifacts"
+      },
+      "upload": {
+        "description": "upload installable CLI artifacts to AWS S3"
+      }
     }
   },
   "repository": "oclif/oclif",

@@ -4,6 +4,7 @@ import * as path from 'path'
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
+import {templateShortKey} from '../../upload-util'
 
 type OclifConfig = {
   macos?: {
@@ -98,7 +99,7 @@ exit 0
 export default class PackMacos extends Command {
   static hidden = true
 
-  static description = 'pack CLI into MacOS .pkg'
+  static description = 'pack CLI into macOS .pkg'
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
@@ -115,7 +116,8 @@ export default class PackMacos extends Command {
     const macos = c.macos
     const packageIdentifier = macos.identifier
     await Tarballs.build(buildConfig, {platform: 'darwin', pack: false})
-    const dist = buildConfig.dist(`macos/${config.bin}-v${buildConfig.version}.pkg`)
+    const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha})
+    const dist = buildConfig.dist(`macos/${templateKey}`)
     await qq.emptyDir(path.dirname(dist))
     const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
     const rootDir = buildConfig.workspace({platform: 'darwin', arch: 'x64'})
@@ -137,7 +139,9 @@ export default class PackMacos extends Command {
       '--scripts', scriptsDir,
     ]
     /* eslint-enable array-element-newline */
-    if (macos.sign) args.push('--sign', macos.sign)
+    if (macos.sign) {
+      args.push('--sign', macos.sign)
+    } else this.debug('Skipping macOS pkg signing')
     if (process.env.OSX_KEYCHAIN) args.push('--keychain', process.env.OSX_KEYCHAIN)
     args.push(dist)
     await qq.x('pkgbuild', args as string[])

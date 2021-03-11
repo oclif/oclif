@@ -1,5 +1,4 @@
 import {ArchTypes, PlatformTypes} from '@oclif/config'
-import * as Errors from '@oclif/errors'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import * as path from 'path'
 import * as qq from 'qqjs'
@@ -7,8 +6,9 @@ import * as qq from 'qqjs'
 import {log} from '../log'
 
 import {writeBinScripts} from './bin'
-import {IConfig, IManifest} from './config'
+import {BuildConfig, IManifest} from './config'
 import {fetchNodeBinary} from './node'
+import {commitAWSDir, templateShortKey} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -21,7 +21,7 @@ const pack = async (from: string, to: string) => {
   qq.cd(prevCwd)
 }
 
-export async function build(c: IConfig, options: {
+export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
 } = {}) {
@@ -69,9 +69,24 @@ export async function build(c: IConfig, options: {
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
-    const key = config.s3Key('versioned', '.tar.gz', target)
-    const base = path.basename(key)
+    const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
+      arch: target.arch,
+      bin: c.config.bin,
+      platform: target.platform,
+      sha: c.gitSha,
+      version: config.version,
+    })
+
+    const xzLocalKey = templateShortKey('versioned', '.tar.xz', {
+      arch: target.arch,
+      bin: c.config.bin,
+      platform: target.platform,
+      sha: c.gitSha,
+      version: config.version,
+    })
+    const base = path.basename(gzLocalKey)
     log(`building target ${base}`)
+    log('copying workspace', c.workspace(), workspace)
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
     await fetchNodeBinary({
@@ -82,56 +97,42 @@ export async function build(c: IConfig, options: {
       tmp: qq.join(config.root, 'tmp'),
     })
     if (options.pack === false) return
-    await pack(workspace, c.dist(key))
-    if (xz) await pack(workspace, c.dist(config.s3Key('versioned', '.tar.xz', target)))
+    await pack(workspace, c.dist(gzLocalKey))
+    if (xz) await pack(workspace, c.dist(xzLocalKey))
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
+
+    const gzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
+    const xzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
+
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
       version: c.version,
-      channel: c.channel,
-      baseDir: config.s3Key('baseDir', target),
-      gz: config.s3Url(config.s3Key('versioned', '.tar.gz', target)),
-      xz: xz ? config.s3Url(config.s3Key('versioned', '.tar.xz', target)) : undefined,
-      sha256gz: await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.gz', target))),
-      sha256xz: xz ? await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.xz', target))) : undefined,
+      sha: c.gitSha,
+      baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
+      gz: config.s3Url(gzCloudKey),
+      xz: xz ? config.s3Url(xzCloudKey) : undefined,
+      sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
+      sha256xz: xz ? await qq.hash('sha256', c.dist(xzLocalKey)) : undefined,
       node: {
         compatible: config.pjson.engines.node,
         recommended: c.nodeVersion,
       },
     }
-    await qq.writeJSON(c.dist(config.s3Key('manifest', target)), manifest)
-  }
-  const buildBaseTarball = async () => {
-    if (options.pack === false) return
-    await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.gz')))
-    if (xz) await pack(c.workspace(), c.dist(config.s3Key('versioned', '.tar.xz')))
-    if (!c.updateConfig.s3.host) {
-      Errors.warn('No S3 bucket or host configured. CLI will not be able to update.')
-      return
-    }
-    const manifest: IManifest = {
-      version: c.version,
-      baseDir: config.s3Key('baseDir'),
-      channel: config.channel,
-      gz: config.s3Url(config.s3Key('versioned', '.tar.gz')),
-      xz: config.s3Url(config.s3Key('versioned', '.tar.xz')),
-      sha256gz: await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.gz'))),
-      sha256xz: xz ? await qq.hash('sha256', c.dist(config.s3Key('versioned', '.tar.xz'))) : undefined,
-      rollout: (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout) as number,
-      node: {
-        compatible: config.pjson.engines.node,
-        recommended: c.nodeVersion,
-      },
-    }
-    await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest)
+    const manifestFilepath = c.dist(templateShortKey('manifest', {
+      arch: target.arch,
+      bin: c.config.bin,
+      platform: target.platform,
+      sha: c.gitSha,
+      version: config.version,
+    }))
+    await qq.writeJSON(manifestFilepath, manifest)
   }
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())
   await updatePJSON()
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
-  await buildBaseTarball()
   for (const target of c.targets) {
     if (!options.platform || options.platform === target.platform) {
       // eslint-disable-next-line no-await-in-loop

@@ -3,6 +3,7 @@ import * as Config from '@oclif/config'
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
+import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
@@ -219,9 +220,30 @@ export default class PackWin extends Command {
       await qq.mv(buildConfig.workspace({platform: 'win32', arch}), [installerBase, 'client'])
       // eslint-disable-next-line no-await-in-loop
       await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
-      const o = buildConfig.dist(`win/${config.bin}-v${buildConfig.version}-${arch}.exe`)
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const o = buildConfig.dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
       await qq.mv([installerBase, 'installer.exe'], o)
+
+      const windows = (config.pjson.oclif as any).windows as {name: string; keypath: string; homepage?: string}
+      if (windows && windows.name && windows.keypath) {
+        const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
+        // eslint-disable-next-line no-await-in-loop
+        await qq.mv(o, buildLocationUnsigned)
+        /* eslint-disable array-element-newline */
+        const args = [
+          '-pkcs12', windows.keypath,
+          '-pass', config.scopedEnvVar('WINDOWS_SIGNING_PASS'),
+          '-n', windows.name,
+          '-i', windows.homepage || config.pjson.homepage,
+          '-h', 'sha512',
+          '-in', buildLocationUnsigned,
+          '-out', o,
+        ]
+        // eslint-disable-next-line no-await-in-loop
+        await qq.x('osslsigncode', args)
+      } else this.debug('Skipping windows exe signing')
+
       this.log(`built ${o}`)
     }
   }

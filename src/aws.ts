@@ -34,6 +34,7 @@ const aws = {
       cache.s3 = cache.s3 || new (require('aws-sdk/clients/s3') as typeof S3)({
         ...this.creds,
         endpoint: process.env.AWS_S3_ENDPOINT,
+        s3ForcePathStyle: Boolean(process.env.AWS_S3_FORCE_PATH_STYLE),
       })
       return cache.s3
     } catch (error) {
@@ -72,6 +73,13 @@ export default {
       headObject: (options: S3.Types.HeadObjectRequest) => new Promise<S3.HeadObjectOutput>((resolve, reject) => {
         debug('s3:headObject', `s3://${options.Bucket}/${options.Key}`)
         aws.s3.headObject(options, (err, data) => {
+          if (err) reject(err)
+          else resolve(data)
+        })
+      }),
+      copyObject: (options: S3.Types.CopyObjectRequest) => new Promise((resolve, reject) => {
+        log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
+        aws.s3.copyObject(options, function (err, data) {
           if (err) reject(err)
           else resolve(data)
         })

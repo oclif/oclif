@@ -53,12 +53,14 @@ export async function build(c: BuildConfig, options: {
   }
   const addDependencies = async () => {
     qq.cd(c.workspace())
+    const pjson = await qq.readJSON('package.json')
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
     const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
     if (yarn) {
       await qq.cp([yarnRoot, 'yarn.lock'], '.')
       await qq.x('yarn --no-progress --production --non-interactive')
-      qq.x('yarn oclif:postpack:install')
+      if (pjson.scripts['oclif:postpack:install'])
+        qq.x('yarn run oclif:postpack:install')
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')
       if (!await qq.exists(lockpath)) {
@@ -66,7 +68,8 @@ export async function build(c: BuildConfig, options: {
       }
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
-      qq.x('npm run oclif:postpack:install')
+      if (pjson.scripts['oclif:postpack:install'])
+        qq.x('npm run oclif:postpack:install', {})
     }
 
   }

@@ -59,8 +59,8 @@ export async function build(c: BuildConfig, options: {
     if (yarn) {
       await qq.cp([yarnRoot, 'yarn.lock'], '.')
       await qq.x('yarn --no-progress --production --non-interactive')
-      if (pjson.scripts['oclif:postpack:install'])
-        qq.x('yarn run oclif:postpack:install')
+      if (pjson.scripts['pretarball'])
+        qq.x('yarn run pretarball')
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')
       if (!await qq.exists(lockpath)) {
@@ -68,8 +68,8 @@ export async function build(c: BuildConfig, options: {
       }
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
-      if (pjson.scripts['oclif:postpack:install'])
-        qq.x('npm run oclif:postpack:install', {})
+      if (pjson.scripts['pretarball'])
+        qq.x('npm run pretarball', {})
     }
 
   }

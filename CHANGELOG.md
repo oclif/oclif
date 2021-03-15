@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/oclif/oclif/compare/v1.16.2...v1.17.0) (2021-03-15)
+
+
+### Features
+
+* add pretarball hook ([#531](https://github.com/oclif/oclif/issues/531)) ([202dfbd](https://github.com/oclif/oclif/commit/202dfbd90a12ccf9ced368cf218799761cfe2813))
+
 ## [1.16.1](https://github.com/oclif/oclif/compare/v1.16.0...v1.16.1) (2020-05-07)
 
 

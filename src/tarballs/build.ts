@@ -58,6 +58,7 @@ export async function build(c: BuildConfig, options: {
     if (yarn) {
       await qq.cp([yarnRoot, 'yarn.lock'], '.')
       await qq.x('yarn --no-progress --production --non-interactive')
+      qq.x('yarn oclif:postpack:install')
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')
       if (!await qq.exists(lockpath)) {
@@ -65,7 +66,9 @@ export async function build(c: BuildConfig, options: {
       }
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
+      qq.x('npm run oclif:postpack:install')
     }
+
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)

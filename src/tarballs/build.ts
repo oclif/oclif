@@ -59,8 +59,9 @@ export async function build(c: BuildConfig, options: {
     if (yarn) {
       await qq.cp([yarnRoot, 'yarn.lock'], '.')
       await qq.x('yarn --no-progress --production --non-interactive')
-      if (pjson.scripts['pretarball'])
+      if (pjson.scripts.pretarball) {
         await qq.x('yarn run pretarball')
+      }
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')
       if (!await qq.exists(lockpath)) {
@@ -68,10 +69,10 @@ export async function build(c: BuildConfig, options: {
       }
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
-      if (pjson.scripts['pretarball'])
+      if (pjson.scripts.pretarball) {
         await qq.x('npm run pretarball', {})
+      }
     }
-
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)

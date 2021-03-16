@@ -9,6 +9,7 @@ import {writeBinScripts} from './bin'
 import {BuildConfig, IManifest} from './config'
 import {fetchNodeBinary} from './node'
 import {commitAWSDir, templateShortKey} from '../upload-util'
+import { option } from '@oclif/command/lib/flags'
 
 const pack = async (from: string, to: string) => {
   const prevCwd = qq.cwd()
@@ -24,6 +25,7 @@ const pack = async (from: string, to: string) => {
 export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
+  parellel?: boolean;
 } = {}) {
   const {xz, config} = c
   const prevCwd = qq.cwd()
@@ -140,8 +142,14 @@ export async function build(c: BuildConfig, options: {
   await updatePJSON()
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
-  for (const target of c.targets) {
-    if (!options.platform || options.platform === target.platform) {
+
+  const targets = c.targets.filter(target => !options.platform || options.platform === target.platform)
+
+  if (options.parellel) {
+    log('\n*** Running build in parellel ***\n\n')
+    await Promise.all(targets.map(target => buildTarget(target)))
+  } else {
+    for (const target of targets) {
       // eslint-disable-next-line no-await-in-loop
       await buildTarget(target)
     }

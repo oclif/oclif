@@ -18,6 +18,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
       default: Tarballs.TARGETS.join(','),
     }),
     xz: flags.boolean({description: 'also build xz', allowNo: true, default: true}),
+    parellel: flags.boolean({description: 'download node and build tars in parellel'}),
   }
 
   async run() {
@@ -26,7 +27,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
     const {flags} = this.parse(PackTarballs)
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: targets})
-    await Tarballs.build(buildConfig)
+    await Tarballs.build(buildConfig, {parellel: flags.parellel})
     qq.cd(prevCwd)
   }
 }

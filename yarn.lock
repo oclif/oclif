@@ -45,10 +45,10 @@
     supports-color "^5.5.0"
     tslib "^1.9.3"
 
-"@heroku-cli/command@^8.2.0":
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-8.4.0.tgz#3f977eeadfb3aacbe79172644f1fee8040893cae"
-  integrity sha512-TN4v5VYIJeLizhNBwP3bDKrUQLdriGVSDRT55/Il2Dyg9i8hkoUQURckcGv0H/MS2oissqCGXfNzNZu2VRbC2Q==
+"@heroku-cli/command@^8.4.1":
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-8.4.1.tgz#7efe7f7f2a368369108f12540760fe67405a517c"
+  integrity sha512-B8Jg0FtlxNnkRYepzMcAsq17uTxQlg8NubiQKKtlertJmvBUJ2QoBczhsHCc4wuXSlraVhTgRnfT77fZ8bqROw==
   dependencies:
     "@heroku-cli/color" "^1.1.14"
     "@oclif/errors" "^1.2.2"
@@ -210,17 +210,17 @@
     wrap-ansi "^4.0.0"
 
 "@oclif/plugin-legacy@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-1.1.4.tgz#d0933d13f610af529b557a2f3671b7cd0073172d"
-  integrity sha512-/oJGRcM7VaSGJ9Eodi/kl0avAKDlJvdYA8jmh4bhBHrCsaPqM61P7LUH2w2PUIccnM82mPPCp3PoUEM85PAIdw==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-1.2.0.tgz#67ef471b5ad0e39b7821112c8b622754e9b78cb9"
+  integrity sha512-rxKDIqDgEvEvSEyXZS5kyzZb+yd/hAYwTzKHKjFrmTIrUok/kRC5xMtg1uvIGk7Xt9hWmsqaNhIrvSqvEYYk/w==
   dependencies:
-    "@heroku-cli/command" "^8.2.0"
+    "@heroku-cli/command" "^8.4.1"
     "@oclif/color" "^0.0.0"
     "@oclif/command" "^1.5.4"
-    ansi-escapes "^3.1.0"
+    ansi-escapes "^4.3.1"
     debug "^4.1.0"
-    semver "^5.6.0"
-    tslib "^1.9.3"
+    semver "^7.3.2"
+    tslib "^2.0.0"
 
 "@oclif/plugin-not-found@^1.2.2":
   version "1.2.4"
@@ -578,7 +578,7 @@ ansi-escapes@^3.1.0:
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
 
-ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
+ansi-escapes@^4.2.1, ansi-escapes@^4.3.0, ansi-escapes@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.1.tgz#a5c47cc43181f1f38ffd7076837700d395522a61"
   integrity sha512-JWF7ocqNrp8u9oqpgV+wH5ftbt+cfvv+PTjOvKLT3AdYly/LmORARfEVT1iyjwN+4MqE5UmVKoAdIBqeoCHgLA==

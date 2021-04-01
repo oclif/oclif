@@ -418,9 +418,9 @@
   integrity sha512-NyzhuSBy97B/zE58cDw4NyGvByQbAHNP9069KVSgnXt/sc0T6MFRh0InKAeBVHJWdSXG1S3+PxgVIgKo9mTHbw==
 
 "@types/supports-color@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@types/supports-color/-/supports-color-7.2.0.tgz#edd98ae52ee786b733a5dea0a23da4eb18ef7310"
-  integrity sha512-gtUcOP6qIpjbSDdWjMBRNSks42ccx1709mwKTgelW63BESIADw8Ju7klpydDDb9Kr0iRXfpwrXH8+zoU8TCqiA==
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@types/supports-color/-/supports-color-7.2.1.tgz#58a6efe82d9eca92cf316b16112fcd2675ffa6c0"
+  integrity sha512-glb1BXM/pchMWTt9kg67CceKqyAW3NGBviNPKXN84JJhk3shqVpyi5d5MM4MWYoZHHk/Ioct7Yt1TNqQORiIAw==
 
 "@types/text-table@*":
   version "0.2.1"

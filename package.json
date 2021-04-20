@@ -27,7 +27,7 @@
     "sort-pjson": "^1.0.3",
     "tslib": "^2.0.0",
     "yeoman-environment": "^2.3.4",
-    "yeoman-generator": "3",
+    "yeoman-generator": "5",
     "yosay": "^2.0.2"
   },
   "devDependencies": {

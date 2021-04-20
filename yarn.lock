@@ -474,10 +474,10 @@
     "@types/yeoman-environment" "*"
     rxjs ">=6.4.0"
 
-"@types/yosay@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@types/yosay/-/yosay-0.0.29.tgz#aafe08afc65a62867523772b86e3579765d71fff"
-  integrity sha512-xXjSR+Sq1G5xCs8pUAYQtjBo/ib/5QIn2HZFHUnvFXwX8gtyFlh/ioMAuVbyir7+mCv1hY/EMkz0kNc7JuDisA==
+"@types/yosay@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/yosay/-/yosay-2.0.0.tgz#d1e2307290345007ffb267abca920398b720f88b"
+  integrity sha512-4xZIikPToi1UKGuvT2cQCchX690qZhW+GSfO4apofQNB3PuuGf9kmmzllgqmYnYIbpikgvkSAYwJrl7hV+qmSw==
 
 "@typescript-eslint/eslint-plugin@^2.6.1":
   version "2.7.0"

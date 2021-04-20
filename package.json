@@ -46,7 +46,7 @@
     "@types/supports-color": "^7.2.0",
     "@types/write-json-file": "^3.2.1",
     "@types/yeoman-environment": "^2.10.2",
-    "@types/yosay": "^0.0.29",
+    "@types/yosay": "^2.0.0",
     "aws-sdk": "^2.443.0",
     "chai": "^4.2.0",
     "conventional-changelog-cli": "^2.0.17",

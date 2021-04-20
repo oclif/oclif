@@ -417,10 +417,10 @@
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.5.0.tgz#f5a10c27175465a0b001b68d8b9f761582967cc6"
   integrity sha512-NyzhuSBy97B/zE58cDw4NyGvByQbAHNP9069KVSgnXt/sc0T6MFRh0InKAeBVHJWdSXG1S3+PxgVIgKo9mTHbw==
 
-"@types/supports-color@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@types/supports-color/-/supports-color-7.2.0.tgz#edd98ae52ee786b733a5dea0a23da4eb18ef7310"
-  integrity sha512-gtUcOP6qIpjbSDdWjMBRNSks42ccx1709mwKTgelW63BESIADw8Ju7klpydDDb9Kr0iRXfpwrXH8+zoU8TCqiA==
+"@types/supports-color@^8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@types/supports-color/-/supports-color-8.1.0.tgz#d25609c0c07a257dbc460cea4e693abf78fe6aef"
+  integrity sha512-yuaTiC8EqSvcb03zAsCXySH18CUcHNJFvOoqCJTMMKG3o5E4Jgnr1ycDR2v1BK9Cj56iMiYgjqX98eiWjRsBeg==
 
 "@types/text-table@*":
   version "0.2.1"

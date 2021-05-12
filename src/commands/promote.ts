@@ -61,6 +61,7 @@ export default class Promote extends Command {
           CopySource: copySource,
           Key: key,
           CacheControl: maxAge,
+          MetadataDirective: 'REPLACE'
         },
       )
 
@@ -82,6 +83,7 @@ export default class Promote extends Command {
           CopySource: versionedTarGzKey,
           Key: unversionedTarGzKey,
           CacheControl: maxAge,
+          MetadataDirective: 'REPLACE'
         },
       )
 
@@ -104,6 +106,7 @@ export default class Promote extends Command {
             CopySource: versionedTarXzKey,
             Key: unversionedTarXzKey,
             CacheControl: maxAge,
+            MetadataDirective: 'REPLACE'
           },
         )
       }
@@ -123,6 +126,7 @@ export default class Promote extends Command {
           CopySource: darwinCopySource,
           Key: darwinKey,
           CacheControl: maxAge,
+          MetadataDirective: 'REPLACE'
         },
       )
     }
@@ -173,6 +177,7 @@ export default class Promote extends Command {
             CopySource: debCopySource,
             Key: debKey,
             CacheControl: maxAge,
+            MetadataDirective: 'REPLACE'
           },
         )
       }

@@ -127,5 +127,8 @@
     "version": "oclif-dev readme && git add README.md",
     "test": "nps test"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "types": "lib/index.d.ts"
 }

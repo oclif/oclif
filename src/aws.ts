@@ -84,13 +84,19 @@ export default {
           else resolve(data)
         })
       }),
+      getObject: (options: S3.Types.GetObjectRequest) => new Promise<S3.GetObjectOutput>((resolve, reject) => {
+        debug('getObject', `s3://${options.Bucket}/${options.Key}`)
+        aws.s3.getObject(options, function (err, data) {
+          if (err) reject(err)
+          else resolve(data)
+        })
+      }),
     }
   },
 }
-
 // export const getObject = (options: S3.Types.GetObjectRequest) => new Promise<S3.GetObjectOutput>((resolve, reject) => {
 //   debug('getObject', `s3://${options.Bucket}/${options.Key}`)
-//   s3().getObject(options, (err, data) => {
+//   aws.s3().getObject(options, (err, data) => {
 //     if (err) reject(err)
 //     else resolve(data)
 //   })

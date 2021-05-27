@@ -1,5 +1,6 @@
 import {Command, flags} from '@oclif/command'
 import {cli} from 'cli-ux'
+import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import aws from '../aws'
@@ -41,6 +42,7 @@ export default class Promote extends Command {
       s3Config,
       maxAge,
     }
+    
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
 
     const cloudBucketCommitKey = (shortKey: string) => path.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)

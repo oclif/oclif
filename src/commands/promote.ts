@@ -1,12 +1,11 @@
 import {Command, flags} from '@oclif/command'
 import {cli} from 'cli-ux'
-import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
 import {templateShortKey, commitAWSDir, channelAWSDir, debVersion} from '../upload-util'
-import {sortVersionsObjectByKeysDesc} from '../util'
+import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
   static hidden = true
@@ -37,38 +36,10 @@ export default class Promote extends Command {
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
     const {s3Config, config} = buildConfig
-
-    const appendToIndex = async (input: { originalUrl: string; filename: string }) => {
-      // these checks are both nice for users AND helpful for TS
-      if (!s3Config.bucket) throw new Error('[package.json].oclif.s3.bucket is required for indexes')
-      if (!s3Config.host) throw new Error('[package.json].oclif.s3.host is required for indexes')
-
-      // json-friendly filenames like sfdx-linux-x64-tar-gz
-      const jsonFileName = `${input.filename.replace(/\./g, '-')}.json`
-      const key = path.join(s3Config.folder!, 'versions', jsonFileName)
-
-      // retrieve existing index file
-      let existing = {}
-      try {
-        existing = JSON.parse((await aws.s3.getObject({
-          Bucket: s3Config.bucket,
-          Key: key,
-        })).Body?.toString() as string)
-        this.log('appending to existing index file')
-      } catch (error) {
-        this.error(`error on ${key}`, error)
-      }
-      // appends new version from this promotion if not already present (idempotent)
-      await fs.writeJSON(jsonFileName, sortVersionsObjectByKeysDesc({...existing, [flags.version]: input.originalUrl.replace(s3Config.bucket, s3Config.host)}), {spaces: 2})
-
-      // put the file back in the same place
-      await aws.s3.uploadFile(jsonFileName, {
-        Bucket: s3Config.bucket,
-        Key: key,
-        CacheControl: maxAge,
-      })
-      // cleans up local fs
-      await fs.remove(jsonFileName)
+    const indexDefaults = {
+      version: flags.version,
+      s3Config,
+      maxAge,
     }
 
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
@@ -123,7 +94,7 @@ export default class Promote extends Command {
       )
 
       // eslint-disable-next-line no-await-in-loop
-      if (flags.indexes) await appendToIndex({originalUrl: versionedTarGzKey, filename: unversionedTarGzName})
+      if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: versionedTarGzKey, filename: unversionedTarGzName})
 
       if (flags.xz) {
         const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
@@ -148,7 +119,7 @@ export default class Promote extends Command {
           },
         )
         // eslint-disable-next-line no-await-in-loop
-        if (flags.indexes) await appendToIndex({originalUrl: versionedTarXzKey, filename: unversionedTarXzName})
+        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: versionedTarXzKey, filename: unversionedTarXzName})
       }
     }
 
@@ -169,7 +140,7 @@ export default class Promote extends Command {
           MetadataDirective: 'REPLACE',
         },
       )
-      if (flags.indexes) await appendToIndex({originalUrl: darwinCopySource, filename: unversionedPkg})
+      if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})
     }
 
     // copy win exe
@@ -192,7 +163,7 @@ export default class Promote extends Command {
           },
         )
         // eslint-disable-next-line no-await-in-loop
-        if (flags.indexes) await appendToIndex({originalUrl: winCopySource, filename: unversionedExe})
+        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})
         cli.action.stop('successfully')
       }
     }

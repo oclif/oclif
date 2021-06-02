@@ -22,7 +22,7 @@ export interface BuildConfig {
   version: string;
   tmp: string;
   updateConfig: BuildConfig['config']['pjson']['oclif']['update'];
-  s3Config: BuildConfig['updateConfig']['s3'] & {folder?: string};
+  s3Config: BuildConfig['updateConfig']['s3'] & { folder?: string; indexVersionLimit?: number};
   xz: boolean;
   targets: {platform: Config.PlatformTypes; arch: Config.ArchTypes}[];
   workspace(target?: {platform: Config.PlatformTypes; arch: Config.ArchTypes}): string;

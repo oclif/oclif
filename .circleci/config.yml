@@ -139,9 +139,6 @@ jobs:
       - run: ./node_modules/.bin/tsc
       - run: ./bin/run --version
       - run: ./bin/run --help
-      - run: |
-          $NYC yarn devcli
-          curl -s https://codecov.io/bash | bash
   node-10-devcli:
     <<: *node-12-devcli
     docker:

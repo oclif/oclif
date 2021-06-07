@@ -40,7 +40,6 @@ class App extends Generator {
     mocha: boolean;
     circleci: boolean;
     appveyor: boolean;
-    codecov: boolean;
     typescript: boolean;
     eslint: boolean;
     yarn: boolean;
@@ -73,7 +72,6 @@ class App extends Generator {
     ci: {
       circleci: boolean;
       appveyor: boolean;
-      codecov: boolean;
       travisci: boolean;
     };
   }
@@ -83,8 +81,6 @@ class App extends Generator {
   circleci!: boolean
 
   appveyor!: boolean
-
-  codecov!: boolean
 
   ts!: boolean
 
@@ -116,7 +112,6 @@ class App extends Generator {
       mocha: opts.options.includes('mocha'),
       circleci: opts.options.includes('circleci'),
       appveyor: opts.options.includes('appveyor'),
-      codecov: opts.options.includes('codecov'),
       typescript: opts.options.includes('typescript'),
       eslint: opts.options.includes('eslint'),
       yarn: opts.options.includes('yarn') || hasYarn,
@@ -267,7 +262,6 @@ class App extends Generator {
           choices: [
             {name: 'circleci (continuous integration/delivery service)', value: 'circleci'},
             {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor'},
-            {name: 'codecov (online code coverage report viewer)', value: 'codecov'},
             {name: 'travisci (continuous integration/delivery service)', value: 'travisci'},
           ],
           filter: ((arr: string[]) => _.keyBy(arr)) as any,
@@ -289,7 +283,6 @@ class App extends Generator {
     this.mocha = this.options.mocha
     this.circleci = this.options.circleci
     this.appveyor = this.options.appveyor
-    this.codecov = this.options.codecov
     this.eslint = this.options.eslint
     this.travisci = this.options.travisci
 

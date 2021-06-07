@@ -23,13 +23,6 @@ jobs:
       - run:
           name: Testing
           command: <%- yarn ? 'yarn' : 'npm' %> test
-      <%_ if (mocha && codecov) { _%>
-      - run:
-          name: Submitting code coverage to codecov
-          command: |
-            ./node_modules/.bin/nyc report --reporter text-lcov > coverage.lcov
-            curl -s https://codecov.io/bash | bash
-      <%_ } _%>
   node-12:
     <<: *test
     docker:

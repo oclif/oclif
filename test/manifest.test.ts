@@ -2,6 +2,8 @@ import * as Config from '@oclif/config'
 import {expect, test} from '@oclif/test'
 import * as fs from 'fs-extra'
 
+process.env.NODE_ENV = 'development'
+
 describe('manifest', () => {
   test
   .stdout()

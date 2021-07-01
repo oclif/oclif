@@ -40,7 +40,7 @@
     "@types/lodash": "^4.14.121",
     "@types/lodash.template": "^4.4.6",
     "@types/mocha": "^8.0.0",
-    "@types/node": "^14.0.14",
+    "@types/node": "^15.14.0",
     "@types/read-pkg": "^5.1.0",
     "@types/shelljs": "^0.8.3",
     "@types/supports-color": "^7.2.0",

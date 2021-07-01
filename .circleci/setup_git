@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -ex
+
+if [[ ! -z "$GIT_EMAIL" ]] & [[ ! -z "$GIT_USERNAME" ]]; then
+  git config --global push.default simple
+  git config --global user.email "$GIT_EMAIL"
+  git config --global user.name "$GIT_USERNAME"
+fi
+
+git submodule sync
+git submodule update --init --recursive

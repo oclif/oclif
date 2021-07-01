@@ -53,15 +53,11 @@ export async function build(c: BuildConfig, options: {
   }
   const addDependencies = async () => {
     qq.cd(c.workspace())
-    const pjson = await qq.readJSON('package.json')
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
     const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
     if (yarn) {
       await qq.cp([yarnRoot, 'yarn.lock'], '.')
       await qq.x('yarn --no-progress --production --non-interactive')
-      if (pjson.scripts.pretarball) {
-        await qq.x('yarn run pretarball')
-      }
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')
       if (!await qq.exists(lockpath)) {
@@ -69,9 +65,17 @@ export async function build(c: BuildConfig, options: {
       }
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
-      if (pjson.scripts.pretarball) {
+    }
+  }
+  const pretarball = async () => {
+    qq.cd(c.workspace())
+    const pjson = await qq.readJSON('package.json')
+    const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
+    const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
+    if (pjson.scripts.pretarball) {
+      yarn ?
+        await qq.x('yarn run pretarball') :
         await qq.x('npm run pretarball', {})
-      }
     }
   }
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
@@ -140,6 +144,7 @@ export async function build(c: BuildConfig, options: {
   await updatePJSON()
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
+  await pretarball()
   for (const target of c.targets) {
     if (!options.platform || options.platform === target.platform) {
       // eslint-disable-next-line no-await-in-loop

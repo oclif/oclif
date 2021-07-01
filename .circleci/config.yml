@@ -1,5 +1,5 @@
 ---
-version: 2
+version: 2.1
 
 orbs:
   release-management: salesforce/npm-release-management@4
@@ -176,7 +176,7 @@ workflows:
       - node-latest-multi: {requires: [lint, compile-typescript] }
       - node-latest-command: {requires: [lint, compile-typescript] }
       - node-latest-hook: {requires: [lint, compile-typescript] }
-      - cache: {requires: [release] }
+      - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
           context: org-global
           github-release: true

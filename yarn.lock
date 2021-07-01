@@ -450,9 +450,9 @@
     write-json-file "*"
 
 "@types/yeoman-environment@*", "@types/yeoman-environment@^2.10.2":
-  version "2.10.2"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-environment/-/yeoman-environment-2.10.2.tgz#008b4f7a350ff8fb2be7ad7dda2580ead048ee76"
-  integrity sha512-Vz0qYnsUkTdH15nYo1OKax6wODQvPk6OKnbr3ATWRFizMTn6FhtoInuOIxVELK9swdqhAOF1goSdWhid0HmJkg==
+  version "2.10.3"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-environment/-/yeoman-environment-2.10.3.tgz#e8e13b1238a32007b58290d79311aa5a9bf7e26c"
+  integrity sha512-1QQaJcXXFz5U/r83M6XShIr6GN3ps1mf/w4cDBrAmIP9ip+CPU+JklriPT6IMi2wb0oGzifx3iwjqXpHF63BlA==
   dependencies:
     "@types/diff" "*"
     "@types/inquirer" "*"
@@ -460,7 +460,7 @@
     "@types/text-table" "*"
     "@types/yeoman-generator" "*"
     chalk "^4.1.0"
-    rxjs ">=6.4.0"
+    rxjs "^6.4.0"
 
 "@types/yeoman-generator@*":
   version "4.11.3"
@@ -5139,17 +5139,10 @@ rx@2.3.24:
   resolved "https://registry.yarnpkg.com/rx/-/rx-2.3.24.tgz#14f950a4217d7e35daa71bbcbe58eff68ea4b2b7"
   integrity sha1-FPlQpCF9fjXapxu8vljv9o6ksrc=
 
-rxjs@>=6.4.0, rxjs@^6.4.0:
+rxjs@>=6.4.0, rxjs@^6.4.0, rxjs@^6.5.3:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
-  dependencies:
-    tslib "^1.9.0"
-
-rxjs@^6.5.3:
-  version "6.5.5"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
-  integrity sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
   dependencies:
     tslib "^1.9.0"
 

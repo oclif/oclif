@@ -23,7 +23,6 @@ export default class Manifest extends Command {
     if (!plugin.valid) {
       const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
       const {PluginLegacy} = require(p)
-      // delete plugin.name
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
     }

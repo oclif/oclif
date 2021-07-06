@@ -1,3 +1,17 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.18.1](https://github.com/oclif/oclif/compare/v1.18.0...v1.18.1) (2021-07-01)
+
+
+### Bug Fixes
+
+* add setup_git script ([35d0920](https://github.com/oclif/oclif/commit/35d0920eae2958d7e9ae394523f06b1f034396ad))
+* move pretarball step ([#617](https://github.com/oclif/oclif/issues/617)) ([cd74340](https://github.com/oclif/oclif/commit/cd743408e5a8fd3e4f7e6effd6ec91adbe1121d4))
+* update config.yml ([97b630c](https://github.com/oclif/oclif/commit/97b630c2d1ac36b1975057fbc18caa420f828981))
+* update release job ([eb05cd5](https://github.com/oclif/oclif/commit/eb05cd5511dfac27617e916aa0415cdb5647f11e))
+
 # [1.17.0](https://github.com/oclif/oclif/compare/v1.16.2...v1.17.0) (2021-03-15)
 
 

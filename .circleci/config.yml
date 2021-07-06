@@ -1,5 +1,9 @@
 ---
-version: 2
+version: 2.1
+
+orbs:
+  release-management: salesforce/npm-release-management@4
+
 jobs:
   lint: &lint
     docker:
@@ -158,15 +162,6 @@ jobs:
           paths:
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn
-  release:
-    <<: *lint
-    steps:
-      - add_ssh_keys
-      - checkout
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: .circleci/release
-
 workflows:
   version: 2
   oclif:
@@ -181,11 +176,10 @@ workflows:
       - node-latest-multi: {requires: [lint, compile-typescript] }
       - node-latest-command: {requires: [lint, compile-typescript] }
       - node-latest-hook: {requires: [lint, compile-typescript] }
-      - cache: {requires: [release] }
-      - release:
+      - cache: {requires: [release-management/release-package] }
+      - release-management/release-package:
           context: org-global
-          filters:
-            branches: {only: master}
+          github-release: true
           requires:
             - lint
             - compile-typescript
@@ -195,6 +189,9 @@ workflows:
             - node-latest-multi
             - node-latest-command
             - node-latest-hook
+          filters:
+            branches:
+              only: master
   nightly:
     triggers:
       - schedule:

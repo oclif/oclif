@@ -195,7 +195,9 @@ FunctionEnd
 export default class PackWin extends Command {
   static hidden = true
 
-  static description = 'create windows installer from oclif CLI'
+  static description = `create windows installer from oclif CLI
+
+  This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),

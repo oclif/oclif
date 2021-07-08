@@ -1,5 +1,4 @@
-import {Command} from '@oclif/command'
-import * as Config from '@oclif/config'
+import {Command, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
@@ -16,15 +15,14 @@ export default class Manifest extends Command {
     try {
       fs.unlinkSync('oclif.manifest.json')
     } catch {}
-    const {args} = this.parse(Manifest)
+    const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
-    let plugin = new Config.Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
+    let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
     if (!plugin) throw new Error('plugin not found')
     await plugin.load()
     if (!plugin.valid) {
       const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
       const {PluginLegacy} = require(p)
-      delete plugin.name
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
     }

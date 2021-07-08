@@ -232,10 +232,16 @@ export default class PackWin extends Command {
         const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
         // eslint-disable-next-line no-await-in-loop
         await qq.mv(o, buildLocationUnsigned)
+
+        const pass = config.scopedEnvVar('WINDOWS_SIGNING_PASS')
+        if (!pass) {
+          throw new Error(`${config.scopedEnvVarKey('WINDOWS_SIGNING_PASS')} not set in the environment`)
+        }
+
         /* eslint-disable array-element-newline */
         const args = [
           '-pkcs12', windows.keypath,
-          '-pass', config.scopedEnvVar('WINDOWS_SIGNING_PASS'),
+          '-pass', pass,
           '-n', windows.name,
           '-i', windows.homepage || config.pjson.homepage,
           '-h', 'sha512',

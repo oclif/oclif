@@ -34,7 +34,7 @@ jobs:
     parameters:
       test:
         type: string
-      image: 
+      image:
         type: string
     docker:
       - image: << parameters.image >>
@@ -99,7 +99,7 @@ workflows:
           context: org-global
           github-release: true
           prerelease: true
-          tag: v2
+          tag: core-v1
           requires:
             - lint
             - compile-typescript

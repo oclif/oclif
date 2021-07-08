@@ -1,7 +1,5 @@
 // tslint:disable no-implicit-dependencies
-import {Command, flags} from '@oclif/command'
-import * as Config from '@oclif/config'
-import {getHelpClass} from '@oclif/plugin-help'
+import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
@@ -13,6 +11,10 @@ import {HelpCompatibilityWrapper} from '../help-compatibility'
 const normalize = require('normalize-package-data')
 const columns = parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
+
+interface HelpBaseDerived {
+  new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase;
+}
 
 export default class Readme extends Command {
   static hidden = true
@@ -28,23 +30,28 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 `
 
   static flags = {
-    dir: flags.string({description: 'output directory for multi docs', default: 'docs', required: true}),
-    multi: flags.boolean({description: 'create a different markdown page for each topic'}),
+    dir: Flags.string({description: 'output directory for multi docs', default: 'docs', required: true}),
+    multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
   }
 
+  private HelpClass!: HelpBaseDerived
+
   async run() {
-    const {flags} = this.parse(Readme)
+    const {flags} = await this.parse(Readme)
     const cwd = process.cwd()
     const readmePath = path.resolve(cwd, 'README.md')
     const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
 
     try {
       const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
-      const plugin = new Config.Plugin({root: p, type: 'core'})
+      const plugin = new Plugin({root: p, type: 'core'})
       await plugin.load()
       config.plugins.push(plugin)
     } catch {}
-    await (config as Config.Config).runHook('init', {id: 'readme', argv: this.argv})
+    await (config as Config).runHook('init', {id: 'readme', argv: this.argv})
+
+    this.HelpClass = await loadHelpClass(config)
+
     let readme = await fs.readFile(readmePath, 'utf8')
 
     let commands = config.commands
@@ -73,14 +80,14 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     return readme.replace(`<!-- ${tag} -->`, `<!-- ${tag} -->\n${body}\n<!-- ${tag}stop -->`)
   }
 
-  toc(__: Config.IConfig, readme: string): string {
+  toc(__: Interfaces.Config, readme: string): string {
     return readme.split('\n').filter(l => l.startsWith('# '))
     .map(l => l.trim().slice(2))
     .map(l => `* [${l}](#${slugify.slug(l)})`)
     .join('\n')
   }
 
-  usage(config: Config.IConfig): string {
+  usage(config: Interfaces.Config): string {
     return [
       `\`\`\`sh-session
 $ npm install -g ${config.name}
@@ -96,7 +103,7 @@ USAGE
     ].join('\n').trim()
   }
 
-  multiCommands(config: Config.IConfig, commands: Config.Command[], dir: string): string {
+  multiCommands(config: Interfaces.Config, commands: Interfaces.Command[], dir: string): string {
     let topics = config.topics
     topics = topics.filter(t => !t.hidden && !t.name.includes(':'))
     topics = topics.filter(t => commands.find(c => c.id.startsWith(t.name)))
@@ -122,7 +129,7 @@ USAGE
     ].join('\n').trim() + '\n'
   }
 
-  createTopicFile(file: string, config: Config.IConfig, topic: Config.Topic, commands: Config.Command[]) {
+  createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Interfaces.Command[]) {
     const bin = `\`${config.bin} ${topic.name}\``
     const doc = [
       bin,
@@ -135,7 +142,7 @@ USAGE
     fs.outputFileSync(file, doc)
   }
 
-  commands(config: Config.IConfig, commands: Config.Command[]): string {
+  commands(config: Interfaces.Config, commands: Interfaces.Command[]): string {
     return [
       ...commands.map(c => {
         const usage = this.commandUsage(config, c)
@@ -146,11 +153,10 @@ USAGE
     ].join('\n').trim()
   }
 
-  renderCommand(config: Config.IConfig, c: Config.Command): string {
+  renderCommand(config: Interfaces.Config, c: Interfaces.Command): string {
     this.debug('rendering command', c.id)
     const title = template({config, command: c})(c.description || '').trim().split('\n')[0]
-    const HelpClass = getHelpClass(config)
-    const help = new HelpClass(config, {stripAnsi: true, maxWidth: columns})
+    const help = new this.HelpClass(config, {stripAnsi: true, maxWidth: columns})
     const wrapper = new HelpCompatibilityWrapper(help)
 
     const header = () => `## \`${config.bin} ${this.commandUsage(config, c)}\``
@@ -167,7 +173,7 @@ USAGE
     }
   }
 
-  commandCode(config: Config.IConfig, c: Config.Command): string | undefined {
+  commandCode(config: Interfaces.Config, c: Interfaces.Command): string | undefined {
     const pluginName = c.pluginName
     if (!pluginName) return
     const plugin = config.plugins.find(p => p.name === c.pluginName)
@@ -186,7 +192,7 @@ USAGE
     return `_See code: [${label}](${_.template(template)({repo, version, commandPath, config, c})})_`
   }
 
-  private repo(plugin: Config.IPlugin): string | undefined {
+  private repo(plugin: Interfaces.Plugin): string | undefined {
     const pjson = {...plugin.pjson}
     normalize(pjson)
     const repo = pjson.repository && pjson.repository.url
@@ -200,7 +206,7 @@ USAGE
   /**
    * fetches the path to a command
    */
-  private commandPath(plugin: Config.IPlugin, c: Config.Command): string | undefined {
+  private commandPath(plugin: Interfaces.Plugin, c: Interfaces.Command): string | undefined {
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
     let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
@@ -228,17 +234,16 @@ USAGE
     return p
   }
 
-  private commandUsage(config: Config.IConfig, command: Config.Command): string {
-    const arg = (arg: Config.Command.Arg) => {
+  private commandUsage(config: Interfaces.Config, command: Interfaces.Command): string {
+    const arg = (arg: Interfaces.Arg) => {
       const name = arg.name.toUpperCase()
       if (arg.required) return `${name}`
       return `[${name}]`
     }
+    const id = config.topicSeparator ? command.id.replace(/:/g, config.topicSeparator) : command.id
     const defaultUsage = () => {
-      // const flags = Object.entries(command.flags)
-      // .filter(([, v]) => !v.hidden)
       return compact([
-        command.id,
+        id,
         command.args.filter(a => !a.hidden).map(a => arg(a)).join(' '),
       ]).join(' ')
     }

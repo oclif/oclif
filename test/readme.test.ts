@@ -2,6 +2,8 @@ import {expect, test} from '@oclif/test'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
+process.env.NODE_ENV = 'development'
+
 const readme = fs.readFileSync('README.md', 'utf8')
 
 describe('readme', () => {

@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "1.18.1",
+  "version": "2.0.0-v2.0",
   "author": "Jeff Dickey @jdxcode",
   "bin": {
     "oclif": "bin/run"
@@ -10,6 +10,7 @@
   "dependencies": {
     "@oclif/command": "^1.6",
     "@oclif/config": "^1.12.6",
+    "@oclif/core": "^0.5.19",
     "@oclif/errors": "^1.2.2",
     "@oclif/fixpack": "^2.3.0",
     "@oclif/plugin-help": "^3",
@@ -65,7 +66,7 @@
     "typescript": "3.8.3"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     ".oclif.manifest.json",

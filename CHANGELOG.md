@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.0](https://github.com/oclif/oclif/compare/v2.0.0-v2.0...v2.0.0-main.0) (2021-07-08)
+
+
+### Bug Fixes
+
+* change npm tag ([9d07724](https://github.com/oclif/oclif/commit/9d07724cd8b4a200bb6212425311cca2029fa752))
+* prerelease name ([084e890](https://github.com/oclif/oclif/commit/084e8909ea93300a86bf6ddf6319b87a0d3ee5b1))
+
 ## [2.0.0-v2.0](https://github.com/oclif/oclif/compare/v1.18.1...v2.0.0-v2.0) (2021-07-08)
 
 

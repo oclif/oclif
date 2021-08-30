@@ -29,101 +29,23 @@ jobs:
       - attach_workspace: {at: node_modules}
       - run: yarn
       - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
-  node-latest-multi:
+  test:
     <<: *lint
-    steps: &multi_steps
+    parameters:
+      test:
+        type: string
+      image:
+        type: string
+    docker:
+      - image: << parameters.image >>
+    steps:
       - checkout
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
-      - run: yarn exec nps test.multi
-      - store_test_results: &store_test_results
+      - run: yarn exec nps test.<< parameters.test >>
+      - store_test_results:
           path: ~/cli/reports
-  node-latest-base:
-    <<: *lint
-    steps: &base_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.base
-      - store_test_results: *store_test_results
-  node-latest-plugin:
-    <<: *lint
-    steps: &plugin_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.plugin
-      - store_test_results: *store_test_results
-  node-latest-single:
-    <<: *lint
-    steps: &single_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.single
-      - store_test_results: *store_test_results
-  node-latest-command:
-    <<: *lint
-    steps: &command_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.command
-      - store_test_results: *store_test_results
-  node-latest-hook:
-    <<: *lint
-    steps: &hook_steps
-      - checkout
-      - restore_cache: *restore_cache
-      - attach_workspace: {at: node_modules}
-      - run: .circleci/setup_git
-      - run: yarn exec nps test.hook
-      - store_test_results: *store_test_results
-  node-12-base: &node_12
-    <<: *lint
-    docker:
-      - image: node:12
-    steps: *base_steps
-  node-12-plugin:
-    <<: *node_12
-    steps: *plugin_steps
-  node-12-single:
-    <<: *node_12
-    steps: *single_steps
-  node-12-multi:
-    <<: *node_12
-    steps: *multi_steps
-  node-12-command:
-    <<: *node_12
-    steps: *command_steps
-  node-12-hook:
-    <<: *node_12
-    steps: *hook_steps
-  node-10-base: &node_10
-    <<: *lint
-    docker:
-      - image: node:10
-    steps: *base_steps
-  node-10-plugin:
-    <<: *node_10
-    steps: *plugin_steps
-  node-10-single:
-    <<: *node_10
-    steps: *single_steps
-  node-10-multi:
-    <<: *node_10
-    steps: *multi_steps
-  node-10-command:
-    <<: *node_10
-    steps: *command_steps
-  node-10-hook:
-    <<: *node_10
-    steps: *hook_steps
   node-12-devcli: &node-12-devcli
     docker:
       - image: oclif/nsis:12.0.0-16
@@ -143,10 +65,6 @@ jobs:
       - run: ./node_modules/.bin/tsc
       - run: ./bin/run --version
       - run: ./bin/run --help
-  node-10-devcli:
-    <<: *node-12-devcli
-    docker:
-      - image: chadian/nsis:10-2
 
   cache:
     <<: *lint
@@ -168,30 +86,26 @@ workflows:
     jobs:
       - lint
       - compile-typescript
-      - node-10-devcli
       - node-12-devcli
-      - node-latest-base: {requires: [lint, compile-typescript] }
-      - node-latest-single: {requires: [lint, compile-typescript] }
-      - node-latest-plugin: {requires: [lint, compile-typescript] }
-      - node-latest-multi: {requires: [lint, compile-typescript] }
-      - node-latest-command: {requires: [lint, compile-typescript] }
-      - node-latest-hook: {requires: [lint, compile-typescript] }
+      - test:
+          matrix:
+            parameters:
+              image: [node:latest, node:14, node:12]
+              test: [multi, base, plugin, single, command, hook]
+          name: << matrix.image >>-<< matrix.test >>
+          requires: [lint, compile-typescript]
       - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
-          context: org-global
           github-release: true
+          prerelease: true
+          tag: core-v1
           requires:
             - lint
             - compile-typescript
-            - node-latest-base
-            - node-latest-single
-            - node-latest-plugin
-            - node-latest-multi
-            - node-latest-command
-            - node-latest-hook
+            - test
           filters:
             branches:
-              only: master
+              only: main
   nightly:
     triggers:
       - schedule:
@@ -199,27 +113,15 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
     jobs:
       - lint
       - compile-typescript
-      - node-10-devcli
       - node-12-devcli
-      - node-latest-base: {requires: [lint, compile-typescript] }
-      - node-latest-single: {requires: [lint, compile-typescript] }
-      - node-latest-plugin: {requires: [lint, compile-typescript] }
-      - node-latest-multi: {requires: [lint, compile-typescript] }
-      - node-latest-command: {requires: [lint, compile-typescript] }
-      - node-latest-hook: {requires: [lint, compile-typescript] }
-      - node-12-base: {requires: [lint, compile-typescript] }
-      - node-12-single: {requires: [lint, compile-typescript] }
-      - node-12-plugin: {requires: [lint, compile-typescript] }
-      - node-12-multi: {requires: [lint, compile-typescript] }
-      - node-12-command: {requires: [lint, compile-typescript] }
-      - node-12-hook: {requires: [lint, compile-typescript] }
-      - node-10-base: {requires: [lint, compile-typescript] }
-      - node-10-single: {requires: [lint, compile-typescript] }
-      - node-10-plugin: {requires: [lint, compile-typescript] }
-      - node-10-multi: {requires: [lint, compile-typescript] }
-      - node-10-command: {requires: [lint, compile-typescript] }
-      - node-10-hook: {requires: [lint, compile-typescript] }
+      - test:
+          matrix:
+            parameters:
+              image: [node:latest, node:14, node:12]
+              test: [multi, base, plugin, single, command, hook]
+          name: << matrix.image >>-<< matrix.test >>
+          requires: [lint, compile-typescript]

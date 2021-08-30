@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.2](https://github.com/oclif/oclif/compare/v2.0.0-main.1...v2.0.0-main.2) (2021-08-30)
+
+
+### Bug Fixes
+
+* force build to pickup latest oclif/core ([#648](https://github.com/oclif/oclif/issues/648)) ([4ed1e9a](https://github.com/oclif/oclif/commit/4ed1e9a568a88ef37b51b95f66419cf52e16a3b7))
+* remove context var ([#652](https://github.com/oclif/oclif/issues/652)) ([d8f12fa](https://github.com/oclif/oclif/commit/d8f12faa82566b562cd2c658013a6722e38872fc))
+
 ## [2.0.0-main.1](https://github.com/oclif/oclif/compare/v2.0.0-main.0...v2.0.0-main.1) (2021-07-08)
 
 

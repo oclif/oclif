@@ -96,7 +96,6 @@ workflows:
           requires: [lint, compile-typescript]
       - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
-          context: org-global
           github-release: true
           prerelease: true
           tag: core-v1

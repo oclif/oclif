@@ -29,7 +29,7 @@ jobs:
       - attach_workspace: {at: node_modules}
       - run: yarn
       - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
-  test:
+  node-latest-multi:
     <<: *lint
     parameters:
       image:
@@ -93,6 +93,7 @@ workflows:
           requires: [lint, compile-typescript]
       - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
+          context: org-global
           github-release: true
           prerelease: true
           tag: core-v1

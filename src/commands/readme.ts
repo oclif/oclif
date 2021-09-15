@@ -88,8 +88,8 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   }
 
   usage(config: Interfaces.Config): string {
-    const versionFlags = ['--version', ...(config.pjson.oclif.additionalVersionFlags ?? []).sort()];
-    const versionFlagsString = `(${versionFlags.join('|')})`;
+    const versionFlags = ['--version', ...(config.pjson.oclif.additionalVersionFlags ?? []).sort()]
+    const versionFlagsString = `(${versionFlags.join('|')})`
     return [
       `\`\`\`sh-session
 $ npm install -g ${config.name}

@@ -7,8 +7,6 @@ import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadMacos extends Command {
-  static hidden = true
-
   static description = 'upload macos installers built with pack:macos'
 
   static flags = {

@@ -8,8 +8,6 @@ import {templateShortKey, commitAWSDir, channelAWSDir, debVersion} from '../uplo
 import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
-  static hidden = true
-
   static description = 'promote CLI builds to a S3 release channel'
 
   static flags = {

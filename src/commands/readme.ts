@@ -17,8 +17,6 @@ interface HelpBaseDerived {
 }
 
 export default class Readme extends Command {
-  static hidden = true
-
   static description = `adds commands to README.md in current directory
 The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
 # Usage

@@ -8,8 +8,6 @@ import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadTarballs extends Command {
-  static hidden = true
-
   static description = `upload an oclif CLI to S3
 
 "aws-sdk" will need to be installed as a devDependency to upload.

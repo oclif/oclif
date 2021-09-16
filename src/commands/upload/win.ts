@@ -7,8 +7,6 @@ import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadWin extends Command {
-  static hidden = true
-
   static description = 'upload windows installers built with pack:win'
 
   static flags = {

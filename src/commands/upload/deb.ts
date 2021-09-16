@@ -7,8 +7,6 @@ import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey, debVersion} from '../../upload-util'
 
 export default class UploadDeb extends Command {
-  static hidden = true
-
   static description = 'upload deb package built with pack:deb'
 
   static flags = {

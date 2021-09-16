@@ -97,8 +97,6 @@ exit 0
 }
 
 export default class PackMacos extends Command {
-  static hidden = true
-
   static description = 'pack CLI into macOS .pkg'
 
   static flags = {

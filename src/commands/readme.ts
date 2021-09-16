@@ -88,12 +88,14 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   }
 
   usage(config: Interfaces.Config): string {
+    const versionFlags = ['--version', ...(config.pjson.oclif.additionalVersionFlags ?? []).sort()]
+    const versionFlagsString = `(${versionFlags.join('|')})`
     return [
       `\`\`\`sh-session
 $ npm install -g ${config.name}
 $ ${config.bin} COMMAND
 running command...
-$ ${config.bin} (-v|--version|version)
+$ ${config.bin} ${versionFlagsString}
 ${config.name}/${process.env.OCLIF_NEXT_VERSION || config.version} ${process.platform}-${process.arch} node-v${process.versions.node}
 $ ${config.bin} --help [COMMAND]
 USAGE
@@ -155,7 +157,7 @@ USAGE
 
   renderCommand(config: Interfaces.Config, c: Interfaces.Command): string {
     this.debug('rendering command', c.id)
-    const title = template({config, command: c})(c.description || '').trim().split('\n')[0]
+    const title = template({config, command: c})(c.summary || c.description || '').trim().split('\n')[0]
     const help = new this.HelpClass(config, {stripAnsi: true, maxWidth: columns})
     const wrapper = new HelpCompatibilityWrapper(help)
 

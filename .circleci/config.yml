@@ -32,8 +32,6 @@ jobs:
   test:
     <<: *lint
     parameters:
-      test:
-        type: string
       image:
         type: string
     docker:
@@ -43,7 +41,7 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
-      - run: yarn exec nps test.<< parameters.test >>
+      - run: yarn exec nps test
       - store_test_results:
           path: ~/cli/reports
   node-12-devcli: &node-12-devcli
@@ -91,8 +89,7 @@ workflows:
           matrix:
             parameters:
               image: [node:latest, node:14, node:12]
-              test: [multi, base, plugin, single, command, hook]
-          name: << matrix.image >>-<< matrix.test >>
+          name: test-<< matrix.image >>
           requires: [lint, compile-typescript]
       - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
@@ -106,22 +103,3 @@ workflows:
           filters:
             branches:
               only: main
-  nightly:
-    triggers:
-      - schedule:
-          cron: "0 11 * * *"
-          filters:
-            branches:
-              only:
-                - main
-    jobs:
-      - lint
-      - compile-typescript
-      - node-12-devcli
-      - test:
-          matrix:
-            parameters:
-              image: [node:latest, node:14, node:12]
-              test: [multi, base, plugin, single, command, hook]
-          name: << matrix.image >>-<< matrix.test >>
-          requires: [lint, compile-typescript]

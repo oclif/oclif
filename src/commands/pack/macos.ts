@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 
 import * as path from 'path'
@@ -106,12 +106,12 @@ export default class PackMacos extends Command {
   static description = 'pack CLI into macOS .pkg'
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
     if (process.platform !== 'darwin') this.error('must be run from macos')
-    const {flags} = this.parse(PackMacos)
+    const {flags} = await this.parse(PackMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
     const c = config.pjson.oclif as OclifConfig

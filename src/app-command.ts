@@ -9,8 +9,10 @@ export default abstract class AppCommand extends Base {
     {name: 'name', required: true, description: 'directory name of new project'},
   ]
 
+  abstract type: string
+
   async run() {
-    const {args} = this.parse(AppCommand)
+    const {args} = await this.parse(AppCommand)
 
     await super.generate('app', {
       name: args.name,

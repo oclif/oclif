@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 import * as qq from 'qqjs'
 
@@ -16,17 +16,17 @@ export default class UploadTarballs extends Command {
 `
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: flags.string({
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    targets: Flags.string({
       char: 't',
       description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)',
       default: Tarballs.TARGETS.join(','),
     }),
-    xz: flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
+    xz: Flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
   }
 
   async run() {
-    const {flags} = this.parse(UploadTarballs)
+    const {flags} = await this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets, xz: flags.xz})

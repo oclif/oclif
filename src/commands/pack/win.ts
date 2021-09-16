@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 
 import * as qq from 'qqjs'
@@ -204,12 +204,12 @@ export default class PackWin extends Command {
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
     await this.checkForNSIS()
-    const {flags} = this.parse(PackWin)
+    const {flags} = await this.parse(PackWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false})

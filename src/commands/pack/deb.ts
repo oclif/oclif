@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 
 import * as _ from 'lodash'
@@ -52,12 +52,12 @@ export default class PackDeb extends Command {
   static description = 'pack CLI into debian package'
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
     if (process.platform !== 'linux') throw new Error('debian packing must be run on linux')
-    const {flags} = this.parse(PackDeb)
+    const {flags} = await this.parse(PackDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'linux', pack: false})

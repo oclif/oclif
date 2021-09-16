@@ -1,7 +1,8 @@
 import CommandBase from './../command-base'
 
 export default class Generate extends CommandBase {
-  static description = 'generate a new single-command CLI'
+  static description = `generate a new CLI
+This will clone the template repo 'oclif/hello-world' and update package properties`
 
   static flags = {
   }

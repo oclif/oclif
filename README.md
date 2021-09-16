@@ -128,7 +128,7 @@ hello world from ./src/hello.js!
 
 ## `oclif generate NAME`
 
-generate a new single-command CLI
+generate a new CLI
 
 ```
 USAGE
@@ -138,7 +138,9 @@ ARGUMENTS
   NAME  directory name of new project
 
 DESCRIPTION
-  generate a new single-command CLI
+  generate a new CLI
+
+  This will clone the template repo 'oclif/hello-world' and update package properties
 ```
 
 _See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.4/src/commands/generate.ts)_

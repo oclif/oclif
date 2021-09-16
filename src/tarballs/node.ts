@@ -7,7 +7,7 @@ import {log} from '../log'
 async function checkFor7Zip() {
   try {
     await qq.x('7z', {stdio: [0, null, 2]})
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
     else throw error
   }

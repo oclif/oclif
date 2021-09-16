@@ -51,7 +51,7 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
       Key: key,
     })).Body?.toString() as string)
     debug('appending to existing index file')
-  } catch (error) {
+  } catch (error: any) {
     debug(`error on ${key}`, error)
   }
   // appends new version from this promotion if not already present (idempotent)

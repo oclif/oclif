@@ -1,4 +1,4 @@
-import {error as oclifError} from '@oclif/errors'
+import {Errors} from '@oclif/core'
 import * as path from 'path'
 import * as qq from 'qqjs'
 
@@ -8,7 +8,7 @@ async function checkFor7Zip() {
   try {
     await qq.x('7z', {stdio: [0, null, 2]})
   } catch (error) {
-    if (error.code === 127) oclifError('install 7-zip to package windows tarball')
+    if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
     else throw error
   }
 }

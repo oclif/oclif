@@ -1,5 +1,6 @@
 import {Command, flags} from '@oclif/command'
-import * as Config from '@oclif/config'
+import {Interfaces} from '@oclif/core'
+
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
@@ -7,7 +8,8 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Config.IConfig) => `@echo off
+  cmd: (config: Interfaces.Config,
+  ) => `@echo off
 setlocal enableextensions
 
 set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${config.bin}.cmd
@@ -17,14 +19,16 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${config.bin}.cmd" (
   "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\run" %*
 )
 `,
-  sh: (config: Config.IConfig) => `#!/bin/sh
+  sh: (config: Interfaces.Config,
+  ) => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
 "$basedir/../client/bin/${config.bin}.cmd" "$@"
 ret=$?
 exit $ret
 `,
-  nsis: (config: Config.IConfig, arch: string) => `!include MUI2.nsh
+  nsis: (config: Interfaces.Config
+    , arch: string) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"

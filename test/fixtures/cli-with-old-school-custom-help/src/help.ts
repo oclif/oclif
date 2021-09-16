@@ -1,16 +1,16 @@
 import {HelpBase} from '@oclif/plugin-help'
-import {Command} from '@oclif/config'
+import {Interfaces} from '@oclif/core'
 
 export default class CustomHelp extends HelpBase {
   showHelp() {
     console.log('TODO: showHelp')
   }
 
-  showCommandHelp(command: Command) {
+  showCommandHelp(command: Interfaces.Command) {
     console.log(`Custom help for ${command.id}`)
   }
 
-  command(command: Command) {
+  command(command: Interfaces.Command) {
     return `Custom help for ${command.id}`
   }
 }

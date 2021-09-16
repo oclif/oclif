@@ -1,5 +1,6 @@
 import {Command, flags} from '@oclif/command'
-import * as Config from '@oclif/config'
+import {Interfaces} from '@oclif/core'
+
 import * as _ from 'lodash'
 import * as qq from 'qqjs'
 
@@ -8,7 +9,8 @@ import {templateShortKey, debVersion, debArch} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  bin: (config: Config.IConfig) => `#!/usr/bin/env bash
+  bin: (config: Interfaces.Config,
+  ) => `#!/usr/bin/env bash
 set -e
 echoerr() { echo "$@" 1>&2; }
 get_script_dir () {
@@ -36,7 +38,8 @@ Architecture: ${arch}
 Maintainer: ${config.config.scopedEnvVar('AUTHOR') || config.config.pjson.author}
 Description: ${config.config.pjson.description}
 `,
-  ftparchive: (config: Config.IConfig) => `
+  ftparchive: (config: Interfaces.Config,
+  ) => `
 APT::FTPArchive::Release {
   Origin "${config.scopedEnvVar('AUTHOR') || config.pjson.author}";
   Suite  "stable";
@@ -60,8 +63,8 @@ export default class PackDeb extends Command {
     await Tarballs.build(buildConfig, {platform: 'linux', pack: false})
     const dist = buildConfig.dist('deb')
     await qq.emptyDir(dist)
-    const build = async (arch: Config.ArchTypes) => {
-      const target: {platform: 'linux'; arch: Config.ArchTypes} = {platform: 'linux', arch}
+    const build = async (arch: Interfaces.ArchTypes) => {
+      const target: { platform: 'linux'; arch: Interfaces.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = qq.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
       await qq.rm(workspace)

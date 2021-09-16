@@ -1,5 +1,5 @@
 import {Command, flags} from '@oclif/command'
-import {ArchTypes, PlatformTypes} from '@oclif/config'
+import {Interfaces} from '@oclif/core'
 import * as qq from 'qqjs'
 
 import aws from '../../aws'
@@ -46,7 +46,7 @@ export default class UploadTarballs extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const uploadTarball = async (options?: {platform: PlatformTypes; arch: ArchTypes}) => {
+    const uploadTarball = async (options?: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}) => {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
         const localKey = templateShortKey('versioned', ext, {

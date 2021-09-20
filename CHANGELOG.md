@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.5](https://github.com/oclif/oclif/compare/v2.0.0-main.4...v2.0.0-main.5) (2021-09-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* require node 12+ (#668)
+
+### build
+
+* require node 12+ ([#668](https://github.com/oclif/oclif/issues/668)) ([99ceef1](https://github.com/oclif/oclif/commit/99ceef1e761a5f53f25435c8d733cb7a6fb01ba1))
+
 ## [2.0.0-main.4](https://github.com/oclif/oclif/compare/v2.0.0-main.3...v2.0.0-main.4) (2021-09-20)
 
 ## [2.0.0-main.3](https://github.com/oclif/oclif/compare/v2.0.0-main.2...v2.0.0-main.3) (2021-09-16)

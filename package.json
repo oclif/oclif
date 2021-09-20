@@ -8,10 +8,7 @@
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/command": "^1.6",
-    "@oclif/config": "^1.12.6",
-    "@oclif/core": "^0.5.34",
-    "@oclif/errors": "^1.2.2",
+    "@oclif/core": "^0.5.38",
     "@oclif/fixpack": "^2.3.0",
     "@oclif/plugin-help": "^3",
     "@oclif/plugin-not-found": "^1.2.2",
@@ -63,7 +60,7 @@
     "shelljs": "^0.8.3",
     "tmp": "^0.2.1",
     "ts-node": "^9.0.0",
-    "typescript": "3.8.3"
+    "typescript": "4.4.3"
   },
   "engines": {
     "node": ">=12.0.0"

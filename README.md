@@ -143,7 +143,7 @@ DESCRIPTION
   This will clone the template repo 'oclif/hello-world' and update package properties
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.4/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.5/src/commands/generate.ts)_
 
 ## `oclif help [COMMAND]`
 
@@ -158,6 +158,9 @@ ARGUMENTS
 
 FLAGS
   --all  see all commands in CLI
+
+DESCRIPTION
+  display help for oclif
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_

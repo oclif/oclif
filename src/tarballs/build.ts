@@ -1,4 +1,4 @@
-import {ArchTypes, PlatformTypes} from '@oclif/config'
+import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import * as path from 'path'
 import * as qq from 'qqjs'
@@ -78,7 +78,7 @@ export async function build(c: BuildConfig, options: {
         await qq.x('npm run pretarball', {})
     }
   }
-  const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
+  const buildTarget = async (target: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}) => {
     const workspace = c.workspace(target)
     const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
       arch: target.arch,

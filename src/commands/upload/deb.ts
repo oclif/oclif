@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import {Command, Flags} from '@oclif/core'
 import * as qq from 'qqjs'
 
 import aws from '../../aws'
@@ -12,11 +12,11 @@ export default class UploadDeb extends Command {
   static description = 'upload deb package built with pack:deb'
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
-    const {flags} = this.parse(UploadDeb)
+    const {flags} = await this.parse(UploadDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {s3Config, config} = buildConfig
     const dist = (f: string) => buildConfig.dist(qq.join('deb', f))

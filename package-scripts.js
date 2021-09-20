@@ -40,8 +40,9 @@ module.exports = {
   scripts: {
     build: 'rm -rf lib && tsc',
     lint: {
-      default: concurrent.nps('lint.eslint', 'lint.tsc'),
-      eslint: script('eslint . --ext .ts --config .eslintrc', 'lint js & ts files'),
+      // default: concurrent.nps('lint.eslint', 'lint.tsc'),
+      default: concurrent.nps('lint.tsc'),
+      // eslint: script('eslint . --ext .ts --config .eslintrc', 'lint js & ts files'),
       tsc: script('tsc --noEmit', 'syntax check with tsc'),
     },
     test: Object.assign({

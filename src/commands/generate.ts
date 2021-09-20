@@ -12,7 +12,7 @@ This will clone the template repo 'oclif/hello-world' and update package propert
   ]
 
   async run() {
-    const {args} = this.parse(Generate)
+    const {args} = await this.parse(Generate)
 
     await super.generate('cli', {
       name: args.name,

@@ -1,4 +1,5 @@
-import * as Config from '@oclif/config'
+import {Interfaces} from '@oclif/core'
+
 import {expect, test} from '@oclif/test'
 import * as fs from 'fs-extra'
 
@@ -11,7 +12,7 @@ describe('manifest', () => {
   .finally(() => fs.remove('.oclif.manifest.json'))
   .command(['manifest'])
   .it('outputs plugins', ctx => {
-    const {commands} = fs.readJSONSync('.oclif.manifest.json') as Config.Manifest
+    const {commands} = fs.readJSONSync('.oclif.manifest.json') as Interfaces.Manifest
     expect(commands.manifest).to.include({
       description: 'generates plugin manifest json',
     })

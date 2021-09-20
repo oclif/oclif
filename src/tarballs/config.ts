@@ -1,4 +1,5 @@
-import * as Config from '@oclif/config'
+import {Interfaces, Config} from '@oclif/core'
+
 import * as path from 'path'
 import * as qq from 'qqjs'
 
@@ -17,15 +18,15 @@ export const TARGETS = [
 export interface BuildConfig {
   root: string;
   gitSha: string;
-  config: Config.IConfig;
+  config: Interfaces.Config;
   nodeVersion: string;
   version: string;
   tmp: string;
   updateConfig: BuildConfig['config']['pjson']['oclif']['update'];
   s3Config: BuildConfig['updateConfig']['s3'] & { folder?: string; indexVersionLimit?: number};
   xz: boolean;
-  targets: {platform: Config.PlatformTypes; arch: Config.ArchTypes}[];
-  workspace(target?: {platform: Config.PlatformTypes; arch: Config.ArchTypes}): string;
+  targets: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}[];
+  workspace(target?: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}): string;
   dist(input: string): string;
 }
 
@@ -50,7 +51,8 @@ export function gitSha(cwd: string, options: {short?: boolean} = {}) {
   return qq.x.stdout('git', args, {cwd})
 }
 
-async function Tmp(config: Config.IConfig) {
+async function Tmp(config: Interfaces.Config,
+) {
   const tmp = path.join(config.root, 'tmp')
   await qq.mkdirp(tmp)
   return tmp
@@ -82,7 +84,7 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
       return qq.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },
     targets: compact(options.targets || updateConfig.node.targets || TARGETS).map(t => {
-      const [platform, arch] = t.split('-') as [Config.PlatformTypes, Config.ArchTypes]
+      const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
       return {platform, arch}
     }),
   }

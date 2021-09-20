@@ -1,4 +1,0 @@
-<%= ts ? '--require ts-node/register\n--watch-extensions ts\n' : '' _%>
---recursive
---reporter spec
---timeout 5000

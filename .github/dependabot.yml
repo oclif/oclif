@@ -10,5 +10,4 @@ updates:
     pull-request-branch-name:
       separator: "-"
     ignore:
-      - dependency-name: "typescript"
       - dependency-name: "fs-extra"

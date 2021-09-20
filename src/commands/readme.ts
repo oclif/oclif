@@ -170,7 +170,7 @@ USAGE
         '```\n' + wrapper.formatCommand(c).trim() + '\n```',
         this.commandCode(config, c),
       ]).join('\n\n')
-    } catch (error) {
+    } catch (error: any) {
       this.error(error.message)
     }
   }

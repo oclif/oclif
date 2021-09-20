@@ -1,8 +1,10 @@
 /* eslint-disable no-useless-escape */
-import * as Config from '@oclif/config'
+import {Interfaces} from '@oclif/core'
+
 import * as qq from 'qqjs'
 
-export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {config: Config.IConfig; baseWorkspace: string; nodeVersion: string}) {
+export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {config: Interfaces.Config
+; baseWorkspace: string; nodeVersion: string;}) {
   const binPathEnvVar = config.scopedEnvVarKey('BINPATH')
   const redirectedEnvVar = config.scopedEnvVarKey('REDIRECTED')
   const clientHomeEnvVar = config.scopedEnvVarKey('OCLIF_CLIENT_HOME')

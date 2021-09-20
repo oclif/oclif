@@ -1,5 +1,6 @@
-import {Command, flags} from '@oclif/command'
-import * as Config from '@oclif/config'
+import {Command, Flags} from '@oclif/core'
+import {Interfaces} from '@oclif/core'
+
 import * as path from 'path'
 import * as qq from 'qqjs'
 
@@ -14,17 +15,20 @@ type OclifConfig = {
 }
 
 const scripts = {
-  preinstall: (config: Config.IConfig) => `#!/usr/bin/env bash
+  preinstall: (config: Interfaces.Config,
+  ) => `#!/usr/bin/env bash
 sudo rm -rf /usr/local/lib/${config.dirname}
 sudo rm -rf /usr/local/${config.bin}
 sudo rm -rf /usr/local/bin/${config.bin}
 `,
-  postinstall: (config: Config.IConfig) => `#!/usr/bin/env bash
+  postinstall: (config: Interfaces.Config,
+  ) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
 sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${config.bin}
 `,
-  uninstall: (config: Config.IConfig) => {
+  uninstall: (config: Interfaces.Config,
+  ) => {
     const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
     return `#!/usr/bin/env bash
 
@@ -102,12 +106,12 @@ export default class PackMacos extends Command {
   static description = 'pack CLI into macOS .pkg'
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
     if (process.platform !== 'darwin') this.error('must be run from macos')
-    const {flags} = this.parse(PackMacos)
+    const {flags} = await this.parse(PackMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
     const c = config.pjson.oclif as OclifConfig

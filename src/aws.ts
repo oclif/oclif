@@ -37,7 +37,7 @@ const aws = {
         s3ForcePathStyle: Boolean(process.env.AWS_S3_FORCE_PATH_STYLE),
       })
       return cache.s3
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'MODULE_NOT_FOUND') throw new Error(`${error.message}\naws-sdk is needed to run this command.\nInstall aws-sdk as a devDependency in your CLI. \`yarn add -D aws-sdk\``)
       throw error
     }
@@ -55,7 +55,7 @@ export default {
         log('createCloudfrontInvalidation', options.DistributionId, options.InvalidationBatch.Paths.Items)
         aws.cloudfront.createInvalidation(options, err => {
           if (err) reject(err)
-          else resolve()
+          else resolve(null)
         })
       }),
     }
@@ -67,7 +67,7 @@ export default {
         options.Body = fs.createReadStream(local)
         aws.s3.upload(options, err => {
           if (err) reject(err)
-          else resolve()
+          else resolve(null)
         })
       }),
       headObject: (options: S3.Types.HeadObjectRequest) => new Promise<S3.HeadObjectOutput>((resolve, reject) => {

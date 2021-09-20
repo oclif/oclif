@@ -1,5 +1,6 @@
-import {Command, flags} from '@oclif/command'
-import * as Config from '@oclif/config'
+import {Command, Flags} from '@oclif/core'
+import {Interfaces} from '@oclif/core'
+
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
@@ -7,7 +8,8 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Config.IConfig) => `@echo off
+  cmd: (config: Interfaces.Config,
+  ) => `@echo off
 setlocal enableextensions
 
 set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${config.bin}.cmd
@@ -17,14 +19,16 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${config.bin}.cmd" (
   "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\run" %*
 )
 `,
-  sh: (config: Config.IConfig) => `#!/bin/sh
+  sh: (config: Interfaces.Config,
+  ) => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
 "$basedir/../client/bin/${config.bin}.cmd" "$@"
 ret=$?
 exit $ret
 `,
-  nsis: (config: Config.IConfig, arch: string) => `!include MUI2.nsh
+  nsis: (config: Interfaces.Config
+    , arch: string) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -200,12 +204,12 @@ export default class PackWin extends Command {
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
   async run() {
     await this.checkForNSIS()
-    const {flags} = this.parse(PackWin)
+    const {flags} = await this.parse(PackWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false})
@@ -259,7 +263,7 @@ export default class PackWin extends Command {
   private async checkForNSIS() {
     try {
       await qq.x('makensis', {stdio: [0, null, 2]})
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 1) return
       if (error.code === 127) this.error('install makensis')
       else throw error

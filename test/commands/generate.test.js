@@ -1,0 +1,1 @@
+require('../run')(module.filename)

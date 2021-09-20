@@ -1,4 +1,7 @@
 #!/usr/bin/env node
 
-require('..').run()
-.catch(require('@oclif/errors/handle'))
+const oclif = require('@oclif/core')
+
+oclif.settings.disableJsonFlag = true
+
+oclif.run().then(require('@oclif/core/flush')).catch(require('@oclif/core/handle'))

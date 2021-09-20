@@ -47,8 +47,6 @@ APT::FTPArchive::Release {
 }
 
 export default class PackDeb extends Command {
-  static hidden = true
-
   static description = 'pack CLI into debian package'
 
   static flags = {

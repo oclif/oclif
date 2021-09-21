@@ -20,7 +20,6 @@
     "github-slugger": "^1.2.1",
     "lodash": "^4.17.11",
     "normalize-package-data": "^3.0.0",
-    "nps-utils": "^1.7.0",
     "qqjs": "^0.3.10",
     "sort-pjson": "^1.0.3",
     "tslib": "^2.0.0",

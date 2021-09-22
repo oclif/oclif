@@ -47,7 +47,7 @@
     "conventional-changelog-cli": "^2.0.17",
     "eslint": "^7.3.0",
     "eslint-config-oclif": "^3.1.0",
-    "eslint-config-oclif-typescript": "^0.2.0",
+    "eslint-config-oclif-typescript": "^1.0.1",
     "execa": "^0.10.0",
     "fancy-test": "^1.4.10",
     "globby": "^11.0.1",

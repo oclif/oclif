@@ -41,11 +41,7 @@ describe('publish', () => {
         await qq.download(url, `oclif${ext}`)
         const receivedSha = await qq.hash('sha256', `oclif${ext}`)
         expect(receivedSha).to.equal(expectedSha)
-        if (xz) {
-          await qq.x('tar xJf oclif.tar.xz')
-        } else {
-          await qq.x('tar xzf oclif.tar.gz')
-        }
+        await (xz ? qq.x('tar xJf oclif.tar.xz') : qq.x('tar xzf oclif.tar.gz'))
 
         const stdout = await qq.x.stdout('./oclif/bin/oclif', ['--version'])
         const sha = await gitSha(process.cwd(), {short: true})
@@ -70,9 +66,9 @@ describe('publish', () => {
     }))
     .command(['publish', '-t', 'linux-x64'])
     .it('publishes only the specified target', async () => {
-      expect(s3UploadedFiles.join()).to.contain('linux-x64')
-      expect(s3UploadedFiles.join()).to.not.contain('win32-x64')
-      expect(s3UploadedFiles.join()).to.not.contain('darwin-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('linux-x64')
+      expect(s3UploadedFiles.join(',')).to.not.contain('win32-x64')
+      expect(s3UploadedFiles.join(',')).to.not.contain('darwin-x64')
     })
   })
 
@@ -85,9 +81,9 @@ describe('publish', () => {
     }))
     .command(['publish'])
     .it('publishes all', async () => {
-      expect(s3UploadedFiles.join()).to.contain('linux-x64')
-      expect(s3UploadedFiles.join()).to.contain('win32-x64')
-      expect(s3UploadedFiles.join()).to.contain('darwin-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('linux-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('win32-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('darwin-x64')
     })
   })
 })

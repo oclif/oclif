@@ -1,6 +1,6 @@
 import {Interfaces, Config} from '@oclif/core'
 
-import * as path from 'path'
+import * as path from 'node:path'
 import * as qq from 'qqjs'
 
 import {compact} from '../util'

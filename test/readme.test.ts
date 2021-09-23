@@ -1,6 +1,6 @@
 import {expect, test} from '@oclif/test'
 import * as fs from 'fs-extra'
-import * as path from 'path'
+import * as path from 'node:path'
 
 process.env.NODE_ENV = 'development'
 

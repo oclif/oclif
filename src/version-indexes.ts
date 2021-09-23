@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import * as path from 'path'
+import * as path from 'node:path'
 import aws from './aws'
 import {BuildConfig} from './tarballs'
 import {debug as Debug} from './log'
@@ -26,9 +26,10 @@ const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number):
     return 0
   }) as string[]).slice(0, keyLimit) // undefined keyLimit returns the entire array
   const result: VersionsObject = {}
-  keys.forEach(key => {
+  for (const key of keys) {
     result[key] = input[key]
-  })
+  }
+
   return result
 }
 

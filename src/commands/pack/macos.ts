@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 
-import * as path from 'path'
+import * as path from 'node:path'
 import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'

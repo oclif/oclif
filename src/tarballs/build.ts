@@ -1,6 +1,6 @@
 import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as qq from 'qqjs'
 
 import {log} from '../log'

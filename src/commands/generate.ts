@@ -4,8 +4,7 @@ export default class Generate extends CommandBase {
   static description = `generate a new CLI
 This will clone the template repo 'oclif/hello-world' and update package properties`
 
-  static flags = {
-  }
+  static flags = {}
 
   static args = [
     {name: 'name', required: true, description: 'directory name of new project'},

@@ -1,6 +1,6 @@
 import {Command, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
-import * as path from 'path'
+import * as path from 'node:path'
 
 export default class Manifest extends Command {
   static description = 'generates plugin manifest json'

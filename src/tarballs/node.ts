@@ -1,5 +1,5 @@
 import {Errors} from '@oclif/core'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as qq from 'qqjs'
 
 import {log} from '../log'

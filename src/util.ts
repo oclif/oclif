@@ -62,8 +62,9 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
     return 0
   }) as string[]
   const result: VersionsObject = {}
-  keys.forEach(key => {
+  for (const key of keys) {
     result[key] = input[key]
-  })
+  }
+
   return result
 }

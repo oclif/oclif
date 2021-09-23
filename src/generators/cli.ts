@@ -1,7 +1,7 @@
-import {execSync} from 'child_process'
-import * as fs from 'fs'
+import {execSync} from 'node:child_process'
+import * as fs from 'node:fs'
 import * as _ from 'lodash'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
@@ -108,71 +108,67 @@ class App extends Generator {
       this.repository = (this.repository as any).url
     }
 
-    if (this.options.defaults) {
-      this.answers = defaults
-    } else {
-      this.answers = await this.prompt([
-        {
-          type: 'input',
-          name: 'name',
-          message: 'npm package name',
-          default: defaults.name,
-        },
-        {
-          type: 'input',
-          name: 'bin',
-          message: 'command bin name the CLI will export',
-          default: (answers: any) => answers.name,
-        },
-        {
-          type: 'input',
-          name: 'description',
-          message: 'description',
-          default: defaults.description,
-        },
-        {
-          type: 'input',
-          name: 'author',
-          message: 'author',
-          default: defaults.author,
-        },
-        {
-          type: 'input',
-          name: 'version',
-          message: 'version',
-          default: defaults.version,
-          when: !this.pjson.version,
-        },
-        {
-          type: 'input',
-          name: 'license',
-          message: 'license',
-          default: defaults.license,
-        },
-        {
-          type: 'input',
-          name: 'github.user',
-          message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
-          default: repository.split('/').slice(0, -1).pop(),
-        },
-        {
-          type: 'input',
-          name: 'github.repo',
-          message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
-          default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
-        },
-        {
-          type: 'list',
-          name: 'pkg',
-          message: 'Select a package manager',
-          choices: [
-            {name: 'npm', value: 'npm'},
-            {name: 'yarn', value: 'yarn'},
-          ],
-          default: () => this.options.yarn || hasYarn ? 1 : 0,
-        },
-      ]) as any
-    }
+    this.answers = this.options.defaults ? defaults : await this.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'npm package name',
+        default: defaults.name,
+      },
+      {
+        type: 'input',
+        name: 'bin',
+        message: 'command bin name the CLI will export',
+        default: (answers: any) => answers.name,
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'description',
+        default: defaults.description,
+      },
+      {
+        type: 'input',
+        name: 'author',
+        message: 'author',
+        default: defaults.author,
+      },
+      {
+        type: 'input',
+        name: 'version',
+        message: 'version',
+        default: defaults.version,
+        when: !this.pjson.version,
+      },
+      {
+        type: 'input',
+        name: 'license',
+        message: 'license',
+        default: defaults.license,
+      },
+      {
+        type: 'input',
+        name: 'github.user',
+        message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
+        default: repository.split('/').slice(0, -1).pop(),
+      },
+      {
+        type: 'input',
+        name: 'github.repo',
+        message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
+        default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
+      },
+      {
+        type: 'list',
+        name: 'pkg',
+        message: 'Select a package manager',
+        choices: [
+          {name: 'npm', value: 'npm'},
+          {name: 'yarn', value: 'yarn'},
+        ],
+        default: () => this.options.yarn || hasYarn ? 1 : 0,
+      },
+    ]) as any
 
     debug(this.answers)
     if (!this.options.defaults) {

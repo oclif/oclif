@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import {cli} from 'cli-ux'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'

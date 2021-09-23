@@ -1,6 +1,6 @@
 import cli from 'cli-ux'
 import * as qq from 'qqjs'
-import * as util from 'util'
+import * as util from 'node:util'
 
 export const debug = require('debug')('oclif')
 debug.new = (name: string) => require('debug')(`oclif:${name}`)

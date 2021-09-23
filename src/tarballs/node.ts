@@ -36,11 +36,13 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     if (!await qq.exists(shasums)) {
       await qq.download(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`, shasums)
     }
+
     const basedir = path.dirname(tarball)
     await qq.mkdirp(basedir)
     await qq.download(url, tarball)
     await qq.x(`grep ${path.basename(tarball)} ${shasums} | shasum -a 256 -c -`, {cwd: basedir})
   }
+
   const extract = async () => {
     log(`extracting ${nodeBase}`)
     const nodeTmp = path.join(tmp, 'node')
@@ -57,6 +59,7 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
       await qq.mv([nodeTmp, nodeBase, 'bin/node'], cache)
     }
   }
+
   if (await qq.exists(cache)) {
     await qq.cp(cache, output)
   } else {
@@ -64,5 +67,6 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     await extract()
     await qq.cp(cache, output)
   }
+
   return output
 }

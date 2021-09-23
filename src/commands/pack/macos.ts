@@ -129,6 +129,7 @@ export default class PackMacos extends Command {
       await qq.write(path, scripts[script](config))
       await qq.chmod(path, 0o755)
     }
+
     await writeScript('preinstall')
     await writeScript('postinstall')
     await writeScript('uninstall')

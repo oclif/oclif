@@ -32,6 +32,7 @@ export default class UploadDeb extends Command {
       const cloudKey = `${cloudKeyBase}/apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
+
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
       const deb = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: arch as any})
       if (await qq.exists(dist(deb))) await upload(deb)

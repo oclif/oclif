@@ -85,7 +85,7 @@ class App extends Generator {
       devDependencies: {},
       dependencies: {},
       oclif: {},
-      ...(this.fs.readJSON('package.json', {}) as object),
+      ...(this.fs.readJSON('package.json', {}) as Record<string, unknown>),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
@@ -107,6 +107,7 @@ class App extends Generator {
     if (this.repository && (this.repository as any).url) {
       this.repository = (this.repository as any).url
     }
+
     if (this.options.defaults) {
       this.answers = defaults
     } else {
@@ -172,6 +173,7 @@ class App extends Generator {
         },
       ]) as any
     }
+
     debug(this.answers)
     if (!this.options.defaults) {
       this.options = {
@@ -179,6 +181,7 @@ class App extends Generator {
         yarn: this.answers.pkg === 'yarn',
       }
     }
+
     this.yarn = this.options.yarn
 
     this.pjson.name = this.answers.name || defaults.name
@@ -207,6 +210,7 @@ class App extends Generator {
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
     }
+
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
@@ -220,13 +224,13 @@ class App extends Generator {
     if (isWindows) devDependencies.push('rimraf')
     const yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
-    const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
+    const install = (deps: string[], opts: Record<string, unknown>) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
     return Promise.all([
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
       install(dependencies, {...yarnOpts, ...save}),
-    ]).then(() => {})
+    ])
   }
 
   end() {

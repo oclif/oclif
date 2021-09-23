@@ -48,9 +48,9 @@ export default class UploadTarballs extends Command {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
         const localKey = templateShortKey('versioned', ext, {
-          arch: options?.arch!,
+          arch: options?.arch,
           bin: config.bin,
-          platform: options?.platform!,
+          platform: options?.platform,
           sha: buildConfig.gitSha,
           version,
         })
@@ -63,9 +63,9 @@ export default class UploadTarballs extends Command {
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
       const manifest = templateShortKey('manifest', {
-        arch: options?.arch!,
+        arch: options?.arch,
         bin: config.bin,
-        platform: options?.platform!,
+        platform: options?.platform,
         sha: buildConfig.gitSha,
         version: config.version,
       })

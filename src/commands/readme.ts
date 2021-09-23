@@ -41,11 +41,11 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
 
     try {
-      const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
-      const plugin = new Plugin({root: p, type: 'core'})
+      const plugin = new Plugin({root: cwd, type: 'core'})
       await plugin.load()
       config.plugins.push(plugin)
     } catch {}
+
     await (config as Config).runHook('init', {id: 'readme', argv: this.argv})
 
     this.HelpClass = await loadHelpClass(config)
@@ -73,8 +73,10 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       if (readme.includes(`<!-- ${tag}stop -->`)) {
         readme = readme.replace(new RegExp(`<!-- ${tag} -->(.|\n)*<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
       }
+
       this.log(`replacing <!-- ${tag} --> in README.md`)
     }
+
     return readme.replace(`<!-- ${tag} -->`, `<!-- ${tag} -->\n${body}\n<!-- ${tag}stop -->`)
   }
 
@@ -188,6 +190,7 @@ USAGE
       label = commandPath
       version = process.env.OCLIF_NEXT_VERSION || version
     }
+
     const template = plugin.pjson.oclif.repositoryPrefix || '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
     return `_See code: [${label}](${_.template(template)({repo, version, commandPath, config, c})})_`
   }
@@ -230,6 +233,7 @@ USAGE
       p = p.replace(libRegex, 'src' + path.sep)
       p = p.replace(/\.js$/, '.ts')
     }
+
     p = p.replace(/\\/g, '/') // Replace windows '\' by '/'
     return p
   }
@@ -240,6 +244,7 @@ USAGE
       if (arg.required) return `${name}`
       return `[${name}]`
     }
+
     const id = config.topicSeparator ? command.id.replace(/:/g, config.topicSeparator) : command.id
     const defaultUsage = () => {
       return compact([
@@ -247,6 +252,7 @@ USAGE
         command.args.filter(a => !a.hidden).map(a => arg(a)).join(' '),
       ]).join(' ')
     }
+
     const usages = castArray(command.usage)
     return template({config, command})(usages.length === 0 ? defaultUsage() : usages[0])
   }

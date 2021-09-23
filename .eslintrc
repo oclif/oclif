@@ -3,7 +3,10 @@
     "oclif",
     "oclif-typescript"
   ],
-  "rules": {
-    "unicorn/no-abusive-eslint-disable": 0
-  }
+  "overrides": [{
+    "files": [ "./test/**/*" ],
+    "rules": {
+      "node/no-extraneous-import": "off"
+    }
+  }]
 }

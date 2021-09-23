@@ -35,6 +35,7 @@ if exist "%~dp0..\\bin\\node.exe" (
     // exit $ret
     // `)
   }
+
   const writeUnix = async () => {
     const bin = qq.join([baseWorkspace, 'bin', config.bin])
     await qq.write(bin, `#!/usr/bin/env bash

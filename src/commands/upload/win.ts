@@ -39,6 +39,7 @@ export default class UploadWin extends Command {
       const cloudKey = `${cloudKeyBase}/${templateKey}`
       if (await qq.exists(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
+
     await uploadWin('x64')
     await uploadWin('x86')
 

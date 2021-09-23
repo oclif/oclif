@@ -54,6 +54,7 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
   } catch (error: any) {
     debug(`error on ${key}`, error)
   }
+
   // appends new version from this promotion if not already present (idempotent)
   await fs.writeJSON(jsonFileName, sortVersionsObjectByKeysDesc(
     {

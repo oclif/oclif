@@ -1,5 +1,4 @@
-import {HelpBase} from '@oclif/plugin-help'
-import {Interfaces} from '@oclif/core'
+import {HelpBase, Interfaces} from '@oclif/core'
 
 export default class CustomHelp extends HelpBase {
   showHelp() {

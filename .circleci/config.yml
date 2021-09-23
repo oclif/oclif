@@ -19,7 +19,7 @@ jobs:
             - v5-{{checksum ".circleci/config.yml"}}
             - v5
       - run: yarn add -D mocha-junit-reporter@1
-      - run: yarn lint
+      - run: yarn exec nps lint
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
   compile-typescript:
     <<: *lint
@@ -41,7 +41,7 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
-      - run: yarn test
+      - run: yarn exec nps test
       - store_test_results:
           path: ~/cli/reports
   node-12-devcli: &node-12-devcli
@@ -72,7 +72,7 @@ jobs:
           keys:
             - v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
       - run: yarn add -D mocha-junit-reporter@1
-      - run: yarn test
+      - run: yarn exec nps test.command
       - save_cache:
           key: v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:

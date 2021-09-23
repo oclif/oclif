@@ -41,7 +41,8 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
 
     try {
-      const plugin = new Plugin({root: cwd, type: 'core'})
+      const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
+      const plugin = new Plugin({root: p, type: 'core'})
       await plugin.load()
       config.plugins.push(plugin)
     } catch {}

@@ -28,6 +28,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
+    "@oclif/plugin-legacy": "^1.1.4",
     "@oclif/test": "^2",
     "@types/chai": "^4.1.7",
     "@types/execa": "^0.9.0",

@@ -16,10 +16,15 @@ export default class Manifest extends Command {
 
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
-    const plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
+    let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
     if (!plugin) throw new Error('plugin not found')
     await plugin.load()
-    if (!plugin.valid) throw new Error(`${plugin.name} is an invalid plugin`)
+    if (!plugin.valid) {
+      const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
+      const {PluginLegacy} = require(p)
+      plugin = new PluginLegacy(this.config, plugin)
+      await plugin.load()
+    }
 
     if (process.env.OCLIF_NEXT_VERSION) {
       plugin.manifest.version = process.env.OCLIF_NEXT_VERSION

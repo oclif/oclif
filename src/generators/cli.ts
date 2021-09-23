@@ -224,12 +224,11 @@ class App extends Generator {
     if (isWindows) devDependencies.push('rimraf')
     const yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
-    const install = (deps: string[], opts: Record<string, unknown>) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
     return Promise.all([
-      install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
-      install(dependencies, {...yarnOpts, ...save}),
+      this.installDeps(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
+      this.installDeps(dependencies, {...yarnOpts, ...save}),
     ])
   }
 
@@ -237,6 +236,8 @@ class App extends Generator {
     this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif'), ['readme'])
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }
+
+  installDeps = (deps: string[], opts: Record<string, unknown>) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
 
   private _gitignore(): string {
     const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []

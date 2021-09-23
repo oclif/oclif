@@ -9,7 +9,7 @@ import {castArray, compact, sortBy, template, uniqBy} from '../util'
 import {HelpCompatibilityWrapper} from '../help-compatibility'
 
 const normalize = require('normalize-package-data')
-const columns = parseInt(process.env.COLUMNS!, 10) || 120
+const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
 
 interface HelpBaseDerived {
@@ -62,7 +62,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     readme = this.replaceTag(readme, 'commands', flags.multi ? this.multiCommands(config, commands, flags.dir) : this.commands(config, commands))
     readme = this.replaceTag(readme, 'toc', this.toc(config, readme))
 
-    readme = readme.trimRight()
+    readme = readme.trimEnd()
     readme += '\n'
 
     await fs.outputFile(readmePath, readme)

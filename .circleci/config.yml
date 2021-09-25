@@ -44,7 +44,7 @@ jobs:
       - run: yarn exec nps test
       - store_test_results:
           path: ~/cli/reports
-  node-12-devcli: &node-12-devcli
+  node-devcli: &node-devcli
     docker:
       - image: node:latest
     working_directory: ~/cli
@@ -84,7 +84,7 @@ workflows:
     jobs:
       - lint
       - compile-typescript
-      - node-12-devcli
+      - node-devcli
       - test:
           matrix:
             parameters:

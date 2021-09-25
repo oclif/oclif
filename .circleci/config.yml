@@ -46,7 +46,7 @@ jobs:
           path: ~/cli/reports
   node-12-devcli: &node-12-devcli
     docker:
-      - image: oclif/nsis:12.0.0-16
+      - image: node:latest
     working_directory: ~/cli
     environment:
       NYC: "yarn exec nyc -- --nycrc-path node_modules/@oclif/nyc-config/.nycrc"

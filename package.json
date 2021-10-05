@@ -121,7 +121,7 @@
     "lint": "nps lint",
     "postpack": "rm .oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepack": "rm -rf lib && tsc && bin/dev manifest",
+    "prepack": "rm -rf lib && tsc && bin/dev manifest .",
     "version": "bin/dev readme && git add README.md",
     "test": "nps test"
   },

@@ -154,7 +154,7 @@ DESCRIPTION
   This will clone the template repo 'oclif/hello-world' and update package properties
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/generate.ts)_
 
 ## `oclif help [COMMAND]`
 
@@ -191,7 +191,7 @@ DESCRIPTION
   generates plugin manifest json
 ```
 
-_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/manifest.ts)_
+_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/manifest.ts)_
 
 ## `oclif pack:deb`
 
@@ -208,7 +208,7 @@ DESCRIPTION
   pack CLI into debian package
 ```
 
-_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/pack/deb.ts)_
+_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/pack/deb.ts)_
 
 ## `oclif pack:macos`
 
@@ -225,7 +225,7 @@ DESCRIPTION
   pack CLI into macOS .pkg
 ```
 
-_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/pack/macos.ts)_
+_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/pack/macos.ts)_
 
 ## `oclif pack:tarballs`
 
@@ -247,7 +247,7 @@ DESCRIPTION
   This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
 ```
 
-_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/pack/tarballs.ts)_
+_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/pack/tarballs.ts)_
 
 ## `oclif pack:win`
 
@@ -267,7 +267,7 @@ DESCRIPTION
   be set in the environment
 ```
 
-_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/pack/win.ts)_
+_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/pack/win.ts)_
 
 ## `oclif promote`
 
@@ -296,7 +296,7 @@ DESCRIPTION
   promote CLI builds to a S3 release channel
 ```
 
-_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/promote.ts)_
+_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/promote.ts)_
 
 ## `oclif readme`
 
@@ -326,7 +326,7 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/readme.ts)_
 
 ## `oclif upload:deb`
 
@@ -343,7 +343,7 @@ DESCRIPTION
   upload deb package built with pack:deb
 ```
 
-_See code: [src/commands/upload/deb.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/upload/deb.ts)_
+_See code: [src/commands/upload/deb.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/upload/deb.ts)_
 
 ## `oclif upload:macos`
 
@@ -360,7 +360,7 @@ DESCRIPTION
   upload macos installers built with pack:macos
 ```
 
-_See code: [src/commands/upload/macos.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/upload/macos.ts)_
+_See code: [src/commands/upload/macos.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/upload/macos.ts)_
 
 ## `oclif upload:tarballs`
 
@@ -382,7 +382,7 @@ DESCRIPTION
   "aws-sdk" will need to be installed as a devDependency to upload.
 ```
 
-_See code: [src/commands/upload/tarballs.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/upload/tarballs.ts)_
+_See code: [src/commands/upload/tarballs.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/upload/tarballs.ts)_
 
 ## `oclif upload:win`
 
@@ -399,7 +399,7 @@ DESCRIPTION
   upload windows installers built with pack:win
 ```
 
-_See code: [src/commands/upload/win.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.6/src/commands/upload/win.ts)_
+_See code: [src/commands/upload/win.ts](https://github.com/oclif/oclif/blob/v2.0.0-main.7/src/commands/upload/win.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

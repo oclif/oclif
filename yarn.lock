@@ -365,33 +365,10 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^0.5.31", "@oclif/core@^0.5.32":
-  version "0.5.39"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.39.tgz#d00705f31c5e6617145e84bb9dd50156cf3b01c5"
-  integrity sha512-4XusxLX8PnHDQxtRP25PImlkIj1Mlx6wt0NWb1FxQGvTJOAgXGJZl3YB02ZeXZLYbeKA2A3AqqxFTTKbADnZng==
-  dependencies:
-    "@oclif/linewrap" "^1.0.0"
-    chalk "^4.1.0"
-    clean-stack "^3.0.0"
-    cli-ux "^5.1.0"
-    debug "^4.1.1"
-    fs-extra "^9.0.1"
-    get-package-type "^0.1.0"
-    globby "^11.0.1"
-    indent-string "^4.0.0"
-    is-wsl "^2.1.1"
-    lodash.template "^4.4.0"
-    semver "^7.3.2"
-    string-width "^4.2.0"
-    strip-ansi "^6.0.0"
-    tslib "^2.0.0"
-    widest-line "^3.1.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/core@^0.5.38":
-  version "0.5.38"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.38.tgz#293e14e426fa340d68c549171925c6c18884b995"
-  integrity sha512-mR4YKwGAdVhN9mN7DEPnRl/fopmVu2C4xlJYI68+6nW/uZQzZ9WjsiRgjwAMOWdAju8mG35+sVlwSg0hDIlCCA==
+"@oclif/core@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.0.0.tgz#d9234f27368c058d9fb835dc9f57f3278af57777"
+  integrity sha512-YBpjahcSMtIsw+rgNkKLlqULc7Ste7EfhJj7d/elukhB3lj+sO0z34byPVGEGSb5zDO3Sk2GxBZw6BM0vjWqMw==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     chalk "^4.1.0"

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.7](https://github.com/oclif/oclif/compare/v2.0.0-main.6...v2.0.0-main.7) (2021-10-08)
+
+## [2.0.0-main.6](https://github.com/oclif/oclif/compare/v2.0.0-main.5...v2.0.0-main.6) (2021-10-05)
+
+
+### Features
+
+* add generate cmd ([#665](https://github.com/oclif/oclif/issues/665)) ([731ed49](https://github.com/oclif/oclif/commit/731ed490bc3bc1857d414dfd56d0d8dfd7b6be2b))
+* unhide releasing related cmds ([#670](https://github.com/oclif/oclif/issues/670)) ([25ace5f](https://github.com/oclif/oclif/commit/25ace5f0641cbda3bf8ee0c204be8e6a47f187c6))
+
+
+### Bug Fixes
+
+* bump oclif/core to 1.0.0 ([#687](https://github.com/oclif/oclif/issues/687)) [skip-validate-pr] ([430bb19](https://github.com/oclif/oclif/commit/430bb19068133f3622f660f614e3fa69009cb73c))
+
 ## [2.0.0-main.5](https://github.com/oclif/oclif/compare/v2.0.0-main.4...v2.0.0-main.5) (2021-09-20)
 
 

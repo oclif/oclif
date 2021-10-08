@@ -1,14 +1,14 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "2.0.0-main.5",
+  "version": "2.0.0-main.7",
   "author": "Jeff Dickey @jdxcode",
   "bin": {
     "oclif": "bin/run"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^0.5.38",
+    "@oclif/core": "^1.0.0",
     "@oclif/fixpack": "^2.3.0",
     "@oclif/plugin-help": "^3",
     "@oclif/plugin-not-found": "^1.2.2",
@@ -121,7 +121,7 @@
     "lint": "nps lint",
     "postpack": "rm .oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepack": "rm -rf lib && tsc && bin/dev manifest",
+    "prepack": "rm -rf lib && tsc && bin/dev manifest .",
     "version": "bin/dev readme && git add README.md",
     "test": "nps test"
   },

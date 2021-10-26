@@ -1,5 +1,5 @@
 
-<img src="https://user-images.githubusercontent.com/449385/38243295-e0a47d58-372e-11e8-9bc0-8c02a6f4d2ac.png" width="260" height="73">  
+<img src="https://user-images.githubusercontent.com/449385/38243295-e0a47d58-372e-11e8-9bc0-8c02a6f4d2ac.png" width="260" height="73">
 
 
 oclif: Node.JS Open CLI Framework
@@ -7,17 +7,16 @@ oclif: Node.JS Open CLI Framework
 
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/oclif)
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)
-[![CircleCI](https://circleci.com/gh/oclif/oclif/tree/master.svg?style=shield)](https://circleci.com/gh/oclif/oclif/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/oclif?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/oclif/branch/master)
-[![Downloads/week](https://img.shields.io/npm/dw/@oclif/command.svg)](https://npmjs.org/package/@oclif/command)
-[![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/master/package.json)
+[![CircleCI](https://circleci.com/gh/oclif/oclif/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/oclif/tree/main)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/oclif?branch=main&svg=true)](https://ci.appveyor.com/project/heroku/oclif/branch/main)
+[![Downloads/week](https://img.shields.io/npm/dw/@oclif/command.svg)](https://npmjs.org/package/@oclif/core)
+[![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/main/package.json)
 
 <!-- toc -->
 * [🗒 Description](#-description)
 * [🚀 Getting Started Tutorial](#-getting-started-tutorial)
 * [✨ Features](#-features)
 * [📌 Requirements](#-requirements)
-* [🌈 CLI Types](#-cli-types)
 * [🏗 Usage](#-usage)
 * [📚 Examples](#-examples)
 * [🔨 Commands](#-commands)
@@ -59,40 +58,12 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 Currently, Node 8+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are running a specific version of Node.
 
-# 🌈 CLI Types
-
-With oclif you can create 2 different CLI types, single and multi.
-
-Single CLIs are like `ls` or `cat`. They can accept arguments and flags. Single CLIs can [optionally be a single file](https://github.com/oclif/command).
-
-Multi CLIs are like `git` or `heroku`. They have subcommands that are themselves single CLIs. In the `package.json` there is a field `oclif.commands` that points to a directory. This directory contains all the subcommands for the CLI. For example, if you had a CLI called `mycli` with the commands `mycli create` and `mycli destroy`, you would have a project like the following:
-
-```
-package.json
-src/
-└── commands/
-    ├── create.ts
-    └── destroy.ts
-```
-
-Multi-command CLIs may also include [plugins](https://oclif.io/docs/plugins).
-
 # 🏗 Usage
 
-Creating a single-command CLI:
+Creating a CLI:
 
 ```sh-session
-$ npx oclif single mynewcli
-? npm package name (mynewcli): mynewcli
-$ cd mynewcli
-$ ./bin/run
-hello world from ./src/index.js!
-```
-
-Creating a multi-command CLI:
-
-```sh-session
-$ npx oclif multi mynewcli
+$ npx oclif generate mynewcli
 ? npm package name (mynewcli): mynewcli
 $ cd mynewcli
 $ ./bin/run --version
@@ -115,10 +86,6 @@ hello world from ./src/hello.js!
   * [Multi-command CLI](https://github.com/oclif/example-multi-ts)
   * [Single-command CLI](https://github.com/oclif/example-single-ts)
   * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-ts)
-* JavaScript
-  * [Multi-command CLI](https://github.com/oclif/example-multi-js)
-  * [Single-command CLI](https://github.com/oclif/example-single-js)
-  * [Multi-command CLI Plugin](https://github.com/oclif/example-plugin-js)
 
 # 🔨 Commands
 

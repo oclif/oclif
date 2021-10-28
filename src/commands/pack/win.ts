@@ -8,22 +8,20 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Interfaces.Config,
-  ) => `@echo off
+  cmd: (config: Config.IConfig, additionalExecutable: string = '') => `@echo off
 setlocal enableextensions
 
-set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${config.bin}.cmd
-if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${config.bin}.cmd" (
-  "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${config.bin}.cmd" %*
+set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalExecutable ? additionalExecutable : config.bin}.cmd
+if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalExecutable ? additionalExecutable : config.bin}.cmd" (
+  "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalExecutable ? additionalExecutable : config.bin}.cmd" %*
 ) else (
-  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\run" %*
+  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\${additionalExecutable ? additionalExecutable : 'run'}" %*
 )
 `,
-  sh: (config: Interfaces.Config,
-  ) => `#!/bin/sh
+  sh: (config: Config.IConfig, additionalExecutable: string = '') => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
-"$basedir/../client/bin/${config.bin}.cmd" "$@"
+"$basedir/../client/bin/${additionalExecutable ? additionalExecutable : config.bin}.cmd" "$@"
 ret=$?
 exit $ret
 `,
@@ -202,7 +200,9 @@ export default class PackWin extends Command {
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
-    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    'additional-executable': flags.string({ description: `an executable other than the one listed in config.bin that should be made available to the user
+the executable should already exist in the tarball produced by "oclif pack:tarballs"` }),
   }
 
   async run() {
@@ -218,6 +218,11 @@ export default class PackWin extends Command {
       await qq.write([installerBase, `bin/${config.bin}.cmd`], scripts.cmd(config))
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `bin/${config.bin}`], scripts.sh(config))
+
+      if (flags['additional-executable']) {
+        await qq.write([installerBase, `bin/${flags['additional-executable']}.cmd`], scripts.cmd(config, flags['additional-executable']))
+        await qq.write([installerBase, `bin/${flags['additional-executable']}`], scripts.sh(config, flags['additional-executable']))
+      }
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `${config.bin}.nsi`], scripts.nsis(config, arch))
       // eslint-disable-next-line no-await-in-loop

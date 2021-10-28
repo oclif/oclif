@@ -32,9 +32,9 @@ export default class UploadTarballs extends Command {
 
     // fail early if targets are not built
     for (const target of buildConfig.targets) {
-      const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version, sha: buildConfig.gitSha, ...target}))
+      const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version: config.version, sha: buildConfig.gitSha, ...target}))
       // eslint-disable-next-line no-await-in-loop
-      if (!await qq.exists(tarball)) this.error(`Cannot find a tarball for ${target.platform}-${target.arch}`, {
+      if (!await qq.exists(tarball)) this.error(`Cannot find a tarball ${tarball} for ${target.platform}-${target.arch}`, {
         suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],
       })
     }

@@ -124,7 +124,7 @@ jobs:
   node-14-hook:
     <<: *node_14
     steps: *hook_steps
-  node-16-devcli: &node-16-devcli
+  node-12-devcli: &node-12-devcli
     docker:
       - image: oclif/nsis:12.0.0-16
     working_directory: ~/cli
@@ -143,10 +143,6 @@ jobs:
       - run: ./node_modules/.bin/tsc
       - run: ./bin/run --version
       - run: ./bin/run --help
-  node-14-devcli:
-    <<: *node-16-devcli
-    docker:
-      - image: chadian/nsis:10-2
 
   cache:
     <<: *lint
@@ -168,8 +164,7 @@ workflows:
     jobs:
       - lint
       - compile-typescript
-      - node-14-devcli
-      - node-16-devcli
+      - node-12-devcli
       - node-latest-base: {requires: [lint, compile-typescript] }
       - node-latest-single: {requires: [lint, compile-typescript] }
       - node-latest-plugin: {requires: [lint, compile-typescript] }
@@ -203,8 +198,7 @@ workflows:
     jobs:
       - lint
       - compile-typescript
-      - node-14-devcli
-      - node-16-devcli
+      - node-12-devcli
       - node-latest-base: {requires: [lint, compile-typescript] }
       - node-latest-single: {requires: [lint, compile-typescript] }
       - node-latest-plugin: {requires: [lint, compile-typescript] }

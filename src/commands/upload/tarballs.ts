@@ -56,7 +56,7 @@ export default class UploadTarballs extends Command {
           bin: config.bin,
           platform: options?.platform!,
           sha: buildConfig.gitSha,
-          version,
+          version: config.version,
         })
         const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})

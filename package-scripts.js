@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/filename-case */
-
 const {
   concurrent,
   series,
@@ -38,7 +36,7 @@ const tests = testTypes.map(cmd => {
 
 module.exports = {
   scripts: {
-    build: 'rm -rf lib && tsc',
+    build: 'shx rm -rf lib && tsc',
     lint: {
       default: concurrent.nps('lint.eslint', 'lint.tsc'),
       eslint: script('eslint . --ext .ts --config .eslintrc', 'lint js & ts files'),

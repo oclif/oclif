@@ -495,12 +495,12 @@ class App extends Generator {
     }
     if (this.eslint) {
       devDependencies.push(
-        'eslint@^5.13',
+        'eslint@^7.3.0', // this should stay in sync with the eslint dependency in this repo's package.json
         'eslint-config-oclif@^3.1',
       )
       if (this.ts) {
         devDependencies.push(
-          'eslint-config-oclif-typescript@^0.1',
+          'eslint-config-oclif-typescript@^0.2.0',
         )
       }
     }

@@ -186,7 +186,9 @@ workflows:
       - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
           context: org-global
-          github-release: true
+          prerelease: true
+          tag: dev
+          github-release: false
           requires:
             - lint
             - compile-typescript
@@ -196,9 +198,21 @@ workflows:
             - node-latest-multi
             - node-latest-command
             - node-latest-hook
+            - node-16-base
+            - node-16-single
+            - node-16-plugin
+            - node-16-multi
+            - node-16-command
+            - node-16-hook
+            - node-14-base
+            - node-14-single
+            - node-14-plugin
+            - node-14-multi
+            - node-14-command
+            - node-14-hook
           filters:
             branches:
-              only: master
+              only: re/additional_executables
   nightly:
     triggers:
       - schedule:

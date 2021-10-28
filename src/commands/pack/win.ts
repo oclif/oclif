@@ -7,7 +7,7 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Config.IConfig, additionalExecutable: string = '') => `@echo off
+  cmd: (config: Config.IConfig, additionalExecutable = '') => `@echo off
 setlocal enableextensions
 
 set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalExecutable ? additionalExecutable : config.bin}.cmd
@@ -17,7 +17,7 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalExecutable
   "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\${additionalExecutable ? additionalExecutable : 'run'}" %*
 )
 `,
-  sh: (config: Config.IConfig, additionalExecutable: string = '') => `#!/bin/sh
+  sh: (config: Config.IConfig, additionalExecutable = '') => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
 "$basedir/../client/bin/${additionalExecutable ? additionalExecutable : config.bin}.cmd" "$@"
@@ -199,8 +199,8 @@ export default class PackWin extends Command {
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    'additional-executable': flags.string({ description: `an executable other than the one listed in config.bin that should be made available to the user
-the executable should already exist in the tarball produced by "oclif pack:tarballs"` }),
+    'additional-executable': flags.string({description: `an executable other than the one listed in config.bin that should be made available to the user
+the executable should already exist in the tarball produced by "oclif pack:tarballs"`}),
   }
 
   async run() {
@@ -218,8 +218,8 @@ the executable should already exist in the tarball produced by "oclif pack:tarba
       await qq.write([installerBase, `bin/${config.bin}`], scripts.sh(config))
 
       if (flags['additional-executable']) {
-        await qq.write([installerBase, `bin/${flags['additional-executable']}.cmd`], scripts.cmd(config, flags['additional-executable']))
-        await qq.write([installerBase, `bin/${flags['additional-executable']}`], scripts.sh(config, flags['additional-executable']))
+        await qq.write([installerBase, `bin/${flags['additional-executable']}.cmd`], scripts.cmd(config, flags['additional-executable'])) // eslint-disable-line no-await-in-loop
+        await qq.write([installerBase, `bin/${flags['additional-executable']}`], scripts.sh(config, flags['additional-executable'])) // eslint-disable-line no-await-in-loop
       }
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `${config.bin}.nsi`], scripts.nsis(config, arch))

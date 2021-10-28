@@ -19,8 +19,8 @@ const scripts = {
 sudo rm -rf /usr/local/lib/${config.dirname}
 sudo rm -rf /usr/local/${config.bin}
 sudo rm -rf /usr/local/bin/${config.bin}
-${additionalExecutable ? 
-  `sudo rm -rf /usr/local/${additionalExecutable}
+${additionalExecutable ?
+    `sudo rm -rf /usr/local/${additionalExecutable}
 sudo rm -rf /usr/local/bin/${additionalExecutable}` : ''}
 `,
   postinstall: (config: Config.IConfig, additionalExecutable: string | undefined) => `#!/usr/bin/env bash
@@ -107,8 +107,8 @@ export default class PackMacos extends Command {
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    'additional-executable': flags.string({ description: `an executable other than the one listed in config.bin that should be made available to the user
-the executable should already exist in the tarball produced by "oclif pack:tarballs"` }),
+    'additional-executable': flags.string({description: `an executable other than the one listed in config.bin that should be made available to the user
+the executable should already exist in the tarball produced by "oclif pack:tarballs"`}),
   }
 
   async run() {

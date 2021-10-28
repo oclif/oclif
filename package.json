@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "1.18.2-dev.2",
+  "version": "1.18.2-dev.3",
   "author": "Jeff Dickey @jdxcode",
   "bin": {
     "oclif": "bin/run"

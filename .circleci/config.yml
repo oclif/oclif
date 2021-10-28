@@ -171,6 +171,18 @@ workflows:
       - node-latest-multi: {requires: [lint, compile-typescript] }
       - node-latest-command: {requires: [lint, compile-typescript] }
       - node-latest-hook: {requires: [lint, compile-typescript] }
+      - node-16-base: {requires: [lint, compile-typescript] }
+      - node-16-single: {requires: [lint, compile-typescript] }
+      - node-16-plugin: {requires: [lint, compile-typescript] }
+      - node-16-multi: {requires: [lint, compile-typescript] }
+      - node-16-command: {requires: [lint, compile-typescript] }
+      - node-16-hook: {requires: [lint, compile-typescript] }
+      - node-14-base: {requires: [lint, compile-typescript] }
+      - node-14-single: {requires: [lint, compile-typescript] }
+      - node-14-plugin: {requires: [lint, compile-typescript] }
+      - node-14-multi: {requires: [lint, compile-typescript] }
+      - node-14-command: {requires: [lint, compile-typescript] }
+      - node-14-hook: {requires: [lint, compile-typescript] }
       - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
           context: org-global
@@ -205,15 +217,3 @@ workflows:
       - node-latest-multi: {requires: [lint, compile-typescript] }
       - node-latest-command: {requires: [lint, compile-typescript] }
       - node-latest-hook: {requires: [lint, compile-typescript] }
-      - node-16-base: {requires: [lint, compile-typescript] }
-      - node-16-single: {requires: [lint, compile-typescript] }
-      - node-16-plugin: {requires: [lint, compile-typescript] }
-      - node-16-multi: {requires: [lint, compile-typescript] }
-      - node-16-command: {requires: [lint, compile-typescript] }
-      - node-16-hook: {requires: [lint, compile-typescript] }
-      - node-14-base: {requires: [lint, compile-typescript] }
-      - node-14-single: {requires: [lint, compile-typescript] }
-      - node-14-plugin: {requires: [lint, compile-typescript] }
-      - node-14-multi: {requires: [lint, compile-typescript] }
-      - node-14-command: {requires: [lint, compile-typescript] }
-      - node-14-hook: {requires: [lint, compile-typescript] }

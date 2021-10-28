@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.2-dev.3](https://github.com/oclif/oclif/compare/v1.18.1...v1.18.2-dev.3) (2021-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* require node 12+ (#676)
+
+### Features
+
+* add additional executable to mac installer ([015d10a](https://github.com/oclif/oclif/commit/015d10ac904fe25bc699e5381d643067fba489da))
+* add additional executable to win installer ([cfd831e](https://github.com/oclif/oclif/commit/cfd831e4c03ab70dff0fcd330a84f0f3905153c3))
+
+
+### Bug Fixes
+
+* build and find tarballs using the same version ([44c4177](https://github.com/oclif/oclif/commit/44c41774c262c85eebd1a0eb8afce07edfd5ef8c))
+* lint ([110e659](https://github.com/oclif/oclif/commit/110e6597c3fe41a1453c0034b166b23419324b71))
+* release new dev version ([cb63e9c](https://github.com/oclif/oclif/commit/cb63e9c508dbbf7dea0ed44a3bd082be7fbc122b))
+* tests ([7a68684](https://github.com/oclif/oclif/commit/7a68684cd25ba4b770d16904fc22eb266c0c4b1f))
+* upload tarballs using same version as they were built with ([ec61f18](https://github.com/oclif/oclif/commit/ec61f18b83987bbd0bf7c4dc583e3e891e3a29d3))
+
+
+### build
+
+* require node 12+ ([#676](https://github.com/oclif/oclif/issues/676)) ([f4b648c](https://github.com/oclif/oclif/commit/f4b648c244c8806c999ad2e636c446414b14c5a5))
+
 ### [1.18.1](https://github.com/oclif/oclif/compare/v1.18.0...v1.18.1) (2021-07-01)
 
 

@@ -84,47 +84,47 @@ jobs:
       - run: .circleci/setup_git
       - run: yarn exec nps test.hook
       - store_test_results: *store_test_results
-  node-12-base: &node_12
+  node-16-base: &node_16
     <<: *lint
     docker:
-      - image: node:12
+      - image: node:16
     steps: *base_steps
-  node-12-plugin:
-    <<: *node_12
+  node-16-plugin:
+    <<: *node_16
     steps: *plugin_steps
-  node-12-single:
-    <<: *node_12
+  node-16-single:
+    <<: *node_16
     steps: *single_steps
-  node-12-multi:
-    <<: *node_12
+  node-16-multi:
+    <<: *node_16
     steps: *multi_steps
-  node-12-command:
-    <<: *node_12
+  node-16-command:
+    <<: *node_16
     steps: *command_steps
-  node-12-hook:
-    <<: *node_12
+  node-16-hook:
+    <<: *node_16
     steps: *hook_steps
-  node-10-base: &node_10
+  node-14-base: &node_14
     <<: *lint
     docker:
-      - image: node:10
+      - image: node:14
     steps: *base_steps
-  node-10-plugin:
-    <<: *node_10
+  node-14-plugin:
+    <<: *node_14
     steps: *plugin_steps
-  node-10-single:
-    <<: *node_10
+  node-14-single:
+    <<: *node_14
     steps: *single_steps
-  node-10-multi:
-    <<: *node_10
+  node-14-multi:
+    <<: *node_14
     steps: *multi_steps
-  node-10-command:
-    <<: *node_10
+  node-14-command:
+    <<: *node_14
     steps: *command_steps
-  node-10-hook:
-    <<: *node_10
+  node-14-hook:
+    <<: *node_14
     steps: *hook_steps
-  node-12-devcli: &node-12-devcli
+  node-16-devcli: &node-16-devcli
     docker:
       - image: oclif/nsis:12.0.0-16
     working_directory: ~/cli
@@ -143,8 +143,8 @@ jobs:
       - run: ./node_modules/.bin/tsc
       - run: ./bin/run --version
       - run: ./bin/run --help
-  node-10-devcli:
-    <<: *node-12-devcli
+  node-14-devcli:
+    <<: *node-16-devcli
     docker:
       - image: chadian/nsis:10-2
 
@@ -168,8 +168,8 @@ workflows:
     jobs:
       - lint
       - compile-typescript
-      - node-10-devcli
-      - node-12-devcli
+      - node-14-devcli
+      - node-16-devcli
       - node-latest-base: {requires: [lint, compile-typescript] }
       - node-latest-single: {requires: [lint, compile-typescript] }
       - node-latest-plugin: {requires: [lint, compile-typescript] }
@@ -203,23 +203,23 @@ workflows:
     jobs:
       - lint
       - compile-typescript
-      - node-10-devcli
-      - node-12-devcli
+      - node-14-devcli
+      - node-16-devcli
       - node-latest-base: {requires: [lint, compile-typescript] }
       - node-latest-single: {requires: [lint, compile-typescript] }
       - node-latest-plugin: {requires: [lint, compile-typescript] }
       - node-latest-multi: {requires: [lint, compile-typescript] }
       - node-latest-command: {requires: [lint, compile-typescript] }
       - node-latest-hook: {requires: [lint, compile-typescript] }
-      - node-12-base: {requires: [lint, compile-typescript] }
-      - node-12-single: {requires: [lint, compile-typescript] }
-      - node-12-plugin: {requires: [lint, compile-typescript] }
-      - node-12-multi: {requires: [lint, compile-typescript] }
-      - node-12-command: {requires: [lint, compile-typescript] }
-      - node-12-hook: {requires: [lint, compile-typescript] }
-      - node-10-base: {requires: [lint, compile-typescript] }
-      - node-10-single: {requires: [lint, compile-typescript] }
-      - node-10-plugin: {requires: [lint, compile-typescript] }
-      - node-10-multi: {requires: [lint, compile-typescript] }
-      - node-10-command: {requires: [lint, compile-typescript] }
-      - node-10-hook: {requires: [lint, compile-typescript] }
+      - node-16-base: {requires: [lint, compile-typescript] }
+      - node-16-single: {requires: [lint, compile-typescript] }
+      - node-16-plugin: {requires: [lint, compile-typescript] }
+      - node-16-multi: {requires: [lint, compile-typescript] }
+      - node-16-command: {requires: [lint, compile-typescript] }
+      - node-16-hook: {requires: [lint, compile-typescript] }
+      - node-14-base: {requires: [lint, compile-typescript] }
+      - node-14-single: {requires: [lint, compile-typescript] }
+      - node-14-plugin: {requires: [lint, compile-typescript] }
+      - node-14-multi: {requires: [lint, compile-typescript] }
+      - node-14-command: {requires: [lint, compile-typescript] }
+      - node-14-hook: {requires: [lint, compile-typescript] }

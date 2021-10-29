@@ -202,7 +202,7 @@ export default class PackWin extends Command {
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
     'additional-cli': flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
-the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`}),
+the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`, hidden: true}),
   }
 
   async run() {

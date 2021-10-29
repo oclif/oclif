@@ -8,20 +8,20 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Config.IConfig, additionalExecutable = '') => `@echo off
+  cmd: (config: Config.IConfig, additionalCLI: string | undefined = undefined) => `@echo off
 setlocal enableextensions
 
-set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalExecutable ? additionalExecutable : config.bin}.cmd
-if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalExecutable ? additionalExecutable : config.bin}.cmd" (
-  "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalExecutable ? additionalExecutable : config.bin}.cmd" %*
+set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalCLI ?? config.bin}.cmd
+if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" (
+  "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
-  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\${additionalExecutable ? additionalExecutable : 'run'}" %*
+  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\${additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'}" %*
 )
 `,
-  sh: (config: Config.IConfig, additionalExecutable = '') => `#!/bin/sh
+  sh: (config: Config.IConfig) => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
-"$basedir/../client/bin/${additionalExecutable ? additionalExecutable : config.bin}.cmd" "$@"
+"$basedir/../client/bin/${config.bin}.cmd" "$@"
 ret=$?
 exit $ret
 `,
@@ -197,12 +197,17 @@ FunctionEnd
 export default class PackWin extends Command {
   static description = `create windows installer from oclif CLI
 
+<<<<<<< HEAD
+=======
+  static description = `create windows installer from oclif CLI
+
+>>>>>>> c009e8e (fix: allow additional oclif CLIs, not executables in general)
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    'additional-executable': flags.string({description: `an executable other than the one listed in config.bin that should be made available to the user
-the executable should already exist in the tarball produced by "oclif pack:tarballs"`}),
+    'additional-cli': flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
+the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`}),
   }
 
   async run() {
@@ -219,10 +224,11 @@ the executable should already exist in the tarball produced by "oclif pack:tarba
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `bin/${config.bin}`], scripts.sh(config))
 
-      if (flags['additional-executable']) {
-        await qq.write([installerBase, `bin/${flags['additional-executable']}.cmd`], scripts.cmd(config, flags['additional-executable'])) // eslint-disable-line no-await-in-loop
-        await qq.write([installerBase, `bin/${flags['additional-executable']}`], scripts.sh(config, flags['additional-executable'])) // eslint-disable-line no-await-in-loop
+      if (flags['additional-cli']) {
+        await qq.write([installerBase, `bin/${flags['additional-cli']}.cmd`], scripts.cmd(config, flags['additional-cli'])) // eslint-disable-line no-await-in-loop
+        await qq.write([installerBase, `bin/${flags['additional-cli']}`], scripts.sh({bin: flags['additional-cli']} as Config.IConfig)) // eslint-disable-line no-await-in-loop
       }
+
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `${config.bin}.nsi`], scripts.nsis(config, arch))
       // eslint-disable-next-line no-await-in-loop

@@ -15,21 +15,21 @@ type OclifConfig = {
 }
 
 const scripts = {
-  preinstall: (config: Config.IConfig, additionalExecutable: string | undefined) => `#!/usr/bin/env bash
+  preinstall: (config: Config.IConfig, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 sudo rm -rf /usr/local/lib/${config.dirname}
 sudo rm -rf /usr/local/${config.bin}
 sudo rm -rf /usr/local/bin/${config.bin}
-${additionalExecutable ?
-    `sudo rm -rf /usr/local/${additionalExecutable}
-sudo rm -rf /usr/local/bin/${additionalExecutable}` : ''}
+${additionalCLI ?
+    `sudo rm -rf /usr/local/${additionalCLI}
+sudo rm -rf /usr/local/bin/${additionalCLI}` : ''}
 `,
-  postinstall: (config: Config.IConfig, additionalExecutable: string | undefined) => `#!/usr/bin/env bash
+  postinstall: (config: Config.IConfig, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
 sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${config.bin}
-${additionalExecutable ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalExecutable} /usr/local/bin/${additionalExecutable}` : ''}
+${additionalCLI ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}` : ''}
 `,
-  uninstall: (config: Config.IConfig, additionalExecutable: string | undefined) => {
+  uninstall: (config: Config.IConfig, additionalCLI: string | undefined) => {
     const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
     return `#!/usr/bin/env bash
 
@@ -70,7 +70,7 @@ done
 echo "Application uninstalling process started"
 # remove link to shorcut file
 find "/usr/local/bin/" -name "${config.bin}" | xargs rm
-${additionalExecutable ? `find "/usr/local/bin/" -name "${additionalExecutable}" | xargs rm` : ''}
+${additionalCLI ? `find "/usr/local/bin/" -name "${additionalCLI}" | xargs rm` : ''}
 if [ $? -eq 0 ]
 then
   echo "[1/3] [DONE] Successfully deleted shortcut links"
@@ -107,8 +107,8 @@ export default class PackMacos extends Command {
 
   static flags = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    'additional-executable': flags.string({description: `an executable other than the one listed in config.bin that should be made available to the user
-the executable should already exist in the tarball produced by "oclif pack:tarballs"`}),
+    'additional-cli': flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
+the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`}),
   }
 
   async run() {
@@ -130,7 +130,7 @@ the executable should already exist in the tarball produced by "oclif pack:tarba
     const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
       const path = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
       path.push(script)
-      await qq.write(path, scripts[script](config, flags['additional-executable']))
+      await qq.write(path, scripts[script](config, flags['additional-cli']))
       await qq.chmod(path, 0o755)
     }
     await writeScript('preinstall')

@@ -15,7 +15,7 @@ type OclifConfig = {
 }
 
 const scripts = {
-  preinstall: (config: Config.IConfig, additionalCLI: string | undefined) => `#!/usr/bin/env bash
+  preinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 sudo rm -rf /usr/local/lib/${config.dirname}
 sudo rm -rf /usr/local/${config.bin}
 sudo rm -rf /usr/local/bin/${config.bin}
@@ -23,13 +23,13 @@ ${additionalCLI ?
     `sudo rm -rf /usr/local/${additionalCLI}
 sudo rm -rf /usr/local/bin/${additionalCLI}` : ''}
 `,
-  postinstall: (config: Config.IConfig, additionalCLI: string | undefined) => `#!/usr/bin/env bash
+  postinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
 sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${config.bin}
 ${additionalCLI ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}` : ''}
 `,
-  uninstall: (config: Config.IConfig, additionalCLI: string | undefined) => {
+  uninstall: (config: Interfaces.Config, additionalCLI: string | undefined) => {
     const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
     return `#!/usr/bin/env bash
 
@@ -106,8 +106,8 @@ export default class PackMacos extends Command {
   static description = 'pack CLI into macOS .pkg'
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    'additional-cli': flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    'additional-cli': Flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`, hidden: true}),
   }
 

@@ -230,7 +230,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       await qq.mv(buildConfig.workspace({platform: 'win32', arch}), [installerBase, 'client'])
       // eslint-disable-next-line no-await-in-loop
       await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const o = buildConfig.dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
       await qq.mv([installerBase, 'installer.exe'], o)

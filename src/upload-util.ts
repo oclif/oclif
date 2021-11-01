@@ -47,6 +47,6 @@ export function debArch(arch: Interfaces.ArchTypes) {
 }
 
 export function debVersion(buildConfig: TarballConfig): string {
-  return `${buildConfig.version.split('-')[0]}.${buildConfig.gitSha}-1`
+  return `${buildConfig.config.version.split('-')[0]}.${buildConfig.gitSha}-1`
   // see debian_revision: https://www.debian.org/doc/debian-policy/ch-controlfields.html
 }

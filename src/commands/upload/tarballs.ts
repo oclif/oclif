@@ -28,7 +28,7 @@ export default class UploadTarballs extends Command {
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets, xz: flags.xz})
-    const {s3Config, dist, version, config, xz} = buildConfig
+    const {s3Config, dist, config, xz} = buildConfig
 
     // fail early if targets are not built
     for (const target of buildConfig.targets) {
@@ -54,7 +54,7 @@ export default class UploadTarballs extends Command {
           sha: buildConfig.gitSha,
           version: config.version,
         })
-        const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${localKey}`
+        const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
       }
 
@@ -69,7 +69,7 @@ export default class UploadTarballs extends Command {
         sha: buildConfig.gitSha,
         version: config.version,
       })
-      const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${manifest}`
+      const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
     }
 

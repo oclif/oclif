@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "2.0.0-dev.0",
+  "version": "2.0.0-dev.1",
   "author": "Jeff Dickey @jdxcode",
   "bin": {
     "oclif": "bin/run"
@@ -123,8 +123,8 @@
     "postpack": "shx rm .oclif.manifest.json",
     "posttest": "yarn run lint",
     "prepack": "shx rm -rf lib && tsc && bin/dev manifest .",
-    "version": "bin/dev readme && git add README.md",
-    "test": "nps test"
+    "test": "nps test",
+    "version": "bin/dev readme && git add README.md"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

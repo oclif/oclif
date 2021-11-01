@@ -8,7 +8,7 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Config.IConfig, additionalCLI: string | undefined = undefined) => `@echo off
+  cmd: (config: Interfaces.Config, additionalCLI: string | undefined = undefined) => `@echo off
 setlocal enableextensions
 
 set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalCLI ?? config.bin}.cmd
@@ -18,7 +18,7 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
   "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\${additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'}" %*
 )
 `,
-  sh: (config: Config.IConfig) => `#!/bin/sh
+  sh: (config: Interfaces.Config) => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
 "$basedir/../client/bin/${config.bin}.cmd" "$@"
@@ -197,16 +197,11 @@ FunctionEnd
 export default class PackWin extends Command {
   static description = `create windows installer from oclif CLI
 
-<<<<<<< HEAD
-=======
-  static description = `create windows installer from oclif CLI
-
->>>>>>> c009e8e (fix: allow additional oclif CLIs, not executables in general)
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
-    root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    'additional-cli': flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
+    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    'additional-cli': Flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`, hidden: true}),
   }
 
@@ -226,7 +221,7 @@ the CLI should already exist in a directory named after the CLI that is the root
 
       if (flags['additional-cli']) {
         await qq.write([installerBase, `bin/${flags['additional-cli']}.cmd`], scripts.cmd(config, flags['additional-cli'])) // eslint-disable-line no-await-in-loop
-        await qq.write([installerBase, `bin/${flags['additional-cli']}`], scripts.sh({bin: flags['additional-cli']} as Config.IConfig)) // eslint-disable-line no-await-in-loop
+        await qq.write([installerBase, `bin/${flags['additional-cli']}`], scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)) // eslint-disable-line no-await-in-loop
       }
 
       // eslint-disable-next-line no-await-in-loop

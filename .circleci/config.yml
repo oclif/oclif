@@ -29,7 +29,7 @@ jobs:
       - attach_workspace: {at: node_modules}
       - run: yarn
       - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
-  node-latest-multi:
+  node-latest:
     <<: *lint
     parameters:
       image:
@@ -88,7 +88,7 @@ workflows:
       - test:
           matrix:
             parameters:
-              image: [node:latest, node:14, node:12]
+              image: [node:latest, node:16, node:14]
           name: test-<< matrix.image >>
           requires: [lint, compile-typescript]
       - cache: {requires: [release-management/release-package] }

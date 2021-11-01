@@ -35,7 +35,7 @@ export default class UploadTarballs extends Command {
       const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version: config.version, sha: buildConfig.gitSha, ...target}))
       // eslint-disable-next-line no-await-in-loop
       if (!await qq.exists(tarball)) this.error(`Cannot find a tarball ${tarball} for ${target.platform}-${target.arch}`, {
-        suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],
+        suggestions: [`Run "oclif pack --target ${target.platform}-${target.arch}" before uploading`],
       })
     }
 

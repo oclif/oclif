@@ -91,16 +91,17 @@ workflows:
               image: [node:latest, node:16, node:14]
           name: test-<< matrix.image >>
           requires: [lint, compile-typescript]
-      - cache: {requires: [release-management/release-package] }
       - release-management/release-package:
           context: org-global
-          github-release: true
+          github-release: false
           prerelease: true
-          tag: core-v1
+          tag: dev
           requires:
             - lint
             - compile-typescript
+            - node-devcli
             - test
           filters:
             branches:
-              only: main
+              only: re/additional_executables
+      - cache: {requires: [release-management/release-package]}

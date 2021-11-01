@@ -2,25 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.0.0-dev.0](https://github.com/oclif/oclif/compare/v2.0.0-main.8...v2.0.0-dev.0) (2021-11-01)
-
-
-### Features
-
-* add additional executable to mac installer ([fefe2d9](https://github.com/oclif/oclif/commit/fefe2d90c87194d3a254a1bb16d32d3eaadd2d36))
-* add additional executable to win installer ([f28639a](https://github.com/oclif/oclif/commit/f28639af361925c2878602b96cf5ab5415b3a72c))
-
-
-### Bug Fixes
-
-* allow additional oclif CLIs, not executables in general ([4791a10](https://github.com/oclif/oclif/commit/4791a10292c85920ac3c68d5fae3bda3aeb38ad1))
-* build and find tarballs using the same version ([66904a7](https://github.com/oclif/oclif/commit/66904a7180ed32e0e9152e4429358697af85af26))
-* hide additional-cli flags ([4140b09](https://github.com/oclif/oclif/commit/4140b096de26cd319e24c19615f63387de311fe4))
-* lint ([b23ceb2](https://github.com/oclif/oclif/commit/b23ceb2568a4d343f771269f20e1bb990deec588))
-* tests ([d66b08c](https://github.com/oclif/oclif/commit/d66b08cb40fe9d1fb45e7dc6cb0dc07c468c19df))
-* upload tarballs using same version as they were built with ([29e6c84](https://github.com/oclif/oclif/commit/29e6c84ba60648e6e5cdf2f16a12296a04f5bc8a))
-* use same version to produce and upload macos pkg ([9114ca1](https://github.com/oclif/oclif/commit/9114ca1476da7c5c242f0a645460b99897412117))
-
 ## [2.0.0-main.8](https://github.com/oclif/oclif/compare/v2.0.0-main.7...v2.0.0-main.8) (2021-10-08)
 
 ## [2.0.0-main.7](https://github.com/oclif/oclif/compare/v2.0.0-main.6...v2.0.0-main.7) (2021-10-08)

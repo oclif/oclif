@@ -15,9 +15,8 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v5-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v5-{{checksum ".circleci/config.yml"}}
-            - v5
+            - cache-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - cache-{{checksum ".circleci/config.yml"}}
       - run: yarn add -D mocha-junit-reporter@1
       - run: yarn exec nps lint
       - persist_to_workspace: {root: node_modules,  paths: ["*"]}
@@ -54,8 +53,8 @@ jobs:
       - checkout
       - restore_cache: &restore_cache
           keys:
-            - v6-yarn-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
-            - v6-yarn-{{checksum ".circleci/config.yml"}}
+            - cache-{{checksum ".circleci/config.yml"}}-{{ checksum "yarn.lock"}}
+            - cache-{{checksum ".circleci/config.yml"}}
       - run: 'echo "Node: `node --version`"'
       - run: yarn
       - run: .circleci/loadgpg
@@ -70,11 +69,11 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+            - cache-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
       - run: yarn add -D mocha-junit-reporter@1
-      - run: yarn exec nps test.command
+      - run: yarn install
       - save_cache:
-          key: v5-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
+          key: cache-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
           paths:
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn

@@ -45,7 +45,7 @@ export async function build(c: BuildConfig, options: {
   const updatePJSON = async () => {
     qq.cd(c.workspace())
     const pjson = await qq.readJSON('package.json')
-    pjson.version = c.version
+    pjson.version = config.version
     pjson.oclif.update = pjson.oclif.update || {}
     pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
     pjson.oclif.update.s3.bucket = c.s3Config.bucket
@@ -113,12 +113,12 @@ export async function build(c: BuildConfig, options: {
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
 
-    const gzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
-    const xzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
+    const gzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
+    const xzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
 
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
-      version: c.version,
+      version: config.version,
       sha: c.gitSha,
       baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
       gz: config.s3Url(gzCloudKey),

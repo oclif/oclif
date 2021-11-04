@@ -8,19 +8,17 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  cmd: (config: Interfaces.Config,
-  ) => `@echo off
+  cmd: (config: Interfaces.Config, additionalCLI: string | undefined = undefined) => `@echo off
 setlocal enableextensions
 
-set ${config.scopedEnvVarKey('BINPATH')}=%~dp0\\${config.bin}.cmd
-if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${config.bin}.cmd" (
-  "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${config.bin}.cmd" %*
+set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalCLI ?? config.bin}.cmd
+if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" (
+  "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
-  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\bin\\run" %*
+  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\${additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'}" %*
 )
 `,
-  sh: (config: Interfaces.Config,
-  ) => `#!/bin/sh
+  sh: (config: Interfaces.Config) => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
 
 "$basedir/../client/bin/${config.bin}.cmd" "$@"
@@ -203,6 +201,8 @@ export default class PackWin extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    'additional-cli': Flags.string({description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
+the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`, hidden: true}),
   }
 
   async run() {
@@ -218,13 +218,19 @@ export default class PackWin extends Command {
       await qq.write([installerBase, `bin/${config.bin}.cmd`], scripts.cmd(config))
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `bin/${config.bin}`], scripts.sh(config))
+
+      if (flags['additional-cli']) {
+        await qq.write([installerBase, `bin/${flags['additional-cli']}.cmd`], scripts.cmd(config, flags['additional-cli'])) // eslint-disable-line no-await-in-loop
+        await qq.write([installerBase, `bin/${flags['additional-cli']}`], scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)) // eslint-disable-line no-await-in-loop
+      }
+
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `${config.bin}.nsi`], scripts.nsis(config, arch))
       // eslint-disable-next-line no-await-in-loop
       await qq.mv(buildConfig.workspace({platform: 'win32', arch}), [installerBase, 'client'])
       // eslint-disable-next-line no-await-in-loop
       await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const o = buildConfig.dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
       await qq.mv([installerBase, 'installer.exe'], o)

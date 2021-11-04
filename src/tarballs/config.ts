@@ -20,7 +20,6 @@ export interface BuildConfig {
   gitSha: string;
   config: Interfaces.Config;
   nodeVersion: string;
-  version: string;
   tmp: string;
   updateConfig: BuildConfig['config']['pjson']['oclif']['update'];
   s3Config: BuildConfig['updateConfig']['s3'] & { folder?: string; indexVersionLimit?: number};
@@ -62,7 +61,6 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
   const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
-  const version = config.version.includes('-') ? `${config.version}.${_gitSha}` : config.version
   // eslint-disable-next-line new-cap
   const tmp = await Tmp(config)
   const updateConfig = config.pjson.oclif.update || {}
@@ -73,7 +71,6 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     config,
     tmp,
     updateConfig,
-    version,
     xz: typeof options.xz === 'boolean' ? options.xz : Boolean(updateConfig.s3.xz),
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     s3Config: updateConfig.s3,

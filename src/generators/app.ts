@@ -495,12 +495,12 @@ class App extends Generator {
     }
     if (this.eslint) {
       devDependencies.push(
-        'eslint@^5.13',
+        'eslint@^7.32',
         'eslint-config-oclif@^3.1',
       )
       if (this.ts) {
         devDependencies.push(
-          'eslint-config-oclif-typescript@^0.1',
+          'eslint-config-oclif-typescript@^0.2',
         )
       }
     }
@@ -510,6 +510,8 @@ class App extends Generator {
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
+    console.log(`dependencies: ${dependencies}`)
+    console.log(`devDependencies: ${devDependencies}`)
     return Promise.all([
       install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
       install(dependencies, {...yarnOpts, ...save}),

@@ -13,7 +13,7 @@ export default class UploadMacos extends Command {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const {flags} = await this.parse(UploadMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {s3Config, config, dist} = buildConfig

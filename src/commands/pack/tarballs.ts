@@ -19,7 +19,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
     xz: Flags.boolean({description: 'also build xz', allowNo: true, default: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const prevCwd = qq.cwd()
     if (process.platform === 'win32') throw new Error('pack does not function on windows')
     const {flags} = await this.parse(PackTarballs)
@@ -28,6 +28,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
     if (targets.includes('darwin-arm') && !semver.gt(buildConfig.nodeVersion, '16.0.0')) {
       throw new Error('darwin-arm is only supported for node >=16.0.0')
     }
+
     await Tarballs.build(buildConfig)
     qq.cd(prevCwd)
   }

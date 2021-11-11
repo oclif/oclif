@@ -23,7 +23,7 @@ export default class UploadTarballs extends Command {
     xz: Flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const {flags} = await this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targets = flags.targets.split(',')
@@ -48,8 +48,10 @@ export default class UploadTarballs extends Command {
       const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
         const localKey = templateShortKey('versioned', ext, {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           arch: options?.arch!,
           bin: config.bin,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           platform: options?.platform!,
           sha: buildConfig.gitSha,
           version: config.version,
@@ -63,8 +65,10 @@ export default class UploadTarballs extends Command {
 
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
       const manifest = templateShortKey('manifest', {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         arch: options?.arch!,
         bin: config.bin,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         platform: options?.platform!,
         sha: buildConfig.gitSha,
         version: config.version,

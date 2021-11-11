@@ -40,6 +40,7 @@ export namespace sort {
   export type Types = string | number | undefined | boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const template = (context: any) => (t: string | undefined): string => _.template(t || '')(context)
 
 interface VersionsObject {
@@ -48,8 +49,8 @@ interface VersionsObject {
 
 export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObject => {
   const keys = Reflect.ownKeys(input).sort((a, b) => {
-    const splitA = (a as string).split('.').map(part => parseInt(part, 10))
-    const splitB = (b as string).split('.').map(part => parseInt(part, 10))
+    const splitA = (a as string).split('.').map(part => Number.parseInt(part, 10))
+    const splitB = (b as string).split('.').map(part => Number.parseInt(part, 10))
     // sort by major
     if (splitA[0] < splitB[0]) return 1
     if (splitA[0] > splitB[0]) return -1
@@ -62,8 +63,9 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
     return 0
   }) as string[]
   const result: VersionsObject = {}
-  keys.forEach(key => {
+  for (const key of keys) {
     result[key] = input[key]
-  })
+  }
+
   return result
 }

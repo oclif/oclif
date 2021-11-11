@@ -46,6 +46,7 @@ describe('publish', () => {
         } else {
           await qq.x('tar xzf oclif.tar.gz')
         }
+
         const stdout = await qq.x.stdout('./oclif/bin/oclif', ['--version'])
         const sha = await gitSha(process.cwd(), {short: true})
         expect(stdout).to.contain(`oclif/${pjson.version}.${sha} ${target} node-v${nodeVersion}`)
@@ -55,6 +56,7 @@ describe('publish', () => {
       await test(manifest.gz, manifest.sha256gz, nodeVersion)
       await test(manifest.xz, manifest.sha256xz, nodeVersion)
     }
+
     await manifest(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/version`, process.versions.node)
     await manifest(`https://oclif-staging.s3.amazonaws.com/channels/${testRun}/${target}`, pjson.oclif.update.node.version)
   })
@@ -68,9 +70,9 @@ describe('publish', () => {
     }))
     .command(['publish', '-t', 'linux-x64'])
     .it('publishes only the specified target', async () => {
-      expect(s3UploadedFiles.join()).to.contain('linux-x64')
-      expect(s3UploadedFiles.join()).to.not.contain('win32-x64')
-      expect(s3UploadedFiles.join()).to.not.contain('darwin-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('linux-x64')
+      expect(s3UploadedFiles.join(',')).to.not.contain('win32-x64')
+      expect(s3UploadedFiles.join(',')).to.not.contain('darwin-x64')
     })
   })
 
@@ -83,9 +85,9 @@ describe('publish', () => {
     }))
     .command(['publish'])
     .it('publishes all', async () => {
-      expect(s3UploadedFiles.join()).to.contain('linux-x64')
-      expect(s3UploadedFiles.join()).to.contain('win32-x64')
-      expect(s3UploadedFiles.join()).to.contain('darwin-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('linux-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('win32-x64')
+      expect(s3UploadedFiles.join(',')).to.contain('darwin-x64')
     })
   })
 })

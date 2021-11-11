@@ -28,7 +28,7 @@ export default class Promote extends Command {
     indexes: Flags.boolean({description: 'append the promoted urls into the index files'}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
     const maxAge = `max-age=${flags['max-age']}`
     const targets = flags.targets.split(',')

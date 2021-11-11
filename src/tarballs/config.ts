@@ -12,10 +12,9 @@ export const TARGETS = [
   'win32-x64',
   'win32-x86',
   'darwin-x64',
-  'darwin-arm'
+  'darwin-arm',
 ]
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface BuildConfig {
   root: string;
   gitSha: string;
@@ -30,7 +29,6 @@ export interface BuildConfig {
   dist(input: string): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IManifest {
   version: string;
   sha: string;
@@ -46,7 +44,7 @@ export interface IManifest {
   };
 }
 
-export function gitSha(cwd: string, options: {short?: boolean} = {}) {
+export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
   return qq.x.stdout('git', args, {cwd})
 }

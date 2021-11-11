@@ -1,14 +1,14 @@
-import {Errors} from '@oclif/core'
+import {Errors, Interfaces} from '@oclif/core'
 import * as path from 'path'
 import * as qq from 'qqjs'
 
 import {log} from '../log'
 
-type NodeInfo = {
+type Options = {
   nodeVersion: string;
   output: string;
-  platform: string;
-  arch: string;
+  platform: Interfaces.PlatformTypes;
+  arch: Interfaces.ArchTypes | 'armv7l';
   tmp: string
 }
 
@@ -21,7 +21,7 @@ async function checkFor7Zip() {
   }
 }
 
-export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: NodeInfo): Promise<string> {
+export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: Options): Promise<string> {
   if (arch === 'arm') arch = 'armv7l'
   let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`
   let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`)

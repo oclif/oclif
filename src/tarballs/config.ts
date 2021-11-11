@@ -12,7 +12,7 @@ export const TARGETS = [
   'win32-x64',
   'win32-x86',
   'darwin-x64',
-  'darwin-arm',
+  'darwin-arm64',
 ]
 
 export interface BuildConfig {

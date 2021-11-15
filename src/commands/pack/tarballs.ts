@@ -1,6 +1,5 @@
 import {Command, Flags} from '@oclif/core'
 import * as qq from 'qqjs'
-import * as semver from 'semver'
 
 import * as Tarballs from '../../tarballs'
 
@@ -25,8 +24,8 @@ This can be used to create oclif CLIs that use the system node or that come prel
     const {flags} = await this.parse(PackTarballs)
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: targets})
-    if (targets.includes('darwin-arm64') && !semver.gt(buildConfig.nodeVersion, '16.0.0')) {
-      throw new Error('darwin-arm64 is only supported for node >=16.0.0')
+    if (buildConfig.targets.length === 0) {
+      throw new Error('Please specify one or more valid targets.')
     }
 
     await Tarballs.build(buildConfig)

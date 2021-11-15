@@ -2,9 +2,11 @@ import {Interfaces, Config} from '@oclif/core'
 
 import * as path from 'path'
 import * as qq from 'qqjs'
+import * as semver from 'semver'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'
+import {cli} from 'cli-ux'
 
 export const TARGETS = [
   'linux-x64',
@@ -64,6 +66,20 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
   const tmp = await Tmp(config)
   const updateConfig = config.pjson.oclif.update || {}
   updateConfig.s3 = updateConfig.s3 || {}
+  const nodeVersion = updateConfig.node.version || process.versions.node
+  const targets = compact(options.targets || updateConfig.node.targets || TARGETS)
+  .filter(t => {
+    if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
+      cli.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
+      return false
+    }
+
+    return true
+  })
+  .map(t => {
+    const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
+    return {platform, arch}
+  })
   return {
     root,
     gitSha: _gitSha,
@@ -73,15 +89,12 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     xz: typeof options.xz === 'boolean' ? options.xz : Boolean(updateConfig.s3.xz),
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     s3Config: updateConfig.s3,
-    nodeVersion: updateConfig.node.version || process.versions.node,
+    nodeVersion,
     workspace(target) {
       const base = qq.join(config.root, 'tmp')
       if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
       return qq.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },
-    targets: compact(options.targets || updateConfig.node.targets || TARGETS).map(t => {
-      const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
-      return {platform, arch}
-    }),
+    targets,
   }
 }

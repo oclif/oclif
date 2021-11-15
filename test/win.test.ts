@@ -1,25 +1,30 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
-
-const pjson = require('../package.json')
-const pjsonPath = require.resolve('../package.json')
-const originalVersion = pjson.version
+import * as path from 'path'
 
 const skipIfWindows = process.platform === 'win32' ? test.skip() : test
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:win', () => {
+  let pjson: any
+  let pjsonPath: string
+  let originalVersion: string
   beforeEach(async () => {
+    // eslint-disable-next-line unicorn/prefer-module
+    pjson = require('../package.json')
+    // eslint-disable-next-line unicorn/prefer-module
+    pjsonPath = require.resolve('../package.json')
+    originalVersion = pjson.version
     await qq.x(`aws s3 rm --recursive s3://oclif-staging/channels/${testRun}`)
     pjson.version = `${pjson.version}-${testRun}`
     await qq.writeJSON(pjsonPath, pjson)
-    const root = qq.join(__dirname, '../tmp/test/publish')
+    const root = path.join(__dirname, '..', 'tmp', 'test', 'publish')
     await qq.emptyDir(root)
     qq.cd(root)
   })
   afterEach(async () => {
     await qq.x(`aws s3 rm --recursive s3://oclif/dev-cli/channels/${testRun}`)
-    qq.cd([__dirname, '..'])
+    qq.cd(path.join(__dirname, '..'))
     pjson.version = originalVersion
     await qq.writeJSON(pjsonPath, pjson)
   })

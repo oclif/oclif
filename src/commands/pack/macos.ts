@@ -109,17 +109,17 @@ export default class PackMacos extends Command {
     if (process.platform !== 'darwin') this.error('must be run from macos')
     const {flags} = this.parse(PackMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {config} = buildConfig
+    const {config, version, tmp, gitSha} = buildConfig
     const c = config.pjson.oclif as OclifConfig
     if (!c.macos) this.error('package.json is missing an oclif.macos config')
     if (!c.macos.identifier) this.error('package.json must have oclif.macos.identifier set')
     const macos = c.macos
     const packageIdentifier = macos.identifier
     await Tarballs.build(buildConfig, {platform: 'darwin', pack: false})
-    const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha})
+    const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: gitSha})
     const dist = buildConfig.dist(`macos/${templateKey}`)
     await qq.emptyDir(path.dirname(dist))
-    const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
+    const scriptsDir = qq.join(tmp, 'macos/scripts')
     const rootDir = buildConfig.workspace({platform: 'darwin', arch: 'x64'})
     const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
       const path = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
@@ -127,6 +127,7 @@ export default class PackMacos extends Command {
       await qq.write(path, scripts[script](config))
       await qq.chmod(path, 0o755)
     }
+
     await writeScript('preinstall')
     await writeScript('postinstall')
     await writeScript('uninstall')
@@ -134,7 +135,7 @@ export default class PackMacos extends Command {
     const args = [
       '--root', rootDir,
       '--identifier', packageIdentifier,
-      '--version', buildConfig.version,
+      '--version', version,
       '--install-location', `/usr/local/lib/${config.dirname}`,
       '--scripts', scriptsDir,
     ]

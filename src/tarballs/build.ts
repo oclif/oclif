@@ -25,12 +25,13 @@ export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
 } = {}) {
-  const {xz, config} = c
+  const {xz, config, version} = c
   const prevCwd = qq.cwd()
   const packCLI = async () => {
     const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], {cwd: c.root})
     return path.join(c.root, stdout.split('\n').pop()!)
   }
+
   const extractCLI = async (tarball: string) => {
     await qq.emptyDir(c.workspace())
     await qq.mv(tarball, c.workspace())
@@ -42,15 +43,18 @@ export async function build(c: BuildConfig, options: {
     for (const f of await qq.ls('package', {fullpath: true})) await qq.mv(f, '.')
     await qq.rm('package', tarball, 'bin/run.cmd')
   }
+
   const updatePJSON = async () => {
     qq.cd(c.workspace())
     const pjson = await qq.readJSON('package.json')
-    pjson.version = c.version
+    const {s3Config} = c
+    pjson.version = version
     pjson.oclif.update = pjson.oclif.update || {}
     pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
-    pjson.oclif.update.s3.bucket = c.s3Config.bucket
+    pjson.oclif.update.s3.bucket = s3Config.bucket
     await qq.writeJSON('package.json', pjson)
   }
+
   const addDependencies = async () => {
     qq.cd(c.workspace())
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
@@ -63,10 +67,12 @@ export async function build(c: BuildConfig, options: {
       if (!await qq.exists(lockpath)) {
         lockpath = qq.join(c.root, 'npm-shrinkwrap.json')
       }
+
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
     }
   }
+
   const pretarball = async () => {
     qq.cd(c.workspace())
     const pjson = await qq.readJSON('package.json')
@@ -78,6 +84,7 @@ export async function build(c: BuildConfig, options: {
         await qq.x('npm run pretarball', {})
     }
   }
+
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
     const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
@@ -139,6 +146,7 @@ export async function build(c: BuildConfig, options: {
     }))
     await qq.writeJSON(manifestFilepath, manifest)
   }
+
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())
   await updatePJSON()
@@ -151,5 +159,6 @@ export async function build(c: BuildConfig, options: {
       await buildTarget(target)
     }
   }
+
   qq.cd(prevCwd)
 }

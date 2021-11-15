@@ -24,7 +24,7 @@ function build(type, features) {
   if (features === 'everything') options = '--options=yarn,typescript,eslint,mocha'
   if (features === 'typescript') options = '--options=yarn,typescript'
   if (features === 'mocha') options = '--options=yarn,mocha'
-  let dir = CI ? tmp.tmpNameSync() : path.join(__dirname, '../tmp')
+  let dir = tmp.tmpNameSync()
   dir = path.join(dir, type, features)
   sh.rm('-rf', dir)
   generate(`${type} ${dir} --defaults ${options}`)

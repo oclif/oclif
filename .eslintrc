@@ -3,7 +3,15 @@
     "oclif",
     "oclif-typescript"
   ],
+  "ignorePatterns": ["test/fixtures/**/*"],
   "rules": {
-    "unicorn/no-abusive-eslint-disable": 0
+    "unicorn/no-abusive-eslint-disable": 0,
+    "unicorn/prefer-node-protocol": 0,
+    "unicorn/import-style": 0
+  },
+  "settings": {
+    "node": {
+      "tryExtensions": [".js", ".json", ".node", ".ts", ".d.ts"]
+    }
   }
 }

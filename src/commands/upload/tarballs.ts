@@ -30,11 +30,11 @@ export default class UploadTarballs extends Command {
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets, xz: flags.xz})
-    const {s3Config, dist, version, config, xz} = buildConfig
+    const {s3Config, dist, version, config, xz, gitSha, targets: buildConfigTargets} = buildConfig
 
     // fail early if targets are not built
-    for (const target of buildConfig.targets) {
-      const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version, sha: buildConfig.gitSha, ...target}))
+    for (const target of buildConfigTargets) {
+      const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version, sha: gitSha, ...target}))
       // eslint-disable-next-line no-await-in-loop
       if (!await qq.exists(tarball)) this.error(`Cannot find a tarball for ${target.platform}-${target.arch}`, {
         suggestions: [`Run "oclif-dev pack --target ${target.platform}-${target.arch}" before uploading`],
@@ -53,10 +53,10 @@ export default class UploadTarballs extends Command {
           arch: options?.arch!,
           bin: config.bin,
           platform: options?.platform!,
-          sha: buildConfig.gitSha,
+          sha: gitSha,
           version,
         })
-        const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${localKey}`
+        const cloudKey = `${commitAWSDir(version, gitSha, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
       }
 
@@ -68,16 +68,16 @@ export default class UploadTarballs extends Command {
         arch: options?.arch!,
         bin: config.bin,
         platform: options?.platform!,
-        sha: buildConfig.gitSha,
+        sha: gitSha,
         version: config.version,
       })
-      const cloudKey = `${commitAWSDir(version, buildConfig.gitSha, s3Config)}/${manifest}`
+      const cloudKey = `${commitAWSDir(version, gitSha, s3Config)}/${manifest}`
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
     }
 
     if (targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop
-    for (const target of buildConfig.targets) await uploadTarball(target)
-    log(`done uploading tarballs & manifests for v${config.version}-${buildConfig.gitSha}`)
+    for (const target of buildConfigTargets) await uploadTarball(target)
+    log(`done uploading tarballs & manifests for v${config.version}-${gitSha}`)
   }
 }

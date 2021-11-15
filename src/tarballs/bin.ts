@@ -8,7 +8,7 @@ export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {con
   const clientHomeEnvVar = config.scopedEnvVarKey('OCLIF_CLIENT_HOME')
   const writeWin32 = async () => {
     const {bin} = config
-    await qq.write([baseWorkspace, 'bin', `${config.bin}.cmd`], `@echo off
+    await qq.write([baseWorkspace, 'bin', `${bin}.cmd`], `@echo off
 setlocal enableextensions
 
 if not "%${redirectedEnvVar}%"=="1" if exist "%LOCALAPPDATA%\\${bin}\\client\\bin\\${bin}.cmd" (
@@ -33,6 +33,7 @@ if exist "%~dp0..\\bin\\node.exe" (
     // exit $ret
     // `)
   }
+
   const writeUnix = async () => {
     const bin = qq.join([baseWorkspace, 'bin', config.bin])
     await qq.write(bin, `#!/usr/bin/env bash

@@ -125,23 +125,23 @@ _See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.0.0
 
 ## `oclif help [COMMAND]`
 
-display help for oclif
+Display help for oclif.
 
 ```
 USAGE
-  $ oclif help [COMMAND] [--all]
+  $ oclif help [COMMAND] [-n]
 
 ARGUMENTS
-  COMMAND  command to show help for
+  COMMAND  Command to show help for.
 
 FLAGS
-  --all  see all commands in CLI
+  -n, --nested-commands  Include all nested commands in the output.
 
 DESCRIPTION
-  display help for oclif
+  Display help for oclif.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.2/src/commands/help.ts)_
 
 ## `oclif manifest [PATH]`
 
@@ -204,8 +204,8 @@ USAGE
 
 FLAGS
   -r, --root=<value>     (required) [default: .] path to oclif CLI root
-  -t, --targets=<value>  [default: linux-x64,linux-arm,win32-x64,win32-x86,darwin-x64] comma-separated targets to pack
-                         (e.g.: linux-arm,win32-x64)
+  -t, --targets=<value>  [default: linux-x64,linux-arm,win32-x64,win32-x86,darwin-x64,darwin-arm64] comma-separated
+                         targets to pack (e.g.: linux-arm,win32-x64)
   --[no-]xz              also build xz
 
 DESCRIPTION
@@ -250,8 +250,8 @@ FLAGS
   -d, --deb              promote debian artifacts
   -m, --macos            promote macOS pkg
   -r, --root=<value>     (required) [default: .] path to the oclif CLI project root
-  -t, --targets=<value>  [default: linux-x64,linux-arm,win32-x64,win32-x86,darwin-x64] comma-separated targets to
-                         promote (e.g.: linux-arm,win32-x64)
+  -t, --targets=<value>  [default: linux-x64,linux-arm,win32-x64,win32-x86,darwin-x64,darwin-arm64] comma-separated
+                         targets to promote (e.g.: linux-arm,win32-x64)
   -w, --win              promote Windows exe
   --channel=<value>      (required) [default: stable] which channel to promote to
   --indexes              append the promoted urls into the index files
@@ -339,8 +339,8 @@ USAGE
 
 FLAGS
   -r, --root=<value>     (required) [default: .] path to oclif CLI root
-  -t, --targets=<value>  [default: linux-x64,linux-arm,win32-x64,win32-x86,darwin-x64] comma-separated targets to upload
-                         (e.g.: linux-arm,win32-x64)
+  -t, --targets=<value>  [default: linux-x64,linux-arm,win32-x64,win32-x86,darwin-x64,darwin-arm64] comma-separated
+                         targets to upload (e.g.: linux-arm,win32-x64)
   --[no-]xz              also upload xz
 
 DESCRIPTION

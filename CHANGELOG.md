@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.10](https://github.com/oclif/oclif/compare/v2.0.0-main.9...v2.0.0-main.10) (2021-11-17)
+
+
+### Features
+
+* support darwin-arm tarballs ([#711](https://github.com/oclif/oclif/issues/711)) ([61cb766](https://github.com/oclif/oclif/commit/61cb7664ce38f1b7827ff652f063c3be7adeb1af))
+
 ## [2.0.0-main.9](https://github.com/oclif/oclif/compare/v2.0.0-main.8...v2.0.0-main.9) (2021-11-04)
 
 ## [2.0.0-main.8](https://github.com/oclif/oclif/compare/v2.0.0-main.7...v2.0.0-main.8) (2021-10-08)

@@ -111,7 +111,7 @@ export default class PackMacos extends Command {
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`, hidden: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     if (process.platform !== 'darwin') this.error('must be run from macos')
     const {flags} = await this.parse(PackMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
@@ -133,6 +133,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       await qq.write(path, scripts[script](config, flags['additional-cli']))
       await qq.chmod(path, 0o755)
     }
+
     await writeScript('preinstall')
     await writeScript('postinstall')
     await writeScript('uninstall')

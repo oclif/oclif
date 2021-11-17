@@ -13,7 +13,7 @@ export default class UploadWin extends Command {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const {flags} = await this.parse(UploadWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {s3Config, config, dist} = buildConfig
@@ -39,6 +39,7 @@ export default class UploadWin extends Command {
       const cloudKey = `${cloudKeyBase}/${templateKey}`
       if (await qq.exists(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
+
     await uploadWin('x64')
     await uploadWin('x86')
 

@@ -19,7 +19,7 @@ hello world from ./src/hello.ts!
 
   static args = [{name: 'file'}]
 
-  async run() {
+  async run(): Promise<void> {
     const {args, flags} = await this.parse(Hello)
 
     const name = flags.name ?? 'world'

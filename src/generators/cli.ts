@@ -56,7 +56,7 @@ class App extends Generator {
 
   repository?: string
 
-  constructor(args: any, opts: any) {
+  constructor(args: string | string[], opts: Generator.GeneratorOptions) {
     super(args, opts)
 
     this.name = opts.name
@@ -66,14 +66,13 @@ class App extends Generator {
     }
   }
 
-  // eslint-disable-next-line complexity
-  async prompting() {
+  async prompting(): Promise<void> {
     const msg = 'Time to build an oclif CLI!'
 
     this.log(yosay(`${msg} Version: ${version}`))
 
     execSync(`git clone https://github.com/oclif/hello-world.git ${path.resolve(this.name)}`)
-    fs.rmdirSync(`${path.resolve(this.name, '.git')}`)
+    fs.rmdirSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
 
     this.destinationRoot(path.resolve(this.name))
     process.chdir(this.destinationRoot())
@@ -85,7 +84,7 @@ class App extends Generator {
       devDependencies: {},
       dependencies: {},
       oclif: {},
-      ...(this.fs.readJSON('package.json', {}) as object),
+      ...(this.fs.readJSON('package.json', {}) as Record<string, unknown>),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
@@ -107,6 +106,7 @@ class App extends Generator {
     if (this.repository && (this.repository as any).url) {
       this.repository = (this.repository as any).url
     }
+
     if (this.options.defaults) {
       this.answers = defaults
     } else {
@@ -172,6 +172,7 @@ class App extends Generator {
         },
       ]) as any
     }
+
     debug(this.answers)
     if (!this.options.defaults) {
       this.options = {
@@ -179,6 +180,7 @@ class App extends Generator {
         yarn: this.answers.pkg === 'yarn',
       }
     }
+
     this.yarn = this.options.yarn
 
     this.pjson.name = this.answers.name || defaults.name
@@ -199,7 +201,7 @@ class App extends Generator {
     this.pjson.bin[this.pjson.oclif.bin] = './bin/run'
   }
 
-  writing() {
+  writing(): void {
     if (this.pjson.oclif && Array.isArray(this.pjson.oclif.plugins)) {
       this.pjson.oclif.plugins.sort()
     }
@@ -207,6 +209,7 @@ class App extends Generator {
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
     }
+
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
@@ -214,13 +217,13 @@ class App extends Generator {
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
   }
 
-  install() {
+  async install(): Promise<void> {
     const dependencies: string[] = []
     const devDependencies: string[] = []
     if (isWindows) devDependencies.push('rimraf')
     const yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
-    const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
+    const install = (deps: string[], opts: Record<string, unknown>) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
     return Promise.all([
@@ -229,7 +232,7 @@ class App extends Generator {
     ]).then(() => {})
   }
 
-  end() {
+  end(): void {
     this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif'), ['readme'])
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }

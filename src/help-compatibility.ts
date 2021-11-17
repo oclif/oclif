@@ -16,7 +16,7 @@ export class HelpCompatibilityWrapper {
     this.inner = inner
   }
 
-  formatCommand(command: Interfaces.Command) {
+  formatCommand(command: Interfaces.Command): string {
     if (this.inner.formatCommand) {
       return this.inner.formatCommand(command)
     }

@@ -53,7 +53,7 @@ export default class PackDeb extends Command {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     if (process.platform !== 'linux') throw new Error('debian packing must be run on linux')
     const {flags} = await this.parse(PackDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)

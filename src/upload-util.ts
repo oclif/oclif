@@ -21,9 +21,11 @@ export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config
 // When this pkg starts using oclif/core
 // refactor this key name lookup
 // helper to oclif/core
-export function templateShortKey(type: keyof Interfaces.PJSON.S3.Templates | 'macos' | 'win32' | 'deb', ext?: '.tar.gz' | '.tar.xz' | Interfaces.Config
-.s3Key.Options, options: Interfaces.Config
-.s3Key.Options = {root: '.'}) {
+export function templateShortKey(
+  type: keyof Interfaces.PJSON.S3.Templates | 'macos' | 'win32' | 'deb', ext?: '.tar.gz' | '.tar.xz' | Interfaces.Config.s3Key.Options,
+  // eslint-disable-next-line unicorn/no-object-as-default-parameter
+  options: Interfaces.Config.s3Key.Options = {root: '.'},
+): string {
   if (typeof ext === 'object') options = Object.assign(options, ext)
   else if (ext) options.ext = ext
   const _: typeof Lodash = require('lodash')
@@ -39,7 +41,7 @@ export function templateShortKey(type: keyof Interfaces.PJSON.S3.Templates | 'ma
   return _.template(templates[type])({...options})
 }
 
-export function debArch(arch: Interfaces.ArchTypes) {
+export function debArch(arch: Interfaces.ArchTypes): string {
   if (arch === 'x64') return 'amd64'
   if (arch === 'x86') return 'i386'
   if (arch === 'arm') return 'armel'

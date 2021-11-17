@@ -8,6 +8,7 @@ import {templateShortKey} from '../../upload-util'
 
 const scripts = {
   /* eslint-disable no-useless-escape */
+  // eslint-disable-next-line unicorn/no-useless-undefined
   cmd: (config: Interfaces.Config, additionalCLI: string | undefined = undefined) => `@echo off
 setlocal enableextensions
 
@@ -205,7 +206,7 @@ export default class PackWin extends Command {
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`, hidden: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     await this.checkForNSIS()
     const {flags} = await this.parse(PackWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)

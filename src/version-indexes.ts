@@ -12,8 +12,8 @@ interface VersionsObject {
 
 const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number): VersionsObject => {
   const keys = (Reflect.ownKeys(input).sort((a, b) => {
-    const splitA = (a as string).split('.').map(part => parseInt(part, 10))
-    const splitB = (b as string).split('.').map(part => parseInt(part, 10))
+    const splitA = (a as string).split('.').map(part => Number.parseInt(part, 10))
+    const splitB = (b as string).split('.').map(part => Number.parseInt(part, 10))
     // sort by major
     if (splitA[0] < splitB[0]) return 1
     if (splitA[0] > splitB[0]) return -1
@@ -26,14 +26,15 @@ const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number):
     return 0
   }) as string[]).slice(0, keyLimit) // undefined keyLimit returns the entire array
   const result: VersionsObject = {}
-  keys.forEach(key => {
+  for (const key of keys) {
     result[key] = input[key]
-  })
+  }
+
   return result
 }
 
 // appends to an existing file (or writes a new one) with the versions in descending order, with an optional limit from the pjson file
-export const appendToIndex = async (input: { version: string; originalUrl: string; filename: string; maxAge: string; s3Config: BuildConfig['s3Config'] }) => {
+export const appendToIndex = async (input: { version: string; originalUrl: string; filename: string; maxAge: string; s3Config: BuildConfig['s3Config'] }): Promise<void> => {
   const {version, originalUrl, filename, maxAge, s3Config} = input
   // these checks are both nice for users AND helpful for TS
   if (!s3Config.bucket) throw new Error('[package.json].oclif.s3.bucket is required for indexes')
@@ -54,6 +55,7 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
   } catch (error: any) {
     debug(`error on ${key}`, error)
   }
+
   // appends new version from this promotion if not already present (idempotent)
   await fs.writeJSON(jsonFileName, sortVersionsObjectByKeysDesc(
     {

@@ -49,6 +49,7 @@ const aws = {
 }
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get cloudfront() {
     return {
       createCloudfrontInvalidation: (options: CloudFront.Types.CreateInvalidationRequest) => new Promise((resolve, reject) => {
@@ -60,6 +61,7 @@ export default {
       }),
     }
   },
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get s3() {
     return {
       uploadFile: (local: string, options: S3.Types.PutObjectRequest) => new Promise((resolve, reject) => {

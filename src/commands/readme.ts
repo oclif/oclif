@@ -9,7 +9,7 @@ import {castArray, compact, sortBy, template, uniqBy} from '../util'
 import {HelpCompatibilityWrapper} from '../help-compatibility'
 
 const normalize = require('normalize-package-data')
-const columns = parseInt(process.env.COLUMNS!, 10) || 120
+const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
 
 interface HelpBaseDerived {
@@ -34,7 +34,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
   private HelpClass!: HelpBaseDerived
 
-  async run() {
+  async run(): Promise<void> {
     const {flags} = await this.parse(Readme)
     const cwd = process.cwd()
     const readmePath = path.resolve(cwd, 'README.md')
@@ -46,6 +46,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       await plugin.load()
       config.plugins.push(plugin)
     } catch {}
+
     await (config as Config).runHook('init', {id: 'readme', argv: this.argv})
 
     this.HelpClass = await loadHelpClass(config)
@@ -62,7 +63,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     readme = this.replaceTag(readme, 'commands', flags.multi ? this.multiCommands(config, commands, flags.dir) : this.commands(config, commands))
     readme = this.replaceTag(readme, 'toc', this.toc(config, readme))
 
-    readme = readme.trimRight()
+    readme = readme.trimEnd()
     readme += '\n'
 
     await fs.outputFile(readmePath, readme)
@@ -73,8 +74,10 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       if (readme.includes(`<!-- ${tag}stop -->`)) {
         readme = readme.replace(new RegExp(`<!-- ${tag} -->(.|\n)*<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
       }
+
       this.log(`replacing <!-- ${tag} --> in README.md`)
     }
+
     return readme.replace(`<!-- ${tag} -->`, `<!-- ${tag} -->\n${body}\n<!-- ${tag}stop -->`)
   }
 
@@ -129,7 +132,7 @@ USAGE
     ].join('\n').trim() + '\n'
   }
 
-  createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Interfaces.Command[]) {
+  createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Interfaces.Command[]): void {
     const bin = `\`${config.bin} ${topic.name}\``
     const doc = [
       bin,
@@ -188,6 +191,7 @@ USAGE
       label = commandPath
       version = process.env.OCLIF_NEXT_VERSION || version
     }
+
     const template = plugin.pjson.oclif.repositoryPrefix || '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
     return `_See code: [${label}](${_.template(template)({repo, version, commandPath, config, c})})_`
   }
@@ -230,6 +234,7 @@ USAGE
       p = p.replace(libRegex, 'src' + path.sep)
       p = p.replace(/\.js$/, '.ts')
     }
+
     p = p.replace(/\\/g, '/') // Replace windows '\' by '/'
     return p
   }
@@ -240,6 +245,7 @@ USAGE
       if (arg.required) return `${name}`
       return `[${name}]`
     }
+
     const id = config.topicSeparator ? command.id.replace(/:/g, config.topicSeparator) : command.id
     const defaultUsage = () => {
       return compact([
@@ -247,6 +253,7 @@ USAGE
         command.args.filter(a => !a.hidden).map(a => arg(a)).join(' '),
       ]).join(' ')
     }
+
     const usages = castArray(command.usage)
     return template({config, command})(usages.length === 0 ? defaultUsage() : usages[0])
   }

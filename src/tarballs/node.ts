@@ -1,8 +1,16 @@
-import {Errors} from '@oclif/core'
+import {Errors, Interfaces} from '@oclif/core'
 import * as path from 'path'
 import * as qq from 'qqjs'
 
 import {log} from '../log'
+
+type Options = {
+  nodeVersion: string;
+  output: string;
+  platform: Interfaces.PlatformTypes;
+  arch: Interfaces.ArchTypes | 'armv7l';
+  tmp: string
+}
 
 async function checkFor7Zip() {
   try {
@@ -13,14 +21,13 @@ async function checkFor7Zip() {
   }
 }
 
-export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: {nodeVersion: string; output: string; platform: string; arch: string; tmp: string}) {
+export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: Options): Promise<string> {
   if (arch === 'arm') arch = 'armv7l'
   let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`
   let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`)
   let url = `https://nodejs.org/dist/v${nodeVersion}/${nodeBase}.tar.xz`
   if (platform === 'win32') {
     await checkFor7Zip()
-    // eslint-disable-next-line require-atomic-updates
     nodeBase = `node-v${nodeVersion}-win-${arch}`
     tarball = path.join(tmp, 'node', `${nodeBase}.7z`)
     url = `https://nodejs.org/dist/v${nodeVersion}/${nodeBase}.7z`
@@ -36,11 +43,13 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     if (!await qq.exists(shasums)) {
       await qq.download(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`, shasums)
     }
+
     const basedir = path.dirname(tarball)
     await qq.mkdirp(basedir)
     await qq.download(url, tarball)
     await qq.x(`grep ${path.basename(tarball)} ${shasums} | shasum -a 256 -c -`, {cwd: basedir})
   }
+
   const extract = async () => {
     log(`extracting ${nodeBase}`)
     const nodeTmp = path.join(tmp, 'node')
@@ -57,6 +66,7 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
       await qq.mv([nodeTmp, nodeBase, 'bin/node'], cache)
     }
   }
+
   if (await qq.exists(cache)) {
     await qq.cp(cache, output)
   } else {
@@ -64,5 +74,6 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     await extract()
     await qq.cp(cache, output)
   }
+
   return output
 }

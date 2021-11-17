@@ -18,12 +18,16 @@ This can be used to create oclif CLIs that use the system node or that come prel
     xz: Flags.boolean({description: 'also build xz', allowNo: true, default: true}),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const prevCwd = qq.cwd()
     if (process.platform === 'win32') throw new Error('pack does not function on windows')
     const {flags} = await this.parse(PackTarballs)
     const targets = flags.targets.split(',')
     const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: targets})
+    if (buildConfig.targets.length === 0) {
+      throw new Error('Please specify one or more valid targets.')
+    }
+
     await Tarballs.build(buildConfig)
     qq.cd(prevCwd)
   }

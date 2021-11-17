@@ -9,10 +9,11 @@ export default class Manifest extends Command {
     {name: 'path', description: 'path to plugin', default: '.'},
   ]
 
-  async run() {
+  async run(): Promise<void> {
     try {
       fs.unlinkSync('oclif.manifest.json')
     } catch {}
+
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
     let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
@@ -24,9 +25,11 @@ export default class Manifest extends Command {
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
     }
+
     if (process.env.OCLIF_NEXT_VERSION) {
       plugin.manifest.version = process.env.OCLIF_NEXT_VERSION
     }
+
     const dotfile = plugin.pjson.files.find((f: string) => f.endsWith('.oclif.manifest.json'))
     const file = path.join(plugin.root, `${dotfile ? '.' : ''}oclif.manifest.json`)
     fs.writeFileSync(file, JSON.stringify(plugin.manifest))

@@ -4,6 +4,8 @@
     "oclif-typescript"
   ],
   "rules": {
-    "unicorn/no-abusive-eslint-disable": 0
+    "unicorn/no-abusive-eslint-disable": 0,
+    "unicorn/import-style": 0,
+    "unicorn/prefer-node-protocol": 0
   }
 }

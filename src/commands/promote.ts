@@ -12,7 +12,7 @@ export default class Promote extends Command {
 
   static description = 'promote CLI builds to a S3 release channel'
 
-  static flags = {
+  static flags: flags.Input<any> = {
     root: flags.string({char: 'r', description: 'path to the oclif CLI project root', default: '.', required: true}),
     version: flags.string({description: 'semantic version of the CLI to promote', required: true}),
     sha: flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),

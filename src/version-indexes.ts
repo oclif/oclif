@@ -12,8 +12,8 @@ interface VersionsObject {
 
 const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number): VersionsObject => {
   const keys = (Reflect.ownKeys(input).sort((a, b) => {
-    const splitA = (a as string).split('.').map(part => parseInt(part, 10))
-    const splitB = (b as string).split('.').map(part => parseInt(part, 10))
+    const splitA = (a as string).split('.').map(part => Number.parseInt(part, 10))
+    const splitB = (b as string).split('.').map(part => Number.parseInt(part, 10))
     // sort by major
     if (splitA[0] < splitB[0]) return 1
     if (splitA[0] > splitB[0]) return -1
@@ -26,9 +26,10 @@ const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number):
     return 0
   }) as string[]).slice(0, keyLimit) // undefined keyLimit returns the entire array
   const result: VersionsObject = {}
-  keys.forEach(key => {
+  for (const key of keys) {
     result[key] = input[key]
-  })
+  }
+
   return result
 }
 
@@ -54,6 +55,7 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
   } catch (error) {
     debug(`error on ${key}`, error)
   }
+
   // appends new version from this promotion if not already present (idempotent)
   await fs.writeJSON(jsonFileName, sortVersionsObjectByKeysDesc(
     {

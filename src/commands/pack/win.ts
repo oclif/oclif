@@ -205,11 +205,11 @@ export default class PackWin extends Command {
     await this.checkForNSIS()
     const {flags} = this.parse(PackWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {config} = buildConfig
+    const {config, version, gitSha, targets, tmp} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false})
-    const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+    const arches = targets.filter(t => t.platform === 'win32').map(t => t.arch)
     for (const arch of arches) {
-      const installerBase = qq.join(buildConfig.tmp, `windows-${arch}-installer`)
+      const installerBase = qq.join(tmp, `windows-${arch}-installer`)
       // eslint-disable-next-line no-await-in-loop
       await qq.write([installerBase, `bin/${config.bin}.cmd`], scripts.cmd(config))
       // eslint-disable-next-line no-await-in-loop
@@ -220,7 +220,7 @@ export default class PackWin extends Command {
       await qq.mv(buildConfig.workspace({platform: 'win32', arch}), [installerBase, 'client'])
       // eslint-disable-next-line no-await-in-loop
       await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('win32', {bin: config.bin, version: version, sha: gitSha, arch})
       const o = buildConfig.dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
       await qq.mv([installerBase, 'installer.exe'], o)

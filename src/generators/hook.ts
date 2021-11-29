@@ -43,6 +43,7 @@ class HookGenerator extends Generator {
     if (this._mocha) {
       this.fs.copyTpl(this.templatePath(`test/hook.test.${this._ext}.ejs`), this.destinationPath(`test/commands/${this._path}.test.${this._ext}`), this)
     }
+
     this.pjson.oclif = this.pjson.oclif || {}
     this.pjson.oclif.hooks = this.pjson.oclif.hooks || {}
     const hooks = this.pjson.oclif.hooks
@@ -53,6 +54,7 @@ class HookGenerator extends Generator {
     } else {
       this.pjson.oclif.hooks[this.options.event] = p
     }
+
     this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
   }
 }

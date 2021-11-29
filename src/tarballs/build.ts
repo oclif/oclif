@@ -25,12 +25,13 @@ export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
 } = {}) {
-  const {xz, config} = c
+  const {xz, config, version, s3Config, gitSha, nodeVersion, targets, updateConfig} = c
   const prevCwd = qq.cwd()
   const packCLI = async () => {
     const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], {cwd: c.root})
     return path.join(c.root, stdout.split('\n').pop()!)
   }
+
   const extractCLI = async (tarball: string) => {
     await qq.emptyDir(c.workspace())
     await qq.mv(tarball, c.workspace())
@@ -42,15 +43,17 @@ export async function build(c: BuildConfig, options: {
     for (const f of await qq.ls('package', {fullpath: true})) await qq.mv(f, '.')
     await qq.rm('package', tarball, 'bin/run.cmd')
   }
+
   const updatePJSON = async () => {
     qq.cd(c.workspace())
     const pjson = await qq.readJSON('package.json')
-    pjson.version = c.version
+    pjson.version = version
     pjson.oclif.update = pjson.oclif.update || {}
     pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
-    pjson.oclif.update.s3.bucket = c.s3Config.bucket
+    pjson.oclif.update.s3.bucket = s3Config.bucket
     await qq.writeJSON('package.json', pjson)
   }
+
   const addDependencies = async () => {
     qq.cd(c.workspace())
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
@@ -63,10 +66,12 @@ export async function build(c: BuildConfig, options: {
       if (!await qq.exists(lockpath)) {
         lockpath = qq.join(c.root, 'npm-shrinkwrap.json')
       }
+
       await qq.cp(lockpath, '.')
       await qq.x('npm install --production')
     }
   }
+
   const pretarball = async () => {
     qq.cd(c.workspace())
     const pjson = await qq.readJSON('package.json')
@@ -78,21 +83,22 @@ export async function build(c: BuildConfig, options: {
         await qq.x('npm run pretarball', {})
     }
   }
+
   const buildTarget = async (target: {platform: PlatformTypes; arch: ArchTypes}) => {
     const workspace = c.workspace(target)
     const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
       arch: target.arch,
-      bin: c.config.bin,
+      bin: config.bin,
       platform: target.platform,
-      sha: c.gitSha,
+      sha: gitSha,
       version: config.version,
     })
 
     const xzLocalKey = templateShortKey('versioned', '.tar.xz', {
       arch: target.arch,
-      bin: c.config.bin,
+      bin: config.bin,
       platform: target.platform,
-      sha: c.gitSha,
+      sha: gitSha,
       version: config.version,
     })
     const base = path.basename(gzLocalKey)
@@ -101,7 +107,7 @@ export async function build(c: BuildConfig, options: {
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
     await fetchNodeBinary({
-      nodeVersion: c.nodeVersion,
+      nodeVersion: nodeVersion,
       output: path.join(workspace, 'bin', 'node'),
       platform: target.platform,
       arch: target.arch,
@@ -110,46 +116,48 @@ export async function build(c: BuildConfig, options: {
     if (options.pack === false) return
     await pack(workspace, c.dist(gzLocalKey))
     if (xz) await pack(workspace, c.dist(xzLocalKey))
-    if (!c.updateConfig.s3.host) return
-    const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
+    if (!updateConfig.s3.host) return
+    const rollout = (typeof updateConfig.autoupdate === 'object' && updateConfig.autoupdate.rollout)
 
-    const gzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
-    const xzCloudKey = `${commitAWSDir(c.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
+    const gzCloudKey = `${commitAWSDir(version, gitSha, updateConfig.s3)}/${gzLocalKey}`
+    const xzCloudKey = `${commitAWSDir(version, gitSha, updateConfig.s3)}/${xzLocalKey}`
 
     const manifest: IManifest = {
       rollout: rollout === false ? undefined : rollout,
-      version: c.version,
-      sha: c.gitSha,
-      baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
+      version: version,
+      sha: gitSha,
+      baseDir: templateShortKey('baseDir', target, {bin: config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
       sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
       sha256xz: xz ? await qq.hash('sha256', c.dist(xzLocalKey)) : undefined,
       node: {
         compatible: config.pjson.engines.node,
-        recommended: c.nodeVersion,
+        recommended: nodeVersion,
       },
     }
     const manifestFilepath = c.dist(templateShortKey('manifest', {
       arch: target.arch,
-      bin: c.config.bin,
+      bin: config.bin,
       platform: target.platform,
-      sha: c.gitSha,
+      sha: gitSha,
       version: config.version,
     }))
     await qq.writeJSON(manifestFilepath, manifest)
   }
+
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(await packCLI())
   await updatePJSON()
   await addDependencies()
-  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
+  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: nodeVersion})
   await pretarball()
-  for (const target of c.targets) {
+  for (const target of targets) {
     if (!options.platform || options.platform === target.platform) {
       // eslint-disable-next-line no-await-in-loop
       await buildTarget(target)
     }
   }
+
   qq.cd(prevCwd)
 }

@@ -3,7 +3,7 @@ import {flags} from '@oclif/command'
 import Base from './command-base'
 
 export default abstract class AppCommand extends Base {
-  static flags = {
+  static flags: flags.Input<any> = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
     options: flags.string({description: '(yarn|typescript|eslint|mocha)'}),
     force: flags.boolean({description: 'overwrite existing files'}),

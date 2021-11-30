@@ -32,6 +32,7 @@ const tests = testTypes.map(cmd => {
   if (process.env.CIRCLECI) {
     tests = series(mkdirp('reports'), tests)
   }
+
   sh.config.silent = silent
   return [cmd, series('nps build', tests)]
 })
@@ -41,11 +42,11 @@ module.exports = {
     build: 'rm -rf lib && tsc',
     lint: {
       default: concurrent.nps('lint.eslint', 'lint.tsc'),
-      eslint: script('eslint . --ext .ts --config .eslintrc', 'lint js & ts files'),
+      eslint: script('eslint . --ext .ts', 'lint js & ts files'),
       tsc: script('tsc --noEmit', 'syntax check with tsc'),
     },
     test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
-    }, _.fromPairs(tests)),
+    }, Object.fromEntries(tests)),
   },
 }

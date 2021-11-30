@@ -28,7 +28,6 @@ export interface BuildConfig {
   dist(input: string): string;
 }
 
-// eslint:disable-next-line @typescript-eslint/interface-name-prefix
 export interface IManifest {
   version: string;
   sha: string;

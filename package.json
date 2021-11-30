@@ -26,8 +26,8 @@
     "qqjs": "^0.3.10",
     "sort-pjson": "^1.0.3",
     "tslib": "^2.0.0",
-    "yeoman-environment": "^2.3.4",
-    "yeoman-generator": "3",
+    "yeoman-environment": "^2.10.3",
+    "yeoman-generator": "4.8.2",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/shelljs": "^0.8.3",
     "@types/supports-color": "^7.2.0",
     "@types/write-json-file": "^3.2.1",
-    "@types/yeoman-environment": "^2.10.2",
+    "@types/yeoman-environment": "^2.10.5",
     "@types/yosay": "^0.0.29",
     "aws-sdk": "^2.443.0",
     "chai": "^4.2.0",

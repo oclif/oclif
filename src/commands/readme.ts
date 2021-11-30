@@ -14,6 +14,12 @@ const normalize = require('normalize-package-data')
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
 
+const arg = (arg: Config.Command.Arg) => {
+  const name = arg.name.toUpperCase()
+  if (arg.required) return `${name}`
+  return `[${name}]`
+}
+
 export default class Readme extends Command {
   static hidden = true
 
@@ -234,12 +240,6 @@ USAGE
   }
 
   private commandUsage(config: Config.IConfig, command: Config.Command): string {
-    const arg = (arg: Config.Command.Arg) => {
-      const name = arg.name.toUpperCase()
-      if (arg.required) return `${name}`
-      return `[${name}]`
-    }
-
     const defaultUsage = () => {
       // const flags = Object.entries(command.flags)
       // .filter(([, v]) => !v.hidden)

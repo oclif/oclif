@@ -6,6 +6,11 @@
   "rules": {
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/import-style": 0,
-    "unicorn/prefer-node-protocol": 0
+    "unicorn/prefer-node-protocol": 0,
+    "node/no-missing-import": 1
+  },
+  "settings": {
+    "resolvePaths": ["node_modules/@types"],
+    "tryExtensions": [".js", ".json", ".node", ".ts", ".d.ts"]
   }
 }

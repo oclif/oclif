@@ -1878,12 +1878,12 @@ cli-ux@^5.6.3:
     supports-hyperlinks "^2.1.0"
     tslib "^2.0.0"
 
-cli-ux@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-6.0.0.tgz#da3194553d06a1d0ab94a56615b0aafbd458a537"
-  integrity sha512-of6D4RYGsDJi1TLOmoFKGS2M9bQV9d9FCzMFB1pNYy4mpXssherVaGU/TrlkDsaMIHj/Suqnq8Pwe8Hr/Muocw==
+cli-ux@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-6.0.1.tgz#e059b3e2cedbb4ccf9c4b534fd8a4578e8c45201"
+  integrity sha512-V2789lD5swG5kwoKO0JUMxhjVEjAFdz7ufTvGE6wYUHV749eQPZm93dhLqkzM7HAM0tHZsY+j54OEcw+Qr1vGg==
   dependencies:
-    "@oclif/core" "^0.5.39"
+    "@oclif/core" "^1.0.4"
     "@oclif/linewrap" "^1.0.0"
     "@oclif/screen" "^1.0.3"
     ansi-escapes "^4.3.0"
@@ -1898,7 +1898,7 @@ cli-ux@^6.0.0:
     indent-string "^4.0.0"
     is-wsl "^2.2.0"
     js-yaml "^3.13.1"
-    lodash "^4.17.11"
+    lodash "^4.17.21"
     natural-orderby "^2.0.1"
     object-treeify "^1.1.4"
     password-prompt "^1.1.2"

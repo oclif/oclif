@@ -56,14 +56,14 @@ export default class PackDeb extends Command {
     if (process.platform !== 'linux') throw new Error('debian packing must be run on linux')
     const {flags} = this.parse(PackDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {config} = buildConfig
+    const {config, tmp, targets} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'linux', pack: false})
     const dist = buildConfig.dist('deb')
     await qq.emptyDir(dist)
     const build = async (arch: Config.ArchTypes) => {
       const target: {platform: 'linux'; arch: Config.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
-      const workspace = qq.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
+      const workspace = qq.join(tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
       await qq.rm(workspace)
       await qq.mkdirp([workspace, 'DEBIAN'])
       await qq.mkdirp([workspace, 'usr/bin'])
@@ -78,7 +78,7 @@ export default class PackDeb extends Command {
       await qq.x(`dpkg --build "${workspace}" "${qq.join(dist, versionedDebBase)}"`)
     }
 
-    const arches = _.uniq(buildConfig.targets
+    const arches = _.uniq(targets
     .filter(t => t.platform === 'linux')
     .map(t => t.arch))
     // eslint-disable-next-line no-await-in-loop
@@ -88,7 +88,7 @@ export default class PackDeb extends Command {
     await qq.x('gzip -c Packages > Packages.gz', {cwd: dist})
     await qq.x('bzip2 -k Packages', {cwd: dist})
     await qq.x('xz -k Packages', {cwd: dist})
-    const ftparchive = qq.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
+    const ftparchive = qq.join(tmp, 'apt', 'apt-ftparchive.conf')
     await qq.write(ftparchive, scripts.ftparchive(config))
     await qq.x(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
     const gpgKey = config.scopedEnvVar('DEB_KEY')

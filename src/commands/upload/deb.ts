@@ -18,7 +18,7 @@ export default class UploadDeb extends Command {
   async run() {
     const {flags} = this.parse(UploadDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, config} = buildConfig
+    const {s3Config, config, gitSha} = buildConfig
     const dist = (f: string) => buildConfig.dist(qq.join('deb', f))
     const S3Options = {
       Bucket: s3Config.bucket!,
@@ -29,11 +29,12 @@ export default class UploadDeb extends Command {
       suggestions: ['Run "oclif-dev pack:deb" before uploading'],
     })
 
-    const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
+    const cloudKeyBase = commitAWSDir(config.pjson.version, gitSha, s3Config)
     const upload = (file: string) => {
       const cloudKey = `${cloudKeyBase}/apt/${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
+
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
       const deb = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: arch as any})
       if (await qq.exists(dist(deb))) await upload(deb)
@@ -48,6 +49,6 @@ export default class UploadDeb extends Command {
     if (await qq.exists(dist('InRelease'))) await upload('InRelease')
     if (await qq.exists(dist('Release.gpg'))) await upload('Release.gpg')
 
-    log(`done uploading deb artifacts for v${config.version}-${buildConfig.gitSha}`)
+    log(`done uploading deb artifacts for v${config.version}-${gitSha}`)
   }
 }

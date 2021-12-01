@@ -6,6 +6,6 @@ export const debug = require('debug')('oclif')
 debug.new = (name: string) => require('debug')(`oclif:${name}`)
 
 export function log(format: string, ...args: any[]) {
-  args = args.map(qq.prettifyPaths)
+  args = args.map(arg => qq.prettifyPaths(arg))
   debug.enabled ? debug(format, ...args) : cli.log(`oclif: ${util.format(format, ...args)}`)
 }

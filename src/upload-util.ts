@@ -20,7 +20,7 @@ export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config
 // When this pkg starts using oclif/core
 // refactor this key name lookup
 // helper to oclif/core
-export function templateShortKey(type: keyof Config.PJSON.S3.Templates | 'macos' | 'win32' | 'deb', ext?: '.tar.gz' | '.tar.xz' | Config.IConfig.s3Key.Options, options: Config.IConfig.s3Key.Options = {root: '.'}) {
+export function templateShortKey(type: keyof Config.PJSON.S3.Templates | 'macos' | 'win32' | 'deb', ext?: '.tar.gz' | '.tar.xz' | Config.IConfig.s3Key.Options, options: Config.IConfig.s3Key.Options = {root: '.'} as Config.IConfig.s3Key.Options) {
   if (typeof ext === 'object') options = Object.assign(options, ext)
   else if (ext) options.ext = ext
   const _: typeof Lodash = require('lodash')

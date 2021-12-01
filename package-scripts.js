@@ -32,6 +32,7 @@ const tests = testTypes.map(cmd => {
   if (process.env.CIRCLECI) {
     tests = series(mkdirp('reports'), tests)
   }
+
   sh.config.silent = silent
   return [cmd, series('nps build', tests)]
 })
@@ -46,6 +47,6 @@ module.exports = {
     },
     test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
-    }, _.fromPairs(tests)),
+    }, Object.fromEntries(tests)),
   },
 }

@@ -18,13 +18,13 @@ export default class UploadMacos extends Command {
   async run() {
     const {flags} = this.parse(UploadMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, version, config, dist} = buildConfig
+    const {s3Config, version, config, dist, gitSha} = buildConfig
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
-    const cloudKeyBase = commitAWSDir(version, buildConfig.gitSha, s3Config)
-    const templateKey = templateShortKey('macos', {bin: config.bin, version, sha: buildConfig.gitSha})
+    const cloudKeyBase = commitAWSDir(version, gitSha, s3Config)
+    const templateKey = templateShortKey('macos', {bin: config.bin, version, sha: gitSha})
     const cloudKey = `${cloudKeyBase}/${templateKey}`
     const localPkg = dist(`macos/${templateKey}`)
 
@@ -33,6 +33,6 @@ export default class UploadMacos extends Command {
       suggestions: ['Run "oclif-dev pack:macos" before uploading'],
     })
 
-    log(`done uploading macos pkg for v${version}-${buildConfig.gitSha}`)
+    log(`done uploading macos pkg for v${version}-${gitSha}`)
   }
 }

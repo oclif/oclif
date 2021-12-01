@@ -11,7 +11,7 @@ export default class PackTarballs extends Command {
 This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
 `
 
-  static flags = {
+  static flags: flags.Input<any> = {
     root: flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
     targets: flags.string({char: 't',
       description: 'comma-separated targets to pack (e.g.: linux-arm,win32-x64)',

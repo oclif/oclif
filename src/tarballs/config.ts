@@ -13,7 +13,6 @@ export const TARGETS = [
   'darwin-x64',
 ]
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface BuildConfig {
   root: string;
   gitSha: string;
@@ -29,7 +28,6 @@ export interface BuildConfig {
   dist(input: string): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IManifest {
   version: string;
   sha: string;

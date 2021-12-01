@@ -12,7 +12,7 @@ export interface Options {
 export default abstract class HookCommand extends Base {
   static description = 'add a hook to an existing CLI or plugin'
 
-  static flags = {
+  static flags: flags.Input<any> = {
     defaults: flags.boolean({description: 'use defaults for every setting'}),
     force: flags.boolean({description: 'overwrite existing files'}),
     event: flags.string({description: 'event to run hook on', default: 'init'}),

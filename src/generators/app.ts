@@ -132,12 +132,14 @@ class App extends Generator {
     default:
       msg = `Time to build a oclif ${this.type}!`
     }
+
     this.log(yosay(`${msg} Version: ${version}`))
 
     if (this.path) {
       this.destinationRoot(path.resolve(this.path))
       process.chdir(this.destinationRoot())
     }
+
     this.githubUser = await this.user.github.username().catch(debug)
     this.pjson = {
       scripts: {},
@@ -145,6 +147,7 @@ class App extends Generator {
       devDependencies: {},
       dependencies: {},
       oclif: {},
+      // eslint-disable-next-line @typescript-eslint/ban-types
       ...(this.fs.readJSON('package.json', {}) as object),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
@@ -158,7 +161,7 @@ class App extends Generator {
       repository,
       ...this.pjson,
       engines: {
-        node: '>=8.0.0',
+        node: '>=12.0.0',
         ...this.pjson.engines,
       },
       options: this.options,
@@ -167,107 +170,105 @@ class App extends Generator {
     if (this.repository && (this.repository as any).url) {
       this.repository = (this.repository as any).url
     }
-    if (this.options.defaults) {
-      this.answers = defaults
-    } else {
-      this.answers = await this.prompt([
-        {
-          type: 'input',
-          name: 'name',
-          message: 'npm package name',
-          default: defaults.name,
-          when: !this.pjson.name,
-        },
-        {
-          type: 'input',
-          name: 'bin',
-          message: 'command bin name the CLI will export',
-          default: (answers: any) => (answers.name || this._bin).split('/').pop(),
-          when: ['single', 'multi'].includes(this.type) && !this.pjson.oclif.bin,
-        },
-        {
-          type: 'input',
-          name: 'description',
-          message: 'description',
-          default: defaults.description,
-          when: !this.pjson.description,
-        },
-        {
-          type: 'input',
-          name: 'author',
-          message: 'author',
-          default: defaults.author,
-          when: !this.pjson.author,
-        },
-        {
-          type: 'input',
-          name: 'version',
-          message: 'version',
-          default: defaults.version,
-          when: !this.pjson.version,
-        },
-        {
-          type: 'input',
-          name: 'license',
-          message: 'license',
-          default: defaults.license,
-          when: !this.pjson.license,
-        },
-        {
-          type: 'input',
-          name: 'github.user',
-          message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
-          default: repository.split('/').slice(0, -1).pop(),
-          when: !this.pjson.repository,
-        },
-        {
-          type: 'input',
-          name: 'github.repo',
-          message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
-          default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
-          when: !this.pjson.repository,
-        },
-        {
-          type: 'list',
-          name: 'pkg',
-          message: 'Select a package manager',
-          choices: [
-            {name: 'npm', value: 'npm'},
-            {name: 'yarn', value: 'yarn'},
-          ],
-          default: () => this.options.yarn || hasYarn ? 1 : 0,
-        },
-        {
-          type: 'confirm',
-          name: 'typescript',
-          message: 'TypeScript',
-          default: () => true,
-        },
-        {
-          type: 'confirm',
-          name: 'eslint',
-          message: 'Use eslint (linter for JavaScript and Typescript)',
-          default: () => true,
-        },
-        {
-          type: 'confirm',
-          name: 'mocha',
-          message: 'Use mocha (testing framework)',
-          default: () => true,
-        },
-        {
-          type: 'checkbox',
-          name: 'ci',
-          message: 'Add CI service config',
-          choices: [
-            {name: 'circleci (continuous integration/delivery service)', value: 'circleci'},
-            {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor'},
-            {name: 'travisci (continuous integration/delivery service)', value: 'travisci'},
-          ],
-          filter: ((arr: string[]) => _.keyBy(arr)) as any,
-        },
-      ]) as any
-    }
+
+    this.answers = this.options.defaults ? defaults : await this.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'npm package name',
+        default: defaults.name,
+        when: !this.pjson.name,
+      },
+      {
+        type: 'input',
+        name: 'bin',
+        message: 'command bin name the CLI will export',
+        default: (answers: any) => (answers.name || this._bin).split('/').pop(),
+        when: ['single', 'multi'].includes(this.type) && !this.pjson.oclif.bin,
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'description',
+        default: defaults.description,
+        when: !this.pjson.description,
+      },
+      {
+        type: 'input',
+        name: 'author',
+        message: 'author',
+        default: defaults.author,
+        when: !this.pjson.author,
+      },
+      {
+        type: 'input',
+        name: 'version',
+        message: 'version',
+        default: defaults.version,
+        when: !this.pjson.version,
+      },
+      {
+        type: 'input',
+        name: 'license',
+        message: 'license',
+        default: defaults.license,
+        when: !this.pjson.license,
+      },
+      {
+        type: 'input',
+        name: 'github.user',
+        message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
+        default: repository.split('/').slice(0, -1).pop(),
+        when: !this.pjson.repository,
+      },
+      {
+        type: 'input',
+        name: 'github.repo',
+        message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
+        default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
+        when: !this.pjson.repository,
+      },
+      {
+        type: 'list',
+        name: 'pkg',
+        message: 'Select a package manager',
+        choices: [
+          {name: 'npm', value: 'npm'},
+          {name: 'yarn', value: 'yarn'},
+        ],
+        default: () => this.options.yarn || hasYarn ? 1 : 0,
+      },
+      {
+        type: 'confirm',
+        name: 'typescript',
+        message: 'TypeScript',
+        default: () => true,
+      },
+      {
+        type: 'confirm',
+        name: 'eslint',
+        message: 'Use eslint (linter for JavaScript and Typescript)',
+        default: () => true,
+      },
+      {
+        type: 'confirm',
+        name: 'mocha',
+        message: 'Use mocha (testing framework)',
+        default: () => true,
+      },
+      {
+        type: 'checkbox',
+        name: 'ci',
+        message: 'Add CI service config',
+        choices: [
+          {name: 'circleci (continuous integration/delivery service)', value: 'circleci'},
+          {name: 'appveyor (continuous integration/delivery service)', value: 'appveyor'},
+          {name: 'travisci (continuous integration/delivery service)', value: 'travisci'},
+        ],
+        filter: ((arr: string[]) => _.keyBy(arr)) as any,
+      },
+    ]) as any
+
     debug(this.answers)
     if (!this.options.defaults) {
       this.options = {
@@ -278,6 +279,7 @@ class App extends Generator {
         yarn: this.answers.pkg === 'yarn',
       }
     }
+
     this.ts = this.options.typescript
     this.yarn = this.options.yarn
     this.mocha = this.options.mocha
@@ -298,31 +300,30 @@ class App extends Generator {
     if (this.eslint) {
       this.pjson.scripts.posttest = 'eslint .'
     }
-    if (this.mocha) {
-      this.pjson.scripts.test = `nyc ${this.ts ? '--extension .ts ' : ''}mocha --forbid-only "test/**/*.test.${this._ext}"`
-    } else {
-      this.pjson.scripts.test = 'echo NO TESTS'
-    }
+
+    this.pjson.scripts.test = this.mocha ? `nyc ${this.ts ? '--extension .ts ' : ''}mocha --forbid-only "test/**/*.test.${this._ext}"` : 'echo NO TESTS'
     if (this.ts) {
       this.pjson.scripts.prepack = nps.series(`${rmrf} lib`, 'tsc -b')
       if (this.eslint) {
         this.pjson.scripts.posttest = 'eslint . --ext .ts --config .eslintrc'
       }
     }
+
     if (['plugin', 'multi'].includes(this.type)) {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev manifest', 'oclif-dev readme')
       this.pjson.scripts.postpack = `${rmf} oclif.manifest.json`
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
-      this.pjson.files.push('/oclif.manifest.json')
-      this.pjson.files.push('/npm-shrinkwrap.json')
+      this.pjson.files.push('/oclif.manifest.json', '/npm-shrinkwrap.json')
     } else if (this.type === 'single') {
       this.pjson.scripts.prepack = nps.series(this.pjson.scripts.prepack, 'oclif-dev readme')
       this.pjson.scripts.version = nps.series('oclif-dev readme', 'git add README.md')
     }
+
     if (this.type === 'plugin' && hasYarn) {
       // for plugins, add yarn.lock file to package so we can lock plugin dependencies
       this.pjson.files.push('/yarn.lock')
     }
+
     this.pjson.keywords = defaults.keywords || [this.type === 'plugin' ? 'oclif-plugin' : 'oclif']
     this.pjson.homepage = defaults.homepage || `https://github.com/${this.pjson.repository}`
     this.pjson.bugs = defaults.bugs || `https://github.com/${this.pjson.repository}/issues`
@@ -335,6 +336,7 @@ class App extends Generator {
     } else if (this.type === 'plugin') {
       this.pjson.oclif.bin = 'oclif-example'
     }
+
     if (this.type !== 'plugin') {
       this.pjson.main = defaults.main || (this.ts ? 'lib/index.js' : 'src/index.js')
       if (this.ts) {
@@ -358,11 +360,13 @@ class App extends Generator {
       break
     default:
     }
+
     if (this.type === 'plugin' && !this.pjson.oclif.devPlugins) {
       this.pjson.oclif.devPlugins = [
         '@oclif/plugin-help',
       ]
     }
+
     if (this.type === 'multi' && !this.pjson.oclif.plugins) {
       this.pjson.oclif.plugins = [
         '@oclif/plugin-help',
@@ -379,6 +383,7 @@ class App extends Generator {
         this.fs.copyTpl(this.templatePath('test/tsconfig.json'), this.destinationPath('test/tsconfig.json'), this)
       }
     }
+
     if (this.eslint) {
       const eslintignore = this._eslintignore()
       if (eslintignore.trim()) this.fs.write(this.destinationPath('.eslintignore'), this._eslintignore())
@@ -388,12 +393,15 @@ class App extends Generator {
         this.fs.copyTpl(this.templatePath('eslintrc'), this.destinationPath('.eslintrc'), this)
       }
     }
+
     if (this.mocha) {
       this.fs.copyTpl(this.templatePath('test/mocha.opts'), this.destinationPath('test/mocha.opts'), this)
     }
+
     if (this.fs.exists(this.destinationPath('./package.json'))) {
       fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
     }
+
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
@@ -401,9 +409,11 @@ class App extends Generator {
     if (this.circleci) {
       this.fs.copyTpl(this.templatePath('circle.yml.ejs'), this.destinationPath('.circleci/config.yml'), this)
     }
+
     if (this.appveyor) {
       this.fs.copyTpl(this.templatePath('appveyor.yml.ejs'), this.destinationPath('appveyor.yml'), this)
     }
+
     if (this.travisci) {
       this.fs.copyTpl(this.templatePath('travis.yml.ejs'), this.destinationPath('.travis.yml'), this)
     }
@@ -467,6 +477,7 @@ class App extends Generator {
         'globby@^10',
       )
     }
+
     if (this.mocha) {
       devDependencies.push(
         'mocha@^5',
@@ -477,6 +488,7 @@ class App extends Generator {
         '@oclif/test@^1',
       )
     }
+
     if (this.ts) {
       dependencies.push(
         'tslib@^1',
@@ -493,20 +505,23 @@ class App extends Generator {
         )
       }
     }
+
     if (this.eslint) {
       devDependencies.push(
-        'eslint@^5.13',
-        'eslint-config-oclif@^3.1',
+        'eslint@^7.32.0',
+        'eslint-config-oclif@^3.1.2',
       )
       if (this.ts) {
         devDependencies.push(
-          'eslint-config-oclif-typescript@^0.1',
+          'eslint-config-oclif-typescript@^0.2.0',
         )
       }
     }
+
     if (isWindows) devDependencies.push('rimraf')
     const yarnOpts = {} as any
     if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
+    // eslint-disable-next-line @typescript-eslint/ban-types,unicorn/consistent-function-scoping
     const install = (deps: string[], opts: object) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
     const dev = this.yarn ? {dev: true} : {'save-dev': true}
     const save = this.yarn ? {} : {save: true}
@@ -524,6 +539,7 @@ class App extends Generator {
     if (['plugin', 'multi', 'single'].includes(this.type)) {
       this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif-dev'), ['readme'])
     }
+
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }
 
@@ -538,8 +554,8 @@ class App extends Generator {
       '/.nyc_output',
       this.yarn ? '/package-lock.json' : '/yarn.lock',
       this.ts && '/lib',
+      ...existing,
     ])
-    .concat(existing)
     .compact()
     .uniq()
     .sort()
@@ -550,8 +566,8 @@ class App extends Generator {
     const existing = this.fs.exists(this.destinationPath('.eslintignore')) ? this.fs.read(this.destinationPath('.eslintignore')).split('\n') : []
     return _([
       this.ts && '/lib',
+      ...existing,
     ])
-    .concat(existing)
     .compact()
     .uniq()
     .sort()
@@ -562,6 +578,7 @@ class App extends Generator {
     if (!fs.existsSync('src')) {
       this.fs.copyTpl(this.templatePath(`base/src/index.${this._ext}`), this.destinationPath(`src/index.${this._ext}`), this)
     }
+
     if (this.mocha && !fs.existsSync('test')) {
       this.fs.copyTpl(this.templatePath(`base/test/index.test.${this._ext}`), this.destinationPath(`test/index.test.${this._ext}`), this)
     }
@@ -577,9 +594,11 @@ class App extends Generator {
     if (!fs.existsSync('src/commands')) {
       this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), commandPath, {...opts, name: 'hello', path: commandPath.replace(process.cwd(), '.')})
     }
+
     if (this.ts && this.type !== 'multi') {
       this.fs.copyTpl(this.templatePath('plugin/src/index.ts'), this.destinationPath('src/index.ts'), opts)
     }
+
     if (this.mocha && !fs.existsSync('test')) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/commands/hello.test.${this._ext}`), {...opts, name: 'hello'})
     }
@@ -594,6 +613,7 @@ class App extends Generator {
     if (!this.fs.exists(`src/index.${this._ext}`)) {
       this.fs.copyTpl(this.templatePath(`src/command.${this._ext}.ejs`), this.destinationPath(`src/index.${this._ext}`), {...opts, path: commandPath.replace(process.cwd(), '.')})
     }
+
     if (this.mocha && !this.fs.exists(`test/index.test.${this._ext}`)) {
       this.fs.copyTpl(this.templatePath(`test/command.test.${this._ext}.ejs`), this.destinationPath(`test/index.test.${this._ext}`), opts)
     }

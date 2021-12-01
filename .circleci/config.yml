@@ -91,6 +91,7 @@ workflows:
           name: test-<< matrix.image >>
           requires: [lint, compile-typescript]
       - release-management/release-package:
+          context: SF-CLI-RELEASE-PROCESS
           github-release: true
           prerelease: true
           tag: latest

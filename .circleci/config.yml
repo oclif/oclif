@@ -93,7 +93,7 @@ workflows:
       - release-management/release-package:
           github-release: true
           prerelease: true
-          tag: core-v1
+          tag: latest
           requires:
             - lint
             - compile-typescript

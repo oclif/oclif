@@ -93,7 +93,6 @@ workflows:
       - release-management/release-package:
           context: SF-CLI-RELEASE-PROCESS
           github-release: true
-          prerelease: true
           tag: latest
           requires:
             - lint

@@ -103,3 +103,13 @@ workflows:
             branches:
               only: main
       - cache: {requires: [release-management/release-package]}
+  dependabot-automerge:
+    triggers:
+      - schedule:
+          cron: '0 2,5,8,11 * * *'
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - release-management/dependabot-automerge

@@ -52,7 +52,7 @@
     "eslint": "^7.3.2",
     "eslint-config-oclif": "^4.0.0",
     "eslint-config-oclif-typescript": "^1.0.2",
-    "execa": "^0.10.0",
+    "execa": "^6.0.0",
     "fancy-test": "^1.4.10",
     "globby": "^11.0.1",
     "mocha": "^9.1.3",

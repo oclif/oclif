@@ -21,7 +21,7 @@ oclif: Node.JS Open CLI Framework
 * [📚 Examples](#-examples)
 * [🔨 Commands](#-commands)
 * [🏭 Related Repositories](#-related-repositories)
-* [🦔 Learn More](#🦔-learn-more)
+* [🦔 Learn More](#-learn-more)
 * [📣 Feedback](#-feedback)
 <!-- tocstop -->
 
@@ -141,7 +141,7 @@ DESCRIPTION
   Display help for oclif.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.2/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.7/src/commands/help.ts)_
 
 ## `oclif manifest [PATH]`
 

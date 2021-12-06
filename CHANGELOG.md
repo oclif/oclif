@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.11](https://github.com/oclif/oclif/compare/v2.0.0-main.10...v2.0.0-main.11) (2021-12-01)
+
+
+### Bug Fixes
+
+* force main build to fix v1 tag/version ([140b581](https://github.com/oclif/oclif/commit/140b5811f018f56e3e26037402887415801f682a))
+
 ## [2.0.0-main.10](https://github.com/oclif/oclif/compare/v2.0.0-main.9...v2.0.0-main.10) (2021-11-17)
 
 

@@ -11,7 +11,7 @@
     "@oclif/core": "^1.0.8",
     "@oclif/fixpack": "^2.3.0",
     "@oclif/plugin-help": "^5.1.7",
-    "@oclif/plugin-not-found": "^2.2.1",
+    "@oclif/plugin-not-found": "^2.2.2",
     "@oclif/plugin-warn-if-update-available": "^2.0.1",
     "cli-ux": "^6.0.5",
     "debug": "^4.1.1",

@@ -92,8 +92,6 @@ workflows:
           requires: [lint, compile-typescript]
       - release-management/release-package:
           github-release: true
-          prerelease: true
-          tag: core-v1
           requires:
             - lint
             - compile-typescript

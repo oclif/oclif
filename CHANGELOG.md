@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.15](https://github.com/oclif/oclif/compare/v2.0.0-main.14...v2.0.0-main.15) (2021-12-08)
+
 ## [2.0.0-main.14](https://github.com/oclif/oclif/compare/v2.0.0-main.13...v2.0.0-main.14) (2021-12-07)
 
 

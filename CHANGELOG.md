@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-main.19](https://github.com/oclif/oclif/compare/v2.0.0-main.18...v2.0.0-main.19) (2021-12-08)
+
+
+### Bug Fixes
+
+* bump deps ([#750](https://github.com/oclif/oclif/issues/750)) ([ffb9b99](https://github.com/oclif/oclif/commit/ffb9b99ba2f53a9049f04d0dfea1a4b4b427dfe0))
+
 ## [2.0.0-main.18](https://github.com/oclif/oclif/compare/v2.0.0-main.17...v2.0.0-main.18) (2021-12-08)
 
 ## [2.0.0-main.17](https://github.com/oclif/oclif/compare/v2.0.0-main.16...v2.0.0-main.17) (2021-12-08)

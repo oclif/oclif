@@ -1,8 +1,8 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "2.0.0-main.19",
-  "author": "Jeff Dickey @jdxcode",
+  "version": "2.0.1",
+  "author": "Salesforce",
   "bin": {
     "oclif": "bin/run"
   },

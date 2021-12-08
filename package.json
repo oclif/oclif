@@ -35,7 +35,7 @@
     "@types/chai": "^4.3.0",
     "@types/execa": "^0.9.0",
     "@types/fs-extra": "^9.0",
-    "@types/lodash": "^4.14.121",
+    "@types/lodash": "^4.14.177",
     "@types/lodash.template": "^4.4.6",
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.18.0",

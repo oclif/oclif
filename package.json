@@ -24,7 +24,7 @@
     "qqjs": "^0.3.10",
     "semver": "^7.3.5",
     "sort-pjson": "^1.0.3",
-    "tslib": "^2.0.0",
+    "tslib": "^2.3.1",
     "yeoman-environment": "^2.3.4",
     "yeoman-generator": "3",
     "yosay": "^2.0.2"

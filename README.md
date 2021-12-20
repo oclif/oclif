@@ -56,7 +56,7 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 # 📌 Requirements
 
-Currently, Node 8+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are running a specific version of Node.
+As of version 2.0.0, Node 12+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are running a specific version of Node.
 
 # 🏗 Usage
 

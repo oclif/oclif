@@ -66,6 +66,8 @@ Section "${config.name} CLI \${VERSION}"
   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
                    "DisplayName" "${config.name}"
   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+                   "DisplayVersion" "\${VERSION}"
+  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
                    "UninstallString" "$\\"$INSTDIR\\uninstall.exe$\\""
   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
                    "Publisher" "${config.scopedEnvVar('AUTHOR') || config.pjson.author}"

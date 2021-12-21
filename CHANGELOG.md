@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/oclif/oclif/compare/v2.0.1...v2.1.0) (2021-12-21)
+
+
+### Features
+
+* add version info to registry for windows installers ([#769](https://github.com/oclif/oclif/issues/769)) ([291603a](https://github.com/oclif/oclif/commit/291603a471757596ebed27b0758bae9871fd53b0))
+
 ### [2.0.1](https://github.com/oclif/oclif/compare/v2.0.0-main.19...v2.0.1) (2021-12-08)
 
 ## [2.0.0-main.19](https://github.com/oclif/oclif/compare/v2.0.0-main.18...v2.0.0-main.19) (2021-12-08)

@@ -367,7 +367,7 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@1.0.10", "@oclif/core@^1.0.10":
+"@oclif/core@1.0.10", "@oclif/core@^1.0.10", "@oclif/core@^1.0.8":
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.0.10.tgz#5fd01d572e44d372b7279ee0f49b4860e14b6e4e"
   integrity sha512-L+IcNU3NoYxwz5hmHfcUlOJ3dpgHRsIj1kAmI9CKEJHq5gBVKlP44Ot179Jke1jKRKX2g9N42izbmlh0SNpkkw==
@@ -390,41 +390,7 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.0.8.tgz#dc2482941cfe507dff9b551b2e5f568699bbbffb"
-  integrity sha512-Z+d9hj0SEoADEAnCIUIrs2mr7mNlXtw2B/HE46evmge/Z94aiurUCTnKS8QtuTptkLM2suhiiy1QZ+DxHYypVA==
-  dependencies:
-    "@oclif/linewrap" "^1.0.0"
-    chalk "^4.1.2"
-    clean-stack "^3.0.1"
-    cli-ux "^6.0.4"
-    debug "^4.3.3"
-    fs-extra "^9.1.0"
-    get-package-type "^0.1.0"
-    globby "^11.0.4"
-    indent-string "^4.0.0"
-    is-wsl "^2.2.0"
-    lodash "^4.17.21"
-    semver "^7.3.5"
-    string-width "^4.2.3"
-    strip-ansi "^6.0.1"
-    tslib "^2.3.1"
-    widest-line "^3.1.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/errors@^1.2.2", "@oclif/errors@^1.3.3":
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/@oclif/errors/-/errors-1.3.4.tgz#a96f94536b4e25caa72eff47e8b3ed04f6995f55"
-  integrity sha512-pJKXyEqwdfRTUdM8n5FIHiQQHg5ETM0Wlso8bF9GodczO40mF5Z3HufnYWJE7z8sGKxOeJCdbAVZbS8Y+d5GCw==
-  dependencies:
-    clean-stack "^3.0.0"
-    fs-extra "^8.1"
-    indent-string "^4.0.0"
-    strip-ansi "^6.0.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/errors@^1.3.5":
+"@oclif/errors@^1.2.2", "@oclif/errors@^1.3.3", "@oclif/errors@^1.3.5":
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/@oclif/errors/-/errors-1.3.5.tgz#a1e9694dbeccab10fe2fe15acb7113991bed636c"
   integrity sha512-OivucXPH/eLLlOT7FkCMoZXiaVYf8I/w1eTAM1+gKzfhALwWTusxEx7wBmW0uzvkSg/9ovWLycPaBgJbM3LOCQ==
@@ -469,10 +435,10 @@
     chalk "^4.1.0"
     tslib "^2.0.0"
 
-"@oclif/plugin-help@5.1.9":
-  version "5.1.9"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.1.9.tgz#1365fd76d5382a1a217e6b5c247251211c300d7b"
-  integrity sha512-CDMu5zPEkszr9cPzk75XRn/P4ly6xzCbfVr2i1isu2B5+2JZGMYuJM+JCXUauCCx4d2Gb3JTSszP+nfkjaxGkg==
+"@oclif/plugin-help@5.1.10":
+  version "5.1.10"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.1.10.tgz#465aa0397da723c39536780f6f7c1ad9cbd1671e"
+  integrity sha512-ngurn/3kQVCw1Df5TJEURjxU+w7iA9z3Pskw8dJorfnd0Xibe/qlPg+VYV3hB7EhTbV82EVfZ5DhQYD5YvoxeA==
   dependencies:
     "@oclif/core" "^1.0.10"
 
@@ -918,11 +884,6 @@ ansi-regex@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.1.0.tgz#8b9f8f08cf1acb843756a839ca8c7e3168c51997"
   integrity sha512-1apePfXM1UOSqw0o9IiFAovVz9M5S1Dg+4TrDwfMewQ6p/rmMueb7tWZjQ1rx4Loy1ArBggoqGpfqqdI4rondg==
-
-ansi-regex@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.0.tgz#388539f55179bf39339c81af30a654d69f87cb75"
-  integrity sha512-bY6fj56OUQ0hU1KjFNDQuJFezqKdrAyFdIevADiqrWHwSlbmBNMHp5ak2f40Pm8JTFyM2mqxkG6ngkHO11f/lg==
 
 ansi-regex@^5.0.1:
   version "5.0.1"
@@ -1508,7 +1469,7 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-ux@6.0.5, cli-ux@^6.0.4, cli-ux@^6.0.5:
+cli-ux@6.0.5, cli-ux@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-6.0.5.tgz#5461dffb6c29e4a727e071f8b74bbebcc6b7be08"
   integrity sha512-q2pvzDiXMNISMqCBh0P2dkofQ/8OiWlEAjl6MDNk5oUZ6p54Fnk1rOaXxohYm+YkLX5YNUonGOrwkvuiwVreIg==
@@ -6111,16 +6072,7 @@ string-width@^3.0.0, string-width@^3.1.0:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
 
-string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.0.tgz#952182c46cc7b2c313d1596e623992bd163b72b5"
-  integrity sha512-zUz5JD+tgqtuDjMhwIg5uFVV3dtqZ9yQJlZVfq4I01/K5Paj5UHj7VyrQOJvzawSVlKpObApbfD0Ed6yJc+1eg==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.0"
-
-string-width@^4.2.3:
+string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -6164,14 +6116,7 @@ strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
   dependencies:
     ansi-regex "^4.1.0"
 
-strip-ansi@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.0.tgz#0b1571dd7669ccd4f3e06e14ef1eed26225ae532"
-  integrity sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==
-  dependencies:
-    ansi-regex "^5.0.0"
-
-strip-ansi@^6.0.1:
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==

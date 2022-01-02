@@ -10,7 +10,7 @@
   "dependencies": {
     "@oclif/core": "1.0.10",
     "@oclif/fixpack": "^2.3.0",
-    "@oclif/plugin-help": "5.1.9",
+    "@oclif/plugin-help": "5.1.10",
     "@oclif/plugin-not-found": "^2.2.2",
     "@oclif/plugin-warn-if-update-available": "^2.0.2",
     "cli-ux": "6.0.6",

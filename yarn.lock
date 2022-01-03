@@ -1772,10 +1772,10 @@ conventional-changelog-atom@^2.0.8:
   dependencies:
     q "^1.5.1"
 
-conventional-changelog-cli@^2.0.17:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/conventional-changelog-cli/-/conventional-changelog-cli-2.1.1.tgz#7a11980bc399938e0509d2adf8e7a0e213eb994e"
-  integrity sha512-xMGQdKJ+4XFDDgfX5aK7UNFduvJMbvF5BB+g0OdVhA3rYdYyhctrIE2Al+WYdZeKTdg9YzMWF2iFPT8MupIwng==
+conventional-changelog-cli@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-cli/-/conventional-changelog-cli-2.2.2.tgz#9a7746cede92c6a8f27dc46692efaadfbed60daa"
+  integrity sha512-8grMV5Jo8S0kP3yoMeJxV2P5R6VJOqK72IiSV9t/4H5r/HiRqEBQ83bYGuz4Yzfdj4bjaAEhZN/FFbsFXr5bOA==
   dependencies:
     add-stream "^1.0.0"
     conventional-changelog "^3.1.24"

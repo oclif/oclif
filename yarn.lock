@@ -505,10 +505,10 @@
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 
-"@oclif/plugin-warn-if-update-available@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-2.0.2.tgz#ab30956495483fd2eb55ce8c3549c74f260d23fd"
-  integrity sha512-lg4eesMxjCTaz6PgwC1j7VuyW6tzYWO85eSCz6pwjxmCCW8T6bHxLiIHO3TXTfYJTj1YVUL1fOFVc1Gelc0neQ==
+"@oclif/plugin-warn-if-update-available@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-2.0.3.tgz#ec3deda4f2d8bba229f89fe031ed3cd5c5808761"
+  integrity sha512-s5ZmaskleRLgTEOLFkK0RdezLuLnagXbpK+3XKZUezX5vhfN0qgugeq5ukrXR179XtkMKuFzPTGV80uhDWSxyg==
   dependencies:
     "@oclif/core" "^1.0.8"
     chalk "^4.1.0"
@@ -3490,19 +3490,7 @@ hosted-git-info@^4.0.1:
   dependencies:
     lru-cache "^6.0.0"
 
-http-call@^5.1.2, http-call@^5.2.2:
-  version "5.2.5"
-  resolved "https://registry.yarnpkg.com/http-call/-/http-call-5.2.5.tgz#cccb144230dd2f379cf61800fd4461e24571c1be"
-  integrity sha512-SfJ9j2xfi8zhQuJxcBCN1AhPCUAvPhipNaoeHWHfHiV0gz4uf9RUt2kl+xu9mxJLKxhNP7We87aRGbaSGPjr8A==
-  dependencies:
-    content-type "^1.0.4"
-    debug "^4.1.1"
-    is-retry-allowed "^1.1.0"
-    is-stream "^2.0.0"
-    parse-json "^4.0.0"
-    tunnel-agent "^0.6.0"
-
-http-call@^5.2.4:
+http-call@^5.1.2, http-call@^5.2.2, http-call@^5.2.4:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/http-call/-/http-call-5.3.0.tgz#4ded815b13f423de176eb0942d69c43b25b148db"
   integrity sha512-ahwimsC23ICE4kPl9xTBjKB4inbRaeLyZeRunC/1Jy/Z6X8tv22MEAjK+KBOMSVLaqXPTTmd8638waVIKLGx2w==

@@ -493,14 +493,14 @@
     semver "^7.3.5"
     tslib "^2.0.0"
 
-"@oclif/plugin-not-found@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-2.2.2.tgz#bce967c722736e7e73195f0deedb02e588e89b58"
-  integrity sha512-6QiMvvxDlD0oE7kqJHfmF6QmOjBNLr+uF7fg9FMBNFwG6lktx3n5eX1bEt592hcyr9V1g3SPBUNssBtTAD43tA==
+"@oclif/plugin-not-found@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-2.2.3.tgz#146748c75e9a23417b26ce06adba978d7513e27c"
+  integrity sha512-HZ1ZlRqOdxoxjnM36T0wfzvmSFT2iO9HrYjSU0ZHuGhCwvgIK5PDjxZu1j44SStfYGSKcIcj08Uz1fRUvgQa9Q==
   dependencies:
     "@oclif/color" "^1.0.0"
-    "@oclif/core" "^1.0.8"
-    cli-ux "^6.0.5"
+    "@oclif/core" "1.0.10"
+    cli-ux "6.0.6"
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 
@@ -1515,7 +1515,7 @@ cli-ux@6.0.5:
     supports-hyperlinks "^2.1.0"
     tslib "^2.0.0"
 
-cli-ux@6.0.6, cli-ux@^6.0.5:
+cli-ux@6.0.6:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-6.0.6.tgz#00536bf6038f195b0a1a2589f61ce5e625e75870"
   integrity sha512-CvL4qmV78VhnbyHTswGjpDSQtU+oj3hT9DP9L6yMOwiTiNv0nMjMEV/8zou4CSqO6PtZ2A8qnlZDgAc07Js+aw==

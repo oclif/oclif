@@ -522,10 +522,10 @@
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
-"@oclif/test@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.0.2.tgz#5a599541974a15ae6282a646278e3bfc1455f241"
-  integrity sha512-BhhsLvNBDHrfVrmcNWYWwFd2MefA4l/po9WF4cSOJ67MMxKO/jHffNoUt8B/92HigzUq9z0o0Et3z5e2voWJ8Q==
+"@oclif/test@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.0.3.tgz#03801057a29f8c37b722c2894ac8161b98733e91"
+  integrity sha512-8mN/cmfrPQKc9+3I6Dj6HNgmPqRVKe4P7gU61pLUz220oFUxhuP0EHLzY3ARFx8ecUZAJZdWJwh+dne/1GfTcA==
   dependencies:
     fancy-test "^2.0.0"
 

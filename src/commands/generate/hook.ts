@@ -1,23 +1,25 @@
 import CommandBase from './../../command-base'
 import {Flags} from '@oclif/core'
 
-export default class GenerateCommand extends CommandBase {
-  static description = 'add a command to an existing CLI or plugin'
+export default class GenerateHook extends CommandBase {
+  static description = 'add a hook to an existing CLI or plugin'
 
   static flags = {
     defaults: Flags.boolean({description: 'use defaults for every setting'}),
     force: Flags.boolean({description: 'overwrite existing files'}),
+    event: Flags.string({description: 'event to run hook on', default: 'init'}),
   }
 
   static args = [
-    {name: 'name', description: 'name of command', required: true},
+    {name: 'name', description: 'name of hook (snake_case)', required: true},
   ]
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(GenerateCommand)
+    const {args, flags} = await this.parse(GenerateHook)
 
-    await super.generate('command', {
+    await super.generate('hook', {
       name: args.name,
+      event: flags.event,
       defaults: flags.defaults,
       force: flags.force,
     })

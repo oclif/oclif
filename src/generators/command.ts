@@ -2,30 +2,15 @@ import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
+import {GeneratorOptions, PackageJson} from '../types'
 
 const {version} = require('../../package.json')
 
-export interface Options extends Generator.GeneratorOptions {
-  name: string;
-  defaults?: boolean;
-  force?: boolean;
-}
-
-export interface PackageJson {
-  name: string;
-  devDependencies: Record<string, string>;
-  dependencies: Record<string, string>;
-  oclif: {
-    bin: string;
-    dirname: string;
-  };
-}
-
 export default class Command extends Generator {
-  public options: Options
+  public options: GeneratorOptions
   public pjson!: PackageJson
 
-  constructor(args: string | string[], opts: Options) {
+  constructor(args: string | string[], opts: GeneratorOptions) {
     super(args, opts)
     this.options = {
       name: opts.name,

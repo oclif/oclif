@@ -69,7 +69,7 @@ If you have been using version 1 of the [`oclif` CLI](https://github.com/oclif/o
 
 ## New Commands
 
-Version 2 now includes all the commands in the [`oclif-dev` CLI](https://github.com/oclif/dev-cli) into `oclif`. This means that you can now use a single CLI for all your oclif needs. These commands include:
+Version 2 now includes all the commands from the [`oclif-dev` CLI](https://github.com/oclif/dev-cli). This means that you can now use a single CLI for all your oclif needs. These commands include:
 - `oclif manifest`
 - `oclif pack`
 - `oclif pack:deb`

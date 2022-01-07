@@ -97,7 +97,7 @@ export default class CLI extends Generator {
       repository,
       ...this.pjson,
       engines: {
-        node: '>=8.0.0',
+        node: '>=12.0.0',
         ...this.pjson.engines,
       },
       options: this.options,

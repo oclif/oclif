@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/oclif/oclif/compare/v2.1.3...v2.1.4) (2022-01-10)
+
+
+### Bug Fixes
+
+* bump cli-ux to 6.0.8 ([46d2d8a](https://github.com/oclif/oclif/commit/46d2d8abaf0ba0b4d076e5ac33fa8ca78a528ed6))
+
 ### [2.1.3](https://github.com/oclif/oclif/compare/v2.1.2...v2.1.3) (2022-01-10)
 
 

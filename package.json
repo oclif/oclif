@@ -96,6 +96,7 @@
     ],
     "bin": "oclif",
     "dirname": "oclif",
+    "topicSeparator": " ",
     "macos": {
       "identifier": "com.oclif.cli",
       "sign": "Developer ID Installer: Heroku INC"

@@ -72,7 +72,7 @@ class App extends Generator {
     this.log(yosay(`${msg} Version: ${version}`))
 
     execSync(`git clone https://github.com/oclif/hello-world.git ${path.resolve(this.name)}`)
-    fs.rmdirSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
+    fs.rmSync(`${path.resolve(this.name, '.git')}`, {recursive: true, force: true})
 
     this.destinationRoot(path.resolve(this.name))
     process.chdir(this.destinationRoot())

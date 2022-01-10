@@ -18,7 +18,7 @@ try {
   hasYarn = true
 } catch {}
 
-class App extends Generator {
+export default class CLI extends Generator {
   options: {
     defaults?: boolean;
     yarn: boolean;
@@ -71,8 +71,8 @@ class App extends Generator {
 
     this.log(yosay(`${msg} Version: ${version}`))
 
-    execSync(`git clone https://github.com/oclif/hello-world.git ${path.resolve(this.name)}`)
-    fs.rmdirSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
+    execSync(`git clone https://github.com/oclif/hello-world.git "${path.resolve(this.name)}"`)
+    fs.rmSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
 
     this.destinationRoot(path.resolve(this.name))
     process.chdir(this.destinationRoot())
@@ -97,7 +97,7 @@ class App extends Generator {
       repository,
       ...this.pjson,
       engines: {
-        node: '>=8.0.0',
+        node: '>=12.0.0',
         ...this.pjson.engines,
       },
       options: this.options,
@@ -255,5 +255,3 @@ class App extends Generator {
     .join('\n') + '\n'
   }
 }
-
-export = App

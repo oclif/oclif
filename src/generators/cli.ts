@@ -71,7 +71,7 @@ export default class CLI extends Generator {
 
     this.log(yosay(`${msg} Version: ${version}`))
 
-    execSync(`git clone https://github.com/oclif/hello-world.git ${path.resolve(this.name)}`)
+    execSync(`git clone https://github.com/oclif/hello-world.git "${path.resolve(this.name)}"`)
     fs.rmSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
 
     this.destinationRoot(path.resolve(this.name))

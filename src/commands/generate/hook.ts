@@ -5,7 +5,6 @@ export default class GenerateHook extends CommandBase {
   static description = 'add a hook to an existing CLI or plugin'
 
   static flags = {
-    defaults: Flags.boolean({description: 'use defaults for every setting'}),
     force: Flags.boolean({description: 'overwrite existing files'}),
     event: Flags.string({description: 'event to run hook on', default: 'init'}),
   }
@@ -20,7 +19,6 @@ export default class GenerateHook extends CommandBase {
     await super.generate('hook', {
       name: args.name,
       event: flags.event,
-      defaults: flags.defaults,
       force: flags.force,
     })
   }

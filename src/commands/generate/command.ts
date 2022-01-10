@@ -5,7 +5,6 @@ export default class GenerateCommand extends CommandBase {
   static description = 'add a command to an existing CLI or plugin'
 
   static flags = {
-    defaults: Flags.boolean({description: 'use defaults for every setting'}),
     force: Flags.boolean({description: 'overwrite existing files'}),
   }
 
@@ -18,7 +17,6 @@ export default class GenerateCommand extends CommandBase {
 
     await super.generate('command', {
       name: args.name,
-      defaults: flags.defaults,
       force: flags.force,
     })
   }

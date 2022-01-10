@@ -1613,7 +1613,7 @@ cli-ux@^4.9.3:
     treeify "^1.1.0"
     tslib "^1.9.3"
 
-cli-ux@^6.0.6, cli-ux@^6.0.7:
+cli-ux@^6.0.6, cli-ux@^6.0.8:
   version "6.0.8"
   resolved "https://registry.npmjs.org/cli-ux/-/cli-ux-6.0.8.tgz#a3943e889df827ceab2ffbe3e46c1fff194099e9"
   integrity sha512-ERJ61QDVS1fqnWhzp3cPFHbfucmkzWh/K6SlMlf5GweIb0wB4G/wtZiAeWK6TOTSFXGQdGczVHzWrG1BMqTmSw==

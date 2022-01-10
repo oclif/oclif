@@ -113,33 +113,21 @@ hello world from ./src/hello.js!
 # 🔨 Commands
 
 <!-- commands -->
-- [oclif: Node.JS Open CLI Framework](#oclif-nodejs-open-cli-framework)
-- [🗒 Description](#-description)
-- [🚀 Getting Started Tutorial](#-getting-started-tutorial)
-- [✨ Features](#-features)
-- [📌 Requirements](#-requirements)
-- [📌 Migrating from V1](#-migrating-from-v1)
-  - [Breaking Changes](#breaking-changes)
-  - [New Commands](#new-commands)
-- [🏗 Usage](#-usage)
-- [📚 Examples](#-examples)
-- [🔨 Commands](#-commands)
-  - [`oclif generate NAME`](#oclif-generate-name)
-  - [`oclif help [COMMAND]`](#oclif-help-command)
-  - [`oclif manifest [PATH]`](#oclif-manifest-path)
-  - [`oclif pack:deb`](#oclif-packdeb)
-  - [`oclif pack:macos`](#oclif-packmacos)
-  - [`oclif pack:tarballs`](#oclif-packtarballs)
-  - [`oclif pack:win`](#oclif-packwin)
-  - [`oclif promote`](#oclif-promote)
-  - [`oclif readme`](#oclif-readme)
-  - [`oclif upload:deb`](#oclif-uploaddeb)
-  - [`oclif upload:macos`](#oclif-uploadmacos)
-  - [`oclif upload:tarballs`](#oclif-uploadtarballs)
-  - [`oclif upload:win`](#oclif-uploadwin)
-- [🏭 Related Repositories](#-related-repositories)
-- [🦔 Learn More](#-learn-more)
-- [📣 Feedback](#-feedback)
+* [`oclif generate NAME`](#oclif-generate-name)
+* [`oclif generate command NAME`](#oclif-generate-command-name)
+* [`oclif generate hook NAME`](#oclif-generate-hook-name)
+* [`oclif help [COMMAND]`](#oclif-help-command)
+* [`oclif manifest [PATH]`](#oclif-manifest-path)
+* [`oclif pack deb`](#oclif-pack-deb)
+* [`oclif pack macos`](#oclif-pack-macos)
+* [`oclif pack tarballs`](#oclif-pack-tarballs)
+* [`oclif pack win`](#oclif-pack-win)
+* [`oclif promote`](#oclif-promote)
+* [`oclif readme`](#oclif-readme)
+* [`oclif upload deb`](#oclif-upload-deb)
+* [`oclif upload macos`](#oclif-upload-macos)
+* [`oclif upload tarballs`](#oclif-upload-tarballs)
+* [`oclif upload win`](#oclif-upload-win)
 
 ## `oclif generate NAME`
 
@@ -158,7 +146,44 @@ DESCRIPTION
   This will clone the template repo 'oclif/hello-world' and update package properties
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.1.4/src/commands/generate.ts)_
+
+## `oclif generate command NAME`
+
+add a command to an existing CLI or plugin
+
+```
+USAGE
+  $ oclif generate command [NAME] [--force]
+
+ARGUMENTS
+  NAME  name of command
+
+FLAGS
+  --force  overwrite existing files
+
+DESCRIPTION
+  add a command to an existing CLI or plugin
+```
+
+## `oclif generate hook NAME`
+
+add a hook to an existing CLI or plugin
+
+```
+USAGE
+  $ oclif generate hook [NAME] [--force] [--event <value>]
+
+ARGUMENTS
+  NAME  name of hook (snake_case)
+
+FLAGS
+  --event=<value>  [default: init] event to run hook on
+  --force          overwrite existing files
+
+DESCRIPTION
+  add a hook to an existing CLI or plugin
+```
 
 ## `oclif help [COMMAND]`
 
@@ -195,15 +220,15 @@ DESCRIPTION
   generates plugin manifest json
 ```
 
-_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/manifest.ts)_
+_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/v2.1.4/src/commands/manifest.ts)_
 
-## `oclif pack:deb`
+## `oclif pack deb`
 
 pack CLI into debian package
 
 ```
 USAGE
-  $ oclif pack:deb -r <value>
+  $ oclif pack deb -r <value>
 
 FLAGS
   -r, --root=<value>  (required) [default: .] path to oclif CLI root
@@ -212,15 +237,13 @@ DESCRIPTION
   pack CLI into debian package
 ```
 
-_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/pack/deb.ts)_
-
-## `oclif pack:macos`
+## `oclif pack macos`
 
 pack CLI into macOS .pkg
 
 ```
 USAGE
-  $ oclif pack:macos -r <value>
+  $ oclif pack macos -r <value>
 
 FLAGS
   -r, --root=<value>  (required) [default: .] path to oclif CLI root
@@ -229,15 +252,13 @@ DESCRIPTION
   pack CLI into macOS .pkg
 ```
 
-_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/pack/macos.ts)_
-
-## `oclif pack:tarballs`
+## `oclif pack tarballs`
 
 packages oclif CLI into tarballs
 
 ```
 USAGE
-  $ oclif pack:tarballs -r <value> [-t <value>] [--xz]
+  $ oclif pack tarballs -r <value> [-t <value>] [--xz]
 
 FLAGS
   -r, --root=<value>     (required) [default: .] path to oclif CLI root
@@ -251,15 +272,13 @@ DESCRIPTION
   This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
 ```
 
-_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/pack/tarballs.ts)_
-
-## `oclif pack:win`
+## `oclif pack win`
 
 create windows installer from oclif CLI
 
 ```
 USAGE
-  $ oclif pack:win -r <value>
+  $ oclif pack win -r <value>
 
 FLAGS
   -r, --root=<value>  (required) [default: .] path to oclif CLI root
@@ -270,8 +289,6 @@ DESCRIPTION
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to
   be set in the environment
 ```
-
-_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/pack/win.ts)_
 
 ## `oclif promote`
 
@@ -300,7 +317,7 @@ DESCRIPTION
   promote CLI builds to a S3 release channel
 ```
 
-_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/promote.ts)_
+_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/v2.1.4/src/commands/promote.ts)_
 
 ## `oclif readme`
 
@@ -330,15 +347,15 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v2.1.4/src/commands/readme.ts)_
 
-## `oclif upload:deb`
+## `oclif upload deb`
 
 upload deb package built with pack:deb
 
 ```
 USAGE
-  $ oclif upload:deb -r <value>
+  $ oclif upload deb -r <value>
 
 FLAGS
   -r, --root=<value>  (required) [default: .] path to oclif CLI root
@@ -347,15 +364,13 @@ DESCRIPTION
   upload deb package built with pack:deb
 ```
 
-_See code: [src/commands/upload/deb.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/upload/deb.ts)_
-
-## `oclif upload:macos`
+## `oclif upload macos`
 
 upload macos installers built with pack:macos
 
 ```
 USAGE
-  $ oclif upload:macos -r <value>
+  $ oclif upload macos -r <value>
 
 FLAGS
   -r, --root=<value>  (required) [default: .] path to oclif CLI root
@@ -364,15 +379,13 @@ DESCRIPTION
   upload macos installers built with pack:macos
 ```
 
-_See code: [src/commands/upload/macos.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/upload/macos.ts)_
-
-## `oclif upload:tarballs`
+## `oclif upload tarballs`
 
 upload an oclif CLI to S3
 
 ```
 USAGE
-  $ oclif upload:tarballs -r <value> [-t <value>] [--xz]
+  $ oclif upload tarballs -r <value> [-t <value>] [--xz]
 
 FLAGS
   -r, --root=<value>     (required) [default: .] path to oclif CLI root
@@ -386,15 +399,13 @@ DESCRIPTION
   "aws-sdk" will need to be installed as a devDependency to upload.
 ```
 
-_See code: [src/commands/upload/tarballs.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/upload/tarballs.ts)_
-
-## `oclif upload:win`
+## `oclif upload win`
 
 upload windows installers built with pack:win
 
 ```
 USAGE
-  $ oclif upload:win -r <value>
+  $ oclif upload win -r <value>
 
 FLAGS
   -r, --root=<value>  (required) [default: .] path to oclif CLI root
@@ -402,8 +413,6 @@ FLAGS
 DESCRIPTION
   upload windows installers built with pack:win
 ```
-
-_See code: [src/commands/upload/win.ts](https://github.com/oclif/oclif/blob/v2.1.3/src/commands/upload/win.ts)_
 <!-- commandsstop -->
 
 # 🏭 Related Repositories

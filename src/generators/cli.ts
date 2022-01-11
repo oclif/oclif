@@ -5,7 +5,6 @@ import * as path from 'path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
-const sortPjson = require('sort-pjson')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
@@ -207,7 +206,7 @@ export default class CLI extends Generator {
 
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
-    this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
+    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
   }

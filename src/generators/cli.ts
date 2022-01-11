@@ -6,7 +6,6 @@ import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
 const sortPjson = require('sort-pjson')
-const fixpack = require('@oclif/fixpack')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
@@ -204,10 +203,6 @@ export default class CLI extends Generator {
   writing(): void {
     if (this.pjson.oclif && Array.isArray(this.pjson.oclif.plugins)) {
       this.pjson.oclif.plugins.sort()
-    }
-
-    if (this.fs.exists(this.destinationPath('./package.json'))) {
-      fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
     }
 
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif

@@ -98,13 +98,13 @@ export default class CLI extends Generator {
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
     const defaults = {
-      name: this.determineAppname().replace(/ /g, '-'),
+      ...this.pjson,
+      name: this.name ? this.name.replace(/ /g, '-') : this.determineAppname().replace(/ /g, '-'),
       version: '0.0.0',
       license: 'MIT',
       author: this.githubUser ? `${this.user.git.name()} @${this.githubUser}` : this.user.git.name(),
       dependencies: {},
       repository,
-      ...this.pjson,
       engines: {
         node: '>=12.0.0',
         ...this.pjson.engines,

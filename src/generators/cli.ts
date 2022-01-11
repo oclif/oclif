@@ -5,8 +5,6 @@ import * as path from 'path'
 import * as Generator from 'yeoman-generator'
 import yosay = require('yosay')
 
-const sortPjson = require('sort-pjson')
-const fixpack = require('@oclif/fixpack')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
@@ -78,12 +76,23 @@ export default class CLI extends Generator {
     process.chdir(this.destinationRoot())
 
     this.githubUser = await this.user.github.username().catch(debug)
+    // establish order of properties in the resulting package.json
     this.pjson = {
+      name: '',
+      version: '',
+      description: '',
+      author: '',
+      bin: {},
+      homepage: '',
+      license: '',
+      main: '',
+      repository: '',
+      files: [],
+      dependencies: {},
+      devDependencies: {},
+      oclif: {},
       scripts: {},
       engines: {},
-      devDependencies: {},
-      dependencies: {},
-      oclif: {},
       ...(this.fs.readJSON('package.json', {}) as Record<string, unknown>),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
@@ -206,13 +215,9 @@ export default class CLI extends Generator {
       this.pjson.oclif.plugins.sort()
     }
 
-    if (this.fs.exists(this.destinationPath('./package.json'))) {
-      fixpack(this.destinationPath('./package.json'), require('@oclif/fixpack/config.json'))
-    }
-
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
-    this.fs.writeJSON(this.destinationPath('./package.json'), sortPjson(this.pjson))
+    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
   }

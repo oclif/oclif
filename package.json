@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run"
@@ -9,7 +9,6 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@oclif/core": "^1.0.11",
-    "@oclif/fixpack": "^2.3.1",
     "@oclif/plugin-help": "^5.1.10",
     "@oclif/plugin-not-found": "^2.2.3",
     "@oclif/plugin-warn-if-update-available": "^2.0.3",
@@ -25,7 +24,6 @@
     "oclif": "^2.1.1",
     "qqjs": "^0.3.10",
     "semver": "^7.3.5",
-    "sort-pjson": "^1.0.3",
     "tslib": "^2.3.1",
     "yeoman-environment": "^2.3.4",
     "yeoman-generator": "3",

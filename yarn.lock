@@ -457,16 +457,6 @@
     extend-object "^1.0.0"
     rc "^1.2.8"
 
-"@oclif/fixpack@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.npmjs.org/@oclif/fixpack/-/fixpack-2.3.1.tgz#6ecee36fd4945b2e3aef604f0b0de466e396a26c"
-  integrity sha512-ynDtqYke7WBjyAK5KQiOoNm2XGm4wBfNDzjbpq3k4NEarA5wRW0PMjdP2FkTAJE2NI3tA6I7DXxxqBzwyt+fBg==
-  dependencies:
-    alce "1.2.0"
-    colors "1.4.0"
-    extend-object "^1.0.0"
-    rc "^1.2.8"
-
 "@oclif/help@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@oclif/help/-/help-1.0.1.tgz#fd96a3dd9fb2314479e6c8584c91b63754a7dff5"

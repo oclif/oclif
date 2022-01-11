@@ -76,12 +76,23 @@ export default class CLI extends Generator {
     process.chdir(this.destinationRoot())
 
     this.githubUser = await this.user.github.username().catch(debug)
+    // establish order of properties in the resulting package.json
     this.pjson = {
+      name: '',
+      version: '',
+      description: '',
+      author: '',
+      bin: {},
+      homepage: '',
+      license: '',
+      main: '',
+      repository: '',
+      files: [],
+      dependencies: {},
+      devDependencies: {},
+      oclif: {},
       scripts: {},
       engines: {},
-      devDependencies: {},
-      dependencies: {},
-      oclif: {},
       ...(this.fs.readJSON('package.json', {}) as Record<string, unknown>),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')

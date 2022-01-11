@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/oclif/oclif/compare/v2.1.6...v2.1.7) (2022-01-11)
+
+
+### Bug Fixes
+
+* correct package name ([#792](https://github.com/oclif/oclif/issues/792)) ([7197f98](https://github.com/oclif/oclif/commit/7197f98233d4391e4f322d16ff4a0cc92f7a4a6f))
+
 ### [2.1.6](https://github.com/oclif/oclif/compare/v2.1.5...v2.1.6) (2022-01-11)
 
 

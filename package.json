@@ -21,7 +21,6 @@
     "lodash": "^4.17.11",
     "normalize-package-data": "^3.0.3",
     "nps-utils": "^1.7.0",
-    "oclif": "^2.1.1",
     "qqjs": "^0.3.10",
     "semver": "^7.3.5",
     "tslib": "^2.3.1",

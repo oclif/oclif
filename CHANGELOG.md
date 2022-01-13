@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/oclif/oclif/compare/v2.1.8...v2.2.0) (2022-01-13)
+
+
+### Features
+
+* optionally include tarball path as input ([#764](https://github.com/oclif/oclif/issues/764)) ([#796](https://github.com/oclif/oclif/issues/796)) ([ee6ff99](https://github.com/oclif/oclif/commit/ee6ff99ad5e11cb1abe1de17791a8b987833e381))
+
 ### [2.1.8](https://github.com/oclif/oclif/compare/v2.1.7...v2.1.8) (2022-01-12)
 
 

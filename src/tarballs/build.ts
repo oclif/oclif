@@ -24,6 +24,7 @@ const pack = async (from: string, to: string) => {
 export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
+  tarball?: string;
 } = {}): Promise<void> {
   const {xz, config} = c
   const prevCwd = qq.cwd()
@@ -147,7 +148,7 @@ export async function build(c: BuildConfig, options: {
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
-  await extractCLI(await packCLI())
+  await extractCLI(options.tarball ? options.tarball : await packCLI())
   await updatePJSON()
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})

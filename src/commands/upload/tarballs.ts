@@ -15,19 +15,14 @@ export default class UploadTarballs extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: Flags.string({
-      char: 't',
-      description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)',
-      default: Tarballs.TARGETS.join(','),
-    }),
-    xz: Flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
+    targets: Flags.string({ char: 't', description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)' }),
+    xz: Flags.boolean({ description: 'also upload xz', allowNo: true }),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
-    const targets = flags.targets.split(',')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets, xz: flags.xz})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: flags?.targets?.split(',')})
     const {s3Config, dist, config, xz} = buildConfig
 
     // fail early if targets are not built
@@ -77,7 +72,7 @@ export default class UploadTarballs extends Command {
       await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
     }
 
-    if (targets.length > 0) log('uploading targets')
+    if (buildConfig.targets.length > 0) log('uploading targets')
     // eslint-disable-next-line no-await-in-loop
     for (const target of buildConfig.targets) await uploadTarball(target)
     log(`done uploading tarballs & manifests for v${config.version}-${buildConfig.gitSha}`)

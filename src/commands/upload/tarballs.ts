@@ -15,8 +15,8 @@ export default class UploadTarballs extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: Flags.string({ char: 't', description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)' }),
-    xz: Flags.boolean({ description: 'also upload xz', allowNo: true }),
+    targets: Flags.string({char: 't', description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)'}),
+    xz: Flags.boolean({description: 'also upload xz', allowNo: true}),
   }
 
   async run(): Promise<void> {

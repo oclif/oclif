@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/oclif/oclif/compare/v2.2.0...v2.3.0) (2022-01-20)
+
+
+### Features
+
+* use yeoman-generator v5 ([#797](https://github.com/oclif/oclif/issues/797)) ([37827bf](https://github.com/oclif/oclif/commit/37827bf258ff8145c98a9c621b853ac6b1020fdb))
+
 ## [2.2.0](https://github.com/oclif/oclif/compare/v2.1.8...v2.2.0) (2022-01-13)
 
 

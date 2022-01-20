@@ -15,7 +15,7 @@ export default class GenerateCommand extends CommandBase {
   async run(): Promise<void> {
     const {args, flags} = await this.parse(GenerateCommand)
 
-    await super.generate('command', {
+    super.generate('command', {
       name: args.name,
       force: flags.force,
     })

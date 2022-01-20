@@ -8,8 +8,6 @@ import yosay = require('yosay')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
-const isWindows = process.platform === 'win32'
-
 let hasYarn = false
 try {
   execSync('yarn -v', {stdio: 'ignore'})
@@ -19,14 +17,13 @@ try {
 export default class CLI extends Generator {
   options: {
     defaults?: boolean;
+    force: boolean;
     yarn: boolean;
   }
 
-  args!: {[k: string]: string}
-
   name: string
 
-  pjson: any
+  pjson!: any
 
   githubUser: string | undefined
 
@@ -60,6 +57,7 @@ export default class CLI extends Generator {
     this.name = opts.name
     this.options = {
       defaults: opts.defaults,
+      force: opts.force,
       yarn: hasYarn,
     }
   }
@@ -73,7 +71,7 @@ export default class CLI extends Generator {
     fs.rmSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
 
     this.destinationRoot(path.resolve(this.name))
-    process.chdir(this.destinationRoot())
+    this.env.cwd = this.destinationPath()
 
     this.githubUser = await this.user.github.username().catch(debug)
     // establish order of properties in the resulting package.json
@@ -93,7 +91,7 @@ export default class CLI extends Generator {
       oclif: {},
       scripts: {},
       engines: {},
-      ...(this.fs.readJSON('package.json', {}) as Record<string, unknown>),
+      ...(this.fs.readJSON(path.join(this.env.cwd, 'package.json'), {}) as Record<string, unknown>),
     }
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
@@ -187,10 +185,12 @@ export default class CLI extends Generator {
       this.options = {
         ...this.answers.ci,
         yarn: this.answers.pkg === 'yarn',
+        force: true,
       }
     }
 
     this.yarn = this.options.yarn
+    this.env.options.nodePackageManager = this.yarn ? 'yarn' : 'npm'
 
     this.pjson.name = this.answers.name || defaults.name
     this.pjson.description = this.answers.description || defaults.description
@@ -206,6 +206,7 @@ export default class CLI extends Generator {
     this.pjson.bugs = `https://github.com/${this.repository}/issues`
 
     this.pjson.oclif.bin = this.answers.bin
+    this.pjson.oclif.dirname = this.answers.bin
     this.pjson.bin = {}
     this.pjson.bin[this.pjson.oclif.bin] = './bin/run'
   }
@@ -222,23 +223,9 @@ export default class CLI extends Generator {
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
   }
 
-  async install(): Promise<void> {
-    const dependencies: string[] = []
-    const devDependencies: string[] = []
-    if (isWindows) devDependencies.push('rimraf')
-    const yarnOpts = {} as any
-    if (process.env.YARN_MUTEX) yarnOpts.mutex = process.env.YARN_MUTEX
-    const install = (deps: string[], opts: Record<string, unknown>) => this.yarn ? this.yarnInstall(deps, opts) : this.npmInstall(deps, opts)
-    const dev = this.yarn ? {dev: true} : {'save-dev': true}
-    const save = this.yarn ? {} : {save: true}
-    return Promise.all([
-      install(devDependencies, {...yarnOpts, ...dev, ignoreScripts: true}),
-      install(dependencies, {...yarnOpts, ...save}),
-    ]).then(() => {})
-  }
-
   end(): void {
-    this.spawnCommandSync(path.join('.', 'node_modules/.bin/oclif'), ['readme'])
+    this.spawnCommandSync(this.env.options.nodePackageManager, ['run', 'build'])
+    this.spawnCommandSync(path.join(this.env.cwd, 'node_modules', '.bin', 'oclif'), ['readme'], {cwd: this.env.cwd})
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }
 

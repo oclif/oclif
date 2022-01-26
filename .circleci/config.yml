@@ -85,6 +85,7 @@ workflows:
       - compile-typescript
       - node-devcli
       - test:
+          context: AWS
           matrix:
             parameters:
               image: [node:latest, node:16, node:14]

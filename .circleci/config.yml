@@ -91,6 +91,9 @@ workflows:
           name: test-<< matrix.image >>
           requires: [lint, compile-typescript]
       - release-management/release-package:
+          context:
+            - SF-CLI-RELEASE-PROCESS
+            - AWS
           github-release: true
           requires:
             - lint
@@ -110,4 +113,7 @@ workflows:
               only:
                 - main
     jobs:
-      - release-management/dependabot-automerge
+      - release-management/dependabot-automerge:
+          context:
+            - SF-CLI-RELEASE-PROCESS
+            - AWS

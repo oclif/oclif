@@ -12,8 +12,8 @@ const path = require('path')
 sh.set('-e')
 
 setColors(['dim'])
-
-const testTypes = ['']
+process.env.TEST_SERIES = '1'
+const testTypes = ['', 'generate']
 const tests = testTypes.map(cmd => {
   const {silent} = sh.config
   sh.config.silent = true
@@ -30,6 +30,7 @@ const tests = testTypes.map(cmd => {
   if (process.env.CIRCLECI) {
     tests = series(mkdirp('reports'), tests)
   }
+
   sh.config.silent = silent
   return [cmd, series('nps build', tests)]
 })
@@ -45,6 +46,6 @@ module.exports = {
     },
     test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
-    }, _.fromPairs(tests)),
+    }, Object.fromEntries(tests)),
   },
 }

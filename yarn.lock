@@ -540,25 +540,37 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^1.0.11", "@oclif/core@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@oclif/core/-/core-1.1.1.tgz#71a91be5af645a7088d4f716a9c83b0adbd1d4a3"
-  integrity sha512-lCn4CT39gMV9oo/P1u99kmBy61RU5lsq0ENocnnvoFtGHrsEZQgOztxR6mTBKMl5QCBK1c6cEy47E8owUQgEGw==
+"@oclif/core@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@oclif/core/-/core-1.2.0.tgz#f1110b1fe868e439f94f8b4ffad5dd8acf862294"
+  integrity sha512-h1n8NEAUzaL3+wky7W1FMeySmJWQpYX1LhWMltFY/ScvmapZzee7D9kzy/XI/ZIWWfz2ZYCTMD1wOKXO6ueynw==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
+    "@oclif/screen" "^3.0.2"
+    ansi-escapes "^4.3.0"
+    ansi-styles "^4.2.0"
+    cardinal "^2.1.1"
     chalk "^4.1.2"
     clean-stack "^3.0.1"
-    cli-ux "^6.0.6"
+    cli-progress "^3.10.0"
     debug "^4.3.3"
+    ejs "^3.1.6"
     fs-extra "^9.1.0"
     get-package-type "^0.1.0"
     globby "^11.0.4"
+    hyperlinker "^1.0.0"
     indent-string "^4.0.0"
     is-wsl "^2.2.0"
+    js-yaml "^3.13.1"
     lodash "^4.17.21"
+    natural-orderby "^2.0.3"
+    object-treeify "^1.1.4"
+    password-prompt "^1.1.2"
     semver "^7.3.5"
     string-width "^4.2.3"
     strip-ansi "^6.0.1"
+    supports-color "^8.1.1"
+    supports-hyperlinks "^2.2.0"
     tslib "^2.3.1"
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
@@ -661,6 +673,11 @@
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
+
+"@oclif/screen@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/@oclif/screen/-/screen-3.0.2.tgz#969054308fe98d130c02844a45cc792199b75670"
+  integrity sha512-S/SF/XYJeevwIgHFmVDAFRUvM3m+OjhvCAYMk78ZJQCYCQ5wS7j+LTt1ZEv2jpEEGg2tx/F6TYYWxddNAYHrFQ==
 
 "@oclif/test@^2.0.3":
   version "2.0.3"
@@ -1791,37 +1808,6 @@ cli-ux@^4.9.3:
     supports-hyperlinks "^1.0.1"
     treeify "^1.1.0"
     tslib "^1.9.3"
-
-cli-ux@^6.0.6, cli-ux@^6.0.8:
-  version "6.0.8"
-  resolved "https://registry.npmjs.org/cli-ux/-/cli-ux-6.0.8.tgz#a3943e889df827ceab2ffbe3e46c1fff194099e9"
-  integrity sha512-ERJ61QDVS1fqnWhzp3cPFHbfucmkzWh/K6SlMlf5GweIb0wB4G/wtZiAeWK6TOTSFXGQdGczVHzWrG1BMqTmSw==
-  dependencies:
-    "@oclif/core" "^1.1.1"
-    "@oclif/linewrap" "^1.0.0"
-    "@oclif/screen" "^1.0.4 "
-    ansi-escapes "^4.3.0"
-    ansi-styles "^4.2.0"
-    cardinal "^2.1.1"
-    chalk "^4.1.0"
-    clean-stack "^3.0.0"
-    cli-progress "^3.10.0"
-    extract-stack "^2.0.0"
-    fs-extra "^8.1"
-    hyperlinker "^1.0.0"
-    indent-string "^4.0.0"
-    is-wsl "^2.2.0"
-    js-yaml "^3.13.1"
-    lodash "^4.17.21"
-    natural-orderby "^2.0.1"
-    object-treeify "^1.1.4"
-    password-prompt "^1.1.2"
-    semver "^7.3.2"
-    string-width "^4.2.0"
-    strip-ansi "^6.0.0"
-    supports-color "^8.1.0"
-    supports-hyperlinks "^2.1.0"
-    tslib "^2.0.0"
 
 cli-width@^3.0.0:
   version "3.0.0"
@@ -4480,9 +4466,9 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-natural-orderby@^2.0.1:
+natural-orderby@^2.0.1, natural-orderby@^2.0.3:
   version "2.0.3"
-  resolved "https://registry.yarnpkg.com/natural-orderby/-/natural-orderby-2.0.3.tgz#8623bc518ba162f8ff1cdb8941d74deb0fdcc016"
+  resolved "https://registry.npmjs.org/natural-orderby/-/natural-orderby-2.0.3.tgz#8623bc518ba162f8ff1cdb8941d74deb0fdcc016"
   integrity sha512-p7KTHxU0CUrcOXe62Zfrb5Z13nLvPhSWR/so3kFulUQU0sgUll2Z0LwpsLN351eOOD+hRGu/F1g+6xDfPeD++Q==
 
 ncp@2.0.0:
@@ -6045,6 +6031,14 @@ supports-hyperlinks@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/supports-hyperlinks/-/supports-hyperlinks-2.1.0.tgz#f663df252af5f37c5d49bbd7eeefa9e0b9e59e47"
   integrity sha512-zoE5/e+dnEijk6ASB6/qrK+oYdm2do1hjoLWrqUC/8WEIW1gbxFcKuBof7sW8ArN6e+AYvsE8HBGiVRWL/F5CA==
+  dependencies:
+    has-flag "^4.0.0"
+    supports-color "^7.0.0"
+
+supports-hyperlinks@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/supports-hyperlinks/-/supports-hyperlinks-2.2.0.tgz#4f77b42488765891774b70c79babd87f9bd594bb"
+  integrity sha512-6sXEzV5+I5j8Bmq9/vUphGRM/RJNT9SCURJLjwfOg51heRtguGWDzcaBlgAzKhQa0EVNpPEKzQuBwZ8S8WaCeQ==
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"

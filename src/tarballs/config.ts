@@ -1,4 +1,4 @@
-import {Interfaces, Config} from '@oclif/core'
+import {Interfaces, Config, CliUx} from '@oclif/core'
 
 import * as path from 'path'
 import * as qq from 'qqjs'
@@ -6,7 +6,6 @@ import * as semver from 'semver'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'
-import {cli} from 'cli-ux'
 
 export const TARGETS = [
   'linux-x64',
@@ -70,7 +69,7 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
   const targets = compact(options.targets || updateConfig.node.targets || TARGETS)
   .filter(t => {
     if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
-      cli.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
+      CliUx.ux.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
       return false
     }
 

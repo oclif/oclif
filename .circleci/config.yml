@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   release-management: salesforce/npm-release-management@4
+  aws-cli: circleci/aws-cli@2.0
 
 jobs:
   lint: &lint

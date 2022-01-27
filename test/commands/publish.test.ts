@@ -5,7 +5,7 @@ import aws from '../../src/aws'
 import {gitSha} from '../../src/tarballs'
 import {
   developerSalesforceCom,
-  gitShaSync,
+  // gitShaSync,
   deleteFolder,
 } from '../helpers/helper'
 
@@ -13,10 +13,9 @@ const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 const target = [process.platform, process.arch].join('-')
-
 const skipIfWindows = process.platform === 'win32' ? test.skip() : test
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
-const s3UploadedFiles: string[] = []
+// const s3UploadedFiles: string[] = []
 
 describe('upload tarballs', async () => {
   const cwd = process.cwd()

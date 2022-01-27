@@ -1,6 +1,6 @@
 import {expect, test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {developerSalesforceCom, oclifTestingChannelsURI, oclifTestingVersionsURI} from '../helpers/helper'
+import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
 
 const pjson = require('../../package.json')
@@ -12,18 +12,21 @@ const onlyLinux = process.platform === 'linux' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:deb', () => {
+  let bucket: string
+  let basePrefix: string
+
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
-    await qq.x(`aws s3 rm --recursive s3://${oclifTestingVersionsURI}/${pjson.version}`)
-    await qq.x(`aws s3 rm --recursive s3://${oclifTestingChannelsURI}/`)
+    bucket = pjson.oclif.update.s3.bucket
+    basePrefix = pjson.oclif.update.s3.folder
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     await qq.writeJSON(pjsonPath, pjson)
     const root = qq.join(__dirname, '../tmp/test/publish')
     await qq.emptyDir(root)
     qq.cd(root)
   })
   afterEach(async () => {
-    await qq.x(`aws s3 rm --recursive s3://${oclifTestingVersionsURI}/${pjson.version}`)
-    await qq.x(`aws s3 rm --recursive s3://${oclifTestingChannelsURI}/`)
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     qq.cd([__dirname, '..'])
     pjson.version = originalVersion
     await qq.writeJSON(pjsonPath, pjson)

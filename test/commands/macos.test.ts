@@ -1,6 +1,6 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {findDistFileSha, oclifTestingVersionsURI, developerSalesforceCom} from '../helpers/helper'
+import {findDistFileSha, developerSalesforceCom, deleteFolder} from '../helpers/helper'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
@@ -13,16 +13,20 @@ describe('publish:macos', () => {
   const cwd = process.cwd()
   let pkg: string
   let sha: string
+  let bucket: string
+  let basePrefix: string
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
-    await qq.x(`aws s3 rm --recursive s3://${oclifTestingVersionsURI}/${pjson.version}`)
+    bucket = pjson.oclif.update.s3.bucket
+    basePrefix = pjson.oclif.update.s3.folder
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     await qq.writeJSON(pjsonPath, pjson)
     const root = qq.join(__dirname, '../tmp/test/publish')
     await qq.emptyDir(root)
     qq.cd(root)
   })
   afterEach(async () => {
-    await qq.x(`aws s3 rm --recursive s3://${oclifTestingVersionsURI}/${pjson.version}`)
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     qq.cd([__dirname, '..'])
     pjson.version = originalVersion
     await qq.writeJSON(pjsonPath, pjson)

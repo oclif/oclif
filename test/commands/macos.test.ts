@@ -1,6 +1,6 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {findDistFileSha, oclifTestingVersionsURI, devSalesforceoclifTestingVersionsURI} from '../helpers/helper'
+import {findDistFileSha, oclifTestingVersionsURI, developerSalesforceCom} from '../helpers/helper'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
@@ -35,6 +35,6 @@ describe('publish:macos', () => {
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://${devSalesforceoclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
+    await qq.download(`https://${developerSalesforceCom}/${pjson.version}/${sha}/${pkg}`)
   })
 })

@@ -1,6 +1,6 @@
 import {expect, test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {devSalesforceoclifTestingVersionsURI, oclifTestingChannelsURI, oclifTestingVersionsURI} from '../helpers/helper'
+import {developerSalesforceCom, oclifTestingChannelsURI, oclifTestingVersionsURI} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
 
 const pjson = require('../../package.json')
@@ -36,7 +36,7 @@ describe('publish:deb', () => {
     const sha = await gitSha(process.cwd(), {short: true})
     qq.cd([__dirname, '..', '..'])
     await qq.x('cat test/release.key | apt-key add -')
-    await qq.x(`echo "deb https://${devSalesforceoclifTestingVersionsURI}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list`)
+    await qq.x(`echo "deb https://${developerSalesforceCom}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list`)
     await qq.x('apt-get update')
     await qq.x('apt-get install -y oclif-dev')
     await qq.x('oclif --version')

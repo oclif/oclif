@@ -16,7 +16,6 @@
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
     "github-slugger": "^1.2.1",
-    "global": "^4.4.0",
     "lodash": "^4.17.11",
     "normalize-package-data": "^3.0.3",
     "nps-utils": "^1.7.0",

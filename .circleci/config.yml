@@ -37,7 +37,6 @@ jobs:
     docker:
       - image: << parameters.image >>
     steps:
-      - run: aws --version
       - checkout
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}

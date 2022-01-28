@@ -27,32 +27,29 @@ describe('upload tarballs', async () => {
     pjson.version = `${pjson.version}-${testRun}`
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
-    const deletedObjects = await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    console.log(deletedObjects)
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     await qq.writeJSON(pjsonPath, pjson)
     const root = qq.join(__dirname, '../tmp/test/publish')
     await qq.emptyDir(root)
     qq.cd(root)
   })
   afterEach(async () => {
-    const deletedObjects = await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    console.log(deletedObjects)
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     qq.cd([__dirname, '..'])
     pjson.version = originalVersion
     await qq.writeJSON(pjsonPath, pjson)
   })
 
   skipIfWindows
-  .command(['pack:tarballs', '-t', 'darwin-x64'])
+  .command(['pack:tarballs'])
   .do(async () => {
     sha = await gitSha(cwd, {short: true})
   })
-  .command(['upload:tarballs', '-t', 'darwin-x64'])
+  .command(['upload:tarballs'])
   // .command(['promote', '--channel', 'stable', '-t', 'darwin-x64', '--sha', gitShaSync(process.cwd(), {short: true}), '--version', pjson.version])
   .it('promotes valid releases', async () => {
     const manifest = async (path: string, nodeVersion: string) => {
       const list = await aws.s3.listObjects({Bucket: bucket, Prefix: `${basePrefix}/${path}`})
-      console.log(list)
       const manifestFile = list.Contents?.map(listObject => listObject.Key).find(f => f!.includes(target) && f!.endsWith('-buildmanifest'))
       if (!manifestFile) {
         throw new Error(`could not find a buildmanifest file for target ${target}`)

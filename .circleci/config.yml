@@ -41,7 +41,7 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
-      - run: apt-ftparchive
+      - run: apt --help; apt --version
       - run: yarn exec nps test
       - store_test_results:
           path: ~/cli/reports

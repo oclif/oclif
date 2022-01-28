@@ -11,7 +11,8 @@ const target = [process.platform, process.arch].join('-')
 const onlyLinux = process.platform === 'linux' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
-describe('publish:deb', () => {
+// 2022-01 - this test requires linux with apt-ftparchive installed. Current CircleCi images do not have that util installed - skipping test
+describe.skip('publish:deb', () => {
   let bucket: string
   let basePrefix: string
 

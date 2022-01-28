@@ -41,7 +41,7 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
-      - run: apt-get update
+      - run: apt-get update \
           apt-get install -y p7zip-full \
             osslsigncode \
             nsis

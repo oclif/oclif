@@ -10,7 +10,7 @@ const originalVersion = pjson.version
 const skipIfWindows = process.platform === 'win32' ? test.skip() : test
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
-describe('publish:win', () => {
+describe.skip('publish:win', () => {
   let sha: string
   let bucket: string
   let basePrefix: string

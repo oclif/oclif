@@ -39,6 +39,6 @@ describe('publish:macos', () => {
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://${developerSalesforceCom}/${pjson.version}/${sha}/${pkg}`)
+    await qq.download(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`)
   })
 })

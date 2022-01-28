@@ -77,12 +77,6 @@ describe('upload tarballs', async () => {
       await test(manifest.xz, manifest.sha256xz, nodeVersion)
     }
 
-    // const testPromote = async (channel: string) => {
-    //   const list = (await aws.s3.listObjects({Bucket: bucket, Prefix: `${basePrefix}/channels/${channel}/`}))
-    //   .Contents?.map(listObject => listObject.Key).find(f => f!.includes(target) && f!.endsWith('darwin-x64'))
-    //   expect(list).to.be.ok
-    // }
-
     await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
     // await testPromote('stable')
   })

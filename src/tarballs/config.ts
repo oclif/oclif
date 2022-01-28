@@ -3,7 +3,6 @@ import {CliUx, Interfaces, Config} from '@oclif/core'
 import * as path from 'path'
 import * as qq from 'qqjs'
 import * as semver from 'semver'
-import * as shelljs from 'shelljs'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'

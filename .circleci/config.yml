@@ -42,9 +42,7 @@ jobs:
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
       - run: apt-get update
-      - run: apt-get install -y p7zip-full \
-            osslsigncode \
-            nsis
+      - run: apt-get install -y p7zip-full
       - run: yarn exec nps test
       - store_test_results:
           path: ~/cli/reports

@@ -1,9 +1,9 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {deleteFolder, oclifTestingVersionsURI} from './helpers/helper'
-import {gitSha} from '../src/tarballs'
+import {deleteFolder, oclifTestingVersionsURI} from '../helpers/helper'
+import {gitSha} from '../../src/tarballs'
 
-const pjson = require('../package.json')
+const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 

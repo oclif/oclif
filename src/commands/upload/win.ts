@@ -23,12 +23,13 @@ export default class UploadWin extends Command {
     }
 
     const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+
     for (const arch of archs) {
       const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const localKey = dist(`win32/${templateKey}`)
       // eslint-disable-next-line no-await-in-loop
       if (!await qq.exists(localKey)) this.error(`Cannot find Windows exe for ${arch}`, {
-        suggestions: ['Run "oclif-dev pack:win" before uploading'],
+        suggestions: ['Run "oclif pack win" before uploading'],
       })
     }
 

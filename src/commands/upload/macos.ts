@@ -28,7 +28,7 @@ export default class UploadMacos extends Command {
 
     if (await qq.exists(localPkg)) await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     else this.error('Cannot find macOS pkg', {
-      suggestions: ['Run "oclif-dev pack:macos" before uploading'],
+      suggestions: ['Run "oclif pack macos" before uploading'],
     })
 
     log(`done uploading macos pkg for v${config.version}-${buildConfig.gitSha}`)

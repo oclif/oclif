@@ -1,4 +1,4 @@
-import {test} from '@oclif/test'
+import {expect, test} from '@oclif/test'
 import * as qq from 'qqjs'
 import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
@@ -39,6 +39,8 @@ describe('publish:win', () => {
   .command(['upload:win'])
   .do(async () => {
     [pkg, sha] = await findDistFileSha(process.cwd(), 'win32', f => f.endsWith('x64.exe'))
+    expect(pkg).to.be.ok
+    expect(sha).to.be.ok
   })
   .it('publishes valid releases', async () => {
     await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)

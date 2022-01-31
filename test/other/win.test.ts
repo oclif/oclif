@@ -1,6 +1,6 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {deleteFolder, oclifTestingVersionsURI} from '../helpers/helper'
+import {deleteFolder, developerSalesforceCom, oclifTestingVersionsURI} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
 
 const pjson = require('../../package.json')
@@ -37,7 +37,7 @@ describe('publish:win', () => {
   .command(['pack:win'])
   .command(['upload:win'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://${oclifTestingVersionsURI}/${pjson.version}/${sha}/oclif-x64.exe`)
-    await qq.download(`https://${oclifTestingVersionsURI}/${pjson.version}/${sha}/oclif-x86.exe`)
+    await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/oclif-x64.exe`)
+    await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/oclif-x86.exe`)
   })
 })

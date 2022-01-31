@@ -35,7 +35,7 @@ describe('publish:macos', () => {
   onlyMacos
   .command(['pack:macos'])
   .do(async () => {
-    [pkg, sha] = await findDistFileSha(cwd, f => f.endsWith('pkg'))
+    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('pkg'))
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {

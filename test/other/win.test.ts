@@ -1,6 +1,6 @@
 import {test} from '@oclif/test'
 import * as qq from 'qqjs'
-import {deleteFolder, developerSalesforceCom, oclifTestingVersionsURI} from '../helpers/helper'
+import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
 
 const pjson = require('../../package.json')
@@ -11,6 +11,7 @@ const skipIfWindows = process.platform === 'win32' ? test.skip() : test
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:win', () => {
+  let pkg: string
   let sha: string
   let bucket: string
   let basePrefix: string
@@ -36,8 +37,10 @@ describe('publish:win', () => {
   skipIfWindows
   .command(['pack:win'])
   .command(['upload:win'])
+  .do(async () => {
+    [pkg, sha] = await findDistFileSha(process.cwd(), 'win32', f => f.endsWith('x64.exe'))
+  })
   .it('publishes valid releases', async () => {
-    await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/oclif-x64.exe`)
-    await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/oclif-x86.exe`)
+    await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
   })
 })

@@ -2,7 +2,7 @@ const {
   concurrent,
   series,
   setColors,
-  mkdirp,
+  // mkdirp,
 } = require('nps-utils')
 const script = (script, description) => description ? {script, description} : {script}
 const _ = require('lodash')

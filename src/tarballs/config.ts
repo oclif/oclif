@@ -1,4 +1,4 @@
-import {Interfaces, Config, CliUx} from '@oclif/core'
+import {CliUx, Interfaces, Config} from '@oclif/core'
 
 import * as path from 'path'
 import * as qq from 'qqjs'

@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   release-management: salesforce/npm-release-management@4
+  aws-cli: circleci/aws-cli@2.0
 
 jobs:
   lint: &lint
@@ -40,9 +41,14 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace: {at: node_modules}
       - run: .circleci/setup_git
+      - run: |
+          apt-get update
+          apt-get install -y p7zip-full \
+            osslsigncode \
+            nsis
       - run: yarn exec nps test
       - store_test_results:
-          path: ~/cli/reports
+          path: /root/project/cli/reports
   node-devcli: &node-devcli
     docker:
       - image: node:latest
@@ -85,12 +91,16 @@ workflows:
       - compile-typescript
       - node-devcli
       - test:
+          context: AWS
           matrix:
             parameters:
               image: [node:latest, node:16, node:14]
           name: test-<< matrix.image >>
           requires: [lint, compile-typescript]
       - release-management/release-package:
+          context:
+            - SF-CLI-RELEASE-PROCESS
+            - AWS
           github-release: true
           requires:
             - lint
@@ -110,4 +120,7 @@ workflows:
               only:
                 - main
     jobs:
-      - release-management/dependabot-automerge
+      - release-management/dependabot-automerge:
+          context:
+            - SF-CLI-RELEASE-PROCESS
+            - AWS

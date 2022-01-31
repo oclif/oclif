@@ -29,9 +29,6 @@ function build(type, features) {
   sh.rm('-rf', dir)
   generate(`${type} ${dir} --defaults ${options}`)
   sh.cd(dir)
-  // sh.exec('git add .')
-  // sh.exec('git commit -nm init')
-  // sh.exec('git checkout -B origin/master')
   process.env = npmPath.env({env: process.env})
 }
 
@@ -55,23 +52,6 @@ module.exports = file => {
         sh.exec('node ./bin/run hello')
         sh.exec('node ./bin/run')
         sh.exec('node ./bin/run --help')
-        sh.exec('npm pack --unsafe-perm')
-        break
-      case 'single':
-        build(cmd, name)
-        sh.exec('yarn test')
-        sh.exec('node ./bin/run -v')
-        sh.exec('node ./bin/run')
-        sh.exec('node ./bin/run --help')
-        break
-      case 'multi':
-        build(cmd, name)
-        sh.exec('yarn test')
-        sh.exec('node ./bin/run -v')
-        sh.exec('node ./bin/run version')
-        sh.exec('node ./bin/run hello')
-        sh.exec('node ./bin/run help hello')
-        sh.exec('node ./bin/run hello --help')
         sh.exec('npm pack --unsafe-perm')
         break
       case 'command':

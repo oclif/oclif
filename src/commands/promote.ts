@@ -1,4 +1,4 @@
-import {Command, Flags, CliUx} from '@oclif/core'
+import {CliUx, Command, Flags} from '@oclif/core'
 import * as path from 'path'
 
 import aws from '../aws'

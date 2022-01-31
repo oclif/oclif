@@ -27,9 +27,9 @@ const tests = testTypes.map(cmd => {
   tests = process.env.TEST_SERIES === '1' ?
     series(...tests.map(t => t[1]).value()) :
     concurrent(tests.fromPairs().value())
-  if (process.env.CIRCLECI) {
-    tests = series(mkdirp('reports'), tests)
-  }
+  // if (process.env.CIRCLECI) {
+  //   tests = series(mkdirp('reports'), tests)
+  // }
 
   sh.config.silent = silent
   return [cmd, series('nps build', tests)]

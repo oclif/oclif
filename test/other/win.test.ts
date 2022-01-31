@@ -15,6 +15,7 @@ describe('publish:win', () => {
   let sha: string
   let bucket: string
   let basePrefix: string
+  const cwd = process.cwd()
 
   beforeEach(async () => {
     sha = await gitSha(process.cwd(), {short: true})
@@ -38,7 +39,7 @@ describe('publish:win', () => {
   .command(['pack:win'])
   .command(['upload:win'])
   .do(async () => {
-    [pkg, sha] = await findDistFileSha(process.cwd(), 'win32', f => f.endsWith('x64.exe'))
+    [pkg, sha] = await findDistFileSha(cwd, 'win32', f => f.endsWith('x64.exe'))
     expect(pkg).to.be.ok
     expect(sha).to.be.ok
   })

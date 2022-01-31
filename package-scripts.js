@@ -12,13 +12,13 @@ const path = require('path')
 sh.set('-e')
 
 setColors(['dim'])
-
-const testTypes = ['']
+process.env.TEST_SERIES = '1'
+const testTypes = ['', 'integration']
 const tests = testTypes.map(cmd => {
   const {silent} = sh.config
   sh.config.silent = true
   const mocha = 'mocha --forbid-only'
-  const base = path.join('test/commands', cmd)
+  const base = cmd === 'integration' ? path.join('test', cmd) : path.join('test/commands', cmd)
   sh.pushd(base)
   let tests = _(sh.ls())
   .map(t => [t.split('.')[0], path.join(base, t)])
@@ -30,6 +30,7 @@ const tests = testTypes.map(cmd => {
   if (process.env.CIRCLECI) {
     tests = series(mkdirp('reports'), tests)
   }
+
   sh.config.silent = silent
   return [cmd, series('nps build', tests)]
 })
@@ -45,6 +46,6 @@ module.exports = {
     },
     test: Object.assign({
       default: series.nps(...testTypes.map(t => `test.${t}`)),
-    }, _.fromPairs(tests)),
+    }, Object.fromEntries(tests)),
   },
 }

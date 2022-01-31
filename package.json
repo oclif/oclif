@@ -10,8 +10,9 @@
   "dependencies": {
     "@oclif/core": "^1.2.0",
     "@oclif/plugin-help": "^5.1.10",
-    "@oclif/plugin-not-found": "^2.2.3",
-    "@oclif/plugin-warn-if-update-available": "^2.0.3",
+    "@oclif/plugin-not-found": "^2.2.4",
+    "@oclif/plugin-warn-if-update-available": "^2.0.4",
+    "aws-sdk": "^2.1064.0",
     "debug": "^4.3.3",
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
@@ -43,7 +44,6 @@
     "@types/write-json-file": "^3.2.1",
     "@types/yeoman-generator": "^5.2.8",
     "@types/yosay": "^2.0.1",
-    "aws-sdk": "^2.1048.0",
     "chai": "^4.2.0",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^7.3.2",
@@ -58,7 +58,7 @@
     "shelljs": "^0.8.5",
     "shx": "^0.3.3",
     "tmp": "^0.2.1",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.4.0",
     "typescript": "4.5.4"
   },
   "resolutions": {
@@ -93,8 +93,7 @@
     "dirname": "oclif",
     "topicSeparator": " ",
     "macos": {
-      "identifier": "com.oclif.cli",
-      "sign": "Developer ID Installer: Heroku INC"
+      "identifier": "com.salesforce.cli"
     },
     "update": {
       "autoupdate": {
@@ -105,7 +104,11 @@
         "version": "12.12.0"
       },
       "s3": {
-        "bucket": "oclif-staging",
+        "bucket": "dfc-data-production",
+        "indexVersionLimit": 20,
+        "folder": "media/salesforce-cli/oclif-testing",
+        "acl": " ",
+        "host": "https://developer.salesforce.com",
         "xz": true
       }
     },

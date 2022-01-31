@@ -48,7 +48,7 @@ jobs:
             nsis
       - run: yarn exec nps test
       - store_test_results:
-          path: ~/cli/reports
+          path: /root/project/cli/reports
   node-devcli: &node-devcli
     docker:
       - image: node:latest

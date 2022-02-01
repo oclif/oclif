@@ -30,21 +30,6 @@ export interface BuildConfig {
   dist(input: string): string;
 }
 
-export interface IManifest {
-  version: string;
-  sha: string;
-  gz: string;
-  xz?: string;
-  sha256gz: string;
-  sha256xz?: string;
-  baseDir: string;
-  rollout?: number;
-  node: {
-    compatible: string;
-    recommended: string;
-  };
-}
-
 export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
   return qq.x.stdout('git', args, {cwd})

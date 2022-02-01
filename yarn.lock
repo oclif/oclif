@@ -552,10 +552,10 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.2.0.tgz#f1110b1fe868e439f94f8b4ffad5dd8acf862294"
-  integrity sha512-h1n8NEAUzaL3+wky7W1FMeySmJWQpYX1LhWMltFY/ScvmapZzee7D9kzy/XI/ZIWWfz2ZYCTMD1wOKXO6ueynw==
+"@oclif/core@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@oclif/core/-/core-1.3.0.tgz#f0547d2ca9b13c2a54f1c1d88e03a8c8ca7799bb"
+  integrity sha512-YSy1N3SpOn/8vmY8lllmTzQ4+KGjTlyFoNr/PxvebuYxo0iO0uQSpXIr8qDoNGQUTy+3Z5feUxoV04uUgAlI6Q==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     "@oclif/screen" "^3.0.2"

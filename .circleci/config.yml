@@ -46,7 +46,7 @@ jobs:
           apt-get install -y p7zip-full \
             osslsigncode \
             nsis
-      - run: yarn exec nps test
+      - run: yarn test
       - store_test_results:
           path: /root/project/cli/reports
   node-devcli: &node-devcli

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/oclif/oclif/compare/v2.4.1...v2.4.2) (2022-02-01)
+
+
+### Bug Fixes
+
+* remove IManifest ([#823](https://github.com/oclif/oclif/issues/823)) ([31f1f07](https://github.com/oclif/oclif/commit/31f1f07480d4f59db45da35ff0926bc44665cc6f))
+
 ### [2.4.1](https://github.com/oclif/oclif/compare/v2.4.0...v2.4.1) (2022-01-31)
 
 

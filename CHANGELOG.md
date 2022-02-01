@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.3](https://github.com/oclif/oclif/compare/v2.4.2...v2.4.3) (2022-02-01)
+
+
+### Bug Fixes
+
+* remove dependency on nps-utils ([#822](https://github.com/oclif/oclif/issues/822)) ([5c01f53](https://github.com/oclif/oclif/commit/5c01f53930ce56a476ba1f8abd1208cbc5b91dc2))
+
 ### [2.4.2](https://github.com/oclif/oclif/compare/v2.4.1...v2.4.2) (2022-02-01)
 
 

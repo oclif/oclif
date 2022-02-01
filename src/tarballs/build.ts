@@ -6,7 +6,7 @@ import * as qq from 'qqjs'
 import {log} from '../log'
 
 import {writeBinScripts} from './bin'
-import {BuildConfig, IManifest} from './config'
+import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
 import {commitAWSDir, templateShortKey} from '../upload-util'
 
@@ -123,7 +123,7 @@ export async function build(c: BuildConfig, options: {
     const gzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
     const xzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
 
-    const manifest: IManifest = {
+    const manifest: Interfaces.S3Manifest = {
       rollout: rollout === false ? undefined : rollout,
       version: config.version,
       sha: c.gitSha,

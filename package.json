@@ -44,7 +44,7 @@
     "@types/write-json-file": "^3.2.1",
     "@types/yeoman-generator": "^5.2.8",
     "@types/yosay": "^2.0.1",
-    "chai": "^4.2.0",
+    "chai": "^4.3.6",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^7.3.2",
     "eslint-config-oclif": "^4.0.0",

@@ -93,7 +93,7 @@
     "dirname": "oclif",
     "topicSeparator": " ",
     "macos": {
-      "identifier": "com.salesforce.cli"
+      "identifier": "com.oclif.cli"
     },
     "update": {
       "autoupdate": {

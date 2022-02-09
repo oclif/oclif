@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.4](https://github.com/oclif/oclif/compare/v2.4.3...v2.4.4) (2022-02-09)
+
+
+### Bug Fixes
+
+* fix tarball packing in paths with spaces ([#825](https://github.com/oclif/oclif/issues/825)) ([#826](https://github.com/oclif/oclif/issues/826)) ([9e12c70](https://github.com/oclif/oclif/commit/9e12c70be6c85a9de7fff991e2c2d6574fd6173d))
+
 ### [2.4.3](https://github.com/oclif/oclif/compare/v2.4.2...v2.4.3) (2022-02-01)
 
 

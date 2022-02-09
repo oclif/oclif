@@ -47,7 +47,7 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     const basedir = path.dirname(tarball)
     await qq.mkdirp(basedir)
     await qq.download(url, tarball)
-    await qq.x(`grep ${path.basename(tarball)} ${shasums} | shasum -a 256 -c -`, {cwd: basedir})
+    await qq.x(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
   }
 
   const extract = async () => {
@@ -58,11 +58,11 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     await qq.mkdirp(path.dirname(cache))
     if (platform === 'win32') {
       qq.pushd(nodeTmp)
-      await qq.x(`7z x -bd -y ${tarball} > /dev/null`)
+      await qq.x(`7z x -bd -y "${tarball}" > /dev/null`)
       await qq.mv([nodeBase, 'node.exe'], cache)
       qq.popd()
     } else {
-      await qq.x(`tar -C ${tmp}/node -xJf ${tarball}`)
+      await qq.x(`tar -C "${tmp}/node" -xJf "${tarball}"`)
       await qq.mv([nodeTmp, nodeBase, 'bin/node'], cache)
     }
   }

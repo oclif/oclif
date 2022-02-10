@@ -133,6 +133,7 @@ the CLI should already exist in a directory named after the CLI that is the root
     const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha})
     const dist = buildConfig.dist(`macos/${templateKey}`)
     await qq.emptyDir(path.dirname(dist))
+    const noBundleConfigurationPath = qq.join(buildConfig.tmp, 'macos/no-bundle.plist')
     const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
     const rootDir = buildConfig.workspace({platform: 'darwin', arch: 'x64'})
     const writeNoBundleConfiguration = async () => {

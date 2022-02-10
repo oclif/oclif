@@ -14,6 +14,13 @@ type OclifConfig = {
   };
 }
 
+const noBundleConfiguration = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array/>
+</plist>
+`
+
 const scripts = {
   preinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 sudo rm -rf /usr/local/lib/${config.dirname}
@@ -128,6 +135,10 @@ the CLI should already exist in a directory named after the CLI that is the root
     await qq.emptyDir(path.dirname(dist))
     const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
     const rootDir = buildConfig.workspace({platform: 'darwin', arch: 'x64'})
+    const writeNoBundleConfiguration = async () => {
+      await qq.write(noBundleConfigurationPath, noBundleConfiguration)
+      await qq.chmod(noBundleConfigurationPath, 0o755)
+    }
     const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
       const path = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
       path.push(script)
@@ -135,12 +146,14 @@ the CLI should already exist in a directory named after the CLI that is the root
       await qq.chmod(path, 0o755)
     }
 
+    await writeNoBundleConfiguration();
     await writeScript('preinstall')
     await writeScript('postinstall')
     await writeScript('uninstall')
     /* eslint-disable array-element-newline */
     const args = [
       '--root', rootDir,
+      '--component-plist', noBundleConfigurationPath,
       '--identifier', packageIdentifier,
       '--version', config.version,
       '--install-location', `/usr/local/lib/${config.dirname}`,

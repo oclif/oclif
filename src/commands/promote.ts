@@ -14,24 +14,19 @@ export default class Promote extends Command {
     version: Flags.string({description: 'semantic version of the CLI to promote', required: true}),
     sha: Flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
     channel: Flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
-    targets: Flags.string({
-      char: 't',
-      description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)',
-      default: Tarballs.TARGETS.join(','),
-    }),
+    targets: Flags.string({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)'}),
     deb: Flags.boolean({char: 'd', description: 'promote debian artifacts'}),
     macos: Flags.boolean({char: 'm', description: 'promote macOS pkg'}),
     win: Flags.boolean({char: 'w', description: 'promote Windows exe'}),
     'max-age': Flags.string({char: 'a', description: 'cache control max-age in seconds', default: '86400'}),
-    xz: Flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
+    xz: Flags.boolean({description: 'also upload xz', allowNo: true}),
     indexes: Flags.boolean({description: 'append the promoted urls into the index files'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
     const maxAge = `max-age=${flags['max-age']}`
-    const targets = flags.targets.split(',')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {s3Config, config} = buildConfig
     const indexDefaults = {
       version: flags.version,

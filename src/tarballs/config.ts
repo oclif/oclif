@@ -70,7 +70,7 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     config,
     tmp,
     updateConfig,
-    xz: typeof options.xz === 'boolean' ? options.xz : Boolean(updateConfig.s3.xz),
+    xz: options?.xz ?? updateConfig?.s3?.xz ?? true,
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     s3Config: updateConfig.s3,
     nodeVersion,

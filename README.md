@@ -146,7 +146,7 @@ DESCRIPTION
   This will clone the template repo 'oclif/hello-world' and update package properties
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.2.0/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v2.4.3/src/commands/generate.ts)_
 
 ## `oclif generate command NAME`
 
@@ -203,7 +203,7 @@ DESCRIPTION
   Display help for oclif.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.11/src/commands/help.ts)_
 
 ## `oclif manifest [PATH]`
 
@@ -220,7 +220,7 @@ DESCRIPTION
   generates plugin manifest json
 ```
 
-_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/v2.2.0/src/commands/manifest.ts)_
+_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/v2.4.3/src/commands/manifest.ts)_
 
 ## `oclif pack deb`
 
@@ -321,7 +321,7 @@ DESCRIPTION
   promote CLI builds to a S3 release channel
 ```
 
-_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/v2.2.0/src/commands/promote.ts)_
+_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/v2.4.3/src/commands/promote.ts)_
 
 ## `oclif readme`
 
@@ -351,7 +351,7 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v2.2.0/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v2.4.3/src/commands/readme.ts)_
 
 ## `oclif upload deb`
 

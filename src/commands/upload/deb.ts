@@ -24,7 +24,7 @@ export default class UploadDeb extends Command {
     }
 
     if (!await qq.exists(dist('Release'))) this.error('Cannot find debian artifacts', {
-      suggestions: ['Run "oclif-dev pack:deb" before uploading'],
+      suggestions: ['Run "oclif pack deb" before uploading'],
     })
 
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)

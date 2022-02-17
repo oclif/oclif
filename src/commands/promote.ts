@@ -1,5 +1,4 @@
-import {Command, Flags} from '@oclif/core'
-import {cli} from 'cli-ux'
+import {CliUx, Command, Flags} from '@oclif/core'
 import * as path from 'path'
 
 import aws from '../aws'
@@ -157,7 +156,7 @@ export default class Promote extends Command {
         )
         // eslint-disable-next-line no-await-in-loop
         if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})
-        cli.action.stop('successfully')
+        CliUx.ux.action.stop('successfully')
       }
     }
 

@@ -93,6 +93,20 @@ export default {
           else resolve(data)
         })
       }),
+      listObjects: (options: S3.Types.ListObjectsV2Request) => new Promise<S3.ListObjectsV2Output>((resolve, reject) => {
+        debug('listObjects', `s3://${options.Bucket}/${options.Prefix}`)
+        aws.s3.listObjectsV2(options, (err, objects) => {
+          if (err) reject(err)
+          resolve(objects)
+        })
+      }),
+      deleteObjects: (options: S3.Types.DeleteObjectsRequest) => new Promise<S3.DeleteObjectsOutput>((resolve, reject) => {
+        debug('deleteObjects', `s3://${options.Bucket}`)
+        aws.s3.deleteObjects(options, (err, deletedObjects) => {
+          if (err) reject(err)
+          resolve(deletedObjects)
+        })
+      }),
     }
   },
 }

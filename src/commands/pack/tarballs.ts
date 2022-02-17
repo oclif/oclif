@@ -26,7 +26,7 @@ This can be used to create oclif CLIs that use the system node or that come prel
     }
 
     await Tarballs.build(buildConfig, {
-      tarball: flags.tarball
+      tarball: flags.tarball,
     })
     qq.cd(prevCwd)
   }

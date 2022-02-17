@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.4](https://github.com/oclif/oclif/compare/v2.4.3...v2.4.4) (2022-02-09)
+
+
+### Bug Fixes
+
+* fix tarball packing in paths with spaces ([#825](https://github.com/oclif/oclif/issues/825)) ([#826](https://github.com/oclif/oclif/issues/826)) ([9e12c70](https://github.com/oclif/oclif/commit/9e12c70be6c85a9de7fff991e2c2d6574fd6173d))
+
+### [2.4.3](https://github.com/oclif/oclif/compare/v2.4.2...v2.4.3) (2022-02-01)
+
+
+### Bug Fixes
+
+* remove dependency on nps-utils ([#822](https://github.com/oclif/oclif/issues/822)) ([5c01f53](https://github.com/oclif/oclif/commit/5c01f53930ce56a476ba1f8abd1208cbc5b91dc2))
+
+### [2.4.2](https://github.com/oclif/oclif/compare/v2.4.1...v2.4.2) (2022-02-01)
+
+
+### Bug Fixes
+
+* remove IManifest ([#823](https://github.com/oclif/oclif/issues/823)) ([31f1f07](https://github.com/oclif/oclif/commit/31f1f07480d4f59db45da35ff0926bc44665cc6f))
+
+### [2.4.1](https://github.com/oclif/oclif/compare/v2.4.0...v2.4.1) (2022-01-31)
+
+
+### Bug Fixes
+
+* update error messages ([#806](https://github.com/oclif/oclif/issues/806)) ([7a63b49](https://github.com/oclif/oclif/commit/7a63b4987bd8d6e4f2f3211a05248296e5f6d090))
+
+## [2.4.0](https://github.com/oclif/oclif/compare/v2.3.1...v2.4.0) (2022-01-27)
+
+
+### Features
+
+* remove cli-ux ([#804](https://github.com/oclif/oclif/issues/804)) ([fd9d1fb](https://github.com/oclif/oclif/commit/fd9d1fb5672df197c559c6044d51797ad6fe7ffd))
+
+### [2.3.1](https://github.com/oclif/oclif/compare/v2.3.0...v2.3.1) (2022-01-27)
+
+
+### Bug Fixes
+
+* remove accidental dep ([8e5435f](https://github.com/oclif/oclif/commit/8e5435fb84febd950be387849f921a76a39f8eb0))
+
 ## [2.3.0](https://github.com/oclif/oclif/compare/v2.2.0...v2.3.0) (2022-01-20)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/oclif/oclif/compare/v2.4.5...v2.5.0) (2022-02-24)
+
+
+### Features
+
+* remove all relevant directories on uninstall ([#831](https://github.com/oclif/oclif/issues/831)) ([acd986d](https://github.com/oclif/oclif/commit/acd986d53681b3840f17220b6e16fd8bb3c869f7))
+
 ### [2.4.5](https://github.com/oclif/oclif/compare/v2.4.4...v2.4.5) (2022-02-17)
 
 ### [2.4.4](https://github.com/oclif/oclif/compare/v2.4.3...v2.4.4) (2022-02-09)

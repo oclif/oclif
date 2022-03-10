@@ -26,7 +26,7 @@ export default class Promote extends Command {
   async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
     const maxAge = `max-age=${flags['max-age']}`
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: flags?.targets?.split(',')})
     const {s3Config, config} = buildConfig
     const indexDefaults = {
       version: flags.version,

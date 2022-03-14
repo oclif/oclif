@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/oclif/oclif/compare/v2.5.0...v2.6.0) (2022-03-14)
+
+
+### Features
+
+* Add support to build darwin-arm64 for `oclif pack macos` ([#847](https://github.com/oclif/oclif/issues/847)) ([61a96c2](https://github.com/oclif/oclif/commit/61a96c2a1c435f5abce8c2348cf7756a4b997269))
+
 ## [2.5.0](https://github.com/oclif/oclif/compare/v2.4.5...v2.5.0) (2022-02-24)
 
 

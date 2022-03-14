@@ -34,7 +34,7 @@ export function templateShortKey(
     unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
     versioned: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %><%- ext %>',
     manifest: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %>-buildmanifest',
-    macos: '<%- bin %>-v<%- version %>-<%- sha %>.pkg',
+    macos: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.pkg',
     win32: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.exe',
     deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
   }

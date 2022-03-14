@@ -20,6 +20,7 @@ describe('publish:win', () => {
   beforeEach(async () => {
     sha = await gitSha(process.cwd(), {short: true})
     pjson.version = `${pjson.version}-${testRun}`
+    pjson.oclif.update.node.version = process.versions.node
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)

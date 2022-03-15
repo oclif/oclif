@@ -101,16 +101,18 @@ workflows:
           context:
             - SF-CLI-RELEASE-PROCESS
             - AWS
-          github-release: true
-          requires:
-            - lint
-            - compile-typescript
-            - node-devcli
-            - test
+          github-release: false
+          prerelease: true
+          tag: dev
+          # requires:
+            # - lint
+            # - compile-typescript
+            # - node-devcli
+            # - test
           filters:
             branches:
-              only: main
-      - cache: {requires: [release-management/release-package]}
+              only: mg/arm64-mac-pkg
+      # - cache: {requires: [release-management/release-package]}
   dependabot-automerge:
     triggers:
       - schedule:

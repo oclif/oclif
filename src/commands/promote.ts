@@ -1,9 +1,12 @@
-import {CliUx, Command, Flags} from '@oclif/core'
 import * as path from 'path'
+
+import * as _ from 'lodash'
+
+import {CliUx, Command, Flags} from '@oclif/core'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {templateShortKey, commitAWSDir, channelAWSDir, debVersion} from '../upload-util'
+import {channelAWSDir, commitAWSDir, debVersion, templateShortKey} from '../upload-util'
 import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
@@ -117,22 +120,27 @@ export default class Promote extends Command {
 
     // copy darwin pkg
     if (flags.macos) {
-      this.log(`Promoting macos pkg to ${flags.channel}`)
-      const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha})
-      const darwinCopySource = cloudBucketCommitKey(darwinPkg)
-      // strip version & sha so scripts can point to a static channel pkg
-      const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-      const darwinKey = cloudChannelKey(unversionedPkg)
-      await aws.s3.copyObject(
-        {
-          Bucket: s3Config.bucket,
-          CopySource: darwinCopySource,
-          Key: darwinKey,
-          CacheControl: maxAge,
-          MetadataDirective: 'REPLACE',
-        },
-      )
-      if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})
+      this.log(`Promoting macos pkgs to ${flags.channel}`)
+      const arches = _.uniq(buildConfig.targets.filter(t => t.platform === 'darwin').map(t => t.arch))
+      for (const arch of arches) {
+        const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+        const darwinCopySource = cloudBucketCommitKey(darwinPkg)
+        // strip version & sha so scripts can point to a static channel pkg
+        const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
+        const darwinKey = cloudChannelKey(unversionedPkg)
+        // eslint-disable-next-line no-await-in-loop
+        await aws.s3.copyObject(
+          {
+            Bucket: s3Config.bucket,
+            CopySource: darwinCopySource,
+            Key: darwinKey,
+            CacheControl: maxAge,
+            MetadataDirective: 'REPLACE',
+          },
+        )
+        // eslint-disable-next-line no-await-in-loop
+        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})
+      }
     }
 
     // copy win exe

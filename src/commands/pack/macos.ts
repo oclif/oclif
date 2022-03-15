@@ -147,9 +147,9 @@ the CLI should already exist in a directory named after the CLI that is the root
     await Tarballs.build(buildConfig, {platform: 'darwin', pack: false, tarball: flags.tarball})
     const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
     await qq.emptyDir(buildConfig.dist('macos'))
-    
+
     const build = async (arch: Interfaces.ArchTypes) => {
-      const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha})
+      const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const dist = buildConfig.dist(`macos/${templateKey}`)
       const rootDir = buildConfig.workspace({platform: 'darwin', arch})
       const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
@@ -180,9 +180,9 @@ the CLI should already exist in a directory named after the CLI that is the root
     }
 
     const arches = _.uniq(buildConfig.targets
-      .filter(t => t.platform === 'darwin')
-      .map(t => t.arch))
-      // eslint-disable-next-line no-await-in-loop
-      for (const a of arches) await build(a)
+    .filter(t => t.platform === 'darwin')
+    .map(t => t.arch))
+    // eslint-disable-next-line no-await-in-loop
+    for (const a of arches) await build(a)
   }
 }

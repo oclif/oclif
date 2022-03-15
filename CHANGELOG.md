@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.1-dev.0](https://github.com/oclif/oclif/compare/v2.6.0...v2.6.1-dev.0) (2022-03-15)
+
+
+### Features
+
+* Add support to build darwin-arm64 for `oclif pack macos` ([17a123b](https://github.com/oclif/oclif/commit/17a123b102d5ba83fbcbf234819fc6bdba05e45b))
+
+
+### Bug Fixes
+
+* Add arch to macos pkg file ([8deb680](https://github.com/oclif/oclif/commit/8deb680c250536c2c3334b1e44ef7e10fd9f377c))
+* pass arch to all places where macos manifest are being used ([cc45ede](https://github.com/oclif/oclif/commit/cc45edee81add1fe29e0acf5955330b36105c896))
+* update integration tests to run against correct version of node ([228d9d1](https://github.com/oclif/oclif/commit/228d9d17dd39e12067435ac28227accfec055c35))
+
 ## [2.6.0](https://github.com/oclif/oclif/compare/v2.5.0...v2.6.0) (2022-03-14)
 
 

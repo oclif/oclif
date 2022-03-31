@@ -36,7 +36,7 @@
     "@types/lodash": "^4.14.178",
     "@types/lodash.template": "^4.5.0",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^14.18.10",
+    "@types/node": "^14.18.12",
     "@types/read-pkg": "^5.1.0",
     "@types/semver": "^7.3.9",
     "@types/shelljs": "^0.8.11",

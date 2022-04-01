@@ -42,7 +42,7 @@
     "@types/shelljs": "^0.8.11",
     "@types/supports-color": "^7.2.1",
     "@types/write-json-file": "^3.2.1",
-    "@types/yeoman-generator": "^5.2.9",
+    "@types/yeoman-generator": "^5.2.10",
     "@types/yosay": "^2.0.1",
     "chai": "^4.3.6",
     "conventional-changelog-cli": "^2.2.2",

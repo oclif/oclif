@@ -993,22 +993,10 @@
     chalk "^4.1.0"
     rxjs "^6.4.0"
 
-"@types/yeoman-generator@*":
-  version "4.11.3"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-4.11.3.tgz#3b4c0040cf0c28237dd9f535a15c620d3f68c5f4"
-  integrity sha512-bZRBRahUEs10YhPC4zTKwX5h1mfoFT4Qvav+z0WyT37SgKK9IgIozn8/k6IF9h9PNkxpAhFcER5llwdzCyFZnw==
-  dependencies:
-    "@types/debug" "*"
-    "@types/ejs" "*"
-    "@types/inquirer" "*"
-    "@types/mem-fs-editor" "*"
-    "@types/yeoman-environment" "*"
-    rxjs ">=6.4.0"
-
-"@types/yeoman-generator@^5.2.9":
-  version "5.2.9"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-5.2.9.tgz#70be1011b1ed6ddb0982a17b7de80825052822be"
-  integrity sha512-nLcJvIoq83s/FBjTgSjtwPEUk6U8nVzVZ4fBOh9Untdgu00MjjQOFORob8kzlTSJIh0MC9mPnNuV2ErD/NlabQ==
+"@types/yeoman-generator@*", "@types/yeoman-generator@^5.2.10":
+  version "5.2.10"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-5.2.10.tgz#5b6a30d6f208bff985b5c8c9c5590a615f58b76c"
+  integrity sha512-Biim11Yamd2NYSt0nxYwmqf1sFwJX3LAEMnaavbwhtp8rSIz8/TaqTemJnZgm0Hwh7za5q9GPNw8EgVsYB/tlA==
   dependencies:
     "@types/debug" "*"
     "@types/ejs" "*"
@@ -5221,14 +5209,7 @@ run-parallel@^1.1.9:
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
   integrity sha512-DEqnSRTDw/Tc3FXf49zedI638Z9onwUotBMiUFKmrO2sdFKIbXamXGQ3Axd4qgphxKB4kw/qP1w5kTxnfU1B9Q==
 
-rxjs@>=6.4.0, rxjs@^6.4.0:
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
-  integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
-  dependencies:
-    tslib "^1.9.0"
-
-rxjs@^6.6.3:
+rxjs@^6.4.0, rxjs@^6.6.3:
   version "6.6.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.7.tgz#90ac018acabf491bf65044235d5863c4dab804c9"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==

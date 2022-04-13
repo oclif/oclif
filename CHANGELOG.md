@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/oclif/oclif/compare/v2.6.3...v3.0.0) (2022-04-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add arch to macos pkg file (#849)
+
+### Features
+
+* Add arch to macos pkg file ([#849](https://github.com/oclif/oclif/issues/849)) ([656d529](https://github.com/oclif/oclif/commit/656d52909c0ae1c4b66b7b3eaada9916d5871e4a))
+
 ### [2.6.3](https://github.com/oclif/oclif/compare/v2.6.2...v2.6.3) (2022-03-31)
 
 

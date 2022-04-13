@@ -1,8 +1,10 @@
+import * as path from 'path'
+
+import * as _ from 'lodash'
+import * as qq from 'qqjs'
+
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-
-import * as path from 'path'
-import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'

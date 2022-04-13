@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.3](https://github.com/oclif/oclif/compare/v2.6.2...v2.6.3) (2022-03-31)
+
+
+### Bug Fixes
+
+* update oclif/core ([7e86036](https://github.com/oclif/oclif/commit/7e86036b4e673003ad6226852260c929d62a1c39))
+
+### [2.6.2](https://github.com/oclif/oclif/compare/v2.6.1...v2.6.2) (2022-03-31)
+
+
+### Bug Fixes
+
+* revert building mac m1 packages, wait for PR [#849](https://github.com/oclif/oclif/issues/849) ([#855](https://github.com/oclif/oclif/issues/855)) ([e5b68af](https://github.com/oclif/oclif/commit/e5b68af8510b0419ec48d76087ed0bec61fc81ad))
+
 ### [2.6.1](https://github.com/oclif/oclif/compare/v2.6.0...v2.6.1) (2022-03-23)
 
 ## [2.6.0](https://github.com/oclif/oclif/compare/v2.5.0...v2.6.0) (2022-03-14)

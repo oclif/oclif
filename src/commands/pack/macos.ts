@@ -1,8 +1,10 @@
+import * as path from 'path'
+
+import * as _ from 'lodash'
+import * as qq from 'qqjs'
+
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-
-import * as path from 'path'
-import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
@@ -149,31 +151,43 @@ the CLI should already exist in a directory named after the CLI that is the root
     const dist = buildConfig.dist(`macos/${templateKey}`)
     await qq.emptyDir(path.dirname(dist))
     const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
-    const rootDir = buildConfig.workspace({platform: 'darwin', arch: 'x64'})
-    const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
-      const path = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
-      path.push(script)
-      await qq.write(path, scripts[script](config, flags['additional-cli']))
-      await qq.chmod(path, 0o755)
+    await qq.emptyDir(buildConfig.dist('macos'))
+
+    const build = async (arch: Interfaces.ArchTypes) => {
+      const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
+      const dist = buildConfig.dist(`macos/${templateKey}`)
+      const rootDir = buildConfig.workspace({platform: 'darwin', arch})
+      const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
+        const path = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
+        path.push(script)
+        await qq.write(path, scripts[script](config, flags['additional-cli']))
+        await qq.chmod(path, 0o755)
+      }
+
+      await writeScript('preinstall')
+      await writeScript('postinstall')
+      await writeScript('uninstall')
+      /* eslint-disable array-element-newline */
+      const args = [
+        '--root', rootDir,
+        '--identifier', packageIdentifier,
+        '--version', config.version,
+        '--install-location', `/usr/local/lib/${config.dirname}`,
+        '--scripts', scriptsDir,
+      ]
+      /* eslint-enable array-element-newline */
+      if (macos.sign) {
+        args.push('--sign', macos.sign)
+      } else this.debug('Skipping macOS pkg signing')
+      if (process.env.OSX_KEYCHAIN) args.push('--keychain', process.env.OSX_KEYCHAIN)
+      args.push(dist)
+      await qq.x('pkgbuild', args as string[])
     }
 
-    await writeScript('preinstall')
-    await writeScript('postinstall')
-    await writeScript('uninstall')
-    /* eslint-disable array-element-newline */
-    const args = [
-      '--root', rootDir,
-      '--identifier', packageIdentifier,
-      '--version', config.version,
-      '--install-location', `/usr/local/lib/${config.dirname}`,
-      '--scripts', scriptsDir,
-    ]
-    /* eslint-enable array-element-newline */
-    if (macos.sign) {
-      args.push('--sign', macos.sign)
-    } else this.debug('Skipping macOS pkg signing')
-    if (process.env.OSX_KEYCHAIN) args.push('--keychain', process.env.OSX_KEYCHAIN)
-    args.push(dist)
-    await qq.x('pkgbuild', args as string[])
+    const arches = _.uniq(buildConfig.targets
+    .filter(t => t.platform === 'darwin')
+    .map(t => t.arch))
+    // eslint-disable-next-line no-await-in-loop
+    for (const a of arches) await build(a)
   }
 }

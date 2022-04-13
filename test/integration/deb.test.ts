@@ -18,6 +18,7 @@ describe.skip('publish:deb', () => {
 
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
+    pjson.oclif.update.node.version = process.versions.node
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/oclif/oclif/compare/v3.0.0...v3.0.1) (2022-04-18)
+
+
+### Bug Fixes
+
+* remove outdated code ([#866](https://github.com/oclif/oclif/issues/866)) ([e3f60a3](https://github.com/oclif/oclif/commit/e3f60a3109502bc59d1fbd71a3fbbd3668dcd3eb))
+
 ## [3.0.0](https://github.com/oclif/oclif/compare/v2.6.3...v3.0.0) (2022-04-13)
 
 

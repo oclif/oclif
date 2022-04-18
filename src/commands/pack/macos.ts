@@ -147,9 +147,6 @@ the CLI should already exist in a directory named after the CLI that is the root
     const macos = c.macos
     const packageIdentifier = macos.identifier
     await Tarballs.build(buildConfig, {platform: 'darwin', pack: false, tarball: flags.tarball})
-    const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha})
-    const dist = buildConfig.dist(`macos/${templateKey}`)
-    await qq.emptyDir(path.dirname(dist))
     const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
     await qq.emptyDir(buildConfig.dist('macos'))
 

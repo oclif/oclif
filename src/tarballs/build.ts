@@ -25,6 +25,7 @@ export async function build(c: BuildConfig, options: {
   platform?: string;
   pack?: boolean;
   tarball?: string;
+  parallel?: boolean;
 } = {}): Promise<void> {
   const {xz, config} = c
   const prevCwd = qq.cwd()
@@ -115,8 +116,16 @@ export async function build(c: BuildConfig, options: {
       tmp: qq.join(config.root, 'tmp'),
     })
     if (options.pack === false) return
-    await pack(workspace, c.dist(gzLocalKey))
-    if (xz) await pack(workspace, c.dist(xzLocalKey))
+    if (options.parallel) {
+      await Promise.all(
+        [pack(workspace, c.dist(gzLocalKey))]
+        .concat(xz ? [pack(workspace, c.dist(xzLocalKey))] : []),
+      )
+    } else {
+      await pack(workspace, c.dist(gzLocalKey))
+      if (xz) await pack(workspace, c.dist(xzLocalKey))
+    }
+
     if (!c.updateConfig.s3.host) return
     const rollout = (typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout)
 
@@ -153,8 +162,13 @@ export async function build(c: BuildConfig, options: {
   await addDependencies()
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
   await pretarball()
-  for (const target of c.targets) {
-    if (!options.platform || options.platform === target.platform) {
+  const targetsToBuild = c.targets.filter(t => !options.platform || options.platform === t.platform)
+  if (options.parallel) {
+    log(`will build ${targetsToBuild.length} targets in parallel`)
+    await Promise.all(targetsToBuild.map(t => buildTarget(t)))
+  } else {
+    log(`will build ${targetsToBuild.length} targets sequentially`)
+    for (const target of targetsToBuild) {
       // eslint-disable-next-line no-await-in-loop
       await buildTarget(target)
     }

@@ -100,7 +100,7 @@ workflows:
           context:
             - SF-CLI-RELEASE-PROCESS
             - AWS
-          tag: v2
+          tag: previous
           requires:
             - lint
             - compile-typescript

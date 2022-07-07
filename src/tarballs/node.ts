@@ -53,14 +53,11 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
   const extract = async () => {
     log(`extracting ${nodeBase}`)
     const nodeTmp = path.join(tmp, 'node')
-    await qq.rm([nodeTmp, nodeBase])
     await qq.mkdirp(nodeTmp)
     await qq.mkdirp(path.dirname(cache))
     if (platform === 'win32') {
-      qq.pushd(nodeTmp)
-      await qq.x(`7z x -bd -y "${tarball}" > /dev/null`)
-      await qq.mv([nodeBase, 'node.exe'], cache)
-      qq.popd()
+      await qq.x(`7z x -bd -y "${tarball}"`, {cwd: nodeTmp})
+      await qq.mv([nodeTmp, nodeBase, 'node.exe'], cache)
     } else {
       await qq.x(`tar -C "${tmp}/node" -xJf "${tarball}"`)
       await qq.mv([nodeTmp, nodeBase, 'bin/node'], cache)

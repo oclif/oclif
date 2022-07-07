@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/oclif/oclif/compare/v2.6.3...v2.7.0) (2022-07-07)
+
+
+### Features
+
+* build/pack in parallel ([#914](https://github.com/oclif/oclif/issues/914)) ([fa34282](https://github.com/oclif/oclif/commit/fa34282bcc732c4c7f9ad47cb91dc69cab371f91))
+
 ### [2.6.3](https://github.com/oclif/oclif/compare/v2.6.2...v2.6.3) (2022-03-31)
 
 

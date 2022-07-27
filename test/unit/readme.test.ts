@@ -14,6 +14,7 @@ describe('readme', () => {
   .it('runs readme', () => {
     // expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
     expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
+    expect(fs.readFileSync('README.md', 'utf8')).to.contain('## `oclif rdm`')
   })
 
   test
@@ -24,6 +25,14 @@ describe('readme', () => {
   .it('runs readme --multi', () => {
     // expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
     expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
+  })
+
+  test
+  .stdout()
+  .finally(() => fs.writeFile('README.md', readme))
+  .command(['readme', '--no-aliases'])
+  .it('runs readme --no-aliases', () => {
+    expect(fs.readFileSync('README.md', 'utf8')).not.to.contain('## `oclif rdm`')
   })
 
   describe('with custom help that implements formatCommand', () => {

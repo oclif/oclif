@@ -16,7 +16,7 @@ export default class GenerateHook extends CommandBase {
   async run(): Promise<void> {
     const {args, flags} = await this.parse(GenerateHook)
 
-    super.generate('hook', {
+    await super.generate('hook', {
       name: args.name,
       event: flags.event,
       force: flags.force,

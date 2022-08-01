@@ -12,7 +12,7 @@
     "@oclif/plugin-help": "^5.1.12",
     "@oclif/plugin-not-found": "^2.3.1",
     "@oclif/plugin-warn-if-update-available": "^2.0.4",
-    "aws-sdk": "^2.1116.0",
+    "aws-sdk": "^2.1185.0",
     "concurrently": "^7.0.0",
     "debug": "^4.3.3",
     "find-yarn-workspace-root": "^2.0.0",

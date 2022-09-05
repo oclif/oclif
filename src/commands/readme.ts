@@ -33,8 +33,6 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     aliases: Flags.boolean({description: 'include aliases in the command list', allowNo: true, default: true }),
   }
 
-  static aliases = ['rdm']
-
   private HelpClass!: HelpBaseDerived
 
   async run(): Promise<void> {

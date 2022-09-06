@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/oclif/oclif/compare/v3.1.2...v3.2.0) (2022-09-06)
+
+
+### Features
+
+* add `--aliases` flag for readme command ([#925](https://github.com/oclif/oclif/issues/925)) ([#952](https://github.com/oclif/oclif/issues/952)) ([5bf2b5a](https://github.com/oclif/oclif/commit/5bf2b5a51210d554a1768d69fbf93c9c6f6b2b2a))
+
 ### [3.1.2](https://github.com/oclif/oclif/compare/v3.1.1...v3.1.2) (2022-07-27)
 
 

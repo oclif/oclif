@@ -1,0 +1,11 @@
+{
+  "name": "cli-command-with-alias",
+  "files": [
+    "/lib"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "oclif",
+    "helpClass": "./lib/help"
+  }
+}

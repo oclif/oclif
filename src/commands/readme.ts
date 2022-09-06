@@ -30,6 +30,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   static flags = {
     dir: Flags.string({description: 'output directory for multi docs', default: 'docs', required: true}),
     multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
+    aliases: Flags.boolean({description: 'include aliases in the command list', allowNo: true, default: true}),
   }
 
   private HelpClass!: HelpBaseDerived
@@ -55,6 +56,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
     let commands = config.commands
     .filter(c => !c.hidden && c.pluginType === 'core')
+    .filter(c => flags.aliases ? true : !c.aliases.includes(c.id))
     .map(c => c.id === '.' ? {...c, id: ''} : c)
 
     this.debug('commands:', commands.map(c => c.id).length)

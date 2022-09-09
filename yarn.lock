@@ -506,45 +506,10 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^1.0.8", "@oclif/core@^1.2.1", "@oclif/core@^1.3.1", "@oclif/core@^1.3.6", "@oclif/core@^1.6.4":
-  version "1.6.4"
-  resolved "https://registry.npmjs.org/@oclif/core/-/core-1.6.4.tgz#fd213265199a8ef93adb358e15a04d74927eb522"
-  integrity sha512-eUnh03MWxs3PHQUdZbo43ceLqmeOgGegsfimeqd6xfhcKwSv8dqarRyAoMCjg7P6Qm5qCjaNFZ6eS4ao349xvQ==
-  dependencies:
-    "@oclif/linewrap" "^1.0.0"
-    "@oclif/screen" "^3.0.2"
-    ansi-escapes "^4.3.2"
-    ansi-styles "^4.3.0"
-    cardinal "^2.1.1"
-    chalk "^4.1.2"
-    clean-stack "^3.0.1"
-    cli-progress "^3.10.0"
-    debug "^4.3.3"
-    ejs "^3.1.6"
-    fs-extra "^9.1.0"
-    get-package-type "^0.1.0"
-    globby "^11.1.0"
-    hyperlinker "^1.0.0"
-    indent-string "^4.0.0"
-    is-wsl "^2.2.0"
-    js-yaml "^3.14.1"
-    lodash "^4.17.21"
-    natural-orderby "^2.0.3"
-    object-treeify "^1.1.33"
-    password-prompt "^1.1.2"
-    semver "^7.3.5"
-    string-width "^4.2.3"
-    strip-ansi "^6.0.1"
-    supports-color "^8.1.1"
-    supports-hyperlinks "^2.2.0"
-    tslib "^2.3.1"
-    widest-line "^3.1.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/core@^1.9.9":
-  version "1.9.9"
-  resolved "https://registry.npmjs.org/@oclif/core/-/core-1.9.9.tgz#eab17e3f7cfccedce561158c834bb057168b45e2"
-  integrity sha512-B+4Utq7WQEjYQt89soEJ80eWqDGgRXL5f04sD+2MSyR0Gm+JQVM9AE0SWn4TTbHCNkkzp/yDLJ5l/W64D9QYbg==
+"@oclif/core@^1.0.8", "@oclif/core@^1.16.1", "@oclif/core@^1.2.1", "@oclif/core@^1.3.1", "@oclif/core@^1.3.6":
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.16.1.tgz#39663c903f859f8e37b375d7466b92b4394e1c8d"
+  integrity sha512-MfzgqcWzWymndd934pd52JAwy0RIgWWYnC0Ed7bxUVYWF4HFb3KmsE7x9/QBP9392Q14vxXi2GNLHboM/5vaDA==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     "@oclif/screen" "^3.0.2"

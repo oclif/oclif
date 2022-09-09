@@ -14,7 +14,7 @@
     "@oclif/plugin-warn-if-update-available": "^2.0.4",
     "aws-sdk": "^2.1116.0",
     "concurrently": "^7.0.0",
-    "debug": "^4.3.3",
+    "debug": "^4.3.4",
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
     "github-slugger": "^1.4.0",

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/oclif/oclif/compare/v3.2.0...v3.2.1) (2022-09-09)
+
+
+### Bug Fixes
+
+* bump oclif/core ([21aa0d7](https://github.com/oclif/oclif/commit/21aa0d754f0afe5a2e9f25cd1c32266ef2b9ac2d))
+
 ## [3.2.0](https://github.com/oclif/oclif/compare/v3.1.2...v3.2.0) (2022-09-06)
 
 

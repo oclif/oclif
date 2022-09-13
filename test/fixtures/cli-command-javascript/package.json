@@ -1,0 +1,13 @@
+{
+  "name": "cli-command-javascript",
+  "repository": "https://github.com/oclif/oclif",
+  "files": [
+    "src"
+  ],
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "oclif",
+    "topicSeparator": " ",
+    "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>"
+  }
+}

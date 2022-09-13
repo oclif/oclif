@@ -191,7 +191,7 @@ USAGE
     if (!repo) return
     let label = plugin.name
     let version = plugin.version
-    const commandPath = this.commandPath(plugin, c)
+    const commandPath = this.commandPath(plugin, c, config.topicSeparator)
     if (!commandPath) return
     if (config.name === plugin.name) {
       label = commandPath
@@ -216,10 +216,10 @@ USAGE
   /**
    * fetches the path to a command
    */
-  private commandPath(plugin: Interfaces.Plugin, c: Interfaces.Command): string | undefined {
+  private commandPath(plugin: Interfaces.Plugin, c: Interfaces.Command, topicSeparator: string): string | undefined {
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
-    let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
+    let p = path.join(plugin.root, commandsDir, ...c.id.split(topicSeparator))
     const libRegex = new RegExp('^lib' + (path.sep === '\\' ? '\\\\' : path.sep))
     if (fs.pathExistsSync(path.join(p, 'index.js'))) {
       p = path.join(p, 'index.js')

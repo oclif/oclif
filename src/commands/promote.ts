@@ -60,6 +60,7 @@ export default class Promote extends Command {
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
+          ACL: s3Config.acl || 'public-read',
           CopySource: copySource,
           Key: key,
           CacheControl: maxAge,
@@ -81,6 +82,7 @@ export default class Promote extends Command {
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
+          ACL: s3Config.acl || 'public-read',
           CopySource: versionedTarGzKey,
           Key: unversionedTarGzKey,
           CacheControl: maxAge,
@@ -107,6 +109,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: versionedTarXzKey,
             Key: unversionedTarXzKey,
             CacheControl: maxAge,
@@ -132,6 +135,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: darwinCopySource,
             Key: darwinKey,
             CacheControl: maxAge,
@@ -157,6 +161,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: winCopySource,
             Key: winKey,
             CacheControl: maxAge,
@@ -188,6 +193,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: debCopySource,
             Key: debKey,
             CacheControl: maxAge,

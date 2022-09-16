@@ -69,6 +69,7 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
     Bucket: s3Config.bucket,
     Key: key,
     CacheControl: maxAge,
+    ACL: s3Config.acl || 'public-read',
   })
   // cleans up local fs
   await fs.remove(jsonFileName)

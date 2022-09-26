@@ -1,16 +1,21 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    versioning-strategy: increase
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'weekly'
+      day: 'saturday'
+    versioning-strategy: 'increase'
     labels:
-      - "dependencies"
-    open-pull-requests-limit: 100
+      - 'dependencies'
+    open-pull-requests-limit: 5
     pull-request-branch-name:
-      separator: "-"
+      separator: '-'
+    commit-message:
+      # cause a release for non-dev-deps
+      prefix: fix(deps)
+      # no release for dev-deps
+      prefix-development: chore(dev-deps)
     ignore:
-      - dependency-name: "fs-extra"
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']

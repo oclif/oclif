@@ -1,0 +1,43 @@
+name: failureNotifications
+
+on:
+  workflow_run:
+    workflows:
+      - version, tag and github release
+      - publish
+    types:
+      - completed
+
+jobs:
+  failure-notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Announce Failure
+        id: slack
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          # for non-CLI-team-owned plugins, you can send this anywhere you like
+          SLACK_WEBHOOK_URL: ${{ secrets.CLI_ALERTS_SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: |
+            {
+              "text": "${{ github.event.workflow_run.name }} failed: ${{ github.event.workflow_run.repository.name }}",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":bh-alert: ${{ github.event.workflow_run.name }} failed: ${{ github.event.workflow_run.repository.name }} :bh-alert:"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Repo: ${{ github.event.workflow_run.repository.html_url }}\nWorkflow name: `${{ github.event.workflow_run.name }}`\nJob url: ${{ github.event.workflow_run.html_url }}"
+                  }
+                }
+              ]
+            }

@@ -12,9 +12,9 @@ jobs:
         node_version: [lts/-1, lts/*, latest]
         exclude:
           - os: windows-latest
-            node-version: lts/*
+            node_version: lts/*
           - os: windows-latest
-            node-version: lts/-1
+            node_version: lts/-1
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:

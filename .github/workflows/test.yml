@@ -18,8 +18,7 @@ jobs:
           node-version: ${{ matrix.node_version }}
           cache: yarn
       - run: yarn install --network-timeout 600000
-      - run: nps lint
-      - run: rm -rf lib && npx tsc --noEmit && rm -fr lib
+      - run: yarn nps lint
       - run: yarn build
       - run: yarn test:unit
       - run: |

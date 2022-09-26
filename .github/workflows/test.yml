@@ -6,4 +6,26 @@ on:
 
 jobs:
   unit-tests:
-    uses: oclif/github-workflows/.github/workflows/unitTest.yml@main
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+        node_version: [lts/-1, lts/*, latest]
+        exclude:
+          - os: windows-latest
+            node-version: lts/*
+          - os: windows-latest
+            node-version: lts/-1
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - run: yarn install --network-timeout 600000
+      - run: yarn build
+      - run: yarn test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

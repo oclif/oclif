@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-echo "$OCLIF_DEV_DEB_SECRET_KEY" | base64 -d | gpg --import

@@ -1,5 +1,5 @@
 // tslint:disable no-implicit-dependencies
-import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin} from '@oclif/core'
+import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin, toConfiguredId} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
@@ -30,6 +30,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   static flags = {
     dir: Flags.string({description: 'output directory for multi docs', default: 'docs', required: true}),
     multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
+    aliases: Flags.boolean({description: 'include aliases in the command list', allowNo: true, default: true}),
   }
 
   private HelpClass!: HelpBaseDerived
@@ -54,8 +55,10 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     let readme = await fs.readFile(readmePath, 'utf8')
 
     let commands = config.commands
-    commands = commands.filter(c => !c.hidden)
-    commands = commands.filter(c => c.pluginType === 'core')
+    .filter(c => !c.hidden && c.pluginType === 'core')
+    .filter(c => flags.aliases ? true : !c.aliases.includes(c.id))
+    .map(c => c.id === '.' ? {...c, id: ''} : c)
+
     this.debug('commands:', commands.map(c => c.id).length)
     commands = uniqBy(commands, c => c.id)
     commands = sortBy(commands, c => c.id)
@@ -149,7 +152,7 @@ USAGE
     return [
       ...commands.map(c => {
         const usage = this.commandUsage(config, c)
-        return `* [\`${config.bin} ${usage}\`](#${slugify.slug(`${config.bin}-${usage}`)})`
+        return usage ? `* [\`${config.bin} ${usage}\`](#${slugify.slug(`${config.bin}-${usage}`)})` : `* [\`${config.bin}\`](#${slugify.slug(`${config.bin}`)})`
       }),
       '',
       ...commands.map(c => this.renderCommand(config, c)).map(s => s.trim() + '\n'),
@@ -162,7 +165,10 @@ USAGE
     const help = new this.HelpClass(config, {stripAnsi: true, maxWidth: columns})
     const wrapper = new HelpCompatibilityWrapper(help)
 
-    const header = () => `## \`${config.bin} ${this.commandUsage(config, c)}\``
+    const header = () => {
+      const usage = this.commandUsage(config, c)
+      return usage ? `## \`${config.bin} ${usage}\`` : `## \`${config.bin}\``
+    }
 
     try {
       return compact([
@@ -246,7 +252,7 @@ USAGE
       return `[${name}]`
     }
 
-    const id = config.topicSeparator ? command.id.replace(/:/g, config.topicSeparator) : command.id
+    const id = toConfiguredId(command.id, config)
     const defaultUsage = () => {
       return compact([
         id,

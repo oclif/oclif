@@ -63,7 +63,6 @@ jobs:
             - cache-{{checksum ".circleci/config.yml"}}
       - run: 'echo "Node: `node --version`"'
       - run: yarn
-      - run: .circleci/loadgpg
       - run: yarn add -D nyc@13 @oclif/nyc-config@1
       - run: ./node_modules/.bin/tsc
       - run: ./bin/run --version

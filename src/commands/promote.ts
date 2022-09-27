@@ -1,9 +1,12 @@
-import {CliUx, Command, Flags} from '@oclif/core'
 import * as path from 'path'
+
+import * as _ from 'lodash'
+
+import {CliUx, Command, Flags} from '@oclif/core'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {templateShortKey, commitAWSDir, channelAWSDir, debVersion} from '../upload-util'
+import {channelAWSDir, commitAWSDir, debVersion, templateShortKey} from '../upload-util'
 import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
@@ -14,24 +17,19 @@ export default class Promote extends Command {
     version: Flags.string({description: 'semantic version of the CLI to promote', required: true}),
     sha: Flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
     channel: Flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
-    targets: Flags.string({
-      char: 't',
-      description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)',
-      default: Tarballs.TARGETS.join(','),
-    }),
+    targets: Flags.string({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)'}),
     deb: Flags.boolean({char: 'd', description: 'promote debian artifacts'}),
     macos: Flags.boolean({char: 'm', description: 'promote macOS pkg'}),
     win: Flags.boolean({char: 'w', description: 'promote Windows exe'}),
     'max-age': Flags.string({char: 'a', description: 'cache control max-age in seconds', default: '86400'}),
-    xz: Flags.boolean({description: 'also upload xz', allowNo: true, default: true}),
+    xz: Flags.boolean({description: 'also upload xz', allowNo: true}),
     indexes: Flags.boolean({description: 'append the promoted urls into the index files'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
     const maxAge = `max-age=${flags['max-age']}`
-    const targets = flags.targets.split(',')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {s3Config, config} = buildConfig
     const indexDefaults = {
       version: flags.version,
@@ -62,6 +60,7 @@ export default class Promote extends Command {
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
+          ACL: s3Config.acl || 'public-read',
           CopySource: copySource,
           Key: key,
           CacheControl: maxAge,
@@ -83,6 +82,7 @@ export default class Promote extends Command {
       await aws.s3.copyObject(
         {
           Bucket: s3Config.bucket,
+          ACL: s3Config.acl || 'public-read',
           CopySource: versionedTarGzKey,
           Key: unversionedTarGzKey,
           CacheControl: maxAge,
@@ -109,6 +109,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: versionedTarXzKey,
             Key: unversionedTarXzKey,
             CacheControl: maxAge,
@@ -122,22 +123,28 @@ export default class Promote extends Command {
 
     // copy darwin pkg
     if (flags.macos) {
-      this.log(`Promoting macos pkg to ${flags.channel}`)
-      const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha})
-      const darwinCopySource = cloudBucketCommitKey(darwinPkg)
-      // strip version & sha so scripts can point to a static channel pkg
-      const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-      const darwinKey = cloudChannelKey(unversionedPkg)
-      await aws.s3.copyObject(
-        {
-          Bucket: s3Config.bucket,
-          CopySource: darwinCopySource,
-          Key: darwinKey,
-          CacheControl: maxAge,
-          MetadataDirective: 'REPLACE',
-        },
-      )
-      if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})
+      this.log(`Promoting macos pkgs to ${flags.channel}`)
+      const arches = _.uniq(buildConfig.targets.filter(t => t.platform === 'darwin').map(t => t.arch))
+      for (const arch of arches) {
+        const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+        const darwinCopySource = cloudBucketCommitKey(darwinPkg)
+        // strip version & sha so scripts can point to a static channel pkg
+        const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
+        const darwinKey = cloudChannelKey(unversionedPkg)
+        // eslint-disable-next-line no-await-in-loop
+        await aws.s3.copyObject(
+          {
+            Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
+            CopySource: darwinCopySource,
+            Key: darwinKey,
+            CacheControl: maxAge,
+            MetadataDirective: 'REPLACE',
+          },
+        )
+        // eslint-disable-next-line no-await-in-loop
+        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})
+      }
     }
 
     // copy win exe
@@ -154,6 +161,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: winCopySource,
             Key: winKey,
             CacheControl: maxAge,
@@ -185,6 +193,7 @@ export default class Promote extends Command {
         await aws.s3.copyObject(
           {
             Bucket: s3Config.bucket,
+            ACL: s3Config.acl || 'public-read',
             CopySource: debCopySource,
             Key: debKey,
             CacheControl: maxAge,

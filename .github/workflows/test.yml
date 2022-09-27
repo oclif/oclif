@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit-tests:
+  tests:
     strategy:
       matrix:
         node_version: [lts/-1, lts/*, latest]

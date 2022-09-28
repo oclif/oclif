@@ -1,11 +1,14 @@
 import {CliUx, Interfaces, Config} from '@oclif/core'
 
+import * as _ from 'lodash'
 import * as path from 'path'
 import * as qq from 'qqjs'
 import * as semver from 'semver'
+import * as jsonfile from 'jsonfile'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'
+import {existsSync} from 'fs'
 
 export const TARGETS = [
   'linux-x64',
@@ -15,6 +18,17 @@ export const TARGETS = [
   'darwin-x64',
   'darwin-arm64',
 ]
+
+interface DenoConfig {
+  oclif: {
+    macos: any
+    update: {
+      deno: {
+        version?: string| undefined
+      }
+    }
+  }
+}
 
 export interface BuildConfig {
   root: string;
@@ -28,6 +42,7 @@ export interface BuildConfig {
   targets: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}[];
   workspace(target?: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}): string;
   dist(input: string): string;
+  denoVersion?: string;
 }
 
 export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
@@ -43,7 +58,18 @@ async function Tmp(config: Interfaces.Config,
 }
 
 export async function buildConfig(root: string, options: {xz?: boolean; targets?: string[]} = {}): Promise<BuildConfig> {
-  const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
+  const rootPath = path.resolve(root)
+  const djsonPath = path.resolve(rootPath, 'deno.jsonc')
+  const config = await Config.load({root: rootPath, devPlugins: false, userPlugins: false})
+  let denoVersion: string | undefined
+  if (existsSync(djsonPath)) {
+    const djson: DenoConfig = await jsonfile.readFile(djsonPath)
+    // eslint-disable-next-line no-warning-comments
+    // TODO: update Interfaces.Config interface to include a separate djson field.
+    config.pjson = _.merge(config.pjson, djson)
+    denoVersion = djson.oclif?.update?.deno?.version || 'latest'
+  }
+
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
   // eslint-disable-next-line new-cap
@@ -74,6 +100,7 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     s3Config: updateConfig.s3,
     nodeVersion,
+    denoVersion,
     workspace(target) {
       const base = qq.join(config.root, 'tmp')
       if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))

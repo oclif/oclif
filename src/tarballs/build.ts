@@ -8,6 +8,7 @@ import {log} from '../log'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
+import {fetchDenoBinary} from './deno'
 import {commitAWSDir, templateShortKey} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
@@ -27,7 +28,7 @@ export async function build(c: BuildConfig, options: {
   tarball?: string;
   parallel?: boolean;
 } = {}): Promise<void> {
-  const {xz, config} = c
+  const {xz, config, denoVersion: deno} = c
   const prevCwd = qq.cwd()
   const packCLI = async () => {
     const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], {cwd: c.root})
@@ -108,13 +109,24 @@ export async function build(c: BuildConfig, options: {
     log('copying workspace', c.workspace(), workspace)
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
-    await fetchNodeBinary({
-      nodeVersion: c.nodeVersion,
-      output: path.join(workspace, 'bin', 'node'),
-      platform: target.platform,
-      arch: target.arch,
-      tmp: qq.join(config.root, 'tmp'),
-    })
+    if (c.denoVersion) {
+      await fetchDenoBinary({
+        denoVersion: c.denoVersion,
+        output: path.join(workspace, 'bin', 'deno'),
+        platform: target.platform,
+        arch: target.arch,
+        tmp: qq.join(config.root, 'tmp'),
+      })
+    } else {
+      await fetchNodeBinary({
+        nodeVersion: c.nodeVersion,
+        output: path.join(workspace, 'bin', 'node'),
+        platform: target.platform,
+        arch: target.arch,
+        tmp: qq.join(config.root, 'tmp'),
+      })
+    }
+
     if (options.pack === false) return
     if (options.parallel) {
       await Promise.all(
@@ -158,10 +170,13 @@ export async function build(c: BuildConfig, options: {
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(options.tarball ? options.tarball : await packCLI())
-  await updatePJSON()
-  await addDependencies()
-  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
-  await pretarball()
+  if (!deno) {
+    await updatePJSON()
+    await addDependencies()
+  }
+
+  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion, denoVersion: c.denoVersion})
+  if (!deno) await pretarball() // NOTE: not sure 'pretarball' needs to run after 'writeBinScripts'
   const targetsToBuild = c.targets.filter(t => !options.platform || options.platform === t.platform)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)

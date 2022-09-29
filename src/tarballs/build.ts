@@ -177,14 +177,15 @@ export async function build(c: BuildConfig, options: {
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
-  await extractCLI(options.tarball ? options.tarball : await packCLI())
+
   if (!deno) {
+    await extractCLI(options.tarball ? options.tarball : await packCLI())
     await updatePJSON()
     await addDependencies()
   }
 
   await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion, denoVersion: c.denoVersion})
-  if (!deno) await pretarball() // NOTE: not sure 'pretarball' needs to run after 'writeBinScripts'
+  if (!deno) await pretarball()
   const targetsToBuild = c.targets.filter(t => !options.platform || options.platform === t.platform)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)

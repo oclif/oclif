@@ -9,7 +9,7 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@oclif/core": "^1.16.1",
-    "@oclif/plugin-help": "^5.1.12",
+    "@oclif/plugin-help": "^5.1.14",
     "@oclif/plugin-not-found": "^2.3.1",
     "@oclif/plugin-warn-if-update-available": "^2.0.4",
     "aws-sdk": "^2.1116.0",
@@ -23,7 +23,7 @@
     "qqjs": "^0.3.11",
     "semver": "^7.3.5",
     "tslib": "^2.3.1",
-    "yeoman-environment": "^3.9.1",
+    "yeoman-environment": "^3.11.1",
     "yeoman-generator": "^5.6.1",
     "yosay": "^2.0.2"
   },

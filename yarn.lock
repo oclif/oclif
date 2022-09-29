@@ -506,7 +506,7 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^1.0.8", "@oclif/core@^1.16.1", "@oclif/core@^1.16.4", "@oclif/core@^1.2.1", "@oclif/core@^1.3.1":
+"@oclif/core@^1.16.1", "@oclif/core@^1.16.4", "@oclif/core@^1.2.1", "@oclif/core@^1.3.1":
   version "1.16.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.16.4.tgz#fafa338ada0624d7f1adac036302b05a37cd96d0"
   integrity sha512-l+xHtVMteJWeTZZ+f2yLyNjf69X0mhAH8GILXnmoAGAemXbc1DVstvloxOouarvm9xyHHhquzO1Qg5l6xa1VIw==
@@ -620,12 +620,12 @@
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 
-"@oclif/plugin-warn-if-update-available@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-2.0.4.tgz#3d509ca2394cccf65e6622be812d7be4065a60aa"
-  integrity sha512-9dprC1CWPjesg0Vf/rDSQH2tzJXhP1ow84cb2My1kj6e6ESulPKpctiCFSZ1WaCQFfq+crKhzlNoP/vRaXNUAg==
+"@oclif/plugin-warn-if-update-available@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-2.0.6.tgz#fed51d198ba5d621a05690f4639ef988c65245e0"
+  integrity sha512-9PSerV/jz3Mq5P8+bfLhr4UrTNOLmhUo8tGsv/CzJ0c/QffjYONZ8pCNsrVDO+wWzzuYHedXPZjDpOCmMcTTag==
   dependencies:
-    "@oclif/core" "^1.0.8"
+    "@oclif/core" "^1.16.4"
     chalk "^4.1.0"
     debug "^4.1.0"
     fs-extra "^9.0.1"

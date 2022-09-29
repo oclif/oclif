@@ -36,7 +36,7 @@ if exist "%~dp0..\\bin\\node.exe" (
     // `)
   }
 
-  const writeUnix = async (denoVersion: string | undefined) => {
+  const writeUnix = async () => {
     const bin = qq.join([baseWorkspace, 'bin', config.bin])
     const runWithNode = `
   if [ -x "$(command -v "\$XDG_DATA_HOME/oclif/node/node-custom")" ]; then
@@ -108,5 +108,5 @@ fi
   }
 
   await writeWin32()
-  await writeUnix(denoVersion)
+  await writeUnix()
 }

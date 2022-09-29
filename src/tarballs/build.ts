@@ -46,7 +46,7 @@ export async function build(c: BuildConfig, options: {
       // NOTE: this assumes that the deno project is bundled into
       // ./bin/run. In such a case, do not inlcude the "deno.jsonc"
       // because it is not needed and more importantly because
-      // it will fail to understand the "import_map" configuration.
+      // it will fail to understand Deno's "import_map" configuration.
       if (f.includes('deno.jsonc')) continue
       // eslint-disable-next-line no-await-in-loop
       await qq.mv(f, '.')

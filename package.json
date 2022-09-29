@@ -23,7 +23,7 @@
     "qqjs": "^0.3.11",
     "semver": "^7.3.5",
     "tslib": "^2.3.1",
-    "yeoman-environment": "^3.9.1",
+    "yeoman-environment": "^3.11.1",
     "yeoman-generator": "^5.6.1",
     "yosay": "^2.0.2"
   },

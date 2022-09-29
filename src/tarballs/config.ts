@@ -43,8 +43,7 @@ async function Tmp(config: Interfaces.Config,
 }
 
 export async function buildConfig(root: string, options: {xz?: boolean; targets?: string[]} = {}): Promise<BuildConfig> {
-  const rootPath = path.resolve(root)
-  const config = await Config.load({root: rootPath, devPlugins: false, userPlugins: false})
+  const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
   // eslint-disable-next-line new-cap

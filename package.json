@@ -38,7 +38,7 @@
     "@types/mocha": "^8.2.3",
     "@types/node": "^14.18.10",
     "@types/read-pkg": "^5.1.0",
-    "@types/semver": "^7.3.9",
+    "@types/semver": "^7.3.12",
     "@types/shelljs": "^0.8.11",
     "@types/supports-color": "^7.2.1",
     "@types/write-json-file": "^3.2.1",

@@ -471,14 +471,14 @@
     supports-color "^5.4.0"
     tslib "^1"
 
-"@oclif/color@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@oclif/color/-/color-1.0.0.tgz#a95a7d6a0731be6eb7a63cca476a787c62290aff"
-  integrity sha512-jSvPCTa3OfwzGUsgGAO6AXam//UMBSIBCHGs6i3iGr+NQoMrBf6kx4UzwED0RzSCTc6nlqCzdhnCD18RSP7VAA==
+"@oclif/color@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@oclif/color/-/color-1.0.1.tgz#20ab9205e0924c6388918a88874e1f4b32df9970"
+  integrity sha512-qjYr+izgWdIVOroiBKqTzQgc1r5Wd9QB1J7yGM2EeelqhBARiiVLRZL45vhV4zdyTRdDkZS0EBzFwQap+nliLA==
   dependencies:
     ansi-styles "^4.2.1"
     chalk "^4.1.0"
-    strip-ansi "^6.0.0"
+    strip-ansi "^6.0.1"
     supports-color "^8.1.1"
     tslib "^2"
 
@@ -506,7 +506,7 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^1.16.1", "@oclif/core@^1.16.4", "@oclif/core@^1.2.1", "@oclif/core@^1.3.1":
+"@oclif/core@^1.16.1", "@oclif/core@^1.16.4", "@oclif/core@^1.3.1":
   version "1.16.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.16.4.tgz#fafa338ada0624d7f1adac036302b05a37cd96d0"
   integrity sha512-l+xHtVMteJWeTZZ+f2yLyNjf69X0mhAH8GILXnmoAGAemXbc1DVstvloxOouarvm9xyHHhquzO1Qg5l6xa1VIw==
@@ -610,13 +610,13 @@
     semver "^7.3.5"
     tslib "^2.0.0"
 
-"@oclif/plugin-not-found@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-2.3.1.tgz#8fe1019fdeeb77be055314662bb9180808222e80"
-  integrity sha512-AeNBw+zSkRpePmpXO8xlL072VF2/R2yK3qsVs/JF26Yw1w77TWuRTdFR+hFotJtFCJ4QYqhNtKSjdryCO9AXsA==
+"@oclif/plugin-not-found@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-2.3.3.tgz#390b2898455d709104b8e45c869ace134ac678f6"
+  integrity sha512-SIrSQmZAkxkje5XSHLQRj5cwUrJkPlMLil5Raqq7LGIskMWufsq5y3WzOb0kcFq4aKzzjtYDRdB+HP4670suiQ==
   dependencies:
-    "@oclif/color" "^1.0.0"
-    "@oclif/core" "^1.2.1"
+    "@oclif/color" "^1.0.1"
+    "@oclif/core" "^1.16.4"
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 

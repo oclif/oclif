@@ -62,7 +62,13 @@ export async function build(c: BuildConfig, options: {
     const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
     if (yarn) {
       await qq.cp([yarnRoot, 'yarn.lock'], '.')
-      await qq.x('yarn --no-progress --production --non-interactive')
+
+      const yarnVersion = (await qq.x.stdout('yarn', ['-v'])).charAt(0)
+      if (yarnVersion === '1') {
+        await qq.x('yarn --no-progress --production --non-interactive')
+      } else {
+        await qq.x('yarn workspaces focus --production')
+      }
     } else {
       let lockpath = qq.join(c.root, 'package-lock.json')
       if (!await qq.exists(lockpath)) {

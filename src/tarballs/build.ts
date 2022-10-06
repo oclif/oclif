@@ -66,7 +66,13 @@ export async function build(c: BuildConfig, options: {
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
     if (fs.existsSync(path.join(yarnRoot, 'yarn.lock'))) {
       await fs.copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
-      await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
+
+      const yarnVersion = (await exec('yarn -v')).stdout.charAt(0)
+      if (yarnVersion === '1') {
+        await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
+      } else {
+        await exec('yarn workspaces focus --production', {cwd: c.workspace()})
+      }
     } else {
       const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?
         path.join(c.root, 'package-lock.json') :

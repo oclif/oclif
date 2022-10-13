@@ -75,7 +75,7 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     s3Config: updateConfig.s3,
     nodeVersion,
-    denoVersion: config.pjson?.oclif?.update?.deno?.version || 'latest',
+    denoVersion: config.pjson?.oclif?.update?.deno?.version,
     workspace(target) {
       const base = qq.join(config.root, 'tmp')
       if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))

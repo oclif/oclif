@@ -31,6 +31,12 @@ export async function build(c: BuildConfig, options: {
   const {xz, config, denoVersion: deno} = c
   const prevCwd = qq.cwd()
   const packCLI = async () => {
+    if (deno) {
+      const tarballFilename = `${config.pjson.name}-${config.pjson.version}.tar.gz`
+      await qq.x(`cd ${c.root} && tar -czf "${tarballFilename}" ./bin`)
+      return path.join(c.root, tarballFilename)
+    }
+
     const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], {cwd: c.root})
     return path.join(c.root, stdout.split('\n').pop()!)
   }
@@ -42,16 +48,9 @@ export async function build(c: BuildConfig, options: {
     tarball = qq.join([c.workspace(), tarball])
     qq.cd(c.workspace())
     await qq.x(`tar -xzf "${tarball}"`)
-    for (const f of await qq.ls('package', {fullpath: true})) {
-      // NOTE: this assumes that the deno project is bundled into
-      // ./bin/run. In such a case, do not inlcude the "deno.jsonc"
-      // because it is not needed and more importantly because
-      // it will fail to understand Deno's "import_map" configuration.
-      if (f.includes('deno.jsonc')) continue
-      // eslint-disable-next-line no-await-in-loop
-      await qq.mv(f, '.')
-    }
-
+    if (deno) return
+    // eslint-disable-next-line no-await-in-loop
+    for (const f of await qq.ls('package', {fullpath: true})) await qq.mv(f, '.')
     await qq.rm('package', tarball, 'bin/run.cmd')
   }
 
@@ -178,8 +177,8 @@ export async function build(c: BuildConfig, options: {
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
 
+  await extractCLI(options.tarball ? options.tarball : await packCLI())
   if (!deno) {
-    await extractCLI(options.tarball ? options.tarball : await packCLI())
     await updatePJSON()
     await addDependencies()
   }

@@ -9,7 +9,7 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@oclif/core": "^1.16.4",
-    "@oclif/plugin-help": "^5.1.14",
+    "@oclif/plugin-help": "^5.1.15",
     "@oclif/plugin-not-found": "^2.3.4",
     "@oclif/plugin-warn-if-update-available": "^2.0.6",
     "aws-sdk": "^2.1231.0",

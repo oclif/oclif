@@ -18,10 +18,8 @@ export async function fetchDenoBinary({denoVersion, output, platform, arch, tmp}
   if (platform === 'darwin') {
     if (arch === 'arm64') target = 'aarch64-apple-darwin'
     if (arch === 'x64') target = 'x86_64-apple-darwin'
-  } else {
-    throw new Error('Platform not supported for deno')
-  }
-  // else if (platform === 'linux') target = 'deno-x86_64-unknown-linux-gnu'
+  } else if (platform === 'linux') target = 'x86_64-unknown-linux-gnu'
+  else throw new Error('Platform not supported for deno')
   // else if (platform === 'win32') target = 'x86_64-pc-windows-msvc'
 
   const denoBase = `deno-${target}`

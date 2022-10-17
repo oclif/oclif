@@ -10,25 +10,39 @@ import {templateShortKey, debVersion, debArch} from '../../upload-util'
 const scripts = {
   /* eslint-disable no-useless-escape */
   bin: (config: Interfaces.Config,
-  ) => `#!/usr/bin/env bash
-set -e
-echoerr() { echo "$@" 1>&2; }
-get_script_dir () {
-  SOURCE="\${BASH_SOURCE[0]}"
-  # While \$SOURCE is a symlink, resolve it
-  while [ -h "\$SOURCE" ]; do
+  ) => {
+    const denoVersion = config.pjson?.oclif?.update?.deno?.version
+
+    const runWithNode = `
+  \$DIR/node \$DIR/run "\$@"
+    `
+
+    const runWithDeno = `
+  \$DIR/deno run --allow-net --allow-read --allow-env --allow-write --allow-run \$DIR/run "\$@"
+    `
+
+    const binScript =
+`#!/usr/bin/env bash
+  set -e
+  echoerr() { echo "$@" 1>&2; }
+  get_script_dir () {
+    SOURCE="\${BASH_SOURCE[0]}"
+    # While \$SOURCE is a symlink, resolve it
+    while [ -h "\$SOURCE" ]; do
+      DIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
+      SOURCE="\$( readlink "\$SOURCE" )"
+      # If \$SOURCE was a relative symlink (so no "/" as prefix, need to resolve it relative to the symlink base directory
+      [[ \$SOURCE != /* ]] && SOURCE="\$DIR/\$SOURCE"
+    done
     DIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
-    SOURCE="\$( readlink "\$SOURCE" )"
-    # If \$SOURCE was a relative symlink (so no "/" as prefix, need to resolve it relative to the symlink base directory
-    [[ \$SOURCE != /* ]] && SOURCE="\$DIR/\$SOURCE"
-  done
-  DIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
-  echo "\$DIR"
-}
-DIR=\$(get_script_dir)
-export ${config.scopedEnvVarKey('UPDATE_INSTRUCTIONS')}="update with \\"sudo apt update && sudo apt install ${config.bin}\\""
-\$DIR/node \$DIR/run "\$@"
-`,
+    echo "\$DIR"
+  }
+  DIR=\$(get_script_dir)
+  export ${config.scopedEnvVarKey('UPDATE_INSTRUCTIONS')}="update with \\"sudo apt update && sudo apt install ${config.bin}\\""
+  ${denoVersion ? runWithDeno : runWithNode}
+`
+    return binScript
+  },
   /* eslint-enable no-useless-escape */
   control: (config: Tarballs.BuildConfig, arch: string) => `Package: ${config.config.bin}
 Version: ${debVersion(config)}

@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.SF_CLI_BOT_GITHUB_TOKEN }}
+          token: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
       - name: Conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@d360fad3a42feca6462f72c97c165d60a02d4bf2
@@ -17,7 +17,7 @@ jobs:
         with:
           git-user-name: SF-CLI-BOT
           git-user-email: alm-cli@salesforce.com
-          github-token: ${{ secrets.SF_CLI_BOT_GITHUB_TOKEN }}
+          github-token: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
           output-file: false
           # always do the release, even if there are no semantic commits
           skip-on-empty: false
@@ -30,7 +30,7 @@ jobs:
       - name: Create Github Release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.SF_CLI_BOT_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.packageVersion.outputs.prop }}
           release_name: ${{ steps.packageVersion.outputs.prop }}

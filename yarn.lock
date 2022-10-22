@@ -900,10 +900,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-15.14.9.tgz#bc43c990c3c9be7281868bbc7b8fdd6e2b57adfa"
   integrity sha512-qjd88DrCxupx/kJD5yQgZdcYKZKSIGBVDIBE1/LTGcNm3d2Np/jxojkdePDdfnBHJc5W7vSMpbJ1aB7p/Py69A==
 
-"@types/node@^14.18.31":
-  version "14.18.31"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.31.tgz#4b873dea3122e71af4f77e65ec5841397ff254d3"
-  integrity sha512-vQAnaReSQkEDa8uwAyQby8bYGKu84R/deEc6mg5T8fX6gzCn8QW6rziSgsti1fNvsrswKUKPnVTi7uoB+u62Mw==
+"@types/node@^14.18.32":
+  version "14.18.32"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.32.tgz#8074f7106731f1a12ba993fe8bad86ee73905014"
+  integrity sha512-Y6S38pFr04yb13qqHf8uk1nHE3lXgQ30WZbv1mLliV9pt0NjvqdWttLcrOYLnXbOafknVYRHZGoMSpR9UwfYow==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"

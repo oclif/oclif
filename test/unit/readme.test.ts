@@ -49,6 +49,29 @@ describe('readme', () => {
       expect(newReadme).to.contain('* [`oclif roottopic:subtopic1`](docs/roottopic/subtopic1.md) - Subtopic1 description')
       expect(newReadme).to.contain('* [`oclif roottopic:subtopic2`](docs/roottopic/subtopic2.md) - Subtopic2 description')
     })
+
+    const rootPathSpace = path.join(
+      __dirname,
+      '../fixtures/cli-with-nested-topics-with-space-separator',
+    )
+    const readmePathSpace = path.join(rootPathSpace, 'README.md')
+    const originalReadmeSpace = fs.readFileSync(readmePathSpace, 'utf8')
+
+    test
+    .stdout()
+    .finally(() => fs.writeFileSync(readmePathSpace, originalReadmeSpace))
+    .finally(() => {
+      const docsPath = path.resolve(rootPathSpace, 'docs')
+      fs.remove(docsPath)
+    })
+    .stub(process, 'cwd', () => rootPathSpace)
+    .command(['readme', '--multi', '--multiNestedTopicsDepth=2'])
+    .it('writes only subtopics to their own files with " " topic separator', () => {
+      const newReadme = fs.readFileSync(readmePathSpace, 'utf8')
+
+      expect(newReadme).to.contain('* [`oclif roottopic subtopic1`](docs/roottopic/subtopic1.md) - Subtopic1 description')
+      expect(newReadme).to.contain('* [`oclif roottopic subtopic2`](docs/roottopic/subtopic2.md) - Subtopic2 description')
+    })
   })
 
   describe('with command that has an alias', () => {

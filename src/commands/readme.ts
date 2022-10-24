@@ -177,7 +177,7 @@ USAGE
     let topics = config.topics
     topics = topics.filter(
       t =>
-        !t.hidden && (t.name.match(/:/g) || []).length < multiNestedTopicsDepth,
+        !t.hidden && (t.name.match(new RegExp(config.topicSeparator, 'g')) || []).length < multiNestedTopicsDepth,
     )
     topics = topics.filter(t =>
       commands.find(c => c.id.startsWith(t.name)),
@@ -200,7 +200,10 @@ USAGE
         '# Command Topics\n',
         ...topics.map(t => {
           return compact([
-            `* [\`${config.bin} ${t.name}\`](${dir}/${t.name.replace(
+            `* [\`${config.bin} ${t.name.replace(
+              /:/g,
+              config.topicSeparator,
+            )}\`](${dir}/${t.name.replace(
               /:/g,
               '/',
             )}.md)`,
@@ -221,7 +224,10 @@ USAGE
     topic: Interfaces.Topic,
     commands: Interfaces.Command[],
   ): void {
-    const bin = `\`${config.bin} ${topic.name}\``
+    const bin = `\`${config.bin} ${topic.name.replace(
+      /:/g,
+      config.topicSeparator,
+    )}\``
     const doc =
       [
         bin,

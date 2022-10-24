@@ -16,14 +16,39 @@ describe('readme', () => {
     expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
   })
 
-  test
-  .stdout()
-  .finally(() => fs.writeFile('README.md', readme))
-  .finally(() => fs.remove('docs'))
-  .command(['readme', '--multi'])
-  .it('runs readme --multi', () => {
-    // expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
-    expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
+  describe('multi', () => {
+    test
+    .stdout()
+    .finally(() => fs.writeFile('README.md', readme))
+    .finally(() => fs.remove('docs'))
+    .command(['readme', '--multi'])
+    .it('runs readme --multi', () => {
+      // expect(fs.readFileSync('README.md', 'utf8')).to.contain('manifest')
+      expect(fs.readFileSync('README.md', 'utf8')).to.contain('multi')
+    })
+
+    const rootPath = path.join(
+      __dirname,
+      '../fixtures/cli-with-nested-topics',
+    )
+    const readmePath = path.join(rootPath, 'README.md')
+    const originalReadme = fs.readFileSync(readmePath, 'utf8')
+
+    test
+    .stdout()
+    .finally(() => fs.writeFileSync(readmePath, originalReadme))
+    .finally(() => {
+      const docsPath = path.resolve(rootPath, 'docs')
+      fs.remove(docsPath)
+    })
+    .stub(process, 'cwd', () => rootPath)
+    .command(['readme', '--multi', '--multiNestedTopicsDepth=2'])
+    .it('writes only subtopics to their own files', () => {
+      const newReadme = fs.readFileSync(readmePath, 'utf8')
+
+      expect(newReadme).to.contain('* [`oclif roottopic:subtopic1`](docs/roottopic/subtopic1.md) - Subtopic1 description')
+      expect(newReadme).to.contain('* [`oclif roottopic:subtopic2`](docs/roottopic/subtopic2.md) - Subtopic2 description')
+    })
   })
 
   describe('with command that has an alias', () => {
@@ -71,7 +96,10 @@ describe('readme', () => {
   })
 
   describe('with custom help that implements command', () => {
-    const rootPath = path.join(__dirname, '../fixtures/cli-with-old-school-custom-help')
+    const rootPath = path.join(
+      __dirname,
+      '../fixtures/cli-with-old-school-custom-help',
+    )
     const readmePath = path.join(rootPath, 'README.md')
     const originalReadme = fs.readFileSync(readmePath, 'utf8')
 
@@ -88,7 +116,10 @@ describe('readme', () => {
   })
 
   describe('with custom help that does not implement formatCommand', () => {
-    const rootPath = path.join(__dirname, '../fixtures/cli-with-custom-help-no-format-command')
+    const rootPath = path.join(
+      __dirname,
+      '../fixtures/cli-with-custom-help-no-format-command',
+    )
     const readmePath = path.join(rootPath, 'README.md')
     const originalReadme = fs.readFileSync(readmePath, 'utf8')
 

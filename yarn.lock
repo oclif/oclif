@@ -610,13 +610,13 @@
     semver "^7.3.5"
     tslib "^2.0.0"
 
-"@oclif/plugin-not-found@^2.3.6":
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-2.3.6.tgz#279dec98219512f7d2d667dd3a4b55abe6a1f9a8"
-  integrity sha512-VcO8VwHalrALUV+vZO1mEAjt1r4JM//rmW8Rw9Ca1/aITnOC58Saf8v2MpZABuu7QeJ/LbwQsZglR0MNDAbYnw==
+"@oclif/plugin-not-found@^2.3.7":
+  version "2.3.7"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-2.3.7.tgz#6ad13887985db02000bffaa045f40618e39e95dd"
+  integrity sha512-Aid1H9eJ4nWmr7MfstGRhNo8n+69jzGnoazU6zQDdDBdD/uXITbbpUHAqFiNz0W6FmzUtsq8aS69PY42RbQBZA==
   dependencies:
     "@oclif/color" "^1.0.1"
-    "@oclif/core" "^1.19.1"
+    "@oclif/core" "^1.20.0"
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 

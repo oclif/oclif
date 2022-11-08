@@ -2,6 +2,7 @@ import {Command, Plugin, Interfaces, Flags, CliUx} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as os from 'os'
+import * as semver from 'semver'
 import {exec, ShellString, ExecOptions} from 'shelljs'
 
 async function fileExists(filePath: string): Promise<boolean> {
@@ -37,23 +38,28 @@ export default class Manifest extends Command {
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = fs.readJSONSync('package.json') as { oclif: { jitPlugins: string[] } }
+    const packageJson = fs.readJSONSync('package.json') as { oclif: { jitPlugins: Record<string, string> } }
 
     let jitPluginManifests: Interfaces.Manifest[] = []
 
     if (flags.jit && packageJson.oclif.jitPlugins) {
       this.debug('jitPlugins: %s', packageJson.oclif.jitPlugins)
       const tmpDir = os.tmpdir()
-      const promises = packageJson.oclif.jitPlugins.map(async jitPlugin => {
+      const promises = Object.entries(packageJson.oclif.jitPlugins).map(async ([jitPlugin, version]) => {
         const pluginDir = jitPlugin.replace('/', '-').replace('@', '')
         const repo = this.executeCommand(`npm view ${jitPlugin} repository --json`)
         const stdout = JSON.parse(repo.stdout)
+
         const repoUrl = stdout.url.replace(`${stdout.type}+`, '')
 
         const fullPath = path.join(tmpDir, pluginDir)
         if (await fileExists(fullPath)) await fs.remove(fullPath)
 
-        this.executeCommand(`git clone ${repoUrl} ${fullPath} --depth 1`)
+        const versions = JSON.parse(this.executeCommand(`npm view ${jitPlugin} versions --json`).stdout)
+        const maxSatisfying = semver.maxSatisfying(versions, version)
+
+        this.cloneRepo(repoUrl, fullPath, maxSatisfying)
+
         this.executeCommand('yarn', {cwd: fullPath})
         this.executeCommand('yarn build', {cwd: fullPath})
         const plugin = new Plugin({root: fullPath, type: 'jit', ignoreManifest: true, errorOnManifestCreate: true})
@@ -91,6 +97,18 @@ export default class Manifest extends Command {
     fs.writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
     this.log(`wrote manifest to ${file}`)
+  }
+
+  private cloneRepo(repoUrl: string, fullPath: string, tag: string | semver.SemVer | null): void {
+    try {
+      this.executeCommand(`git clone --branch ${tag} ${repoUrl} ${fullPath} --depth 1`)
+    } catch {
+      try {
+        this.executeCommand(`git clone --branch v${tag} ${repoUrl} ${fullPath} --depth 1`)
+      } catch {
+        throw new Error(`Unable to clone repo ${repoUrl} with tag ${tag}`)
+      }
+    }
   }
 
   private executeCommand(command: string, options?: ExecOptions): ShellString {

@@ -620,12 +620,12 @@
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 
-"@oclif/plugin-warn-if-update-available@^2.0.13":
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-2.0.13.tgz#4a3d39cbe200dc91d6bcf54f6845b8f2c457e5a5"
-  integrity sha512-mynTZhUr0Vcud27SoK6Wph9U4Umuxra0UD0tChn/uwN/+qXq9ckr+UazxvwNOdr14RbJyjKz0luU7cCECdjJxw==
+"@oclif/plugin-warn-if-update-available@^2.0.14":
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-2.0.14.tgz#f9142095f13c5e8300705533165ae039daa0c5f8"
+  integrity sha512-gEgFZuNtFx3yPfSuxhAm9F8nLZ4+UnBJhbjTywY0Cvrqvd+OvKvo6PfwRm0lWmH4EgWwQEq39pfaks1fg+y1gw==
   dependencies:
-    "@oclif/core" "^1.20.3"
+    "@oclif/core" "^1.20.4"
     chalk "^4.1.0"
     debug "^4.1.0"
     fs-extra "^9.0.1"

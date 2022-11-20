@@ -506,7 +506,7 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^1.16.1", "@oclif/core@^1.19.1", "@oclif/core@^1.20.0", "@oclif/core@^1.20.3", "@oclif/core@^1.20.4":
+"@oclif/core@^1.16.1", "@oclif/core@^1.20.0", "@oclif/core@^1.20.3", "@oclif/core@^1.20.4":
   version "1.20.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.20.4.tgz#7378b52e1f1b502e383ffb07f95dffc9fd8588ff"
   integrity sha512-giug32M4YhSYNYKQwE1L57/+k5gp1+Bq3/0vKNQmzAY1tizFGhvBJc6GIRZasHjU+xtZLutQvrVrJo7chX3hxg==
@@ -590,12 +590,12 @@
     chalk "^4.1.0"
     tslib "^2.0.0"
 
-"@oclif/plugin-help@^5.1.16":
-  version "5.1.16"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.1.16.tgz#b55376e50007ba6b73819b11d02232288203fb70"
-  integrity sha512-30uy/bRUzptI4mFf6re1imTBxJJB2r9pQyZ7sbr8zn0oymLZX4dMArlMDi/LwpPqEtIN3fivXgDkjcoKO8ezGQ==
+"@oclif/plugin-help@^5.1.19":
+  version "5.1.19"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.1.19.tgz#43051772fefafe9bfe8823e2298103feb351b9c7"
+  integrity sha512-eQVRCFJOwRj8Tbqz8Lzd9GN38egwLCg+ohJ0xfg12CoXml03WqkfcFiAWkVwSWmLVrZUlUVrxfXKKkmpUaXZHg==
   dependencies:
-    "@oclif/core" "^1.19.1"
+    "@oclif/core" "^1.20.4"
 
 "@oclif/plugin-legacy@^1.2.7":
   version "1.2.7"

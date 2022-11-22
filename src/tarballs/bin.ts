@@ -3,8 +3,8 @@ import {Interfaces} from '@oclif/core'
 
 import * as qq from 'qqjs'
 
-export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {config: Interfaces.Config
-; baseWorkspace: string; nodeVersion: string;}): Promise<void> {
+export async function writeBinScripts({config, baseWorkspace, nodeVersion, denoVersion}: {config: Interfaces.Config
+; baseWorkspace: string; nodeVersion: string; denoVersion: string | undefined;}): Promise<void> {
   const binPathEnvVar = config.scopedEnvVarKey('BINPATH')
   const redirectedEnvVar = config.scopedEnvVarKey('REDIRECTED')
   const clientHomeEnvVar = config.scopedEnvVarKey('OCLIF_CLIENT_HOME')
@@ -38,7 +38,42 @@ if exist "%~dp0..\\bin\\node.exe" (
 
   const writeUnix = async () => {
     const bin = qq.join([baseWorkspace, 'bin', config.bin])
-    await qq.write(bin, `#!/usr/bin/env bash
+    const runWithNode = `
+  if [ -x "$(command -v "\$XDG_DATA_HOME/oclif/node/node-custom")" ]; then
+    NODE="\$XDG_DATA_HOME/oclif/node/node-custom"
+  elif [ -x "$(command -v "\$DIR/node")" ]; then
+    NODE="\$DIR/node"
+  elif [ -x "$(command -v "\$XDG_DATA_HOME/oclif/node/node-${nodeVersion}")" ]; then
+    NODE="\$XDG_DATA_HOME/oclif/node/node-${nodeVersion}"
+  elif [ -x "$(command -v node)" ]; then
+    NODE=node
+  else
+    echoerr 'Error: node is not installed.' >&2
+    exit 1
+  fi
+  if [ "\$DEBUG" == "*" ]; then
+    echoerr ${binPathEnvVar}="\$${binPathEnvVar}" "\$NODE" "\$DIR/run" "\$@"
+  fi
+  "\$NODE" "\$DIR/run" "\$@"
+    `
+    // eslint-disable-next-line no-warning-comments
+    // TODO: we may also want to be specific about the deno version.
+    const runWithDeno = `
+  if [ -x "$(command -v "$DIR/deno")" ]; then
+    DENO="$DIR/deno"
+  elif [ -x "$(command -v deno)" ]; then
+    DENO=deno
+  else
+    echoerr 'Error: deno is not installed.' >&2
+    exit 1
+  fi
+  if [ "$DEBUG" == "*" ]; then
+    echoerr MYDENOEXE_BINPATH="$MYDENOEXE_BINPATH" "$DENO" "run" "--allow-net" "--allow-read" "--allow-env" "--allow-write" "--allow-run" "$DIR/run" "$@"
+  fi
+  "$DENO" "run" "--allow-net" "--allow-read" "--allow-env" "--allow-write" "--allow-run" "$DIR/run" "$@"
+    `
+    await qq.write(bin, `
+#!/usr/bin/env bash
 set -e
 echoerr() { echo "$@" 1>&2; }
 
@@ -66,22 +101,7 @@ if [ -z "\$${redirectedEnvVar}" ] && [ -x "\$BIN_PATH" ] && [[ ! "\$DIR/${config
   ${binPathEnvVar}="\$BIN_PATH" ${redirectedEnvVar}=1 "\$BIN_PATH" "\$@"
 else
   export ${binPathEnvVar}=\${${binPathEnvVar}:="\$DIR/${config.bin}"}
-  if [ -x "$(command -v "\$XDG_DATA_HOME/oclif/node/node-custom")" ]; then
-    NODE="\$XDG_DATA_HOME/oclif/node/node-custom"
-  elif [ -x "$(command -v "\$DIR/node")" ]; then
-    NODE="\$DIR/node"
-  elif [ -x "$(command -v "\$XDG_DATA_HOME/oclif/node/node-${nodeVersion}")" ]; then
-    NODE="\$XDG_DATA_HOME/oclif/node/node-${nodeVersion}"
-  elif [ -x "$(command -v node)" ]; then
-    NODE=node
-  else
-    echoerr 'Error: node is not installed.' >&2
-    exit 1
-  fi
-  if [ "\$DEBUG" == "*" ]; then
-    echoerr ${binPathEnvVar}="\$${binPathEnvVar}" "\$NODE" "\$DIR/run" "\$@"
-  fi
-  "\$NODE" "\$DIR/run" "\$@"
+  ${denoVersion ? runWithDeno : runWithNode}
 fi
 `)
     await qq.chmod(bin, 0o755)

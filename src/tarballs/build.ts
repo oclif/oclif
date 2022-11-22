@@ -8,6 +8,7 @@ import {log} from '../log'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
+import {fetchDenoBinary} from './deno'
 import {commitAWSDir, templateShortKey} from '../upload-util'
 
 const pack = async (from: string, to: string) => {
@@ -27,9 +28,15 @@ export async function build(c: BuildConfig, options: {
   tarball?: string;
   parallel?: boolean;
 } = {}): Promise<void> {
-  const {xz, config} = c
+  const {xz, config, denoVersion: deno} = c
   const prevCwd = qq.cwd()
   const packCLI = async () => {
+    if (deno) {
+      const tarballFilename = `${config.pjson.name}-${config.pjson.version}.tar.gz`
+      await qq.x(`cd ${c.root} && tar -czf "${tarballFilename}" ./bin`)
+      return path.join(c.root, tarballFilename)
+    }
+
     const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], {cwd: c.root})
     return path.join(c.root, stdout.split('\n').pop()!)
   }
@@ -41,6 +48,7 @@ export async function build(c: BuildConfig, options: {
     tarball = qq.join([c.workspace(), tarball])
     qq.cd(c.workspace())
     await qq.x(`tar -xzf "${tarball}"`)
+    if (deno) return
     // eslint-disable-next-line no-await-in-loop
     for (const f of await qq.ls('package', {fullpath: true})) await qq.mv(f, '.')
     await qq.rm('package', tarball, 'bin/run.cmd')
@@ -108,13 +116,24 @@ export async function build(c: BuildConfig, options: {
     log('copying workspace', c.workspace(), workspace)
     await qq.rm(workspace)
     await qq.cp(c.workspace(), workspace)
-    await fetchNodeBinary({
-      nodeVersion: c.nodeVersion,
-      output: path.join(workspace, 'bin', 'node'),
-      platform: target.platform,
-      arch: target.arch,
-      tmp: qq.join(config.root, 'tmp'),
-    })
+    if (c.denoVersion) {
+      await fetchDenoBinary({
+        denoVersion: c.denoVersion,
+        output: path.join(workspace, 'bin', 'deno'),
+        platform: target.platform,
+        arch: target.arch,
+        tmp: qq.join(config.root, 'tmp'),
+      })
+    } else {
+      await fetchNodeBinary({
+        nodeVersion: c.nodeVersion,
+        output: path.join(workspace, 'bin', 'node'),
+        platform: target.platform,
+        arch: target.arch,
+        tmp: qq.join(config.root, 'tmp'),
+      })
+    }
+
     if (options.pack === false) return
     if (options.parallel) {
       await Promise.all(
@@ -157,11 +176,15 @@ export async function build(c: BuildConfig, options: {
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
+
   await extractCLI(options.tarball ? options.tarball : await packCLI())
-  await updatePJSON()
-  await addDependencies()
-  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
-  await pretarball()
+  if (!deno) {
+    await updatePJSON()
+    await addDependencies()
+  }
+
+  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion, denoVersion: c.denoVersion})
+  if (!deno) await pretarball()
   const targetsToBuild = c.targets.filter(t => !options.platform || options.platform === t.platform)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)

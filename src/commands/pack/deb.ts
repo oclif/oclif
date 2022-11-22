@@ -1,11 +1,14 @@
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-
+import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as qq from 'qqjs'
-
+import * as path from 'path'
 import * as Tarballs from '../../tarballs'
 import {templateShortKey, debVersion, debArch} from '../../upload-util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
+
+const exec = promisify(execSync)
 
 const scripts = {
   /* eslint-disable no-useless-escape */
@@ -61,23 +64,22 @@ export default class PackDeb extends Command {
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'linux', pack: false, tarball: flags.tarball})
     const dist = buildConfig.dist('deb')
-    await qq.emptyDir(dist)
+    await fs.emptyDir(dist)
     const build = async (arch: Interfaces.ArchTypes) => {
       const target: { platform: 'linux'; arch: Interfaces.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
-      const workspace = qq.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
-      await qq.rm(workspace)
-      await qq.mkdirp([workspace, 'DEBIAN'])
-      await qq.mkdirp([workspace, 'usr/bin'])
-      await qq.mkdirp([workspace, 'usr/lib'])
-      await qq.mv(buildConfig.workspace(target), [workspace, 'usr/lib', config.dirname])
-      await qq.write([workspace, 'usr/lib', config.dirname, 'bin', config.bin], scripts.bin(config))
-      await qq.write([workspace, 'DEBIAN/control'], scripts.control(buildConfig, debArch(arch)))
-      await qq.chmod([workspace, 'usr/lib', config.dirname, 'bin', config.bin], 0o755)
-      await qq.x(`ln -s "../lib/${config.dirname}/bin/${config.bin}" "${workspace}/usr/bin/${config.bin}"`)
-      await qq.x(`sudo chown -R root "${workspace}"`)
-      await qq.x(`sudo chgrp -R root "${workspace}"`)
-      await qq.x(`dpkg --build "${workspace}" "${qq.join(dist, versionedDebBase)}"`)
+      const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
+      await fs.rm(workspace)
+      await fs.mkdirp(path.join(workspace, 'DEBIAN'))
+      await fs.mkdirp(path.join(workspace, 'usr', 'bin'))
+      await fs.mkdirp(path.join(workspace, 'usr', 'lib'))
+      await fs.move(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname))
+      await fs.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755})
+      await fs.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch)))
+      await exec(`ln -s "../lib/${config.dirname}/bin/${config.bin}" "${workspace}/usr/bin/${config.bin}"`)
+      await exec(`sudo chown -R root "${workspace}"`)
+      await exec(`sudo chgrp -R root "${workspace}"`)
+      await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)
     }
 
     const arches = _.uniq(buildConfig.targets
@@ -86,17 +88,17 @@ export default class PackDeb extends Command {
     // eslint-disable-next-line no-await-in-loop
     for (const a of arches) await build(a)
 
-    await qq.x('apt-ftparchive packages . > Packages', {cwd: dist})
-    await qq.x('gzip -c Packages > Packages.gz', {cwd: dist})
-    await qq.x('bzip2 -k Packages', {cwd: dist})
-    await qq.x('xz -k Packages', {cwd: dist})
-    const ftparchive = qq.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
-    await qq.write(ftparchive, scripts.ftparchive(config))
-    await qq.x(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
+    await exec('apt-ftparchive packages . > Packages', {cwd: dist})
+    await exec('gzip -c Packages > Packages.gz', {cwd: dist})
+    await exec('bzip2 -k Packages', {cwd: dist})
+    await exec('xz -k Packages', {cwd: dist})
+    const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
+    await fs.writeFile(ftparchive, scripts.ftparchive(config))
+    await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
     const gpgKey = config.scopedEnvVar('DEB_KEY')
     if (gpgKey) {
-      await qq.x(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
-      await qq.x(`gpg --digest-algo SHA512 -abs -u ${gpgKey} -o Release.gpg Release`, {cwd: dist})
+      await exec(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
+      await exec(`gpg --digest-algo SHA512 -abs -u ${gpgKey} -o Release.gpg Release`, {cwd: dist})
     }
   }
 }

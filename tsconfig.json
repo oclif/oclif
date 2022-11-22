@@ -12,6 +12,7 @@
       "./src"
     ],
     "strict": true,
+    "lib": ["ES2019"],
     "target": "es2017"
   },
   "include": [

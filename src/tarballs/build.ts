@@ -1,24 +1,25 @@
 import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
-import * as path from 'path'
-import * as qq from 'qqjs'
-
 import {log} from '../log'
-
+import * as path from 'path'
+import * as fs from 'fs-extra'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
 import {commitAWSDir, templateShortKey} from '../upload-util'
+import {prettifyPaths, hash} from '../util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
+
+const exec = promisify(execSync)
 
 const pack = async (from: string, to: string) => {
-  const prevCwd = qq.cwd()
-  qq.cd(path.dirname(from))
-  await qq.mkdirp(path.dirname(to))
-  log(`packing tarball from ${qq.prettifyPaths(from)} to ${qq.prettifyPaths(to)}`)
-  await (to.endsWith('gz') ?
-    qq.x('tar', ['czf', to, path.basename(from)]) :
-    qq.x(`tar c "${path.basename(from)}" | xz > "${to}"`))
-  qq.cd(prevCwd)
+  const cwd = path.dirname(from)
+  await fs.promises.mkdir(path.dirname(to), {recursive: true})
+  log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`);
+  (to.endsWith('gz') ?
+    await exec(`tar czf ${to} ${(path.basename(from))}`, {cwd}) :
+    await exec(`tar cfJ ${to} ${(path.basename(from))}`, {cwd}))
 }
 
 export async function build(c: BuildConfig, options: {
@@ -28,61 +29,61 @@ export async function build(c: BuildConfig, options: {
   parallel?: boolean;
 } = {}): Promise<void> {
   const {xz, config} = c
-  const prevCwd = qq.cwd()
   const packCLI = async () => {
-    const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], {cwd: c.root})
-    return path.join(c.root, stdout.split('\n').pop()!)
+    const {stdout} = await exec('npm pack --unsafe-perm', {cwd: c.root})
+    return path.join(c.root, stdout.trim().split('\n').pop()!)
   }
 
   const extractCLI = async (tarball: string) => {
-    await qq.emptyDir(c.workspace())
-    await qq.mv(tarball, c.workspace())
-    tarball = path.basename(tarball)
-    tarball = qq.join([c.workspace(), tarball])
-    qq.cd(c.workspace())
-    await qq.x(`tar -xzf "${tarball}"`)
-    // eslint-disable-next-line no-await-in-loop
-    for (const f of await qq.ls('package', {fullpath: true})) await qq.mv(f, '.')
-    await qq.rm('package', tarball, 'bin/run.cmd')
+    await fs.emptyDir(c.workspace())
+    const tarballNewLocation = path.join(c.workspace(), path.basename(tarball))
+    await fs.move(tarball, tarballNewLocation)
+    await exec(`tar -xzf "${tarballNewLocation}"`, {cwd: c.workspace()})
+
+    await Promise.all(
+      (await fs.promises.readdir(path.join(c.workspace(), 'package'), {withFileTypes: true}))
+      .map(i => fs.move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))),
+    )
+
+    await Promise.all([
+      fs.promises.rm(path.join(c.workspace(), 'package'), {recursive: true}),
+      fs.promises.rm(path.join(c.workspace(), path.basename(tarball)), {recursive: true}),
+      fs.remove(path.join(c.workspace(), 'bin', 'run.cmd')),
+    ])
   }
 
   const updatePJSON = async () => {
-    qq.cd(c.workspace())
-    const pjson = await qq.readJSON('package.json')
+    const pjsonPath = path.join(c.workspace(), 'package.json')
+    const pjson = await fs.readJSON(pjsonPath)
     pjson.version = config.version
     pjson.oclif.update = pjson.oclif.update || {}
     pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
     pjson.oclif.update.s3.bucket = c.s3Config.bucket
-    await qq.writeJSON('package.json', pjson)
+    await fs.writeJSON(pjsonPath, pjson)
   }
 
   const addDependencies = async () => {
-    qq.cd(c.workspace())
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
-    if (yarn) {
-      await qq.cp([yarnRoot, 'yarn.lock'], '.')
-      await qq.x('yarn --no-progress --production --non-interactive')
+    if (fs.existsSync(path.join(yarnRoot, 'yarn.lock'))) {
+      await fs.copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
+      await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
     } else {
-      let lockpath = qq.join(c.root, 'package-lock.json')
-      if (!await qq.exists(lockpath)) {
-        lockpath = qq.join(c.root, 'npm-shrinkwrap.json')
-      }
-
-      await qq.cp(lockpath, '.')
-      await qq.x('npm install --production')
+      const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?
+        path.join(c.root, 'package-lock.json') :
+        path.join(c.root, 'npm-shrinkwrap.json')
+      await fs.copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
+      await exec('npm install --production', {cwd: c.workspace()})
     }
   }
 
   const pretarball = async () => {
-    qq.cd(c.workspace())
-    const pjson = await qq.readJSON('package.json')
+    const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'))
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    const yarn = await qq.exists([yarnRoot, 'yarn.lock'])
+    const yarn = fs.existsSync(path.join(yarnRoot, 'yarn.lock'))
     if (pjson.scripts.pretarball) {
       yarn ?
-        await qq.x('yarn run pretarball') :
-        await qq.x('npm run pretarball', {})
+        await exec('yarn run pretarball') :
+        await exec('npm run pretarball', {})
     }
   }
 
@@ -106,14 +107,14 @@ export async function build(c: BuildConfig, options: {
     const base = path.basename(gzLocalKey)
     log(`building target ${base}`)
     log('copying workspace', c.workspace(), workspace)
-    await qq.rm(workspace)
-    await qq.cp(c.workspace(), workspace)
+    await fs.emptyDir(workspace)
+    await fs.copy(c.workspace(), workspace)
     await fetchNodeBinary({
       nodeVersion: c.nodeVersion,
       output: path.join(workspace, 'bin', 'node'),
       platform: target.platform,
       arch: target.arch,
-      tmp: qq.join(config.root, 'tmp'),
+      tmp: path.join(config.root, 'tmp'),
     })
     if (options.pack === false) return
     if (options.parallel) {
@@ -139,8 +140,8 @@ export async function build(c: BuildConfig, options: {
       baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
-      sha256gz: await qq.hash('sha256', c.dist(gzLocalKey)),
-      sha256xz: xz ? await qq.hash('sha256', c.dist(xzLocalKey)) : undefined,
+      sha256gz: await hash('sha256', c.dist(gzLocalKey)),
+      sha256xz: xz ? await hash('sha256', c.dist(xzLocalKey)) : undefined,
       node: {
         compatible: config.pjson.engines.node,
         recommended: c.nodeVersion,
@@ -153,7 +154,7 @@ export async function build(c: BuildConfig, options: {
       sha: c.gitSha,
       version: config.version,
     }))
-    await qq.writeJSON(manifestFilepath, manifest)
+    await fs.writeJSON(manifestFilepath, manifest)
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
@@ -173,6 +174,5 @@ export async function build(c: BuildConfig, options: {
       await buildTarget(target)
     }
   }
-
-  qq.cd(prevCwd)
 }
+

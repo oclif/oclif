@@ -1,14 +1,16 @@
 import * as path from 'path'
 
 import * as _ from 'lodash'
-import * as qq from 'qqjs'
-
+import * as fs from 'fs-extra'
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
 
+const exec = promisify(execSync)
 type OclifConfig = {
   macos?: {
     identifier?: string;
@@ -77,7 +79,7 @@ while [ "$1" != "-y" ]; do
 done
 
 echo "Application uninstalling process started"
-# remove link to shorcut file
+# remove link to shortcut file
 find "/usr/local/bin/" -name "${config.bin}" | xargs rm
 ${additionalCLI ? `find "/usr/local/bin/" -name "${additionalCLI}" | xargs rm` : ''}
 if [ $? -eq 0 ]
@@ -153,30 +155,33 @@ the CLI should already exist in a directory named after the CLI that is the root
     if (!c.macos.identifier) this.error('package.json must have oclif.macos.identifier set')
     const macos = c.macos
     const packageIdentifier = macos.identifier
-    await Tarballs.build(buildConfig, {platform: 'darwin', pack: false, tarball: flags.tarball})
-    const scriptsDir = qq.join(buildConfig.tmp, 'macos/scripts')
-    await qq.emptyDir(buildConfig.dist('macos'))
-    const noBundleConfigurationPath = qq.join(buildConfig.tmp, 'macos/no-bundle.plist')
+    await Tarballs.build(buildConfig, {platform: 'darwin', pack: false, tarball: flags.tarball, parallel: true})
+    const scriptsDir = path.join(buildConfig.tmp, 'macos/scripts')
+    await fs.emptyDir(buildConfig.dist('macos'))
+    const noBundleConfigurationPath = path.join(buildConfig.tmp, 'macos', 'no-bundle.plist')
 
     const build = async (arch: Interfaces.ArchTypes) => {
       const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const dist = buildConfig.dist(`macos/${templateKey}`)
       const rootDir = buildConfig.workspace({platform: 'darwin', arch})
       const writeNoBundleConfiguration = async () => {
-        await qq.write(noBundleConfigurationPath, noBundleConfiguration)
-        await qq.chmod(noBundleConfigurationPath, 0o755)
-      }
-      const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
-        const path = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
-        path.push(script)
-        await qq.write(path, scripts[script](config, flags['additional-cli']))
-        await qq.chmod(path, 0o755)
+        await fs.mkdir(path.dirname(noBundleConfigurationPath), {recursive: true})
+        await fs.writeFile(noBundleConfigurationPath, noBundleConfiguration, {mode: 0o755})
       }
 
-      await writeNoBundleConfiguration();
-      await writeScript('preinstall')
-      await writeScript('postinstall')
-      await writeScript('uninstall')
+      const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
+        const scriptLocation = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
+        scriptLocation.push(script)
+        await fs.mkdir(path.dirname(path.join(...scriptLocation)), {recursive: true})
+        await fs.writeFile(path.join(...scriptLocation), scripts[script](config, flags['additional-cli']), {mode: 0o755})
+      }
+
+      await Promise.all([
+        writeNoBundleConfiguration(),
+        writeScript('preinstall'),
+        writeScript('postinstall'),
+        writeScript('uninstall'),
+      ])
       /* eslint-disable array-element-newline */
       const args = [
         '--root', rootDir,
@@ -192,13 +197,12 @@ the CLI should already exist in a directory named after the CLI that is the root
       } else this.debug('Skipping macOS pkg signing')
       if (process.env.OSX_KEYCHAIN) args.push('--keychain', process.env.OSX_KEYCHAIN)
       args.push(dist)
-      await qq.x('pkgbuild', args as string[])
+      await exec(`pkgbuild  ${args.join(' ')}`)
     }
 
     const arches = _.uniq(buildConfig.targets
     .filter(t => t.platform === 'darwin')
     .map(t => t.arch))
-    // eslint-disable-next-line no-await-in-loop
-    for (const a of arches) await build(a)
+    await Promise.all(arches.map(a => build(a)))
   }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 import {Interfaces} from '@oclif/core'
-
-import * as qq from 'qqjs'
+import * as fs from 'fs'
+import * as path from 'path'
 
 export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {config: Interfaces.Config
 ; baseWorkspace: string; nodeVersion: string;}): Promise<void> {
@@ -10,7 +10,7 @@ export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {con
   const clientHomeEnvVar = config.scopedEnvVarKey('OCLIF_CLIENT_HOME')
   const writeWin32 = async () => {
     const {bin} = config
-    await qq.write([baseWorkspace, 'bin', `${config.bin}.cmd`], `@echo off
+    await fs.promises.writeFile(path.join(baseWorkspace, 'bin', `${config.bin}.cmd`), `@echo off
 setlocal enableextensions
 
 if not "%${redirectedEnvVar}%"=="1" if exist "%LOCALAPPDATA%\\${bin}\\client\\bin\\${bin}.cmd" (
@@ -37,8 +37,8 @@ if exist "%~dp0..\\bin\\node.exe" (
   }
 
   const writeUnix = async () => {
-    const bin = qq.join([baseWorkspace, 'bin', config.bin])
-    await qq.write(bin, `#!/usr/bin/env bash
+    const bin = path.join(baseWorkspace, 'bin', config.bin)
+    await fs.promises.writeFile(bin, `#!/usr/bin/env bash
 set -e
 echoerr() { echo "$@" 1>&2; }
 
@@ -83,10 +83,8 @@ else
   fi
   "\$NODE" "\$DIR/run" "\$@"
 fi
-`)
-    await qq.chmod(bin, 0o755)
+`, {mode: 0o755})
   }
 
-  await writeWin32()
-  await writeUnix()
+  await Promise.all([writeWin32(), writeUnix()])
 }

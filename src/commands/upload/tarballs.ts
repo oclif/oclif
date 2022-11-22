@@ -1,7 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-import * as qq from 'qqjs'
-
+import * as fs from 'fs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
@@ -28,8 +27,7 @@ export default class UploadTarballs extends Command {
     // fail early if targets are not built
     for (const target of buildConfig.targets) {
       const tarball = dist(templateShortKey('versioned', {ext: '.tar.gz', bin: config.bin, version: config.version, sha: buildConfig.gitSha, ...target}))
-      // eslint-disable-next-line no-await-in-loop
-      if (!await qq.exists(tarball)) this.error(`Cannot find a tarball ${tarball} for ${target.platform}-${target.arch}`, {
+      if (!fs.existsSync(tarball)) this.error(`Cannot find a tarball ${tarball} for ${target.platform}-${target.arch}`, {
         suggestions: [`Run "oclif pack --target ${target.platform}-${target.arch}" before uploading`],
       })
     }
@@ -55,9 +53,6 @@ export default class UploadTarballs extends Command {
         await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
       }
 
-      await releaseTarballs('.tar.gz')
-      if (xz) await releaseTarballs('.tar.xz')
-
       const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
       const manifest = templateShortKey('manifest', {
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
@@ -69,12 +64,12 @@ export default class UploadTarballs extends Command {
         version: config.version,
       })
       const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
-      await aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})
+
+      await Promise.all([releaseTarballs('.tar.gz'),  aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})].concat(xz ? [releaseTarballs('.tar.xz')] : []))
     }
 
     if (buildConfig.targets.length > 0) log('uploading targets')
-    // eslint-disable-next-line no-await-in-loop
-    for (const target of buildConfig.targets) await uploadTarball(target)
+    await Promise.all(buildConfig.targets.map(t => uploadTarball(t)))
     log(`done uploading tarballs & manifests for v${config.version}-${buildConfig.gitSha}`)
   }
 }

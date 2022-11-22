@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
-import * as qq from 'qqjs'
-
+import * as fs from 'fs'
+import * as path from 'path'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
@@ -17,13 +17,13 @@ export default class UploadDeb extends Command {
     const {flags} = await this.parse(UploadDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {s3Config, config} = buildConfig
-    const dist = (f: string) => buildConfig.dist(qq.join('deb', f))
+    const dist = (f: string) => buildConfig.dist(path.join('deb', f))
     const S3Options = {
       Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
     }
 
-    if (!await qq.exists(dist('Release'))) this.error('Cannot find debian artifacts', {
+    if (!fs.existsSync(dist('Release'))) this.error('Cannot find debian artifacts', {
       suggestions: ['Run "oclif pack deb" before uploading'],
     })
 
@@ -35,7 +35,7 @@ export default class UploadDeb extends Command {
 
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
       const deb = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: arch as any})
-      if (await qq.exists(dist(deb))) await upload(deb)
+      if (fs.existsSync(dist(deb))) await upload(deb)
     }
 
     await uploadDeb('amd64')
@@ -44,8 +44,8 @@ export default class UploadDeb extends Command {
     await upload('Packages.xz')
     await upload('Packages.bz2')
     await upload('Release')
-    if (await qq.exists(dist('InRelease'))) await upload('InRelease')
-    if (await qq.exists(dist('Release.gpg'))) await upload('Release.gpg')
+    if (fs.existsSync(dist('InRelease'))) await upload('InRelease')
+    if (fs.existsSync(dist('Release.gpg'))) await upload('Release.gpg')
 
     log(`done uploading deb artifacts for v${config.version}-${buildConfig.gitSha}`)
   }

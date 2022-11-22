@@ -1,6 +1,15 @@
 import {expect, test} from '@oclif/test'
-import * as qq from 'qqjs'
+import {join} from 'path'
+import * as fs from 'fs-extra'
+import {promisify} from 'node:util'
+import {pipeline as pipelineSync} from 'node:stream'
+import got from 'got'
+import {exec as execSync} from 'child_process'
+import {hash} from '../../src/util'
 
+const exec = promisify(execSync)
+
+const pipeline = promisify(pipelineSync)
 import aws from '../../src/aws'
 import {gitSha} from '../../src/tarballs'
 import {
@@ -8,6 +17,7 @@ import {
   // gitShaSync,
   deleteFolder,
 } from '../helpers/helper'
+import {Interfaces} from '@oclif/core'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
@@ -22,6 +32,7 @@ describe('upload tarballs', async () => {
   let sha: string
   let bucket: string
   let basePrefix: string
+  const root = join(__dirname, '../tmp/test/publish')
   beforeEach(async () => {
     sha = await gitSha(process.cwd(), {short: true})
     pjson.version = `${pjson.version}-${testRun}`
@@ -29,20 +40,17 @@ describe('upload tarballs', async () => {
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await qq.writeJSON(pjsonPath, pjson)
-    const root = qq.join(__dirname, '../tmp/test/publish')
-    await qq.emptyDir(root)
-    qq.cd(root)
+    await fs.writeJSON(pjsonPath, pjson)
+    await fs.emptyDir(root)
   })
   afterEach(async () => {
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    qq.cd([__dirname, '..'])
     pjson.version = originalVersion
-    await qq.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson)
   })
 
   skipIfWindows
-  .command(['pack:tarballs'])
+  .command(['pack:tarballs', '--parallel'])
   .do(async () => {
     sha = await gitSha(cwd, {short: true})
   })
@@ -56,26 +64,30 @@ describe('upload tarballs', async () => {
         throw new Error(`could not find a buildmanifest file for target ${target}`)
       }
 
-      const manifest = await qq.readJSON(`https://${developerSalesforceCom}/${manifestFile}`)
+      const manifest = await got(`https://${developerSalesforceCom}/${manifestFile}`).json<Interfaces.S3Manifest>()
       const test = async (url: string, expectedSha: string, nodeVersion: string) => {
         const xz = url.endsWith('.tar.xz')
         const ext = xz ? '.tar.xz' : '.tar.gz'
-        await qq.download(url, `oclif${ext}`)
-        const receivedSha = await qq.hash('sha256', `oclif${ext}`)
+        await pipeline(
+          got.stream(url),
+          fs.createWriteStream(join(root, `oclif${ext}`)),
+        )
+        const receivedSha = await hash('sha256', join(root, `oclif${ext}`))
         expect(receivedSha).to.equal(expectedSha)
         if (xz) {
-          await qq.x('tar xJf oclif.tar.xz')
+          // await exec(`tar -C "${tmp}/node" -xJf "${tarball}"`)
+          await exec('tar xJf oclif.tar.xz', {cwd: root})
         } else {
-          await qq.x('tar xzf oclif.tar.gz')
+          await exec('tar xzf oclif.tar.gz', {cwd: root})
         }
 
-        const stdout = await qq.x.stdout('./oclif/bin/oclif', ['--version'])
+        const {stdout} = await exec('./oclif/bin/oclif --version', {cwd: root})
         expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
-        await qq.rm('oclif')
+        await fs.promises.rm(join(root, 'oclif'), {recursive: true})
       }
 
       await test(manifest.gz, manifest.sha256gz, nodeVersion)
-      await test(manifest.xz, manifest.sha256xz, nodeVersion)
+      await test(manifest.xz!, manifest.sha256xz!, nodeVersion)
     }
 
     await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)

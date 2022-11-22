@@ -1,16 +1,16 @@
-import * as qq from 'qqjs'
 import {expect} from '@oclif/test'
 import {gitSha} from '../../src/tarballs'
 import * as shelljs from 'shelljs'
 import * as S3 from 'aws-sdk/clients/s3'
 import aws from '../../src/aws'
+import * as fs from 'fs'
 
 export const oclifTestingVersionsURI = 'media/salesforce-cli/oclif-testing/versions'
 export const oclifTestingChannelsURI = 'media/salesforce-cli/oclif-testing/channels'
 export const developerSalesforceCom = 'developer.salesforce.com'
 
 export const findDistFileSha = async (cwd: string, platform: string, filter: (f: string) => boolean): Promise<string[]> => {
-  const distFiles = await qq.ls(`${cwd}/dist/${platform}/`)
+  const distFiles = await fs.promises.readdir(`${cwd}/dist/${platform}/`)
   const pkg = distFiles.find(element => filter(element)) as string
   expect(pkg).to.be.ok
   return [pkg, await gitSha(process.cwd(), {short: true})]

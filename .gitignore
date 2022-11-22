@@ -6,4 +6,6 @@
 /lib
 /node_modules
 /tmp
+/test/tmp
 package-lock.json
+/dist

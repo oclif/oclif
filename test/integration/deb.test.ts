@@ -1,8 +1,12 @@
 import {expect, test} from '@oclif/test'
-import * as qq from 'qqjs'
 import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
 
+const exec = promisify(execSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
@@ -15,6 +19,7 @@ const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 describe.skip('publish:deb', () => {
   let bucket: string
   let basePrefix: string
+  const root = path.join(__dirname, '../tmp/test/publish')
 
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
@@ -22,16 +27,13 @@ describe.skip('publish:deb', () => {
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await qq.writeJSON(pjsonPath, pjson)
-    const root = qq.join(__dirname, '../tmp/test/publish')
-    await qq.emptyDir(root)
-    qq.cd(root)
+    await fs.writeJSON(pjsonPath, pjson)
+    await fs.emptyDir(root)
   })
   afterEach(async () => {
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    qq.cd([__dirname, '..'])
     pjson.version = originalVersion
-    await qq.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson)
   })
 
   onlyLinux
@@ -39,13 +41,13 @@ describe.skip('publish:deb', () => {
   .command(['upload:deb'])
   .it('publishes valid releases', async () => {
     const sha = await gitSha(process.cwd(), {short: true})
-    qq.cd([__dirname, '..', '..'])
-    await qq.x('cat test/release.key | apt-key add -')
-    await qq.x(`echo "deb https://${developerSalesforceCom}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list`)
-    await qq.x('apt-get update')
-    await qq.x('apt-get install -y oclif-dev')
-    await qq.x('oclif --version')
-    const stdout = await qq.x.stdout('oclif', ['--version'])
+    const cwd = path.join(__dirname, '..', '..')
+    await exec('cat test/release.key | apt-key add -', {cwd})
+    await exec(`echo "deb https://${developerSalesforceCom}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list`, {cwd})
+    await exec('apt-get update', {cwd})
+    await exec('apt-get install -y oclif-dev', {cwd})
+    await exec('oclif --version', {cwd})
+    const {stdout} = await exec('oclif --version', {cwd})
     expect(stdout).to.contain(`oclif/${pjson.version}.${sha} ${target} node-v${pjson.oclif.update.node.version}`)
   })
 })

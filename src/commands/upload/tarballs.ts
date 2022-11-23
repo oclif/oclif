@@ -38,23 +38,7 @@ export default class UploadTarballs extends Command {
     }
 
     const uploadTarball = async (options?: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}) => {
-      const TarballS3Options = {...S3Options, CacheControl: 'max-age=604800'}
-      const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const localKey = templateShortKey('versioned', ext, {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-          arch: options?.arch!,
-          bin: config.bin,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-          platform: options?.platform!,
-          sha: buildConfig.gitSha,
-          version: config.version,
-        })
-        const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${localKey}`
-        await aws.s3.uploadFile(dist(localKey), {...TarballS3Options, ContentType: 'application/gzip', Key: cloudKey})
-      }
-
-      const ManifestS3Options = {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json'}
-      const manifest = templateShortKey('manifest', {
+      const shortKeyInputs =  {
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         arch: options?.arch!,
         bin: config.bin,
@@ -62,10 +46,18 @@ export default class UploadTarballs extends Command {
         platform: options?.platform!,
         sha: buildConfig.gitSha,
         version: config.version,
-      })
+      }
+
+      const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
+        const localKey = templateShortKey('versioned', ext, shortKeyInputs)
+        const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${localKey}`
+        await aws.s3.uploadFile(dist(localKey), {...S3Options, CacheControl: 'max-age=604800', ContentType: 'application/gzip', Key: cloudKey})
+      }
+
+      const manifest = templateShortKey('manifest', shortKeyInputs)
       const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
 
-      await Promise.all([releaseTarballs('.tar.gz'),  aws.s3.uploadFile(dist(manifest), {...ManifestS3Options, Key: cloudKey})].concat(xz ? [releaseTarballs('.tar.xz')] : []))
+      await Promise.all([releaseTarballs('.tar.gz'),  aws.s3.uploadFile(dist(manifest), {...S3Options, CacheControl: 'max-age=86400', ContentType: 'application/json', Key: cloudKey})].concat(xz ? [releaseTarballs('.tar.xz')] : []))
     }
 
     if (buildConfig.targets.length > 0) log('uploading targets')

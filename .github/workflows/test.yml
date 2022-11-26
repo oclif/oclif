@@ -81,7 +81,8 @@ jobs:
   deb-build:
     strategy:
       matrix:
-        node_version: [lts/-1, lts/*, latest]
+        # node_version: [lts/-1, lts/*, latest]
+        node_version: [lts/*]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

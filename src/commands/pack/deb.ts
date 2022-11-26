@@ -70,6 +70,7 @@ export default class PackDeb extends Command {
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
       await fs.promises.rm(workspace, {recursive: true})
+      await fs.promises.mkdir(workspace, {recursive: true})
       await Promise.all([
         fs.promises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),
         fs.promises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),

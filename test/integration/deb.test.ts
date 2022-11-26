@@ -41,7 +41,7 @@ describe('publish:deb', () => {
   .command(['upload:deb'])
   .it('publishes valid releases', async () => {
     const sha = await gitSha(process.cwd(), {short: true})
-    await exec('sudo cat test/release.key | apt-key add -')
+    await exec('cat test/release.key | sudo apt-key add -')
     await exec(`sudo echo "deb https://${developerSalesforceCom}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list`)
     await exec('sudo apt-get update')
     await exec('sudo apt-get install -y oclif-dev')

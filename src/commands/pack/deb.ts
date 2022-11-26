@@ -62,7 +62,7 @@ export default class PackDeb extends Command {
     const {flags} = await this.parse(PackDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
-    await Tarballs.build(buildConfig, {platform: 'linux', pack: false, tarball: flags.tarball})
+    await Tarballs.build(buildConfig, {platform: 'linux', pack: false, tarball: flags.tarball, parallel: true})
     const dist = buildConfig.dist('deb')
     await fs.emptyDir(dist)
     const build = async (arch: Interfaces.ArchTypes) => {
@@ -78,8 +78,10 @@ export default class PackDeb extends Command {
         fs.promises.mkdir(path.join(workspace, 'usr', 'lib', config.dirname, 'bin'), {recursive: true}),
       ])
       await fs.move(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname, path.dirname(buildConfig.workspace(target))))
-      await fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755})
-      await fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch)))
+      await Promise.all([
+        fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755}),
+        fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch))),
+      ])
       await exec(`ln -s "../lib/${config.dirname}/bin/${config.bin}" "${workspace}/usr/bin/${config.bin}"`)
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)

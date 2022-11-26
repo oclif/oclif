@@ -38,6 +38,8 @@ export default class UploadDeb extends Command {
       if (fs.existsSync(dist(deb))) await upload(deb)
     }
 
+    log(`starting upload of deb artifacts for v${config.version}-${buildConfig.gitSha}`)
+
     await uploadDeb('amd64')
     await uploadDeb('i386')
     await upload('Packages.gz')

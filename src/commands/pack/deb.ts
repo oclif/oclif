@@ -76,9 +76,9 @@ export default class PackDeb extends Command {
         fs.promises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),
         fs.promises.mkdir(path.join(workspace, 'usr', 'lib', config.dirname, 'bin'), {recursive: true}),
       ])
-      await fs.move(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname))
-      await fs.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755})
-      await fs.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch)))
+      await fs.move(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname, path.dirname(buildConfig.workspace(target))))
+      await fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755})
+      await fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch)))
       await exec(`ln -s "../lib/${config.dirname}/bin/${config.bin}" "${workspace}/usr/bin/${config.bin}"`)
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
@@ -95,8 +95,8 @@ export default class PackDeb extends Command {
     await exec('gzip -c Packages > Packages.gz', {cwd: dist})
     await exec('bzip2 -k Packages', {cwd: dist})
     await exec('xz -k Packages', {cwd: dist})
-    await fs.promises.mkdir(path.join(buildConfig.tmp, 'apt'), {recursive: true})
     const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
+    await fs.promises.mkdir(path.basename(ftparchive), {recursive: true})
     await fs.writeFile(ftparchive, scripts.ftparchive(config))
     await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
     const gpgKey = config.scopedEnvVar('DEB_KEY')

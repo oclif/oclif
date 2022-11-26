@@ -1,5 +1,5 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
+import {deleteFolder, developerSalesforceCom} media/salesforce-cli/oclif-testing/from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
 import * as fs from 'fs-extra'
 import * as path from 'path'
@@ -42,7 +42,7 @@ describe('publish:deb', () => {
   .it('publishes valid releases', async () => {
     const sha = await gitSha(process.cwd(), {short: true})
     await exec('cat test/release.key | sudo apt-key add -')
-    await exec(`sudo sh -c 'echo "deb https://${developerSalesforceCom}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list'`)
+    await exec(`sudo sh -c 'echo "deb https://${developerSalesforceCom}/media/salesforce-cli/oclif-testing/apt ./" > /etc/apt/sources.list.d/oclif-dev.list'`)
     await exec('sudo apt-get update')
     await exec('sudo apt-get install -y oclif-dev')
     await exec('oclif --version')

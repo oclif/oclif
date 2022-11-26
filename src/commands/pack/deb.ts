@@ -91,13 +91,16 @@ export default class PackDeb extends Command {
     await Promise.all(arches.map(a => build(a)))
 
     await exec('apt-ftparchive packages . > Packages', {cwd: dist})
-    await exec('gzip -c Packages > Packages.gz', {cwd: dist})
-    await exec('bzip2 -k Packages', {cwd: dist})
-    await exec('xz -k Packages', {cwd: dist})
-    const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
-    await fs.promises.mkdir(path.basename(ftparchive), {recursive: true})
-    await fs.writeFile(ftparchive, scripts.ftparchive(config))
-    await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
+    this.log('debian packages created')
+    await Promise.all([
+      exec('gzip -c Packages > Packages.gz', {cwd: dist}),
+      exec('bzip2 -k Packages', {cwd: dist}),
+      exec('xz -k Packages', {cwd: dist}),
+      packForFTP(buildConfig, config, dist),
+    ])
+
+    this.log('debian packages archived')
+
     const gpgKey = config.scopedEnvVar('DEB_KEY')
     if (gpgKey) {
       await exec(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
@@ -106,5 +109,12 @@ export default class PackDeb extends Command {
 
     this.log('debian packing complete')
   }
+}
+
+async function packForFTP(buildConfig: Tarballs.BuildConfig, config: Interfaces.Config, dist: string) {
+  const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
+  await fs.promises.mkdir(path.basename(ftparchive), {recursive: true})
+  await fs.writeFile(ftparchive, scripts.ftparchive(config))
+  await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
 }
 

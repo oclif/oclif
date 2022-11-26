@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@oclif/plugin-legacy": "^1.2.7",
-    "@oclif/test": "^2.2.10",
+    "@oclif/test": "^2.2.12",
     "@types/chai": "^4.3.4",
     "@types/execa": "^0.9.0",
     "@types/fs-extra": "^9.0",

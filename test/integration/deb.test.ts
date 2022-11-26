@@ -1,5 +1,5 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom} media/salesforce-cli/oclif-testing/from '../helpers/helper'
+import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
 import * as fs from 'fs-extra'
 import * as path from 'path'

@@ -107,6 +107,7 @@ export default class PackDeb extends Command {
 
     const gpgKey = config.scopedEnvVar('DEB_KEY')
     if (gpgKey) {
+      this.log('adding gpg signatures to Release')
       await exec(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
       await exec(`gpg --digest-algo SHA512 -abs -u ${gpgKey} -o Release.gpg Release`, {cwd: dist})
     }

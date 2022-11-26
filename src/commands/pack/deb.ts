@@ -66,6 +66,7 @@ export default class PackDeb extends Command {
     const dist = buildConfig.dist('deb')
     await fs.emptyDir(dist)
     const build = async (arch: Interfaces.ArchTypes) => {
+      this.log(`building debian / ${arch}`)
       const target: { platform: 'linux'; arch: Interfaces.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
@@ -83,6 +84,7 @@ export default class PackDeb extends Command {
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
       await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)
+      this.log(`finished building debian / ${arch}`)
     }
 
     const arches = _.uniq(buildConfig.targets

@@ -94,6 +94,7 @@ export default class PackDeb extends Command {
     await exec('gzip -c Packages > Packages.gz', {cwd: dist})
     await exec('bzip2 -k Packages', {cwd: dist})
     await exec('xz -k Packages', {cwd: dist})
+    await fs.promises.mkdir(path.join(buildConfig.tmp, 'apt'), {recursive: true})
     const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
     await fs.writeFile(ftparchive, scripts.ftparchive(config))
     await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})

@@ -5,79 +5,79 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit-tests:
-    strategy:
-      matrix:
-        node_version: [lts/-1, lts/*, latest]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node_version }}
-          cache: yarn
-      - run: yarn install --network-timeout 600000
-      - run: yarn nps lint
-      - run: yarn build
-      - run: yarn test:unit
-  publish:
-    strategy:
-      matrix:
-        node_version: [lts/-1, lts/*, latest]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node_version }}
-          cache: yarn
-      - run: yarn install --network-timeout 600000
-      - run: yarn build
-      - run: yarn mocha test/integration/publish.test.ts
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  win-build:
-    strategy:
-      matrix:
-        node_version: [lts/-1, lts/*, latest]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node_version }}
-          cache: yarn
-      - run: yarn install --network-timeout 600000
-      - run: yarn build
-      - run: |
-          sudo apt-get update
-          sudo apt-get install osslsigncode nsis
-      - run: yarn mocha test/integration/win.test.ts
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  mac-build:
-    strategy:
-      matrix:
-        node_version: [lts/-1, lts/*, latest]
-      fail-fast: false
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node_version }}
-          cache: yarn
-      - run: yarn install --network-timeout 600000
-      - run: yarn build
-      - run: yarn mocha test/integration/macos.test.ts
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # unit-tests:
+  #   strategy:
+  #     matrix:
+  #       node_version: [lts/-1, lts/*, latest]
+  #     fail-fast: false
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node_version }}
+  #         cache: yarn
+  #     - run: yarn install --network-timeout 600000
+  #     - run: yarn nps lint
+  #     - run: yarn build
+  #     - run: yarn test:unit
+  # publish:
+  #   strategy:
+  #     matrix:
+  #       node_version: [lts/-1, lts/*, latest]
+  #     fail-fast: false
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node_version }}
+  #         cache: yarn
+  #     - run: yarn install --network-timeout 600000
+  #     - run: yarn build
+  #     - run: yarn mocha test/integration/publish.test.ts
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # win-build:
+  #   strategy:
+  #     matrix:
+  #       node_version: [lts/-1, lts/*, latest]
+  #     fail-fast: false
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node_version }}
+  #         cache: yarn
+  #     - run: yarn install --network-timeout 600000
+  #     - run: yarn build
+  #     - run: |
+  #         sudo apt-get update
+  #         sudo apt-get install osslsigncode nsis
+  #     - run: yarn mocha test/integration/win.test.ts
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # mac-build:
+  #   strategy:
+  #     matrix:
+  #       node_version: [lts/-1, lts/*, latest]
+  #     fail-fast: false
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node_version }}
+  #         cache: yarn
+  #     - run: yarn install --network-timeout 600000
+  #     - run: yarn build
+  #     - run: yarn mocha test/integration/macos.test.ts
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   deb-build:
     strategy:
       matrix:

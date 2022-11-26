@@ -31,7 +31,7 @@ describe('publish:deb', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    // await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     pjson.version = originalVersion
     await fs.writeJSON(pjsonPath, pjson)
   })

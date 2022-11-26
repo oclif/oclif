@@ -40,15 +40,9 @@ export default class UploadDeb extends Command {
 
     log(`starting upload of deb artifacts for v${config.version}-${buildConfig.gitSha}`)
 
-    await uploadDeb('amd64')
-    await uploadDeb('i386')
-    await upload('Packages.gz')
-    await upload('Packages.xz')
-    await upload('Packages.bz2')
-    await upload('Release')
-    if (fs.existsSync(dist('InRelease'))) await upload('InRelease')
-    if (fs.existsSync(dist('Release.gpg'))) await upload('Release.gpg')
-
+    await Promise.all([
+      uploadDeb('amd64'), uploadDeb('i386'), upload('Packages.gz'), upload('Packages.xz'), upload('Packages.bz2'), upload('Release'),
+    ].concat(fs.existsSync(dist('InRelease')) ? upload('InRelease') : [], fs.existsSync(dist('Release.gpg')) ? upload('Release.gpg') : []))
     log(`done uploading deb artifacts for v${config.version}-${buildConfig.gitSha}`)
   }
 }

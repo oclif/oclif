@@ -69,10 +69,12 @@ export default class PackDeb extends Command {
       const target: { platform: 'linux'; arch: Interfaces.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
-      await fs.rm(workspace)
-      await fs.mkdirp(path.join(workspace, 'DEBIAN'))
-      await fs.mkdirp(path.join(workspace, 'usr', 'bin'))
-      await fs.mkdirp(path.join(workspace, 'usr', 'lib'))
+      await fs.promises.rm(workspace, {recursive: true})
+      await Promise.all([
+        fs.promises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),
+        fs.promises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),
+        fs.promises.mkdir(path.join(workspace, 'usr', 'lib', config.dirname, 'bin'), {recursive: true}),
+      ])
       await fs.move(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname))
       await fs.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755})
       await fs.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch)))

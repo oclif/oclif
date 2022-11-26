@@ -88,8 +88,7 @@ export default class PackDeb extends Command {
     const arches = _.uniq(buildConfig.targets
     .filter(t => t.platform === 'linux')
     .map(t => t.arch))
-    // eslint-disable-next-line no-await-in-loop
-    for (const a of arches) await build(a)
+    await Promise.all(arches.map(a => build(a)))
 
     await exec('apt-ftparchive packages . > Packages', {cwd: dist})
     await exec('gzip -c Packages > Packages.gz', {cwd: dist})
@@ -104,6 +103,8 @@ export default class PackDeb extends Command {
       await exec(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
       await exec(`gpg --digest-algo SHA512 -abs -u ${gpgKey} -o Release.gpg Release`, {cwd: dist})
     }
+
+    this.log('debian packing complete')
   }
 }
 

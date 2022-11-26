@@ -7,6 +7,7 @@ import * as Tarballs from '../../tarballs'
 import {templateShortKey, debVersion, debArch} from '../../upload-util'
 import {exec as execSync} from 'child_process'
 import {promisify} from 'node:util'
+import {existsSync} from 'fs'
 
 const exec = promisify(execSync)
 
@@ -70,7 +71,7 @@ export default class PackDeb extends Command {
       const target: { platform: 'linux'; arch: Interfaces.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
-      await fs.promises.rm(workspace, {recursive: true})
+      await fs.remove(workspace)
       await fs.promises.mkdir(workspace, {recursive: true})
       await Promise.all([
         fs.promises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),

@@ -7,7 +7,6 @@ import * as Tarballs from '../../tarballs'
 import {templateShortKey, debVersion, debArch} from '../../upload-util'
 import {exec as execSync} from 'child_process'
 import {promisify} from 'node:util'
-import {existsSync} from 'fs'
 
 const exec = promisify(execSync)
 

@@ -42,7 +42,7 @@ describe('publish:deb', () => {
   .it('publishes valid releases', async () => {
     const sha = await gitSha(process.cwd(), {short: true})
     await exec('cat test/release.key | sudo apt-key add -')
-    await exec(`sudo sh -c 'echo "deb https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/ stable main" > /etc/apt/sources.list.d/oclif.list'`)
+    await exec(`sudo sh -c 'echo "deb https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/ ../" > /etc/apt/sources.list.d/oclif.list'`)
     await exec('sudo apt-get update')
     await exec('sudo apt-get install -y oclif')
     await exec('oclif --version')

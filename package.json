@@ -17,7 +17,7 @@
     "debug": "^4.3.3",
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
-    "github-slugger": "^1.4.0",
+    "github-slugger": "^1.5.0",
     "lodash": "^4.17.21",
     "normalize-package-data": "^3.0.3",
     "qqjs": "^0.3.11",

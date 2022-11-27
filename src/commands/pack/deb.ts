@@ -82,7 +82,7 @@ export default class PackDeb extends Command {
         fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755}),
         fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch))),
       ])
-      await exec(`ln -s "../lib/${config.dirname}/bin/${config.bin}" "${workspace}/usr/bin/${config.bin}"`)
+      await exec(`ln -s "${path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin)})" "${workspace}/usr/bin/${config.bin}"`)
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
       await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)

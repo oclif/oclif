@@ -33,6 +33,10 @@ export default class UploadDeb extends Command {
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
+    // apt expects ../apt/dists/versionName/[artifacts] but oclif wants varsions/sha/apt/[artifacts]
+    // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
+    // this workaround puts the code in both places that the redirect was doing
+    // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
     const uploadWorkaround = (file: string) => {
       const cloudKey = `${cloudKeyBase}/apt/./${file}`
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})

@@ -169,16 +169,30 @@ export default class Promote extends Command {
       ]
       if (flags.deb) {
         this.log(`Promoting debian artifacts to ${flags.channel}`)
-        await Promise.all(debArtifacts.map(async artifact => {
+        await Promise.all(debArtifacts.flatMap(artifact => {
           const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
           const debKey = cloudChannelKey(`apt/${artifact}`)
-          await aws.s3.copyObject(
-            {
-              ...awsDefaults,
-              CopySource: debCopySource,
-              Key: debKey,
-            },
-          )
+          // apt expects ../apt/dists/versionName/[artifacts] but oclif wants varsions/sha/apt/[artifacts]
+          // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
+          // this workaround puts the code in both places that the redirect was doing
+          // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
+          const workaroundKey = cloudChannelKey(`apt/./${artifact}`)
+          return [
+            aws.s3.copyObject(
+              {
+                ...awsDefaults,
+                CopySource: debCopySource,
+                Key: debKey,
+              },
+            ),
+            aws.s3.copyObject(
+              {
+                ...awsDefaults,
+                CopySource: debCopySource,
+                Key: workaroundKey,
+              },
+            ),
+          ]
         }),
 
         )

@@ -33,9 +33,14 @@ export default class UploadDeb extends Command {
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
+    const uploadWorkaround = (file: string) => {
+      const cloudKey = `${cloudKeyBase}/apt/./${file}`
+      return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+    }
+
     const uploadDeb = async (arch: 'amd64' | 'i386') => {
       const deb = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: arch as any})
-      if (fs.existsSync(dist(deb))) await upload(deb)
+      if (fs.existsSync(dist(deb))) await Promise.all([upload(deb), uploadWorkaround(deb)])
     }
 
     log(`starting upload of deb artifacts for v${config.version}-${buildConfig.gitSha}`)
@@ -47,9 +52,13 @@ export default class UploadDeb extends Command {
       upload('Packages.xz'),
       upload('Packages.bz2'),
       upload('Release'),
+      uploadWorkaround('Packages.gz'),
+      uploadWorkaround('Packages.xz'),
+      uploadWorkaround('Packages.bz2'),
+      uploadWorkaround('Release'),
     ].concat(
-      fs.existsSync(dist('InRelease')) ? upload('InRelease') : [],
-      fs.existsSync(dist('Release.gpg')) ? upload('Release.gpg') : [],
+      fs.existsSync(dist('InRelease')) ? [upload('InRelease'), uploadWorkaround('InRelease')] : [],
+      fs.existsSync(dist('Release.gpg')) ? [upload('Release.gpg'), uploadWorkaround('Release.gpg')] : [],
     ))
     log(`done uploading deb artifacts for v${config.version}-${buildConfig.gitSha}`)
   }

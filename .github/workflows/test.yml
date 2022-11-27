@@ -80,7 +80,7 @@ jobs:
   #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   deb-build:
     env:
-      OCLIF_DEB_SECRET_KEY: ${{ secrets.OCLIF_DEB_SECRET_KEY }}
+      OCLIF_DEB_PRIVATE_KEY: ${{ secrets.OCLIF_DEB_PRIVATE_KEY }}
 
     strategy:
       matrix:
@@ -96,7 +96,7 @@ jobs:
           cache: yarn
       - run: yarn install --network-timeout 600000
       - run: yarn build
-      - run: echo "$OCLIF_DEB_SECRET_KEY" | base64 -d 2> /dev/null | gpg --import --batch 2> /dev/null
+      - run: echo "$OCLIF_DEB_PRIVATE_KEY" | base64 -d 2> /dev/null | gpg --import --batch 2> /dev/null
 
       - run: yarn mocha test/integration/deb.test.ts
         env:

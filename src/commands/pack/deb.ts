@@ -71,18 +71,18 @@ export default class PackDeb extends Command {
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
       const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
       await fs.remove(workspace)
-      await fs.promises.mkdir(workspace, {recursive: true})
       await Promise.all([
         fs.promises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),
         fs.promises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),
-        fs.promises.mkdir(path.join(workspace, 'usr', 'lib', config.dirname, 'bin'), {recursive: true}),
       ])
-      await fs.move(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname, path.dirname(buildConfig.workspace(target))))
+      await fs.copy(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname))
       await Promise.all([
+        // usr/lib/oclif/bin/oclif (the executable)
         fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755}),
         fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch))),
       ])
-      await exec(`ln -s "${path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin)})" "${workspace}/usr/bin/${config.bin}"`)
+      // symlink usr/bin/oclif points to usr/lib/oclif/bin/oclif
+      await exec(`ln -s "${path.join('..', 'lib', config.dirname, 'bin', config.bin)})" "${config.bin}"`, {cwd: path.join(workspace, 'usr', 'bin')})
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
       await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)

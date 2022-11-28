@@ -50,11 +50,11 @@ describe('upload tarballs', async () => {
   })
 
   skipIfWindows
-  .command(['pack:tarballs', '--parallel'])
+  .command(['pack:tarballs', '--parallel', '--xz'])
   .do(async () => {
     sha = await gitSha(cwd, {short: true})
   })
-  .command(['upload:tarballs'])
+  .command(['upload:tarballs', '--xz'])
   // .command(['promote', '--channel', 'stable', '-t', 'darwin-x64', '--sha', gitShaSync(process.cwd(), {short: true}), '--version', pjson.version])
   .it('promotes valid releases', async () => {
     const manifest = async (path: string, nodeVersion: string) => {
@@ -75,7 +75,6 @@ describe('upload tarballs', async () => {
         const receivedSha = await hash('sha256', join(root, `oclif${ext}`))
         expect(receivedSha).to.equal(expectedSha)
         if (xz) {
-          // await exec(`tar -C "${tmp}/node" -xJf "${tarball}"`)
           await exec('tar xJf oclif.tar.xz', {cwd: root})
         } else {
           await exec('tar xzf oclif.tar.gz', {cwd: root})

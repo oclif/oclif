@@ -77,17 +77,20 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
       await fs.move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'))
     } else {
       await exec(`tar -C "${tmp}/node" -xJf "${tarball}"`)
-      await fs.move(path.join(nodeTmp, nodeBase, 'bin/node'), path.join(cache, 'bin/node'))
+      await fs.move(path.join(nodeTmp, nodeBase, 'bin', 'node'), path.join(cache, 'node'))
     }
   }
 
-  if (fs.existsSync(cache)) {
-    await fs.copy(cache, output)
-  } else {
+  if (!fs.existsSync(cache)) {
     await download()
     await extract()
-    await fs.copy(cache, output)
   }
 
+  await fs.copy(path.join(cache, getFilename(platform)), output)
+
   return output
+}
+
+const getFilename = (platform: string): string => {
+  return platform === 'win32' ? 'node.exe' : 'node'
 }

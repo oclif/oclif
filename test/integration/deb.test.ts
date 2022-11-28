@@ -15,8 +15,7 @@ const target = [process.platform, process.arch].join('-')
 const onlyLinux = process.platform === 'linux' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
-// 2022-01 - this test requires linux with apt-ftparchive installed. Current CircleCi images do not have that util installed - skipping test
-describe.skip('publish:deb', () => {
+describe('publish:deb', () => {
   let bucket: string
   let basePrefix: string
   const root = path.join(__dirname, '../tmp/test/publish')
@@ -41,13 +40,12 @@ describe.skip('publish:deb', () => {
   .command(['upload:deb'])
   .it('publishes valid releases', async () => {
     const sha = await gitSha(process.cwd(), {short: true})
-    const cwd = path.join(__dirname, '..', '..')
-    await exec('cat test/release.key | apt-key add -', {cwd})
-    await exec(`echo "deb https://${developerSalesforceCom}/apt ./" > /etc/apt/sources.list.d/oclif-dev.list`, {cwd})
-    await exec('apt-get update', {cwd})
-    await exec('apt-get install -y oclif-dev', {cwd})
-    await exec('oclif --version', {cwd})
-    const {stdout} = await exec('oclif --version', {cwd})
-    expect(stdout).to.contain(`oclif/${pjson.version}.${sha} ${target} node-v${pjson.oclif.update.node.version}`)
+    await exec('cat test/release.key | sudo apt-key add -')
+    await exec(`sudo sh -c 'echo "deb https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/ /" > /etc/apt/sources.list.d/oclif.list'`)
+    await exec('sudo apt-get update')
+    await exec('sudo apt-get install -y oclif')
+    await exec('oclif --version')
+    const {stdout} = await exec('oclif --version')
+    expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
   })
 })

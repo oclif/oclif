@@ -173,6 +173,8 @@ export async function build(c: BuildConfig, options: {
       // eslint-disable-next-line no-await-in-loop
       await buildTarget(target)
     }
+
+    log(`finished building ${targetsToBuild.length} targets sequentially`)
   }
 }
 

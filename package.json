@@ -62,12 +62,10 @@
     "typescript": "4.5.5"
   },
   "resolutions": {
-    "colors": "1.4.0",
-    "@oclif/core": "^1.16.1"
+    "colors": "1.4.0"
   },
   "overrides": {
-    "colors": "1.4.0",
-    "@oclif/core": "^1.16.1"
+    "colors": "1.4.0"
   },
   "engines": {
     "node": ">=12.0.0"

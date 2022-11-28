@@ -15,7 +15,6 @@ const target = [process.platform, process.arch].join('-')
 const onlyLinux = process.platform === 'linux' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
-// 2022-01 - this test requires linux with apt-ftparchive installed. Current CircleCi images do not have that util installed - skipping test
 describe('publish:deb', () => {
   let bucket: string
   let basePrefix: string
@@ -31,7 +30,7 @@ describe('publish:deb', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    // await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     pjson.version = originalVersion
     await fs.writeJSON(pjsonPath, pjson)
   })

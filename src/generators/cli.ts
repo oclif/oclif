@@ -116,6 +116,7 @@ export default class CLI extends Generator {
 
     if (this.options.defaults) {
       this.answers = defaults
+      this.answers.bin = this.answers.name
     } else {
       this.answers = await this.prompt([
         {

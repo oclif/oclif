@@ -2,18 +2,31 @@ name: publish
 
 on:
   release:
-    types: [released]
-  # support manual release in case something goes wrong and needs to be repeated or tested
+    types: [published]
   workflow_dispatch:
     inputs:
       tag:
         description: tag that needs to publish
         type: string
         required: true
+
 jobs:
+  # parses the package.json version and detects prerelease tag (ex: beta from 4.4.4-beta.0)
+  getDistTag:
+    outputs:
+      tag: ${{ steps.distTag.outputs.tag }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag  }}
+      - uses: oclif/github-workflows/.github/actions/getPreReleaseTag@main
+        id: distTag
+
   npm:
     uses: oclif/github-workflows/.github/workflows/npmPublish.yml@main
+    needs: [getDistTag]
     with:
-      tag: latest
+      tag: ${{ needs.getDistTag.outputs.tag || 'latest' }}
       githubTag: ${{ github.event.release.tag_name || inputs.tag }}
     secrets: inherit

@@ -81,7 +81,8 @@ export default {
       }),
       copyObject: (options: S3.Types.CopyObjectRequest) => new Promise((resolve, reject) => {
         log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
-        aws.s3.copyObject(options, function (err, data) {
+        // apply uri endcoding to whatever is passed in.  see https://stackoverflow.com/a/55588425
+        aws.s3.copyObject({...options, CopySource: encodeURI(options.CopySource)}, function (err, data) {
           if (err) reject(err)
           else resolve(data)
         })

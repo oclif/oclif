@@ -90,26 +90,24 @@ export default class Promote extends Command {
     }
 
     const promoteXzTarballs = async (target: typeof buildConfig.targets[number]) => {
-      if (flags.xz) {
-        const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
-          arch: target.arch,
-          bin: config.bin,
-          platform: target.platform,
-          sha: flags.sha,
-          version: flags.version,
-        })
-        const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
-        // strip version & sha so update/scripts can point to a static channel tarball
-        const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
-        const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
-        await Promise.all([aws.s3.copyObject(
-          {
-            ...awsDefaults,
-            CopySource: versionedTarXzKey,
-            Key: unversionedTarXzKey,
-          },
-        )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: versionedTarXzKey, filename: unversionedTarXzName})] : []))
-      }
+      const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
+        arch: target.arch,
+        bin: config.bin,
+        platform: target.platform,
+        sha: flags.sha,
+        version: flags.version,
+      })
+      const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
+      // strip version & sha so update/scripts can point to a static channel tarball
+      const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
+      const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
+      await Promise.all([aws.s3.copyObject(
+        {
+          ...awsDefaults,
+          CopySource: versionedTarXzKey,
+          Key: unversionedTarXzKey,
+        },
+      )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: versionedTarXzKey, filename: unversionedTarXzName})] : []))
     }
 
     const promoteMacInstallers = async () => {

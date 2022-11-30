@@ -19,7 +19,7 @@ export const findDistFileSha = async (cwd: string, platform: string, filter: (f:
 export function gitShaSync(cwd: string, options: {short?: boolean} = {}): string {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
   const r = shelljs.exec(`git ${args.join(' ')}`, {cwd})
-  return r.stdout
+  return r.stdout.trim()
 }
 
 export async function deleteFolder(bucket: string, folder: string): Promise<(string | undefined)[]> {

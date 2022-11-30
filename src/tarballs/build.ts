@@ -82,8 +82,8 @@ export async function build(c: BuildConfig, options: {
     const yarn = fs.existsSync(path.join(yarnRoot, 'yarn.lock'))
     if (pjson.scripts.pretarball) {
       yarn ?
-        await exec('yarn run pretarball') :
-        await exec('npm run pretarball', {})
+        await exec('yarn run pretarball', {cwd: c.workspace()}) :
+        await exec('npm run pretarball', {cwd: c.workspace()})
     }
   }
 

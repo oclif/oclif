@@ -8,13 +8,13 @@ import {BuildConfig as TarballConfig} from './tarballs/config'
 export function commitAWSDir(version: string, sha: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return path.join(s3SubDir, 'versions', version, sha)
+  return path.join(s3SubDir.trim(), 'versions', version.trim(), sha.trim())
 }
 
 export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return path.join(s3SubDir, 'channels', channel)
+  return path.join(s3SubDir.trim(), 'channels', channel.trim())
 }
 
 // to-do:

@@ -68,7 +68,7 @@ export default class Promote extends Command {
       )
     }
 
-    const promoteGzAndMaybeIndexes = async (target: typeof buildConfig.targets[number]) => {
+    const promoteGzTarballs = async (target: typeof buildConfig.targets[number]) => {
       const versionedTarGzName = templateShortKey('versioned', '.tar.gz', {
         arch: target.arch,
         bin: config.bin,
@@ -89,7 +89,7 @@ export default class Promote extends Command {
       )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: versionedTarGzKey, filename: unversionedTarGzName})] : []))
     }
 
-    const maybePromoteXzAndMaybeIndexes = async (target: typeof buildConfig.targets[number]) => {
+    const promoteXzTarballs = async (target: typeof buildConfig.targets[number]) => {
       if (flags.xz) {
         const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
           arch: target.arch,
@@ -112,50 +112,46 @@ export default class Promote extends Command {
       }
     }
 
-    const maybePromoteMacos = async () => {
-      if (flags.macos) {
-        this.log(`Promoting macos pkgs to ${flags.channel}`)
-        const arches = _.uniq(buildConfig.targets.filter(t => t.platform === 'darwin').map(t => t.arch))
-        await Promise.all(arches.map(async arch => {
-          const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
-          const darwinCopySource = cloudBucketCommitKey(darwinPkg)
-          // strip version & sha so scripts can point to a static channel pkg
-          const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-          await Promise.all([aws.s3.copyObject(
-            {
-              ...awsDefaults,
-              CopySource: darwinCopySource,
-              Key: cloudChannelKey(unversionedPkg),
+    const promoteMacInstallers = async () => {
+      this.log(`Promoting macos pkgs to ${flags.channel}`)
+      const arches = _.uniq(buildConfig.targets.filter(t => t.platform === 'darwin').map(t => t.arch))
+      await Promise.all(arches.map(async arch => {
+        const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+        const darwinCopySource = cloudBucketCommitKey(darwinPkg)
+        // strip version & sha so scripts can point to a static channel pkg
+        const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
+        await Promise.all([aws.s3.copyObject(
+          {
+            ...awsDefaults,
+            CopySource: darwinCopySource,
+            Key: cloudChannelKey(unversionedPkg),
 
-            },
-          )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})] : []))
-        }))
-      }
+          },
+        )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})] : []))
+      }))
     }
 
-    const maybePromoteWin = async () => {
+    const promoteWindowsInstallers = async () => {
       // copy win exe
-      if (flags.win) {
-        this.log(`Promoting windows exe to ${flags.channel}`)
-        const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-        await Promise.all(arches.map(async arch => {
-          const winPkg = templateShortKey('win32', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
-          const winCopySource = cloudBucketCommitKey(winPkg)
-          // strip version & sha so scripts can point to a static channel exe
-          const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-          await Promise.all([aws.s3.copyObject(
-            {
-              ...awsDefaults,
-              CopySource: winCopySource,
-              Key: cloudChannelKey(unversionedExe),
-            },
-          )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})] : []))
-          CliUx.ux.action.stop('successfully')
-        }))
-      }
+      this.log(`Promoting windows exe to ${flags.channel}`)
+      const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+      await Promise.all(arches.map(async arch => {
+        const winPkg = templateShortKey('win32', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+        const winCopySource = cloudBucketCommitKey(winPkg)
+        // strip version & sha so scripts can point to a static channel exe
+        const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
+        await Promise.all([aws.s3.copyObject(
+          {
+            ...awsDefaults,
+            CopySource: winCopySource,
+            Key: cloudChannelKey(unversionedExe),
+          },
+        )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})] : []))
+        CliUx.ux.action.stop('successfully')
+      }))
     }
 
-    const maybePromoteDeb = async () => {
+    const promoteDebianAptPackages = async () => {
       // copy debian artifacts
       const debArtifacts = [
         templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'amd64' as any}),
@@ -200,14 +196,15 @@ export default class Promote extends Command {
     }
 
     await Promise.all(buildConfig.targets.flatMap(target => [
+      // always promote the manifest and gz
       promoteManifest(target),
-      promoteGzAndMaybeIndexes(target),
-      maybePromoteXzAndMaybeIndexes(target),
-      maybePromoteMacos(),
-      maybePromoteWin(),
-      maybePromoteDeb(),
-    ]),
-
+      promoteGzTarballs(target),
+    ])
+    // optionally promote other artifacts depending on the specified flags
+    .concat(flags.xz ? buildConfig.targets.map(target => promoteXzTarballs(target)) : [])
+    .concat(flags.macos ? [promoteMacInstallers()] : [])
+    .concat(flags.win ? [promoteWindowsInstallers()] : [])
+    .concat(flags.deb ? [promoteDebianAptPackages()] : []),
     )
   }
 }

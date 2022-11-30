@@ -133,6 +133,8 @@ export async function build(c: BuildConfig, options: {
     const gzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
     const xzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
 
+    const [sha256gz, sha256xz] = await Promise.all([hash('sha256', c.dist(gzLocalKey))].concat(xz ? [hash('sha256', c.dist(xzLocalKey))] : []))
+
     const manifest: Interfaces.S3Manifest = {
       rollout: rollout === false ? undefined : rollout,
       version: config.version,
@@ -140,8 +142,8 @@ export async function build(c: BuildConfig, options: {
       baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
       gz: config.s3Url(gzCloudKey),
       xz: xz ? config.s3Url(xzCloudKey) : undefined,
-      sha256gz: await hash('sha256', c.dist(gzLocalKey)),
-      sha256xz: xz ? await hash('sha256', c.dist(xzLocalKey)) : undefined,
+      sha256gz,
+      sha256xz,
       node: {
         compatible: config.pjson.engines.node,
         recommended: c.nodeVersion,

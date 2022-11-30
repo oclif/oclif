@@ -161,36 +161,34 @@ export default class Promote extends Command {
         'InRelease',
         'Release.gpg',
       ]
-      if (flags.deb) {
-        this.log(`Promoting debian artifacts to ${flags.channel}`)
-        await Promise.all(debArtifacts.flatMap(artifact => {
-          const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
-          const debKey = cloudChannelKey(`apt/${artifact}`)
-          // apt expects ../apt/dists/versionName/[artifacts] but oclif wants varsions/sha/apt/[artifacts]
-          // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
-          // this workaround puts the code in both places that the redirect was doing
-          // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
-          const workaroundKey = cloudChannelKey(`apt/./${artifact}`)
-          return [
-            aws.s3.copyObject(
-              {
-                ...awsDefaults,
-                CopySource: debCopySource,
-                Key: debKey,
-              },
-            ),
-            aws.s3.copyObject(
-              {
-                ...awsDefaults,
-                CopySource: debCopySource,
-                Key: workaroundKey,
-              },
-            ),
-          ]
-        }),
+      this.log(`Promoting debian artifacts to ${flags.channel}`)
+      await Promise.all(debArtifacts.flatMap(artifact => {
+        const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
+        const debKey = cloudChannelKey(`apt/${artifact}`)
+        // apt expects ../apt/dists/versionName/[artifacts] but oclif wants varsions/sha/apt/[artifacts]
+        // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
+        // this workaround puts the code in both places that the redirect was doing
+        // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
+        const workaroundKey = cloudChannelKey(`apt/./${artifact}`)
+        return [
+          aws.s3.copyObject(
+            {
+              ...awsDefaults,
+              CopySource: debCopySource,
+              Key: debKey,
+            },
+          ),
+          aws.s3.copyObject(
+            {
+              ...awsDefaults,
+              CopySource: debCopySource,
+              Key: workaroundKey,
+            },
+          ),
+        ]
+      }),
 
-        )
-      }
+      )
     }
 
     await Promise.all(buildConfig.targets.flatMap(target => [

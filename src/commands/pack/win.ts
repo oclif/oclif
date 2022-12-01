@@ -289,6 +289,6 @@ async function signWindows(o: string, arch: string, config: Interfaces.Config, w
     '-in', buildLocationUnsigned,
     '-out', o,
   ]
-  await exec(`osslsigncode ${args}.join(' ')`)
+  await exec(`osslsigncode ${args.join(' ')}`)
 }
 

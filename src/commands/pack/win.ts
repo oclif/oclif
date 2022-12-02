@@ -249,7 +249,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       await exec(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
       const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const o = buildConfig.dist(`win32/${templateKey}`)
-      await fs.move(path.join(installerBase, 'installer.exe'), path.join(o, 'installer.exe'))
+      await fs.move(path.join(installerBase, 'installer.exe'), o)
 
       const windows = (config.pjson.oclif as any).windows as {name: string; keypath: string; homepage?: string}
       if (windows && windows.name && windows.keypath) {

@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "3.3.0-beta.7",
+  "version": "3.3.0-beta.8",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run"

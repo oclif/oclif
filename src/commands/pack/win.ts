@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
 import * as path from 'path'
@@ -232,7 +231,7 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball, parallel: true})
     const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-    for (const arch of arches) {
+    await Promise.all(arches.map(async arch => {
       const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
       await fs.promises.rm(installerBase, {recursive: true, force: true})
       await fs.promises.mkdir(path.join(installerBase, 'bin'), {recursive: true})
@@ -252,13 +251,13 @@ the CLI should already exist in a directory named after the CLI that is the root
       const o = buildConfig.dist(`win32/${templateKey}`)
       await fs.move(path.join(installerBase, 'installer.exe'), o)
 
-      const windows = (config.pjson.oclif as any).windows as {name: string; keypath: string; homepage?: string}
+      const windows = (config.pjson.oclif as any).windows as { name: string; keypath: string; homepage?: string }
       if (windows && windows.name && windows.keypath) {
         await signWindows(o, arch, config, windows)
       } else this.debug('Skipping windows exe signing')
 
       this.log(`built ${o}`)
-    }
+    }))
   }
 
   private async checkForNSIS() {

@@ -272,7 +272,7 @@ the CLI should already exist in a directory named after the CLI that is the root
 }
 async function signWindows(o: string, arch: string, config: Interfaces.Config, windows: { name: string; keypath: string; homepage?: string | undefined }) {
   const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
-  await fs.move(o, buildLocationUnsigned)
+  await fs.move(o, buildLocationUnsigned, {overwrite: true})
 
   const pass = config.scopedEnvVar('WINDOWS_SIGNING_PASS')
   if (!pass) {
@@ -281,12 +281,12 @@ async function signWindows(o: string, arch: string, config: Interfaces.Config, w
 
   /* eslint-disable array-element-newline */
   const args = [
-    '-pkcs12', `"${windows.keypath}"`,
+    '-pkcs12', windows.keypath,
     '-pass', pass,
     '-n', `"${windows.name}"`,
     '-i', windows.homepage || config.pjson.homepage,
     '-h', 'sha512',
-    '-in', `"${buildLocationUnsigned}"`,
+    '-in', buildLocationUnsigned,
     '-out', o,
   ]
   await exec(`osslsigncode ${args.join(' ')}`)

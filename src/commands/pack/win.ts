@@ -290,6 +290,11 @@ async function signWindows(o: string, arch: string, config: Interfaces.Config, w
     '-in', buildLocationUnsigned,
     '-out', o,
   ]
-  await exec(`osslsigncode ${args.join(' ')}`)
+
+  console.log(`key exists at ${windows.keypath} : ${fs.existsSync(windows.keypath)}`)
+  console.log(`input file exists at ${buildLocationUnsigned} : ${fs.existsSync(buildLocationUnsigned)}`)
+  const signCommand = `osslsigncode ${args.join(' ')}`
+  console.log(`will run sign command : ${signCommand}`)
+  await exec(signCommand)
 }
 

@@ -72,13 +72,13 @@ const folderCleanup = async () => Promise.all([
 describe('upload tarballs', async () => {
   beforeEach(async () => {
     await folderCleanup()
-    await fs.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
     await fs.emptyDir(root)
   })
   afterEach(async () => {
     await folderCleanup()
     pjson.version = originalVersion
-    await fs.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })
 
   skipIfWindows

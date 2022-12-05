@@ -30,13 +30,13 @@ describe('publish:win', () => {
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await fs.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
     await fs.emptyDir(root)
   })
   afterEach(async () => {
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     pjson.version = originalVersion
-    await fs.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })
 
   skipIfWindows

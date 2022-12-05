@@ -59,7 +59,7 @@ export async function build(c: BuildConfig, options: {
     pjson.oclif.update = pjson.oclif.update || {}
     pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
     pjson.oclif.update.s3.bucket = c.s3Config.bucket
-    await fs.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   }
 
   const addDependencies = async () => {
@@ -156,7 +156,7 @@ export async function build(c: BuildConfig, options: {
       sha: c.gitSha,
       version: config.version,
     }))
-    await fs.writeJSON(manifestFilepath, manifest)
+    await fs.writeJSON(manifestFilepath, manifest, {spaces: 2})
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)

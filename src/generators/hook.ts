@@ -46,6 +46,6 @@ export default class Hook extends Generator {
       this.pjson.oclif.hooks[this.options.event] = p
     }
 
-    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson, {spaces: 2})
+    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
   }
 }

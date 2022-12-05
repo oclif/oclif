@@ -1,5 +1,5 @@
 import {execSync} from 'child_process'
-import * as fs from 'fs'
+import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
@@ -218,7 +218,7 @@ export default class CLI extends Generator {
 
     if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
     this.pjson.files = _.uniq((this.pjson.files || []).sort())
-    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson, {spaces: 2})
+    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
   }

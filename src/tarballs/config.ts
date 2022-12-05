@@ -1,12 +1,15 @@
 import {CliUx, Interfaces, Config} from '@oclif/core'
 
 import * as path from 'path'
-import * as qq from 'qqjs'
 import * as semver from 'semver'
+import * as fs from 'fs-extra'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
 
+const exec = promisify(execSync)
 export const TARGETS = [
   'linux-x64',
   'linux-arm',
@@ -32,13 +35,13 @@ export interface BuildConfig {
 
 export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
-  return qq.x.stdout('git', args, {cwd})
+  return (await exec(`git ${args.join(' ')}`, {cwd})).stdout.trim()
 }
 
 async function Tmp(config: Interfaces.Config,
 ) {
   const tmp = path.join(config.root, 'tmp')
-  await qq.mkdirp(tmp)
+  await fs.promises.mkdir(tmp, {recursive: true})
   return tmp
 }
 
@@ -75,9 +78,9 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
     s3Config: updateConfig.s3,
     nodeVersion,
     workspace(target) {
-      const base = qq.join(config.root, 'tmp')
-      if (target && target.platform) return qq.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
-      return qq.join(base, templateShortKey('baseDir', {bin: config.bin}))
+      const base = path.join(config.root, 'tmp')
+      if (target && target.platform) return path.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
+      return path.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },
     targets,
   }

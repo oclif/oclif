@@ -1,7 +1,12 @@
 import {test} from '@oclif/test'
-import * as qq from 'qqjs'
 import {findDistFileSha, developerSalesforceCom, deleteFolder} from '../helpers/helper'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import {promisify} from 'node:util'
+import {pipeline as pipelineSync} from 'node:stream'
+import got from 'got'
 
+const pipeline = promisify(pipelineSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
@@ -15,22 +20,21 @@ describe('publish:macos', () => {
   let sha: string
   let bucket: string
   let basePrefix: string
+  const root = path.join(__dirname, '../tmp/test/publish')
+
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
     pjson.oclif.update.node.version = process.versions.node
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await qq.writeJSON(pjsonPath, pjson)
-    const root = qq.join(__dirname, '../tmp/test/publish')
-    await qq.emptyDir(root)
-    qq.cd(root)
+    await fs.writeJSON(pjsonPath, pjson)
+    await fs.emptyDir(root)
   })
   afterEach(async () => {
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    qq.cd([__dirname, '..'])
     pjson.version = originalVersion
-    await qq.writeJSON(pjsonPath, pjson)
+    await fs.writeJSON(pjsonPath, pjson)
   })
 
   onlyMacos
@@ -40,6 +44,9 @@ describe('publish:macos', () => {
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {
-    await qq.download(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`)
+    await pipeline(
+      got.stream(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`),
+      fs.createWriteStream(pkg),
+    )
   })
 })

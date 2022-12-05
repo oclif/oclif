@@ -1,6 +1,5 @@
 import {Command, Flags} from '@oclif/core'
-import * as qq from 'qqjs'
-
+import * as fs from 'fs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
@@ -27,8 +26,7 @@ export default class UploadWin extends Command {
     for (const arch of archs) {
       const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const localKey = dist(`win32/${templateKey}`)
-      // eslint-disable-next-line no-await-in-loop
-      if (!await qq.exists(localKey)) this.error(`Cannot find Windows exe for ${arch}`, {
+      if (!fs.existsSync(localKey)) this.error(`Cannot find Windows exe for ${arch}`, {
         suggestions: ['Run "oclif pack win" before uploading'],
       })
     }
@@ -38,11 +36,10 @@ export default class UploadWin extends Command {
       const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const localExe = dist(`win32/${templateKey}`)
       const cloudKey = `${cloudKeyBase}/${templateKey}`
-      if (await qq.exists(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      if (fs.existsSync(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
-    await uploadWin('x64')
-    await uploadWin('x86')
+    await Promise.all([uploadWin('x64'), uploadWin('x86')])
 
     log(`done uploading windows executables for v${config.version}-${buildConfig.gitSha}`)
   }

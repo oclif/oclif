@@ -1,5 +1,4 @@
 import {Command, Flags} from '@oclif/core'
-import * as qq from 'qqjs'
 
 import * as Tarballs from '../../tarballs'
 
@@ -18,7 +17,6 @@ This can be used to create oclif CLIs that use the system node or that come prel
   }
 
   async run(): Promise<void> {
-    const prevCwd = qq.cwd()
     if (process.platform === 'win32') throw new Error('pack does not function on windows')
     const {flags} = await this.parse(PackTarballs)
     const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: flags?.targets?.split(',')})
@@ -30,6 +28,5 @@ This can be used to create oclif CLIs that use the system node or that come prel
       tarball: flags.tarball,
       parallel: flags.parallel,
     })
-    qq.cd(prevCwd)
   }
 }

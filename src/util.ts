@@ -1,4 +1,8 @@
 import _ = require('lodash')
+import * as os from 'os'
+import * as crypto from 'node:crypto'
+import {log} from './log'
+import * as fs from 'fs-extra'
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []
@@ -68,4 +72,22 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
   }
 
   return result
+}
+
+const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', '\\/')}`, 'g')
+const curRegexp = new RegExp(`\\B${process.cwd()}`, 'g')
+
+export const prettifyPaths = (input: string): string =>
+  (input ?? '').toString().replace(curRegexp, '.').replace(homeRegexp, '~')
+
+export const hash = async (algo: string, fp: string | string[]):Promise<string> => {
+  const f = Array.isArray(fp) ? fp.join('') : fp
+  log('hash', algo, f)
+  return new Promise<string>((resolve, reject) => {
+    const hashInProgress = crypto.createHash(algo)
+    const stream = fs.createReadStream(f)
+    stream.on('error', err => reject(err))
+    stream.on('data', chunk => hashInProgress.update(chunk))
+    stream.on('end', () => resolve(hashInProgress.digest('hex')))
+  })
 }

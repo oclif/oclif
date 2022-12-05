@@ -4,6 +4,9 @@
 /coverage
 /coverage.lcov
 /lib
+/dist
 /node_modules
 /tmp
+/test/tmp
 package-lock.json
+**/.DS_Store

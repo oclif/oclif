@@ -283,12 +283,12 @@ async function signWindows(o: string, arch: string, config: Interfaces.Config, w
   const args = [
     '-pkcs12', windows.keypath,
     '-pass', pass,
-    '-n', windows.name,
+    '-n', `"${windows.name}"`,
     '-i', windows.homepage || config.pjson.homepage,
     '-h', 'sha512',
     '-in', buildLocationUnsigned,
     '-out', o,
   ]
-  await exec(`osslsigncode ${args}.join(' ')`)
+  await exec(`osslsigncode sign ${args}.join(' ')`)
 }
 

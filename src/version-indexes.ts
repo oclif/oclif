@@ -42,7 +42,8 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
 
   // json-friendly filenames like sfdx-linux-x64-tar-gz
   const jsonFileName = `${filename.replace(/\./g, '-')}.json`
-  const key = path.join(s3Config.folder!, 'versions', jsonFileName)
+  // folder is optional, but honored if present
+  const key = path.join(s3Config.folder ?? '', 'versions', jsonFileName)
 
   // retrieve existing index file
   let existing = {}

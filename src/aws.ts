@@ -1,9 +1,9 @@
 import * as CloudFront from 'aws-sdk/clients/cloudfront'
 import * as S3 from 'aws-sdk/clients/s3'
 import * as fs from 'fs-extra'
-import * as qq from 'qqjs'
 
 import {debug as Debug, log} from './log'
+import {prettifyPaths} from './util'
 
 const debug = Debug.new('aws')
 
@@ -65,7 +65,7 @@ export default {
   get s3() {
     return {
       uploadFile: (local: string, options: S3.Types.PutObjectRequest) => new Promise((resolve, reject) => {
-        log('s3:uploadFile', qq.prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
+        log('s3:uploadFile', prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
         options.Body = fs.createReadStream(local)
         aws.s3.upload(options, err => {
           if (err) reject(err)

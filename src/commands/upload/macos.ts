@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
-import * as qq from 'qqjs'
-
+import * as fs from 'fs'
 import {Command, Flags, Interfaces} from '@oclif/core'
 
 import aws from '../../aws'
@@ -13,11 +12,12 @@ export default class UploadMacos extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    targets: Flags.string({char: 't', description: 'comma-separated targets to upload (e.g.: darwin-x64,darwin-arm64)'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadMacos)
-    const buildConfig = await Tarballs.buildConfig(flags.root)
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {s3Config, config, dist} = buildConfig
     const S3Options = {
       Bucket: s3Config.bucket!,
@@ -30,7 +30,7 @@ export default class UploadMacos extends Command {
       const cloudKey = `${cloudKeyBase}/${templateKey}`
       const localPkg = dist(`macos/${templateKey}`)
 
-      if (await qq.exists(localPkg)) await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      if (fs.existsSync(localPkg)) await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
       else this.error('Cannot find macOS pkg', {
         suggestions: ['Run "oclif pack macos" before uploading'],
       })
@@ -39,8 +39,7 @@ export default class UploadMacos extends Command {
     const arches = _.uniq(buildConfig.targets
     .filter(t => t.platform === 'darwin')
     .map(t => t.arch))
-    // eslint-disable-next-line no-await-in-loop
-    for (const a of arches) await upload(a)
+    await Promise.all(arches.map(a => upload(a)))
 
     log(`done uploading macos pkgs for v${config.version}-${buildConfig.gitSha}`)
   }

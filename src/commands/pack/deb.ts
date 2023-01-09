@@ -1,11 +1,14 @@
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-
+import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as qq from 'qqjs'
-
+import * as path from 'path'
 import * as Tarballs from '../../tarballs'
 import {templateShortKey, debVersion, debArch} from '../../upload-util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
+
+const exec = promisify(execSync)
 
 const scripts = {
   /* eslint-disable no-useless-escape */
@@ -59,45 +62,64 @@ export default class PackDeb extends Command {
     const {flags} = await this.parse(PackDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
-    await Tarballs.build(buildConfig, {platform: 'linux', pack: false, tarball: flags.tarball})
+    await Tarballs.build(buildConfig, {platform: 'linux', pack: false, tarball: flags.tarball, parallel: true})
     const dist = buildConfig.dist('deb')
-    await qq.emptyDir(dist)
+    await fs.emptyDir(dist)
     const build = async (arch: Interfaces.ArchTypes) => {
+      this.log(`building debian / ${arch}`)
       const target: { platform: 'linux'; arch: Interfaces.ArchTypes} = {platform: 'linux', arch}
       const versionedDebBase = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(arch) as any})
-      const workspace = qq.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
-      await qq.rm(workspace)
-      await qq.mkdirp([workspace, 'DEBIAN'])
-      await qq.mkdirp([workspace, 'usr/bin'])
-      await qq.mkdirp([workspace, 'usr/lib'])
-      await qq.mv(buildConfig.workspace(target), [workspace, 'usr/lib', config.dirname])
-      await qq.write([workspace, 'usr/lib', config.dirname, 'bin', config.bin], scripts.bin(config))
-      await qq.write([workspace, 'DEBIAN/control'], scripts.control(buildConfig, debArch(arch)))
-      await qq.chmod([workspace, 'usr/lib', config.dirname, 'bin', config.bin], 0o755)
-      await qq.x(`ln -s "../lib/${config.dirname}/bin/${config.bin}" "${workspace}/usr/bin/${config.bin}"`)
-      await qq.x(`chown -R root "${workspace}"`)
-      await qq.x(`chgrp -R root "${workspace}"`)
-      await qq.x(`dpkg --build "${workspace}" "${qq.join(dist, versionedDebBase)}"`)
+      const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
+      await fs.remove(workspace)
+      await Promise.all([
+        fs.promises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),
+        fs.promises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),
+      ])
+      await fs.copy(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname))
+      await Promise.all([
+        // usr/lib/oclif/bin/oclif (the executable)
+        fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755}),
+        fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch))),
+      ])
+      // symlink usr/bin/oclif points to usr/lib/oclif/bin/oclif
+      await exec(`ln -s "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${config.bin}"`, {cwd: path.join(workspace, 'usr', 'bin')})
+      await exec(`sudo chown -R root "${workspace}"`)
+      await exec(`sudo chgrp -R root "${workspace}"`)
+      await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)
+      this.log(`finished building debian / ${arch}`)
     }
 
     const arches = _.uniq(buildConfig.targets
     .filter(t => t.platform === 'linux')
     .map(t => t.arch))
-    // eslint-disable-next-line no-await-in-loop
-    for (const a of arches) await build(a)
+    await Promise.all(arches.map(a => build(a)))
 
-    await qq.x('apt-ftparchive packages . > Packages', {cwd: dist})
-    await qq.x('gzip -c Packages > Packages.gz', {cwd: dist})
-    await qq.x('bzip2 -k Packages', {cwd: dist})
-    await qq.x('xz -k Packages', {cwd: dist})
-    const ftparchive = qq.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
-    await qq.write(ftparchive, scripts.ftparchive(config))
-    await qq.x(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
+    await exec('apt-ftparchive packages . > Packages', {cwd: dist})
+    this.log('debian packages created')
+    await Promise.all([
+      exec('gzip -c Packages > Packages.gz', {cwd: dist}),
+      exec('bzip2 -k Packages', {cwd: dist}),
+      exec('xz -k Packages', {cwd: dist}),
+      packForFTP(buildConfig, config, dist),
+    ])
+
+    this.log('debian packages archived')
+
     const gpgKey = config.scopedEnvVar('DEB_KEY')
     if (gpgKey) {
-      await qq.x(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
-      await qq.x(`gpg --digest-algo SHA512 -abs -u ${gpgKey} -o Release.gpg Release`, {cwd: dist})
+      this.log('adding gpg signatures to Release')
+      await exec(`gpg --digest-algo SHA512 --clearsign -u ${gpgKey} -o InRelease Release`, {cwd: dist})
+      await exec(`gpg --digest-algo SHA512 -abs -u ${gpgKey} -o Release.gpg Release`, {cwd: dist})
     }
+
+    this.log('debian packing complete')
   }
+}
+
+async function packForFTP(buildConfig: Tarballs.BuildConfig, config: Interfaces.Config, dist: string) {
+  const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
+  await fs.promises.mkdir(path.basename(ftparchive), {recursive: true})
+  await fs.writeFile(ftparchive, scripts.ftparchive(config))
+  await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
 }
 

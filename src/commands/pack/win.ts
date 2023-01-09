@@ -1,10 +1,13 @@
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-
-import * as qq from 'qqjs'
-
+import * as path from 'path'
+import * as fs from 'fs-extra'
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'node:util'
+
+const exec = promisify(execSync)
 
 const scripts = {
   /* eslint-disable no-useless-escape */
@@ -226,63 +229,40 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {flags} = await this.parse(PackWin)
     const buildConfig = await Tarballs.buildConfig(flags.root)
     const {config} = buildConfig
-    await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball})
+    await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball, parallel: true})
     const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-    for (const arch of arches) {
-      const installerBase = qq.join(buildConfig.tmp, `windows-${arch}-installer`)
-      // eslint-disable-next-line no-await-in-loop
-      await qq.write([installerBase, `bin/${config.bin}.cmd`], scripts.cmd(config))
-      // eslint-disable-next-line no-await-in-loop
-      await qq.write([installerBase, `bin/${config.bin}`], scripts.sh(config))
+    await Promise.all(arches.map(async arch => {
+      const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
+      await fs.promises.rm(installerBase, {recursive: true, force: true})
+      await fs.promises.mkdir(path.join(installerBase, 'bin'), {recursive: true})
 
-      if (flags['additional-cli']) {
-        await qq.write([installerBase, `bin/${flags['additional-cli']}.cmd`], scripts.cmd(config, flags['additional-cli'])) // eslint-disable-line no-await-in-loop
-        await qq.write([installerBase, `bin/${flags['additional-cli']}`], scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)) // eslint-disable-line no-await-in-loop
-      }
+      await Promise.all([
+        fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
+        fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
+      ].concat(flags['additional-cli'] ? [
+        fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
+        fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),
+      ] : []))
 
-      // eslint-disable-next-line no-await-in-loop
-      await qq.write([installerBase, `${config.bin}.nsi`], scripts.nsis(config, arch))
-      // eslint-disable-next-line no-await-in-loop
-      await qq.mv(buildConfig.workspace({platform: 'win32', arch}), [installerBase, 'client'])
-      // eslint-disable-next-line no-await-in-loop
-      await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
+      await fs.move(buildConfig.workspace({platform: 'win32', arch}), path.join(installerBase, 'client'))
+      await exec(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
       const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const o = buildConfig.dist(`win32/${templateKey}`)
-      // eslint-disable-next-line no-await-in-loop
-      await qq.mv([installerBase, 'installer.exe'], o)
+      await fs.move(path.join(installerBase, 'installer.exe'), o)
 
       const windows = (config.pjson.oclif as any).windows as {name: string; keypath: string; homepage?: string}
       if (windows && windows.name && windows.keypath) {
-        const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
-        // eslint-disable-next-line no-await-in-loop
-        await qq.mv(o, buildLocationUnsigned)
-
-        const pass = config.scopedEnvVar('WINDOWS_SIGNING_PASS')
-        if (!pass) {
-          throw new Error(`${config.scopedEnvVarKey('WINDOWS_SIGNING_PASS')} not set in the environment`)
-        }
-
-        /* eslint-disable array-element-newline */
-        const args = [
-          '-pkcs12', windows.keypath,
-          '-pass', pass,
-          '-n', windows.name,
-          '-i', windows.homepage || config.pjson.homepage,
-          '-h', 'sha512',
-          '-in', buildLocationUnsigned,
-          '-out', o,
-        ]
-        // eslint-disable-next-line no-await-in-loop
-        await qq.x('osslsigncode', args)
+        await signWindows(o, arch, config, windows)
       } else this.debug('Skipping windows exe signing')
 
       this.log(`built ${o}`)
-    }
+    }))
   }
 
   private async checkForNSIS() {
     try {
-      await qq.x('makensis', {stdio: [0, null, 2]})
+      await exec('makensis')
     } catch (error: any) {
       if (error.code === 1) return
       if (error.code === 127) this.error('install makensis')
@@ -290,3 +270,25 @@ the CLI should already exist in a directory named after the CLI that is the root
     }
   }
 }
+async function signWindows(o: string, arch: string, config: Interfaces.Config, windows: { name: string; keypath: string; homepage?: string | undefined }) {
+  const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
+  await fs.move(o, buildLocationUnsigned)
+
+  const pass = config.scopedEnvVar('WINDOWS_SIGNING_PASS')
+  if (!pass) {
+    throw new Error(`${config.scopedEnvVarKey('WINDOWS_SIGNING_PASS')} not set in the environment`)
+  }
+
+  /* eslint-disable array-element-newline */
+  const args = [
+    '-pkcs12', windows.keypath,
+    '-pass', pass,
+    '-n', `"${windows.name}"`,
+    '-i', windows.homepage || config.pjson.homepage,
+    '-h', 'sha512',
+    '-in', buildLocationUnsigned,
+    '-out', o,
+  ]
+  await exec(`osslsigncode sign ${args.join(' ')}`)
+}
+

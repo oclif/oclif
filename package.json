@@ -1,26 +1,26 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "3.2.19",
+  "version": "3.4.3",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^1.18.0",
-    "@oclif/plugin-help": "^5.1.15",
-    "@oclif/plugin-not-found": "^2.3.5",
-    "@oclif/plugin-warn-if-update-available": "^2.0.6",
+    "@oclif/core": "^1.20.4",
+    "@oclif/plugin-help": "^5.1.19",
+    "@oclif/plugin-not-found": "^2.3.7",
+    "@oclif/plugin-warn-if-update-available": "^2.0.14",
     "aws-sdk": "^2.1231.0",
-    "concurrently": "^7.4.0",
+    "concurrently": "^7.6.0",
     "debug": "^4.3.3",
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
-    "github-slugger": "^1.4.0",
+    "github-slugger": "^1.5.0",
+    "got": "^11",
     "lodash": "^4.17.21",
     "normalize-package-data": "^3.0.3",
-    "qqjs": "^0.3.11",
     "semver": "^7.3.8",
     "shelljs": "^0.8.5",
     "tslib": "^2.3.1",
@@ -30,22 +30,22 @@
   },
   "devDependencies": {
     "@oclif/plugin-legacy": "^1.2.7",
-    "@oclif/test": "^2.2.3",
-    "@types/chai": "^4.3.0",
+    "@oclif/test": "^2.2.12",
+    "@types/chai": "^4.3.4",
     "@types/execa": "^0.9.0",
     "@types/fs-extra": "^9.0",
-    "@types/lodash": "^4.14.186",
+    "@types/lodash": "^4.14.191",
     "@types/lodash.template": "^4.5.0",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^14.18.31",
+    "@types/node": "^14.18.34",
     "@types/read-pkg": "^5.1.0",
-    "@types/semver": "^7.3.12",
+    "@types/semver": "^7.3.13",
     "@types/shelljs": "^0.8.11",
     "@types/supports-color": "^7.2.1",
     "@types/write-json-file": "^3.2.1",
     "@types/yeoman-generator": "^5.2.10",
     "@types/yosay": "^2.0.1",
-    "chai": "^4.3.6",
+    "chai": "^4.3.7",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^7.32.0",
     "eslint-config-oclif": "^4.0.0",
@@ -62,12 +62,10 @@
     "typescript": "4.5.5"
   },
   "resolutions": {
-    "colors": "1.4.0",
-    "@oclif/core": "^1.16.1"
+    "colors": "1.4.0"
   },
   "overrides": {
-    "colors": "1.4.0",
-    "@oclif/core": "^1.16.1"
+    "colors": "1.4.0"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -103,7 +101,7 @@
         "debounce": 60
       },
       "node": {
-        "version": "12.12.0"
+        "version": "16.13.2"
       },
       "s3": {
         "bucket": "dfc-data-production",

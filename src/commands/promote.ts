@@ -28,23 +28,28 @@ export default class Promote extends Command {
 
   async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
-    const maxAge = `max-age=${flags['max-age']}`
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {s3Config, config} = buildConfig
     const indexDefaults = {
       version: flags.version,
       s3Config,
-      maxAge,
+      maxAge: `max-age=${flags['max-age']}`,
     }
 
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
-
+    const awsDefaults = {
+      Bucket: s3Config.bucket,
+      ACL: s3Config.acl ?? 'public-read',
+      MetadataDirective: 'REPLACE',
+      CacheControl: indexDefaults.maxAge,
+    }
     const cloudBucketCommitKey = (shortKey: string) => path.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)
     const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
     if (buildConfig.targets.length > 0) this.log(`Promoting buildmanifests & unversioned tarballs to ${flags.channel}`)
-    for (const target of buildConfig.targets) {
+
+    const promoteManifest = async (target: typeof buildConfig.targets[number]) => {
       const manifest = templateShortKey('manifest', {
         arch: target.arch,
         bin: config.bin,
@@ -52,21 +57,18 @@ export default class Promote extends Command {
         sha: flags.sha,
         version: flags.version,
       })
-      const copySource = cloudBucketCommitKey(manifest)
       // strip version & sha so update/scripts can point to a static channel manifest
       const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
-      const key = cloudChannelKey(unversionedManifest)
-      // eslint-disable-next-line no-await-in-loop
       await aws.s3.copyObject(
         {
-          Bucket: s3Config.bucket,
-          ACL: s3Config.acl || 'public-read',
-          CopySource: copySource,
-          Key: key,
-          CacheControl: maxAge,
-          MetadataDirective: 'REPLACE',
+          ...awsDefaults,
+          CopySource: cloudBucketCommitKey(manifest),
+          Key: cloudChannelKey(unversionedManifest),
         },
       )
+    }
+
+    const promoteGzTarballs = async (target: typeof buildConfig.targets[number]) => {
       const versionedTarGzName = templateShortKey('versioned', '.tar.gz', {
         arch: target.arch,
         bin: config.bin,
@@ -78,129 +80,127 @@ export default class Promote extends Command {
       // strip version & sha so update/scripts can point to a static channel tarball
       const unversionedTarGzName = versionedTarGzName.replace(`-v${flags.version}-${flags.sha}`, '')
       const unversionedTarGzKey = cloudChannelKey(unversionedTarGzName)
-      // eslint-disable-next-line no-await-in-loop
-      await aws.s3.copyObject(
+      await Promise.all([aws.s3.copyObject(
         {
-          Bucket: s3Config.bucket,
-          ACL: s3Config.acl || 'public-read',
+          ...awsDefaults,
           CopySource: versionedTarGzKey,
           Key: unversionedTarGzKey,
-          CacheControl: maxAge,
-          MetadataDirective: 'REPLACE',
         },
-      )
-
-      // eslint-disable-next-line no-await-in-loop
-      if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: versionedTarGzKey, filename: unversionedTarGzName})
-
-      if (flags.xz) {
-        const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
-          arch: target.arch,
-          bin: config.bin,
-          platform: target.platform,
-          sha: flags.sha,
-          version: flags.version,
-        })
-        const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
-        // strip version & sha so update/scripts can point to a static channel tarball
-        const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
-        const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
-        // eslint-disable-next-line no-await-in-loop
-        await aws.s3.copyObject(
-          {
-            Bucket: s3Config.bucket,
-            ACL: s3Config.acl || 'public-read',
-            CopySource: versionedTarXzKey,
-            Key: unversionedTarXzKey,
-            CacheControl: maxAge,
-            MetadataDirective: 'REPLACE',
-          },
-        )
-        // eslint-disable-next-line no-await-in-loop
-        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: versionedTarXzKey, filename: unversionedTarXzName})
-      }
+      )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: versionedTarGzKey, filename: unversionedTarGzName})] : []))
     }
 
-    // copy darwin pkg
-    if (flags.macos) {
+    const promoteXzTarballs = async (target: typeof buildConfig.targets[number]) => {
+      const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
+        arch: target.arch,
+        bin: config.bin,
+        platform: target.platform,
+        sha: flags.sha,
+        version: flags.version,
+      })
+      const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
+      // strip version & sha so update/scripts can point to a static channel tarball
+      const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
+      const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
+      await Promise.all([aws.s3.copyObject(
+        {
+          ...awsDefaults,
+          CopySource: versionedTarXzKey,
+          Key: unversionedTarXzKey,
+        },
+      )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: versionedTarXzKey, filename: unversionedTarXzName})] : []))
+    }
+
+    const promoteMacInstallers = async () => {
       this.log(`Promoting macos pkgs to ${flags.channel}`)
       const arches = _.uniq(buildConfig.targets.filter(t => t.platform === 'darwin').map(t => t.arch))
-      for (const arch of arches) {
+      await Promise.all(arches.map(async arch => {
         const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
         const darwinCopySource = cloudBucketCommitKey(darwinPkg)
         // strip version & sha so scripts can point to a static channel pkg
         const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-        const darwinKey = cloudChannelKey(unversionedPkg)
-        // eslint-disable-next-line no-await-in-loop
-        await aws.s3.copyObject(
+        await Promise.all([aws.s3.copyObject(
           {
-            Bucket: s3Config.bucket,
-            ACL: s3Config.acl || 'public-read',
+            ...awsDefaults,
             CopySource: darwinCopySource,
-            Key: darwinKey,
-            CacheControl: maxAge,
-            MetadataDirective: 'REPLACE',
+            Key: cloudChannelKey(unversionedPkg),
+
           },
-        )
-        // eslint-disable-next-line no-await-in-loop
-        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})
-      }
+        )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})] : []))
+      }))
     }
 
-    // copy win exe
-    if (flags.win) {
+    const promoteWindowsInstallers = async () => {
+      // copy win exe
       this.log(`Promoting windows exe to ${flags.channel}`)
-      const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-      for (const arch  of archs) {
+      const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+      await Promise.all(arches.map(async arch => {
         const winPkg = templateShortKey('win32', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
         const winCopySource = cloudBucketCommitKey(winPkg)
         // strip version & sha so scripts can point to a static channel exe
         const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-        const winKey = cloudChannelKey(unversionedExe)
-        // eslint-disable-next-line no-await-in-loop
-        await aws.s3.copyObject(
+        await Promise.all([aws.s3.copyObject(
           {
-            Bucket: s3Config.bucket,
-            ACL: s3Config.acl || 'public-read',
+            ...awsDefaults,
             CopySource: winCopySource,
-            Key: winKey,
-            CacheControl: maxAge,
+            Key: cloudChannelKey(unversionedExe),
           },
-        )
-        // eslint-disable-next-line no-await-in-loop
-        if (flags.indexes) await appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})
+        )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})] : []))
         CliUx.ux.action.stop('successfully')
-      }
+      }))
     }
 
-    // copy debian artifacts
-    const debArtifacts = [
-      templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'amd64' as any}),
-      templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'i386' as any}),
-      'Packages.gz',
-      'Packages.xz',
-      'Packages.bz2',
-      'Release',
-      'InRelease',
-      'Release.gpg',
-    ]
-    if (flags.deb) {
+    const promoteDebianAptPackages = async () => {
+      // copy debian artifacts
+      const debArtifacts = [
+        templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'amd64' as any}),
+        templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'i386' as any}),
+        'Packages.gz',
+        'Packages.xz',
+        'Packages.bz2',
+        'Release',
+        'InRelease',
+        'Release.gpg',
+      ]
       this.log(`Promoting debian artifacts to ${flags.channel}`)
-      for (const artifact of debArtifacts) {
+      await Promise.all(debArtifacts.flatMap(artifact => {
         const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
         const debKey = cloudChannelKey(`apt/${artifact}`)
-        // eslint-disable-next-line no-await-in-loop
-        await aws.s3.copyObject(
-          {
-            Bucket: s3Config.bucket,
-            ACL: s3Config.acl || 'public-read',
-            CopySource: debCopySource,
-            Key: debKey,
-            CacheControl: maxAge,
-            MetadataDirective: 'REPLACE',
-          },
-        )
-      }
+        // apt expects ../apt/dists/versionName/[artifacts] but oclif wants varsions/sha/apt/[artifacts]
+        // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
+        // this workaround puts the code in both places that the redirect was doing
+        // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
+        const workaroundKey = cloudChannelKey(`apt/./${artifact}`)
+        return [
+          aws.s3.copyObject(
+            {
+              ...awsDefaults,
+              CopySource: debCopySource,
+              Key: debKey,
+            },
+          ),
+          aws.s3.copyObject(
+            {
+              ...awsDefaults,
+              CopySource: debCopySource,
+              Key: workaroundKey,
+            },
+          ),
+        ]
+      }),
+
+      )
     }
+
+    await Promise.all(buildConfig.targets.flatMap(target => [
+      // always promote the manifest and gz
+      promoteManifest(target),
+      promoteGzTarballs(target),
+    ])
+    // optionally promote other artifacts depending on the specified flags
+    .concat(flags.xz ? buildConfig.targets.map(target => promoteXzTarballs(target)) : [])
+    .concat(flags.macos ? [promoteMacInstallers()] : [])
+    .concat(flags.win ? [promoteWindowsInstallers()] : [])
+    .concat(flags.deb ? [promoteDebianAptPackages()] : []),
+    )
   }
 }

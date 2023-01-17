@@ -1,4 +1,4 @@
-import {CliUx, Interfaces, Config} from '@oclif/core'
+import {ux, Interfaces, Config} from '@oclif/core'
 
 import * as path from 'path'
 import * as semver from 'semver'
@@ -57,7 +57,7 @@ export async function buildConfig(root: string, options: {xz?: boolean; targets?
   const targets = compact(options.targets || updateConfig.node.targets || TARGETS)
   .filter(t => {
     if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
-      CliUx.ux.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
+      ux.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
       return false
     }
 

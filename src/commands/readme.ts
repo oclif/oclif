@@ -111,7 +111,7 @@ USAGE
     ].join('\n').trim()
   }
 
-  multiCommands(config: Interfaces.Config, commands: Interfaces.Command[], dir: string): string {
+  multiCommands(config: Interfaces.Config, commands: Command.Cached[], dir: string): string {
     let topics = config.topics
     topics = topics.filter(t => !t.hidden && !t.name.includes(':'))
     topics = topics.filter(t => commands.find(c => c.id.startsWith(t.name)))
@@ -137,7 +137,7 @@ USAGE
     ].join('\n').trim() + '\n'
   }
 
-  createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Interfaces.Command[]): void {
+  createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Command.Cached[]): void {
     const bin = `\`${config.bin} ${topic.name}\``
     const doc = [
       bin,
@@ -150,7 +150,7 @@ USAGE
     fs.outputFileSync(file, doc)
   }
 
-  commands(config: Interfaces.Config, commands: Interfaces.Command[]): string {
+  commands(config: Interfaces.Config, commands: Command.Cached[]): string {
     return [
       ...commands.map(c => {
         const usage = this.commandUsage(config, c)
@@ -161,7 +161,7 @@ USAGE
     ].join('\n').trim()
   }
 
-  renderCommand(config: Interfaces.Config, c: Interfaces.Command): string {
+  renderCommand(config: Interfaces.Config, c: Command.Cached): string {
     this.debug('rendering command', c.id)
     const title = template({config, command: c})(c.summary || c.description || '').trim().split('\n')[0]
     const help = new this.HelpClass(config, {stripAnsi: true, maxWidth: columns})
@@ -184,7 +184,7 @@ USAGE
     }
   }
 
-  commandCode(config: Interfaces.Config, c: Interfaces.Command): string | undefined {
+  commandCode(config: Interfaces.Config, c: Command.Cached): string | undefined {
     const pluginName = c.pluginName
     if (!pluginName) return
     const plugin = config.plugins.find(p => p.name === c.pluginName)
@@ -218,7 +218,7 @@ USAGE
   /**
    * fetches the path to a command
    */
-  private commandPath(plugin: Interfaces.Plugin, c: Interfaces.Command): string | undefined {
+  private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
     let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
@@ -247,8 +247,8 @@ USAGE
     return p
   }
 
-  private commandUsage(config: Interfaces.Config, command: Interfaces.Command): string {
-    const arg = (arg: Interfaces.Arg) => {
+  private commandUsage(config: Interfaces.Config, command: Command.Cached): string {
+    const arg = (arg: Command.Arg.Cached) => {
       const name = arg.name.toUpperCase()
       if (arg.required) return `${name}`
       return `[${name}]`
@@ -258,7 +258,7 @@ USAGE
     const defaultUsage = () => {
       return compact([
         id,
-        command.args.filter(a => !a.hidden).map(a => arg(a)).join(' '),
+        Object.values(command.args).filter(a => !a.hidden).map(a => arg(a)).join(' '),
       ]).join(' ')
     }
 

@@ -526,10 +526,10 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^1.24.1":
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.24.1.tgz#b10324fc8dfbe70539a4479509b25a9dd867aed3"
-  integrity sha512-CQFCsj9fUALfTNGXR9qaP3yXiF9TuL6GKph1NwXMe2yzpAE4Zz8X8uFpi916rE3oAHEPX6bR9fhdUiBGgDBuGw==
+"@oclif/core@^1.24.2":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.24.2.tgz#1d2e4b8b27db7e98b0c1d7b367934196a2f2c202"
+  integrity sha512-0wfAa6HG4sJ4j5c4/GV4BWZwALtJyw2ZO6titnrWKcowxU1BWd8mBM45ilTPnDhClMowz7+8EtK4kqUGc1rNwA==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     "@oclif/screen" "^3.0.4"

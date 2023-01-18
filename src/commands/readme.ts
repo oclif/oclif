@@ -7,7 +7,6 @@ import {URL} from 'url'
 
 import {castArray, compact, sortBy, template, uniqBy} from '../util'
 import {HelpCompatibilityWrapper} from '../help-compatibility'
-import {ArgInput} from '@oclif/core/lib/interfaces'
 
 const normalize = require('normalize-package-data')
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
@@ -256,7 +255,9 @@ USAGE
     }
 
     // v2 commands have args as an object, so we need to normalize it to an array for forwards compatibility
-    const normalized = (Array.isArray(command.args) ? command.args ?? [] : Object.values(command.args ?? {})) as ArgInput
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const normalized = Array.isArray(command.args) ? command.args ?? [] : Object.entries(command.args ?? {}).map(([name, arg]) => ({...arg, name}))
     const id = toConfiguredId(command.id, config)
     const defaultUsage = () => {
       return compact([

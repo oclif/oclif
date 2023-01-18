@@ -1,13 +1,13 @@
-import {Command, Plugin} from '@oclif/core'
+import {Args, Command, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
 export default class Manifest extends Command {
   static description = 'generates plugin manifest json'
 
-  static args = [
-    {name: 'path', description: 'path to plugin', default: '.'},
-  ]
+  static args = {
+    path: Args.string({description: 'path to plugin', default: '.'}),
+  }
 
   async run(): Promise<void> {
     try {

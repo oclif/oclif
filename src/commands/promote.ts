@@ -2,7 +2,7 @@ import * as path from 'path'
 
 import * as _ from 'lodash'
 
-import {CliUx, Command, Flags} from '@oclif/core'
+import {ux, Command, Flags} from '@oclif/core'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
@@ -145,7 +145,7 @@ export default class Promote extends Command {
             Key: cloudChannelKey(unversionedExe),
           },
         )].concat(flags.indexes ? [appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})] : []))
-        CliUx.ux.action.stop('successfully')
+        ux.action.stop('successfully')
       }))
     }
 

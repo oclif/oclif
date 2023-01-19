@@ -1,4 +1,4 @@
-import {Command, Plugin, Interfaces, Flags, CliUx} from '@oclif/core'
+import {Args, Command, Plugin, ux, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as os from 'os'
@@ -17,9 +17,9 @@ async function fileExists(filePath: string): Promise<boolean> {
 export default class Manifest extends Command {
   static description = 'generates plugin manifest json'
 
-  static args = [
-    {name: 'path', description: 'path to plugin', default: '.'},
-  ]
+  static args = {
+    path: Args.string({description: 'path to plugin', default: '.'}),
+  }
 
   static flags = {
     jit: Flags.boolean({
@@ -68,9 +68,9 @@ export default class Manifest extends Command {
         return plugin.manifest
       })
 
-      CliUx.ux.action.start('Generating JIT plugin manifests')
+      ux.action.start('Generating JIT plugin manifests')
       jitPluginManifests = await Promise.all(promises)
-      CliUx.ux.action.stop()
+      ux.action.stop()
     }
 
     let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})

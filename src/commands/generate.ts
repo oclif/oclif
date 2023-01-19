@@ -1,3 +1,4 @@
+import {Args} from '@oclif/core'
 import CommandBase from './../command-base'
 
 export default class Generate extends CommandBase {
@@ -6,9 +7,9 @@ This will clone the template repo 'oclif/hello-world' and update package propert
 
   static flags = {}
 
-  static args = [
-    {name: 'name', required: true, description: 'directory name of new project'},
-  ]
+  static args = {
+    name: Args.string({required: true, description: 'directory name of new project'}),
+  }
 
   async run(): Promise<void> {
     const {args} = await this.parse(Generate)

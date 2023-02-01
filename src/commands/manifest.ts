@@ -61,7 +61,7 @@ export default class Manifest extends Command {
         this.cloneRepo(repoUrl, fullPath, maxSatisfying)
 
         this.executeCommand('yarn', {cwd: fullPath})
-        this.executeCommand('yarn build', {cwd: fullPath})
+        this.executeCommand('yarn tsc', {cwd: fullPath})
         const plugin = new Plugin({root: fullPath, type: 'jit', ignoreManifest: true, errorOnManifestCreate: true})
         await plugin.load()
 

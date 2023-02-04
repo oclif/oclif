@@ -1,4 +1,4 @@
-import {Command, Flags} from '@oclif/core'
+import {Args, Command, Flags} from '@oclif/core'
 <%_ const klass = _.upperFirst(_.camelCase(name)) _%>
 
 export default class <%- klass %> extends Command {
@@ -15,7 +15,9 @@ export default class <%- klass %> extends Command {
     force: Flags.boolean({char: 'f'}),
   }
 
-  static args = [{name: 'file'}]
+  static args = {
+    file: Args.string({description: 'file to print'}),
+  }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(<%- klass %>)

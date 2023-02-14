@@ -42,7 +42,7 @@ export default class Manifest extends Command {
 
     let jitPluginManifests: Interfaces.Manifest[] = []
 
-    if (flags.jit && packageJson.oclif.jitPlugins) {
+    if (flags.jit && packageJson.oclif?.jitPlugins) {
       this.debug('jitPlugins: %s', packageJson.oclif.jitPlugins)
       const tmpDir = os.tmpdir()
       const promises = Object.entries(packageJson.oclif.jitPlugins).map(async ([jitPlugin, version]) => {

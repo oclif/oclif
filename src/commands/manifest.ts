@@ -47,7 +47,7 @@ export default class Manifest extends Command {
       const tmpDir = os.tmpdir()
       const promises = Object.entries(packageJson.oclif.jitPlugins).map(async ([jitPlugin, version]) => {
         const pluginDir = jitPlugin.replace('/', '-').replace('@', '')
-        const repo = this.executeCommand(`npm view ${jitPlugin} repository --json`)
+        const repo = this.executeCommand(`npm view ${jitPlugin}@latest repository --json`)
         const stdout = JSON.parse(repo.stdout)
 
         const repoUrl = stdout.url.replace(`${stdout.type}+`, '')
@@ -55,7 +55,7 @@ export default class Manifest extends Command {
         const fullPath = path.join(tmpDir, pluginDir)
         if (await fileExists(fullPath)) await fs.remove(fullPath)
 
-        const versions = JSON.parse(this.executeCommand(`npm view ${jitPlugin} versions --json`).stdout)
+        const versions = JSON.parse(this.executeCommand(`npm view ${jitPlugin}@latest versions --json`).stdout)
         const maxSatisfying = semver.maxSatisfying(versions, version)
 
         this.cloneRepo(repoUrl, fullPath, maxSatisfying)

@@ -2,13 +2,13 @@ import * as path from 'path'
 
 import * as _ from 'lodash'
 import * as fs from 'fs-extra'
-import {Command, Flags} from '@oclif/core'
-import {Interfaces} from '@oclif/core'
+import {Command, Flags, Interfaces} from '@oclif/core'
 
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
 import {exec as execSync} from 'child_process'
 import {promisify} from 'node:util'
+import * as os from 'os'
 
 const exec = promisify(execSync)
 type OclifConfig = {
@@ -33,11 +33,13 @@ sudo rm -rf /usr/local/bin/${config.bin}
 ${additionalCLI ?
     `sudo rm -rf /usr/local/${additionalCLI}
 sudo rm -rf /usr/local/bin/${additionalCLI}` : ''}
+${config.binAliases ? config.binAliases.map(alias => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
 `,
   postinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
 sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${config.bin}
+${config.binAliases ? config.binAliases?.map(alias => `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${alias}`).join(os.EOL) : ''}
 ${additionalCLI ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}` : ''}
 `,
   uninstall: (config: Interfaces.Config, additionalCLI: string | undefined) => {
@@ -79,6 +81,8 @@ while [ "$1" != "-y" ]; do
 done
 
 echo "Application uninstalling process started"
+# remove bin aliases link
+${config.binAliases ? config.binAliases.map(alias => `find "/usr/local/bin/" -name "${alias}" | xargs rm`).join(os.EOL) : ''}
 # remove link to shortcut file
 find "/usr/local/bin/" -name "${config.bin}" | xargs rm
 ${additionalCLI ? `find "/usr/local/bin/" -name "${additionalCLI}" | xargs rm` : ''}
@@ -93,9 +97,9 @@ fi
 pkgutil --forget "${packageIdentifier}" > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
-  echo "[2/3] [DONE] Successfully deleted application informations"
+  echo "[2/3] [DONE] Successfully deleted application information"
 else
-  echo "[2/3] [ERROR] Could not delete application informations" >&2
+  echo "[2/3] [ERROR] Could not delete application information" >&2
 fi
 
 #remove application source distribution

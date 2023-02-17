@@ -10,3 +10,4 @@
 /test/tmp
 package-lock.json
 **/.DS_Store
+/.idea

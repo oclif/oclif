@@ -165,15 +165,15 @@ export default class CLI extends Generator {
           type: 'input',
           name: 'github.repo',
           message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
-          default: (answers: any) => (this.pjson.repository || answers.name || this.pjson.name).split('/').pop(),
+          default: (answers: any) => (answers.name || this.pjson.repository || this.pjson.name).split('/').pop(),
         },
         {
           type: 'list',
           name: 'pkg',
           message: 'Select a package manager',
           choices: [
-            {name: 'npm', value: 'npm'},
             {name: 'yarn', value: 'yarn'},
+            {name: 'npm', value: 'npm'},
           ],
           default: () => this.options.yarn || hasYarn ? 1 : 0,
         },
@@ -209,6 +209,11 @@ export default class CLI extends Generator {
     this.pjson.oclif.dirname = this.answers.bin
     this.pjson.bin = {}
     this.pjson.bin[this.pjson.oclif.bin] = './bin/run'
+
+    if (!this.options.yarn) {
+      const scripts = (this.pjson.scripts || {}) as Record<string, string>
+      this.pjson.scripts = Object.fromEntries(Object.entries(scripts).map(([k, v]) => [k, v.replace('yarn', 'npm run')]))
+    }
   }
 
   writing(): void {

@@ -172,12 +172,12 @@ export default class CLI extends Generator {
           name: 'pkg',
           message: 'Select a package manager',
           choices: [
-            {name: 'yarn', value: 'yarn'},
             {name: 'npm', value: 'npm'},
+            {name: 'yarn', value: 'yarn'},
           ],
           default: () => this.options.yarn || hasYarn ? 1 : 0,
         },
-      ]) as any
+      ])
     }
 
     debug(this.answers)
@@ -226,6 +226,7 @@ export default class CLI extends Generator {
     this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
+    this.fs.delete(this.destinationPath('LICENSE'))
   }
 
   end(): void {

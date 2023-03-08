@@ -71,7 +71,15 @@ export async function build(c: BuildConfig, options: {
       if (yarnVersion === '1') {
         await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
       } else {
-        await exec('yarn workspaces focus --production', {cwd: c.workspace()})
+        try {
+          await exec('yarn workspaces focus --production', {cwd: c.workspace()})
+        } catch (error: unknown) {
+          if (error instanceof Error && error.message.includes('Command not found')) {
+            throw new Error('Missing workspace tools. Run `yarn plugin import workspace-tools`.')
+          }
+
+          throw error
+        }
       }
     } else {
       const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?

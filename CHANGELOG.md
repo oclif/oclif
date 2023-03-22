@@ -1,3 +1,12 @@
+## [3.7.1](https://github.com/oclif/oclif/compare/3.7.0...3.7.1) (2023-03-22)
+
+
+### Bug Fixes
+
+* pass isWritingManifest true to plugin.load ([#1126](https://github.com/oclif/oclif/issues/1126)) ([c6a124a](https://github.com/oclif/oclif/commit/c6a124a032da4672b397dc5eeaa01ee13aea4104))
+
+
+
 # [3.7.0](https://github.com/oclif/oclif/compare/3.6.5...3.7.0) (2023-02-22)
 
 

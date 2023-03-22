@@ -1,3 +1,12 @@
+## [3.7.2](https://github.com/oclif/oclif/compare/3.7.1...3.7.2) (2023-03-22)
+
+
+### Bug Fixes
+
+* bump oclif core ([#1127](https://github.com/oclif/oclif/issues/1127)) ([03cbaab](https://github.com/oclif/oclif/commit/03cbaab6a4c39084581ef3f718249969ced6465f))
+
+
+
 ## [3.7.1](https://github.com/oclif/oclif/compare/3.7.0...3.7.1) (2023-03-22)
 
 

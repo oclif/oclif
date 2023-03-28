@@ -1,3 +1,12 @@
+## [3.7.3](https://github.com/oclif/oclif/compare/3.7.2...3.7.3) (2023-03-28)
+
+
+### Bug Fixes
+
+* reapply is manifest writing ([#1130](https://github.com/oclif/oclif/issues/1130)) ([d0365e5](https://github.com/oclif/oclif/commit/d0365e51aadb565951aabc17562633ad1eb0fcbd)), closes [#1127](https://github.com/oclif/oclif/issues/1127)
+
+
+
 ## [3.7.2](https://github.com/oclif/oclif/compare/3.7.1...3.7.2) (2023-03-22)
 
 

@@ -75,7 +75,7 @@ export default class Manifest extends Command {
 
     let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
     if (!plugin) throw new Error('plugin not found')
-    await plugin.load()
+    await plugin.load(true)
     if (!plugin.valid) {
       const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
       const {PluginLegacy} = require(p)

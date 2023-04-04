@@ -40,6 +40,7 @@ Priority: standard
 Architecture: ${arch}
 Maintainer: ${config.config.scopedEnvVar('AUTHOR') || config.config.pjson.author}
 Description: ${config.config.pjson.description}
+Aliases: ${config.config.binAliases?.join(', ')}
 `,
   ftparchive: (config: Interfaces.Config,
   ) => `
@@ -83,6 +84,7 @@ export default class PackDeb extends Command {
       ])
       // symlink usr/bin/oclif points to usr/lib/oclif/bin/oclif
       await exec(`ln -s "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${config.bin}"`, {cwd: path.join(workspace, 'usr', 'bin')})
+      config.binAliases?.map(alias =>  exec(`ln -sf "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${alias}"`, {cwd: path.join(workspace, 'usr', 'bin')}))
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
       await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)

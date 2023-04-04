@@ -1,10 +1,11 @@
-import {test} from '@oclif/test'
+import {expect, test} from '@oclif/test'
 import {findDistFileSha, developerSalesforceCom, deleteFolder} from '../helpers/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import {promisify} from 'node:util'
 import {pipeline as pipelineSync} from 'node:stream'
 import got from 'got'
+import {exec} from 'shelljs'
 
 const pipeline = promisify(pipelineSync)
 const pjson = require('../../package.json')
@@ -41,6 +42,10 @@ describe('publish:macos', () => {
   .command(['pack:macos'])
   .do(async () => {
     [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('pkg'))
+    await exec(`installer -pkg ${pkg} -target /`)
+    expect(exec('oclif -v').code).to.equal(0)
+    // tests binAlias
+    expect(exec('oclif2 -v').code).to.equal(0)
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {

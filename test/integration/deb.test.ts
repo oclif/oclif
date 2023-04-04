@@ -46,7 +46,7 @@ describe('publish:deb', () => {
     await exec('sudo apt-get install -y oclif')
     await exec('oclif --version')
     // test the binAliases section
-    await exec('oclif2 --version')
+    expect((await exec('oclif2 --version')).stdout).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
     const {stdout} = await exec('oclif --version')
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
   })

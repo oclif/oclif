@@ -43,9 +43,9 @@ describe('publish:macos', () => {
   .do(async () => {
     [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('pkg'))
     await exec(`sudo installer -pkg ${pkg} -target /`)
-    expect(exec('oclif -v').code).to.equal(0)
+    expect((await exec('oclif --version')).stdout).to.contain(`oclif/${pjson.version}`)
     // tests binAlias
-    expect(exec('oclif2 -v').code).to.equal(0)
+    expect((await exec('oclif2 --version')).stdout).to.contain(`oclif/${pjson.version}`)
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {

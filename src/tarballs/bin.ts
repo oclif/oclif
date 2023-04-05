@@ -82,5 +82,5 @@ fi
   }
 
   await Promise.all([writeWin32(), writeUnix()])
-  config.binAliases?.map(alias =>  exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')}))
+  config.binAliases?.map(alias => process.platform === 'win32' ? `mklink /D ${config.bin} ${alias}` : exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')}))
 }

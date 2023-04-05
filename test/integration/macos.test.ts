@@ -1,5 +1,5 @@
 import {expect, test} from '@oclif/test'
-import {findDistFileSha, developerSalesforceCom, deleteFolder} from '../helpers/helper'
+import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import {promisify} from 'node:util'
@@ -41,7 +41,7 @@ describe('publish:macos', () => {
   onlyMacos
   .command(['pack:macos'])
   .do(async () => {
-    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('pkg'))
+    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('x64.pkg'))
     await exec(`sudo installer -pkg ${path.join(cwd, 'dist', 'macos', pkg)} -target /`)
     console.log(exec('echo $SHELL').stdout)
     console.log(exec('which oclif').stdout)

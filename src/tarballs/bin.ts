@@ -2,6 +2,7 @@
 import {Interfaces} from '@oclif/core'
 import * as fs from 'fs'
 import * as path from 'path'
+import {exec} from 'shelljs'
 
 export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {config: Interfaces.Config
 ; baseWorkspace: string; nodeVersion: string;}): Promise<void> {
@@ -81,4 +82,5 @@ fi
   }
 
   await Promise.all([writeWin32(), writeUnix()])
+  config.binAliases?.map(alias =>  exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')}))
 }

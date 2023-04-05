@@ -41,11 +41,9 @@ describe('publish:macos', () => {
   onlyMacos
   .command(['pack:macos'])
   .do(async () => {
+    // install the intel silicon pkg
     [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('x64.pkg'))
     await exec(`sudo installer -pkg ${path.join(cwd, 'dist', 'macos', pkg)} -target /`)
-    console.log(exec('echo $SHELL').stdout)
-    console.log(exec('which oclif').stdout)
-
     expect(exec('oclif --version').stdout).to.contain(`oclif/${pjson.version}`)
     // tests binAlias
     expect(exec('oclif2 --version').stdout).to.contain(`oclif/${pjson.version}`)

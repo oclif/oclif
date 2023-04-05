@@ -13,7 +13,7 @@ const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 
-const skipIfWindows = process.platform === 'win32' ? test.skip() : test
+const onlyWindows = process.platform === 'win32' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:win', () => {
@@ -39,7 +39,7 @@ describe('publish:win', () => {
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })
 
-  skipIfWindows
+  onlyWindows
   .command(['pack:win'])
   .command(['upload:win'])
   .do(async () => {

@@ -6,17 +6,13 @@ import {pipeline as pipelineSync} from 'node:stream'
 import got from 'got'
 import {exec as execSync} from 'child_process'
 import {hash} from '../../src/util'
+import aws from '../../src/aws'
+import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
+import {Interfaces} from '@oclif/core'
 
 const exec = promisify(execSync)
 
 const pipeline = promisify(pipelineSync)
-import aws from '../../src/aws'
-import {
-  developerSalesforceCom,
-  gitShaSync,
-  deleteFolder,
-} from '../helpers/helper'
-import {Interfaces} from '@oclif/core'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
@@ -57,6 +53,9 @@ const manifest = async (path: string, nodeVersion: string) => {
 
     const {stdout} = await exec('./oclif/bin/oclif --version', {cwd: root})
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
+
+    const stdout2 = (await exec('./oclif/bin/oclif2 --version', {cwd: root})).stdout
+    expect(stdout2).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
     await fs.promises.rm(join(root, 'oclif'), {recursive: true})
   }
 

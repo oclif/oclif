@@ -1,4 +1,4 @@
-import {ux, Interfaces, Config} from '@oclif/core'
+import {Config, Interfaces, ux} from '@oclif/core'
 
 import * as path from 'path'
 import * as semver from 'semver'

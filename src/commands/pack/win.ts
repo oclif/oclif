@@ -238,8 +238,10 @@ the CLI should already exist in a directory named after the CLI that is the root
       await Promise.all([
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-        fs.writeFile(path.join(installerBase, 'bin', 'oclif2.cmd'), scripts.cmd(config)),
-        fs.writeFile(path.join(installerBase, 'bin', 'oclif2'), scripts.sh(config)),
+        // write duplicate files for windows aliases
+        // this avoids mklink which can require admin privileges which not everyone has
+        config.binAliases?.map(alias => fs.writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config, alias))),
+        config.binAliases?.map(alias => fs.writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.cmd(config, alias))),
         fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
       ].concat(flags['additional-cli'] ? [
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),

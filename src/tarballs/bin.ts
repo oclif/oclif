@@ -9,9 +9,8 @@ export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {con
   const binPathEnvVar = config.scopedEnvVarKey('BINPATH')
   const redirectedEnvVar = config.scopedEnvVarKey('REDIRECTED')
   const clientHomeEnvVar = config.scopedEnvVarKey('OCLIF_CLIENT_HOME')
-  const writeWin32 = async () => {
-    const {bin} = config
-    await fs.promises.writeFile(path.join(baseWorkspace, 'bin', `${config.bin}.cmd`), `@echo off
+  const writeWin32 = async (bin:string) => {
+    await fs.promises.writeFile(path.join(baseWorkspace, 'bin', `${bin}.cmd`), `@echo off
 setlocal enableextensions
 
 if not "%${redirectedEnvVar}%"=="1" if exist "%LOCALAPPDATA%\\${bin}\\client\\bin\\${bin}.cmd" (
@@ -81,6 +80,10 @@ fi
 `, {mode: 0o755})
   }
 
-  await Promise.all([writeWin32(), writeUnix()])
-  config.binAliases?.map(alias => process.platform === 'win32' ? `mklink /D ${config.bin} ${alias}` : exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')}))
+  await Promise.all([writeWin32(config.bin), writeUnix()])
+  if (process.platform === 'win32') {
+    config.binAliases?.map(alias =>  writeWin32(alias))
+  } else {
+    config.binAliases?.map(alias => exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')}))
+  }
 }

@@ -48,6 +48,7 @@ describe('publish:win', () => {
     expect(sha).to.be.ok
   })
   .it('publishes valid releases', async () => {
+    console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
     await pipeline(
       got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
       fs.createWriteStream(pkg),

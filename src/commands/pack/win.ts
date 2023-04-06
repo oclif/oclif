@@ -1,5 +1,4 @@
-import {Command, Flags} from '@oclif/core'
-import {Interfaces} from '@oclif/core'
+import {Command, Flags, Interfaces} from '@oclif/core'
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as Tarballs from '../../tarballs'
@@ -239,10 +238,9 @@ the CLI should already exist in a directory named after the CLI that is the root
       await Promise.all([
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+        fs.writeFile(path.join(installerBase, 'bin', 'oclif2.cmd'), scripts.cmd(config)),
+        fs.writeFile(path.join(installerBase, 'bin', 'oclif2'), scripts.sh(config)),
         fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
-        config.binAliases?.map(async alias => {
-          await exec(`mklink /D ${path.join(installerBase, 'bin', alias)} ${path.join(installerBase, 'bin', config.bin)}`)
-        }),
       ].concat(flags['additional-cli'] ? [
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),

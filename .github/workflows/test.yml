@@ -62,46 +62,46 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#  mac-build:
-#    needs: [unit-tests]
-#    strategy:
-#      matrix:
-#        node_version: [lts/-1, lts/*, latest]
-#      fail-fast: false
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node_version }}
-#          cache: yarn
-#      - run: yarn install --network-timeout 600000
-#      - run: yarn build
-#      - run: yarn mocha test/integration/macos.test.ts
-#        env:
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#  deb-build:
-#    needs: [unit-tests]
-#    env:
-#      OCLIF_DEB_PRIVATE_KEY: ${{ secrets.OCLIF_DEB_PRIVATE_KEY }}
-#    strategy:
-#      matrix:
-#        node_version: [lts/-1, lts/*, latest]
-#      fail-fast: false
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node_version }}
-#          cache: yarn
-#      - run: yarn install --network-timeout 600000
-#      - run: yarn build
-#      - run: echo -n "$OCLIF_DEB_PRIVATE_KEY" | gpg --import
-#
-#      - run: yarn mocha test/integration/deb.test.ts
-#        env:
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          OCLIF_DEB_KEY: ${{ secrets.OCLIF_DEB_KEY }}
+  mac-build:
+    needs: [unit-tests]
+    strategy:
+      matrix:
+        node_version: [lts/-1, lts/*, latest]
+      fail-fast: false
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - run: yarn install --network-timeout 600000
+      - run: yarn build
+      - run: yarn mocha test/integration/macos.test.ts
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  deb-build:
+    needs: [unit-tests]
+    env:
+      OCLIF_DEB_PRIVATE_KEY: ${{ secrets.OCLIF_DEB_PRIVATE_KEY }}
+    strategy:
+      matrix:
+        node_version: [lts/-1, lts/*, latest]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - run: yarn install --network-timeout 600000
+      - run: yarn build
+      - run: echo -n "$OCLIF_DEB_PRIVATE_KEY" | gpg --import
+
+      - run: yarn mocha test/integration/deb.test.ts
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          OCLIF_DEB_KEY: ${{ secrets.OCLIF_DEB_KEY }}

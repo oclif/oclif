@@ -76,7 +76,10 @@ describe('upload tarballs', async () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    await folderCleanup()
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      await folderCleanup()
+    }
+
     pjson.version = originalVersion
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })

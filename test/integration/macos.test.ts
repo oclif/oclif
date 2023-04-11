@@ -33,7 +33,10 @@ describe('publish:macos', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    }
+
     pjson.version = originalVersion
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })

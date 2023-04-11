@@ -40,6 +40,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+
   win-build:
     needs: [unit-tests]
     strategy:
@@ -62,7 +64,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          KEEP_WIN_TEST: ${{ vars.KEEP_WIN_TEST }}
+          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
   mac-build:
     needs: [unit-tests]
     strategy:
@@ -82,6 +84,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+
   deb-build:
     needs: [unit-tests]
     env:
@@ -106,3 +110,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           OCLIF_DEB_KEY: ${{ secrets.OCLIF_DEB_KEY }}
+          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+

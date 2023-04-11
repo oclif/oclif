@@ -34,9 +34,13 @@ describe('publish:win', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    // await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    // pjson.version = originalVersion
-    // await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+    if (!process.env.KEEP_WIN_TEST) {
+      // set this env var to keep the packed windows CLI in the bucket
+      // useful for downloading and testing the CLI on windows
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+      pjson.version = originalVersion
+      await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+    }
   })
 
   skipIfWindows

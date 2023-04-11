@@ -2,14 +2,18 @@
 import {Interfaces} from '@oclif/core'
 import * as fs from 'fs'
 import * as path from 'path'
-import {exec} from 'shelljs'
+import {exec as execSync, PromiseWithChild} from 'node:child_process'
+import {promisify} from 'node:util'
 
-export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {config: Interfaces.Config
-; baseWorkspace: string; nodeVersion: string;}): Promise<void> {
+const exec = promisify(execSync)
+
+export async function writeBinScripts({config, baseWorkspace, nodeVersion}: {
+  config: Interfaces.Config; baseWorkspace: string; nodeVersion: string;
+}): Promise<void> {
   const binPathEnvVar = config.scopedEnvVarKey('BINPATH')
   const redirectedEnvVar = config.scopedEnvVarKey('REDIRECTED')
   const clientHomeEnvVar = config.scopedEnvVarKey('OCLIF_CLIENT_HOME')
-  const writeWin32 = async (bin:string) => {
+  const writeWin32 = async (bin: string) => {
     await fs.promises.writeFile(path.join(baseWorkspace, 'bin', `${bin}.cmd`), `@echo off
 setlocal enableextensions
 
@@ -80,10 +84,9 @@ fi
 `, {mode: 0o755})
   }
 
-  await Promise.all([writeWin32(config.bin), writeUnix()])
-  if (process.platform === 'win32') {
-    config.binAliases?.map(alias =>  writeWin32(alias))
-  } else {
-    config.binAliases?.map(alias => exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')}))
-  }
+  const aliasPromises: (Promise<void> | PromiseWithChild<{ stdout: string; stderr: string }>)[] = []
+
+  config.binAliases?.map(alias => process.platform === 'win32' ? aliasPromises.push(writeWin32(alias)) : aliasPromises.push(exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')})))
+
+  await Promise.all([writeWin32(config.bin), writeUnix(), ...aliasPromises])
 }

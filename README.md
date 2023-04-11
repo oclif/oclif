@@ -6,7 +6,6 @@ oclif: Node.JS Open CLI Framework
 =================================
 
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)
-[![CircleCI](https://circleci.com/gh/oclif/oclif/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/oclif/tree/main)
 [![Downloads/week](https://img.shields.io/npm/dw/@oclif/command.svg)](https://npmjs.org/package/@oclif/core)
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/main/package.json)
 

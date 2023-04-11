@@ -2,7 +2,7 @@
 import {Interfaces} from '@oclif/core'
 import * as fs from 'fs'
 import * as path from 'path'
-import {exec as execSync, PromiseWithChild} from 'node:child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 
 const exec = promisify(execSync)
@@ -84,9 +84,12 @@ fi
 `, {mode: 0o755})
   }
 
-  const aliasPromises: (Promise<void> | PromiseWithChild<{ stdout: string; stderr: string }>)[] = []
-
-  config.binAliases?.map(alias => process.platform === 'win32' ? aliasPromises.push(writeWin32(alias)) : aliasPromises.push(exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')})))
-
-  await Promise.all([writeWin32(config.bin), writeUnix(), ...aliasPromises])
+  await Promise.all([
+    writeWin32(config.bin),
+    writeUnix(),
+    ...config.binAliases?.map(
+      alias => process.platform === 'win32' ?
+        writeWin32(alias) :
+        exec(`ln -sf ${config.bin} ${alias}`, {cwd: path.join(baseWorkspace, 'bin')})) ?? [],
+  ])
 }

@@ -230,9 +230,6 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball, parallel: true})
     const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-    const binAliasesFilesToWrite = (config.binAliases ?? []).flatMap(alias =>
-      [fs.writeFile(path.join(buildConfig.tmp, `${alias}.cmd`), scripts.cmd(config, alias)), fs.writeFile(path.join(buildConfig.tmp, `${alias}`), scripts.cmd(config, alias))],
-    )
     await Promise.all(arches.map(async arch => {
       const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
       await fs.promises.rm(installerBase, {recursive: true, force: true})
@@ -241,11 +238,11 @@ the CLI should already exist in a directory named after the CLI that is the root
       await Promise.all([
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
+      ].concat(config.binAliases ? config.binAliases.flatMap(alias =>
         // write duplicate files for windows aliases
         // this avoids mklink which can require admin privileges which not everyone has
-        ...binAliasesFilesToWrite,
-        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
-      ].concat(binAliasesFilesToWrite)
+        [fs.writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)), fs.writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config))]) : [])
       .concat(flags['additional-cli'] ? [
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),

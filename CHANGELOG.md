@@ -1,3 +1,12 @@
+# [3.8.0](https://github.com/oclif/oclif/compare/3.7.3...3.8.0) (2023-04-12)
+
+
+### Features
+
+* binAliases (support for multiple bin for the same CLI) for all OS ([a9ee96e](https://github.com/oclif/oclif/commit/a9ee96e7cd954a1a33db595e8be22e91070e8a93))
+
+
+
 ## [3.7.3](https://github.com/oclif/oclif/compare/3.7.2...3.7.3) (2023-03-28)
 
 

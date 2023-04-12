@@ -30,7 +30,10 @@ describe('publish:deb', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    }
+
     pjson.version = originalVersion
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })
@@ -45,6 +48,8 @@ describe('publish:deb', () => {
     await exec('sudo apt-get update')
     await exec('sudo apt-get install -y oclif')
     await exec('oclif --version')
+    // test the binAliases section
+    expect((await exec('oclif2 --version')).stdout).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
     const {stdout} = await exec('oclif --version')
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
   })

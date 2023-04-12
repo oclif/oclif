@@ -1,10 +1,9 @@
-import {Command, Flags} from '@oclif/core'
-import {Interfaces} from '@oclif/core'
+import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Tarballs from '../../tarballs'
-import {templateShortKey, debVersion, debArch} from '../../upload-util'
+import {debArch, debVersion, templateShortKey} from '../../upload-util'
 import {exec as execSync} from 'child_process'
 import {promisify} from 'node:util'
 
@@ -40,6 +39,7 @@ Priority: standard
 Architecture: ${arch}
 Maintainer: ${config.config.scopedEnvVar('AUTHOR') || config.config.pjson.author}
 Description: ${config.config.pjson.description}
+Aliases: ${config.config.binAliases?.join(', ')}
 `,
   ftparchive: (config: Interfaces.Config,
   ) => `
@@ -83,6 +83,8 @@ export default class PackDeb extends Command {
       ])
       // symlink usr/bin/oclif points to usr/lib/oclif/bin/oclif
       await exec(`ln -s "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${config.bin}"`, {cwd: path.join(workspace, 'usr', 'bin')})
+
+      config.binAliases?.map(alias =>  exec(`ln -sf "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${alias}"`, {cwd: path.join(workspace, 'usr', 'bin')}))
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
       await exec(`dpkg --build "${workspace}" "${path.join(dist, versionedDebBase)}"`)

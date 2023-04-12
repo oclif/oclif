@@ -1,10 +1,11 @@
-import {test} from '@oclif/test'
-import {findDistFileSha, developerSalesforceCom, deleteFolder} from '../helpers/helper'
+import {expect, test} from '@oclif/test'
+import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import {promisify} from 'node:util'
 import {pipeline as pipelineSync} from 'node:stream'
 import got from 'got'
+import {exec} from 'shelljs'
 
 const pipeline = promisify(pipelineSync)
 const pjson = require('../../package.json')
@@ -32,7 +33,10 @@ describe('publish:macos', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    }
+
     pjson.version = originalVersion
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
   })
@@ -40,7 +44,12 @@ describe('publish:macos', () => {
   onlyMacos
   .command(['pack:macos'])
   .do(async () => {
-    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('pkg'))
+    // install the intel silicon pkg
+    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('x64.pkg'))
+    await exec(`sudo installer -pkg ${path.join(cwd, 'dist', 'macos', pkg)} -target /`)
+    expect(exec('oclif --version').stdout).to.contain(`oclif/${pjson.version}`)
+    // tests binAlias
+    expect(exec('oclif2 --version').stdout).to.contain(`oclif/${pjson.version}`)
   })
   .command(['upload:macos'])
   .it('publishes valid releases', async () => {

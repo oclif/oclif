@@ -34,9 +34,13 @@ describe('publish:win', () => {
     await fs.emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    pjson.version = originalVersion
-    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      // set this env var to keep the packed windows CLI in the bucket
+      // useful for downloading and testing the CLI on windows
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+      pjson.version = originalVersion
+      await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+    }
   })
 
   skipIfWindows
@@ -48,6 +52,7 @@ describe('publish:win', () => {
     expect(sha).to.be.ok
   })
   .it('publishes valid releases', async () => {
+    console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
     await pipeline(
       got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
       fs.createWriteStream(pkg),

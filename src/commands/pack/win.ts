@@ -1,5 +1,4 @@
-import {Command, Flags} from '@oclif/core'
-import {Interfaces} from '@oclif/core'
+import {Command, Flags, Interfaces} from '@oclif/core'
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as Tarballs from '../../tarballs'
@@ -240,7 +239,11 @@ the CLI should already exist in a directory named after the CLI that is the root
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
         fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
-      ].concat(flags['additional-cli'] ? [
+      ].concat(config.binAliases ? config.binAliases.flatMap(alias =>
+        // write duplicate files for windows aliases
+        // this avoids mklink which can require admin privileges which not everyone has
+        [fs.writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)), fs.writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config))]) : [])
+      .concat(flags['additional-cli'] ? [
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
         fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),
       ] : []))

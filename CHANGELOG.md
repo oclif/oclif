@@ -1,3 +1,12 @@
+## [3.8.1](https://github.com/oclif/oclif/compare/3.8.0...3.8.1) (2023-04-14)
+
+
+### Bug Fixes
+
+* **promote:deb:** skip i386 deb pkg if node < 10 ([#1140](https://github.com/oclif/oclif/issues/1140)) ([dd50d78](https://github.com/oclif/oclif/commit/dd50d78ed486e37209789a201e60b35679a7ffdf))
+
+
+
 # [3.8.0](https://github.com/oclif/oclif/compare/3.7.3...3.8.0) (2023-04-12)
 
 

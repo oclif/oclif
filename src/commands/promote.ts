@@ -3,6 +3,7 @@ import * as path from 'path'
 import * as _ from 'lodash'
 
 import {ux, Command, Flags} from '@oclif/core'
+import { lte } from 'semver'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
@@ -153,7 +154,6 @@ export default class Promote extends Command {
       // copy debian artifacts
       const debArtifacts = [
         templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'amd64' as any}),
-        templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'i386' as any}),
         'Packages.gz',
         'Packages.xz',
         'Packages.bz2',
@@ -161,6 +161,18 @@ export default class Promote extends Command {
         'InRelease',
         'Release.gpg',
       ]
+      
+      // start
+      // TODO: remove in next major release
+      // node dropped 32-bit support for linux a long time ago, see:
+      // https://github.com/oclif/oclif/issues/770#issuecomment-1508719530
+      const arches = buildConfig.targets.filter(t => t.platform === 'linux')
+      
+      if (arches.find(a=> a.arch.includes('x86')) && lte(buildConfig.nodeVersion, '9.11.2')) {
+        debArtifacts.push(templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'i386' as any}))
+      }
+      // end
+
       this.log(`Promoting debian artifacts to ${flags.channel}`)
       await Promise.all(debArtifacts.flatMap(artifact => {
         const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)

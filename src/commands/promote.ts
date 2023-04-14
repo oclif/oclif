@@ -168,7 +168,7 @@ export default class Promote extends Command {
       // https://github.com/oclif/oclif/issues/770#issuecomment-1508719530
       const arches = buildConfig.targets.filter(t => t.platform === 'linux')
       
-      if (arches.find(a=> a.arch.includes('x86')) && lte(buildConfig.nodeVersion, 'v9.11.2')) {
+      if (arches.find(a=> a.arch.includes('x86')) && lte(buildConfig.nodeVersion, '9.11.2')) {
         debArtifacts.push(templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'i386' as any}))
       }
       // end

@@ -29,7 +29,7 @@ ret=$?
 exit $ret
 `,
   nsis: (config: Interfaces.Config
-    , arch: string) => `!include MUI2.nsh
+    , arch: string, extra?:string) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -56,6 +56,8 @@ VIAddVersionKey /LANG=\${LANG_ENGLISH} "FileVersion" "\${VERSION}.0"
 VIAddVersionKey /LANG=\${LANG_ENGLISH} "ProductVersion" "\${VERSION}.0"
 
 InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+
+${extra}
 
 Section "${config.name} CLI \${VERSION}"
   SetOutPath $INSTDIR
@@ -263,11 +265,12 @@ the CLI should already exist in a directory named after the CLI that is the root
       const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
       await fs.promises.rm(installerBase, {recursive: true, force: true})
       await fs.promises.mkdir(path.join(installerBase, 'bin'), {recursive: true})
+      const nsisExtra = config.pjson.windows?.nsisCustomization ? fs.readFileSync(config.pjson.windows?.nsisCustomization, 'utf8') : ''
 
       await Promise.all([
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
+        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisExtra)),
       ].concat(config.binAliases ? config.binAliases.flatMap(alias =>
         // write duplicate files for windows aliases
         // this avoids mklink which can require admin privileges which not everyone has

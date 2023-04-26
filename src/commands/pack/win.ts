@@ -95,35 +95,6 @@ Section "Uninstall"
 SectionEnd
 
 !define Environ 'HKCU "Environment"'
-
-; Function .onInit
-; fail:
-;   MessageBox MB_OK "sfdx or sf v1 CLI found. Please uninstall it first"
-;   abort
-;
-;   nsExec::ExecToStack "sfdx --version"
-;   Pop $0
-;   Pop $0
-;
-;   Push "sfdx-cli/7."
-;   Call StrStr
-;
-;   Pop $2
-;   StrCmp $2 "" 0 Goto fail
-;
-;   nsExec::ExecToStack "sf --version"
-;   Pop $0
-;   Pop $0
-;
-;   Push "@salesforce/cli/1."
-;   Call StrStr
-;
-;   Pop $2
-;   StrCmp $2 "" 0 Goto fail
-;
-;  FunctionEnd
-
-
 Function AddToPath
   Exch $0
   Push $1

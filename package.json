@@ -25,8 +25,8 @@
     "semver": "^7.3.8",
     "shelljs": "^0.8.5",
     "tslib": "^2.3.1",
-    "yeoman-environment": "^3.11.1",
-    "yeoman-generator": "^5.6.1",
+    "yeoman-environment": "^3.15.1",
+    "yeoman-generator": "^5.8.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {

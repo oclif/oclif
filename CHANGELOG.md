@@ -1,3 +1,12 @@
+## [3.8.2](https://github.com/oclif/oclif/compare/3.8.1...3.8.2) (2023-04-28)
+
+
+### Bug Fixes
+
+* **deps:** bump yeoman, remove unused dev-deps ([8c04440](https://github.com/oclif/oclif/commit/8c04440fd62c964f55ce93a0971a4875cf0a8ebc))
+
+
+
 ## [3.8.1](https://github.com/oclif/oclif/compare/3.8.0...3.8.1) (2023-04-14)
 
 

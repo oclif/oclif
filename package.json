@@ -9,7 +9,7 @@
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^2.8.3",
+    "@oclif/core": "^2.8.4",
     "@oclif/plugin-help": "^5.1.19",
     "@oclif/plugin-not-found": "^2.3.7",
     "@oclif/plugin-warn-if-update-available": "^2.0.14",

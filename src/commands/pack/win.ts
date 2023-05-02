@@ -29,7 +29,7 @@ ret=$?
 exit $ret
 `,
   nsis: (config: Interfaces.Config
-    , arch: string) => `!include MUI2.nsh
+    , arch: string, customization?:string) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -56,6 +56,8 @@ VIAddVersionKey /LANG=\${LANG_ENGLISH} "FileVersion" "\${VERSION}.0"
 VIAddVersionKey /LANG=\${LANG_ENGLISH} "ProductVersion" "\${VERSION}.0"
 
 InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+
+${customization}
 
 Section "${config.name} CLI \${VERSION}"
   SetOutPath $INSTDIR
@@ -230,15 +232,16 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball, parallel: true})
     const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+    const nsisCustomization = config.nsisCustomization ? fs.readFileSync(config.nsisCustomization, 'utf8') : ''
+
     await Promise.all(arches.map(async arch => {
       const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
       await fs.promises.rm(installerBase, {recursive: true, force: true})
       await fs.promises.mkdir(path.join(installerBase, 'bin'), {recursive: true})
-
       await Promise.all([
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
         fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch)),
+        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
       ].concat(config.binAliases ? config.binAliases.flatMap(alias =>
         // write duplicate files for windows aliases
         // this avoids mklink which can require admin privileges which not everyone has
@@ -294,4 +297,3 @@ async function signWindows(o: string, arch: string, config: Interfaces.Config, w
   ]
   await exec(`osslsigncode sign ${args.join(' ')}`)
 }
-

@@ -1,3 +1,12 @@
+# [3.9.0](https://github.com/oclif/oclif/compare/3.8.2...3.9.0) (2023-05-02)
+
+
+### Features
+
+* add additional nsis scripting expansion ([#1142](https://github.com/oclif/oclif/issues/1142)) ([1760c01](https://github.com/oclif/oclif/commit/1760c01ad644f314d447aa47a337b9df24fc12de))
+
+
+
 ## [3.8.2](https://github.com/oclif/oclif/compare/3.8.1...3.8.2) (2023-04-28)
 
 

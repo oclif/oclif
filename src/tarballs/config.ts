@@ -13,6 +13,7 @@ const exec = promisify(execSync)
 export const TARGETS = [
   'linux-x64',
   'linux-arm',
+  'linux-arm64',
   'win32-x64',
   'win32-x86',
   'darwin-x64',

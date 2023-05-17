@@ -45,6 +45,7 @@ export function debArch(arch: Interfaces.ArchTypes): string {
   if (arch === 'x64') return 'amd64'
   if (arch === 'x86') return 'i386'
   if (arch === 'arm') return 'armel'
+  if (arch === 'arm64') return 'arm64'
   throw new Error(`invalid arch: ${arch}`)
 }
 

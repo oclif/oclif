@@ -41,7 +41,7 @@ export function templateShortKey(
   return _.template(templates[type])({...options})
 }
 
-export function debArch(arch: Interfaces.ArchTypes): string {
+export function debArch(arch: Interfaces.ArchTypes): 'amd64' | 'i386' | 'armel' | 'arm64' {
   if (arch === 'x64') return 'amd64'
   if (arch === 'x86') return 'i386'
   if (arch === 'arm') return 'armel'

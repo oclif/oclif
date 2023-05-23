@@ -4,7 +4,7 @@ import * as path from 'path'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey, debVersion} from '../../upload-util'
+import {commitAWSDir, templateShortKey, debVersion, debArch} from '../../upload-util'
 
 export default class UploadDeb extends Command {
   static description = 'upload deb package built with pack:deb'
@@ -42,16 +42,16 @@ export default class UploadDeb extends Command {
       return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
-    const uploadDeb = async (arch: 'amd64' | 'i386') => {
+    const uploadDeb = async (arch: 'amd64' | 'i386' | 'armel' | 'arm64') => {
       const deb = templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: arch as any})
       if (fs.existsSync(dist(deb))) await Promise.all([upload(deb), uploadWorkaround(deb)])
     }
 
     log(`starting upload of deb artifacts for v${config.version}-${buildConfig.gitSha}`)
+    const arches = buildConfig.targets.filter(t => t.platform === 'linux')
 
     await Promise.all([
-      uploadDeb('amd64'),
-      uploadDeb('i386'),
+      ...arches.map(a => uploadDeb(debArch(a.arch))),
       upload('Packages.gz'),
       upload('Packages.xz'),
       upload('Packages.bz2'),

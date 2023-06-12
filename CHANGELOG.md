@@ -1,3 +1,12 @@
+## [3.9.1](https://github.com/oclif/oclif/compare/3.9.0...3.9.1) (2023-06-12)
+
+
+### Bug Fixes
+
+* add yarn 1/3 support ([#1149](https://github.com/oclif/oclif/issues/1149)) ([4d4a96b](https://github.com/oclif/oclif/commit/4d4a96bbd65f65d124db5dbb7ee278109ea89238))
+
+
+
 # [3.9.0](https://github.com/oclif/oclif/compare/3.8.2...3.9.0) (2023-05-02)
 
 

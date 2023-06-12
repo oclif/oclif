@@ -7,7 +7,7 @@ import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
 import {commitAWSDir, templateShortKey} from '../upload-util'
-import {prettifyPaths, hash} from '../util'
+import {hash, prettifyPaths} from '../util'
 import {exec as execSync} from 'child_process'
 import {promisify} from 'node:util'
 
@@ -66,7 +66,23 @@ export async function build(c: BuildConfig, options: {
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
     if (fs.existsSync(path.join(yarnRoot, 'yarn.lock'))) {
       await fs.copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
-      await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
+
+      const yarnVersion = (await exec('yarn -v')).stdout.charAt(0)
+      if (yarnVersion === '1') {
+        await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
+      } else if (yarnVersion === '2') {
+        throw new Error('Yarn 2 is not supported yet. Try using Yarn 1, or Yarn 3')
+      } else {
+        try {
+          await exec('yarn workspaces focus --production', {cwd: c.workspace()})
+        } catch (error: unknown) {
+          if (error instanceof Error && error.message.includes('Command not found')) {
+            throw new Error('Missing workspace tools. Run `yarn plugin import workspace-tools`.')
+          }
+
+          throw error
+        }
+      }
     } else {
       const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?
         path.join(c.root, 'package-lock.json') :
@@ -179,4 +195,3 @@ export async function build(c: BuildConfig, options: {
     log(`finished building ${targetsToBuild.length} targets sequentially`)
   }
 }
-

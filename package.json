@@ -9,10 +9,10 @@
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^2.8.4",
-    "@oclif/plugin-help": "^5.1.19",
-    "@oclif/plugin-not-found": "^2.3.7",
-    "@oclif/plugin-warn-if-update-available": "^2.0.14",
+    "@oclif/core": "^2.9.4",
+    "@oclif/plugin-help": "^5.2.14",
+    "@oclif/plugin-not-found": "^2.3.32",
+    "@oclif/plugin-warn-if-update-available": "^2.0.44",
     "aws-sdk": "^2.1231.0",
     "concurrently": "^7.6.0",
     "debug": "^4.3.3",
@@ -30,8 +30,8 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@oclif/plugin-legacy": "^1.2.7",
-    "@oclif/test": "^2.3.0",
+    "@oclif/plugin-legacy": "^1.3.0",
+    "@oclif/test": "^2.3.31",
     "@types/chai": "^4.3.4",
     "@types/cli-progress": "^3.11.0",
     "@types/fs-extra": "^9.0",

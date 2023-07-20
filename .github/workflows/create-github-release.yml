@@ -1,0 +1,26 @@
+name: create-github-release
+
+on:
+  push:
+    branches:
+      - main
+      - prerelease/**
+    tags-ignore:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        type: string
+        description: 'Name to use for the prerelease: beta, dev, etc. NOTE: If this is already set in the package.json, it does not need to be passed in here.'
+
+jobs:
+  release:
+    uses: salesforcecli/github-workflows/.github/workflows/create-github-release.yml@main
+    secrets: 
+      SVC_CLI_BOT_GITHUB_TOKEN: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
+    with:
+      prerelease: ${{ inputs.prerelease }}
+      # If this is a push event, we want to skip the release if there are no semantic commits
+      # However, if this is a manual release (workflow_dispatch), then we want to disable skip-on-empty
+      # This helps recover from forgetting to add semantic commits ('fix:', 'feat:', etc.)
+      skip-on-empty: ${{ github.event_name == 'push' }}

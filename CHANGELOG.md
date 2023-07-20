@@ -1,3 +1,16 @@
+## [3.9.2](https://github.com/oclif/oclif/compare/3.9.2-dev.0...3.9.2) (2023-07-20)
+
+
+
+## [3.9.2-dev.0](https://github.com/oclif/oclif/compare/3.9.1...3.9.2-dev.0) (2023-07-20)
+
+
+### Bug Fixes
+
+* ignore install scripts when building JIT plugin manifests ([ce725a2](https://github.com/oclif/oclif/commit/ce725a203c1f80ea2c36188efcf5a85ce22ea07a))
+
+
+
 ## [3.9.1](https://github.com/oclif/oclif/compare/3.9.0...3.9.1) (2023-06-12)
 
 

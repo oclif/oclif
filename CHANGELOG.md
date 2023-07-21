@@ -1,3 +1,12 @@
+# [3.10.0](https://github.com/oclif/oclif/compare/3.9.2...3.10.0) (2023-07-21)
+
+
+### Features
+
+* Add support for linux arm64, debian architectures ([7ca9e6e](https://github.com/oclif/oclif/commit/7ca9e6e67695191e197c916a71df58d09a3cac99))
+
+
+
 ## [3.9.2](https://github.com/oclif/oclif/compare/3.9.2-dev.0...3.9.2) (2023-07-20)
 
 

@@ -3,11 +3,11 @@ import * as path from 'path'
 import * as _ from 'lodash'
 
 import {ux, Command, Flags} from '@oclif/core'
-import { lte } from 'semver'
+import {lte} from 'semver'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {channelAWSDir, commitAWSDir, debVersion, templateShortKey} from '../upload-util'
+import {channelAWSDir, commitAWSDir, debArch, debVersion, templateShortKey} from '../upload-util'
 import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
@@ -151,9 +151,15 @@ export default class Promote extends Command {
     }
 
     const promoteDebianAptPackages = async () => {
+      const arches = buildConfig.targets.filter(t => t.platform === 'linux')
+
       // copy debian artifacts
       const debArtifacts = [
-        templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'amd64' as any}),
+        ...arches
+        .filter(a => !a.arch.includes('x86')) // See todo below
+        .map(a =>
+          templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: debArch(a.arch) as any})
+        ),
         'Packages.gz',
         'Packages.xz',
         'Packages.bz2',
@@ -161,13 +167,12 @@ export default class Promote extends Command {
         'InRelease',
         'Release.gpg',
       ]
-      
+
       // start
       // TODO: remove in next major release
       // node dropped 32-bit support for linux a long time ago, see:
       // https://github.com/oclif/oclif/issues/770#issuecomment-1508719530
-      const arches = buildConfig.targets.filter(t => t.platform === 'linux')
-      
+
       if (arches.find(a=> a.arch.includes('x86')) && lte(buildConfig.nodeVersion, '9.11.2')) {
         debArtifacts.push(templateShortKey('deb', {bin: config.bin, versionShaRevision: debVersion(buildConfig), arch: 'i386' as any}))
       }

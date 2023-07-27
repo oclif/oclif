@@ -67,7 +67,21 @@ export default class CLI extends Generator {
 
     this.log(yosay(`${msg} Version: ${version}`))
 
-    execSync(`git clone https://github.com/oclif/hello-world.git "${path.resolve(this.name)}"`)
+    const {moduleType} = await this.prompt([
+      {
+        type: 'list',
+        name: 'moduleType',
+        message: 'Select a module type',
+        choices: [
+          {name: 'CommonJS', value: 'cjs'},
+          {name: 'ESM', value: 'esm'},
+        ],
+        default: 'cjs',
+      },
+    ])
+
+    const repo = moduleType === 'esm' ? 'hello-world-esm' : 'hello-world'
+    execSync(`git clone https://github.com/oclif/${repo}.git "${path.resolve(this.name)}" --depth=1`)
     fs.rmSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
 
     this.destinationRoot(path.resolve(this.name))
@@ -230,8 +244,16 @@ export default class CLI extends Generator {
   }
 
   end(): void {
-    this.spawnCommandSync(this.env.options.nodePackageManager, ['run', 'build'])
-    this.spawnCommandSync(path.join(this.env.cwd, 'node_modules', '.bin', 'oclif'), ['readme'], {cwd: this.env.cwd})
+    this.spawnCommandSync(this.env.options.nodePackageManager, ['run', 'build'], {cwd: this.env.cwd})
+    this.spawnCommandSync(path.join(this.env.cwd, 'node_modules', '.bin', 'oclif'), ['readme'], {
+      cwd: this.env.cwd,
+      // When testing this command in development, you get noisy compilation errors as a result of running
+      // this in a spawned process. Setting the NODE_ENV to production will silence these warnings. This
+      // doesn't affect the behavior of the command in production since the NODE_ENV is already set to production
+      // in that scenario.
+      env: {...process.env, NODE_ENV: 'production'},
+    })
+
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }
 

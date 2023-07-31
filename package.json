@@ -4,8 +4,7 @@
   "version": "3.11.0",
   "author": "Salesforce",
   "bin": {
-    "oclif": "bin/run",
-    "oclif2": "bin/run"
+    "oclif": "bin/run"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
@@ -85,9 +84,6 @@
       "@oclif/plugin-not-found"
     ],
     "bin": "oclif",
-    "binAliases": [
-      "oclif2"
-    ],
     "dirname": "oclif",
     "topicSeparator": " ",
     "macos": {

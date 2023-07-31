@@ -1,3 +1,12 @@
+# [3.11.0](https://github.com/oclif/oclif/compare/3.10.0...3.11.0) (2023-07-31)
+
+
+### Features
+
+* add esm option to generate ([#1160](https://github.com/oclif/oclif/issues/1160)) ([a8f1885](https://github.com/oclif/oclif/commit/a8f18855468fb29921da2281a786c54224c7be6c))
+
+
+
 # [3.10.0](https://github.com/oclif/oclif/compare/3.9.2...3.10.0) (2023-07-21)
 
 

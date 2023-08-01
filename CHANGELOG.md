@@ -1,3 +1,12 @@
+## [3.11.1](https://github.com/oclif/oclif/compare/3.11.0...3.11.1) (2023-08-01)
+
+
+### Bug Fixes
+
+* remove yosay dependency ([#1163](https://github.com/oclif/oclif/issues/1163)) ([5660538](https://github.com/oclif/oclif/commit/5660538798a2d9dd621215b9d447f95a2adf94f1))
+
+
+
 # [3.11.0](https://github.com/oclif/oclif/compare/3.10.0...3.11.0) (2023-07-31)
 
 

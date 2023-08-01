@@ -5,11 +5,12 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import {exec as execSync} from 'child_process'
 import {promisify} from 'node:util'
+import * as _ from 'lodash'
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalVersion = pjson.version
+const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
 const onlyLinux = process.platform === 'linux' ? test : test.skip()
@@ -23,6 +24,7 @@ describe('publish:deb', () => {
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
     pjson.oclif.update.node.version = process.versions.node
+    pjson.oclif.binAliases = ['oclif2']
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
@@ -34,8 +36,7 @@ describe('publish:deb', () => {
       await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     }
 
-    pjson.version = originalVersion
-    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+    await fs.writeJSON(pjsonPath, originalPJSON, {spaces: 2})
   })
 
   onlyLinux

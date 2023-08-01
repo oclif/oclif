@@ -1,14 +1,14 @@
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
-import yosay = require('yosay')
-import {GeneratorOptions, PackageJson} from '../types'
+import {GeneratorOptions} from '../types'
+import {Interfaces} from '@oclif/core'
 
 const {version} = require('../../package.json')
 
 export default class Command extends Generator {
   public options: GeneratorOptions
-  public pjson!: PackageJson
+  public pjson!: Interfaces.PJSON
 
   constructor(args: string | string[], opts: GeneratorOptions) {
     super(args, opts)
@@ -24,10 +24,10 @@ export default class Command extends Generator {
   }
 
   public async prompting(): Promise<void> {
-    this.pjson = this.fs.readJSON('package.json') as unknown as PackageJson
+    this.pjson = this.fs.readJSON('package.json') as unknown as Interfaces.PJSON
     if (!this.pjson) throw new Error('not in a project directory')
     this.pjson.oclif = this.pjson.oclif || {}
-    this.log(yosay(`Adding a command to ${this.pjson.name} Version: ${version}`))
+    this.log(`Adding a command to ${this.pjson.name}! Version: ${version}`)
   }
 
   public writing(): void {

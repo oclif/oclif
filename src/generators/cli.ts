@@ -3,7 +3,6 @@ import * as fs from 'fs'
 import * as _ from 'lodash'
 import * as path from 'path'
 import * as Generator from 'yeoman-generator'
-import yosay = require('yosay')
 
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
@@ -65,7 +64,7 @@ export default class CLI extends Generator {
   async prompting(): Promise<void> {
     const msg = 'Time to build an oclif CLI!'
 
-    this.log(yosay(`${msg} Version: ${version}`))
+    this.log(`${msg} Version: ${version}`)
 
     const {moduleType} = await this.prompt([
       {

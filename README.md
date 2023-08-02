@@ -99,8 +99,8 @@ COMMANDS
   hello
   help   display help for mynewcli
 
-$ ./bin/run hello
-hello world from ./src/hello.js!
+$ ./bin/run hello world
+hello world! (./src/commands/hello/world.ts)
 ```
 
 # 📚 Examples

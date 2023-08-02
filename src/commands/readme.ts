@@ -221,7 +221,7 @@ USAGE
   private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
-    let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
+    let p = path.join(plugin.root, commandsDir, ...c.id.split(plugin.pjson.oclif.topicSeparator ?? ':'))
     const libRegex = new RegExp('^lib' + (path.sep === '\\' ? '\\\\' : path.sep))
     if (fs.pathExistsSync(path.join(p, 'index.js'))) {
       p = path.join(p, 'index.js')

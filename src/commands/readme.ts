@@ -173,11 +173,14 @@ USAGE
     }
 
     try {
+      // copy c to keep the command ID with colons, see:
+      // https://github.com/oclif/oclif/pull/1165#discussion_r1282305242
+      const command = {...c}
       return compact([
         header(),
         title,
         '```\n' + wrapper.formatCommand(c).trim() + '\n```',
-        this.commandCode(config, c),
+        this.commandCode(config, command),
       ]).join('\n\n')
     } catch (error: any) {
       this.error(error.message)
@@ -221,7 +224,7 @@ USAGE
   private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
-    let p = path.join(plugin.root, commandsDir, ...c.id.split(plugin.pjson.oclif.topicSeparator ?? ':'))
+    let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
     const libRegex = new RegExp('^lib' + (path.sep === '\\' ? '\\\\' : path.sep))
     if (fs.pathExistsSync(path.join(p, 'index.js'))) {
       p = path.join(p, 'index.js')

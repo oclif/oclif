@@ -173,11 +173,14 @@ USAGE
     }
 
     try {
+      // copy c to keep the command ID with colons, see:
+      // https://github.com/oclif/oclif/pull/1165#discussion_r1282305242
+      const command = {...c}
       return compact([
         header(),
         title,
         '```\n' + wrapper.formatCommand(c).trim() + '\n```',
-        this.commandCode(config, c),
+        this.commandCode(config, command),
       ]).join('\n\n')
     } catch (error: any) {
       this.error(error.message)

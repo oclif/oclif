@@ -1,3 +1,12 @@
+## [3.11.2](https://github.com/oclif/oclif/compare/3.11.1...3.11.2) (2023-08-04)
+
+
+### Bug Fixes
+
+* respect topic sep when generating readme ([#1165](https://github.com/oclif/oclif/issues/1165)) ([4755882](https://github.com/oclif/oclif/commit/47558825861c0d9dbee40ac76f5adce7dca859b4))
+
+
+
 ## [3.11.1](https://github.com/oclif/oclif/compare/3.11.0...3.11.1) (2023-08-01)
 
 

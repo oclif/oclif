@@ -1,3 +1,12 @@
+## [3.11.3](https://github.com/oclif/oclif/compare/3.11.2...3.11.3) (2023-08-07)
+
+
+### Bug Fixes
+
+* hide module type prompt behind OCLIF_ALLOW_ESM env var ([#1167](https://github.com/oclif/oclif/issues/1167)) ([31a19ca](https://github.com/oclif/oclif/commit/31a19ca2ec988b3a036dafe903e2527a96bd79a4))
+
+
+
 ## [3.11.2](https://github.com/oclif/oclif/compare/3.11.1...3.11.2) (2023-08-04)
 
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 import {Interfaces} from '@oclif/core'
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 

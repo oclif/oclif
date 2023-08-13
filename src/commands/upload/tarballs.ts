@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import {Interfaces} from '@oclif/core'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'

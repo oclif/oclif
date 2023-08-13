@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 import {GeneratorOptions} from '../types'
 import {Interfaces} from '@oclif/core'

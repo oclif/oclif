@@ -1,7 +1,7 @@
-import {execSync} from 'child_process'
-import * as fs from 'fs'
+import {execSync} from 'node:child_process'
+import * as fs from 'node:fs'
 import * as _ from 'lodash'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 
 const debug = require('debug')('generator-oclif')

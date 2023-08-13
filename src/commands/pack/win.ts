@@ -1,9 +1,9 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as fs from 'fs-extra'
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 
 const exec = promisify(execSync)

@@ -1,10 +1,10 @@
 import {Errors} from '@oclif/core'
 import _ = require('lodash')
-import * as os from 'os'
-import * as crypto from 'crypto'
+import * as os from 'node:os'
+import * as crypto from 'node:crypto'
 import {log} from './log'
 import * as fs from 'fs-extra'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'util'
 const exec = promisify(execSync)
 

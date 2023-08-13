@@ -1,8 +1,8 @@
 import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin, toConfiguredId} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as path from 'path'
-import {URL} from 'url'
+import * as path from 'node:path'
+import {URL} from 'node:url'
 
 import {castArray, compact, sortBy, template, uniqBy} from '../util'
 import {HelpCompatibilityWrapper} from '../help-compatibility'

@@ -1,14 +1,14 @@
 import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import {log} from '../log'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as fs from 'fs-extra'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
 import {commitAWSDir, templateShortKey} from '../upload-util'
 import {hash, prettifyPaths} from '../util'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 
 const exec = promisify(execSync)

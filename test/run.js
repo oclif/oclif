@@ -1,9 +1,9 @@
 const {fancy} = require('fancy-test')
-const path = require('path')
+const path = require('node:path')
 const sh = require('shelljs')
 const npmPath = require('npm-run-path')
 const tmp = require('tmp')
-const os = require('os')
+const os = require('node:os')
 
 sh.set('-ev')
 

@@ -1,7 +1,7 @@
 import {expect, test} from '@oclif/test'
 import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
 import * as fs from 'fs-extra'
-import * as path from 'path'
+import * as path from 'node:path'
 import {promisify} from 'node:util'
 import {pipeline as pipelineSync} from 'node:stream'
 import got from 'got'

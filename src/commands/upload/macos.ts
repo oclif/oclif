@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import {Command, Flags, Interfaces} from '@oclif/core'
 
 import aws from '../../aws'

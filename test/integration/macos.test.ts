@@ -2,13 +2,11 @@ import {expect, test} from '@oclif/test'
 import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
 import * as fs from 'fs-extra'
 import * as path from 'node:path'
-import {promisify} from 'node:util'
-import {pipeline as pipelineSync} from 'node:stream'
+import {pipeline} from 'node:stream/promises'
 import got from 'got'
 import {exec} from 'shelljs'
 import * as _ from 'lodash'
 
-const pipeline = promisify(pipelineSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalPJSON = _.cloneDeep(pjson)

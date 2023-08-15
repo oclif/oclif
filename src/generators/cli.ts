@@ -61,13 +61,12 @@ export default class CLI extends Generator {
     }
   }
 
-  // eslint-disable-next-line complexity
   async prompting(): Promise<void> {
     const msg = 'Time to build an oclif CLI!'
 
     this.log(`${msg} Version: ${version}`)
 
-    const {moduleType} = process.env.OCLIF_ALLOW_ESM ? await this.prompt([
+    const {moduleType} = await this.prompt([
       {
         type: 'list',
         name: 'moduleType',
@@ -78,7 +77,7 @@ export default class CLI extends Generator {
         ],
         default: 'cjs',
       },
-    ]) : 'cjs'
+    ])
 
     const repo = moduleType === 'esm' ? 'hello-world-esm' : 'hello-world'
     execSync(`git clone https://github.com/oclif/${repo}.git "${path.resolve(this.name)}" --depth=1`)

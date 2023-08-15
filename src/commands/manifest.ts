@@ -73,7 +73,12 @@ export default class Manifest extends Command {
       ux.action.stop()
     }
 
-    let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
+    let plugin = new Plugin({
+      root,
+      type: 'core',
+      ignoreManifest: true,
+      errorOnManifestCreate: true,
+    })
     if (!plugin) throw new Error('plugin not found')
     await plugin.load(true)
     if (!plugin.valid) {

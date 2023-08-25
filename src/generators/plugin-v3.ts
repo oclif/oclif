@@ -121,7 +121,7 @@ export default class ESM extends Generator {
       }
     }
 
-    const typescriptVersion = pjson.devDependencies?.typescript
+    const typescriptVersion = pjson.devDependencies?.typescript?.replace('^', '').replace('~', '')
     if (typescriptVersion && semver.lt(typescriptVersion, '4.7.4')) {
       pjson.devDependencies!.typescript = '^4.9.5'
       this.log(formatFromTo('devDependencies[typescript]', pjsonCopy.devDependencies!.typescript, pjson.devDependencies!.typescript))
@@ -170,10 +170,10 @@ export default class ESM extends Generator {
   }
 
   public async end(): Promise<void> {
-    await exec('chmod +x bin/dev.js', {cwd: this.env.cwd})
-    await exec('chmod +x bin/run.js', {cwd: this.env.cwd})
+    if (!this.opts.dryRun) await exec('chmod +x bin/dev.js', {cwd: this.env.cwd})
+    if (!this.opts.dryRun) await exec('chmod +x bin/run.js', {cwd: this.env.cwd})
 
     if (!this.opts.dryRun) this.log('Migration complete.')
-    if (!this.opts.dryRun && this.opts.moduleType === 'esm') this.log('Further changes may be required for your plugin to compile.')
+    if (!this.opts.dryRun && this.opts.moduleType === 'esm') this.log(chalk.bold('Further changes may be required for your plugin to compile.'))
   }
 }

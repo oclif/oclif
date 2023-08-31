@@ -1,3 +1,12 @@
+## [3.13.1](https://github.com/oclif/oclif/compare/3.13.0...3.13.1) (2023-08-31)
+
+
+### Reverts
+
+* Revert "feat: remove OCLIF_ALLOW_ESM env var (#1171)" (#1179) ([5472380](https://github.com/oclif/oclif/commit/5472380a5bc968b6677891dde78af058c8c1e6e2)), closes [#1171](https://github.com/oclif/oclif/issues/1171) [#1179](https://github.com/oclif/oclif/issues/1179)
+
+
+
 # [3.13.0](https://github.com/oclif/oclif/compare/3.12.0...3.13.0) (2023-08-31)
 
 

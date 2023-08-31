@@ -1,14 +1,14 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "3.11.3",
+  "version": "3.11.3-test-4228-test-0187",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^2.11.4",
+    "@oclif/core": "^3.0.0-beta.4",
     "@oclif/plugin-help": "^5.2.14",
     "@oclif/plugin-not-found": "^2.3.32",
     "@oclif/plugin-warn-if-update-available": "^2.0.44",
@@ -96,7 +96,7 @@
         "debounce": 60
       },
       "node": {
-        "version": "16.13.2"
+        "version": "18.15.0"
       },
       "s3": {
         "bucket": "dfc-data-production",
@@ -114,7 +114,10 @@
       "upload": {
         "description": "upload installable CLI artifacts to AWS S3"
       }
-    }
+    },
+    "binAliases": [
+      "oclif2"
+    ]
   },
   "repository": "oclif/oclif",
   "scripts": {

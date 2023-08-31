@@ -95,7 +95,7 @@
         "debounce": 60
       },
       "node": {
-        "version": "18.15.0"
+        "version": "16.13.2"
       },
       "s3": {
         "bucket": "dfc-data-production",
@@ -113,10 +113,7 @@
       "upload": {
         "description": "upload installable CLI artifacts to AWS S3"
       }
-    },
-    "binAliases": [
-      "oclif2"
-    ]
+    }
   },
   "repository": "oclif/oclif",
   "scripts": {

@@ -1,3 +1,12 @@
+# [3.13.0](https://github.com/oclif/oclif/compare/3.12.0...3.13.0) (2023-08-31)
+
+
+### Features
+
+* remove OCLIF_ALLOW_ESM env var ([#1171](https://github.com/oclif/oclif/issues/1171)) ([3100bc8](https://github.com/oclif/oclif/commit/3100bc87cfd50f815de8748e7085c087abcc9463))
+
+
+
 # [3.12.0](https://github.com/oclif/oclif/compare/3.11.3...3.12.0) (2023-08-28)
 
 

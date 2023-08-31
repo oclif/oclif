@@ -21,7 +21,6 @@
     "got": "^11",
     "lodash": "^4.17.21",
     "normalize-package-data": "^3.0.3",
-    "replace-in-file": "^7.0.1",
     "semver": "^7.3.8",
     "shelljs": "^0.8.5",
     "tslib": "^2.3.1",

@@ -1,7 +1,7 @@
-import CommandBase from './../../command-base'
-import {Args, Flags} from '@oclif/core'
+import {Args, Command, Flags} from '@oclif/core'
+import {generate} from '../../util'
 
-export default class GenerateHook extends CommandBase {
+export default class GenerateHook extends Command {
   static description = 'add a hook to an existing CLI or plugin'
 
   static flags = {
@@ -16,7 +16,7 @@ export default class GenerateHook extends CommandBase {
   async run(): Promise<void> {
     const {args, flags} = await this.parse(GenerateHook)
 
-    await super.generate('hook', {
+    await generate('hook', {
       name: args.name,
       event: flags.event,
       force: flags.force,

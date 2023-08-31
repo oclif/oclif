@@ -47,7 +47,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
       const plugin = new Plugin({root: p, type: 'core'})
       await plugin.load()
-      config.plugins.push(plugin)
+      config.plugins.set(plugin.name, plugin)
     } catch {}
 
     await (config as Config).runHook('init', {id: 'readme', argv: this.argv})
@@ -190,7 +190,7 @@ USAGE
   commandCode(config: Interfaces.Config, c: Command.Cached): string | undefined {
     const pluginName = c.pluginName
     if (!pluginName) return
-    const plugin = config.plugins.find(p => p.name === c.pluginName)
+    const plugin = config.plugins.get(pluginName)
     if (!plugin) return
     const repo = this.repo(plugin)
     if (!repo) return

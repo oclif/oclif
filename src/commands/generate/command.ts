@@ -1,7 +1,7 @@
-import CommandBase from './../../command-base'
-import {Args, Flags} from '@oclif/core'
+import {Args, Command, Flags} from '@oclif/core'
+import {generate} from '../../util'
 
-export default class GenerateCommand extends CommandBase {
+export default class GenerateCommand extends Command {
   static description = 'add a command to an existing CLI or plugin'
 
   static flags = {
@@ -15,7 +15,7 @@ export default class GenerateCommand extends CommandBase {
   async run(): Promise<void> {
     const {args, flags} = await this.parse(GenerateCommand)
 
-    await super.generate('command', {
+    await generate('command', {
       name: args.name,
       force: flags.force,
     })

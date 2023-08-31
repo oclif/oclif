@@ -1,3 +1,12 @@
+# [3.12.0](https://github.com/oclif/oclif/compare/3.11.3...3.12.0) (2023-08-28)
+
+
+### Features
+
+* add a timestamp authority to win:pack ([#1174](https://github.com/oclif/oclif/issues/1174)) ([0040927](https://github.com/oclif/oclif/commit/0040927e8e17e4cf874967d299b359910a1c0ebd))
+
+
+
 ## [3.11.3](https://github.com/oclif/oclif/compare/3.11.2...3.11.3) (2023-08-07)
 
 

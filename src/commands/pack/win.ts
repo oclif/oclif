@@ -291,6 +291,7 @@ async function signWindows(o: string, arch: string, config: Interfaces.Config, w
     '-pass', pass,
     '-n', `"${windows.name}"`,
     '-i', windows.homepage || config.pjson.homepage,
+    '-t', 'http://timestamp.digicert.com',
     '-h', 'sha512',
     '-in', buildLocationUnsigned,
     '-out', o,

@@ -3,6 +3,18 @@ import * as os from 'os'
 import * as crypto from 'node:crypto'
 import {log} from './log'
 import * as fs from 'fs-extra'
+import {createEnv} from 'yeoman-environment'
+
+export async function generate(type: string, generatorOptions: Record<string, unknown> = {}): Promise<void> {
+  const env = createEnv()
+
+  env.register(
+    require.resolve(`./generators/${type}`),
+    `oclif:${type}`,
+  )
+
+  return env.run(`oclif:${type}`, generatorOptions)
+}
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []

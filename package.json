@@ -4,11 +4,11 @@
   "version": "3.13.0",
   "author": "Salesforce",
   "bin": {
-    "oclif": "bin/run"
+    "oclif": "bin/run.js"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^2.11.4",
+    "@oclif/core": "^3.0.0-beta.4",
     "@oclif/plugin-help": "^5.2.14",
     "@oclif/plugin-not-found": "^2.3.32",
     "@oclif/plugin-warn-if-update-available": "^2.0.44",
@@ -42,7 +42,7 @@
     "@types/yeoman-generator": "^5.2.11",
     "chai": "^4.3.7",
     "conventional-changelog-cli": "^2.2.2",
-    "eslint": "^7.32.0",
+    "eslint": "^8.47.0",
     "eslint-config-oclif": "^4.0.0",
     "eslint-config-oclif-typescript": "^1.0.2",
     "fancy-test": "^1.4.10",
@@ -124,11 +124,11 @@
     "lint": "nps lint",
     "postpack": "shx rm .oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepack": "shx rm -rf lib && tsc && bin/dev manifest .",
+    "prepack": "shx rm -rf lib && tsc && bin/dev.js manifest .",
     "test": "nps test && yarn test:unit && yarn test:integration",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\"",
     "test:unit": "mocha --forbid-only \"test/unit/*.test.ts\"",
-    "version": "bin/dev readme && git add README.md"
+    "version": "bin/dev.js readme && git add README.md"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

@@ -1,7 +1,7 @@
-import {Args, Command} from '@oclif/core'
-import {generate} from '../util'
+import {Args} from '@oclif/core'
+import CommandBase from './../command-base'
 
-export default class Generate extends Command {
+export default class Generate extends CommandBase {
   static description = `generate a new CLI
 This will clone the template repo 'oclif/hello-world' and update package properties`
 
@@ -14,7 +14,7 @@ This will clone the template repo 'oclif/hello-world' and update package propert
   async run(): Promise<void> {
     const {args} = await this.parse(Generate)
 
-    await generate('cli', {
+    await super.generate('cli', {
       name: args.name,
       force: true,
     })

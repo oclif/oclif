@@ -1,3 +1,12 @@
+# [3.14.0](https://github.com/oclif/oclif/compare/3.13.1...3.14.0) (2023-09-01)
+
+
+### Features
+
+* add lock command ([#1178](https://github.com/oclif/oclif/issues/1178)) ([6c0e7d6](https://github.com/oclif/oclif/commit/6c0e7d6938ecd9bdc4a6092f630435b7e125433d))
+
+
+
 ## [3.13.1](https://github.com/oclif/oclif/compare/3.13.0...3.13.1) (2023-08-31)
 
 

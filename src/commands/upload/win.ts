@@ -10,11 +10,12 @@ export default class UploadWin extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    targets: Flags.string({description: 'comma-separated targets to pack (e.g.: win32-x64,win32-x86)'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadWin)
-    const buildConfig = await Tarballs.buildConfig(flags.root)
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {s3Config, config, dist} = buildConfig
     const S3Options = {
       Bucket: s3Config.bucket!,

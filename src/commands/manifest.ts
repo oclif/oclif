@@ -30,12 +30,12 @@ export default class Manifest extends Command {
   }
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(Manifest)
     try {
       fs.unlinkSync('oclif.manifest.json')
     } catch {}
 
-    const {args} = await this.parse(Manifest)
+    const {args, flags} = await this.parse(Manifest)
+
     const root = path.resolve(args.path)
 
     const packageJson = fs.readJSONSync('package.json') as { oclif: { jitPlugins: Record<string, string> } }

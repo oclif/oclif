@@ -4,7 +4,7 @@
   "version": "3.13.1-beta.2",
   "author": "Salesforce",
   "bin": {
-    "oclif": "bin/run"
+    "oclif": "bin/run.js"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {

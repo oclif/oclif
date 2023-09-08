@@ -6,9 +6,13 @@ import {log} from '../log'
 import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 import got from 'got'
+import * as retry from 'async-retry'
+
 const pipeline = promisify(pipelineSync)
 
 const exec = promisify(execSync)
+
+const RETRY_TIMEOUT_MS = 1000
 
 type Options = {
   nodeVersion: string;
@@ -82,7 +86,15 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
   }
 
   if (!fs.existsSync(cache)) {
-    await download()
+    await retry(download, {
+      retries: 3,
+      factor: 1,
+      maxTimeout: RETRY_TIMEOUT_MS,
+      minTimeout: RETRY_TIMEOUT_MS,
+      onRetry(_e, attempt) {
+        log(`retrying node download (attempt ${attempt})`)
+      },
+    })
     await extract()
   }
 

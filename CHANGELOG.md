@@ -1,3 +1,12 @@
+# [3.16.0](https://github.com/oclif/oclif/compare/3.15.1...3.16.0) (2023-09-13)
+
+
+### Features
+
+* adds version and repo-prefix flags ([4ba8246](https://github.com/oclif/oclif/commit/4ba8246be9dfcc330543bfb211af8f65cd6ee512))
+
+
+
 ## [3.15.1](https://github.com/oclif/oclif/compare/3.15.0...3.15.1) (2023-09-11)
 
 

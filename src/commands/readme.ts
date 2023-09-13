@@ -33,12 +33,15 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     dir: Flags.string({description: 'output directory for multi docs', default: 'docs', required: true}),
     multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
     aliases: Flags.boolean({description: 'include aliases in the command list', allowNo: true, default: true}),
+    'repository-prefix': Flags.string({description: 'a template string used to build links to the source code'}),
+    version: Flags.string({description: 'version to use in readme links. defaults to the version in package.json', env: 'OCLIF_NEXT_VERSION'}),
   }
 
   private HelpClass!: HelpBaseDerived
+  private flags!: Interfaces.InferredFlags<typeof Readme.flags>;
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(Readme)
+    this.flags = (await this.parse(Readme)).flags
     const cwd = process.cwd()
     const readmePath = path.resolve(cwd, 'README.md')
     const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
@@ -58,14 +61,14 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
     let commands = config.commands
     .filter(c => !c.hidden && c.pluginType === 'core')
-    .filter(c => flags.aliases ? true : !c.aliases.includes(c.id))
+    .filter(c => this.flags.aliases ? true : !c.aliases.includes(c.id))
     .map(c => c.id === '.' ? {...c, id: ''} : c)
 
     this.debug('commands:', commands.map(c => c.id).length)
     commands = uniqBy(commands, c => c.id)
     commands = sortBy(commands, c => c.id)
     readme = this.replaceTag(readme, 'usage', this.usage(config))
-    readme = this.replaceTag(readme, 'commands', flags.multi ? this.multiCommands(config, commands, flags.dir) : this.commands(config, commands))
+    readme = this.replaceTag(readme, 'commands', this.flags.multi ? this.multiCommands(config, commands, this.flags.dir) : this.commands(config, commands))
     readme = this.replaceTag(readme, 'toc', this.toc(config, readme))
 
     readme = readme.trimEnd()
@@ -102,7 +105,7 @@ $ npm install -g ${config.name}
 $ ${config.bin} COMMAND
 running command...
 $ ${config.bin} ${versionFlagsString}
-${config.name}/${process.env.OCLIF_NEXT_VERSION || config.version} ${process.platform}-${process.arch} node-v${process.versions.node}
+${config.name}/${this.flags.version || config.version} ${process.platform}-${process.arch} node-v${process.versions.node}
 $ ${config.bin} --help [COMMAND]
 USAGE
   $ ${config.bin} COMMAND
@@ -200,10 +203,10 @@ USAGE
     if (!commandPath) return
     if (config.name === plugin.name) {
       label = commandPath
-      version = process.env.OCLIF_NEXT_VERSION || version
+      version = this.flags.version || version
     }
 
-    const template = plugin.pjson.oclif.repositoryPrefix || '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
+    const template = this.flags['repository-prefix'] || plugin.pjson.oclif.repositoryPrefix || '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
     return `_See code: [${label}](${_.template(template)({repo, version, commandPath, config, c})})_`
   }
 
@@ -213,7 +216,7 @@ USAGE
     const repo = pjson.repository && pjson.repository.url
     if (!repo) return
     const url = new URL(repo)
-    if (!['github.com', 'gitlab.com'].includes(url.hostname) && !pjson.oclif.repositoryPrefix) return
+    if (!['github.com', 'gitlab.com'].includes(url.hostname) && !pjson.oclif.repositoryPrefix && !this.flags['repository-prefix']) return
     return `https://${url.hostname}${url.pathname.replace(/\.git$/, '')}`
   }
 

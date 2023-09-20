@@ -1,8 +1,12 @@
+import {Errors} from '@oclif/core'
 import _ = require('lodash')
 import * as os from 'os'
-import * as crypto from 'node:crypto'
+import * as crypto from 'crypto'
 import {log} from './log'
 import * as fs from 'fs-extra'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'util'
+const exec = promisify(execSync)
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []
@@ -90,4 +94,13 @@ export const hash = async (algo: string, fp: string | string[]):Promise<string> 
     stream.on('data', chunk => hashInProgress.update(chunk))
     stream.on('end', () => resolve(hashInProgress.digest('hex')))
   })
+}
+
+export async function checkFor7Zip() {
+  try {
+    await exec('7z')
+  } catch (error: any) {
+    if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
+    else throw error
+  }
 }

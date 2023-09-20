@@ -116,6 +116,12 @@ export default class Manifest extends Command {
 
   private getVersion(plugin: string, version: string): string {
     if (version.startsWith('^') || version.startsWith('~')) {
+      // Grab latest from npm to get all the versions so we can find the max satisfying version.
+      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
+      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
+      // provided to `npm view`. This can be problematic if you're building the `nightly` version
+      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
+      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
       const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
         versions: string[]
       }

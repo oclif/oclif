@@ -60,7 +60,8 @@ export default class Manifest extends Command {
 
         await fs.mkdir(fullPath, {recursive: true})
 
-        const tarballUrl = this.getTarballUrl(jitPlugin, version)
+        const resolvedVersion = this.getVersion(jitPlugin, version)
+        const tarballUrl = this.getTarballUrl(jitPlugin, resolvedVersion)
         const tarball = path.join(fullPath, path.basename(tarballUrl))
         await pipeline(
           got.stream(tarballUrl),
@@ -113,26 +114,20 @@ export default class Manifest extends Command {
     this.log(`wrote manifest to ${file}`)
   }
 
-  private getTarballUrl(plugin: string, version: string): string {
-    // jit plugin is unpinned so we need to figure out the max satisfying version
-    if ((version.startsWith('^') || version.startsWith('~'))) {
-      const npmLatest = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
+  private getVersion(plugin: string, version: string): string {
+    if (version.startsWith('^') || version.startsWith('~')) {
+      const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
         versions: string[]
-        dist: { tarball: string }
-      }
-      const maxSatisfying = semver.maxSatisfying(npmLatest.versions, version)
-
-      const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${maxSatisfying} --json`).stdout) as {
-        versions: string[]
-        dist: { tarball: string }
       }
 
-      return dist.tarball
+      return semver.maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
     }
 
-    // jit plugin is pinned so we don't need to figure out the max satisfying version
+    return version
+  }
+
+  private getTarballUrl(plugin: string, version: string): string {
     const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
-      versions: string[]
       dist: { tarball: string }
     }
     return dist.tarball

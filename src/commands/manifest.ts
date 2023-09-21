@@ -72,7 +72,7 @@ export default class Manifest extends Command {
           await checkFor7Zip()
           exec(`7z x -bd -y "${tarball}"`, {cwd: fullPath})
         } else {
-          exec(`tar -xJf "${tarball}"`, {cwd: fullPath})
+          exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
         }
 
         const manifest = await fs.readJSON(path.join(fullPath, 'package', 'oclif.manifest.json')) as Interfaces.Manifest

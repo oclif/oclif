@@ -128,7 +128,7 @@
     "posttest": "yarn run lint",
     "prepack": "shx rm -rf lib && tsc && bin/dev manifest .",
     "test": "nps test && yarn test:unit && yarn test:integration",
-    "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\"",
+    "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 600000",
     "test:unit": "mocha --forbid-only \"test/unit/*.test.ts\"",
     "version": "bin/dev readme && git add README.md"
   },

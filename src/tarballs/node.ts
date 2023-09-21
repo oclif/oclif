@@ -1,12 +1,13 @@
-import {Errors, Interfaces} from '@oclif/core'
+import {Interfaces} from '@oclif/core'
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import {pipeline as pipelineSync} from 'node:stream'
+import {pipeline as pipelineSync} from 'stream'
 import {log} from '../log'
-import {exec as execSync} from 'node:child_process'
-import {promisify} from 'node:util'
+import {exec as execSync} from 'child_process'
+import {promisify} from 'util'
 import got from 'got'
 import * as retry from 'async-retry'
+import {checkFor7Zip} from '../util'
 
 const pipeline = promisify(pipelineSync)
 
@@ -20,15 +21,6 @@ type Options = {
   platform: Interfaces.PlatformTypes;
   arch: Interfaces.ArchTypes | 'armv7l';
   tmp: string
-}
-
-async function checkFor7Zip() {
-  try {
-    await exec('7z')
-  } catch (error: any) {
-    if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
-    else throw error
-  }
 }
 
 export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: Options): Promise<string> {

@@ -4,6 +4,12 @@ import * as path from 'path'
 import * as os from 'os'
 import * as semver from 'semver'
 import {exec, ShellString, ExecOptions} from 'shelljs'
+import got from 'got'
+import {promisify} from 'util'
+import {pipeline as pipelineSync} from 'stream'
+import {checkFor7Zip} from '../util'
+
+const pipeline = promisify(pipelineSync)
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
@@ -47,25 +53,34 @@ export default class Manifest extends Command {
       const tmpDir = os.tmpdir()
       const promises = Object.entries(packageJson.oclif.jitPlugins).map(async ([jitPlugin, version]) => {
         const pluginDir = jitPlugin.replace('/', '-').replace('@', '')
-        const repo = this.executeCommand(`npm view ${jitPlugin}@latest repository --json`)
-        const stdout = JSON.parse(repo.stdout)
-
-        const repoUrl = stdout.url.replace(`${stdout.type}+`, '')
 
         const fullPath = path.join(tmpDir, pluginDir)
+
         if (await fileExists(fullPath)) await fs.remove(fullPath)
 
-        const versions = JSON.parse(this.executeCommand(`npm view ${jitPlugin}@latest versions --json`).stdout)
-        const maxSatisfying = semver.maxSatisfying(versions, version)
+        await fs.mkdir(fullPath, {recursive: true})
 
-        this.cloneRepo(repoUrl, fullPath, maxSatisfying)
+        const resolvedVersion = this.getVersion(jitPlugin, version)
+        const tarballUrl = this.getTarballUrl(jitPlugin, resolvedVersion)
+        const tarball = path.join(fullPath, path.basename(tarballUrl))
+        await pipeline(
+          got.stream(tarballUrl),
+          fs.createWriteStream(tarball),
+        )
 
-        this.executeCommand('yarn --ignore-scripts', {cwd: fullPath})
-        this.executeCommand('yarn tsc', {cwd: fullPath})
-        const plugin = new Plugin({root: fullPath, type: 'jit', ignoreManifest: true, errorOnManifestCreate: true})
-        await plugin.load()
+        if (process.platform === 'win32') {
+          await checkFor7Zip()
+          exec(`7z x -bd -y "${tarball}"`, {cwd: fullPath})
+        } else {
+          exec(`tar -xJf "${tarball}"`, {cwd: fullPath})
+        }
 
-        return plugin.manifest
+        const manifest = await fs.readJSON(path.join(fullPath, 'package', 'oclif.manifest.json')) as Interfaces.Manifest
+        for (const command of Object.values(manifest.commands)) {
+          command.pluginType = 'jit'
+        }
+
+        return manifest
       })
 
       ux.action.start('Generating JIT plugin manifests')
@@ -99,16 +114,30 @@ export default class Manifest extends Command {
     this.log(`wrote manifest to ${file}`)
   }
 
-  private cloneRepo(repoUrl: string, fullPath: string, tag: string | semver.SemVer | null): void {
-    try {
-      this.executeCommand(`git clone --branch ${tag} ${repoUrl} ${fullPath} --depth 1`)
-    } catch {
-      try {
-        this.executeCommand(`git clone --branch v${tag} ${repoUrl} ${fullPath} --depth 1`)
-      } catch {
-        throw new Error(`Unable to clone repo ${repoUrl} with tag ${tag}`)
+  private getVersion(plugin: string, version: string): string {
+    if (version.startsWith('^') || version.startsWith('~')) {
+      // Grab latest from npm to get all the versions so we can find the max satisfying version.
+      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
+      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
+      // provided to `npm view`. This can be problematic if you're building the `nightly` version
+      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
+      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
+      const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
+        versions: string[]
       }
+
+      return semver.maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
     }
+
+    return version
+  }
+
+  private getTarballUrl(plugin: string, version: string): string {
+    const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
+      dist: { tarball: string }
+    }
+    return dist.tarball
+
   }
 
   private executeCommand(command: string, options?: ExecOptions): ShellString {

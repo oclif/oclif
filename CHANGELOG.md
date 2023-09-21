@@ -1,3 +1,12 @@
+## [3.17.1](https://github.com/oclif/oclif/compare/3.17.0...3.17.1) (2023-09-21)
+
+
+### Bug Fixes
+
+* extract gz not xz ([808ec8b](https://github.com/oclif/oclif/commit/808ec8beba9d8084612eb61413b63a1c5e34b802))
+
+
+
 # [3.17.0](https://github.com/oclif/oclif/compare/3.16.0...3.17.0) (2023-09-21)
 
 

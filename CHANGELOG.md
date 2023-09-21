@@ -1,3 +1,12 @@
+# [3.17.0](https://github.com/oclif/oclif/compare/3.16.0...3.17.0) (2023-09-21)
+
+
+### Features
+
+* improve perf of manifest command ([#1187](https://github.com/oclif/oclif/issues/1187)) ([e7123cf](https://github.com/oclif/oclif/commit/e7123cf7be377da524468704047db1d3c6da88c8))
+
+
+
 # [3.16.0](https://github.com/oclif/oclif/compare/3.15.1...3.16.0) (2023-09-13)
 
 

@@ -39,11 +39,20 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
   private HelpClass!: HelpBaseDerived
   private flags!: Interfaces.InferredFlags<typeof Readme.flags>;
+  private outDir!: string;
 
   async run(): Promise<void> {
     this.flags = (await this.parse(Readme)).flags
     const cwd = process.cwd()
     const readmePath = path.resolve(cwd, 'README.md')
+    const tsConfigPath = path.resolve(cwd, 'tsconfig.json')
+    const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
+    this.outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
+
+    if (!await fs.pathExists(this.outDir)) {
+      this.warn(`No compiled source found at ${this.outDir}. Some commands may be missing.`)
+    }
+
     const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
 
     try {
@@ -228,7 +237,7 @@ USAGE
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
     let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
-    const libRegex = new RegExp('^lib' + (path.sep === '\\' ? '\\\\' : path.sep))
+    const libRegex = new RegExp('^' + this.outDir + (path.sep === '\\' ? '\\\\' : path.sep))
     if (fs.pathExistsSync(path.join(p, 'index.js'))) {
       p = path.join(p, 'index.js')
     } else if (fs.pathExistsSync(p + '.js')) {

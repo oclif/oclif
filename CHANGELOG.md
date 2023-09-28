@@ -1,3 +1,14 @@
+## [3.17.2](https://github.com/oclif/oclif/compare/3.17.1...3.17.2) (2023-09-28)
+
+
+### Bug Fixes
+
+* dont assume lib as outDir ([44bd3fd](https://github.com/oclif/oclif/commit/44bd3fd1c8f8d843acfed5fcb05d78a07ed26761))
+* respect commands dir of each plugin, check for typescript in deps ([993733b](https://github.com/oclif/oclif/commit/993733bbef2852502f8f6c4154dbda08a1cacec9))
+* use path.sep ([9770d1d](https://github.com/oclif/oclif/commit/9770d1dba2e0cd66fc99837890b64501f97d9a98))
+
+
+
 ## [3.17.1](https://github.com/oclif/oclif/compare/3.17.0...3.17.1) (2023-09-21)
 
 

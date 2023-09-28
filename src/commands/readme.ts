@@ -1,4 +1,3 @@
-// tslint:disable no-implicit-dependencies
 import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin, toConfiguredId} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
@@ -44,6 +43,14 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     this.flags = (await this.parse(Readme)).flags
     const cwd = process.cwd()
     const readmePath = path.resolve(cwd, 'README.md')
+    const tsConfigPath = path.resolve(cwd, 'tsconfig.json')
+    const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
+    const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
+
+    if (!await fs.pathExists(outDir)) {
+      this.warn(`No compiled source found at ${outDir}. Some commands may be missing.`)
+    }
+
     const config = await Config.load({root: cwd, devPlugins: false, userPlugins: false})
 
     try {
@@ -227,16 +234,18 @@ USAGE
   private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
     const commandsDir = plugin.pjson.oclif.commands
     if (!commandsDir) return
+    const hasTypescript = plugin.pjson.devDependencies?.typescript || plugin.pjson.dependencies?.typescript
     let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
-    const libRegex = new RegExp('^lib' + (path.sep === '\\' ? '\\\\' : path.sep))
+    const outDir = path.dirname(commandsDir.replace(`.${path.sep}`, ''))
+    const outDirRegex = new RegExp('^' + outDir + (path.sep === '\\' ? '\\\\' : path.sep))
     if (fs.pathExistsSync(path.join(p, 'index.js'))) {
       p = path.join(p, 'index.js')
     } else if (fs.pathExistsSync(p + '.js')) {
       p += '.js'
-    } else if (plugin.pjson.devDependencies && plugin.pjson.devDependencies.typescript) {
+    } else if (hasTypescript) {
       // check if non-compiled scripts are available
       const base = p.replace(plugin.root + path.sep, '')
-      p = path.join(plugin.root, base.replace(libRegex, 'src' + path.sep))
+      p = path.join(plugin.root, base.replace(outDirRegex, 'src' + path.sep))
       if (fs.pathExistsSync(path.join(p, 'index.ts'))) {
         p = path.join(p, 'index.ts')
       } else if (fs.pathExistsSync(p + '.ts')) {
@@ -244,9 +253,8 @@ USAGE
       } else return
     } else return
     p = p.replace(plugin.root + path.sep, '')
-    if (plugin.pjson.devDependencies && plugin.pjson.devDependencies.typescript) {
-      p = p.replace(libRegex, 'src' + path.sep)
-      p = p.replace(/\.js$/, '.ts')
+    if (hasTypescript) {
+      p = p.replace(outDirRegex, 'src' + path.sep).replace(/\.js$/, '.ts')
     }
 
     p = p.replace(/\\/g, '/') // Replace windows '\' by '/'

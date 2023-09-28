@@ -236,7 +236,7 @@ USAGE
     if (!commandsDir) return
     const hasTypescript = plugin.pjson.devDependencies?.typescript || plugin.pjson.dependencies?.typescript
     let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
-    const outDir = path.dirname(commandsDir.replace('./', ''))
+    const outDir = path.dirname(commandsDir.replace(`.${path.sep}`, ''))
     const outDirRegex = new RegExp('^' + outDir + (path.sep === '\\' ? '\\\\' : path.sep))
     if (fs.pathExistsSync(path.join(p, 'index.js'))) {
       p = path.join(p, 'index.js')

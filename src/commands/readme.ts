@@ -35,7 +35,6 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     'repository-prefix': Flags.string({description: 'a template string used to build links to the source code'}),
     version: Flags.string({
       description: 'version to use in readme links. defaults to the version in package.json',
-      env: 'OCLIF_NEXT_VERSION',
     }),
   }
 

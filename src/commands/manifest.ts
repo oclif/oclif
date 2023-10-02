@@ -102,10 +102,6 @@ export default class Manifest extends Command {
       await plugin.load()
     }
 
-    if (process.env.OCLIF_NEXT_VERSION) {
-      plugin.manifest.version = process.env.OCLIF_NEXT_VERSION
-    }
-
     const dotfile = plugin.pjson.files.find((f: string) => f.endsWith('.oclif.manifest.json'))
     const file = path.join(plugin.root, `${dotfile ? '.' : ''}oclif.manifest.json`)
 

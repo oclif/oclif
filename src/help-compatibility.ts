@@ -1,12 +1,13 @@
 import {Command, HelpBase} from '@oclif/core'
 
 interface MaybeCompatibleHelp extends HelpBase {
-  formatCommand?: (command: Command.Cached) => string;
-  command?: (command: Command.Cached) => string;
+  formatCommand?: (command: Command.Cached) => string
+  command?: (command: Command.Cached) => string
 }
 
 class IncompatibleHelpError extends Error {
-  message = 'Please implement `formatCommand` in your custom help class.\nSee https://oclif.io/docs/help_classes for more.'
+  message =
+    'Please implement `formatCommand` in your custom help class.\nSee https://oclif.io/docs/help_classes for more.'
 }
 
 export class HelpCompatibilityWrapper {

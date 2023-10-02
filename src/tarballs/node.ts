@@ -11,16 +11,15 @@ import got from 'got'
 import * as retry from 'async-retry'
 import {checkFor7Zip} from '../util'
 
-
 const exec = promisify(execSync)
 
 const RETRY_TIMEOUT_MS = 1000
 
 type Options = {
-  nodeVersion: string;
-  output: string;
-  platform: Interfaces.PlatformTypes;
-  arch: Interfaces.ArchTypes | 'armv7l';
+  nodeVersion: string
+  output: string
+  platform: Interfaces.PlatformTypes
+  arch: Interfaces.ArchTypes | 'armv7l'
   tmp: string
 }
 
@@ -42,10 +41,7 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
 
   const download = async () => {
     log(`downloading ${nodeBase}`)
-    await Promise.all([
-      ensureDir(path.join(tmp, 'cache', nodeVersion)),
-      ensureDir(path.join(tmp, 'node')),
-    ])
+    await Promise.all([ensureDir(path.join(tmp, 'cache', nodeVersion)), ensureDir(path.join(tmp, 'node'))])
     const shasums = path.join(tmp, 'cache', nodeVersion, 'SHASUMS256.txt.asc')
     if (!existsSync(shasums)) {
       await pipeline(
@@ -56,11 +52,9 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
 
     const basedir = path.dirname(tarball)
     await mkdir(basedir, {recursive: true})
-    await pipeline(
-      got.stream(url),
-      createWriteStream(tarball),
-    )
-    if (platform !== 'win32') await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
+    await pipeline(got.stream(url), createWriteStream(tarball))
+    if (platform !== 'win32')
+      await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
   }
 
   const extract = async () => {
@@ -96,4 +90,4 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
   return output
 }
 
-const getFilename = (platform: string): string => platform === 'win32' ? 'node.exe' : 'node'
+const getFilename = (platform: string): string => (platform === 'win32' ? 'node.exe' : 'node')

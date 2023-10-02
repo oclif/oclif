@@ -32,7 +32,9 @@ const sha = gitShaSync(cwd, {short: true})
 
 const manifest = async (path: string, nodeVersion: string) => {
   const list = await aws.s3.listObjects({Bucket: bucket, Prefix: `${basePrefix}/${path}`})
-  const manifestFile = list.Contents?.map(listObject => listObject.Key).find(f => f!.includes(target) && f!.endsWith('-buildmanifest'))
+  const manifestFile = list.Contents?.map((listObject) => listObject.Key).find(
+    (f) => f!.includes(target) && f!.endsWith('-buildmanifest'),
+  )
   if (!manifestFile) {
     throw new Error(`could not find a buildmanifest file for target ${target}`)
   }
@@ -41,13 +43,10 @@ const manifest = async (path: string, nodeVersion: string) => {
   const test = async (url: string, expectedSha: string, nodeVersion: string) => {
     const xz = url.endsWith('.tar.xz')
     const ext = xz ? '.tar.xz' : '.tar.gz'
-    await pipeline(
-      got.stream(url),
-      createWriteStream(join(root, `oclif${ext}`)),
-    )
+    await pipeline(got.stream(url), createWriteStream(join(root, `oclif${ext}`)))
     const receivedSha = await hash('sha256', join(root, `oclif${ext}`))
     expect(receivedSha).to.equal(expectedSha)
-    await (xz ? exec('tar xJf oclif.tar.xz', {cwd: root}) : exec('tar xzf oclif.tar.gz', {cwd: root}));
+    await (xz ? exec('tar xJf oclif.tar.xz', {cwd: root}) : exec('tar xzf oclif.tar.gz', {cwd: root}))
 
     const {stdout} = await exec('./oclif/bin/oclif --version', {cwd: root})
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
@@ -62,10 +61,11 @@ const manifest = async (path: string, nodeVersion: string) => {
   await test(manifest.xz!, manifest.sha256xz!, nodeVersion)
 }
 
-const folderCleanup = async () => Promise.all([
-  deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`),
-  deleteFolder(bucket, `${basePrefix}/channels/${pjson.version}/`),
-])
+const folderCleanup = async () =>
+  Promise.all([
+    deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`),
+    deleteFolder(bucket, `${basePrefix}/channels/${pjson.version}/`),
+  ])
 
 describe('upload tarballs', async () => {
   beforeEach(async () => {
@@ -82,12 +82,11 @@ describe('upload tarballs', async () => {
   })
 
   skipIfWindows
-  .command(['pack:tarballs', '--parallel', '--xz'])
-  .command(['upload:tarballs', '--xz'])
-  .command(['promote', '--channel', pjson.version, '--sha', sha, '--version', pjson.version])
-  .it('checks uploads for version and channel', async () => {
-    await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
-    await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
-  })
+    .command(['pack:tarballs', '--parallel', '--xz'])
+    .command(['upload:tarballs', '--xz'])
+    .command(['promote', '--channel', pjson.version, '--sha', sha, '--version', pjson.version])
+    .it('checks uploads for version and channel', async () => {
+      await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
+      await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
+    })
 })
-

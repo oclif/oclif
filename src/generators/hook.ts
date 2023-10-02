@@ -7,13 +7,16 @@ import {Interfaces} from '@oclif/core'
 const {version} = require('../../package.json')
 
 export interface Options extends GeneratorOptions {
-  event: string;
+  event: string
 }
 
 export default class Hook extends Generator {
   public pjson!: Interfaces.PJSON
 
-  constructor(args: string | string[], public options: Options) {
+  constructor(
+    args: string | string[],
+    public options: Options,
+  ) {
     super(args, options)
   }
 
@@ -30,9 +33,17 @@ export default class Hook extends Generator {
 
   public writing(): void {
     this.sourceRoot(path.join(__dirname, '../../templates'))
-    this.fs.copyTpl(this.templatePath('src/hook.ts.ejs'), this.destinationPath(`src/hooks/${this.options.event}/${this.options.name}.ts`), this)
+    this.fs.copyTpl(
+      this.templatePath('src/hook.ts.ejs'),
+      this.destinationPath(`src/hooks/${this.options.event}/${this.options.name}.ts`),
+      this,
+    )
     if (this.hasMocha()) {
-      this.fs.copyTpl(this.templatePath('test/hook.test.ts.ejs'), this.destinationPath(`test/hooks/${this.options.event}/${this.options.name}.test.ts`), this)
+      this.fs.copyTpl(
+        this.templatePath('test/hook.test.ts.ejs'),
+        this.destinationPath(`test/hooks/${this.options.event}/${this.options.name}.test.ts`),
+        this,
+      )
     }
 
     this.pjson.oclif = this.pjson.oclif || {}

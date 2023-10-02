@@ -10,23 +10,23 @@ const readme = readFileSync('README.md', 'utf8')
 
 describe('readme', () => {
   test
-  .stdout()
-  .finally(() => writeFile('README.md', readme))
-  .command(['readme'])
-  .it('runs readme', () => {
-    // expect(readFileSync('README.md', 'utf8')).to.contain('manifest')
-    expect(readFileSync('README.md', 'utf8')).to.contain('multi')
-  })
+    .stdout()
+    .finally(() => writeFile('README.md', readme))
+    .command(['readme'])
+    .it('runs readme', () => {
+      // expect(readFileSync('README.md', 'utf8')).to.contain('manifest')
+      expect(readFileSync('README.md', 'utf8')).to.contain('multi')
+    })
 
   test
-  .stdout()
-  .finally(() => writeFile('README.md', readme))
-  .finally(() => remove('docs'))
-  .command(['readme', '--multi'])
-  .it('runs readme --multi', () => {
-    // expect(readFileSync('README.md', 'utf8')).to.contain('manifest')
-    expect(readFileSync('README.md', 'utf8')).to.contain('multi')
-  })
+    .stdout()
+    .finally(() => writeFile('README.md', readme))
+    .finally(() => remove('docs'))
+    .command(['readme', '--multi'])
+    .it('runs readme --multi', () => {
+      // expect(readFileSync('README.md', 'utf8')).to.contain('manifest')
+      expect(readFileSync('README.md', 'utf8')).to.contain('multi')
+    })
 
   describe('with command that has an alias', () => {
     const rootPath = path.join(__dirname, '../fixtures/cli-command-with-alias')
@@ -35,24 +35,24 @@ describe('readme', () => {
     const aliasOutput = '`oclif hi`'
 
     test
-    .stdout()
-    .finally(() => writeFileSync(readmePath, originalReadme))
-    .stub(process, 'cwd', stub => stub.returns(rootPath))
-    .command(['readme'])
-    .it('--aliases flag (default)', () => {
-      const newReadme = readFileSync(readmePath, 'utf8')
-      expect(newReadme).to.contain(aliasOutput)
-    })
+      .stdout()
+      .finally(() => writeFileSync(readmePath, originalReadme))
+      .stub(process, 'cwd', (stub) => stub.returns(rootPath))
+      .command(['readme'])
+      .it('--aliases flag (default)', () => {
+        const newReadme = readFileSync(readmePath, 'utf8')
+        expect(newReadme).to.contain(aliasOutput)
+      })
 
     test
-    .stdout()
-    .finally(() => writeFileSync(readmePath, originalReadme))
-    .stub(process, 'cwd', stub => stub.returns(rootPath))
-    .command(['readme', '--no-aliases'])
-    .it('--no-aliases flag', () => {
-      const newReadme = readFileSync(readmePath, 'utf8')
-      expect(newReadme).not.to.contain(aliasOutput)
-    })
+      .stdout()
+      .finally(() => writeFileSync(readmePath, originalReadme))
+      .stub(process, 'cwd', (stub) => stub.returns(rootPath))
+      .command(['readme', '--no-aliases'])
+      .it('--no-aliases flag', () => {
+        const newReadme = readFileSync(readmePath, 'utf8')
+        expect(newReadme).not.to.contain(aliasOutput)
+      })
   })
 
   describe('with custom help that implements formatCommand', () => {
@@ -61,15 +61,15 @@ describe('readme', () => {
     const originalReadme = readFileSync(readmePath, 'utf8')
 
     test
-    .stdout()
-    .finally(() => writeFileSync(readmePath, originalReadme))
-    .stub(process, 'cwd', stub => stub.returns(rootPath))
-    .command(['readme'])
-    .it('writes custom help to the readme', () => {
-      const newReadme = readFileSync(readmePath, 'utf8')
+      .stdout()
+      .finally(() => writeFileSync(readmePath, originalReadme))
+      .stub(process, 'cwd', (stub) => stub.returns(rootPath))
+      .command(['readme'])
+      .it('writes custom help to the readme', () => {
+        const newReadme = readFileSync(readmePath, 'utf8')
 
-      expect(newReadme).to.contain('Custom help for hello')
-    })
+        expect(newReadme).to.contain('Custom help for hello')
+      })
   })
 
   describe('with custom help that implements command', () => {
@@ -78,15 +78,15 @@ describe('readme', () => {
     const originalReadme = readFileSync(readmePath, 'utf8')
 
     test
-    .stdout()
-    .finally(() => writeFileSync(readmePath, originalReadme))
-    .stub(process, 'cwd', stub => stub.returns(rootPath))
-    .command(['readme'])
-    .it('writes custom help to the readme', () => {
-      const newReadme = readFileSync(readmePath, 'utf8')
+      .stdout()
+      .finally(() => writeFileSync(readmePath, originalReadme))
+      .stub(process, 'cwd', (stub) => stub.returns(rootPath))
+      .command(['readme'])
+      .it('writes custom help to the readme', () => {
+        const newReadme = readFileSync(readmePath, 'utf8')
 
-      expect(newReadme).to.contain('Custom help for hello')
-    })
+        expect(newReadme).to.contain('Custom help for hello')
+      })
   })
 
   describe('with custom help that does not implement formatCommand', () => {
@@ -95,13 +95,13 @@ describe('readme', () => {
     const originalReadme = readFileSync(readmePath, 'utf8')
 
     test
-    .stdout()
-    .finally(() => writeFileSync(readmePath, originalReadme))
-    .stub(process, 'cwd', stub => stub.returns(rootPath))
-    .command(['readme'])
-    .catch(error => {
-      expect(error.message).to.contain('Please implement `formatCommand`')
-    })
-    .it('prints a helpful error message')
+      .stdout()
+      .finally(() => writeFileSync(readmePath, originalReadme))
+      .stub(process, 'cwd', (stub) => stub.returns(rootPath))
+      .command(['readme'])
+      .catch((error) => {
+        expect(error.message).to.contain('Please implement `formatCommand`')
+      })
+      .it('prints a helpful error message')
   })
 })

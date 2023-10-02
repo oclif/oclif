@@ -12,7 +12,10 @@ export default class UploadMacos extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
-    targets: Flags.string({char: 't', description: 'comma-separated targets to upload (e.g.: darwin-x64,darwin-arm64)'}),
+    targets: Flags.string({
+      char: 't',
+      description: 'comma-separated targets to upload (e.g.: darwin-x64,darwin-arm64)',
+    }),
   }
 
   async run(): Promise<void> {
@@ -26,20 +29,25 @@ export default class UploadMacos extends Command {
     const cloudKeyBase = commitAWSDir(config.version, buildConfig.gitSha, s3Config)
 
     const upload = async (arch: Interfaces.ArchTypes) => {
-      const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('macos', {
+        bin: config.bin,
+        version: config.version,
+        sha: buildConfig.gitSha,
+        arch,
+      })
       const cloudKey = `${cloudKeyBase}/${templateKey}`
       const localPkg = dist(`macos/${templateKey}`)
 
-      if (fs.existsSync(localPkg)) await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
-      else this.error('Cannot find macOS pkg', {
-        suggestions: ['Run "oclif pack macos" before uploading'],
-      })
+      if (fs.existsSync(localPkg))
+        await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      else
+        this.error('Cannot find macOS pkg', {
+          suggestions: ['Run "oclif pack macos" before uploading'],
+        })
     }
 
-    const arches = uniq(buildConfig.targets
-    .filter(t => t.platform === 'darwin')
-    .map(t => t.arch))
-    await Promise.all(arches.map(a => upload(a)))
+    const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
+    await Promise.all(arches.map((a) => upload(a)))
 
     log(`done uploading macos pkgs for v${config.version}-${buildConfig.gitSha}`)
   }

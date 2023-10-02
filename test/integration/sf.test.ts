@@ -15,7 +15,6 @@ const exists = async (filePath: string): Promise<boolean> => {
 }
 
 describe('sf', () => {
-
   describe('manifest', () => {
     const testDir = join(tmpdir(), 'sf-manifest-integration-test')
     const sfDir = join(testDir, 'cli')
@@ -32,7 +31,8 @@ describe('sf', () => {
     })
 
     it('should generate manifest with JIT plugins', async () => {
-      const binDev = process.platform === 'win32' ? join(process.cwd(), 'bin', 'dev.cmd') : join(process.cwd(), 'bin', 'dev.js')
+      const binDev =
+        process.platform === 'win32' ? join(process.cwd(), 'bin', 'dev.cmd') : join(process.cwd(), 'bin', 'dev.js')
 
       execSync(`${binDev} manifest`, {cwd: sfDir})
 
@@ -41,11 +41,13 @@ describe('sf', () => {
       const sfPjson = JSON.parse(await readFile(join(sfDir, 'package.json'), 'utf8')) as Interfaces.PJSON.Plugin
       const jitPlugins = Object.keys(sfPjson.oclif.jitPlugins ?? {})
 
-      // eslint-disable-next-line max-nested-callbacks
-      const everyPluginHasCommand = jitPlugins.every(jitPlugin => Boolean(Object.values(manifest.commands).find(command => command.pluginName === jitPlugin)))
+      const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>
+        // eslint-disable-next-line max-nested-callbacks
+        Boolean(Object.values(manifest.commands).find((command) => command.pluginName === jitPlugin)),
+      )
       const everyJITCommandIsTypeJIT = Object.values(manifest.commands)
-        .filter(command => jitPlugins.includes(command.pluginName ?? ''))
-        .every(command => command.pluginType === 'jit')
+        .filter((command) => jitPlugins.includes(command.pluginName ?? ''))
+        .every((command) => command.pluginType === 'jit')
 
       expect(everyPluginHasCommand).to.be.true
       expect(everyJITCommandIsTypeJIT).to.be.true

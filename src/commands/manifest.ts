@@ -1,14 +1,5 @@
 import {Args, Command, Plugin, ux, Flags, Interfaces} from '@oclif/core'
-import {
-  access,
-  createWriteStream,
-  mkdir,
-  readJSON,
-  readJSONSync,
-  remove,
-  unlinkSync,
-  writeFileSync,
-} from 'fs-extra'
+import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
 import * as path from 'node:path'
 import * as os from 'node:os'
 import * as semver from 'semver'
@@ -53,7 +44,7 @@ export default class Manifest extends Command {
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = readJSONSync('package.json') as { oclif: { jitPlugins: Record<string, string> } }
+    const packageJson = readJSONSync('package.json') as {oclif: {jitPlugins: Record<string, string>}}
 
     let jitPluginManifests: Interfaces.Manifest[] = []
 
@@ -72,10 +63,7 @@ export default class Manifest extends Command {
         const resolvedVersion = this.getVersion(jitPlugin, version)
         const tarballUrl = this.getTarballUrl(jitPlugin, resolvedVersion)
         const tarball = path.join(fullPath, path.basename(tarballUrl))
-        await pipeline(
-          got.stream(tarballUrl),
-          createWriteStream(tarball),
-        )
+        await pipeline(got.stream(tarballUrl), createWriteStream(tarball))
 
         if (process.platform === 'win32') {
           await checkFor7Zip()
@@ -84,7 +72,7 @@ export default class Manifest extends Command {
           exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
         }
 
-        const manifest = await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json')) as Interfaces.Manifest
+        const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {
           command.pluginType = 'jit'
         }
@@ -150,13 +138,15 @@ export default class Manifest extends Command {
 
   private getTarballUrl(plugin: string, version: string): string {
     const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
-      dist: { tarball: string }
+      dist: {tarball: string}
     }
     return dist.tarball
   }
 
   private executeCommand(command: string, options?: ExecOptions): ShellString {
-    const debugString = options?.cwd ? `executing command: ${command} in ${options.cwd}` : `executing command: ${command}`
+    const debugString = options?.cwd
+      ? `executing command: ${command} in ${options.cwd}`
+      : `executing command: ${command}`
     this.debug(debugString)
     const result = exec(command, {...options, silent: true, async: false})
     if (result.code !== 0) {

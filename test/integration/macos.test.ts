@@ -42,20 +42,20 @@ describe('publish:macos', () => {
   })
 
   onlyMacos
-  .command(['pack:macos'])
-  .do(async () => {
-    // install the intel silicon pkg
-    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('x64.pkg'))
-    await exec(`sudo installer -pkg ${path.join(cwd, 'dist', 'macos', pkg)} -target /`)
-    expect(exec('oclif --version').stdout).to.contain(`oclif/${pjson.version}`)
-    // tests binAlias
-    expect(exec('oclif2 --version').stdout).to.contain(`oclif/${pjson.version}`)
-  })
-  .command(['upload:macos'])
-  .it('publishes valid releases', async () => {
-    await pipeline(
-      got.stream(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`),
-      createWriteStream(pkg),
-    )
-  })
+    .command(['pack:macos'])
+    .do(async () => {
+      // install the intel silicon pkg
+      ;[pkg, sha] = await findDistFileSha(cwd, 'macos', (f) => f.endsWith('x64.pkg'))
+      await exec(`sudo installer -pkg ${path.join(cwd, 'dist', 'macos', pkg)} -target /`)
+      expect(exec('oclif --version').stdout).to.contain(`oclif/${pjson.version}`)
+      // tests binAlias
+      expect(exec('oclif2 --version').stdout).to.contain(`oclif/${pjson.version}`)
+    })
+    .command(['upload:macos'])
+    .it('publishes valid releases', async () => {
+      await pipeline(
+        got.stream(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`),
+        createWriteStream(pkg),
+      )
+    })
 })

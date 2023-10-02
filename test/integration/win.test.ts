@@ -42,18 +42,18 @@ describe('publish:win', () => {
   })
 
   skipIfWindows
-  .command(['pack:win'])
-  .command(['upload:win'])
-  .do(async () => {
-    [pkg, sha] = await findDistFileSha(process.cwd(), 'win32', f => f.endsWith('x64.exe'))
-    expect(pkg).to.be.ok
-    expect(sha).to.be.ok
-  })
-  .it('publishes valid releases', async () => {
-    console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
-    await pipeline(
-      got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
-      createWriteStream(pkg),
-    )
-  })
+    .command(['pack:win'])
+    .command(['upload:win'])
+    .do(async () => {
+      ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))
+      expect(pkg).to.be.ok
+      expect(sha).to.be.ok
+    })
+    .it('publishes valid releases', async () => {
+      console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
+      await pipeline(
+        got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
+        createWriteStream(pkg),
+      )
+    })
 })

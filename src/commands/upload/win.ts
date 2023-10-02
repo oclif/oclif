@@ -22,22 +22,34 @@ export default class UploadWin extends Command {
       ACL: s3Config.acl || 'public-read',
     }
 
-    const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+    const archs = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
 
     for (const arch of archs) {
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
-      const localKey = dist(`win32/${templateKey}`)
-      if (!fs.existsSync(localKey)) this.error(`Cannot find Windows exe for ${arch}`, {
-        suggestions: ['Run "oclif pack win" before uploading'],
+      const templateKey = templateShortKey('win32', {
+        bin: config.bin,
+        version: config.version,
+        sha: buildConfig.gitSha,
+        arch,
       })
+      const localKey = dist(`win32/${templateKey}`)
+      if (!fs.existsSync(localKey))
+        this.error(`Cannot find Windows exe for ${arch}`, {
+          suggestions: ['Run "oclif pack win" before uploading'],
+        })
     }
 
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
     const uploadWin = async (arch: 'x64' | 'x86') => {
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('win32', {
+        bin: config.bin,
+        version: config.version,
+        sha: buildConfig.gitSha,
+        arch,
+      })
       const localExe = dist(`win32/${templateKey}`)
       const cloudKey = `${cloudKeyBase}/${templateKey}`
-      if (fs.existsSync(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      if (fs.existsSync(localExe))
+        await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
     await Promise.all([uploadWin('x64'), uploadWin('x86')])

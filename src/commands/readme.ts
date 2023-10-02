@@ -12,7 +12,7 @@ const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
 
 interface HelpBaseDerived {
-  new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase;
+  new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase
 }
 
 export default class Readme extends Command {
@@ -33,11 +33,14 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
     aliases: Flags.boolean({description: 'include aliases in the command list', allowNo: true, default: true}),
     'repository-prefix': Flags.string({description: 'a template string used to build links to the source code'}),
-    version: Flags.string({description: 'version to use in readme links. defaults to the version in package.json', env: 'OCLIF_NEXT_VERSION'}),
+    version: Flags.string({
+      description: 'version to use in readme links. defaults to the version in package.json',
+      env: 'OCLIF_NEXT_VERSION',
+    }),
   }
 
   private HelpClass!: HelpBaseDerived
-  private flags!: Interfaces.InferredFlags<typeof Readme.flags>;
+  private flags!: Interfaces.InferredFlags<typeof Readme.flags>
 
   async run(): Promise<void> {
     this.flags = (await this.parse(Readme)).flags
@@ -47,7 +50,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
     const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
 
-    if (!await fs.pathExists(outDir)) {
+    if (!(await fs.pathExists(outDir))) {
       this.warn(`No compiled source found at ${outDir}. Some commands may be missing.`)
     }
 
@@ -67,15 +70,19 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     let readme = await fs.readFile(readmePath, 'utf8')
 
     let commands = config.commands
-    .filter(c => !c.hidden && c.pluginType === 'core')
-    .filter(c => this.flags.aliases ? true : !c.aliases.includes(c.id))
-    .map(c => c.id === '.' ? {...c, id: ''} : c)
+      .filter((c) => !c.hidden && c.pluginType === 'core')
+      .filter((c) => (this.flags.aliases ? true : !c.aliases.includes(c.id)))
+      .map((c) => (c.id === '.' ? {...c, id: ''} : c))
 
-    this.debug('commands:', commands.map(c => c.id).length)
-    commands = uniqBy(commands, c => c.id)
-    commands = sortBy(commands, c => c.id)
+    this.debug('commands:', commands.map((c) => c.id).length)
+    commands = uniqBy(commands, (c) => c.id)
+    commands = sortBy(commands, (c) => c.id)
     readme = this.replaceTag(readme, 'usage', this.usage(config))
-    readme = this.replaceTag(readme, 'commands', this.flags.multi ? this.multiCommands(config, commands, this.flags.dir) : this.commands(config, commands))
+    readme = this.replaceTag(
+      readme,
+      'commands',
+      this.flags.multi ? this.multiCommands(config, commands, this.flags.dir) : this.commands(config, commands),
+    )
     readme = this.replaceTag(readme, 'toc', this.toc(config, readme))
 
     readme = readme.trimEnd()
@@ -97,10 +104,12 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   }
 
   toc(__: Interfaces.Config, readme: string): string {
-    return readme.split('\n').filter(l => l.startsWith('# '))
-    .map(l => l.trim().slice(2))
-    .map(l => `* [${l}](#${slugify.slug(l)})`)
-    .join('\n')
+    return readme
+      .split('\n')
+      .filter((l) => l.startsWith('# '))
+      .map((l) => l.trim().slice(2))
+      .map((l) => `* [${l}](#${slugify.slug(l)})`)
+      .join('\n')
   }
 
   usage(config: Interfaces.Config): string {
@@ -112,66 +121,87 @@ $ npm install -g ${config.name}
 $ ${config.bin} COMMAND
 running command...
 $ ${config.bin} ${versionFlagsString}
-${config.name}/${this.flags.version || config.version} ${process.platform}-${process.arch} node-v${process.versions.node}
+${config.name}/${this.flags.version || config.version} ${process.platform}-${process.arch} node-v${
+        process.versions.node
+      }
 $ ${config.bin} --help [COMMAND]
 USAGE
   $ ${config.bin} COMMAND
 ...
 \`\`\`\n`,
-    ].join('\n').trim()
+    ]
+      .join('\n')
+      .trim()
   }
 
   multiCommands(config: Interfaces.Config, commands: Command.Cached[], dir: string): string {
     let topics = config.topics
-    topics = topics.filter(t => !t.hidden && !t.name.includes(':'))
-    topics = topics.filter(t => commands.find(c => c.id.startsWith(t.name)))
-    topics = sortBy(topics, t => t.name)
-    topics = uniqBy(topics, t => t.name)
+    topics = topics.filter((t) => !t.hidden && !t.name.includes(':'))
+    topics = topics.filter((t) => commands.find((c) => c.id.startsWith(t.name)))
+    topics = sortBy(topics, (t) => t.name)
+    topics = uniqBy(topics, (t) => t.name)
     for (const topic of topics) {
       this.createTopicFile(
         path.join('.', dir, topic.name.replaceAll(':', '/') + '.md'),
         config,
         topic,
-        commands.filter(c => c.id === topic.name || c.id.startsWith(topic.name + ':')),
+        commands.filter((c) => c.id === topic.name || c.id.startsWith(topic.name + ':')),
       )
     }
 
-    return [
-      '# Command Topics\n',
-      ...topics.map(t => compact([
-          `* [\`${config.bin} ${t.name}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
-          template({config})(t.description || '').trim().split('\n')[0],
-        ]).join(' - ')),
-    ].join('\n').trim() + '\n'
+    return (
+      [
+        '# Command Topics\n',
+        ...topics.map((t) =>
+          compact([
+            `* [\`${config.bin} ${t.name}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
+            template({config})(t.description || '')
+              .trim()
+              .split('\n')[0],
+          ]).join(' - '),
+        ),
+      ]
+        .join('\n')
+        .trim() + '\n'
+    )
   }
 
   createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Command.Cached[]): void {
     const bin = `\`${config.bin} ${topic.name}\``
-    const doc = [
-      bin,
-      '='.repeat(bin.length),
-      '',
-      template({config})(topic.description || '').trim(),
-      '',
-      this.commands(config, commands),
-    ].join('\n').trim() + '\n'
+    const doc =
+      [
+        bin,
+        '='.repeat(bin.length),
+        '',
+        template({config})(topic.description || '').trim(),
+        '',
+        this.commands(config, commands),
+      ]
+        .join('\n')
+        .trim() + '\n'
     fs.outputFileSync(file, doc)
   }
 
   commands(config: Interfaces.Config, commands: Command.Cached[]): string {
     return [
-      ...commands.map(c => {
+      ...commands.map((c) => {
         const usage = this.commandUsage(config, c)
-        return usage ? `* [\`${config.bin} ${usage}\`](#${slugify.slug(`${config.bin}-${usage}`)})` : `* [\`${config.bin}\`](#${slugify.slug(`${config.bin}`)})`
+        return usage
+          ? `* [\`${config.bin} ${usage}\`](#${slugify.slug(`${config.bin}-${usage}`)})`
+          : `* [\`${config.bin}\`](#${slugify.slug(`${config.bin}`)})`
       }),
       '',
-      ...commands.map(c => this.renderCommand(config, c)).map(s => s.trim() + '\n'),
-    ].join('\n').trim()
+      ...commands.map((c) => this.renderCommand(config, c)).map((s) => s.trim() + '\n'),
+    ]
+      .join('\n')
+      .trim()
   }
 
   renderCommand(config: Interfaces.Config, c: Command.Cached): string {
     this.debug('rendering command', c.id)
-    const title = template({config, command: c})(c.summary || c.description || '').trim().split('\n')[0]
+    const title = template({config, command: c})(c.summary || c.description || '')
+      .trim()
+      .split('\n')[0]
     const help = new this.HelpClass(config, {stripAnsi: true, maxWidth: columns})
     const wrapper = new HelpCompatibilityWrapper(help)
 
@@ -211,7 +241,10 @@ USAGE
       version = this.flags.version || version
     }
 
-    const template = this.flags['repository-prefix'] || plugin.pjson.oclif.repositoryPrefix || '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
+    const template =
+      this.flags['repository-prefix'] ||
+      plugin.pjson.oclif.repositoryPrefix ||
+      '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
     return `_See code: [${label}](${lodashTemplate(template)({repo, version, commandPath, config, c})})_`
   }
 
@@ -221,7 +254,12 @@ USAGE
     const repo = pjson.repository && pjson.repository.url
     if (!repo) return
     const url = new URL(repo)
-    if (!['github.com', 'gitlab.com'].includes(url.hostname) && !pjson.oclif.repositoryPrefix && !this.flags['repository-prefix']) return
+    if (
+      !['github.com', 'gitlab.com'].includes(url.hostname) &&
+      !pjson.oclif.repositoryPrefix &&
+      !this.flags['repository-prefix']
+    )
+      return
     return `https://${url.hostname}${url.pathname.replace(/\.git$/, '')}`
   }
 
@@ -267,9 +305,13 @@ USAGE
     }
 
     const id = toConfiguredId(command.id, config)
-    const defaultUsage = () => compact([
+    const defaultUsage = () =>
+      compact([
         id,
-        Object.values(command.args).filter(a => !a.hidden).map(a => arg(a)).join(' '),
+        Object.values(command.args)
+          .filter((a) => !a.hidden)
+          .map((a) => arg(a))
+          .join(' '),
       ]).join(' ')
 
     const usages = castArray(command.usage)

@@ -1,10 +1,10 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as Tarballs from '../../tarballs'
 import {debArch, debVersion, templateShortKey} from '../../upload-util'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 
 const exec = promisify(execSync)
@@ -124,4 +124,3 @@ async function packForFTP(buildConfig: Tarballs.BuildConfig, config: Interfaces.
   await fs.writeFile(ftparchive, scripts.ftparchive(config))
   await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
 }
-

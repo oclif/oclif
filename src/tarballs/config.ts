@@ -1,12 +1,12 @@
 import {Config, Interfaces, ux} from '@oclif/core'
 
-import * as path from 'path'
+import * as path from 'node:path'
 import * as semver from 'semver'
 import * as fs from 'fs-extra'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 
 const exec = promisify(execSync)

@@ -1,15 +1,14 @@
 import {Interfaces} from '@oclif/core'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as fs from 'fs-extra'
-import {pipeline as pipelineSync} from 'stream'
+import {pipeline} from 'node:stream/promises'
 import {log} from '../log'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {promisify} from 'util'
 import got from 'got'
 import * as retry from 'async-retry'
 import {checkFor7Zip} from '../util'
 
-const pipeline = promisify(pipelineSync)
 
 const exec = promisify(execSync)
 

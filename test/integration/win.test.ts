@@ -1,13 +1,10 @@
 import {expect, test} from '@oclif/test'
 import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
 import {gitSha} from '../../src/tarballs'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as fs from 'fs-extra'
-import {promisify} from 'node:util'
-import {pipeline as pipelineSync} from 'node:stream'
+import {pipeline} from 'node:stream/promises'
 import got from 'got'
-
-const pipeline = promisify(pipelineSync)
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')

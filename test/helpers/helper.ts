@@ -3,7 +3,7 @@ import {gitSha} from '../../src/tarballs'
 import * as shelljs from 'shelljs'
 import * as S3 from 'aws-sdk/clients/s3'
 import aws from '../../src/aws'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 
 export const oclifTestingVersionsURI = 'media/salesforce-cli/oclif-testing/versions'
 export const oclifTestingChannelsURI = 'media/salesforce-cli/oclif-testing/channels'

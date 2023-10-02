@@ -1,8 +1,8 @@
 const script = (script, description) => description ? {script, description} : {script}
 const _ = require('lodash')
 const sh = require('shelljs')
-const path = require('path')
-const {execSync} = require('child_process')
+const path = require('node:path')
+const {execSync} = require('node:child_process')
 
 let hasYarn = false
 try {

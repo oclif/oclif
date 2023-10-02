@@ -1,10 +1,10 @@
 import {expect, test} from '@oclif/test'
-import {join} from 'path'
+import {join} from 'node:path'
 import * as fs from 'fs-extra'
 import {promisify} from 'node:util'
-import {pipeline as pipelineSync} from 'node:stream'
+import {pipeline} from 'node:stream/promises'
 import got from 'got'
-import {exec as execSync} from 'child_process'
+import {exec as execSync} from 'node:child_process'
 import {hash} from '../../src/util'
 import aws from '../../src/aws'
 import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
@@ -12,8 +12,6 @@ import {Interfaces} from '@oclif/core'
 import * as _ from 'lodash'
 
 const exec = promisify(execSync)
-
-const pipeline = promisify(pipelineSync)
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')

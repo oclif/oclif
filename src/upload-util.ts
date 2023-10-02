@@ -1,7 +1,7 @@
 import {Interfaces} from '@oclif/core'
 
 import * as Lodash from 'lodash'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import {BuildConfig as TarballConfig} from './tarballs/config'
 

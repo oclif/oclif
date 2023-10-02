@@ -36,7 +36,7 @@ jobs:
           cache: yarn
       - run: yarn install --network-timeout 600000
       - run: yarn build
-      - run: yarn mocha test/integration/publish.test.ts
+      - run: yarn mocha test/integration/publish.test.ts --timeout 600000
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -60,7 +60,7 @@ jobs:
       - run: |
           sudo apt-get update
           sudo apt-get install osslsigncode nsis
-      - run: yarn mocha test/integration/win.test.ts
+      - run: yarn mocha test/integration/win.test.ts --timeout 600000
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -80,7 +80,7 @@ jobs:
           cache: yarn
       - run: yarn install --network-timeout 600000
       - run: yarn build
-      - run: yarn mocha test/integration/macos.test.ts
+      - run: yarn mocha test/integration/macos.test.ts --timeout 600000
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -105,7 +105,7 @@ jobs:
       - run: yarn build
       - run: echo -n "$OCLIF_DEB_PRIVATE_KEY" | gpg --import
 
-      - run: yarn mocha test/integration/deb.test.ts
+      - run: yarn mocha test/integration/deb.test.ts --timeout 600000
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -131,11 +131,11 @@
     "lint": "eslint . --ext .ts",
     "postpack": "shx rm .oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepack": "shx rm -rf lib && tsc && bin/dev manifest .",
+    "prepack": "shx rm -rf lib && tsc && bin/dev.js manifest .",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 600000",
     "test:unit": "mocha --forbid-only \"test/unit/*.test.ts\"",
     "test": "nps test && yarn test:unit && yarn test:integration",
-    "version": "bin/dev readme && git add README.md"
+    "version": "bin/dev.js readme && git add README.md"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

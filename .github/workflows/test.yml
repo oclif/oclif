@@ -8,7 +8,7 @@ jobs:
   unit-tests:
     strategy:
       matrix:
-        node_version: [lts/-1, lts/*, latest]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +25,7 @@ jobs:
     needs: [unit-tests]
     strategy:
       matrix:
-        node_version: [lts/-1, lts/*, latest]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
     needs: [unit-tests]
     strategy:
       matrix:
-        node_version: [lts/-1, lts/*, latest]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -69,7 +69,7 @@ jobs:
     needs: [unit-tests]
     strategy:
       matrix:
-        node_version: [lts/-1, lts/*, latest]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: macos-latest
     steps:
@@ -92,7 +92,7 @@ jobs:
       OCLIF_DEB_PRIVATE_KEY: ${{ secrets.OCLIF_DEB_PRIVATE_KEY }}
     strategy:
       matrix:
-        node_version: [lts/-1, lts/*, latest]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

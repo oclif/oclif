@@ -1,6 +1,7 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
-import * as _ from 'lodash'
+import * as fsPromises from 'node:fs/promises'
+import {uniq} from 'lodash'
 import * as path from 'node:path'
 import * as Tarballs from '../../tarballs'
 import {debArch, debVersion, templateShortKey} from '../../upload-util'
@@ -72,14 +73,14 @@ export default class PackDeb extends Command {
       const workspace = path.join(buildConfig.tmp, 'apt', versionedDebBase.replace('.deb', '.apt'))
       await fs.remove(workspace)
       await Promise.all([
-        fs.promises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),
-        fs.promises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),
+        fsPromises.mkdir(path.join(workspace, 'DEBIAN'), {recursive: true}),
+        fsPromises.mkdir(path.join(workspace, 'usr', 'bin'), {recursive: true}),
       ])
       await fs.copy(buildConfig.workspace(target), path.join(workspace, 'usr', 'lib', config.dirname))
       await Promise.all([
         // usr/lib/oclif/bin/oclif (the executable)
-        fs.promises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755}),
-        fs.promises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch))),
+        fsPromises.writeFile(path.join(workspace, 'usr', 'lib', config.dirname, 'bin', config.bin), scripts.bin(config), {mode: 0o755}),
+        fsPromises.writeFile(path.join(workspace, 'DEBIAN', 'control'), scripts.control(buildConfig, debArch(arch))),
       ])
       // symlink usr/bin/oclif points to usr/lib/oclif/bin/oclif
       await exec(`ln -s "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${config.bin}"`, {cwd: path.join(workspace, 'usr', 'bin')})
@@ -91,7 +92,7 @@ export default class PackDeb extends Command {
       this.log(`finished building debian / ${arch}`)
     }
 
-    const arches = _.uniq(buildConfig.targets
+    const arches = uniq(buildConfig.targets
     .filter(t => t.platform === 'linux')
     .map(t => t.arch))
     await Promise.all(arches.map(a => build(a)))
@@ -120,7 +121,7 @@ export default class PackDeb extends Command {
 
 async function packForFTP(buildConfig: Tarballs.BuildConfig, config: Interfaces.Config, dist: string) {
   const ftparchive = path.join(buildConfig.tmp, 'apt', 'apt-ftparchive.conf')
-  await fs.promises.mkdir(path.basename(ftparchive), {recursive: true})
+  await fsPromises.mkdir(path.basename(ftparchive), {recursive: true})
   await fs.writeFile(ftparchive, scripts.ftparchive(config))
   await exec(`apt-ftparchive -c "${ftparchive}" release . > Release`, {cwd: dist})
 }

@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import {uniq} from 'lodash'
 import * as fs from 'node:fs'
 import {Command, Flags, Interfaces} from '@oclif/core'
 
@@ -36,7 +36,7 @@ export default class UploadMacos extends Command {
       })
     }
 
-    const arches = _.uniq(buildConfig.targets
+    const arches = uniq(buildConfig.targets
     .filter(t => t.platform === 'darwin')
     .map(t => t.arch))
     await Promise.all(arches.map(a => upload(a)))

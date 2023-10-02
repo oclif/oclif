@@ -1,6 +1,6 @@
 import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin, toConfiguredId} from '@oclif/core'
 import * as fs from 'fs-extra'
-import * as _ from 'lodash'
+import {template as lodashTemplate} from 'lodash'
 import * as path from 'node:path'
 import {URL} from 'node:url'
 
@@ -129,7 +129,7 @@ USAGE
     topics = uniqBy(topics, t => t.name)
     for (const topic of topics) {
       this.createTopicFile(
-        path.join('.', dir, topic.name.replace(/:/g, '/') + '.md'),
+        path.join('.', dir, topic.name.replaceAll(':', '/') + '.md'),
         config,
         topic,
         commands.filter(c => c.id === topic.name || c.id.startsWith(topic.name + ':')),
@@ -138,12 +138,10 @@ USAGE
 
     return [
       '# Command Topics\n',
-      ...topics.map(t => {
-        return compact([
-          `* [\`${config.bin} ${t.name}\`](${dir}/${t.name.replace(/:/g, '/')}.md)`,
+      ...topics.map(t => compact([
+          `* [\`${config.bin} ${t.name}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
           template({config})(t.description || '').trim().split('\n')[0],
-        ]).join(' - ')
-      }),
+        ]).join(' - ')),
     ].join('\n').trim() + '\n'
   }
 
@@ -214,7 +212,7 @@ USAGE
     }
 
     const template = this.flags['repository-prefix'] || plugin.pjson.oclif.repositoryPrefix || '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
-    return `_See code: [${label}](${_.template(template)({repo, version, commandPath, config, c})})_`
+    return `_See code: [${label}](${lodashTemplate(template)({repo, version, commandPath, config, c})})_`
   }
 
   private repo(plugin: Interfaces.Plugin): string | undefined {
@@ -257,7 +255,7 @@ USAGE
       p = p.replace(outDirRegex, 'src' + path.sep).replace(/\.js$/, '.ts')
     }
 
-    p = p.replace(/\\/g, '/') // Replace windows '\' by '/'
+    p = p.replaceAll('\\', '/') // Replace windows '\' by '/'
     return p
   }
 
@@ -269,12 +267,10 @@ USAGE
     }
 
     const id = toConfiguredId(command.id, config)
-    const defaultUsage = () => {
-      return compact([
+    const defaultUsage = () => compact([
         id,
         Object.values(command.args).filter(a => !a.hidden).map(a => arg(a)).join(' '),
       ]).join(' ')
-    }
 
     const usages = castArray(command.usage)
     return template({config, command})(usages.length === 0 ? defaultUsage() : usages[0])

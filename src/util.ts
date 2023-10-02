@@ -3,9 +3,9 @@ import _ = require('lodash')
 import * as os from 'node:os'
 import * as crypto from 'node:crypto'
 import {log} from './log'
-import * as fs from 'fs-extra'
+import {createReadStream} from 'node:fs'
 import {exec as execSync} from 'node:child_process'
-import {promisify} from 'util'
+import {promisify} from 'node:util'
 const exec = promisify(execSync)
 
 export function castArray<T>(input?: T | T[]): T[] {
@@ -21,6 +21,7 @@ export function uniqBy<T>(arr: T[], fn: (cur: T) => any): T[] {
 }
 
 export function compact<T>(a: (T | undefined)[]): T[] {
+  // eslint-disable-next-line unicorn/prefer-native-coercion-functions
   return a.filter((a): a is T => Boolean(a))
 }
 
@@ -48,7 +49,7 @@ export namespace sort {
   export type Types = string | number | undefined | boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 export const template = (context: any) => (t: string | undefined): string => _.template(t || '')(context)
 
 interface VersionsObject {
@@ -89,7 +90,7 @@ export const hash = async (algo: string, fp: string | string[]):Promise<string> 
   log('hash', algo, f)
   return new Promise<string>((resolve, reject) => {
     const hashInProgress = crypto.createHash(algo)
-    const stream = fs.createReadStream(f)
+    const stream = createReadStream(f)
     stream.on('error', err => reject(err))
     stream.on('data', chunk => hashInProgress.update(chunk))
     stream.on('end', () => resolve(hashInProgress.digest('hex')))

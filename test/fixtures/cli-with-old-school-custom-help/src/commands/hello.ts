@@ -1,4 +1,5 @@
-import {Command, Flags} from '@oclif/core'
+// eslint-disable-next-line node/no-extraneous-import
+import {Args, Command, Flags} from '@oclif/core'
 
 export default class Hello extends Command {
   static description = 'describe the command here'
@@ -17,7 +18,9 @@ hello world from ./src/hello.ts!
     force: Flags.boolean({char: 'f'}),
   }
 
-  static args = [{name: 'file'}]
+  static args = {
+    file: Args.string(),
+  }
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(Hello)

@@ -1,6 +1,6 @@
 import * as CloudFront from 'aws-sdk/clients/cloudfront'
 import * as S3 from 'aws-sdk/clients/s3'
-import * as fs from 'fs-extra'
+import {createReadStream} from 'fs-extra'
 
 import {debug as Debug, log} from './log'
 import {prettifyPaths} from './util'
@@ -49,7 +49,7 @@ const aws = {
 }
 
 export default {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
   get cloudfront() {
     return {
       createCloudfrontInvalidation: (options: CloudFront.Types.CreateInvalidationRequest) => new Promise((resolve, reject) => {
@@ -61,12 +61,12 @@ export default {
       }),
     }
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
   get s3() {
     return {
       uploadFile: (local: string, options: S3.Types.PutObjectRequest) => new Promise((resolve, reject) => {
         log('s3:uploadFile', prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
-        options.Body = fs.createReadStream(local)
+        options.Body = createReadStream(local)
         aws.s3.upload(options, err => {
           if (err) reject(err)
           else resolve(null)
@@ -81,14 +81,14 @@ export default {
       }),
       copyObject: (options: S3.Types.CopyObjectRequest) => new Promise((resolve, reject) => {
         log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
-        aws.s3.copyObject(options, function (err, data) {
+        aws.s3.copyObject(options, (err, data) => {
           if (err) reject(err)
           else resolve(data)
         })
       }),
       getObject: (options: S3.Types.GetObjectRequest) => new Promise<S3.GetObjectOutput>((resolve, reject) => {
         debug('getObject', `s3://${options.Bucket}/${options.Key}`)
-        aws.s3.getObject(options, function (err, data) {
+        aws.s3.getObject(options, (err, data) => {
           if (err) reject(err)
           else resolve(data)
         })

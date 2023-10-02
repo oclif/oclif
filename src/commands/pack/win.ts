@@ -1,6 +1,8 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
 import * as path from 'node:path'
-import * as fs from 'fs-extra'
+import {readFileSync} from 'node:fs'
+import {writeFile, rm, mkdir} from 'node:fs/promises'
+import {move} from 'fs-extra'
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
 import {exec as execSync} from 'node:child_process'
@@ -235,30 +237,30 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {config} = buildConfig
     await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball, parallel: true})
     const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-    const nsisCustomization = config.nsisCustomization ? fs.readFileSync(config.nsisCustomization, 'utf8') : ''
+    const nsisCustomization = config.nsisCustomization ? readFileSync(config.nsisCustomization, 'utf8') : ''
 
     await Promise.all(arches.map(async arch => {
       const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
-      await fs.promises.rm(installerBase, {recursive: true, force: true})
-      await fs.promises.mkdir(path.join(installerBase, 'bin'), {recursive: true})
+      await rm(installerBase, {recursive: true, force: true})
+      await mkdir(path.join(installerBase, 'bin'), {recursive: true})
       await Promise.all([
-        fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
-        fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
+        writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
+        writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+        writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
       ].concat(config.binAliases ? config.binAliases.flatMap(alias =>
         // write duplicate files for windows aliases
         // this avoids mklink which can require admin privileges which not everyone has
-        [fs.writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)), fs.writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config))]) : [])
+        [writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)), writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config))]) : [])
       .concat(flags['additional-cli'] ? [
-        fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
-        fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),
+        writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
+        writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),
       ] : []))
 
-      await fs.move(buildConfig.workspace({platform: 'win32', arch}), path.join(installerBase, 'client'))
+      await move(buildConfig.workspace({platform: 'win32', arch}), path.join(installerBase, 'client'))
       await exec(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
       const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
       const o = buildConfig.dist(`win32/${templateKey}`)
-      await fs.move(path.join(installerBase, 'installer.exe'), o)
+      await move(path.join(installerBase, 'installer.exe'), o)
 
       const windows = (config.pjson.oclif as any).windows as {name: string; keypath: string; homepage?: string}
       if (windows && windows.name && windows.keypath) {
@@ -281,14 +283,14 @@ the CLI should already exist in a directory named after the CLI that is the root
 }
 async function signWindows(o: string, arch: string, config: Interfaces.Config, windows: { name: string; keypath: string; homepage?: string | undefined }) {
   const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
-  await fs.move(o, buildLocationUnsigned)
+  await move(o, buildLocationUnsigned)
 
   const pass = config.scopedEnvVar('WINDOWS_SIGNING_PASS')
   if (!pass) {
     throw new Error(`${config.scopedEnvVarKey('WINDOWS_SIGNING_PASS')} not set in the environment`)
   }
 
-  /* eslint-disable array-element-newline */
+
   const args = [
     '-pkcs12', windows.keypath,
     '-pass', pass,

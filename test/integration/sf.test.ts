@@ -1,7 +1,6 @@
 import {Interfaces} from '@oclif/core'
 import {expect} from 'chai'
 import {execSync} from 'node:child_process'
-import { read } from 'node:fs'
 import {access, mkdir, readFile, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
@@ -42,7 +41,8 @@ describe('sf', () => {
       const sfPjson = JSON.parse(await readFile(join(sfDir, 'package.json'), 'utf8')) as Interfaces.PJSON.Plugin
       const jitPlugins = Object.keys(sfPjson.oclif.jitPlugins ?? {})
 
-      const everyPluginHasCommand = jitPlugins.every(jitPlugin => !!Object.values(manifest.commands).find(command => command.pluginName === jitPlugin))
+      // eslint-disable-next-line max-nested-callbacks
+      const everyPluginHasCommand = jitPlugins.every(jitPlugin => Boolean(Object.values(manifest.commands).find(command => command.pluginName === jitPlugin)))
       const everyJITCommandIsTypeJIT = Object.values(manifest.commands)
         .filter(command => jitPlugins.includes(command.pluginName ?? ''))
         .every(command => command.pluginType === 'jit')

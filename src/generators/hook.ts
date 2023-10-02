@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import {castArray} from 'lodash'
 import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 import {GeneratorOptions} from '../types'
@@ -40,7 +40,7 @@ export default class Hook extends Generator {
     const hooks = this.pjson.oclif.hooks
     const p = `./dist/hooks/${this.options.event}/${this.options.name}`
     if (hooks[this.options.event]) {
-      hooks[this.options.event] = _.castArray(hooks[this.options.event])
+      hooks[this.options.event] = castArray(hooks[this.options.event])
       hooks[this.options.event] = hooks[this.options.event].concat(p)
     } else {
       this.pjson.oclif.hooks[this.options.event] = p

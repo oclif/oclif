@@ -1,9 +1,10 @@
 import {execSync} from 'node:child_process'
 import * as fs from 'node:fs'
-import * as _ from 'lodash'
+import {isEmpty, uniq} from 'lodash'
 import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 
+const _ = require('lodash')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
@@ -111,7 +112,7 @@ export default class CLI extends Generator {
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
     const defaults = {
       ...this.pjson,
-      name: this.name ? this.name.replace(/ /g, '-') : this.determineAppname().replace(/ /g, '-'),
+      name: this.name ? this.name.replaceAll(' ', '-') : this.determineAppname().replaceAll(' ', '-'),
       version: '0.0.0',
       license: 'MIT',
       author: this.githubUser ? `${this.user.git.name()} @${this.githubUser}` : this.user.git.name(),
@@ -128,10 +129,7 @@ export default class CLI extends Generator {
       this.repository = (this.repository as any).url
     }
 
-    if (this.options.defaults) {
-      this.answers = defaults
-    } else {
-      this.answers = await this.prompt([
+    this.answers = this.options.defaults ? defaults : (await this.prompt([
         {
           type: 'input',
           name: 'name',
@@ -191,8 +189,7 @@ export default class CLI extends Generator {
           ],
           default: () => this.options.yarn || hasYarn ? 1 : 0,
         },
-      ])
-    }
+      ]));
 
     debug(this.answers)
     if (!this.options.defaults) {
@@ -235,8 +232,8 @@ export default class CLI extends Generator {
       this.pjson.oclif.plugins.sort()
     }
 
-    if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
-    this.pjson.files = _.uniq((this.pjson.files || []).sort())
+    if (isEmpty(this.pjson.oclif)) delete this.pjson.oclif
+    this.pjson.files = uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())

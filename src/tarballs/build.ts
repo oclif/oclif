@@ -2,7 +2,9 @@ import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import {log} from '../log'
 import * as path from 'node:path'
-import * as fs from 'fs-extra'
+import {move, emptyDir, readJSON, writeJSON, remove, copy} from 'fs-extra'
+import {existsSync} from 'node:fs'
+import {mkdir, readdir, rm} from 'node:fs/promises'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
@@ -15,7 +17,7 @@ const exec = promisify(execSync)
 
 const pack = async (from: string, to: string) => {
   const cwd = path.dirname(from)
-  await fs.promises.mkdir(path.dirname(to), {recursive: true})
+  await mkdir(path.dirname(to), {recursive: true})
   log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`);
   (to.endsWith('gz') ?
     await exec(`tar czf ${to} ${(path.basename(from))}`, {cwd}) :
@@ -35,37 +37,37 @@ export async function build(c: BuildConfig, options: {
   }
 
   const extractCLI = async (tarball: string) => {
-    await fs.emptyDir(c.workspace())
+    await emptyDir(c.workspace())
     const tarballNewLocation = path.join(c.workspace(), path.basename(tarball))
-    await fs.move(tarball, tarballNewLocation)
+    await move(tarball, tarballNewLocation)
     await exec(`tar -xzf "${tarballNewLocation}"`, {cwd: c.workspace()})
 
     await Promise.all(
-      (await fs.promises.readdir(path.join(c.workspace(), 'package'), {withFileTypes: true}))
-      .map(i => fs.move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))),
+      (await readdir(path.join(c.workspace(), 'package'), {withFileTypes: true}))
+      .map(i => move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))),
     )
 
     await Promise.all([
-      fs.promises.rm(path.join(c.workspace(), 'package'), {recursive: true}),
-      fs.promises.rm(path.join(c.workspace(), path.basename(tarball)), {recursive: true}),
-      fs.remove(path.join(c.workspace(), 'bin', 'run.cmd')),
+      rm(path.join(c.workspace(), 'package'), {recursive: true}),
+      rm(path.join(c.workspace(), path.basename(tarball)), {recursive: true}),
+      remove(path.join(c.workspace(), 'bin', 'run.cmd')),
     ])
   }
 
   const updatePJSON = async () => {
     const pjsonPath = path.join(c.workspace(), 'package.json')
-    const pjson = await fs.readJSON(pjsonPath)
+    const pjson = await readJSON(pjsonPath)
     pjson.version = config.version
     pjson.oclif.update = pjson.oclif.update || {}
     pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
     pjson.oclif.update.s3.bucket = c.s3Config.bucket
-    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+    await writeJSON(pjsonPath, pjson, {spaces: 2})
   }
 
   const addDependencies = async () => {
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    if (fs.existsSync(path.join(yarnRoot, 'yarn.lock'))) {
-      await fs.copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
+    if (existsSync(path.join(yarnRoot, 'yarn.lock'))) {
+      await copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
 
       const yarnVersion = (await exec('yarn -v')).stdout.charAt(0)
       if (yarnVersion === '1') {
@@ -84,18 +86,18 @@ export async function build(c: BuildConfig, options: {
         }
       }
     } else {
-      const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?
+      const lockpath = existsSync(path.join(c.root, 'package-lock.json')) ?
         path.join(c.root, 'package-lock.json') :
         path.join(c.root, 'npm-shrinkwrap.json')
-      await fs.copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
+      await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
       await exec('npm install --production', {cwd: c.workspace()})
     }
   }
 
   const pretarball = async () => {
-    const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'))
+    const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    const yarn = fs.existsSync(path.join(yarnRoot, 'yarn.lock'))
+    const yarn = existsSync(path.join(yarnRoot, 'yarn.lock'))
     if (pjson.scripts.pretarball) {
       yarn ?
         await exec('yarn run pretarball', {cwd: c.workspace()}) :
@@ -123,8 +125,8 @@ export async function build(c: BuildConfig, options: {
     const base = path.basename(gzLocalKey)
     log(`building target ${base}`)
     log('copying workspace', c.workspace(), workspace)
-    await fs.emptyDir(workspace)
-    await fs.copy(c.workspace(), workspace)
+    await emptyDir(workspace)
+    await copy(c.workspace(), workspace)
     await fetchNodeBinary({
       nodeVersion: c.nodeVersion,
       output: path.join(workspace, 'bin', 'node'),
@@ -172,7 +174,7 @@ export async function build(c: BuildConfig, options: {
       sha: c.gitSha,
       version: config.version,
     }))
-    await fs.writeJSON(manifestFilepath, manifest, {spaces: 2})
+    await writeJSON(manifestFilepath, manifest, {spaces: 2})
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)

@@ -41,7 +41,7 @@ export const appendToIndex = async (input: { version: string; originalUrl: strin
   if (!s3Config.host) throw new Error('[package.json].oclif.s3.host is required for indexes')
 
   // json-friendly filenames like sfdx-linux-x64-tar-gz
-  const jsonFileName = `${filename.replace(/\./g, '-')}.json`
+  const jsonFileName = `${filename.replaceAll('.', '-')}.json`
   // folder is optional, but honored if present
   const key = path.join(s3Config.folder ?? '', 'versions', jsonFileName)
 

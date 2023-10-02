@@ -2,7 +2,7 @@ import {Config, Interfaces, ux} from '@oclif/core'
 
 import * as path from 'node:path'
 import * as semver from 'semver'
-import * as fs from 'fs-extra'
+import {mkdir} from 'node:fs/promises'
 
 import {compact} from '../util'
 import {templateShortKey} from '../upload-util'
@@ -42,7 +42,7 @@ export async function gitSha(cwd: string, options: {short?: boolean} = {}): Prom
 async function Tmp(config: Interfaces.Config,
 ) {
   const tmp = path.join(config.root, 'tmp')
-  await fs.promises.mkdir(tmp, {recursive: true})
+  await mkdir(tmp, {recursive: true})
   return tmp
 }
 

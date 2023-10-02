@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import * as _ from 'lodash'
+import {uniq} from 'lodash'
 import * as fs from 'fs-extra'
 import {Command, Flags, Interfaces} from '@oclif/core'
 
@@ -42,7 +42,7 @@ sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${
 ${config.binAliases ? config.binAliases?.map(alias => `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${alias}`).join(os.EOL) : ''}
 ${additionalCLI ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}` : ''}
 `,
-  uninstall: (config: Interfaces.Config, additionalCLI: string | undefined) => {
+  uninstall(config: Interfaces.Config, additionalCLI: string | undefined) {
     const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
     return `#!/usr/bin/env bash
 
@@ -189,7 +189,7 @@ the CLI should already exist in a directory named after the CLI that is the root
         writeScript('postinstall'),
         writeScript('uninstall'),
       ])
-      /* eslint-disable array-element-newline */
+
       const args = [
         '--root', rootDir,
         '--component-plist', noBundleConfigurationPath,
@@ -207,7 +207,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       await exec(`pkgbuild  ${args.join(' ')}`)
     }
 
-    const arches = _.uniq(buildConfig.targets
+    const arches = uniq(buildConfig.targets
     .filter(t => t.platform === 'darwin')
     .map(t => t.arch))
     await Promise.all(arches.map(a => build(a)))

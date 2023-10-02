@@ -5,12 +5,12 @@ import * as fs from 'fs-extra'
 import * as path from 'node:path'
 import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
-import * as _ from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalPJSON = _.cloneDeep(pjson)
+const originalPJSON = cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
 const onlyLinux = process.platform === 'linux' ? test : test.skip()

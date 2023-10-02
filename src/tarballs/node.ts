@@ -1,10 +1,12 @@
 import {Interfaces} from '@oclif/core'
 import * as path from 'node:path'
-import * as fs from 'fs-extra'
+import {existsSync, createWriteStream} from 'node:fs'
+import {mkdir} from 'node:fs/promises'
+import {copy, ensureDir, move} from 'fs-extra'
 import {pipeline} from 'node:stream/promises'
 import {log} from '../log'
 import {exec as execSync} from 'node:child_process'
-import {promisify} from 'util'
+import {promisify} from 'node:util'
 import got from 'got'
 import * as retry from 'async-retry'
 import {checkFor7Zip} from '../util'
@@ -41,22 +43,22 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
   const download = async () => {
     log(`downloading ${nodeBase}`)
     await Promise.all([
-      fs.ensureDir(path.join(tmp, 'cache', nodeVersion)),
-      fs.ensureDir(path.join(tmp, 'node')),
+      ensureDir(path.join(tmp, 'cache', nodeVersion)),
+      ensureDir(path.join(tmp, 'node')),
     ])
     const shasums = path.join(tmp, 'cache', nodeVersion, 'SHASUMS256.txt.asc')
-    if (!fs.existsSync(shasums)) {
+    if (!existsSync(shasums)) {
       await pipeline(
         got.stream(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`),
-        fs.createWriteStream(shasums),
+        createWriteStream(shasums),
       )
     }
 
     const basedir = path.dirname(tarball)
-    await fs.promises.mkdir(basedir, {recursive: true})
+    await mkdir(basedir, {recursive: true})
     await pipeline(
       got.stream(url),
-      fs.createWriteStream(tarball),
+      createWriteStream(tarball),
     )
     if (platform !== 'win32') await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
   }
@@ -64,19 +66,19 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
   const extract = async () => {
     log(`extracting ${nodeBase}`)
     const nodeTmp = path.join(tmp, 'node')
-    await fs.promises.mkdir(nodeTmp, {recursive: true})
-    await fs.promises.mkdir(path.dirname(cache), {recursive: true})
+    await mkdir(nodeTmp, {recursive: true})
+    await mkdir(path.dirname(cache), {recursive: true})
 
     if (platform === 'win32') {
       await exec(`7z x -bd -y "${tarball}"`, {cwd: nodeTmp})
-      await fs.move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'))
+      await move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'))
     } else {
       await exec(`tar -C "${tmp}/node" -xJf "${tarball}"`)
-      await fs.move(path.join(nodeTmp, nodeBase, 'bin', 'node'), path.join(cache, 'node'))
+      await move(path.join(nodeTmp, nodeBase, 'bin', 'node'), path.join(cache, 'node'))
     }
   }
 
-  if (!fs.existsSync(cache)) {
+  if (!existsSync(cache)) {
     await retry(download, {
       retries: 3,
       factor: 1,
@@ -89,11 +91,9 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
     await extract()
   }
 
-  await fs.copy(path.join(cache, getFilename(platform)), output)
+  await copy(path.join(cache, getFilename(platform)), output)
 
   return output
 }
 
-const getFilename = (platform: string): string => {
-  return platform === 'win32' ? 'node.exe' : 'node'
-}
+const getFilename = (platform: string): string => platform === 'win32' ? 'node.exe' : 'node'

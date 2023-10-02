@@ -32,7 +32,7 @@ describe('sf', () => {
     })
 
     it('should generate manifest with JIT plugins', async () => {
-      const binDev = process.platform === 'win32' ? join(process.cwd(), 'bin', 'dev.cmd') : join(process.cwd(), 'bin', 'dev')
+      const binDev = process.platform === 'win32' ? join(process.cwd(), 'bin', 'dev.cmd') : join(process.cwd(), 'bin', 'dev.js')
 
       execSync(`${binDev} manifest`, {cwd: sfDir})
 

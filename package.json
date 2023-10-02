@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.1-test-4995",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"
@@ -99,7 +99,7 @@
         "debounce": 60
       },
       "node": {
-        "version": "18.17.1"
+        "version": "18.15.0"
       },
       "s3": {
         "bucket": "dfc-data-production",
@@ -117,7 +117,10 @@
       "upload": {
         "description": "upload installable CLI artifacts to AWS S3"
       }
-    }
+    },
+    "binAliases": [
+      "oclif2"
+    ]
   },
   "repository": "oclif/oclif",
   "scripts": {

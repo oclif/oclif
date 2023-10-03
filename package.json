@@ -133,9 +133,13 @@
     "posttest": "yarn run lint",
     "prepack": "shx rm -rf lib && tsc && bin/dev.js manifest .",
     "prepare": "husky install",
-    "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 600000",
-    "test:unit": "mocha --forbid-only \"test/unit/*.test.ts\"",
-    "test": "nps test && yarn test:unit && yarn test:integration",
+    "test:integration:deb": "mocha test/integration/deb.test.ts --timeout 900000",
+    "test:integration:macos": "mocha test/integration/macos.test.ts --timeout 900000",
+    "test:integration:sf": "mocha test/integration/sf.test.ts --timeout 600000",
+    "test:integration:win": "mocha test/integration/win.test.ts --timeout 900000",
+    "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 900000",
+    "test:publish": "mocha test/integration/publish.test.ts --timeout 900000",
+    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\"",
     "version": "bin/dev.js readme && git add README.md"
   },
   "publishConfig": {

@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import * as _ from 'lodash'
+import {uniq} from 'lodash'
 import * as fs from 'fs-extra'
 import {Command, Flags, Interfaces} from '@oclif/core'
 
@@ -13,9 +13,9 @@ import * as os from 'node:os'
 const exec = promisify(execSync)
 type OclifConfig = {
   macos?: {
-    identifier?: string;
-    sign?: string;
-  };
+    identifier?: string
+    sign?: string
+  }
 }
 
 const noBundleConfiguration = `<?xml version="1.0" encoding="UTF-8"?>
@@ -30,19 +30,32 @@ const scripts = {
 sudo rm -rf /usr/local/lib/${config.dirname}
 sudo rm -rf /usr/local/${config.bin}
 sudo rm -rf /usr/local/bin/${config.bin}
-${additionalCLI ?
-    `sudo rm -rf /usr/local/${additionalCLI}
-sudo rm -rf /usr/local/bin/${additionalCLI}` : ''}
-${config.binAliases ? config.binAliases.map(alias => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
+${
+  additionalCLI
+    ? `sudo rm -rf /usr/local/${additionalCLI}
+sudo rm -rf /usr/local/bin/${additionalCLI}`
+    : ''
+}
+${config.binAliases ? config.binAliases.map((alias) => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
 `,
   postinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
 sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${config.bin}
-${config.binAliases ? config.binAliases?.map(alias => `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${alias}`).join(os.EOL) : ''}
-${additionalCLI ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}` : ''}
+${
+  config.binAliases
+    ? config.binAliases
+        ?.map((alias) => `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${alias}`)
+        .join(os.EOL)
+    : ''
+}
+${
+  additionalCLI
+    ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}`
+    : ''
+}
 `,
-  uninstall: (config: Interfaces.Config, additionalCLI: string | undefined) => {
+  uninstall(config: Interfaces.Config, additionalCLI: string | undefined) {
     const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
     return `#!/usr/bin/env bash
 
@@ -82,7 +95,11 @@ done
 
 echo "Application uninstalling process started"
 # remove bin aliases link
-${config.binAliases ? config.binAliases.map(alias => `find "/usr/local/bin/" -name "${alias}" | xargs rm`).join(os.EOL) : ''}
+${
+  config.binAliases
+    ? config.binAliases.map((alias) => `find "/usr/local/bin/" -name "${alias}" | xargs rm`).join(os.EOL)
+    : ''
+}
 # remove link to shortcut file
 find "/usr/local/bin/" -name "${config.bin}" | xargs rm
 ${additionalCLI ? `find "/usr/local/bin/" -name "${additionalCLI}" | xargs rm` : ''}
@@ -168,7 +185,12 @@ the CLI should already exist in a directory named after the CLI that is the root
     const noBundleConfigurationPath = path.join(buildConfig.tmp, 'macos', 'no-bundle.plist')
 
     const build = async (arch: Interfaces.ArchTypes) => {
-      const templateKey = templateShortKey('macos', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('macos', {
+        bin: config.bin,
+        version: config.version,
+        sha: buildConfig.gitSha,
+        arch,
+      })
       const dist = buildConfig.dist(`macos/${templateKey}`)
       const rootDir = buildConfig.workspace({platform: 'darwin', arch})
       const writeNoBundleConfiguration = async () => {
@@ -180,7 +202,9 @@ the CLI should already exist in a directory named after the CLI that is the root
         const scriptLocation = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
         scriptLocation.push(script)
         await fs.mkdir(path.dirname(path.join(...scriptLocation)), {recursive: true})
-        await fs.writeFile(path.join(...scriptLocation), scripts[script](config, flags['additional-cli']), {mode: 0o755})
+        await fs.writeFile(path.join(...scriptLocation), scripts[script](config, flags['additional-cli']), {
+          mode: 0o755,
+        })
       }
 
       await Promise.all([
@@ -189,14 +213,20 @@ the CLI should already exist in a directory named after the CLI that is the root
         writeScript('postinstall'),
         writeScript('uninstall'),
       ])
-      /* eslint-disable array-element-newline */
+
       const args = [
-        '--root', rootDir,
-        '--component-plist', noBundleConfigurationPath,
-        '--identifier', packageIdentifier,
-        '--version', config.version,
-        '--install-location', `/usr/local/lib/${config.dirname}`,
-        '--scripts', scriptsDir,
+        '--root',
+        rootDir,
+        '--component-plist',
+        noBundleConfigurationPath,
+        '--identifier',
+        packageIdentifier,
+        '--version',
+        config.version,
+        '--install-location',
+        `/usr/local/lib/${config.dirname}`,
+        '--scripts',
+        scriptsDir,
       ]
       /* eslint-enable array-element-newline */
       if (macos.sign) {
@@ -207,9 +237,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       await exec(`pkgbuild  ${args.join(' ')}`)
     }
 
-    const arches = _.uniq(buildConfig.targets
-    .filter(t => t.platform === 'darwin')
-    .map(t => t.arch))
-    await Promise.all(arches.map(a => build(a)))
+    const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
+    await Promise.all(arches.map((a) => build(a)))
   }
 }

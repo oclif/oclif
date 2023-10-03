@@ -1,6 +1,8 @@
 import {expect, test} from '@oclif/test'
 import {join} from 'node:path'
-import * as fs from 'fs-extra'
+import {createWriteStream} from 'node:fs'
+import {rm} from 'node:fs/promises'
+import {writeJSON, emptyDir} from 'fs-extra'
 import {promisify} from 'node:util'
 import {pipeline} from 'node:stream/promises'
 import got from 'got'
@@ -9,13 +11,13 @@ import {hash} from '../../src/util'
 import aws from '../../src/aws'
 import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
 import {Interfaces} from '@oclif/core'
-import * as _ from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const exec = promisify(execSync)
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalPJSON = _.cloneDeep(pjson)
+const originalPJSON = cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 const skipIfWindows = process.platform === 'win32' ? test.skip() : test
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
@@ -23,14 +25,16 @@ const cwd = process.cwd()
 pjson.version = `${pjson.version}-${testRun}`
 pjson.oclif.update.node.version = process.versions.node
 pjson.oclif.binAliases = ['oclif2']
-const bucket = pjson.oclif.update.s3.bucket
+const {bucket} = pjson.oclif.update.s3
 const basePrefix = pjson.oclif.update.s3.folder
 const root = join(__dirname, '../tmp/test/publish')
 const sha = gitShaSync(cwd, {short: true})
 
 const manifest = async (path: string, nodeVersion: string) => {
   const list = await aws.s3.listObjects({Bucket: bucket, Prefix: `${basePrefix}/${path}`})
-  const manifestFile = list.Contents?.map(listObject => listObject.Key).find(f => f!.includes(target) && f!.endsWith('-buildmanifest'))
+  const manifestFile = list.Contents?.map((listObject) => listObject.Key).find(
+    (f) => f!.includes(target) && f!.endsWith('-buildmanifest'),
+  )
   if (!manifestFile) {
     throw new Error(`could not find a buildmanifest file for target ${target}`)
   }
@@ -39,17 +43,10 @@ const manifest = async (path: string, nodeVersion: string) => {
   const test = async (url: string, expectedSha: string, nodeVersion: string) => {
     const xz = url.endsWith('.tar.xz')
     const ext = xz ? '.tar.xz' : '.tar.gz'
-    await pipeline(
-      got.stream(url),
-      fs.createWriteStream(join(root, `oclif${ext}`)),
-    )
+    await pipeline(got.stream(url), createWriteStream(join(root, `oclif${ext}`)))
     const receivedSha = await hash('sha256', join(root, `oclif${ext}`))
     expect(receivedSha).to.equal(expectedSha)
-    if (xz) {
-      await exec('tar xJf oclif.tar.xz', {cwd: root})
-    } else {
-      await exec('tar xzf oclif.tar.gz', {cwd: root})
-    }
+    await (xz ? exec('tar xJf oclif.tar.xz', {cwd: root}) : exec('tar xzf oclif.tar.gz', {cwd: root}))
 
     const {stdout} = await exec('./oclif/bin/oclif --version', {cwd: root})
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
@@ -57,39 +54,39 @@ const manifest = async (path: string, nodeVersion: string) => {
     // check alias
     const stdout2 = (await exec('./oclif/bin/oclif2 --version', {cwd: root})).stdout
     expect(stdout2).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
-    await fs.promises.rm(join(root, 'oclif'), {recursive: true})
+    await rm(join(root, 'oclif'), {recursive: true})
   }
 
   await test(manifest.gz, manifest.sha256gz, nodeVersion)
   await test(manifest.xz!, manifest.sha256xz!, nodeVersion)
 }
 
-const folderCleanup = async () => Promise.all([
-  deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`),
-  deleteFolder(bucket, `${basePrefix}/channels/${pjson.version}/`),
-])
+const folderCleanup = async () =>
+  Promise.all([
+    deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`),
+    deleteFolder(bucket, `${basePrefix}/channels/${pjson.version}/`),
+  ])
 
 describe('upload tarballs', async () => {
   beforeEach(async () => {
     await folderCleanup()
-    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
-    await fs.emptyDir(root)
+    await writeJSON(pjsonPath, pjson, {spaces: 2})
+    await emptyDir(root)
   })
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
       await folderCleanup()
     }
 
-    await fs.writeJSON(pjsonPath, originalPJSON, {spaces: 2})
+    await writeJSON(pjsonPath, originalPJSON, {spaces: 2})
   })
 
   skipIfWindows
-  .command(['pack:tarballs', '--parallel', '--xz'])
-  .command(['upload:tarballs', '--xz'])
-  .command(['promote', '--channel', pjson.version, '--sha', sha, '--version', pjson.version])
-  .it('checks uploads for version and channel', async () => {
-    await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
-    await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
-  })
+    .command(['pack:tarballs', '--parallel', '--xz'])
+    .command(['upload:tarballs', '--xz'])
+    .command(['promote', '--channel', pjson.version, '--sha', sha, '--version', pjson.version])
+    .it('checks uploads for version and channel', async () => {
+      await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
+      await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
+    })
 })
-

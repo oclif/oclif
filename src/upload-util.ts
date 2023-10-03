@@ -22,7 +22,8 @@ export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config
 // refactor this key name lookup
 // helper to oclif/core
 export function templateShortKey(
-  type: keyof Interfaces.PJSON.S3.Templates | 'macos' | 'win32' | 'deb', ext?: '.tar.gz' | '.tar.xz' | Interfaces.Config.s3Key.Options,
+  type: keyof Interfaces.PJSON.S3.Templates | 'macos' | 'win32' | 'deb',
+  ext?: '.tar.gz' | '.tar.xz' | Interfaces.Config.s3Key.Options,
   // eslint-disable-next-line unicorn/no-object-as-default-parameter
   options: Interfaces.Config.s3Key.Options = {root: '.'},
 ): string {

@@ -1,3 +1,4 @@
+// eslint-disable-next-line node/no-extraneous-import
 import {Command} from '@oclif/core'
 
 export default class Hello extends Command {

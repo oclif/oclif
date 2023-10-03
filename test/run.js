@@ -32,47 +32,47 @@ function build(type, features) {
   process.env = npmPath.env({env: process.env})
 }
 
-module.exports = file => {
+module.exports = (file) => {
   const f = path.parse(file)
   const [name] = f.name.split('.')
   const cmd = path.basename(f.dir)
 
   describe(cmd, () => {
     fancy
-    .retries(CI ? 1 : 0)
-    .do(() => {
-      switch (cmd) {
-      case 'base':
-        build(cmd, name)
-        sh.exec('yarn test')
-        break
-      case 'plugin':
-        build(cmd, name)
-        sh.exec('yarn test')
-        sh.exec('node ./bin/run hello')
-        sh.exec('node ./bin/run')
-        sh.exec('node ./bin/run --help')
-        sh.exec('npm pack --unsafe-perm')
-        break
-      case 'command':
-        build('plugin', name)
-        generate('command foo:bar:baz --defaults --force')
-        sh.exec('yarn test')
-        sh.exec('node ./bin/run hello')
-        sh.exec('node ./bin/run foo:bar:baz')
-        sh.exec('node ./bin/run help foo:bar:baz')
-        sh.exec('node ./bin/run foo:bar:baz --help')
-        sh.exec('npm pack --unsafe-perm')
-        break
-      case 'hook':
-        build('plugin', name)
-        generate('hook myhook --defaults --force')
-        sh.exec('yarn test')
-        sh.exec('node ./bin/run hello')
-        sh.exec('npm pack --unsafe-perm')
-        break
-      }
-    })
-    .it([cmd, name].join(':'))
+      .retries(CI ? 1 : 0)
+      .do(() => {
+        switch (cmd) {
+          case 'base':
+            build(cmd, name)
+            sh.exec('yarn test')
+            break
+          case 'plugin':
+            build(cmd, name)
+            sh.exec('yarn test')
+            sh.exec('node ./bin/run hello')
+            sh.exec('node ./bin/run')
+            sh.exec('node ./bin/run --help')
+            sh.exec('npm pack --unsafe-perm')
+            break
+          case 'command':
+            build('plugin', name)
+            generate('command foo:bar:baz --defaults --force')
+            sh.exec('yarn test')
+            sh.exec('node ./bin/run hello')
+            sh.exec('node ./bin/run foo:bar:baz')
+            sh.exec('node ./bin/run help foo:bar:baz')
+            sh.exec('node ./bin/run foo:bar:baz --help')
+            sh.exec('npm pack --unsafe-perm')
+            break
+          case 'hook':
+            build('plugin', name)
+            generate('hook myhook --defaults --force')
+            sh.exec('yarn test')
+            sh.exec('node ./bin/run hello')
+            sh.exec('npm pack --unsafe-perm')
+            break
+        }
+      })
+      .it([cmd, name].join(':'))
   })
 }

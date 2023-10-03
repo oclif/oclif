@@ -1,19 +1,19 @@
 import {Args, Command, Plugin, ux, Flags, Interfaces} from '@oclif/core'
-import * as fs from 'fs-extra'
+import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
 import * as path from 'node:path'
 import * as os from 'node:os'
 import * as semver from 'semver'
 import {exec, ShellString, ExecOptions} from 'shelljs'
 import got from 'got'
-import {promisify} from 'util'
-import {pipeline as pipelineSync} from 'stream'
+import {promisify} from 'node:util'
+import {pipeline as pipelineSync} from 'node:stream'
 import {checkFor7Zip} from '../util'
 
 const pipeline = promisify(pipelineSync)
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
-    await fs.access(filePath)
+    await access(filePath)
     return true
   } catch {
     return false
@@ -38,13 +38,13 @@ export default class Manifest extends Command {
   async run(): Promise<void> {
     const {flags} = await this.parse(Manifest)
     try {
-      fs.unlinkSync('oclif.manifest.json')
+      unlinkSync('oclif.manifest.json')
     } catch {}
 
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = fs.readJSONSync('package.json') as { oclif: { jitPlugins: Record<string, string> } }
+    const packageJson = readJSONSync('package.json') as {oclif: {jitPlugins: Record<string, string>}}
 
     let jitPluginManifests: Interfaces.Manifest[] = []
 
@@ -56,17 +56,14 @@ export default class Manifest extends Command {
 
         const fullPath = path.join(tmpDir, pluginDir)
 
-        if (await fileExists(fullPath)) await fs.remove(fullPath)
+        if (await fileExists(fullPath)) await remove(fullPath)
 
-        await fs.mkdir(fullPath, {recursive: true})
+        await mkdir(fullPath, {recursive: true})
 
         const resolvedVersion = this.getVersion(jitPlugin, version)
         const tarballUrl = this.getTarballUrl(jitPlugin, resolvedVersion)
         const tarball = path.join(fullPath, path.basename(tarballUrl))
-        await pipeline(
-          got.stream(tarballUrl),
-          fs.createWriteStream(tarball),
-        )
+        await pipeline(got.stream(tarballUrl), createWriteStream(tarball))
 
         if (process.platform === 'win32') {
           await checkFor7Zip()
@@ -75,7 +72,7 @@ export default class Manifest extends Command {
           exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
         }
 
-        const manifest = await fs.readJSON(path.join(fullPath, 'package', 'oclif.manifest.json')) as Interfaces.Manifest
+        const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {
           command.pluginType = 'jit'
         }
@@ -88,18 +85,21 @@ export default class Manifest extends Command {
       ux.action.stop()
     }
 
-    let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
+    let plugin = new Plugin({
+      root,
+      type: 'core',
+      ignoreManifest: true,
+      errorOnManifestCreate: true,
+      respectNoCacheDefault: true,
+    })
+
     if (!plugin) throw new Error('plugin not found')
-    await plugin.load(true)
+    await plugin.load()
     if (!plugin.valid) {
       const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
       const {PluginLegacy} = require(p)
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
-    }
-
-    if (process.env.OCLIF_NEXT_VERSION) {
-      plugin.manifest.version = process.env.OCLIF_NEXT_VERSION
     }
 
     const dotfile = plugin.pjson.files.find((f: string) => f.endsWith('.oclif.manifest.json'))
@@ -109,7 +109,7 @@ export default class Manifest extends Command {
       plugin.manifest.commands = {...plugin.manifest.commands, ...manifest.commands}
     }
 
-    fs.writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
+    writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
     this.log(`wrote manifest to ${file}`)
   }
@@ -134,14 +134,15 @@ export default class Manifest extends Command {
 
   private getTarballUrl(plugin: string, version: string): string {
     const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
-      dist: { tarball: string }
+      dist: {tarball: string}
     }
     return dist.tarball
-
   }
 
   private executeCommand(command: string, options?: ExecOptions): ShellString {
-    const debugString = options?.cwd ? `executing command: ${command} in ${options.cwd}` : `executing command: ${command}`
+    const debugString = options?.cwd
+      ? `executing command: ${command} in ${options.cwd}`
+      : `executing command: ${command}`
     this.debug(debugString)
     const result = exec(command, {...options, silent: true, async: false})
     if (result.code !== 0) {

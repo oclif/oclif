@@ -1,9 +1,10 @@
 import {execSync} from 'node:child_process'
 import * as fs from 'node:fs'
-import * as _ from 'lodash'
+import {isEmpty, uniq} from 'lodash'
 import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 
+const _ = require('lodash')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
@@ -15,9 +16,9 @@ try {
 
 export default class CLI extends Generator {
   options: {
-    defaults?: boolean;
-    force: boolean;
-    yarn: boolean;
+    defaults?: boolean
+    force: boolean
+    yarn: boolean
   }
 
   name: string
@@ -27,23 +28,23 @@ export default class CLI extends Generator {
   githubUser: string | undefined
 
   answers!: {
-    name: string;
-    bin: string;
-    description: string;
-    version: string;
-    github: {repo: string; user: string};
-    author: string;
-    files: string;
-    license: string;
-    pkg: string;
-    typescript: boolean;
-    eslint: boolean;
-    mocha: boolean;
+    name: string
+    bin: string
+    description: string
+    version: string
+    github: {repo: string; user: string}
+    author: string
+    files: string
+    license: string
+    pkg: string
+    typescript: boolean
+    eslint: boolean
+    mocha: boolean
     ci: {
-      circleci: boolean;
-      appveyor: boolean;
-      travisci: boolean;
-    };
+      circleci: boolean
+      appveyor: boolean
+      travisci: boolean
+    }
   }
 
   yarn!: boolean
@@ -67,18 +68,20 @@ export default class CLI extends Generator {
 
     this.log(`${msg} Version: ${version}`)
 
-    const {moduleType} = process.env.OCLIF_ALLOW_ESM ? await this.prompt([
-      {
-        type: 'list',
-        name: 'moduleType',
-        message: 'Select a module type',
-        choices: [
-          {name: 'CommonJS', value: 'cjs'},
-          {name: 'ESM', value: 'esm'},
-        ],
-        default: 'cjs',
-      },
-    ]) : 'cjs'
+    const {moduleType} = process.env.OCLIF_ALLOW_ESM
+      ? await this.prompt([
+          {
+            type: 'list',
+            name: 'moduleType',
+            message: 'Select a module type',
+            choices: [
+              {name: 'CommonJS', value: 'cjs'},
+              {name: 'ESM', value: 'esm'},
+            ],
+            default: 'cjs',
+          },
+        ])
+      : 'cjs'
 
     const repo = moduleType === 'esm' ? 'hello-world-esm' : 'hello-world'
     execSync(`git clone https://github.com/oclif/${repo}.git "${path.resolve(this.name)}" --depth=1`)
@@ -111,7 +114,7 @@ export default class CLI extends Generator {
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
     const defaults = {
       ...this.pjson,
-      name: this.name ? this.name.replace(/ /g, '-') : this.determineAppname().replace(/ /g, '-'),
+      name: this.name ? this.name.replaceAll(' ', '-') : this.determineAppname().replaceAll(' ', '-'),
       version: '0.0.0',
       license: 'MIT',
       author: this.githubUser ? `${this.user.git.name()} @${this.githubUser}` : this.user.git.name(),
@@ -128,71 +131,69 @@ export default class CLI extends Generator {
       this.repository = (this.repository as any).url
     }
 
-    if (this.options.defaults) {
-      this.answers = defaults
-    } else {
-      this.answers = await this.prompt([
-        {
-          type: 'input',
-          name: 'name',
-          message: 'npm package name',
-          default: defaults.name,
-        },
-        {
-          type: 'input',
-          name: 'bin',
-          message: 'command bin name the CLI will export',
-          default: (answers: any) => answers.name,
-        },
-        {
-          type: 'input',
-          name: 'description',
-          message: 'description',
-          default: defaults.description,
-        },
-        {
-          type: 'input',
-          name: 'author',
-          message: 'author',
-          default: defaults.author,
-        },
-        {
-          type: 'input',
-          name: 'version',
-          message: 'version',
-          default: defaults.version,
-          when: !this.pjson.version,
-        },
-        {
-          type: 'input',
-          name: 'license',
-          message: 'license',
-          default: defaults.license,
-        },
-        {
-          type: 'input',
-          name: 'github.user',
-          message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
-          default: repository.split('/').slice(0, -1).pop(),
-        },
-        {
-          type: 'input',
-          name: 'github.repo',
-          message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
-          default: (answers: any) => (answers.name || this.pjson.repository || this.pjson.name).split('/').pop(),
-        },
-        {
-          type: 'list',
-          name: 'pkg',
-          message: 'Select a package manager',
-          choices: [
-            {name: 'npm', value: 'npm'},
-            {name: 'yarn', value: 'yarn'},
-          ],
-          default: () => this.options.yarn || hasYarn ? 1 : 0,
-        },
-      ])
-    }
+    this.answers = this.options.defaults
+      ? defaults
+      : await this.prompt([
+          {
+            type: 'input',
+            name: 'name',
+            message: 'npm package name',
+            default: defaults.name,
+          },
+          {
+            type: 'input',
+            name: 'bin',
+            message: 'command bin name the CLI will export',
+            default: (answers: any) => answers.name,
+          },
+          {
+            type: 'input',
+            name: 'description',
+            message: 'description',
+            default: defaults.description,
+          },
+          {
+            type: 'input',
+            name: 'author',
+            message: 'author',
+            default: defaults.author,
+          },
+          {
+            type: 'input',
+            name: 'version',
+            message: 'version',
+            default: defaults.version,
+            when: !this.pjson.version,
+          },
+          {
+            type: 'input',
+            name: 'license',
+            message: 'license',
+            default: defaults.license,
+          },
+          {
+            type: 'input',
+            name: 'github.user',
+            message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
+            default: repository.split('/').slice(0, -1).pop(),
+          },
+          {
+            type: 'input',
+            name: 'github.repo',
+            message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
+            default: (answers: any) => (answers.name || this.pjson.repository || this.pjson.name).split('/').pop(),
+          },
+          {
+            type: 'list',
+            name: 'pkg',
+            message: 'Select a package manager',
+            choices: [
+              {name: 'npm', value: 'npm'},
+              {name: 'yarn', value: 'yarn'},
+            ],
+            default: () => (this.options.yarn || hasYarn ? 1 : 0),
+          },
+        ])
 
     debug(this.answers)
     if (!this.options.defaults) {
@@ -214,7 +215,9 @@ export default class CLI extends Generator {
     this.pjson.files = this.answers.files || defaults.files || '/lib'
     this.pjson.license = this.answers.license || defaults.license
     // eslint-disable-next-line no-multi-assign
-    this.repository = this.pjson.repository = this.answers.github ? `${this.answers.github.user}/${this.answers.github.repo}` : defaults.repository
+    this.repository = this.pjson.repository = this.answers.github
+      ? `${this.answers.github.user}/${this.answers.github.repo}`
+      : defaults.repository
 
     this.pjson.homepage = `https://github.com/${this.repository}`
     this.pjson.bugs = `https://github.com/${this.repository}/issues`
@@ -226,7 +229,9 @@ export default class CLI extends Generator {
 
     if (!this.options.yarn) {
       const scripts = (this.pjson.scripts || {}) as Record<string, string>
-      this.pjson.scripts = Object.fromEntries(Object.entries(scripts).map(([k, v]) => [k, v.replace('yarn', 'npm run')]))
+      this.pjson.scripts = Object.fromEntries(
+        Object.entries(scripts).map(([k, v]) => [k, v.replace('yarn', 'npm run')]),
+      )
     }
   }
 
@@ -235,8 +240,8 @@ export default class CLI extends Generator {
       this.pjson.oclif.plugins.sort()
     }
 
-    if (_.isEmpty(this.pjson.oclif)) delete this.pjson.oclif
-    this.pjson.files = _.uniq((this.pjson.files || []).sort())
+    if (isEmpty(this.pjson.oclif)) delete this.pjson.oclif
+    this.pjson.files = uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
@@ -258,20 +263,24 @@ export default class CLI extends Generator {
   }
 
   private _gitignore(): string {
-    const existing = this.fs.exists(this.destinationPath('.gitignore')) ? this.fs.read(this.destinationPath('.gitignore')).split('\n') : []
-    return _([
-      '*-debug.log',
-      '*-error.log',
-      'node_modules',
-      '/tmp',
-      '/dist',
-      this.yarn ? '/package-lock.json' : '/yarn.lock',
-      '/lib',
-    ])
-    .concat(existing)
-    .compact()
-    .uniq()
-    .sort()
-    .join('\n') + '\n'
+    const existing = this.fs.exists(this.destinationPath('.gitignore'))
+      ? this.fs.read(this.destinationPath('.gitignore')).split('\n')
+      : []
+    return (
+      _([
+        '*-debug.log',
+        '*-error.log',
+        'node_modules',
+        '/tmp',
+        '/dist',
+        this.yarn ? '/package-lock.json' : '/yarn.lock',
+        '/lib',
+      ])
+        .concat(existing)
+        .compact()
+        .uniq()
+        .sort()
+        .join('\n') + '\n'
+    )
   }
 }

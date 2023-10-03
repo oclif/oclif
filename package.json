@@ -4,11 +4,11 @@
   "version": "4.0.0-beta.1",
   "author": "Salesforce",
   "bin": {
-    "oclif": "bin/run"
+    "oclif": "bin/run.js"
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^2.11.4",
+    "@oclif/core": "^3.0.0-beta.22",
     "@oclif/plugin-help": "^5.2.14",
     "@oclif/plugin-not-found": "^2.3.32",
     "@oclif/plugin-warn-if-update-available": "^2.0.44",
@@ -29,39 +29,41 @@
     "yeoman-generator": "^5.8.0"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.7.0",
     "@oclif/plugin-legacy": "^1.3.0",
-    "@oclif/test": "^2.3.31",
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^3.0.2",
     "@types/async-retry": "^1.4.5",
     "@types/chai": "^4.3.4",
     "@types/cli-progress": "^3.11.0",
     "@types/fs-extra": "^9.0",
     "@types/lodash": "^4.14.191",
     "@types/lodash.template": "^4.5.0",
-    "@types/mocha": "^8.2.3",
+    "@types/mocha": "^10.0.2",
     "@types/node": "^18",
     "@types/semver": "^7.3.13",
     "@types/shelljs": "^0.8.11",
     "@types/yeoman-generator": "^5.2.11",
     "chai": "^4.3.7",
+    "commitlint": "^17.7.2",
     "conventional-changelog-cli": "^2.2.2",
-    "eslint": "^7.32.0",
-    "eslint-config-oclif": "^4.0.0",
-    "eslint-config-oclif-typescript": "^1.0.2",
-    "fancy-test": "^1.4.10",
+    "eslint": "^8.50.0",
+    "eslint-config-oclif": "^5.0.0",
+    "eslint-config-oclif-typescript": "^2.0.1",
+    "eslint-config-prettier": "^9.0.0",
+    "fancy-test": "^3.0.1",
     "globby": "^11.1.0",
-    "mocha": "^9.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "mocha": "^10.2.0",
     "npm-run-path": "^4.0.1",
     "nps": "^5.10.0",
+    "nyc": "^15.1.0",
+    "prettier": "^3.0.3",
     "shx": "^0.3.4",
     "tmp": "^0.2.1",
     "ts-node": "^10.7.0",
-    "typescript": "4.5.5"
-  },
-  "resolutions": {
-    "colors": "1.4.0"
-  },
-  "overrides": {
-    "colors": "1.4.0"
+    "typescript": "^4.9.5"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -120,17 +122,20 @@
   "repository": "oclif/oclif",
   "scripts": {
     "build": "shx rm -rf lib && tsc",
-    "devcli:lint": "eslint . --ext .ts --config .eslintrc",
+    "commitlint": "commitlint",
+    "compile": "tsc",
+    "devcli:lint": "eslint . --ext .ts",
     "devcli:test": "mocha --forbid-only \"test/unit/*.test.ts\"",
     "devcli": "yarn build --noEmit && yarn run devcli:test && yarn run devcli:lint",
-    "lint": "nps lint",
+    "format": "prettier --write \"+(src|test)/**/*.+(ts|js|json)\"",
+    "lint": "eslint . --ext .ts",
     "postpack": "shx rm .oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepack": "shx rm -rf lib && tsc && bin/dev manifest .",
-    "test": "nps test && yarn test:unit && yarn test:integration",
+    "prepack": "shx rm -rf lib && tsc && bin/dev.js manifest .",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 600000",
     "test:unit": "mocha --forbid-only \"test/unit/*.test.ts\"",
-    "version": "bin/dev readme && git add README.md"
+    "test": "nps test && yarn test:unit && yarn test:integration",
+    "version": "bin/dev.js readme && git add README.md"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

@@ -3,9 +3,9 @@ import _ = require('lodash')
 import * as os from 'node:os'
 import * as crypto from 'node:crypto'
 import {log} from './log'
-import * as fs from 'fs-extra'
+import {createReadStream} from 'node:fs'
 import {exec as execSync} from 'node:child_process'
-import {promisify} from 'util'
+import {promisify} from 'node:util'
 const exec = promisify(execSync)
 
 export function castArray<T>(input?: T | T[]): T[] {
@@ -21,6 +21,7 @@ export function uniqBy<T>(arr: T[], fn: (cur: T) => any): T[] {
 }
 
 export function compact<T>(a: (T | undefined)[]): T[] {
+  // eslint-disable-next-line unicorn/prefer-native-coercion-functions
   return a.filter((a): a is T => Boolean(a))
 }
 
@@ -48,17 +49,19 @@ export namespace sort {
   export type Types = string | number | undefined | boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const template = (context: any) => (t: string | undefined): string => _.template(t || '')(context)
+export const template =
+  (context: any) =>
+  (t: string | undefined): string =>
+    _.template(t || '')(context)
 
 interface VersionsObject {
-  [key: string]: string;
+  [key: string]: string
 }
 
 export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObject => {
   const keys = Reflect.ownKeys(input).sort((a, b) => {
-    const splitA = (a as string).split('.').map(part => Number.parseInt(part, 10))
-    const splitB = (b as string).split('.').map(part => Number.parseInt(part, 10))
+    const splitA = (a as string).split('.').map((part) => Number.parseInt(part, 10))
+    const splitB = (b as string).split('.').map((part) => Number.parseInt(part, 10))
     // sort by major
     if (splitA[0] < splitB[0]) return 1
     if (splitA[0] > splitB[0]) return -1
@@ -84,14 +87,14 @@ const curRegexp = new RegExp(`\\B${process.cwd()}`, 'g')
 export const prettifyPaths = (input: string): string =>
   (input ?? '').toString().replace(curRegexp, '.').replace(homeRegexp, '~')
 
-export const hash = async (algo: string, fp: string | string[]):Promise<string> => {
+export const hash = async (algo: string, fp: string | string[]): Promise<string> => {
   const f = Array.isArray(fp) ? fp.join('') : fp
   log('hash', algo, f)
   return new Promise<string>((resolve, reject) => {
     const hashInProgress = crypto.createHash(algo)
-    const stream = fs.createReadStream(f)
-    stream.on('error', err => reject(err))
-    stream.on('data', chunk => hashInProgress.update(chunk))
+    const stream = createReadStream(f)
+    stream.on('error', (err) => reject(err))
+    stream.on('data', (chunk) => hashInProgress.update(chunk))
     stream.on('end', () => resolve(hashInProgress.digest('hex')))
   })
 }
@@ -100,7 +103,7 @@ export async function checkFor7Zip() {
   try {
     await exec('7z')
   } catch (error: any) {
-    if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
+    if (error.code === 127) Errors.error('install 7-zip to package windows tarball')
     else throw error
   }
 }

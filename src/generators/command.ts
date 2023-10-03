@@ -40,7 +40,11 @@ export default class Command extends Generator {
     const opts = {...this.options, bin, cmd, _, type: 'command', path: commandPath}
     this.fs.copyTpl(this.templatePath('src/command.ts.ejs'), commandPath, opts)
     if (this.hasMocha()) {
-      this.fs.copyTpl(this.templatePath('test/command.test.ts.ejs'), this.destinationPath(`test/commands/${cmdPath}.test.ts`), opts)
+      this.fs.copyTpl(
+        this.templatePath('test/command.test.ts.ejs'),
+        this.destinationPath(`test/commands/${cmdPath}.test.ts`),
+        opts,
+      )
     }
   }
 }

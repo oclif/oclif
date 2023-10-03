@@ -53,7 +53,7 @@ export default class Hook extends Generator {
     const p = `./dist/hooks/${this.options.event}/${this.options.name}`
     if (hooks[this.options.event]) {
       hooks[this.options.event] = castArray(hooks[this.options.event])
-      hooks[this.options.event] = hooks[this.options.event].concat(p)
+      hooks[this.options.event] = [...hooks[this.options.event], p]
     } else {
       this.pjson.oclif.hooks[this.options.event] = p
     }

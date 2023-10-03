@@ -71,17 +71,16 @@ export default class UploadTarballs extends Command {
       const manifest = templateShortKey('manifest', shortKeyInputs)
       const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
 
-      await Promise.all(
-        [
-          releaseTarballs('.tar.gz'),
-          aws.s3.uploadFile(dist(manifest), {
-            ...S3Options,
-            CacheControl: 'max-age=86400',
-            ContentType: 'application/json',
-            Key: cloudKey,
-          }),
-        ].concat(xz ? [releaseTarballs('.tar.xz')] : []),
-      )
+      await Promise.all([
+        releaseTarballs('.tar.gz'),
+        aws.s3.uploadFile(dist(manifest), {
+          ...S3Options,
+          CacheControl: 'max-age=86400',
+          ContentType: 'application/json',
+          Key: cloudKey,
+        }),
+        ...(xz ? [releaseTarballs('.tar.xz')] : []),
+      ])
     }
 
     if (buildConfig.targets.length > 0) log('uploading targets')

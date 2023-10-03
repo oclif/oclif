@@ -237,7 +237,8 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   }
 
   async run(): Promise<void> {
-    this.flags = (await this.parse(Readme)).flags
+    const {flags} = await this.parse(Readme)
+    this.flags = flags
     const cwd = process.cwd()
     const readmePath = path.resolve(cwd, 'README.md')
     const tsConfigPath = path.resolve(cwd, 'tsconfig.json')

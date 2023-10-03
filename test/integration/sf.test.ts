@@ -43,7 +43,7 @@ describe('sf', () => {
 
       const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>
         // eslint-disable-next-line max-nested-callbacks
-        Boolean(Object.values(manifest.commands).find((command) => command.pluginName === jitPlugin)),
+        Boolean(Object.values(manifest.commands).some((command) => command.pluginName === jitPlugin)),
       )
       const everyJITCommandIsTypeJIT = Object.values(manifest.commands)
         .filter((command) => jitPlugins.includes(command.pluginName ?? ''))

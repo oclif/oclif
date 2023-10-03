@@ -27,7 +27,8 @@ export interface BuildConfig {
 
 export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
-  return (await exec(`git ${args.join(' ')}`, {cwd})).stdout.trim()
+  const {stdout} = await exec(`git ${args.join(' ')}`, {cwd})
+  return stdout.trim()
 }
 
 async function Tmp(config: Interfaces.Config) {

@@ -6,13 +6,8 @@
     "unicorn/consistent-destructuring": "off",
     "unicorn/import-style": "error",
     "unicorn/no-array-reduce": "off",
-    "unicorn/prefer-array-some": "off",
     "unicorn/prefer-module": "off",
-    "unicorn/prefer-spread": "off",
     "unicorn/no-empty-file": "off",
-    "unicorn/consistent-function-scoping": "off",
-    "unicorn/no-await-expression-member": "off",
-    "unicorn/prefer-logical-operator-over-ternary": "off",
     "valid-jsdoc": "off"
   }
 }

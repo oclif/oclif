@@ -56,22 +56,19 @@ export default class UploadDeb extends Command {
     log(`starting upload of deb artifacts for v${config.version}-${buildConfig.gitSha}`)
     const arches = buildConfig.targets.filter((t) => t.platform === 'linux')
 
-    await Promise.all(
-      [
-        ...arches.map((a) => uploadDeb(debArch(a.arch))),
-        upload('Packages.gz'),
-        upload('Packages.xz'),
-        upload('Packages.bz2'),
-        upload('Release'),
-        uploadWorkaround('Packages.gz'),
-        uploadWorkaround('Packages.xz'),
-        uploadWorkaround('Packages.bz2'),
-        uploadWorkaround('Release'),
-      ].concat(
-        fs.existsSync(dist('InRelease')) ? [upload('InRelease'), uploadWorkaround('InRelease')] : [],
-        fs.existsSync(dist('Release.gpg')) ? [upload('Release.gpg'), uploadWorkaround('Release.gpg')] : [],
-      ),
-    )
+    await Promise.all([
+      ...arches.map((a) => uploadDeb(debArch(a.arch))),
+      upload('Packages.gz'),
+      upload('Packages.xz'),
+      upload('Packages.bz2'),
+      upload('Release'),
+      uploadWorkaround('Packages.gz'),
+      uploadWorkaround('Packages.xz'),
+      uploadWorkaround('Packages.bz2'),
+      uploadWorkaround('Release'),
+      ...(fs.existsSync(dist('InRelease')) ? [upload('InRelease'), uploadWorkaround('InRelease')] : []),
+      ...(fs.existsSync(dist('Release.gpg')) ? [upload('Release.gpg'), uploadWorkaround('Release.gpg')] : []),
+    ])
     log(`done uploading deb artifacts for v${config.version}-${buildConfig.gitSha}`)
   }
 }

@@ -53,8 +53,8 @@ const manifest = async (path: string, nodeVersion: string) => {
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
 
     // check alias
-    const stdout2 = (await exec('./oclif/bin/oclif2 --version', {cwd: root})).stdout
-    expect(stdout2).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
+    const {stdout: oclif2} = await exec('./oclif/bin/oclif2 --version', {cwd: root})
+    expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
     await rm(join(root, 'oclif'), {recursive: true})
   }
 

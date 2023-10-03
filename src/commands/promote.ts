@@ -77,19 +77,16 @@ export default class Promote extends Command {
       // strip version & sha so update/scripts can point to a static channel tarball
       const unversionedTarGzName = versionedTarGzName.replace(`-v${flags.version}-${flags.sha}`, '')
       const unversionedTarGzKey = cloudChannelKey(unversionedTarGzName)
-      await Promise.all(
-        [
-          aws.s3.copyObject({
-            ...awsDefaults,
-            CopySource: versionedTarGzKey,
-            Key: unversionedTarGzKey,
-          }),
-        ].concat(
-          flags.indexes
-            ? [appendToIndex({...indexDefaults, filename: unversionedTarGzName, originalUrl: versionedTarGzKey})]
-            : [],
-        ),
-      )
+      await Promise.all([
+        aws.s3.copyObject({
+          ...awsDefaults,
+          CopySource: versionedTarGzKey,
+          Key: unversionedTarGzKey,
+        }),
+        ...(flags.indexes
+          ? [appendToIndex({...indexDefaults, filename: unversionedTarGzName, originalUrl: versionedTarGzKey})]
+          : []),
+      ])
     }
 
     const promoteXzTarballs = async (target: (typeof buildConfig.targets)[number]) => {
@@ -104,19 +101,16 @@ export default class Promote extends Command {
       // strip version & sha so update/scripts can point to a static channel tarball
       const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
       const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
-      await Promise.all(
-        [
-          aws.s3.copyObject({
-            ...awsDefaults,
-            CopySource: versionedTarXzKey,
-            Key: unversionedTarXzKey,
-          }),
-        ].concat(
-          flags.indexes
-            ? [appendToIndex({...indexDefaults, filename: unversionedTarXzName, originalUrl: versionedTarXzKey})]
-            : [],
-        ),
-      )
+      await Promise.all([
+        aws.s3.copyObject({
+          ...awsDefaults,
+          CopySource: versionedTarXzKey,
+          Key: unversionedTarXzKey,
+        }),
+        ...(flags.indexes
+          ? [appendToIndex({...indexDefaults, filename: unversionedTarXzName, originalUrl: versionedTarXzKey})]
+          : []),
+      ])
     }
 
     const promoteMacInstallers = async () => {
@@ -128,19 +122,16 @@ export default class Promote extends Command {
           const darwinCopySource = cloudBucketCommitKey(darwinPkg)
           // strip version & sha so scripts can point to a static channel pkg
           const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-          await Promise.all(
-            [
-              aws.s3.copyObject({
-                ...awsDefaults,
-                CopySource: darwinCopySource,
-                Key: cloudChannelKey(unversionedPkg),
-              }),
-            ].concat(
-              flags.indexes
-                ? [appendToIndex({...indexDefaults, filename: unversionedPkg, originalUrl: darwinCopySource})]
-                : [],
-            ),
-          )
+          await Promise.all([
+            aws.s3.copyObject({
+              ...awsDefaults,
+              CopySource: darwinCopySource,
+              Key: cloudChannelKey(unversionedPkg),
+            }),
+            ...(flags.indexes
+              ? [appendToIndex({...indexDefaults, filename: unversionedPkg, originalUrl: darwinCopySource})]
+              : []),
+          ])
         }),
       )
     }
@@ -155,19 +146,16 @@ export default class Promote extends Command {
           const winCopySource = cloudBucketCommitKey(winPkg)
           // strip version & sha so scripts can point to a static channel exe
           const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
-          await Promise.all(
-            [
-              aws.s3.copyObject({
-                ...awsDefaults,
-                CopySource: winCopySource,
-                Key: cloudChannelKey(unversionedExe),
-              }),
-            ].concat(
-              flags.indexes
-                ? [appendToIndex({...indexDefaults, filename: unversionedExe, originalUrl: winCopySource})]
-                : [],
-            ),
-          )
+          await Promise.all([
+            aws.s3.copyObject({
+              ...awsDefaults,
+              CopySource: winCopySource,
+              Key: cloudChannelKey(unversionedExe),
+            }),
+            ...(flags.indexes
+              ? [appendToIndex({...indexDefaults, filename: unversionedExe, originalUrl: winCopySource})]
+              : []),
+          ])
           ux.action.stop('successfully')
         }),
       )
@@ -221,18 +209,16 @@ export default class Promote extends Command {
       )
     }
 
-    await Promise.all(
-      buildConfig.targets
-        .flatMap((target) => [
-          // always promote the manifest and gz
-          promoteManifest(target),
-          promoteGzTarballs(target),
-        ])
-        // optionally promote other artifacts depending on the specified flags
-        .concat(flags.xz ? buildConfig.targets.map((target) => promoteXzTarballs(target)) : [])
-        .concat(flags.macos ? [promoteMacInstallers()] : [])
-        .concat(flags.win ? [promoteWindowsInstallers()] : [])
-        .concat(flags.deb ? [promoteDebianAptPackages()] : []),
-    )
+    await Promise.all([
+      ...buildConfig.targets.flatMap((target) => [
+        // always promote the manifest and gz
+        promoteManifest(target),
+        promoteGzTarballs(target),
+      ]),
+      ...(flags.xz ? buildConfig.targets.map((target) => promoteXzTarballs(target)) : []),
+      ...(flags.macos ? [promoteMacInstallers()] : []),
+      ...(flags.win ? [promoteWindowsInstallers()] : []),
+      ...(flags.deb ? [promoteDebianAptPackages()] : []),
+    ])
   }
 }

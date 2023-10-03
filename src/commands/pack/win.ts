@@ -260,39 +260,33 @@ the CLI should already exist in a directory named after the CLI that is the root
         const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
         await rm(installerBase, {force: true, recursive: true})
         await mkdir(path.join(installerBase, 'bin'), {recursive: true})
-        await Promise.all(
-          [
-            writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
-            writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-            writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
-          ]
-            .concat(
-              config.binAliases
-                ? config.binAliases.flatMap((alias) =>
-                    // write duplicate files for windows aliases
-                    // this avoids mklink which can require admin privileges which not everyone has
-                    [
-                      writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)),
-                      writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config)),
-                    ],
-                  )
-                : [],
-            )
-            .concat(
-              flags['additional-cli']
-                ? [
-                    writeFile(
-                      path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`),
-                      scripts.cmd(config, flags['additional-cli']),
-                    ),
-                    writeFile(
-                      path.join(installerBase, 'bin', `${flags['additional-cli']}`),
-                      scripts.sh({bin: flags['additional-cli']} as Interfaces.Config),
-                    ),
-                  ]
-                : [],
-            ),
-        )
+        await Promise.all([
+          writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
+          writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+          writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
+          ...(config.binAliases
+            ? config.binAliases.flatMap((alias) =>
+                // write duplicate files for windows aliases
+                // this avoids mklink which can require admin privileges which not everyone has
+                [
+                  writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)),
+                  writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config)),
+                ],
+              )
+            : []),
+          ...(flags['additional-cli']
+            ? [
+                writeFile(
+                  path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`),
+                  scripts.cmd(config, flags['additional-cli']),
+                ),
+                writeFile(
+                  path.join(installerBase, 'bin', `${flags['additional-cli']}`),
+                  scripts.sh({bin: flags['additional-cli']} as Interfaces.Config),
+                ),
+              ]
+            : []),
+        ])
 
         await move(buildConfig.workspace({arch, platform: 'win32'}), path.join(installerBase, 'client'))
         await exec(

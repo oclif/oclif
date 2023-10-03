@@ -57,14 +57,11 @@ export const appendToIndex = async (input: {
   // retrieve existing index file
   let existing = {}
   try {
-    existing = JSON.parse(
-      (
-        await aws.s3.getObject({
-          Bucket: s3Config.bucket,
-          Key: key,
-        })
-      ).Body?.toString() as string,
-    )
+    const {Body} = await aws.s3.getObject({
+      Bucket: s3Config.bucket,
+      Key: key,
+    })
+    existing = JSON.parse(Body?.toString() as string)
     debug('appending to existing index file')
   } catch (error: any) {
     debug(`error on ${key}`, error)

@@ -7,7 +7,6 @@ import {exec, ShellString, ExecOptions} from 'shelljs'
 import got from 'got'
 import {promisify} from 'node:util'
 import {pipeline as pipelineSync} from 'node:stream'
-import {checkFor7Zip} from '../util'
 
 const pipeline = promisify(pipelineSync)
 
@@ -65,12 +64,7 @@ export default class Manifest extends Command {
         const tarball = path.join(fullPath, path.basename(tarballUrl))
         await pipeline(got.stream(tarballUrl), createWriteStream(tarball))
 
-        if (process.platform === 'win32') {
-          await checkFor7Zip()
-          exec(`7z x -bd -y "${tarball}"`, {cwd: fullPath})
-        } else {
-          exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
-        }
+        exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
 
         const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {

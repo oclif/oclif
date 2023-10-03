@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "oclif",
-    "oclif-typescript",
-    "prettier"
-  ],
+  "extends": ["oclif", "oclif-typescript", "prettier", "plugin:perfectionist/recommended-natural"],
   "rules": {
     "no-useless-constructor": "off",
     "prefer-destructuring": "off",
@@ -16,6 +12,7 @@
     "unicorn/no-empty-file": "off",
     "unicorn/consistent-function-scoping": "off",
     "unicorn/no-await-expression-member": "off",
-    "unicorn/prefer-logical-operator-over-ternary": "off"
+    "unicorn/prefer-logical-operator-over-ternary": "off",
+    "valid-jsdoc": "off"
   }
 }

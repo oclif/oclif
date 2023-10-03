@@ -1,5 +1,4 @@
 import {Interfaces} from '@oclif/core'
-
 import {expect, test} from '@oclif/test'
 import * as fs from 'fs-extra'
 

@@ -1,9 +1,10 @@
 import {expect} from '@oclif/test'
-import {gitSha} from '../../src/tarballs'
-import * as shelljs from 'shelljs'
 import * as S3 from 'aws-sdk/clients/s3'
-import aws from '../../src/aws'
 import * as fs from 'node:fs'
+import * as shelljs from 'shelljs'
+
+import aws from '../../src/aws'
+import {gitSha} from '../../src/tarballs'
 
 export const oclifTestingVersionsURI = 'media/salesforce-cli/oclif-testing/versions'
 export const oclifTestingChannelsURI = 'media/salesforce-cli/oclif-testing/channels'

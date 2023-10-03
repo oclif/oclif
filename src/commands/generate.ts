@@ -1,7 +1,12 @@
 import {Args, Flags} from '@oclif/core'
+
 import CommandBase from './../command-base'
 
 export default class Generate extends CommandBase {
+  static args = {
+    name: Args.string({description: 'directory name of new project', required: true}),
+  }
+
   static description = `generate a new CLI
 This will clone the template repo 'oclif/hello-world' and update package properties`
 
@@ -9,17 +14,13 @@ This will clone the template repo 'oclif/hello-world' and update package propert
     defaults: Flags.boolean({hidden: true}),
   }
 
-  static args = {
-    name: Args.string({required: true, description: 'directory name of new project'}),
-  }
-
   async run(): Promise<void> {
     const {args, flags} = await this.parse(Generate)
 
     await super.generate('cli', {
-      name: args.name,
-      force: true,
       defaults: flags.defaults,
+      force: true,
+      name: args.name,
     })
   }
 }

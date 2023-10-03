@@ -1,47 +1,45 @@
+import {Command, Flags, ux} from '@oclif/core'
 import * as path from 'node:path'
-
-import {uniq} from '../util'
-
-import {ux, Command, Flags} from '@oclif/core'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
 import {channelAWSDir, commitAWSDir, debArch, debVersion, templateShortKey} from '../upload-util'
+import {uniq} from '../util'
 import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
   static description = 'promote CLI builds to a S3 release channel'
 
   static flags = {
-    root: Flags.string({char: 'r', description: 'path to the oclif CLI project root', default: '.', required: true}),
-    version: Flags.string({description: 'semantic version of the CLI to promote', required: true}),
-    sha: Flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
-    channel: Flags.string({description: 'which channel to promote to', required: true, default: 'stable'}),
-    targets: Flags.string({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)'}),
+    channel: Flags.string({default: 'stable', description: 'which channel to promote to', required: true}),
     deb: Flags.boolean({char: 'd', description: 'promote debian artifacts'}),
-    macos: Flags.boolean({char: 'm', description: 'promote macOS pkg'}),
-    win: Flags.boolean({char: 'w', description: 'promote Windows exe'}),
-    'max-age': Flags.string({char: 'a', description: 'cache control max-age in seconds', default: '86400'}),
-    xz: Flags.boolean({description: 'also upload xz', allowNo: true}),
     indexes: Flags.boolean({description: 'append the promoted urls into the index files'}),
+    macos: Flags.boolean({char: 'm', description: 'promote macOS pkg'}),
+    'max-age': Flags.string({char: 'a', default: '86400', description: 'cache control max-age in seconds'}),
+    root: Flags.string({char: 'r', default: '.', description: 'path to the oclif CLI project root', required: true}),
+    sha: Flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
+    targets: Flags.string({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)'}),
+    version: Flags.string({description: 'semantic version of the CLI to promote', required: true}),
+    win: Flags.boolean({char: 'w', description: 'promote Windows exe'}),
+    xz: Flags.boolean({allowNo: true, description: 'also upload xz'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
-    const {s3Config, config} = buildConfig
+    const {config, s3Config} = buildConfig
     const indexDefaults = {
-      version: flags.version,
-      s3Config,
       maxAge: `max-age=${flags['max-age']}`,
+      s3Config,
+      version: flags.version,
     }
 
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
     const awsDefaults = {
-      Bucket: s3Config.bucket,
       ACL: s3Config.acl ?? 'public-read',
-      MetadataDirective: 'REPLACE',
+      Bucket: s3Config.bucket,
       CacheControl: indexDefaults.maxAge,
+      MetadataDirective: 'REPLACE',
     }
     const cloudBucketCommitKey = (shortKey: string) =>
       path.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)
@@ -88,7 +86,7 @@ export default class Promote extends Command {
           }),
         ].concat(
           flags.indexes
-            ? [appendToIndex({...indexDefaults, originalUrl: versionedTarGzKey, filename: unversionedTarGzName})]
+            ? [appendToIndex({...indexDefaults, filename: unversionedTarGzName, originalUrl: versionedTarGzKey})]
             : [],
         ),
       )
@@ -115,7 +113,7 @@ export default class Promote extends Command {
           }),
         ].concat(
           flags.indexes
-            ? [appendToIndex({...indexDefaults, originalUrl: versionedTarXzKey, filename: unversionedTarXzName})]
+            ? [appendToIndex({...indexDefaults, filename: unversionedTarXzName, originalUrl: versionedTarXzKey})]
             : [],
         ),
       )
@@ -126,7 +124,7 @@ export default class Promote extends Command {
       const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
       await Promise.all(
         arches.map(async (arch) => {
-          const darwinPkg = templateShortKey('macos', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+          const darwinPkg = templateShortKey('macos', {arch, bin: config.bin, sha: flags.sha, version: flags.version})
           const darwinCopySource = cloudBucketCommitKey(darwinPkg)
           // strip version & sha so scripts can point to a static channel pkg
           const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
@@ -139,7 +137,7 @@ export default class Promote extends Command {
               }),
             ].concat(
               flags.indexes
-                ? [appendToIndex({...indexDefaults, originalUrl: darwinCopySource, filename: unversionedPkg})]
+                ? [appendToIndex({...indexDefaults, filename: unversionedPkg, originalUrl: darwinCopySource})]
                 : [],
             ),
           )
@@ -153,7 +151,7 @@ export default class Promote extends Command {
       const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
       await Promise.all(
         arches.map(async (arch) => {
-          const winPkg = templateShortKey('win32', {bin: config.bin, version: flags.version, sha: flags.sha, arch})
+          const winPkg = templateShortKey('win32', {arch, bin: config.bin, sha: flags.sha, version: flags.version})
           const winCopySource = cloudBucketCommitKey(winPkg)
           // strip version & sha so scripts can point to a static channel exe
           const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
@@ -166,7 +164,7 @@ export default class Promote extends Command {
               }),
             ].concat(
               flags.indexes
-                ? [appendToIndex({...indexDefaults, originalUrl: winCopySource, filename: unversionedExe})]
+                ? [appendToIndex({...indexDefaults, filename: unversionedExe, originalUrl: winCopySource})]
                 : [],
             ),
           )
@@ -184,9 +182,9 @@ export default class Promote extends Command {
           .filter((a) => !a.arch.includes('x86')) // See todo below
           .map((a) =>
             templateShortKey('deb', {
+              arch: debArch(a.arch) as any,
               bin: config.bin,
               versionShaRevision: debVersion(buildConfig),
-              arch: debArch(a.arch) as any,
             }),
           ),
         'Packages.gz',

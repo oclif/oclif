@@ -1,8 +1,9 @@
-import {castArray} from '../util'
+import {Interfaces} from '@oclif/core'
 import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
+
 import {GeneratorOptions} from '../types'
-import {Interfaces} from '@oclif/core'
+import {castArray} from '../util'
 
 const {version} = require('../../package.json')
 

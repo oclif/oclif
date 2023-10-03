@@ -17,6 +17,7 @@
     "change-case": "^4",
     "concurrently": "^7.6.0",
     "debug": "^4.3.3",
+    "eslint-plugin-perfectionist": "^2.1.0",
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
     "github-slugger": "^1.5.0",

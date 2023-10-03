@@ -1,7 +1,7 @@
 import {expect, test} from '@oclif/test'
+import {remove} from 'fs-extra'
 import {readFileSync, writeFileSync} from 'node:fs'
 import {writeFile} from 'node:fs/promises'
-import {remove} from 'fs-extra'
 import * as path from 'node:path'
 
 process.env.NODE_ENV = 'development'

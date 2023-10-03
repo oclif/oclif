@@ -1,17 +1,17 @@
 import {expect} from 'chai'
-import {exec as cpExec, ExecOptions} from 'node:child_process'
+import {ExecOptions, exec as cpExec} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {mkdir, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 
-async function exec(command: string, opts: ExecOptions): Promise<{stdout: string; stderr: string; code: number}> {
+async function exec(command: string, opts: ExecOptions): Promise<{code: number; stderr: string; stdout: string}> {
   return new Promise((resolve, reject) => {
     cpExec(command, opts, (error, stdout, stderr) => {
       if (error) {
         reject(error)
       } else {
-        resolve({stdout, stderr, code: 0})
+        resolve({code: 0, stderr, stdout})
       }
     })
   })
@@ -34,7 +34,7 @@ describe('Generated CLI Integration Tests', () => {
 
   before(async () => {
     console.log('tmpDir:', tmpDir)
-    await rm(tmpDir, {recursive: true, force: true})
+    await rm(tmpDir, {force: true, recursive: true})
     await mkdir(tmpDir, {recursive: true})
   })
 

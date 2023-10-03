@@ -1,10 +1,11 @@
 import {Errors} from '@oclif/core'
-import * as os from 'node:os'
-import * as crypto from 'node:crypto'
-import {log} from './log'
-import {createReadStream} from 'node:fs'
 import {exec as execSync} from 'node:child_process'
+import * as crypto from 'node:crypto'
+import {createReadStream} from 'node:fs'
+import * as os from 'node:os'
 import {promisify} from 'node:util'
+
+import {log} from './log'
 const exec = promisify(execSync)
 import lodashTemplate = require('lodash.template')
 
@@ -50,7 +51,7 @@ export function sortBy<T>(arr: T[], fn: (i: T) => sort.Types | sort.Types[]): T[
 }
 
 export namespace sort {
-  export type Types = string | number | undefined | boolean
+  export type Types = boolean | number | string | undefined
 }
 
 export const template =

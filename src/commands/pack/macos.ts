@@ -1,14 +1,13 @@
-import * as path from 'node:path'
-
-import {uniq} from '../../util'
-import * as fs from 'fs-extra'
 import {Command, Flags, Interfaces} from '@oclif/core'
+import * as fs from 'fs-extra'
+import {exec as execSync} from 'node:child_process'
+import * as os from 'node:os'
+import * as path from 'node:path'
+import {promisify} from 'node:util'
 
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
-import {exec as execSync} from 'node:child_process'
-import {promisify} from 'node:util'
-import * as os from 'node:os'
+import {uniq} from '../../util'
 
 const exec = promisify(execSync)
 type OclifConfig = {
@@ -26,18 +25,6 @@ const noBundleConfiguration = `<?xml version="1.0" encoding="UTF-8"?>
 `
 
 const scripts = {
-  preinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
-sudo rm -rf /usr/local/lib/${config.dirname}
-sudo rm -rf /usr/local/${config.bin}
-sudo rm -rf /usr/local/bin/${config.bin}
-${
-  additionalCLI
-    ? `sudo rm -rf /usr/local/${additionalCLI}
-sudo rm -rf /usr/local/bin/${additionalCLI}`
-    : ''
-}
-${config.binAliases ? config.binAliases.map((alias) => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
-`,
   postinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
@@ -54,6 +41,18 @@ ${
     ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}`
     : ''
 }
+`,
+  preinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
+sudo rm -rf /usr/local/lib/${config.dirname}
+sudo rm -rf /usr/local/${config.bin}
+sudo rm -rf /usr/local/bin/${config.bin}
+${
+  additionalCLI
+    ? `sudo rm -rf /usr/local/${additionalCLI}
+sudo rm -rf /usr/local/bin/${additionalCLI}`
+    : ''
+}
+${config.binAliases ? config.binAliases.map((alias) => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
 `,
   uninstall(config: Interfaces.Config, additionalCLI: string | undefined) {
     const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
@@ -148,16 +147,16 @@ export default class PackMacos extends Command {
   static description = 'pack CLI into macOS .pkg'
 
   static flags = {
-    root: Flags.string({
-      char: 'r',
-      description: 'path to oclif CLI root',
-      default: '.',
-      required: true,
-    }),
     'additional-cli': Flags.string({
       description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
       hidden: true,
+    }),
+    root: Flags.string({
+      char: 'r',
+      default: '.',
+      description: 'path to oclif CLI root',
+      required: true,
     }),
     tarball: Flags.string({
       char: 't',
@@ -179,26 +178,26 @@ the CLI should already exist in a directory named after the CLI that is the root
     if (!c.macos.identifier) this.error('package.json must have oclif.macos.identifier set')
     const macos = c.macos
     const packageIdentifier = macos.identifier
-    await Tarballs.build(buildConfig, {platform: 'darwin', pack: false, tarball: flags.tarball, parallel: true})
+    await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'darwin', tarball: flags.tarball})
     const scriptsDir = path.join(buildConfig.tmp, 'macos/scripts')
     await fs.emptyDir(buildConfig.dist('macos'))
     const noBundleConfigurationPath = path.join(buildConfig.tmp, 'macos', 'no-bundle.plist')
 
     const build = async (arch: Interfaces.ArchTypes) => {
       const templateKey = templateShortKey('macos', {
-        bin: config.bin,
-        version: config.version,
-        sha: buildConfig.gitSha,
         arch,
+        bin: config.bin,
+        sha: buildConfig.gitSha,
+        version: config.version,
       })
       const dist = buildConfig.dist(`macos/${templateKey}`)
-      const rootDir = buildConfig.workspace({platform: 'darwin', arch})
+      const rootDir = buildConfig.workspace({arch, platform: 'darwin'})
       const writeNoBundleConfiguration = async () => {
         await fs.mkdir(path.dirname(noBundleConfigurationPath), {recursive: true})
         await fs.writeFile(noBundleConfigurationPath, noBundleConfiguration, {mode: 0o755})
       }
 
-      const writeScript = async (script: 'preinstall' | 'postinstall' | 'uninstall') => {
+      const writeScript = async (script: 'postinstall' | 'preinstall' | 'uninstall') => {
         const scriptLocation = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
         scriptLocation.push(script)
         await fs.mkdir(path.dirname(path.join(...scriptLocation)), {recursive: true})

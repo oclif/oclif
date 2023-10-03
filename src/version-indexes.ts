@@ -1,8 +1,9 @@
 import * as fs from 'fs-extra'
 import * as path from 'node:path'
+
 import aws from './aws'
-import {BuildConfig} from './tarballs'
 import {debug as Debug} from './log'
+import {BuildConfig} from './tarballs'
 
 const debug = Debug.new('version-indexes')
 
@@ -37,13 +38,13 @@ const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number):
 
 // appends to an existing file (or writes a new one) with the versions in descending order, with an optional limit from the pjson file
 export const appendToIndex = async (input: {
-  version: string
-  originalUrl: string
   filename: string
   maxAge: string
+  originalUrl: string
   s3Config: BuildConfig['s3Config']
+  version: string
 }): Promise<void> => {
-  const {version, originalUrl, filename, maxAge, s3Config} = input
+  const {filename, maxAge, originalUrl, s3Config, version} = input
   // these checks are both nice for users AND helpful for TS
   if (!s3Config.bucket) throw new Error('[package.json].oclif.s3.bucket is required for indexes')
   if (!s3Config.host) throw new Error('[package.json].oclif.s3.host is required for indexes')
@@ -84,10 +85,10 @@ export const appendToIndex = async (input: {
 
   // put the file back in the same place
   await aws.s3.uploadFile(jsonFileName, {
-    Bucket: s3Config.bucket,
-    Key: key,
-    CacheControl: maxAge,
     ACL: s3Config.acl || 'public-read',
+    Bucket: s3Config.bucket,
+    CacheControl: maxAge,
+    Key: key,
   })
   // cleans up local fs
   await fs.remove(jsonFileName)

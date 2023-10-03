@@ -1,10 +1,11 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
-import {gitSha} from '../../src/tarballs'
 import * as fs from 'fs-extra'
-import * as path from 'node:path'
 import {exec as execSync} from 'node:child_process'
+import * as path from 'node:path'
 import {promisify} from 'node:util'
+
+import {gitSha} from '../../src/tarballs'
+import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
 const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)

@@ -1,11 +1,12 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
-import {gitSha} from '../../src/tarballs'
-import * as path from 'node:path'
-import {createWriteStream} from 'node:fs'
-import {writeJSON, emptyDir} from 'fs-extra'
-import {pipeline} from 'node:stream/promises'
+import {emptyDir, writeJSON} from 'fs-extra'
 import got from 'got'
+import {createWriteStream} from 'node:fs'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
+
+import {gitSha} from '../../src/tarballs'
+import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')

@@ -1,9 +1,9 @@
 import {Interfaces} from '@oclif/core'
-
 import * as path from 'node:path'
-import template = require('lodash.template')
 
 import {BuildConfig as TarballConfig} from './tarballs/config'
+
+import template = require('lodash.template')
 
 export function commitAWSDir(version: string, sha: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
@@ -22,7 +22,7 @@ export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config
 // refactor this key name lookup
 // helper to oclif/core
 export function templateShortKey(
-  type: keyof Interfaces.PJSON.S3.Templates | 'macos' | 'win32' | 'deb',
+  type: 'deb' | 'macos' | 'win32' | keyof Interfaces.PJSON.S3.Templates,
   ext?: '.tar.gz' | '.tar.xz' | Interfaces.Config.s3Key.Options,
   // eslint-disable-next-line unicorn/no-object-as-default-parameter
   options: Interfaces.Config.s3Key.Options = {root: '.'},
@@ -31,17 +31,17 @@ export function templateShortKey(
   else if (ext) options.ext = ext
   const templates = {
     baseDir: '<%- bin %>',
+    deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
+    macos: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.pkg',
+    manifest: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %>-buildmanifest',
     unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
     versioned: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %><%- ext %>',
-    manifest: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %>-buildmanifest',
-    macos: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.pkg',
     win32: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.exe',
-    deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
   }
   return template(templates[type])({...options})
 }
 
-export type DebArch = 'amd64' | 'i386' | 'armel' | 'arm64'
+export type DebArch = 'amd64' | 'arm64' | 'armel' | 'i386'
 
 export function debArch(arch: Interfaces.ArchTypes): DebArch {
   if (arch === 'x64') return 'amd64'

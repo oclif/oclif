@@ -1,12 +1,12 @@
-import {Args, Command, Plugin, ux, Flags, Interfaces} from '@oclif/core'
+import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
 import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
-import * as path from 'node:path'
-import * as os from 'node:os'
-import * as semver from 'semver'
-import {exec, ShellString, ExecOptions} from 'shelljs'
 import got from 'got'
-import {promisify} from 'node:util'
+import * as os from 'node:os'
+import * as path from 'node:path'
 import {pipeline as pipelineSync} from 'node:stream'
+import {promisify} from 'node:util'
+import * as semver from 'semver'
+import {ExecOptions, ShellString, exec} from 'shelljs'
 
 const pipeline = promisify(pipelineSync)
 
@@ -20,18 +20,57 @@ async function fileExists(filePath: string): Promise<boolean> {
 }
 
 export default class Manifest extends Command {
-  static description = 'generates plugin manifest json'
-
   static args = {
-    path: Args.string({description: 'path to plugin', default: '.'}),
+    path: Args.string({default: '.', description: 'path to plugin'}),
   }
+
+  static description = 'generates plugin manifest json'
 
   static flags = {
     jit: Flags.boolean({
       allowNo: true,
-      summary: 'append commands from JIT plugins in manifest',
       default: true,
+      summary: 'append commands from JIT plugins in manifest',
     }),
+  }
+
+  private executeCommand(command: string, options?: ExecOptions): ShellString {
+    const debugString = options?.cwd
+      ? `executing command: ${command} in ${options.cwd}`
+      : `executing command: ${command}`
+    this.debug(debugString)
+    const result = exec(command, {...options, async: false, silent: true})
+    if (result.code !== 0) {
+      this.error(result.stderr)
+    }
+
+    this.debug(result.stdout)
+    return result
+  }
+
+  private getTarballUrl(plugin: string, version: string): string {
+    const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
+      dist: {tarball: string}
+    }
+    return dist.tarball
+  }
+
+  private getVersion(plugin: string, version: string): string {
+    if (version.startsWith('^') || version.startsWith('~')) {
+      // Grab latest from npm to get all the versions so we can find the max satisfying version.
+      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
+      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
+      // provided to `npm view`. This can be problematic if you're building the `nightly` version
+      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
+      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
+      const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
+        versions: string[]
+      }
+
+      return semver.maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
+    }
+
+    return version
   }
 
   async run(): Promise<void> {
@@ -80,11 +119,11 @@ export default class Manifest extends Command {
     }
 
     let plugin = new Plugin({
+      errorOnManifestCreate: true,
+      ignoreManifest: true,
+      respectNoCacheDefault: true,
       root,
       type: 'core',
-      ignoreManifest: true,
-      errorOnManifestCreate: true,
-      respectNoCacheDefault: true,
     })
 
     if (!plugin) throw new Error('plugin not found')
@@ -106,44 +145,5 @@ export default class Manifest extends Command {
     writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
     this.log(`wrote manifest to ${file}`)
-  }
-
-  private getVersion(plugin: string, version: string): string {
-    if (version.startsWith('^') || version.startsWith('~')) {
-      // Grab latest from npm to get all the versions so we can find the max satisfying version.
-      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
-      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
-      // provided to `npm view`. This can be problematic if you're building the `nightly` version
-      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
-      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
-      const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
-        versions: string[]
-      }
-
-      return semver.maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
-    }
-
-    return version
-  }
-
-  private getTarballUrl(plugin: string, version: string): string {
-    const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
-      dist: {tarball: string}
-    }
-    return dist.tarball
-  }
-
-  private executeCommand(command: string, options?: ExecOptions): ShellString {
-    const debugString = options?.cwd
-      ? `executing command: ${command} in ${options.cwd}`
-      : `executing command: ${command}`
-    this.debug(debugString)
-    const result = exec(command, {...options, silent: true, async: false})
-    if (result.code !== 0) {
-      this.error(result.stderr)
-    }
-
-    this.debug(result.stdout)
-    return result
   }
 }

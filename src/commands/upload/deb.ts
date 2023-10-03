@@ -1,26 +1,27 @@
 import {Command, Flags} from '@oclif/core'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey, debVersion, debArch, DebArch} from '../../upload-util'
+import {DebArch, commitAWSDir, debArch, debVersion, templateShortKey} from '../../upload-util'
 
 export default class UploadDeb extends Command {
   static description = 'upload deb package built with pack:deb'
 
   static flags = {
-    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadDeb)
     const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, config} = buildConfig
+    const {config, s3Config} = buildConfig
     const dist = (f: string) => buildConfig.dist(path.join('deb', f))
     const S3Options = {
-      Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
+      Bucket: s3Config.bucket!,
     }
 
     if (!fs.existsSync(dist('Release')))
@@ -45,9 +46,9 @@ export default class UploadDeb extends Command {
 
     const uploadDeb = async (arch: DebArch) => {
       const deb = templateShortKey('deb', {
+        arch: arch as any,
         bin: config.bin,
         versionShaRevision: debVersion(buildConfig),
-        arch: arch as any,
       })
       if (fs.existsSync(dist(deb))) await Promise.all([upload(deb), uploadWorkaround(deb)])
     }

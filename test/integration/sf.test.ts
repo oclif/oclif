@@ -21,7 +21,7 @@ describe('sf', () => {
 
     before(async () => {
       if (await exists(testDir)) {
-        await rm(testDir, {recursive: true, force: true})
+        await rm(testDir, {force: true, recursive: true})
       }
 
       await mkdir(testDir, {recursive: true})

@@ -1,8 +1,9 @@
-import * as path from 'node:path'
-import * as Generator from 'yeoman-generator'
-import {GeneratorOptions} from '../types'
 import {Interfaces} from '@oclif/core'
 import {pascalCase} from 'change-case'
+import * as path from 'node:path'
+import * as Generator from 'yeoman-generator'
+
+import {GeneratorOptions} from '../types'
 
 const {version} = require('../../package.json')
 
@@ -13,9 +14,9 @@ export default class Command extends Generator {
   constructor(args: string | string[], opts: GeneratorOptions) {
     super(args, opts)
     this.options = {
-      name: opts.name,
       defaults: opts.defaults,
       force: opts.force,
+      name: opts.name,
     }
   }
 
@@ -40,10 +41,10 @@ export default class Command extends Generator {
     const opts = {
       ...this.options,
       bin,
-      cmd,
-      type: 'command',
-      path: commandPath,
       className: pascalCase(this.options.name),
+      cmd,
+      path: commandPath,
+      type: 'command',
     }
     this.fs.copyTpl(this.templatePath('src/command.ts.ejs'), commandPath, opts)
     if (this.hasMocha()) {

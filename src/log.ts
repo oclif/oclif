@@ -1,5 +1,6 @@
 import {ux} from '@oclif/core'
 import * as util from 'node:util'
+
 import {prettifyPaths} from './util'
 
 export const debug = require('debug')('oclif')

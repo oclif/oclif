@@ -1,5 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import * as fs from 'node:fs'
+
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
@@ -9,27 +10,27 @@ export default class UploadWin extends Command {
   static description = 'upload windows installers built with pack:win'
 
   static flags = {
-    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
     targets: Flags.string({description: 'comma-separated targets to pack (e.g.: win32-x64,win32-x86)'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadWin)
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
-    const {s3Config, config, dist} = buildConfig
+    const {config, dist, s3Config} = buildConfig
     const S3Options = {
-      Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
+      Bucket: s3Config.bucket!,
     }
 
     const archs = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
 
     for (const arch of archs) {
       const templateKey = templateShortKey('win32', {
-        bin: config.bin,
-        version: config.version,
-        sha: buildConfig.gitSha,
         arch,
+        bin: config.bin,
+        sha: buildConfig.gitSha,
+        version: config.version,
       })
       const localKey = dist(`win32/${templateKey}`)
       if (!fs.existsSync(localKey))
@@ -41,10 +42,10 @@ export default class UploadWin extends Command {
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
     const uploadWin = async (arch: 'x64' | 'x86') => {
       const templateKey = templateShortKey('win32', {
-        bin: config.bin,
-        version: config.version,
-        sha: buildConfig.gitSha,
         arch,
+        bin: config.bin,
+        sha: buildConfig.gitSha,
+        version: config.version,
       })
       const localExe = dist(`win32/${templateKey}`)
       const cloudKey = `${cloudKeyBase}/${templateKey}`

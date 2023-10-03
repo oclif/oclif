@@ -132,6 +132,7 @@
     "postpack": "shx rm .oclif.manifest.json",
     "posttest": "yarn run lint",
     "prepack": "shx rm -rf lib && tsc && bin/dev.js manifest .",
+    "prepare": "husky install",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 600000",
     "test:unit": "mocha --forbid-only \"test/unit/*.test.ts\"",
     "test": "nps test && yarn test:unit && yarn test:integration",

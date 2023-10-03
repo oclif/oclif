@@ -1,12 +1,12 @@
 import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
 import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
 import got from 'got'
+import {ExecOptions, exec} from 'node:child_process'
 import * as os from 'node:os'
 import * as path from 'node:path'
 import {pipeline as pipelineSync} from 'node:stream'
 import {promisify} from 'node:util'
-import * as semver from 'semver'
-import {ExecOptions, ShellString, exec} from 'shelljs'
+import {maxSatisfying} from 'semver'
 
 const pipeline = promisify(pipelineSync)
 
@@ -34,28 +34,30 @@ export default class Manifest extends Command {
     }),
   }
 
-  private executeCommand(command: string, options?: ExecOptions): ShellString {
-    const debugString = options?.cwd
-      ? `executing command: ${command} in ${options.cwd}`
-      : `executing command: ${command}`
-    this.debug(debugString)
-    const result = exec(command, {...options, async: false, silent: true})
-    if (result.code !== 0) {
-      this.error(result.stderr)
-    }
-
-    this.debug(result.stdout)
-    return result
+  private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {
+    return new Promise((resolve) => {
+      exec(command, options, (error, stderr, stdout) => {
+        if (error) this.error(error)
+        const debugString = options?.cwd
+          ? `executing command: ${command} in ${options.cwd}`
+          : `executing command: ${command}`
+        this.debug(debugString)
+        this.debug(stdout)
+        this.debug(stderr)
+        resolve({stderr: stderr.toString(), stdout: stdout.toString()})
+      })
+    })
   }
 
-  private getTarballUrl(plugin: string, version: string): string {
-    const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
+  private async getTarballUrl(plugin: string, version: string): Promise<string> {
+    const {stderr} = await this.executeCommand(`npm view ${plugin}@${version} --json`)
+    const {dist} = JSON.parse(stderr) as {
       dist: {tarball: string}
     }
     return dist.tarball
   }
 
-  private getVersion(plugin: string, version: string): string {
+  private async getVersion(plugin: string, version: string): Promise<string> {
     if (version.startsWith('^') || version.startsWith('~')) {
       // Grab latest from npm to get all the versions so we can find the max satisfying version.
       // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
@@ -63,17 +65,18 @@ export default class Manifest extends Command {
       // provided to `npm view`. This can be problematic if you're building the `nightly` version
       // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
       // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
-      const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
+      const {stderr} = await this.executeCommand(`npm view ${plugin}@latest --json`)
+      const {versions} = JSON.parse(stderr) as {
         versions: string[]
       }
 
-      return semver.maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
+      return maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
     }
 
     return version
   }
 
-  async run(): Promise<void> {
+  public async run(): Promise<void> {
     const {flags} = await this.parse(Manifest)
     try {
       unlinkSync('oclif.manifest.json')
@@ -98,12 +101,12 @@ export default class Manifest extends Command {
 
         await mkdir(fullPath, {recursive: true})
 
-        const resolvedVersion = this.getVersion(jitPlugin, version)
-        const tarballUrl = this.getTarballUrl(jitPlugin, resolvedVersion)
+        const resolvedVersion = await this.getVersion(jitPlugin, version)
+        const tarballUrl = await this.getTarballUrl(jitPlugin, resolvedVersion)
         const tarball = path.join(fullPath, path.basename(tarballUrl))
         await pipeline(got.stream(tarballUrl), createWriteStream(tarball))
 
-        exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
+        await this.executeCommand(`tar -xzf "${tarball}"`, {cwd: fullPath})
 
         const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {

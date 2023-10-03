@@ -1,7 +1,7 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as fsPromises from 'node:fs/promises'
-import {uniq} from 'lodash'
+import {uniq} from '../../util'
 import * as path from 'node:path'
 import * as Tarballs from '../../tarballs'
 import {debArch, debVersion, templateShortKey} from '../../upload-util'

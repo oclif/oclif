@@ -1,4 +1,4 @@
-import {uniq} from 'lodash'
+import {uniq} from '../../util'
 import * as fs from 'node:fs'
 import {Command, Flags, Interfaces} from '@oclif/core'
 

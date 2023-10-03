@@ -1,7 +1,7 @@
 import {Interfaces} from '@oclif/core'
 
-import * as Lodash from 'lodash'
 import * as path from 'node:path'
+import template = require('lodash.template')
 
 import {BuildConfig as TarballConfig} from './tarballs/config'
 
@@ -29,7 +29,6 @@ export function templateShortKey(
 ): string {
   if (typeof ext === 'object') options = Object.assign(options, ext)
   else if (ext) options.ext = ext
-  const _: typeof Lodash = require('lodash')
   const templates = {
     baseDir: '<%- bin %>',
     unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
@@ -39,7 +38,7 @@ export function templateShortKey(
     win32: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.exe',
     deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
   }
-  return _.template(templates[type])({...options})
+  return template(templates[type])({...options})
 }
 
 export type DebArch = 'amd64' | 'i386' | 'armel' | 'arm64'

@@ -20,7 +20,7 @@
     "fs-extra": "^8.1",
     "github-slugger": "^1.5.0",
     "got": "^11",
-    "lodash": "^4.17.21",
+    "lodash.template": "^4.5.0",
     "normalize-package-data": "^3.0.3",
     "semver": "^7.3.8",
     "shelljs": "^0.8.5",
@@ -128,12 +128,13 @@
     "posttest": "yarn run lint",
     "prepack": "shx rm -rf lib && tsc && bin/dev.js manifest .",
     "prepare": "husky install",
+    "test:integration:cli": "mocha test/integration/cli.test.ts --timeout 600000",
     "test:integration:deb": "mocha test/integration/deb.test.ts --timeout 900000",
     "test:integration:macos": "mocha test/integration/macos.test.ts --timeout 900000",
+    "test:integration:publish": "mocha test/integration/publish.test.ts --timeout 900000",
     "test:integration:sf": "mocha test/integration/sf.test.ts --timeout 600000",
     "test:integration:win": "mocha test/integration/win.test.ts --timeout 900000",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 900000",
-    "test:publish": "mocha test/integration/publish.test.ts --timeout 900000",
     "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\""
   },
   "publishConfig": {

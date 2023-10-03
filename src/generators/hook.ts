@@ -1,4 +1,4 @@
-import {castArray} from 'lodash'
+import {castArray} from '../util'
 import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
 import {GeneratorOptions} from '../types'

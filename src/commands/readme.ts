@@ -1,6 +1,5 @@
 import {Command, Config, Flags, HelpBase, Interfaces, loadHelpClass, Plugin, toConfiguredId} from '@oclif/core'
 import * as fs from 'fs-extra'
-import {template as lodashTemplate} from 'lodash'
 import * as path from 'node:path'
 import {URL} from 'node:url'
 
@@ -10,6 +9,7 @@ import {HelpCompatibilityWrapper} from '../help-compatibility'
 const normalize = require('normalize-package-data')
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger') as any)()
+const lodashTemplate = require('lodash.template')
 
 interface HelpBaseDerived {
   new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase

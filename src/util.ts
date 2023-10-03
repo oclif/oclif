@@ -1,5 +1,4 @@
 import {Errors} from '@oclif/core'
-import _ = require('lodash')
 import * as os from 'node:os'
 import * as crypto from 'node:crypto'
 import {log} from './log'
@@ -7,6 +6,7 @@ import {createReadStream} from 'node:fs'
 import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 const exec = promisify(execSync)
+import lodashTemplate = require('lodash.template')
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []
@@ -23,6 +23,10 @@ export function uniqBy<T>(arr: T[], fn: (cur: T) => any): T[] {
 export function compact<T>(a: (T | undefined)[]): T[] {
   // eslint-disable-next-line unicorn/prefer-native-coercion-functions
   return a.filter((a): a is T => Boolean(a))
+}
+
+export function uniq<T>(arr: T[]): T[] {
+  return [...new Set(arr)]
 }
 
 export function sortBy<T>(arr: T[], fn: (i: T) => sort.Types | sort.Types[]): T[] {
@@ -52,7 +56,7 @@ export namespace sort {
 export const template =
   (context: any) =>
   (t: string | undefined): string =>
-    _.template(t || '')(context)
+    lodashTemplate(t || '')(context)
 
 interface VersionsObject {
   [key: string]: string
@@ -106,4 +110,8 @@ export async function checkFor7Zip() {
     if (error.code === 127) Errors.error('install 7-zip to package windows tarball')
     else throw error
   }
+}
+
+export function isEmpty(obj: Record<string, unknown>): boolean {
+  return Object.keys(obj).length === 0
 }

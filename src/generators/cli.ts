@@ -1,10 +1,9 @@
 import {execSync} from 'node:child_process'
 import * as fs from 'node:fs'
-import {isEmpty, uniq} from 'lodash'
 import * as path from 'node:path'
 import * as Generator from 'yeoman-generator'
+import {compact, isEmpty, uniq} from '../util'
 
-const _ = require('lodash')
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
 
@@ -269,19 +268,20 @@ export default class CLI extends Generator {
     const existing = this.fs.exists(this.destinationPath('.gitignore'))
       ? this.fs.read(this.destinationPath('.gitignore')).split('\n')
       : []
+
     return (
-      _([
-        '*-debug.log',
-        '*-error.log',
-        'node_modules',
-        '/tmp',
-        '/dist',
-        this.yarn ? '/package-lock.json' : '/yarn.lock',
-        '/lib',
-      ])
-        .concat(existing)
-        .compact()
-        .uniq()
+      uniq(
+        compact([
+          '*-debug.log',
+          '*-error.log',
+          'node_modules',
+          '/tmp',
+          '/dist',
+          this.yarn ? '/package-lock.json' : '/yarn.lock',
+          '/lib',
+          ...existing,
+        ]),
+      )
         .sort()
         .join('\n') + '\n'
     )

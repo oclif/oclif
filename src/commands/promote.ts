@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import {uniq} from 'lodash'
+import {uniq} from '../util'
 
 import {ux, Command, Flags} from '@oclif/core'
 

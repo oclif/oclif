@@ -124,9 +124,6 @@
     "build": "shx rm -rf lib && tsc",
     "commitlint": "commitlint",
     "compile": "tsc",
-    "devcli:lint": "eslint . --ext .ts",
-    "devcli:test": "mocha --forbid-only \"test/unit/*.test.ts\"",
-    "devcli": "yarn build --noEmit && yarn run devcli:test && yarn run devcli:lint",
     "format": "prettier --write \"+(src|test)/**/*.+(ts|js|json)\"",
     "lint": "eslint . --ext .ts",
     "postpack": "shx rm .oclif.manifest.json",
@@ -139,8 +136,7 @@
     "test:integration:win": "mocha test/integration/win.test.ts --timeout 900000",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 900000",
     "test:publish": "mocha test/integration/publish.test.ts --timeout 900000",
-    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\"",
-    "version": "bin/dev.js readme && git add README.md"
+    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\""
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

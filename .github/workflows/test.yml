@@ -41,7 +41,7 @@ jobs:
       matrix:
         node_version: [lts/*, latest]
         os: [ubuntu-latest, windows-latest]
-        test: [test:integration:sf, test:integration:cli]
+        test: ['test:integration:sf', 'test:integration:cli']
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3

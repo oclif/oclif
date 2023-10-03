@@ -35,12 +35,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
 
-  sf-integration:
+  integration:
     needs: [linux-unit-tests]
     strategy:
       matrix:
         node_version: [lts/*, latest]
         os: [ubuntu-latest, windows-latest]
+        test: [test:integration:sf, test:integration:cli]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -50,7 +51,7 @@ jobs:
           cache: yarn
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
-      - run: yarn test:integration:sf
+      - run: yarn ${{ matrix.test }}
 
   win-build:
     needs: [linux-unit-tests]

@@ -68,8 +68,9 @@ export default class CLI extends Generator {
 
     this.log(`${msg} Version: ${version}`)
 
-    const {moduleType} = process.env.OCLIF_ALLOW_ESM
-      ? await this.prompt([
+    const {moduleType} = this.options.defaults
+      ? {moduleType: 'cjs'}
+      : await this.prompt([
           {
             type: 'list',
             name: 'moduleType',
@@ -81,11 +82,12 @@ export default class CLI extends Generator {
             default: 'cjs',
           },
         ])
-      : 'cjs'
 
     const repo = moduleType === 'esm' ? 'hello-world-esm' : 'hello-world'
     execSync(`git clone https://github.com/oclif/${repo}.git "${path.resolve(this.name)}" --depth=1`)
     fs.rmSync(`${path.resolve(this.name, '.git')}`, {recursive: true})
+
+    const templateUsesJsScripts = fs.existsSync(path.resolve(this.name, 'bin', 'run.js'))
 
     this.destinationRoot(path.resolve(this.name))
     this.env.cwd = this.destinationPath()
@@ -97,7 +99,7 @@ export default class CLI extends Generator {
       version: '',
       description: '',
       author: '',
-      bin: {},
+      bin: '',
       homepage: '',
       license: '',
       main: '',
@@ -114,6 +116,7 @@ export default class CLI extends Generator {
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
     const defaults = {
       ...this.pjson,
+      bin: this.name,
       name: this.name ? this.name.replaceAll(' ', '-') : this.determineAppname().replaceAll(' ', '-'),
       version: '0.0.0',
       license: 'MIT',
@@ -121,7 +124,7 @@ export default class CLI extends Generator {
       dependencies: {},
       repository,
       engines: {
-        node: '>=12.0.0',
+        node: '>=18.0.0',
         ...this.pjson.engines,
       },
       options: this.options,
@@ -225,7 +228,7 @@ export default class CLI extends Generator {
     this.pjson.oclif.bin = this.answers.bin
     this.pjson.oclif.dirname = this.answers.bin
     this.pjson.bin = {}
-    this.pjson.bin[this.pjson.oclif.bin] = './bin/run'
+    this.pjson.bin[this.pjson.oclif.bin] = `./bin/run${templateUsesJsScripts ? '.js' : ''}`
 
     if (!this.options.yarn) {
       const scripts = (this.pjson.scripts || {}) as Record<string, string>

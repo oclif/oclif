@@ -1,12 +1,13 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
+import {emptyDir, writeJSON} from 'fs-extra'
+import got from 'got'
 import {createWriteStream} from 'node:fs'
-import {writeJSON, emptyDir} from 'fs-extra'
 import * as path from 'node:path'
 import {pipeline} from 'node:stream/promises'
-import got from 'got'
 import {exec} from 'shelljs'
-import {cloneDeep} from 'lodash'
+
+import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
+const cloneDeep = require('lodash.clonedeep')
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')

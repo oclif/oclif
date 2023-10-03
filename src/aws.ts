@@ -17,8 +17,12 @@ export namespace upload {
   }
 }
 
-const cache: {s3?: S3; cloudfront?: CloudFront} = {}
+const cache: {cloudfront?: CloudFront; s3?: S3} = {}
 const aws = {
+  get cloudfront() {
+    cache.cloudfront = cache.cloudfront || new (require('aws-sdk/clients/cloudfront') as typeof CloudFront)(this.creds)
+    return cache.cloudfront
+  },
   get creds() {
     const creds = {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -47,10 +51,6 @@ const aws = {
       throw error
     }
   },
-  get cloudfront() {
-    cache.cloudfront = cache.cloudfront || new (require('aws-sdk/clients/cloudfront') as typeof CloudFront)(this.creds)
-    return cache.cloudfront
-  },
 }
 
 export default {
@@ -69,23 +69,6 @@ export default {
 
   get s3() {
     return {
-      uploadFile: (local: string, options: S3.Types.PutObjectRequest) =>
-        new Promise((resolve, reject) => {
-          log('s3:uploadFile', prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
-          options.Body = createReadStream(local)
-          aws.s3.upload(options, (err) => {
-            if (err) reject(err)
-            else resolve(null)
-          })
-        }),
-      headObject: (options: S3.Types.HeadObjectRequest) =>
-        new Promise<S3.HeadObjectOutput>((resolve, reject) => {
-          debug('s3:headObject', `s3://${options.Bucket}/${options.Key}`)
-          aws.s3.headObject(options, (err, data) => {
-            if (err) reject(err)
-            else resolve(data)
-          })
-        }),
       copyObject: (options: S3.Types.CopyObjectRequest) =>
         new Promise((resolve, reject) => {
           log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
@@ -94,10 +77,26 @@ export default {
             else resolve(data)
           })
         }),
+      deleteObjects: (options: S3.Types.DeleteObjectsRequest) =>
+        new Promise<S3.DeleteObjectsOutput>((resolve, reject) => {
+          debug('deleteObjects', `s3://${options.Bucket}`)
+          aws.s3.deleteObjects(options, (err, deletedObjects) => {
+            if (err) reject(err)
+            resolve(deletedObjects)
+          })
+        }),
       getObject: (options: S3.Types.GetObjectRequest) =>
         new Promise<S3.GetObjectOutput>((resolve, reject) => {
           debug('getObject', `s3://${options.Bucket}/${options.Key}`)
           aws.s3.getObject(options, (err, data) => {
+            if (err) reject(err)
+            else resolve(data)
+          })
+        }),
+      headObject: (options: S3.Types.HeadObjectRequest) =>
+        new Promise<S3.HeadObjectOutput>((resolve, reject) => {
+          debug('s3:headObject', `s3://${options.Bucket}/${options.Key}`)
+          aws.s3.headObject(options, (err, data) => {
             if (err) reject(err)
             else resolve(data)
           })
@@ -110,12 +109,13 @@ export default {
             resolve(objects)
           })
         }),
-      deleteObjects: (options: S3.Types.DeleteObjectsRequest) =>
-        new Promise<S3.DeleteObjectsOutput>((resolve, reject) => {
-          debug('deleteObjects', `s3://${options.Bucket}`)
-          aws.s3.deleteObjects(options, (err, deletedObjects) => {
+      uploadFile: (local: string, options: S3.Types.PutObjectRequest) =>
+        new Promise((resolve, reject) => {
+          log('s3:uploadFile', prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
+          options.Body = createReadStream(local)
+          aws.s3.upload(options, (err) => {
             if (err) reject(err)
-            resolve(deletedObjects)
+            else resolve(null)
           })
         }),
     }

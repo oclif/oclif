@@ -5,24 +5,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit-tests:
-    strategy:
-      matrix:
-        node_version: [lts/*, latest]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node_version }}
-          cache: yarn
-      - run: yarn install --network-timeout 600000
-      - run: yarn nps lint
-      - run: yarn build
-      - run: yarn test:unit
+  yarn-lockfile-check:
+    uses: salesforcecli/github-workflows/.github/workflows/lockFileCheck.yml@main
+  linux-unit-tests:
+    needs: yarn-lockfile-check
+    uses: salesforcecli/github-workflows/.github/workflows/unitTestsLinux.yml@main
+  windows-unit-tests:
+    needs: linux-unit-tests
+    uses: salesforcecli/github-workflows/.github/workflows/unitTestsWindows.yml@main
+
   publish:
-    needs: [unit-tests]
+    needs: [linux-unit-tests]
     strategy:
       matrix:
         node_version: [lts/*, latest]
@@ -34,16 +27,34 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-      - run: yarn install --network-timeout 600000
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
-      - run: yarn mocha test/integration/publish.test.ts --timeout 900000
+      - run: yarn test:integration:publish
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+          PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
+
+  integration:
+    needs: [linux-unit-tests]
+    strategy:
+      matrix:
+        node_version: [lts/*, latest]
+        os: [ubuntu-latest, windows-latest]
+        test: ['test:integration:sf', 'test:integration:cli']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
+      - run: yarn build
+      - run: yarn ${{ matrix.test }}
 
   win-build:
-    needs: [unit-tests]
+    needs: [linux-unit-tests]
     strategy:
       matrix:
         node_version: [lts/*, latest]
@@ -55,18 +66,19 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-      - run: yarn install --network-timeout 600000
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
       - run: |
           sudo apt-get update
           sudo apt-get install osslsigncode nsis
-      - run: yarn mocha test/integration/win.test.ts --timeout 600000
+      - run: yarn test:integration:win
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+          PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
+
   mac-build:
-    needs: [unit-tests]
+    needs: [linux-unit-tests]
     strategy:
       matrix:
         node_version: [lts/*, latest]
@@ -78,16 +90,16 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-      - run: yarn install --network-timeout 600000
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
-      - run: yarn mocha test/integration/macos.test.ts --timeout 600000
+      - run: yarn test:integration:macos
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+          PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
 
   deb-build:
-    needs: [unit-tests]
+    needs: [linux-unit-tests]
     env:
       OCLIF_DEB_PRIVATE_KEY: ${{ secrets.OCLIF_DEB_PRIVATE_KEY }}
     strategy:
@@ -101,14 +113,14 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-      - run: yarn install --network-timeout 600000
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
       - run: echo -n "$OCLIF_DEB_PRIVATE_KEY" | gpg --import
 
-      - run: yarn mocha test/integration/deb.test.ts --timeout 600000
+      - run: yarn test:integration:deb
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           OCLIF_DEB_KEY: ${{ secrets.OCLIF_DEB_KEY }}
-          PRESERVE_ARTIFACTS:  ${{ vars.PRESERVE_ARTIFACTS }}
+          PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
 

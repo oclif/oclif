@@ -1,11 +1,12 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
-import {gitSha} from '../../src/tarballs'
 import * as fs from 'fs-extra'
-import * as path from 'node:path'
 import {exec as execSync} from 'node:child_process'
+import * as path from 'node:path'
 import {promisify} from 'node:util'
-import {cloneDeep} from 'lodash'
+
+import {gitSha} from '../../src/tarballs'
+import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
+const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
@@ -52,10 +53,10 @@ describe('publish:deb', () => {
       await exec('sudo apt-get install -y oclif')
       await exec('oclif --version')
       // test the binAliases section
-      expect((await exec('oclif2 --version')).stdout).to.contain(
-        `oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`,
-      )
-      const {stdout} = await exec('oclif --version')
-      expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
+      const {stdout: oclif2} = await exec('oclif2 --version')
+      expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
+
+      const {stdout: oclif} = await exec('oclif --version')
+      expect(oclif).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
     })
 })

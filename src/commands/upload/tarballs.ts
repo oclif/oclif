@@ -1,5 +1,6 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'node:fs'
+
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
@@ -12,25 +13,25 @@ export default class UploadTarballs extends Command {
 `
 
   static flags = {
-    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
     targets: Flags.string({char: 't', description: 'comma-separated targets to upload (e.g.: linux-arm,win32-x64)'}),
-    xz: Flags.boolean({description: 'also upload xz', allowNo: true}),
+    xz: Flags.boolean({allowNo: true, description: 'also upload xz'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {xz: flags.xz, targets: flags?.targets?.split(',')})
-    const {s3Config, dist, config, xz} = buildConfig
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(','), xz: flags.xz})
+    const {config, dist, s3Config, xz} = buildConfig
 
     // fail early if targets are not built
     for (const target of buildConfig.targets) {
       const tarball = dist(
         templateShortKey('versioned', {
-          ext: '.tar.gz',
           bin: config.bin,
-          version: config.version,
+          ext: '.tar.gz',
           sha: buildConfig.gitSha,
+          version: config.version,
           ...target,
         }),
       )
@@ -41,11 +42,11 @@ export default class UploadTarballs extends Command {
     }
 
     const S3Options = {
-      Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
+      Bucket: s3Config.bucket!,
     }
 
-    const uploadTarball = async (options?: {platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}) => {
+    const uploadTarball = async (options?: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}) => {
       const shortKeyInputs = {
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         arch: options?.arch!,
@@ -70,17 +71,16 @@ export default class UploadTarballs extends Command {
       const manifest = templateShortKey('manifest', shortKeyInputs)
       const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
 
-      await Promise.all(
-        [
-          releaseTarballs('.tar.gz'),
-          aws.s3.uploadFile(dist(manifest), {
-            ...S3Options,
-            CacheControl: 'max-age=86400',
-            ContentType: 'application/json',
-            Key: cloudKey,
-          }),
-        ].concat(xz ? [releaseTarballs('.tar.xz')] : []),
-      )
+      await Promise.all([
+        releaseTarballs('.tar.gz'),
+        aws.s3.uploadFile(dist(manifest), {
+          ...S3Options,
+          CacheControl: 'max-age=86400',
+          ContentType: 'application/json',
+          Key: cloudKey,
+        }),
+        ...(xz ? [releaseTarballs('.tar.xz')] : []),
+      ])
     }
 
     if (buildConfig.targets.length > 0) log('uploading targets')

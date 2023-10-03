@@ -1,14 +1,15 @@
 import {Interfaces} from '@oclif/core'
-import * as path from 'node:path'
-import {existsSync, createWriteStream} from 'node:fs'
-import {mkdir} from 'node:fs/promises'
-import {copy, ensureDir, move} from 'fs-extra'
-import {pipeline} from 'node:stream/promises'
-import {log} from '../log'
-import {exec as execSync} from 'node:child_process'
-import {promisify} from 'node:util'
-import got from 'got'
 import * as retry from 'async-retry'
+import {copy, ensureDir, move} from 'fs-extra'
+import got from 'got'
+import {exec as execSync} from 'node:child_process'
+import {createWriteStream, existsSync} from 'node:fs'
+import {mkdir} from 'node:fs/promises'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
+import {promisify} from 'node:util'
+
+import {log} from '../log'
 import {checkFor7Zip} from '../util'
 
 const exec = promisify(execSync)
@@ -16,14 +17,14 @@ const exec = promisify(execSync)
 const RETRY_TIMEOUT_MS = 1000
 
 type Options = {
+  arch: 'armv7l' | Interfaces.ArchTypes
   nodeVersion: string
   output: string
   platform: Interfaces.PlatformTypes
-  arch: Interfaces.ArchTypes | 'armv7l'
   tmp: string
 }
 
-export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: Options): Promise<string> {
+export async function fetchNodeBinary({arch, nodeVersion, output, platform, tmp}: Options): Promise<string> {
   if (arch === 'arm') arch = 'armv7l'
   let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`
   let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`)
@@ -74,13 +75,13 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
 
   if (!existsSync(cache)) {
     await retry(download, {
-      retries: 3,
       factor: 1,
       maxTimeout: RETRY_TIMEOUT_MS,
       minTimeout: RETRY_TIMEOUT_MS,
       onRetry(_e, attempt) {
         log(`retrying node download (attempt ${attempt})`)
       },
+      retries: 3,
     })
     await extract()
   }

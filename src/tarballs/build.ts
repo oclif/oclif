@@ -1,17 +1,18 @@
 import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
-import {log} from '../log'
-import * as path from 'node:path'
-import {move, emptyDir, readJSON, writeJSON, remove, copy} from 'fs-extra'
+import {copy, emptyDir, move, readJSON, remove, writeJSON} from 'fs-extra'
+import {exec as execSync} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {mkdir, readdir, rm} from 'node:fs/promises'
+import * as path from 'node:path'
+import {promisify} from 'node:util'
+
+import {log} from '../log'
+import {commitAWSDir, templateShortKey} from '../upload-util'
+import {hash, prettifyPaths} from '../util'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
-import {commitAWSDir, templateShortKey} from '../upload-util'
-import {hash, prettifyPaths} from '../util'
-import {exec as execSync} from 'node:child_process'
-import {promisify} from 'node:util'
 
 const exec = promisify(execSync)
 
@@ -27,13 +28,13 @@ const pack = async (from: string, to: string) => {
 export async function build(
   c: BuildConfig,
   options: {
-    platform?: string
     pack?: boolean
-    tarball?: string
     parallel?: boolean
+    platform?: string
+    tarball?: string
   } = {},
 ): Promise<void> {
-  const {xz, config} = c
+  const {config, xz} = c
   const packCLI = async () => {
     const {stdout} = await exec('npm pack --unsafe-perm', {cwd: c.root})
     return path.join(c.root, stdout.trim().split('\n').pop()!)
@@ -44,11 +45,9 @@ export async function build(
     const tarballNewLocation = path.join(c.workspace(), path.basename(tarball))
     await move(tarball, tarballNewLocation)
     await exec(`tar -xzf "${tarballNewLocation}"`, {cwd: c.workspace()})
-
+    const files = await readdir(path.join(c.workspace(), 'package'), {withFileTypes: true})
     await Promise.all(
-      (await readdir(path.join(c.workspace(), 'package'), {withFileTypes: true})).map((i) =>
-        move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name)),
-      ),
+      files.map((i) => move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))),
     )
 
     await Promise.all([
@@ -73,7 +72,8 @@ export async function build(
     if (existsSync(path.join(yarnRoot, 'yarn.lock'))) {
       await copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
 
-      const yarnVersion = (await exec('yarn -v')).stdout.charAt(0)
+      const {stdout} = await exec('yarn -v')
+      const yarnVersion = stdout.charAt(0)
       if (yarnVersion === '1') {
         await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
       } else if (yarnVersion === '2') {
@@ -109,7 +109,7 @@ export async function build(
     }
   }
 
-  const buildTarget = async (target: {platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}) => {
+  const buildTarget = async (target: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}) => {
     const workspace = c.workspace(target)
     const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
       arch: target.arch,
@@ -132,15 +132,15 @@ export async function build(
     await emptyDir(workspace)
     await copy(c.workspace(), workspace)
     await fetchNodeBinary({
+      arch: target.arch,
       nodeVersion: c.nodeVersion,
       output: path.join(workspace, 'bin', 'node'),
       platform: target.platform,
-      arch: target.arch,
       tmp: path.join(config.root, 'tmp'),
     })
     if (options.pack === false) return
     if (options.parallel) {
-      await Promise.all([pack(workspace, c.dist(gzLocalKey))].concat(xz ? [pack(workspace, c.dist(xzLocalKey))] : []))
+      await Promise.all([pack(workspace, c.dist(gzLocalKey)), ...(xz ? [pack(workspace, c.dist(xzLocalKey))] : [])])
     } else {
       await pack(workspace, c.dist(gzLocalKey))
       if (xz) await pack(workspace, c.dist(xzLocalKey))
@@ -152,23 +152,24 @@ export async function build(
     const gzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
     const xzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
 
-    const [sha256gz, sha256xz] = await Promise.all(
-      [hash('sha256', c.dist(gzLocalKey))].concat(xz ? [hash('sha256', c.dist(xzLocalKey))] : []),
-    )
+    const [sha256gz, sha256xz] = await Promise.all([
+      hash('sha256', c.dist(gzLocalKey)),
+      ...(xz ? [hash('sha256', c.dist(xzLocalKey))] : []),
+    ])
 
     const manifest: Interfaces.S3Manifest = {
-      rollout: rollout === false ? undefined : rollout,
-      version: config.version,
-      sha: c.gitSha,
       baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
       gz: config.s3Url(gzCloudKey),
-      xz: xz ? config.s3Url(xzCloudKey) : undefined,
-      sha256gz,
-      sha256xz,
       node: {
         compatible: config.pjson.engines.node,
         recommended: c.nodeVersion,
       },
+      rollout: rollout === false ? undefined : rollout,
+      sha: c.gitSha,
+      sha256gz,
+      sha256xz,
+      version: config.version,
+      xz: xz ? config.s3Url(xzCloudKey) : undefined,
     }
     const manifestFilepath = c.dist(
       templateShortKey('manifest', {
@@ -183,10 +184,10 @@ export async function build(
   }
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
-  await extractCLI(options.tarball ? options.tarball : await packCLI())
+  await extractCLI(options.tarball ?? (await packCLI()))
   await updatePJSON()
   await addDependencies()
-  await writeBinScripts({config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion})
+  await writeBinScripts({baseWorkspace: c.workspace(), config, nodeVersion: c.nodeVersion})
   await pretarball()
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)
   if (options.parallel) {

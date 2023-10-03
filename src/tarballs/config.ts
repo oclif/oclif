@@ -1,34 +1,34 @@
 import {Config, Interfaces, ux} from '@oclif/core'
-
-import * as path from 'node:path'
-import * as semver from 'semver'
-import {mkdir} from 'node:fs/promises'
-
-import {compact} from '../util'
-import {templateShortKey} from '../upload-util'
 import {exec as execSync} from 'node:child_process'
+import {mkdir} from 'node:fs/promises'
+import * as path from 'node:path'
 import {promisify} from 'node:util'
+import * as semver from 'semver'
+
+import {templateShortKey} from '../upload-util'
+import {compact} from '../util'
 
 const exec = promisify(execSync)
 export const TARGETS = ['linux-x64', 'linux-arm', 'linux-arm64', 'win32-x64', 'win32-x86', 'darwin-x64', 'darwin-arm64']
 
 export interface BuildConfig {
-  root: string
-  gitSha: string
   config: Interfaces.Config
+  dist(input: string): string
+  gitSha: string
   nodeVersion: string
+  root: string
+  s3Config: BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number}
+  targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
   tmp: string
   updateConfig: BuildConfig['config']['pjson']['oclif']['update']
-  s3Config: BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number}
+  workspace(target?: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}): string
   xz: boolean
-  targets: {platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}[]
-  workspace(target?: {platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}): string
-  dist(input: string): string
 }
 
 export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
-  return (await exec(`git ${args.join(' ')}`, {cwd})).stdout.trim()
+  const {stdout} = await exec(`git ${args.join(' ')}`, {cwd})
+  return stdout.trim()
 }
 
 async function Tmp(config: Interfaces.Config) {
@@ -39,9 +39,9 @@ async function Tmp(config: Interfaces.Config) {
 
 export async function buildConfig(
   root: string,
-  options: {xz?: boolean; targets?: string[]} = {},
+  options: {targets?: string[]; xz?: boolean} = {},
 ): Promise<BuildConfig> {
-  const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
+  const config = await Config.load({devPlugins: false, root: path.resolve(root), userPlugins: false})
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
   // eslint-disable-next-line new-cap
@@ -60,24 +60,24 @@ export async function buildConfig(
     })
     .map((t) => {
       const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
-      return {platform, arch}
+      return {arch, platform}
     })
   return {
-    root,
-    gitSha: _gitSha,
     config,
+    dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
+    gitSha: _gitSha,
+    nodeVersion,
+    root,
+    s3Config: updateConfig.s3,
+    targets,
     tmp,
     updateConfig,
-    xz: options?.xz ?? updateConfig?.s3?.xz ?? true,
-    dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
-    s3Config: updateConfig.s3,
-    nodeVersion,
     workspace(target) {
       const base = path.join(config.root, 'tmp')
       if (target && target.platform)
         return path.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
       return path.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },
-    targets,
+    xz: options?.xz ?? updateConfig?.s3?.xz ?? true,
   }
 }

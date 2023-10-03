@@ -1,12 +1,13 @@
 import {Errors} from '@oclif/core'
-import _ = require('lodash')
-import * as os from 'node:os'
-import * as crypto from 'node:crypto'
-import {log} from './log'
-import {createReadStream} from 'node:fs'
 import {exec as execSync} from 'node:child_process'
+import * as crypto from 'node:crypto'
+import {createReadStream} from 'node:fs'
+import * as os from 'node:os'
 import {promisify} from 'node:util'
+
+import {log} from './log'
 const exec = promisify(execSync)
+import lodashTemplate = require('lodash.template')
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []
@@ -16,7 +17,7 @@ export function castArray<T>(input?: T | T[]): T[] {
 export function uniqBy<T>(arr: T[], fn: (cur: T) => any): T[] {
   return arr.filter((a, i) => {
     const aVal = fn(a)
-    return !arr.find((b, j) => j > i && fn(b) === aVal)
+    return !arr.some((b, j) => j > i && fn(b) === aVal)
   })
 }
 
@@ -25,34 +26,38 @@ export function compact<T>(a: (T | undefined)[]): T[] {
   return a.filter((a): a is T => Boolean(a))
 }
 
-export function sortBy<T>(arr: T[], fn: (i: T) => sort.Types | sort.Types[]): T[] {
-  function compare(a: sort.Types | sort.Types[], b: sort.Types | sort.Types[]): number {
-    a = a === undefined ? 0 : a
-    b = b === undefined ? 0 : b
+export function uniq<T>(arr: T[]): T[] {
+  return [...new Set(arr)]
+}
 
-    if (Array.isArray(a) && Array.isArray(b)) {
-      if (a.length === 0 && b.length === 0) return 0
-      const diff = compare(a[0], b[0])
-      if (diff !== 0) return diff
-      return compare(a.slice(1), b.slice(1))
-    }
+function compare(a: sort.Types | sort.Types[], b: sort.Types | sort.Types[]): number {
+  a = a === undefined ? 0 : a
+  b = b === undefined ? 0 : b
 
-    if (a < b) return -1
-    if (a > b) return 1
-    return 0
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length === 0 && b.length === 0) return 0
+    const diff = compare(a[0], b[0])
+    if (diff !== 0) return diff
+    return compare(a.slice(1), b.slice(1))
   }
 
+  if (a < b) return -1
+  if (a > b) return 1
+  return 0
+}
+
+export function sortBy<T>(arr: T[], fn: (i: T) => sort.Types | sort.Types[]): T[] {
   return arr.sort((a, b) => compare(fn(a), fn(b)))
 }
 
 export namespace sort {
-  export type Types = string | number | undefined | boolean
+  export type Types = boolean | number | string | undefined
 }
 
 export const template =
   (context: any) =>
   (t: string | undefined): string =>
-    _.template(t || '')(context)
+    lodashTemplate(t || '')(context)
 
 interface VersionsObject {
   [key: string]: string
@@ -106,4 +111,8 @@ export async function checkFor7Zip() {
     if (error.code === 127) Errors.error('install 7-zip to package windows tarball')
     else throw error
   }
+}
+
+export function isEmpty(obj: Record<string, unknown>): boolean {
+  return Object.keys(obj).length === 0
 }

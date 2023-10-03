@@ -21,7 +21,7 @@ describe('sf', () => {
 
     before(async () => {
       if (await exists(testDir)) {
-        await rm(testDir, {recursive: true, force: true})
+        await rm(testDir, {force: true, recursive: true})
       }
 
       await mkdir(testDir, {recursive: true})
@@ -43,7 +43,7 @@ describe('sf', () => {
 
       const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>
         // eslint-disable-next-line max-nested-callbacks
-        Boolean(Object.values(manifest.commands).find((command) => command.pluginName === jitPlugin)),
+        Boolean(Object.values(manifest.commands).some((command) => command.pluginName === jitPlugin)),
       )
       const everyJITCommandIsTypeJIT = Object.values(manifest.commands)
         .filter((command) => jitPlugins.includes(command.pluginName ?? ''))

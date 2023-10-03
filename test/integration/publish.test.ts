@@ -1,17 +1,18 @@
+import {Interfaces} from '@oclif/core'
 import {expect, test} from '@oclif/test'
-import {join} from 'node:path'
-import {createWriteStream} from 'node:fs'
-import {rm} from 'node:fs/promises'
-import {writeJSON, emptyDir} from 'fs-extra'
-import {promisify} from 'node:util'
-import {pipeline} from 'node:stream/promises'
+import {emptyDir, writeJSON} from 'fs-extra'
 import got from 'got'
 import {exec as execSync} from 'node:child_process'
-import {hash} from '../../src/util'
+import {createWriteStream} from 'node:fs'
+import {rm} from 'node:fs/promises'
+import {join} from 'node:path'
+import {pipeline} from 'node:stream/promises'
+import {promisify} from 'node:util'
+
 import aws from '../../src/aws'
+import {hash} from '../../src/util'
 import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
-import {Interfaces} from '@oclif/core'
-import {cloneDeep} from 'lodash'
+const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)
 
@@ -52,8 +53,8 @@ const manifest = async (path: string, nodeVersion: string) => {
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
 
     // check alias
-    const stdout2 = (await exec('./oclif/bin/oclif2 --version', {cwd: root})).stdout
-    expect(stdout2).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
+    const {stdout: oclif2} = await exec('./oclif/bin/oclif2 --version', {cwd: root})
+    expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)
     await rm(join(root, 'oclif'), {recursive: true})
   }
 

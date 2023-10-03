@@ -1,19 +1,19 @@
 /* eslint-disable no-useless-escape */
 import {Interfaces} from '@oclif/core'
+import {exec as execSync} from 'node:child_process'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
 
 const exec = promisify(execSync)
 
 export async function writeBinScripts({
-  config,
   baseWorkspace,
+  config,
   nodeVersion,
 }: {
-  config: Interfaces.Config
   baseWorkspace: string
+  config: Interfaces.Config
   nodeVersion: string
 }): Promise<void> {
   const binPathEnvVar = config.scopedEnvVarKey('BINPATH')

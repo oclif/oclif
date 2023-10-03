@@ -5,7 +5,7 @@ import * as fs from 'fs-extra'
 import * as path from 'node:path'
 import {exec as execSync} from 'node:child_process'
 import {promisify} from 'node:util'
-import {cloneDeep} from 'lodash'
+const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')

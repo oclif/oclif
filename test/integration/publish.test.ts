@@ -11,7 +11,7 @@ import {hash} from '../../src/util'
 import aws from '../../src/aws'
 import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
 import {Interfaces} from '@oclif/core'
-import {cloneDeep} from 'lodash'
+const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)
 

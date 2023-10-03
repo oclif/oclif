@@ -6,7 +6,7 @@ import * as path from 'node:path'
 import {pipeline} from 'node:stream/promises'
 import got from 'got'
 import {exec} from 'shelljs'
-import {cloneDeep} from 'lodash'
+const cloneDeep = require('lodash.clonedeep')
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')

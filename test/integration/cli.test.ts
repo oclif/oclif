@@ -26,7 +26,7 @@ describe('Generated CLI Integration Tests', () => {
   let cliBinDev: string
 
   function setBins(): void {
-    const usesJsScripts = existsSync(join(cliName, 'bin', 'run.js'))
+    const usesJsScripts = existsSync(join(cliDir, 'bin', 'run.js'))
     const extension = process.platform === 'win32' ? '.cmd' : usesJsScripts ? '.js' : ''
     cliBinRun = join(tmpDir, cliName, 'bin', `run${extension}`)
     cliBinDev = join(tmpDir, cliName, 'bin', `dev${extension}`)

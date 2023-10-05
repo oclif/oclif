@@ -68,7 +68,7 @@
     "node": ">=18.0.0"
   },
   "files": [
-    ".oclif.manifest.json",
+    "oclif.manifest.json",
     "/bin",
     "/lib",
     "/templates"

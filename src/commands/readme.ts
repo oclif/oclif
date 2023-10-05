@@ -38,77 +38,8 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     }),
   }
 
-  private HelpClass!: HelpBaseDerived
   private flags!: Interfaces.InferredFlags<typeof Readme.flags>
-
-  /**
-   * fetches the path to a command
-   */
-  private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
-    const commandsDir = plugin.pjson.oclif.commands
-    if (!commandsDir) return
-    const hasTypescript = plugin.pjson.devDependencies?.typescript || plugin.pjson.dependencies?.typescript
-    let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
-    const outDir = path.dirname(commandsDir.replace(`.${path.sep}`, ''))
-    const outDirRegex = new RegExp('^' + outDir + (path.sep === '\\' ? '\\\\' : path.sep))
-    if (fs.pathExistsSync(path.join(p, 'index.js'))) {
-      p = path.join(p, 'index.js')
-    } else if (fs.pathExistsSync(p + '.js')) {
-      p += '.js'
-    } else if (hasTypescript) {
-      // check if non-compiled scripts are available
-      const base = p.replace(plugin.root + path.sep, '')
-      p = path.join(plugin.root, base.replace(outDirRegex, 'src' + path.sep))
-      if (fs.pathExistsSync(path.join(p, 'index.ts'))) {
-        p = path.join(p, 'index.ts')
-      } else if (fs.pathExistsSync(p + '.ts')) {
-        p += '.ts'
-      } else return
-    } else return
-    p = p.replace(plugin.root + path.sep, '')
-    if (hasTypescript) {
-      p = p.replace(outDirRegex, 'src' + path.sep).replace(/\.js$/, '.ts')
-    }
-
-    p = p.replaceAll('\\', '/') // Replace windows '\' by '/'
-    return p
-  }
-
-  private commandUsage(config: Interfaces.Config, command: Command.Cached): string {
-    const arg = (arg: Command.Arg.Cached) => {
-      const name = arg.name.toUpperCase()
-      if (arg.required) return `${name}`
-      return `[${name}]`
-    }
-
-    const id = toConfiguredId(command.id, config)
-    const defaultUsage = () =>
-      compact([
-        id,
-        Object.values(command.args)
-          .filter((a) => !a.hidden)
-          .map((a) => arg(a))
-          .join(' '),
-      ]).join(' ')
-
-    const usages = castArray(command.usage)
-    return template({command, config})(usages.length === 0 ? defaultUsage() : usages[0])
-  }
-
-  private repo(plugin: Interfaces.Plugin): string | undefined {
-    const pjson = {...plugin.pjson}
-    normalize(pjson)
-    const repo = pjson.repository && pjson.repository.url
-    if (!repo) return
-    const url = new URL(repo)
-    if (
-      !['github.com', 'gitlab.com'].includes(url.hostname) &&
-      !pjson.oclif.repositoryPrefix &&
-      !this.flags['repository-prefix']
-    )
-      return
-    return `https://${url.hostname}${url.pathname.replace(/\.git$/, '')}`
-  }
+  private HelpClass!: HelpBaseDerived
 
   commandCode(config: Interfaces.Config, c: Command.Cached): string | undefined {
     const pluginName = c.pluginName
@@ -315,5 +246,74 @@ USAGE
     ]
       .join('\n')
       .trim()
+  }
+
+  /**
+   * fetches the path to a command
+   */
+  private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
+    const commandsDir = plugin.pjson.oclif.commands
+    if (!commandsDir) return
+    const hasTypescript = plugin.pjson.devDependencies?.typescript || plugin.pjson.dependencies?.typescript
+    let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
+    const outDir = path.dirname(commandsDir.replace(`.${path.sep}`, ''))
+    const outDirRegex = new RegExp('^' + outDir + (path.sep === '\\' ? '\\\\' : path.sep))
+    if (fs.pathExistsSync(path.join(p, 'index.js'))) {
+      p = path.join(p, 'index.js')
+    } else if (fs.pathExistsSync(p + '.js')) {
+      p += '.js'
+    } else if (hasTypescript) {
+      // check if non-compiled scripts are available
+      const base = p.replace(plugin.root + path.sep, '')
+      p = path.join(plugin.root, base.replace(outDirRegex, 'src' + path.sep))
+      if (fs.pathExistsSync(path.join(p, 'index.ts'))) {
+        p = path.join(p, 'index.ts')
+      } else if (fs.pathExistsSync(p + '.ts')) {
+        p += '.ts'
+      } else return
+    } else return
+    p = p.replace(plugin.root + path.sep, '')
+    if (hasTypescript) {
+      p = p.replace(outDirRegex, 'src' + path.sep).replace(/\.js$/, '.ts')
+    }
+
+    p = p.replaceAll('\\', '/') // Replace windows '\' by '/'
+    return p
+  }
+
+  private commandUsage(config: Interfaces.Config, command: Command.Cached): string {
+    const arg = (arg: Command.Arg.Cached) => {
+      const name = arg.name.toUpperCase()
+      if (arg.required) return `${name}`
+      return `[${name}]`
+    }
+
+    const id = toConfiguredId(command.id, config)
+    const defaultUsage = () =>
+      compact([
+        id,
+        Object.values(command.args)
+          .filter((a) => !a.hidden)
+          .map((a) => arg(a))
+          .join(' '),
+      ]).join(' ')
+
+    const usages = castArray(command.usage)
+    return template({command, config})(usages.length === 0 ? defaultUsage() : usages[0])
+  }
+
+  private repo(plugin: Interfaces.Plugin): string | undefined {
+    const pjson = {...plugin.pjson}
+    normalize(pjson)
+    const repo = pjson.repository && pjson.repository.url
+    if (!repo) return
+    const url = new URL(repo)
+    if (
+      !['github.com', 'gitlab.com'].includes(url.hostname) &&
+      !pjson.oclif.repositoryPrefix &&
+      !this.flags['repository-prefix']
+    )
+      return
+    return `https://${url.hostname}${url.pathname.replace(/\.git$/, '')}`
   }
 }

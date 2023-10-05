@@ -34,48 +34,6 @@ export default class Manifest extends Command {
     }),
   }
 
-  private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {
-    return new Promise((resolve) => {
-      exec(command, options, (error, stderr, stdout) => {
-        if (error) this.error(error)
-        const debugString = options?.cwd
-          ? `executing command: ${command} in ${options.cwd}`
-          : `executing command: ${command}`
-        this.debug(debugString)
-        this.debug(stdout)
-        this.debug(stderr)
-        resolve({stderr: stderr.toString(), stdout: stdout.toString()})
-      })
-    })
-  }
-
-  private async getTarballUrl(plugin: string, version: string): Promise<string> {
-    const {stderr} = await this.executeCommand(`npm view ${plugin}@${version} --json`)
-    const {dist} = JSON.parse(stderr) as {
-      dist: {tarball: string}
-    }
-    return dist.tarball
-  }
-
-  private async getVersion(plugin: string, version: string): Promise<string> {
-    if (version.startsWith('^') || version.startsWith('~')) {
-      // Grab latest from npm to get all the versions so we can find the max satisfying version.
-      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
-      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
-      // provided to `npm view`. This can be problematic if you're building the `nightly` version
-      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
-      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
-      const {stderr} = await this.executeCommand(`npm view ${plugin}@latest --json`)
-      const {versions} = JSON.parse(stderr) as {
-        versions: string[]
-      }
-
-      return maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
-    }
-
-    return version
-  }
-
   public async run(): Promise<void> {
     const {flags} = await this.parse(Manifest)
     try {
@@ -148,5 +106,47 @@ export default class Manifest extends Command {
     writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
     this.log(`wrote manifest to ${file}`)
+  }
+
+  private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {
+    return new Promise((resolve) => {
+      exec(command, options, (error, stderr, stdout) => {
+        if (error) this.error(error)
+        const debugString = options?.cwd
+          ? `executing command: ${command} in ${options.cwd}`
+          : `executing command: ${command}`
+        this.debug(debugString)
+        this.debug(stdout)
+        this.debug(stderr)
+        resolve({stderr: stderr.toString(), stdout: stdout.toString()})
+      })
+    })
+  }
+
+  private async getTarballUrl(plugin: string, version: string): Promise<string> {
+    const {stderr} = await this.executeCommand(`npm view ${plugin}@${version} --json`)
+    const {dist} = JSON.parse(stderr) as {
+      dist: {tarball: string}
+    }
+    return dist.tarball
+  }
+
+  private async getVersion(plugin: string, version: string): Promise<string> {
+    if (version.startsWith('^') || version.startsWith('~')) {
+      // Grab latest from npm to get all the versions so we can find the max satisfying version.
+      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
+      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
+      // provided to `npm view`. This can be problematic if you're building the `nightly` version
+      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
+      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
+      const {stderr} = await this.executeCommand(`npm view ${plugin}@latest --json`)
+      const {versions} = JSON.parse(stderr) as {
+        versions: string[]
+      }
+
+      return maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
+    }
+
+    return version
   }
 }

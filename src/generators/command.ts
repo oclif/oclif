@@ -20,10 +20,6 @@ export default class Command extends Generator {
     }
   }
 
-  private hasMocha(): boolean {
-    return Boolean(this.pjson.devDependencies?.mocha)
-  }
-
   public async prompting(): Promise<void> {
     this.pjson = this.fs.readJSON('package.json') as unknown as Interfaces.PJSON
     if (!this.pjson) throw new Error('not in a project directory')
@@ -54,5 +50,9 @@ export default class Command extends Generator {
         opts,
       )
     }
+  }
+
+  private hasMocha(): boolean {
+    return Boolean(this.pjson.devDependencies?.mocha)
   }
 }

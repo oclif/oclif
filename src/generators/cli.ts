@@ -62,29 +62,6 @@ export default class CLI extends Generator {
     }
   }
 
-  private _gitignore(): string {
-    const existing = this.fs.exists(this.destinationPath('.gitignore'))
-      ? this.fs.read(this.destinationPath('.gitignore')).split('\n')
-      : []
-
-    return (
-      uniq(
-        compact([
-          '*-debug.log',
-          '*-error.log',
-          'node_modules',
-          '/tmp',
-          '/dist',
-          this.yarn ? '/package-lock.json' : '/yarn.lock',
-          '/lib',
-          ...existing,
-        ]),
-      )
-        .sort()
-        .join('\n') + '\n'
-    )
-  }
-
   end(): void {
     this.spawnCommandSync(this.env.options.nodePackageManager, ['run', 'build'], {cwd: this.env.cwd})
     this.spawnCommandSync(path.join(this.env.cwd, 'node_modules', '.bin', 'oclif'), ['readme'], {
@@ -286,5 +263,28 @@ export default class CLI extends Generator {
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
     this.fs.delete(this.destinationPath('LICENSE'))
+  }
+
+  private _gitignore(): string {
+    const existing = this.fs.exists(this.destinationPath('.gitignore'))
+      ? this.fs.read(this.destinationPath('.gitignore')).split('\n')
+      : []
+
+    return (
+      uniq(
+        compact([
+          '*-debug.log',
+          '*-error.log',
+          'node_modules',
+          '/tmp',
+          '/dist',
+          this.yarn ? '/package-lock.json' : '/yarn.lock',
+          '/lib',
+          ...existing,
+        ]),
+      )
+        .sort()
+        .join('\n') + '\n'
+    )
   }
 }

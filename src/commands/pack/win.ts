@@ -236,16 +236,6 @@ the CLI should already exist in a directory named after the CLI that is the root
     }),
   }
 
-  private async checkForNSIS() {
-    try {
-      await exec('makensis')
-    } catch (error: any) {
-      if (error.code === 1) return
-      if (error.code === 127) this.error('install makensis')
-      else throw error
-    }
-  }
-
   async run(): Promise<void> {
     await this.checkForNSIS()
     const {flags} = await this.parse(PackWin)
@@ -309,6 +299,16 @@ the CLI should already exist in a directory named after the CLI that is the root
         this.log(`built ${o}`)
       }),
     )
+  }
+
+  private async checkForNSIS() {
+    try {
+      await exec('makensis')
+    } catch (error: any) {
+      if (error.code === 1) return
+      if (error.code === 127) this.error('install makensis')
+      else throw error
+    }
   }
 }
 async function signWindows(

@@ -8,6 +8,26 @@
     "unicorn/no-array-reduce": "off",
     "unicorn/prefer-module": "off",
     "unicorn/no-empty-file": "off",
-    "valid-jsdoc": "off"
+    "valid-jsdoc": "off",
+    "perfectionist/sort-classes": [
+      "error",
+      {
+        "order": "asc",
+        "type": "alphabetical",
+        "groups": [
+          "index-signature",
+          "static-property",
+          "property",
+          "private-property",
+          "constructor",
+          "static-method",
+          "static-private-method",
+          "method",
+          "private-method",
+          ["get-method", "set-method"],
+          "unknown"
+        ]
+      }
+    ]
   }
 }

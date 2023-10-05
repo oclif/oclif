@@ -21,10 +21,6 @@ export default class Hook extends Generator {
     super(args, options)
   }
 
-  private hasMocha(): boolean {
-    return Boolean(this.pjson.devDependencies?.mocha)
-  }
-
   public async prompting(): Promise<void> {
     this.pjson = this.fs.readJSON('package.json') as unknown as Interfaces.PJSON
     this.pjson.oclif = this.pjson.oclif || {}
@@ -59,5 +55,9 @@ export default class Hook extends Generator {
     }
 
     this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
+  }
+
+  private hasMocha(): boolean {
+    return Boolean(this.pjson.devDependencies?.mocha)
   }
 }

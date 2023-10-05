@@ -198,7 +198,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
   renderCommand(config: Interfaces.Config, c: Command.Cached): string {
     this.debug('rendering command', c.id)
-    const title = template({command: c, config})(c.summary || c.description || '')
+    const title = template({command: c, config})(c.summary ?? c.description ?? '')
       .trim()
       .split('\n')[0]
     const help = new this.HelpClass(config, {maxWidth: columns, stripAnsi: true})

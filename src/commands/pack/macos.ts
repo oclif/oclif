@@ -10,12 +10,6 @@ import {templateShortKey} from '../../upload-util'
 import {uniq} from '../../util'
 
 const exec = promisify(execSync)
-type OclifConfig = {
-  macos?: {
-    identifier?: string
-    sign?: string
-  }
-}
 
 const noBundleConfiguration = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -55,7 +49,7 @@ sudo rm -rf /usr/local/bin/${additionalCLI}`
 ${config.binAliases ? config.binAliases.map((alias) => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
 `,
   uninstall(config: Interfaces.Config, additionalCLI: string | undefined) {
-    const packageIdentifier = (config.pjson.oclif as OclifConfig).macos!.identifier!
+    const packageIdentifier = (config.pjson.oclif as Interfaces.PJSON['plugin']).macos!.identifier!
     return `#!/usr/bin/env bash
 
 #Parameters
@@ -173,7 +167,7 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {flags} = await this.parse(PackMacos)
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config} = buildConfig
-    const c = config.pjson.oclif as OclifConfig
+    const c = config.pjson.oclif
     if (!c.macos) this.error('package.json is missing an oclif.macos config')
     if (!c.macos.identifier) this.error('package.json must have oclif.macos.identifier set')
     const macos = c.macos

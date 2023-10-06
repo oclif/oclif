@@ -1,19 +1,18 @@
-import {Args, Command, Plugin, ux, Flags, Interfaces} from '@oclif/core'
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as os from 'os'
-import * as semver from 'semver'
-import {exec, ShellString, ExecOptions} from 'shelljs'
+import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
+import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
 import got from 'got'
-import {promisify} from 'util'
-import {pipeline as pipelineSync} from 'stream'
-import {checkFor7Zip} from '../util'
+import {ExecOptions, exec} from 'node:child_process'
+import * as os from 'node:os'
+import * as path from 'node:path'
+import {pipeline as pipelineSync} from 'node:stream'
+import {promisify} from 'node:util'
+import {maxSatisfying} from 'semver'
 
 const pipeline = promisify(pipelineSync)
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
-    await fs.access(filePath)
+    await access(filePath)
     return true
   } catch {
     return false
@@ -21,30 +20,30 @@ async function fileExists(filePath: string): Promise<boolean> {
 }
 
 export default class Manifest extends Command {
-  static description = 'generates plugin manifest json'
-
   static args = {
-    path: Args.string({description: 'path to plugin', default: '.'}),
+    path: Args.string({default: '.', description: 'path to plugin'}),
   }
+
+  static description = 'generates plugin manifest json'
 
   static flags = {
     jit: Flags.boolean({
       allowNo: true,
-      summary: 'append commands from JIT plugins in manifest',
       default: true,
+      summary: 'append commands from JIT plugins in manifest',
     }),
   }
 
-  async run(): Promise<void> {
+  public async run(): Promise<void> {
     const {flags} = await this.parse(Manifest)
     try {
-      fs.unlinkSync('oclif.manifest.json')
+      unlinkSync('oclif.manifest.json')
     } catch {}
 
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = fs.readJSONSync('package.json') as { oclif: { jitPlugins: Record<string, string> } }
+    const packageJson = readJSONSync('package.json') as Interfaces.PJSON.Plugin
 
     let jitPluginManifests: Interfaces.Manifest[] = []
 
@@ -56,26 +55,18 @@ export default class Manifest extends Command {
 
         const fullPath = path.join(tmpDir, pluginDir)
 
-        if (await fileExists(fullPath)) await fs.remove(fullPath)
+        if (await fileExists(fullPath)) await remove(fullPath)
 
-        await fs.mkdir(fullPath, {recursive: true})
+        await mkdir(fullPath, {recursive: true})
 
-        const resolvedVersion = this.getVersion(jitPlugin, version)
-        const tarballUrl = this.getTarballUrl(jitPlugin, resolvedVersion)
+        const resolvedVersion = await this.getVersion(jitPlugin, version)
+        const tarballUrl = await this.getTarballUrl(jitPlugin, resolvedVersion)
         const tarball = path.join(fullPath, path.basename(tarballUrl))
-        await pipeline(
-          got.stream(tarballUrl),
-          fs.createWriteStream(tarball),
-        )
+        await pipeline(got.stream(tarballUrl), createWriteStream(tarball))
 
-        if (process.platform === 'win32') {
-          await checkFor7Zip()
-          exec(`7z x -bd -y "${tarball}"`, {cwd: fullPath})
-        } else {
-          exec(`tar -xzf "${tarball}"`, {cwd: fullPath})
-        }
+        await this.executeCommand(`tar -xzf "${tarball}"`, {cwd: fullPath})
 
-        const manifest = await fs.readJSON(path.join(fullPath, 'package', 'oclif.manifest.json')) as Interfaces.Manifest
+        const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {
           command.pluginType = 'jit'
         }
@@ -88,18 +79,21 @@ export default class Manifest extends Command {
       ux.action.stop()
     }
 
-    let plugin = new Plugin({root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true})
+    let plugin = new Plugin({
+      errorOnManifestCreate: true,
+      ignoreManifest: true,
+      respectNoCacheDefault: true,
+      root,
+      type: 'core',
+    })
+
     if (!plugin) throw new Error('plugin not found')
-    await plugin.load(true)
+    await plugin.load()
     if (!plugin.valid) {
       const p = require.resolve('@oclif/plugin-legacy', {paths: [process.cwd()]})
       const {PluginLegacy} = require(p)
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
-    }
-
-    if (process.env.OCLIF_NEXT_VERSION) {
-      plugin.manifest.version = process.env.OCLIF_NEXT_VERSION
     }
 
     const dotfile = plugin.pjson.files.find((f: string) => f.endsWith('.oclif.manifest.json'))
@@ -109,12 +103,35 @@ export default class Manifest extends Command {
       plugin.manifest.commands = {...plugin.manifest.commands, ...manifest.commands}
     }
 
-    fs.writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
+    writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
     this.log(`wrote manifest to ${file}`)
   }
 
-  private getVersion(plugin: string, version: string): string {
+  private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {
+    return new Promise((resolve) => {
+      exec(command, options, (error, stderr, stdout) => {
+        if (error) this.error(error)
+        const debugString = options?.cwd
+          ? `executing command: ${command} in ${options.cwd}`
+          : `executing command: ${command}`
+        this.debug(debugString)
+        this.debug(stdout)
+        this.debug(stderr)
+        resolve({stderr: stderr.toString(), stdout: stdout.toString()})
+      })
+    })
+  }
+
+  private async getTarballUrl(plugin: string, version: string): Promise<string> {
+    const {stderr} = await this.executeCommand(`npm view ${plugin}@${version} --json`)
+    const {dist} = JSON.parse(stderr) as {
+      dist: {tarball: string}
+    }
+    return dist.tarball
+  }
+
+  private async getVersion(plugin: string, version: string): Promise<string> {
     if (version.startsWith('^') || version.startsWith('~')) {
       // Grab latest from npm to get all the versions so we can find the max satisfying version.
       // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
@@ -122,33 +139,14 @@ export default class Manifest extends Command {
       // provided to `npm view`. This can be problematic if you're building the `nightly` version
       // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
       // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
-      const {versions} = JSON.parse(this.executeCommand(`npm view ${plugin}@latest --json`).stdout) as {
+      const {stderr} = await this.executeCommand(`npm view ${plugin}@latest --json`)
+      const {versions} = JSON.parse(stderr) as {
         versions: string[]
       }
 
-      return semver.maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
+      return maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
     }
 
     return version
-  }
-
-  private getTarballUrl(plugin: string, version: string): string {
-    const {dist} = JSON.parse(this.executeCommand(`npm view ${plugin}@${version} --json`).stdout) as {
-      dist: { tarball: string }
-    }
-    return dist.tarball
-
-  }
-
-  private executeCommand(command: string, options?: ExecOptions): ShellString {
-    const debugString = options?.cwd ? `executing command: ${command} in ${options.cwd}` : `executing command: ${command}`
-    this.debug(debugString)
-    const result = exec(command, {...options, silent: true, async: false})
-    if (result.code !== 0) {
-      this.error(result.stderr)
-    }
-
-    this.debug(result.stdout)
-    return result
   }
 }

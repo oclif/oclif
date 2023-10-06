@@ -1,7 +1,6 @@
 import {Args, Command, Flags} from '@oclif/core'
-<%_ const klass = _.upperFirst(_.camelCase(name)) _%>
 
-export default class <%- klass %> extends Command {
+export default class <%- className %> extends Command {
   static description = 'describe the command here'
 
   static examples = [
@@ -20,7 +19,7 @@ export default class <%- klass %> extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(<%- klass %>)
+    const {args, flags} = await this.parse(<%- className %>)
 
     const name = flags.name ?? 'world'
     this.log(`hello ${name} from <%- path.replace(/\\/g, '\\\\') %>`)

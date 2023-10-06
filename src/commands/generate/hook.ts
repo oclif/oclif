@@ -1,25 +1,26 @@
-import CommandBase from './../../command-base'
 import {Args, Flags} from '@oclif/core'
 
+import CommandBase from './../../command-base'
+
 export default class GenerateHook extends CommandBase {
+  static args = {
+    name: Args.string({description: 'name of hook (snake_case)', required: true}),
+  }
+
   static description = 'add a hook to an existing CLI or plugin'
 
   static flags = {
+    event: Flags.string({default: 'init', description: 'event to run hook on'}),
     force: Flags.boolean({description: 'overwrite existing files'}),
-    event: Flags.string({description: 'event to run hook on', default: 'init'}),
-  }
-
-  static args = {
-    name: Args.string({description: 'name of hook (snake_case)', required: true}),
   }
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(GenerateHook)
 
     await super.generate('hook', {
-      name: args.name,
       event: flags.event,
       force: flags.force,
+      name: args.name,
     })
   }
 }

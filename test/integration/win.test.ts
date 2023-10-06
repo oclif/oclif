@@ -1,13 +1,12 @@
 import {expect, test} from '@oclif/test'
-import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
-import {gitSha} from '../../src/tarballs'
-import * as path from 'path'
-import * as fs from 'fs-extra'
-import {promisify} from 'node:util'
-import {pipeline as pipelineSync} from 'node:stream'
+import {emptyDir, writeJSON} from 'fs-extra'
 import got from 'got'
+import {createWriteStream} from 'node:fs'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
 
-const pipeline = promisify(pipelineSync)
+import {gitSha} from '../../src/tarballs'
+import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
@@ -30,8 +29,8 @@ describe('publish:win', () => {
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
-    await fs.emptyDir(root)
+    await writeJSON(pjsonPath, pjson, {spaces: 2})
+    await emptyDir(root)
   })
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
@@ -39,23 +38,23 @@ describe('publish:win', () => {
       // useful for downloading and testing the CLI on windows
       await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
       pjson.version = originalVersion
-      await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
+      await writeJSON(pjsonPath, pjson, {spaces: 2})
     }
   })
 
   skipIfWindows
-  .command(['pack:win'])
-  .command(['upload:win'])
-  .do(async () => {
-    [pkg, sha] = await findDistFileSha(process.cwd(), 'win32', f => f.endsWith('x64.exe'))
-    expect(pkg).to.be.ok
-    expect(sha).to.be.ok
-  })
-  .it('publishes valid releases', async () => {
-    console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
-    await pipeline(
-      got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
-      fs.createWriteStream(pkg),
-    )
-  })
+    .command(['pack:win'])
+    .command(['upload:win'])
+    .do(async () => {
+      ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))
+      expect(pkg).to.be.ok
+      expect(sha).to.be.ok
+    })
+    .it('publishes valid releases', async () => {
+      console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
+      await pipeline(
+        got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
+        createWriteStream(pkg),
+      )
+    })
 })

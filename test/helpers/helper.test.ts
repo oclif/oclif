@@ -1,5 +1,6 @@
-import {deleteFolder} from './helper'
 import {expect} from '@oclif/test'
+
+import {deleteFolder} from './helper'
 
 describe('helper', () => {
   it('should not do a recursive list', async () => {

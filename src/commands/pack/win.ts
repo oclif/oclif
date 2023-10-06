@@ -1,10 +1,13 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
-import * as path from 'path'
-import * as fs from 'fs-extra'
+import {move} from 'fs-extra'
+import {exec as execSync} from 'node:child_process'
+import {readFileSync} from 'node:fs'
+import {mkdir, rm, writeFile} from 'node:fs/promises'
+import * as path from 'node:path'
+import {promisify} from 'node:util'
+
 import * as Tarballs from '../../tarballs'
 import {templateShortKey} from '../../upload-util'
-import {exec as execSync} from 'child_process'
-import {promisify} from 'node:util'
 
 const exec = promisify(execSync)
 
@@ -14,22 +17,18 @@ const scripts = {
   cmd: (config: Interfaces.Config, additionalCLI: string | undefined = undefined) => `@echo off
 setlocal enableextensions
 
-set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${additionalCLI ?? config.bin}.cmd
+set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${
+    additionalCLI ?? config.bin
+  }.cmd
 if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" (
   "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
-  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\${additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'}" %*
+  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\${
+    additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'
+  }" %*
 )
 `,
-  sh: (config: Interfaces.Config) => `#!/bin/sh
-basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
-
-"$basedir/../client/bin/${config.bin}.cmd" "$@"
-ret=$?
-exit $ret
-`,
-  nsis: (config: Interfaces.Config
-    , arch: string, customization?:string) => `!include MUI2.nsh
+  nsis: (config: Interfaces.Config, arch: string, customization?: string) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -83,7 +82,9 @@ Section "Set PATH to ${config.name}"
 SectionEnd
 
 Section "Add %LOCALAPPDATA%\\${config.dirname} to Windows Defender exclusions (highly recommended for performance!)"
-  ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${config.dirname}$\\"}$\\" -FFFeatureOff" SW_HIDE
+  ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
+    config.dirname
+  }$\\"}$\\" -FFFeatureOff" SW_HIDE
 SectionEnd
 
 Section "Uninstall"
@@ -198,6 +199,13 @@ done:
   Exch $R1 ; $R1=old$R1, stack=[result,...]
 FunctionEnd
 `,
+  sh: (config: Interfaces.Config) => `#!/bin/sh
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
+
+"$basedir/../client/bin/${config.bin}.cmd" "$@"
+ret=$?
+exit $ret
+`,
   /* eslint-enable no-useless-escape */
 }
 
@@ -207,16 +215,16 @@ export default class PackWin extends Command {
   This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
 
   static flags = {
-    root: Flags.string({
-      char: 'r',
-      description: 'path to oclif CLI root',
-      default: '.',
-      required: true,
-    }),
     'additional-cli': Flags.string({
       description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
       hidden: true,
+    }),
+    root: Flags.string({
+      char: 'r',
+      default: '.',
+      description: 'path to oclif CLI root',
+      required: true,
     }),
     tarball: Flags.string({
       char: 't',
@@ -233,40 +241,64 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {flags} = await this.parse(PackWin)
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config} = buildConfig
-    await Tarballs.build(buildConfig, {platform: 'win32', pack: false, tarball: flags.tarball, parallel: true})
-    const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
-    const nsisCustomization = config.nsisCustomization ? fs.readFileSync(config.nsisCustomization, 'utf8') : ''
+    await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'win32', tarball: flags.tarball})
+    const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
+    const nsisCustomization = config.nsisCustomization ? readFileSync(config.nsisCustomization, 'utf8') : ''
 
-    await Promise.all(arches.map(async arch => {
-      const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
-      await fs.promises.rm(installerBase, {recursive: true, force: true})
-      await fs.promises.mkdir(path.join(installerBase, 'bin'), {recursive: true})
-      await Promise.all([
-        fs.writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
-        fs.writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-        fs.writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
-      ].concat(config.binAliases ? config.binAliases.flatMap(alias =>
-        // write duplicate files for windows aliases
-        // this avoids mklink which can require admin privileges which not everyone has
-        [fs.writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)), fs.writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config))]) : [])
-      .concat(flags['additional-cli'] ? [
-        fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`), scripts.cmd(config, flags['additional-cli'])),
-        fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({bin: flags['additional-cli']} as Interfaces.Config)),
-      ] : []))
+    await Promise.all(
+      arches.map(async (arch) => {
+        const installerBase = path.join(buildConfig.tmp, `windows-${arch}-installer`)
+        await rm(installerBase, {force: true, recursive: true})
+        await mkdir(path.join(installerBase, 'bin'), {recursive: true})
+        await Promise.all([
+          writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
+          writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+          writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
+          ...(config.binAliases
+            ? config.binAliases.flatMap((alias) =>
+                // write duplicate files for windows aliases
+                // this avoids mklink which can require admin privileges which not everyone has
+                [
+                  writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)),
+                  writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config)),
+                ],
+              )
+            : []),
+          ...(flags['additional-cli']
+            ? [
+                writeFile(
+                  path.join(installerBase, 'bin', `${flags['additional-cli']}.cmd`),
+                  scripts.cmd(config, flags['additional-cli']),
+                ),
+                writeFile(
+                  path.join(installerBase, 'bin', `${flags['additional-cli']}`),
+                  scripts.sh({bin: flags['additional-cli']} as Interfaces.Config),
+                ),
+              ]
+            : []),
+        ])
 
-      await fs.move(buildConfig.workspace({platform: 'win32', arch}), path.join(installerBase, 'client'))
-      await exec(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
-      const o = buildConfig.dist(`win32/${templateKey}`)
-      await fs.move(path.join(installerBase, 'installer.exe'), o)
+        await move(buildConfig.workspace({arch, platform: 'win32'}), path.join(installerBase, 'client'))
+        await exec(
+          `makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`,
+        )
+        const templateKey = templateShortKey('win32', {
+          arch,
+          bin: config.bin,
+          sha: buildConfig.gitSha,
+          version: config.version,
+        })
+        const o = buildConfig.dist(`win32/${templateKey}`)
+        await move(path.join(installerBase, 'installer.exe'), o)
 
-      const windows = (config.pjson.oclif as any).windows as {name: string; keypath: string; homepage?: string}
-      if (windows && windows.name && windows.keypath) {
-        await signWindows(o, arch, config, windows)
-      } else this.debug('Skipping windows exe signing')
+        const windows = (config.pjson.oclif as any).windows as {homepage?: string; keypath: string; name: string}
+        if (windows && windows.name && windows.keypath) {
+          await signWindows(o, arch, config, windows)
+        } else this.debug('Skipping windows exe signing')
 
-      this.log(`built ${o}`)
-    }))
+        this.log(`built ${o}`)
+      }),
+    )
   }
 
   private async checkForNSIS() {
@@ -279,25 +311,37 @@ the CLI should already exist in a directory named after the CLI that is the root
     }
   }
 }
-async function signWindows(o: string, arch: string, config: Interfaces.Config, windows: { name: string; keypath: string; homepage?: string | undefined }) {
+async function signWindows(
+  o: string,
+  arch: string,
+  config: Interfaces.Config,
+  windows: {homepage?: string | undefined; keypath: string; name: string},
+) {
   const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
-  await fs.move(o, buildLocationUnsigned)
+  await move(o, buildLocationUnsigned)
 
   const pass = config.scopedEnvVar('WINDOWS_SIGNING_PASS')
   if (!pass) {
     throw new Error(`${config.scopedEnvVarKey('WINDOWS_SIGNING_PASS')} not set in the environment`)
   }
 
-  /* eslint-disable array-element-newline */
   const args = [
-    '-pkcs12', windows.keypath,
-    '-pass', pass,
-    '-n', `"${windows.name}"`,
-    '-i', windows.homepage || config.pjson.homepage,
-    '-t', 'http://timestamp.digicert.com',
-    '-h', 'sha512',
-    '-in', buildLocationUnsigned,
-    '-out', o,
+    '-pkcs12',
+    windows.keypath,
+    '-pass',
+    pass,
+    '-n',
+    `"${windows.name}"`,
+    '-i',
+    windows.homepage || config.pjson.homepage,
+    '-t',
+    'http://timestamp.digicert.com',
+    '-h',
+    'sha512',
+    '-in',
+    buildLocationUnsigned,
+    '-out',
+    o,
   ]
   await exec(`osslsigncode sign ${args.join(' ')}`)
 }

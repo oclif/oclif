@@ -8,7 +8,7 @@ import {castArray, compact, sortBy, template, uniqBy} from '../util'
 
 const normalize = require('normalize-package-data')
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
-const slugify = new (require('github-slugger') as any)()
+const slugify = new (require('github-slugger'))()
 const lodashTemplate = require('lodash.template')
 
 interface HelpBaseDerived {
@@ -150,8 +150,9 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
         '```\n' + wrapper.formatCommand(c).trim() + '\n```',
         this.commandCode(config, command),
       ]).join('\n\n')
-    } catch (error: any) {
-      this.error(error.message)
+    } catch (error: unknown) {
+      const {message} = error as {message: string}
+      this.error(message)
     }
   }
 

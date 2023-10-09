@@ -111,17 +111,19 @@ export async function build(
 
   const buildTarget = async (target: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}) => {
     const workspace = c.workspace(target)
-    const gzLocalKey = templateShortKey('versioned', '.tar.gz', {
+    const gzLocalKey = templateShortKey('versioned', {
       arch: target.arch,
       bin: c.config.bin,
+      ext: '.tar.gz',
       platform: target.platform,
       sha: c.gitSha,
       version: config.version,
     })
 
-    const xzLocalKey = templateShortKey('versioned', '.tar.xz', {
+    const xzLocalKey = templateShortKey('versioned', {
       arch: target.arch,
       bin: c.config.bin,
+      ext: '.tar.xz',
       platform: target.platform,
       sha: c.gitSha,
       version: config.version,
@@ -158,7 +160,7 @@ export async function build(
     ])
 
     const manifest: Interfaces.S3Manifest = {
-      baseDir: templateShortKey('baseDir', target, {bin: c.config.bin}),
+      baseDir: templateShortKey('baseDir', {...target, bin: c.config.bin}),
       gz: config.s3Url(gzCloudKey),
       node: {
         compatible: config.pjson.engines.node,

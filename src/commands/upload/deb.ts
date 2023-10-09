@@ -46,7 +46,7 @@ export default class UploadDeb extends Command {
 
     const uploadDeb = async (arch: DebArch) => {
       const deb = templateShortKey('deb', {
-        arch: arch as any,
+        arch,
         bin: config.bin,
         versionShaRevision: debVersion(buildConfig),
       })

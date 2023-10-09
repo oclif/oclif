@@ -1,5 +1,5 @@
 import {Interfaces} from '@oclif/core'
-import * as path from 'node:path'
+import {join} from 'node:path'
 
 import {BuildConfig as TarballConfig} from './tarballs/config'
 
@@ -8,27 +8,35 @@ import template = require('lodash.template')
 export function commitAWSDir(version: string, sha: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return path.join(s3SubDir, 'versions', version, sha)
+  return join(s3SubDir, 'versions', version, sha)
 }
 
 export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return path.join(s3SubDir, 'channels', channel)
+  return join(s3SubDir, 'channels', channel)
 }
 
-// to-do:
-// When this pkg starts using oclif/core
-// refactor this key name lookup
-// helper to oclif/core
+type TemplateOptions =
+  | {
+      arch?: DebArch | Interfaces.ArchTypes
+      bin?: string
+      ext?: '.tar.gz' | '.tar.xz'
+      sha?: string
+      version?: string
+      versionShaRevision?: string
+    }
+  | Interfaces.Config.s3Key.Options
+
+// TODO: refactor this key name lookup helper to oclif/core
 export function templateShortKey(
   type: 'deb' | 'macos' | 'win32' | keyof Interfaces.PJSON.S3.Templates,
-  ext?: '.tar.gz' | '.tar.xz' | Interfaces.Config.s3Key.Options,
-  // eslint-disable-next-line unicorn/no-object-as-default-parameter
-  options: Interfaces.Config.s3Key.Options = {root: '.'},
+  options?: TemplateOptions,
 ): string {
-  if (typeof ext === 'object') options = Object.assign(options, ext)
-  else if (ext) options.ext = ext
+  if (!options)
+    options = {
+      root: '.',
+    }
   const templates = {
     baseDir: '<%- bin %>',
     deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',

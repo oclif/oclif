@@ -8,7 +8,7 @@
   },
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
-    "@oclif/core": "^3.0.1",
+    "@oclif/core": "^3.0.4",
     "@oclif/plugin-help": "^5.2.14",
     "@oclif/plugin-not-found": "^2.3.32",
     "@oclif/plugin-warn-if-update-available": "^2.0.44",
@@ -47,7 +47,7 @@
     "chai": "^4.3.7",
     "commitlint": "^17.7.2",
     "conventional-changelog-cli": "^2.2.2",
-    "eslint-config-oclif-typescript": "^2.0.1",
+    "eslint-config-oclif-typescript": "^3.0.1",
     "eslint-config-oclif": "^5.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint": "^8.50.0",

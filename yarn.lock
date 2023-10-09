@@ -895,10 +895,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.0.1.tgz#a4618723070871c65dd12a93935f61043131839d"
-  integrity sha512-OFFb228qBLgBGDctc0+kjOEw2U91TJZ7apwNihCLgUKjL8sVUZvxT6ydFurcNUeJIRpn/4vLzZ+67mFnpV7I0w==
+"@oclif/core@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.0.4.tgz#1ef4667fbbbcf2d4cab02eead27cd80de83b952a"
+  integrity sha512-zP+OF/PVCgPLVNfoBMevafki71Zn6t1SbU4AIQcsNNAsoC2SpBiUFx81yvJbMG2172ss58ePT5odr1JweuYdhA==
   dependencies:
     ansi-escapes "^4.3.2"
     ansi-styles "^4.3.0"
@@ -3220,10 +3220,10 @@ escape-string-regexp@^1.0.5:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==
 
-eslint-config-oclif-typescript@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif-typescript/-/eslint-config-oclif-typescript-2.0.1.tgz#bdaca00f53ee27ff6930673082a00a03d6cf8dd1"
-  integrity sha512-Z0U0KVNXGcTzYdSoDsrHulkspS1ZW/NrNgv/IAvpd7F2ZdrLUEmRlJn7Kwnk8CdUufJb/GsW+qVKIG/fPhwKpg==
+eslint-config-oclif-typescript@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif-typescript/-/eslint-config-oclif-typescript-3.0.1.tgz#9072bfe3045bf24b572a3f11015b1ea36b017015"
+  integrity sha512-XyZHhnoOngxEvE7UpY+fkmi7AnhLb7xM+hB51JZ13y6TmIDJSxwCCJTnhF2LZCioJGDB60/n/XpyfDrpRxOHtA==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^6.7.2"
     "@typescript-eslint/parser" "^6.7.2"
@@ -3232,6 +3232,7 @@ eslint-config-oclif-typescript@^2.0.1:
     eslint-plugin-import "^2.28.1"
     eslint-plugin-mocha "^10.1.0"
     eslint-plugin-node "^11.1.0"
+    eslint-plugin-perfectionist "^2.1.0"
 
 eslint-config-oclif@^5.0.0:
   version "5.0.0"

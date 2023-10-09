@@ -75,7 +75,7 @@ export default class PackDeb extends Command {
       this.log(`building debian / ${arch}`)
       const target: {arch: Interfaces.ArchTypes; platform: 'linux'} = {arch, platform: 'linux'}
       const versionedDebBase = templateShortKey('deb', {
-        arch: debArch(arch) as any,
+        arch: debArch(arch),
         bin: config.bin,
         versionShaRevision: debVersion(buildConfig),
       })

@@ -1,3 +1,9 @@
+## [4.0.1](https://github.com/oclif/oclif/compare/4.0.0...4.0.1) (2023-10-10)
+
+### Bug Fixes
+
+- bump eslint-config-oclif-typescript ([#1200](https://github.com/oclif/oclif/issues/1200)) ([c8fbe41](https://github.com/oclif/oclif/commit/c8fbe4194ac0d38bf706b97ef8cfcbbcb7560936))
+
 # [4.0.0](https://github.com/oclif/oclif/compare/3.17.2...4.0.0) (2023-10-06)
 
 ## [3.17.2](https://github.com/oclif/oclif/compare/3.17.1...3.17.2) (2023-09-28)

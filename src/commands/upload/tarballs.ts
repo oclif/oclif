@@ -58,7 +58,7 @@ export default class UploadTarballs extends Command {
       }
 
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const localKey = templateShortKey('versioned', ext, shortKeyInputs)
+        const localKey = templateShortKey('versioned', {...shortKeyInputs, ext})
         const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${localKey}`
         await aws.s3.uploadFile(dist(localKey), {
           ...S3Options,

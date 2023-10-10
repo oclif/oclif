@@ -7,16 +7,6 @@ import {prettifyPaths} from './util'
 
 const debug = Debug.new('aws')
 
-export namespace upload {
-  export interface Options {
-    localFile: string
-    s3Params: {
-      Bucket: string
-      Key: string
-    }
-  }
-}
-
 const cache: {cloudfront?: CloudFront; s3?: S3} = {}
 const aws = {
   get cloudfront() {
@@ -43,10 +33,11 @@ const aws = {
           s3ForcePathStyle: Boolean(process.env.AWS_S3_FORCE_PATH_STYLE),
         })
       return cache.s3
-    } catch (error: any) {
-      if (error.code === 'MODULE_NOT_FOUND')
+    } catch (error: unknown) {
+      const {code, message} = error as {code: string; message: string}
+      if (code === 'MODULE_NOT_FOUND')
         throw new Error(
-          `${error.message}\naws-sdk is needed to run this command.\nInstall aws-sdk as a devDependency in your CLI. \`yarn add -D aws-sdk\``,
+          `${message}\naws-sdk is needed to run this command.\nInstall aws-sdk as a devDependency in your CLI. \`yarn add -D aws-sdk\``,
         )
       throw error
     }

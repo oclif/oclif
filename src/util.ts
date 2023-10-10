@@ -14,7 +14,7 @@ export function castArray<T>(input?: T | T[]): T[] {
   return Array.isArray(input) ? input : [input]
 }
 
-export function uniqBy<T>(arr: T[], fn: (cur: T) => any): T[] {
+export function uniqBy<T>(arr: T[], fn: (cur: T) => unknown): T[] {
   return arr.filter((a, i) => {
     const aVal = fn(a)
     return !arr.some((b, j) => j > i && fn(b) === aVal)
@@ -30,7 +30,9 @@ export function uniq<T>(arr: T[]): T[] {
   return [...new Set(arr)]
 }
 
-function compare(a: sort.Types | sort.Types[], b: sort.Types | sort.Types[]): number {
+type Types = boolean | number | string | undefined
+
+function compare(a: Types | Types[], b: Types | Types[]): number {
   a = a === undefined ? 0 : a
   b = b === undefined ? 0 : b
 
@@ -46,16 +48,12 @@ function compare(a: sort.Types | sort.Types[], b: sort.Types | sort.Types[]): nu
   return 0
 }
 
-export function sortBy<T>(arr: T[], fn: (i: T) => sort.Types | sort.Types[]): T[] {
+export function sortBy<T>(arr: T[], fn: (i: T) => Types | Types[]): T[] {
   return arr.sort((a, b) => compare(fn(a), fn(b)))
 }
 
-export namespace sort {
-  export type Types = boolean | number | string | undefined
-}
-
 export const template =
-  (context: any) =>
+  (context: object | undefined) =>
   (t: string | undefined): string =>
     lodashTemplate(t || '')(context)
 
@@ -89,7 +87,7 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
 const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', '\\/')}`, 'g')
 const curRegexp = new RegExp(`\\B${process.cwd()}`, 'g')
 
-export const prettifyPaths = (input: string): string =>
+export const prettifyPaths = (input: unknown): string =>
   (input ?? '').toString().replace(curRegexp, '.').replace(homeRegexp, '~')
 
 export const hash = async (algo: string, fp: string | string[]): Promise<string> => {
@@ -107,8 +105,9 @@ export const hash = async (algo: string, fp: string | string[]): Promise<string>
 export async function checkFor7Zip() {
   try {
     await exec('7z')
-  } catch (error: any) {
-    if (error.code === 127) Errors.error('install 7-zip to package windows tarball')
+  } catch (error: unknown) {
+    const {code} = error as {code: number}
+    if (code === 127) Errors.error('install 7-zip to package windows tarball')
     else throw error
   }
 }

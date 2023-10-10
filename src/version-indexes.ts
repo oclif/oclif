@@ -63,7 +63,7 @@ export const appendToIndex = async (input: {
     })
     existing = JSON.parse(Body?.toString() as string)
     debug('appending to existing index file')
-  } catch (error: any) {
+  } catch (error: unknown) {
     debug(`error on ${key}`, error)
   }
 

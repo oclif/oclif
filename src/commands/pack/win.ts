@@ -291,7 +291,7 @@ the CLI should already exist in a directory named after the CLI that is the root
         const o = buildConfig.dist(`win32/${templateKey}`)
         await move(path.join(installerBase, 'installer.exe'), o)
 
-        const windows = (config.pjson.oclif as any).windows as {homepage?: string; keypath: string; name: string}
+        const {windows} = config.pjson.oclif
         if (windows && windows.name && windows.keypath) {
           await signWindows(o, arch, config, windows)
         } else this.debug('Skipping windows exe signing')
@@ -304,9 +304,10 @@ the CLI should already exist in a directory named after the CLI that is the root
   private async checkForNSIS() {
     try {
       await exec('makensis')
-    } catch (error: any) {
-      if (error.code === 1) return
-      if (error.code === 127) this.error('install makensis')
+    } catch (error: unknown) {
+      const {code} = error as {code: number}
+      if (code === 1) return
+      if (code === 127) this.error('install makensis')
       else throw error
     }
   }
@@ -315,7 +316,7 @@ async function signWindows(
   o: string,
   arch: string,
   config: Interfaces.Config,
-  windows: {homepage?: string | undefined; keypath: string; name: string},
+  windows: Interfaces.PJSON.Plugin['windows'],
 ) {
   const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
   await move(o, buildLocationUnsigned)

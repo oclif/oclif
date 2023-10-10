@@ -66,9 +66,10 @@ export default class Promote extends Command {
     }
 
     const promoteGzTarballs = async (target: (typeof buildConfig.targets)[number]) => {
-      const versionedTarGzName = templateShortKey('versioned', '.tar.gz', {
+      const versionedTarGzName = templateShortKey('versioned', {
         arch: target.arch,
         bin: config.bin,
+        ext: '.tar.gz',
         platform: target.platform,
         sha: flags.sha,
         version: flags.version,
@@ -90,9 +91,10 @@ export default class Promote extends Command {
     }
 
     const promoteXzTarballs = async (target: (typeof buildConfig.targets)[number]) => {
-      const versionedTarXzName = templateShortKey('versioned', '.tar.xz', {
+      const versionedTarXzName = templateShortKey('versioned', {
         arch: target.arch,
         bin: config.bin,
+        ext: '.tar.xz',
         platform: target.platform,
         sha: flags.sha,
         version: flags.version,
@@ -170,7 +172,7 @@ export default class Promote extends Command {
           .filter((a) => !a.arch.includes('x86')) // See todo below
           .map((a) =>
             templateShortKey('deb', {
-              arch: debArch(a.arch) as any,
+              arch: debArch(a.arch),
               bin: config.bin,
               versionShaRevision: debVersion(buildConfig),
             }),

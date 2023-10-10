@@ -1,3 +1,4 @@
+import {Interfaces} from '@oclif/core'
 import {execSync} from 'node:child_process'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
@@ -13,6 +14,10 @@ try {
   execSync('yarn -v', {stdio: 'ignore'})
   hasYarn = true
 } catch {}
+
+function removeKey(obj: Record<string, unknown>, key: string): void {
+  delete obj[key]
+}
 
 export default class CLI extends Generator {
   answers!: {
@@ -45,7 +50,7 @@ export default class CLI extends Generator {
     yarn: boolean
   }
 
-  pjson!: any
+  pjson!: Interfaces.PJSON.Plugin
 
   repository?: string
 
@@ -76,7 +81,6 @@ export default class CLI extends Generator {
     console.log(`\nCreated ${this.pjson.name} in ${this.destinationRoot()}`)
   }
 
-  // eslint-disable-next-line complexity
   async prompting(): Promise<void> {
     const msg = 'Time to build an oclif CLI!'
 
@@ -120,6 +124,7 @@ export default class CLI extends Generator {
       license: '',
       main: '',
       name: '',
+      // @ts-expect-error because required props will be added later
       oclif: {},
       repository: '',
       scripts: {},
@@ -129,6 +134,8 @@ export default class CLI extends Generator {
     let repository = this.destinationRoot().split(path.sep).slice(-2).join('/')
     if (this.githubUser) repository = `${this.githubUser}/${repository.split('/')[1]}`
     const defaults = {
+      description: '',
+      files: [],
       ...this.pjson,
       author: this.githubUser ? `${this.user.git.name()} @${this.githubUser}` : this.user.git.name(),
       bin: this.name,
@@ -143,10 +150,6 @@ export default class CLI extends Generator {
       repository,
       version: '0.0.0',
     }
-    this.repository = defaults.repository
-    if (this.repository && (this.repository as any).url) {
-      this.repository = (this.repository as any).url
-    }
 
     this.answers = this.options.defaults
       ? defaults
@@ -158,7 +161,7 @@ export default class CLI extends Generator {
             type: 'input',
           },
           {
-            default: (answers: any) => answers.name,
+            default: (answers: {name: string}) => answers.name,
             message: 'command bin name the CLI will export',
             name: 'bin',
             type: 'input',
@@ -195,7 +198,8 @@ export default class CLI extends Generator {
             type: 'input',
           },
           {
-            default: (answers: any) => (answers.name || this.pjson.repository || this.pjson.name).split('/').pop(),
+            default: (answers: {name: string}) =>
+              (answers.name || this.pjson.repository || this.pjson.name).split('/').pop(),
             message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
             name: 'github.repo',
             type: 'input',
@@ -257,7 +261,7 @@ export default class CLI extends Generator {
       this.pjson.oclif.plugins.sort()
     }
 
-    if (isEmpty(this.pjson.oclif)) delete this.pjson.oclif
+    if (isEmpty(this.pjson.oclif)) removeKey(this.pjson, 'oclif')
     this.pjson.files = uniq((this.pjson.files || []).sort())
     this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
 

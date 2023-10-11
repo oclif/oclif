@@ -1,3 +1,9 @@
+## [4.0.2](https://github.com/oclif/oclif/compare/4.0.1...4.0.2) (2023-10-11)
+
+### Bug Fixes
+
+- remove `concurrently` dep ([#1201](https://github.com/oclif/oclif/issues/1201)) ([ba1f888](https://github.com/oclif/oclif/commit/ba1f888cc464967e8bb7aeed466d06eb909661a8))
+
 ## [4.0.1](https://github.com/oclif/oclif/compare/4.0.0...4.0.1) (2023-10-10)
 
 ### Bug Fixes

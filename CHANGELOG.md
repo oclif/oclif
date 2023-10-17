@@ -1,3 +1,9 @@
+## [4.0.3](https://github.com/oclif/oclif/compare/4.0.2...4.0.3) (2023-10-17)
+
+### Bug Fixes
+
+- bump plugin-warn-if-update ([06779a2](https://github.com/oclif/oclif/commit/06779a2b73915aa484327e3697864d17faa7bde6))
+
 ## [4.0.2](https://github.com/oclif/oclif/compare/4.0.1...4.0.2) (2023-10-11)
 
 ### Bug Fixes

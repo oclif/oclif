@@ -16,7 +16,7 @@ jobs:
       tag: ${{ steps.distTag.outputs.tag }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name || inputs.tag  }}
       - uses: salesforcecli/github-workflows/.github/actions/getPreReleaseTag@main

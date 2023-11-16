@@ -234,11 +234,13 @@ export default class PackWin extends Command {
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
       hidden: true,
     }),
-    'defender-exclusion': Flags.string({
+    'defender-exclusion': Flags.option({
+      options: ['checked', 'unchecked', 'hidden'] as const,
+    })({
       default: 'checked',
       description:
         'there is no way to set a hidden checkbox with "true" as a default...the user can always allow full security',
-      options: ['checked', 'unchecked', 'hidden'],
+
       summary: `set to "checked" or "unchecked" to set the default value for the checkbox.  Set to "hidden" to hide the option (will let defender do its thing)`,
     }),
     root: Flags.string({

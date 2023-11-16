@@ -81,7 +81,7 @@ Section "Set PATH to ${config.name}"
   Call AddToPath
 SectionEnd
 
-Section "Add %LOCALAPPDATA%\\${config.dirname} to Windows Defender exclusions (highly recommended for performance!)"
+Section /o "Add %LOCALAPPDATA%\\${config.dirname} to Windows Defender exclusions (highly recommended for performance!)"
   ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
     config.dirname
   }$\\"}$\\" -FFFeatureOff" SW_HIDE

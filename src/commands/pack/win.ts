@@ -13,8 +13,8 @@ const exec = promisify(execSync)
 
 const scripts = {
   /* eslint-disable no-useless-escape */
-  // eslint-disable-next-line unicorn/no-useless-undefined
-  cmd: (config: Interfaces.Config, additionalCLI: string | undefined = undefined) => `@echo off
+
+  cmd: (config: Interfaces.Config, additionalCLI?: string | undefined) => `@echo off
 setlocal enableextensions
 
 set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${
@@ -28,7 +28,12 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
   }" %*
 )
 `,
-  nsis: (config: Interfaces.Config, arch: string, customization?: string) => `!include MUI2.nsh
+  nsis: (
+    config: Interfaces.Config,
+    arch: string,
+    customization?: string,
+    hideDefenderOption = false,
+  ) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -81,7 +86,9 @@ Section "Set PATH to ${config.name}"
   Call AddToPath
 SectionEnd
 
-Section /o "Add %LOCALAPPDATA%\\${config.dirname} to Windows Defender exclusions (highly recommended for performance!)"
+Section /o "${config.scopedEnvVarTrue('HIDE_DEFENDER_OPTION') || hideDefenderOption ? '-' : ''} Add %LOCALAPPDATA%\\${
+    config.dirname
+  } to Windows Defender exclusions (highly recommended for performance!)"
   ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
     config.dirname
   }$\\"}$\\" -FFFeatureOff" SW_HIDE
@@ -220,6 +227,9 @@ export default class PackWin extends Command {
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
       hidden: true,
     }),
+    'hide-defender-option': Flags.boolean({
+      description: `set to "true" to hide the option to add the CLI to Windows Defender exclusions`,
+    }),
     root: Flags.string({
       char: 'r',
       default: '.',
@@ -253,7 +263,10 @@ the CLI should already exist in a directory named after the CLI that is the root
         await Promise.all([
           writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
           writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
-          writeFile(path.join(installerBase, `${config.bin}.nsi`), scripts.nsis(config, arch, nsisCustomization)),
+          writeFile(
+            path.join(installerBase, `${config.bin}.nsi`),
+            scripts.nsis(config, arch, nsisCustomization, flags['hide-defender-option']),
+          ),
           ...(config.binAliases
             ? config.binAliases.flatMap((alias) =>
                 // write duplicate files for windows aliases

@@ -241,9 +241,6 @@ the CLI should already exist in a directory named after the CLI that is the root
       options: ['checked', 'unchecked', 'hidden'],
       summary: `set to "checked" or "unchecked" to set the default value for the checkbox.  Set to "hidden" to hide the option (will let defender do its thing)`,
     }),
-    'dry-run': Flags.boolean({
-      description: 'do not actually build the installer',
-    }),
     root: Flags.string({
       char: 'r',
       default: '.',
@@ -268,21 +265,6 @@ the CLI should already exist in a directory named after the CLI that is the root
     const {config} = buildConfig
     const nsisCustomization = config.nsisCustomization ? readFileSync(config.nsisCustomization, 'utf8') : ''
     const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
-
-    if (flags['dry-run']) {
-      this.log(
-        scripts.nsis({
-          arch: arches[0],
-          config,
-          customization: nsisCustomization,
-          // hiding it sets the hidden defaults the value to false.  Otherwise, it's true / false
-          defenderOptionDefault:
-            flags['defender-exclusion'] === 'hidden' ? false : flags['defender-exclusion'] === 'checked',
-          hideDefenderOption: flags['defender-exclusion'] === 'hidden',
-        }),
-      )
-      return
-    }
 
     await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'win32', tarball: flags.tarball})
 

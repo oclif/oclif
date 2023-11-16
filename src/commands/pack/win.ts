@@ -28,12 +28,19 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
   }" %*
 )
 `,
-  nsis: (
-    config: Interfaces.Config,
-    arch: string,
-    customization?: string,
-    hideDefenderOption = false,
-  ) => `!include MUI2.nsh
+  nsis: ({
+    arch,
+    config,
+    customization,
+    defenderOptionDefault,
+    hideDefenderOption,
+  }: {
+    arch: string
+    config: Interfaces.Config
+    customization?: string
+    defenderOptionDefault: boolean
+    hideDefenderOption: boolean
+  }) => `!include MUI2.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -86,7 +93,7 @@ Section "Set PATH to ${config.name}"
   Call AddToPath
 SectionEnd
 
-Section /o "${config.scopedEnvVarTrue('HIDE_DEFENDER_OPTION') || hideDefenderOption ? '-' : ''} Add %LOCALAPPDATA%\\${
+Section ${defenderOptionDefault ? '' : '/o '}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
     config.dirname
   } to Windows Defender exclusions (highly recommended for performance!)"
   ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
@@ -227,8 +234,15 @@ export default class PackWin extends Command {
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
       hidden: true,
     }),
-    'hide-defender-option': Flags.boolean({
-      description: `set to "true" to hide the option to add the CLI to Windows Defender exclusions`,
+    'defender-exclusion': Flags.string({
+      default: 'checked',
+      description:
+        'there is no way to set a hidden checkbox with "true" as a default...the user can always allow full security',
+      options: ['checked', 'unchecked', 'hidden'],
+      summary: `set to "checked" or "unchecked" to set the default value for the checkbox.  Set to "hidden" to hide the option (will let defender do its thing)`,
+    }),
+    'dry-run': Flags.boolean({
+      description: 'do not actually build the installer',
     }),
     root: Flags.string({
       char: 'r',
@@ -249,11 +263,28 @@ the CLI should already exist in a directory named after the CLI that is the root
   async run(): Promise<void> {
     await this.checkForNSIS()
     const {flags} = await this.parse(PackWin)
+
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config} = buildConfig
-    await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'win32', tarball: flags.tarball})
-    const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
     const nsisCustomization = config.nsisCustomization ? readFileSync(config.nsisCustomization, 'utf8') : ''
+    const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
+
+    if (flags['dry-run']) {
+      this.log(
+        scripts.nsis({
+          arch: arches[0],
+          config,
+          customization: nsisCustomization,
+          // hiding it sets the hidden defaults the value to false.  Otherwise, it's true / false
+          defenderOptionDefault:
+            flags['defender-exclusion'] === 'hidden' ? false : flags['defender-exclusion'] === 'checked',
+          hideDefenderOption: flags['defender-exclusion'] === 'hidden',
+        }),
+      )
+      return
+    }
+
+    await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'win32', tarball: flags.tarball})
 
     await Promise.all(
       arches.map(async (arch) => {
@@ -265,7 +296,15 @@ the CLI should already exist in a directory named after the CLI that is the root
           writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
           writeFile(
             path.join(installerBase, `${config.bin}.nsi`),
-            scripts.nsis(config, arch, nsisCustomization, flags['hide-defender-option']),
+            scripts.nsis({
+              arch,
+              config,
+              customization: nsisCustomization,
+              // hiding it also unchecks it
+              defenderOptionDefault:
+                flags['defender-exclusion'] === 'hidden' ? false : flags['default-defender-exclusion'],
+              hideDefenderOption: flags['hide-defender-option'] === 'hidden',
+            }),
           ),
           ...(config.binAliases
             ? config.binAliases.flatMap((alias) =>

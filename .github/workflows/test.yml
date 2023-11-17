@@ -42,6 +42,7 @@ jobs:
         node_version: [lts/*, latest]
         os: [ubuntu-latest, windows-latest]
         test: ['test:integration:sf', 'test:integration:cli']
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -123,4 +124,3 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           OCLIF_DEB_KEY: ${{ secrets.OCLIF_DEB_KEY }}
           PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
-

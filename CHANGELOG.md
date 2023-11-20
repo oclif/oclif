@@ -1,3 +1,9 @@
+## [4.0.4](https://github.com/oclif/oclif/compare/4.0.3...4.0.4) (2023-11-20)
+
+### Bug Fixes
+
+- build-time and install-time options for windows defender ([#1210](https://github.com/oclif/oclif/issues/1210)) ([be3d216](https://github.com/oclif/oclif/commit/be3d216cf3e5a566748e8937479e15545934e362))
+
 ## [4.0.3](https://github.com/oclif/oclif/compare/4.0.2...4.0.3) (2023-10-17)
 
 ### Bug Fixes

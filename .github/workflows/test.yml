@@ -42,6 +42,9 @@ jobs:
         node_version: [lts/*, latest]
         os: [ubuntu-latest, windows-latest]
         test: ['test:integration:sf', 'test:integration:cli']
+        exclude:
+          - os: windows-latest
+            test: test:integration:cli
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:

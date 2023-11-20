@@ -7,8 +7,6 @@ export default abstract class CommandBase extends Command {
 
     env.register(require.resolve(`./generators/${type}`), `oclif:${type}`)
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     await env.run(`oclif:${type}`, generatorOptions)
   }
 }

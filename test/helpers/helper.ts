@@ -1,5 +1,5 @@
+import {DeleteObjectsRequest, ObjectIdentifier} from '@aws-sdk/client-s3'
 import {expect} from '@oclif/test'
-import * as S3 from 'aws-sdk/clients/s3'
 import * as fs from 'node:fs'
 import * as shelljs from 'shelljs'
 
@@ -31,9 +31,9 @@ export async function deleteFolder(bucket: string, folder: string): Promise<(str
   const foundObjects = await aws.s3.listObjects({Bucket: bucket, Prefix: folder})
   const foundKeys = foundObjects.Contents?.map((o) => o.Key)
   if (foundKeys && foundKeys.length > 0) {
-    const deleteObjectsRequest: S3.Types.DeleteObjectsRequest = {
+    const deleteObjectsRequest: DeleteObjectsRequest = {
       Bucket: bucket,
-      Delete: {Objects: foundKeys!.map((k) => ({Key: k}) as S3.ObjectIdentifier)},
+      Delete: {Objects: foundKeys!.map((k) => ({Key: k}) as ObjectIdentifier)},
     }
     const deletedObjects = await aws.s3.deleteObjects(deleteObjectsRequest)
     return deletedObjects?.Deleted ? deletedObjects.Deleted.map((o) => o.Key) : []

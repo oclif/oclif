@@ -225,8 +225,8 @@ exit $ret
 
 export default class PackWin extends Command {
   static description = `create windows installer from oclif CLI
-
-  This command requires WINDOWS_SIGNING (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) to be set in the environment`
+  
+  This command will produce unsigned installers unless you supply WINDOWS_SIGNING_PASS (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) in the environment and have set the windows.name and windows.keypath properties in your package.json's oclif property.`
 
   static flags = {
     'additional-cli': Flags.string({

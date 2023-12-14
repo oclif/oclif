@@ -1,3 +1,9 @@
+# [4.1.0](https://github.com/oclif/oclif/compare/4.0.4...4.1.0) (2023-12-14)
+
+### Features
+
+- configurable readme path ([#1220](https://github.com/oclif/oclif/issues/1220)) ([#1221](https://github.com/oclif/oclif/issues/1221)) ([7155087](https://github.com/oclif/oclif/commit/7155087d33373237f1d3c9a4415d98fb732929b1))
+
 ## [4.0.4](https://github.com/oclif/oclif/compare/4.0.3...4.0.4) (2023-11-20)
 
 ### Bug Fixes

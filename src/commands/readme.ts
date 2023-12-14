@@ -32,6 +32,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     aliases: Flags.boolean({allowNo: true, default: true, description: 'include aliases in the command list'}),
     dir: Flags.string({default: 'docs', description: 'output directory for multi docs', required: true}),
     multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
+    'readme-path': Flags.string({default: 'README.md', description: 'Path to the README file.', required: true}),
     'repository-prefix': Flags.string({description: 'a template string used to build links to the source code'}),
     version: Flags.string({
       description: 'version to use in readme links. defaults to the version in package.json',
@@ -162,7 +163,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
         readme = readme.replace(new RegExp(`<!-- ${tag} -->(.|\n)*<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
       }
 
-      this.log(`replacing <!-- ${tag} --> in README.md`)
+      this.log(`replacing <!-- ${tag} --> in ${this.flags['readme-path']}`)
     }
 
     return readme.replace(`<!-- ${tag} -->`, `<!-- ${tag} -->\n${body}\n<!-- ${tag}stop -->`)
@@ -172,7 +173,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     const {flags} = await this.parse(Readme)
     this.flags = flags
     const cwd = process.cwd()
-    const readmePath = path.resolve(cwd, 'README.md')
+    const readmePath = path.resolve(cwd, flags['readme-path'])
     const tsConfigPath = path.resolve(cwd, 'tsconfig.json')
     const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
     const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'

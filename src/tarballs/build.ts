@@ -69,7 +69,7 @@ export async function build(
 
   const isYarnProject = (yarnRootPath: string) => {
     const yarnLockFileName = 'yarn.lock'
-    const rootYarnLockFilePath = path.join(yarnRoot, yarnLockFileName)
+    const rootYarnLockFilePath = path.join(yarnRootPath, yarnLockFileName)
 
     return existsSync(rootYarnConfigFilePath)
   }

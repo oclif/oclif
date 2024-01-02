@@ -1,6 +1,6 @@
 import {Interfaces} from '@oclif/core'
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
-import {copy, emptyDir, move, readJSON, remove, writeJSON} from 'fs-extra'
+import {copy, emptyDir, mkdir, move, readJSON, remove, writeJSON} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {mkdir, readdir, rm} from 'node:fs/promises'
@@ -67,10 +67,53 @@ export async function build(
     await writeJSON(pjsonPath, pjson, {spaces: 2})
   }
 
+  const isYarnProject = (yarnRootPath: string) => {
+    const yarnLockFileName = 'yarn.lock'
+    const rootYarnLockFilePath = path.join(yarnRoot, yarnLockFileName)
+
+    return existsSync(rootYarnConfigFilePath)
+  }
+
+  const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) => {
+    // copy yarn dependencies lock file
+    const yarnLockFileName = 'yarn.lock'
+    const rootYarnLockFilePath = path.join(yarnRootPath, yarnLockFileName)
+    const workspaceYarnLockFilePath = path.join(workspacePath, yarnLockFileName)
+    
+    if (existsSync(rootYarnLockFilePath)) {
+      await copy(rootYarnLockFilePath, workspaceYarnLockFilePath)
+    }
+
+    // copy yarn configuration file
+    const yarnConfigFileName = '.yarnrc.yml'
+    const rootYarnConfigFilePath = path.join(yarnRootPath, yarnConfigFileName)
+    const workspaceYarnConfigFilePath = path.join(workspacePath, yarnConfigFileName)
+    
+    if (existsSync(rootYarnConfigFilePath)) {
+      await copy(rootYarnConfigFilePath, workspaceYarnConfigFilePath)
+    }
+    
+    // copy yarn releases e.g. yarn may be installed via a local config path like "yarnPath"
+    const yarnReleasesDirectoryRelativePath = './.yarn/releases/'
+    const rootYarnReleasesDirectoryPath = path.join(yarnRootPath, yarnReleasesDirectoryRelativePath)
+    const workspaceYarnReleasesDirectoryPath = path.join(workspacePath, yarnReleasesDirectoryRelativePath)
+    
+    if (existsSync(rootYarnReleasesDirectoryPath)) {
+      // create the directory if it does not exist
+      if (!existsSync(workspaceYarnReleasesDirectoryPath)) {
+        await mkdir(workspaceYarnReleasesDirectoryPath, { recursive: true })
+      }
+
+      // recursively copy all files in the directory
+      await copy(rootYarnReleasesDirectoryPath, workspaceYarnReleasesDirectoryPath)
+    }
+  }
+
   const addDependencies = async () => {
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    if (existsSync(path.join(yarnRoot, 'yarn.lock'))) {
-      await copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
+
+    if (isYarnProject(yarnRoot)) {
+      await copyCoreYarnFiles(yarnRoot, c.workspace())
 
       const {stdout} = await exec('yarn -v')
       const yarnVersion = stdout.charAt(0)

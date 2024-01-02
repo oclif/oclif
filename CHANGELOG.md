@@ -1,3 +1,9 @@
+## [4.1.1](https://github.com/oclif/oclif/compare/4.1.0...4.1.1) (2024-01-02)
+
+### Bug Fixes
+
+- missing core yarn files ([#1229](https://github.com/oclif/oclif/issues/1229)) ([#1230](https://github.com/oclif/oclif/issues/1230)) ([9efd810](https://github.com/oclif/oclif/commit/9efd8106592ffe5243a93357dfcb4f395c1b6a4a))
+
 # [4.1.0](https://github.com/oclif/oclif/compare/4.0.4...4.1.0) (2023-12-14)
 
 ### Features

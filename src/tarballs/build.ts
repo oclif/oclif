@@ -25,6 +25,48 @@ const pack = async (from: string, to: string) => {
     : await exec(`tar cfJ ${to} ${path.basename(from)}`, {cwd})
 }
 
+const isYarnProject = (yarnRootPath: string) => {
+  const yarnLockFileName = 'yarn.lock'
+  const rootYarnLockFilePath = path.join(yarnRootPath, yarnLockFileName)
+
+  return existsSync(rootYarnLockFilePath)
+}
+
+const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) => {
+  // copy yarn dependencies lock file
+  const yarnLockFileName = 'yarn.lock'
+  const rootYarnLockFilePath = path.join(yarnRootPath, yarnLockFileName)
+  const workspaceYarnLockFilePath = path.join(workspacePath, yarnLockFileName)
+
+  if (existsSync(rootYarnLockFilePath)) {
+    await copy(rootYarnLockFilePath, workspaceYarnLockFilePath)
+  }
+
+  // copy yarn configuration file
+  const yarnConfigFileName = '.yarnrc.yml'
+  const rootYarnConfigFilePath = path.join(yarnRootPath, yarnConfigFileName)
+  const workspaceYarnConfigFilePath = path.join(workspacePath, yarnConfigFileName)
+
+  if (existsSync(rootYarnConfigFilePath)) {
+    await copy(rootYarnConfigFilePath, workspaceYarnConfigFilePath)
+  }
+
+  // copy yarn releases e.g. yarn may be installed via a local config path like "yarnPath"
+  const yarnReleasesDirectoryRelativePath = './.yarn/releases/'
+  const rootYarnReleasesDirectoryPath = path.join(yarnRootPath, yarnReleasesDirectoryRelativePath)
+  const workspaceYarnReleasesDirectoryPath = path.join(workspacePath, yarnReleasesDirectoryRelativePath)
+
+  if (existsSync(rootYarnReleasesDirectoryPath)) {
+    // create the directory if it does not exist
+    if (!existsSync(workspaceYarnReleasesDirectoryPath)) {
+      await mkdir(workspaceYarnReleasesDirectoryPath, {recursive: true})
+    }
+
+    // recursively copy all files in the directory
+    await copy(rootYarnReleasesDirectoryPath, workspaceYarnReleasesDirectoryPath)
+  }
+}
+
 export async function build(
   c: BuildConfig,
   options: {
@@ -69,8 +111,9 @@ export async function build(
 
   const addDependencies = async () => {
     const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    if (existsSync(path.join(yarnRoot, 'yarn.lock'))) {
-      await copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'))
+
+    if (isYarnProject(yarnRoot)) {
+      await copyCoreYarnFiles(yarnRoot, c.workspace())
 
       const {stdout} = await exec('yarn -v')
       const yarnVersion = stdout.charAt(0)

@@ -1,3 +1,21 @@
+## [4.1.2](https://github.com/oclif/oclif/compare/4.1.1...4.1.2) (2024-01-03)
+
+### Bug Fixes
+
+- bump oclif deps ([#1231](https://github.com/oclif/oclif/issues/1231)) ([6cec405](https://github.com/oclif/oclif/commit/6cec405c61bc1afd848235911b111e8485300a6c))
+
+## [4.1.1](https://github.com/oclif/oclif/compare/4.1.0...4.1.1) (2024-01-02)
+
+### Bug Fixes
+
+- missing core yarn files ([#1229](https://github.com/oclif/oclif/issues/1229)) ([#1230](https://github.com/oclif/oclif/issues/1230)) ([9efd810](https://github.com/oclif/oclif/commit/9efd8106592ffe5243a93357dfcb4f395c1b6a4a))
+
+# [4.1.0](https://github.com/oclif/oclif/compare/4.0.4...4.1.0) (2023-12-14)
+
+### Features
+
+- configurable readme path ([#1220](https://github.com/oclif/oclif/issues/1220)) ([#1221](https://github.com/oclif/oclif/issues/1221)) ([7155087](https://github.com/oclif/oclif/commit/7155087d33373237f1d3c9a4415d98fb732929b1))
+
 ## [4.0.4](https://github.com/oclif/oclif/compare/4.0.3...4.0.4) (2023-11-20)
 
 ### Bug Fixes

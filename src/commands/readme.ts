@@ -185,6 +185,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     const config = await Config.load({devPlugins: false, root: cwd, userPlugins: false})
 
     try {
+      // eslint-disable-next-line node/no-missing-require
       const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
       const plugin = new Plugin({root: p, type: 'core'})
       await plugin.load()

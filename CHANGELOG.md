@@ -1,3 +1,9 @@
+## [4.1.2](https://github.com/oclif/oclif/compare/4.1.1...4.1.2) (2024-01-03)
+
+### Bug Fixes
+
+- bump oclif deps ([#1231](https://github.com/oclif/oclif/issues/1231)) ([6cec405](https://github.com/oclif/oclif/commit/6cec405c61bc1afd848235911b111e8485300a6c))
+
 ## [4.1.1](https://github.com/oclif/oclif/compare/4.1.0...4.1.1) (2024-01-02)
 
 ### Bug Fixes

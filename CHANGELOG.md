@@ -1,3 +1,9 @@
+## [4.1.3](https://github.com/oclif/oclif/compare/4.1.2...4.1.3) (2024-01-04)
+
+### Bug Fixes
+
+- incorrect windows commandPath ([#1234](https://github.com/oclif/oclif/issues/1234)) ([251f20c](https://github.com/oclif/oclif/commit/251f20c543944c713807e3dea97e8faf25436399))
+
 ## [4.1.2](https://github.com/oclif/oclif/compare/4.1.1...4.1.2) (2024-01-03)
 
 ### Bug Fixes

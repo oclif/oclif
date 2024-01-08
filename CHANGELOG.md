@@ -1,3 +1,9 @@
+## [4.1.4](https://github.com/oclif/oclif/compare/4.1.3...4.1.4) (2024-01-08)
+
+### Bug Fixes
+
+- outdir regex in readme ([#1236](https://github.com/oclif/oclif/issues/1236)) ([c804d80](https://github.com/oclif/oclif/commit/c804d80427aaf79018d21afeaece25c240fcf58d))
+
 ## [4.1.3](https://github.com/oclif/oclif/compare/4.1.2...4.1.3) (2024-01-04)
 
 ### Bug Fixes

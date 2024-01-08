@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import {ExecOptions, exec as cpExec} from 'node:child_process'
 import {existsSync} from 'node:fs'
-import {mkdir, rm} from 'node:fs/promises'
+import {mkdir, readFile, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 
@@ -66,5 +66,20 @@ describe('Generated CLI Integration Tests', () => {
     const result = await exec(`${cliBinDev} foo:bar:baz`, {cwd: cliDir})
     expect(result.code).to.equal(0)
     expect(result.stdout).to.include('example hook running foo:bar:baz\n')
+  })
+
+  it('should generate a README', async () => {
+    const genResult = await exec(`${executable} readme`, {cwd: cliDir})
+    expect(genResult.code).to.equal(0)
+    const contents = await readFile(join(cliDir, 'README.md'), 'utf8')
+
+    // Ensure that the README doesn't contain any references to the dist/ folder
+    const distRegex = /dist\//g
+    const distMatches = contents.match(distRegex)
+    expect(distMatches).to.be.null
+
+    const srcRegex = /src\//g
+    const srcMatches = contents.match(srcRegex)
+    expect(srcMatches).to.not.be.null
   })
 })

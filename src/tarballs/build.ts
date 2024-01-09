@@ -232,7 +232,7 @@ export async function build(
   await extractCLI(options.tarball ?? (await packCLI()))
   await updatePJSON()
   await addDependencies()
-  await writeBinScripts({baseWorkspace: c.workspace(), config, nodeVersion: c.nodeVersion})
+  await writeBinScripts({baseWorkspace: c.workspace(), config, nodeOptions: c.nodeOptions, nodeVersion: c.nodeVersion})
   await pretarball()
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)
   if (options.parallel) {

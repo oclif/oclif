@@ -6,7 +6,7 @@ import {promisify} from 'node:util'
 import * as semver from 'semver'
 
 import {templateShortKey} from '../upload-util'
-import {compact} from '../util'
+import {castArray, compact} from '../util'
 
 const exec = promisify(execSync)
 export const TARGETS = ['linux-x64', 'linux-arm', 'linux-arm64', 'win32-x64', 'win32-x86', 'darwin-x64', 'darwin-arm64']
@@ -15,6 +15,7 @@ export interface BuildConfig {
   config: Interfaces.Config
   dist(input: string): string
   gitSha: string
+  nodeOptions: string[]
   nodeVersion: string
   root: string
   s3Config: BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number}
@@ -49,6 +50,7 @@ export async function buildConfig(
   const updateConfig = config.pjson.oclif.update || {}
   updateConfig.s3 = updateConfig.s3 || {}
   const nodeVersion = updateConfig.node.version || process.versions.node
+  const nodeOptions = castArray((updateConfig.node as {options?: string | string[]}).options ?? [])
   const targets = compact(options.targets || updateConfig.node.targets || TARGETS)
     .filter((t) => {
       if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
@@ -66,6 +68,7 @@ export async function buildConfig(
     config,
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     gitSha: _gitSha,
+    nodeOptions,
     nodeVersion,
     root,
     s3Config: updateConfig.s3,

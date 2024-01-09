@@ -1,3 +1,9 @@
+# [4.2.0](https://github.com/oclif/oclif/compare/4.1.4...4.2.0) (2024-01-09)
+
+### Features
+
+- add node.options ([#1238](https://github.com/oclif/oclif/issues/1238)) ([#1239](https://github.com/oclif/oclif/issues/1239)) ([7e0c713](https://github.com/oclif/oclif/commit/7e0c7138feb112740295b823c62eed0773c933eb))
+
 ## [4.1.4](https://github.com/oclif/oclif/compare/4.1.3...4.1.4) (2024-01-08)
 
 ### Bug Fixes

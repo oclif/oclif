@@ -57,6 +57,7 @@ const aws = {
           credentials: this.creds,
           endpoint: process.env.AWS_S3_ENDPOINT,
           forcePathStyle: Boolean(process.env.AWS_S3_FORCE_PATH_STYLE),
+          region: process.env.AWS_REGION ?? 'us-east-1',
         })
       return cache.s3
     } catch (error: unknown) {

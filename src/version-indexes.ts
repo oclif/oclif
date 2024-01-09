@@ -1,3 +1,4 @@
+import {ObjectCannedACL} from '@aws-sdk/client-s3'
 import * as fs from 'fs-extra'
 import * as path from 'node:path'
 
@@ -82,7 +83,7 @@ export const appendToIndex = async (input: {
 
   // put the file back in the same place
   await aws.s3.uploadFile(jsonFileName, {
-    ACL: s3Config.acl || 'public-read',
+    ACL: s3Config.acl ?? ObjectCannedACL.public_read,
     Bucket: s3Config.bucket,
     CacheControl: maxAge,
     Key: key,

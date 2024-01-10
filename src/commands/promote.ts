@@ -1,3 +1,4 @@
+import {MetadataDirective, ObjectCannedACL} from '@aws-sdk/client-s3'
 import {Command, Flags, ux} from '@oclif/core'
 import * as path from 'node:path'
 
@@ -35,11 +36,12 @@ export default class Promote extends Command {
     }
 
     if (!s3Config.bucket) this.error('Cannot determine S3 bucket for promotion')
+
     const awsDefaults = {
-      ACL: s3Config.acl ?? 'public-read',
+      ACL: s3Config.acl ?? ObjectCannedACL.public_read,
       Bucket: s3Config.bucket,
       CacheControl: indexDefaults.maxAge,
-      MetadataDirective: 'REPLACE',
+      MetadataDirective: MetadataDirective.REPLACE,
     }
     const cloudBucketCommitKey = (shortKey: string) =>
       path.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)

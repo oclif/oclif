@@ -1,3 +1,4 @@
+import {ObjectCannedACL} from '@aws-sdk/client-s3'
 import {Config, Interfaces, ux} from '@oclif/core'
 import {exec as execSync} from 'node:child_process'
 import {mkdir} from 'node:fs/promises'
@@ -11,6 +12,14 @@ import {castArray, compact} from '../util'
 const exec = promisify(execSync)
 export const TARGETS = ['linux-x64', 'linux-arm', 'linux-arm64', 'win32-x64', 'win32-x86', 'darwin-x64', 'darwin-arm64']
 
+export type S3Config = BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number} & {
+  acl?: ObjectCannedACL
+}
+
+export type UpdateConfig = BuildConfig['config']['pjson']['oclif']['update'] & {
+  s3?: BuildConfig['config']['pjson']['oclif']['update']['s3'] & {acl?: ObjectCannedACL}
+}
+
 export interface BuildConfig {
   config: Interfaces.Config
   dist(input: string): string
@@ -18,10 +27,10 @@ export interface BuildConfig {
   nodeOptions: string[]
   nodeVersion: string
   root: string
-  s3Config: BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number}
+  s3Config: S3Config
   targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
   tmp: string
-  updateConfig: BuildConfig['config']['pjson']['oclif']['update']
+  updateConfig: UpdateConfig
   workspace(target?: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}): string
   xz: boolean
 }
@@ -47,7 +56,7 @@ export async function buildConfig(
   const _gitSha = await gitSha(root, {short: true})
   // eslint-disable-next-line new-cap
   const tmp = await Tmp(config)
-  const updateConfig = config.pjson.oclif.update || {}
+  const updateConfig = (config.pjson.oclif.update || {}) as UpdateConfig
   updateConfig.s3 = updateConfig.s3 || {}
   const nodeVersion = updateConfig.node.version || process.versions.node
   const nodeOptions = castArray((updateConfig.node as {options?: string | string[]}).options ?? [])
@@ -64,6 +73,11 @@ export async function buildConfig(
       const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
       return {arch, platform}
     })
+
+  const s3Config = {
+    ...updateConfig.s3,
+    acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
+  }
   return {
     config,
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
@@ -71,7 +85,7 @@ export async function buildConfig(
     nodeOptions,
     nodeVersion,
     root,
-    s3Config: updateConfig.s3,
+    s3Config,
     targets,
     tmp,
     updateConfig,

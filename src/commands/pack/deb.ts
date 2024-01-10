@@ -51,19 +51,12 @@ APT::FTPArchive::Release {
 `,
 }
 
-const COMPRESSION_OPTIONS = ['gzip', 'none', 'xz', 'zstd'] as const
-type CompressionOption = (typeof COMPRESSION_OPTIONS)[number]
-
-function compressionOption(value: CompressionOption | undefined): '' | `-Z${CompressionOption}` {
-  return value ? `-Z${value}` : ''
-}
-
 export default class PackDeb extends Command {
   static description = 'Pack CLI into debian package.'
 
   static flags = {
     compression: Flags.option({
-      options: COMPRESSION_OPTIONS,
+      options: ['gzip', 'none', 'xz', 'zstd'] as const,
     })({
       char: 'z',
       description:
@@ -122,8 +115,8 @@ export default class PackDeb extends Command {
       )
       await exec(`sudo chown -R root "${workspace}"`)
       await exec(`sudo chgrp -R root "${workspace}"`)
-      const zOpt = compressionOption(flags.compression)
-      await exec(`dpkg-deb --build "${zOpt}" "${workspace}" "${path.join(dist, versionedDebBase)}"`)
+      const dpkgDeb = flags.compression ? `dpkg-deb --build "-Z${flags.compression}"` : 'dpkg-deb --build'
+      await exec(`${dpkgDeb} "${workspace}" "${path.join(dist, versionedDebBase)}"`)
       this.log(`finished building debian / ${arch}`)
     }
 

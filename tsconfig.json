@@ -5,17 +5,12 @@
   "compilerOptions": {
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
     "module": "commonjs",
     "outDir": "./lib",
-    "rootDirs": [
-      "./src"
-    ],
+    "rootDirs": ["./src"],
     "strict": true,
-    "lib": ["ES2019"],
-    "target": "es2017"
+    "target": "es2022",
+    "skipLibCheck": true
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["./src/**/*"]
 }

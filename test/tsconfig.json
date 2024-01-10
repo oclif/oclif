@@ -4,8 +4,5 @@
   "compilerOptions": {
     "sourceMap": true
   },
-  "include": [
-    "./**/*",
-    "../src/**/*"
-  ]
+  "include": ["./**/*", "../src/**/*"]
 }

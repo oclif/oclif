@@ -6,7 +6,6 @@ oclif: Node.JS Open CLI Framework
 =================================
 
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)
-[![CircleCI](https://circleci.com/gh/oclif/oclif/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/oclif/tree/main)
 [![Downloads/week](https://img.shields.io/npm/dw/@oclif/command.svg)](https://npmjs.org/package/@oclif/core)
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/main/package.json)
 
@@ -54,7 +53,7 @@ $ heroku info --app=<tab><tab> # will complete with all the Heroku apps a user h
 
 # 📌 Requirements
 
-Currently, Node 12+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are running a specific version of Node.
+Currently, Node 18+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node. You can add the [node](https://www.npmjs.com/package/node) package to your CLI to ensure users are running a specific version of Node.
 
 # 📌 Migrating from V1
 
@@ -100,8 +99,8 @@ COMMANDS
   hello
   help   display help for mynewcli
 
-$ ./bin/run hello
-hello world from ./src/hello.js!
+$ ./bin/run hello world
+hello world! (./src/commands/hello/world.ts)
 ```
 
 # 📚 Examples

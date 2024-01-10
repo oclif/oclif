@@ -6,5 +6,6 @@ on:
 
 jobs:
   automerge:
-    uses: oclif/github-workflows/.github/workflows/automerge.yml@main
-    secrets: inherit
+    uses: salesforcecli/github-workflows/.github/workflows/automerge.yml@main
+    secrets:
+      SVC_CLI_BOT_GITHUB_TOKEN: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}

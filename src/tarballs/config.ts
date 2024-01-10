@@ -1,87 +1,100 @@
-import {ux, Interfaces, Config} from '@oclif/core'
-
-import * as path from 'path'
-import * as semver from 'semver'
-import * as fs from 'fs-extra'
-
-import {compact} from '../util'
-import {templateShortKey} from '../upload-util'
-import {exec as execSync} from 'child_process'
+import {ObjectCannedACL} from '@aws-sdk/client-s3'
+import {Config, Interfaces, ux} from '@oclif/core'
+import {exec as execSync} from 'node:child_process'
+import {mkdir} from 'node:fs/promises'
+import * as path from 'node:path'
 import {promisify} from 'node:util'
+import * as semver from 'semver'
+
+import {templateShortKey} from '../upload-util'
+import {castArray, compact} from '../util'
 
 const exec = promisify(execSync)
-export const TARGETS = [
-  'linux-x64',
-  'linux-arm',
-  'win32-x64',
-  'win32-x86',
-  'darwin-x64',
-  'darwin-arm64',
-]
+export const TARGETS = ['linux-x64', 'linux-arm', 'linux-arm64', 'win32-x64', 'win32-x86', 'darwin-x64', 'darwin-arm64']
+
+export type S3Config = BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number} & {
+  acl?: ObjectCannedACL
+}
+
+export type UpdateConfig = BuildConfig['config']['pjson']['oclif']['update'] & {
+  s3?: BuildConfig['config']['pjson']['oclif']['update']['s3'] & {acl?: ObjectCannedACL}
+}
 
 export interface BuildConfig {
-  root: string;
-  gitSha: string;
-  config: Interfaces.Config;
-  nodeVersion: string;
-  tmp: string;
-  updateConfig: BuildConfig['config']['pjson']['oclif']['update'];
-  s3Config: BuildConfig['updateConfig']['s3'] & { folder?: string; indexVersionLimit?: number};
-  xz: boolean;
-  targets: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}[];
-  workspace(target?: { platform: Interfaces.PlatformTypes; arch: Interfaces.ArchTypes}): string;
-  dist(input: string): string;
+  config: Interfaces.Config
+  dist(input: string): string
+  gitSha: string
+  nodeOptions: string[]
+  nodeVersion: string
+  root: string
+  s3Config: S3Config
+  targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
+  tmp: string
+  updateConfig: UpdateConfig
+  workspace(target?: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}): string
+  xz: boolean
 }
 
 export async function gitSha(cwd: string, options: {short?: boolean} = {}): Promise<string> {
   const args = options.short ? ['rev-parse', '--short', 'HEAD'] : ['rev-parse', 'HEAD']
-  return (await exec(`git ${args.join(' ')}`, {cwd})).stdout.trim()
+  const {stdout} = await exec(`git ${args.join(' ')}`, {cwd})
+  return stdout.trim()
 }
 
-async function Tmp(config: Interfaces.Config,
-) {
+async function Tmp(config: Interfaces.Config) {
   const tmp = path.join(config.root, 'tmp')
-  await fs.promises.mkdir(tmp, {recursive: true})
+  await mkdir(tmp, {recursive: true})
   return tmp
 }
 
-export async function buildConfig(root: string, options: {xz?: boolean; targets?: string[]} = {}): Promise<BuildConfig> {
-  const config = await Config.load({root: path.resolve(root), devPlugins: false, userPlugins: false})
+export async function buildConfig(
+  root: string,
+  options: {targets?: string[]; xz?: boolean} = {},
+): Promise<BuildConfig> {
+  const config = await Config.load({devPlugins: false, root: path.resolve(root), userPlugins: false})
   root = config.root
   const _gitSha = await gitSha(root, {short: true})
   // eslint-disable-next-line new-cap
   const tmp = await Tmp(config)
-  const updateConfig = config.pjson.oclif.update || {}
+  const updateConfig = (config.pjson.oclif.update || {}) as UpdateConfig
   updateConfig.s3 = updateConfig.s3 || {}
   const nodeVersion = updateConfig.node.version || process.versions.node
+  const nodeOptions = castArray((updateConfig.node as {options?: string | string[]}).options ?? [])
   const targets = compact(options.targets || updateConfig.node.targets || TARGETS)
-  .filter(t => {
-    if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
-      ux.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
-      return false
-    }
+    .filter((t) => {
+      if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
+        ux.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')
+        return false
+      }
 
-    return true
-  })
-  .map(t => {
-    const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
-    return {platform, arch}
-  })
+      return true
+    })
+    .map((t) => {
+      const [platform, arch] = t.split('-') as [Interfaces.PlatformTypes, Interfaces.ArchTypes]
+      return {arch, platform}
+    })
+
+  const s3Config = {
+    ...updateConfig.s3,
+    acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
+  }
   return {
-    root,
-    gitSha: _gitSha,
     config,
+    dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
+    gitSha: _gitSha,
+    nodeOptions,
+    nodeVersion,
+    root,
+    s3Config,
+    targets,
     tmp,
     updateConfig,
-    xz: options?.xz ?? updateConfig?.s3?.xz ?? true,
-    dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
-    s3Config: updateConfig.s3,
-    nodeVersion,
     workspace(target) {
       const base = path.join(config.root, 'tmp')
-      if (target && target.platform) return path.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
+      if (target && target.platform)
+        return path.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
       return path.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },
-    targets,
+    xz: options?.xz ?? updateConfig?.s3?.xz ?? true,
   }
 }

@@ -1,33 +1,30 @@
-import {Errors, Interfaces} from '@oclif/core'
-import * as path from 'path'
-import * as fs from 'fs-extra'
-import {pipeline as pipelineSync} from 'node:stream'
-import {log} from '../log'
-import {exec as execSync} from 'node:child_process'
-import {promisify} from 'node:util'
+import {Interfaces} from '@oclif/core'
+import * as retry from 'async-retry'
+import {copy, ensureDir, move} from 'fs-extra'
 import got from 'got'
-const pipeline = promisify(pipelineSync)
+import {exec as execSync} from 'node:child_process'
+import {createWriteStream, existsSync} from 'node:fs'
+import {mkdir} from 'node:fs/promises'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
+import {promisify} from 'node:util'
+
+import {log} from '../log'
+import {checkFor7Zip} from '../util'
 
 const exec = promisify(execSync)
 
+const RETRY_TIMEOUT_MS = 1000
+
 type Options = {
-  nodeVersion: string;
-  output: string;
-  platform: Interfaces.PlatformTypes;
-  arch: Interfaces.ArchTypes | 'armv7l';
+  arch: 'armv7l' | Interfaces.ArchTypes
+  nodeVersion: string
+  output: string
+  platform: Interfaces.PlatformTypes
   tmp: string
 }
 
-async function checkFor7Zip() {
-  try {
-    await exec('7z')
-  } catch (error: any) {
-    if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
-    else throw error
-  }
-}
-
-export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: Options): Promise<string> {
+export async function fetchNodeBinary({arch, nodeVersion, output, platform, tmp}: Options): Promise<string> {
   if (arch === 'arm') arch = 'armv7l'
   let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`
   let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`)
@@ -45,52 +42,53 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
 
   const download = async () => {
     log(`downloading ${nodeBase}`)
-    await Promise.all([
-      fs.ensureDir(path.join(tmp, 'cache', nodeVersion)),
-      fs.ensureDir(path.join(tmp, 'node')),
-    ])
+    await Promise.all([ensureDir(path.join(tmp, 'cache', nodeVersion)), ensureDir(path.join(tmp, 'node'))])
     const shasums = path.join(tmp, 'cache', nodeVersion, 'SHASUMS256.txt.asc')
-    if (!fs.existsSync(shasums)) {
+    if (!existsSync(shasums)) {
       await pipeline(
         got.stream(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`),
-        fs.createWriteStream(shasums),
+        createWriteStream(shasums),
       )
     }
 
     const basedir = path.dirname(tarball)
-    await fs.promises.mkdir(basedir, {recursive: true})
-    await pipeline(
-      got.stream(url),
-      fs.createWriteStream(tarball),
-    )
-    if (platform !== 'win32') await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
+    await mkdir(basedir, {recursive: true})
+    await pipeline(got.stream(url), createWriteStream(tarball))
+    if (platform !== 'win32')
+      await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
   }
 
   const extract = async () => {
     log(`extracting ${nodeBase}`)
     const nodeTmp = path.join(tmp, 'node')
-    await fs.promises.mkdir(nodeTmp, {recursive: true})
-    await fs.promises.mkdir(path.dirname(cache), {recursive: true})
+    await mkdir(nodeTmp, {recursive: true})
+    await mkdir(path.dirname(cache), {recursive: true})
 
     if (platform === 'win32') {
       await exec(`7z x -bd -y "${tarball}"`, {cwd: nodeTmp})
-      await fs.move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'))
+      await move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'))
     } else {
       await exec(`tar -C "${tmp}/node" -xJf "${tarball}"`)
-      await fs.move(path.join(nodeTmp, nodeBase, 'bin', 'node'), path.join(cache, 'node'))
+      await move(path.join(nodeTmp, nodeBase, 'bin', 'node'), path.join(cache, 'node'))
     }
   }
 
-  if (!fs.existsSync(cache)) {
-    await download()
+  if (!existsSync(cache)) {
+    await retry(download, {
+      factor: 1,
+      maxTimeout: RETRY_TIMEOUT_MS,
+      minTimeout: RETRY_TIMEOUT_MS,
+      onRetry(_e, attempt) {
+        log(`retrying node download (attempt ${attempt})`)
+      },
+      retries: 3,
+    })
     await extract()
   }
 
-  await fs.copy(path.join(cache, getFilename(platform)), output)
+  await copy(path.join(cache, getFilename(platform)), output)
 
   return output
 }
 
-const getFilename = (platform: string): string => {
-  return platform === 'win32' ? 'node.exe' : 'node'
-}
+const getFilename = (platform: string): string => (platform === 'win32' ? 'node.exe' : 'node')

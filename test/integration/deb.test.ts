@@ -30,7 +30,11 @@ describe('publish:deb', () => {
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
-    await fs.emptyDir(root)
+    try {
+      await fs.emptyDir(root)
+    } catch (error) {
+      console.error(error)
+    }
   })
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
@@ -41,8 +45,7 @@ describe('publish:deb', () => {
   })
 
   onlyLinux
-    // .command(['pack:deb'])
-    .command(['pack:deb', '-z', 'gzip'])
+    .command(['pack:deb'])
     .command(['upload:deb'])
     .it('publishes valid releases', async () => {
       const sha = await gitSha(process.cwd(), {short: true})
@@ -62,7 +65,6 @@ describe('publish:deb', () => {
     })
 
   onlyLinux
-    .skip()
     .command(['pack:deb', '-z', 'gzip'])
     .command(['upload:deb'])
     .it('publishes valid releases using gzip compression', async () => {

@@ -61,9 +61,9 @@ describe('publish:deb', () => {
     })
 
   onlyLinux
-    .command(['pack:deb -z gzip'])
+    .command(['pack:deb', '-z', 'gzip'])
     .command(['upload:deb'])
-    .it('publishes valid releases', async () => {
+    .it('publishes valid releases using gzip compression', async () => {
       const sha = await gitSha(process.cwd(), {short: true})
       await exec('cat test/release.key | sudo apt-key add -')
       await exec(

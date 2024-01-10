@@ -66,7 +66,6 @@ export default class PackDeb extends Command {
       options: COMPRESSION_OPTIONS,
     })({
       char: 'z',
-      default: 'xz',
       description:
         'For more details see the `-Zcompress-type` section at https://man7.org/linux/man-pages/man1/dpkg-deb.1.html',
       summary: 'Override the default compression used by dpkg-deb.',

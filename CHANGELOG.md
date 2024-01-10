@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/oclif/oclif/compare/4.2.0...4.3.0) (2024-01-10)
+
+### Features
+
+- option to specify compression used for pack:deb ([#1110](https://github.com/oclif/oclif/issues/1110)) ([#1241](https://github.com/oclif/oclif/issues/1241)) ([03619e4](https://github.com/oclif/oclif/commit/03619e4c3cda8c0fe738be641c466f1e196012f8)), closes [heroku/cli#2240](https://github.com/heroku/cli/issues/2240)
+- upgrade to use aws api v3 ([#1215](https://github.com/oclif/oclif/issues/1215)) ([#1240](https://github.com/oclif/oclif/issues/1240)) ([e781906](https://github.com/oclif/oclif/commit/e78190655ba7de9101794aa03b25ad2ffe65e2c3))
+
 # [4.2.0](https://github.com/oclif/oclif/compare/4.1.4...4.2.0) (2024-01-09)
 
 ### Features

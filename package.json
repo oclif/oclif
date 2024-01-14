@@ -44,7 +44,7 @@
     "@types/semver": "^7.3.13",
     "@types/shelljs": "^0.8.11",
     "@types/yeoman-generator": "^5.2.11",
-    "chai": "^4.3.7",
+    "chai": "^4.4.1",
     "commitlint": "^17.7.2",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.50.0",

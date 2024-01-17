@@ -66,7 +66,7 @@ export const appendToIndex = async (input: {
     // but it's expected to be there according to the docs
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-smithy-types/TypeAlias/StreamingBlobPayloadOutputTypes/
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-smithy-types/Interface/SdkStreamMixin/
-    existing = await Body?.transformToString()
+    existing = JSON.parse(await Body?.transformToString())
     debug('appending to existing index file')
   } catch (error: unknown) {
     debug(`error on ${key}`, error)

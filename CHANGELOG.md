@@ -1,3 +1,10 @@
+## [4.3.5](https://github.com/oclif/oclif/compare/4.3.4...4.3.5) (2024-01-17)
+
+### Bug Fixes
+
+- use JSON.parse ([3d5a5a9](https://github.com/oclif/oclif/commit/3d5a5a9ec24af1d56e5a3653c905db22a5c1cdb9))
+- use transformToString ([140ef90](https://github.com/oclif/oclif/commit/140ef909bc0b7a7137d2a5567025dc7ec889900c))
+
 ## [4.3.4](https://github.com/oclif/oclif/compare/4.3.3...4.3.4) (2024-01-15)
 
 ### Bug Fixes

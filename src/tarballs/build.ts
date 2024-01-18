@@ -32,6 +32,21 @@ const isYarnProject = (yarnRootPath: string) => {
   return existsSync(rootYarnLockFilePath)
 }
 
+const copyYarnDirectory = async (relativePath: string, yarnRootPath: string, workspacePath: string) => {
+  const rootYarnDirectoryPath = path.join(yarnRootPath, relativePath)
+  const workspaceYarnDirectoryPath = path.join(workspacePath, relativePath)
+
+  if (existsSync(rootYarnDirectoryPath)) {
+    // create the directory if it does not exist
+    if (!existsSync(workspaceYarnDirectoryPath)) {
+      await mkdir(workspaceYarnDirectoryPath, {recursive: true})
+    }
+
+    // recursively copy all files in the directory
+    await copy(rootYarnDirectoryPath, workspaceYarnDirectoryPath)
+  }
+}
+
 const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) => {
   // copy yarn dependencies lock file
   const yarnLockFileName = 'yarn.lock'
@@ -52,19 +67,9 @@ const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) =>
   }
 
   // copy yarn releases e.g. yarn may be installed via a local config path like "yarnPath"
-  const yarnReleasesDirectoryRelativePath = './.yarn/releases/'
-  const rootYarnReleasesDirectoryPath = path.join(yarnRootPath, yarnReleasesDirectoryRelativePath)
-  const workspaceYarnReleasesDirectoryPath = path.join(workspacePath, yarnReleasesDirectoryRelativePath)
-
-  if (existsSync(rootYarnReleasesDirectoryPath)) {
-    // create the directory if it does not exist
-    if (!existsSync(workspaceYarnReleasesDirectoryPath)) {
-      await mkdir(workspaceYarnReleasesDirectoryPath, {recursive: true})
-    }
-
-    // recursively copy all files in the directory
-    await copy(rootYarnReleasesDirectoryPath, workspaceYarnReleasesDirectoryPath)
-  }
+  await copyYarnDirectory('./.yarn/releases/', yarnRootPath, workspacePath)
+  // copy yarn plugins if they exists
+  await copyYarnDirectory('./.yarn/plugins/', yarnRootPath, workspacePath)
 }
 
 export async function build(

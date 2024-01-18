@@ -1,3 +1,9 @@
+## [4.3.6](https://github.com/oclif/oclif/compare/4.3.5...4.3.6) (2024-01-18)
+
+### Bug Fixes
+
+- copy .yarn/plugins directory ([#1255](https://github.com/oclif/oclif/issues/1255)) ([aa927e2](https://github.com/oclif/oclif/commit/aa927e295104b7316c8b0314918ae0426a4c2bb7))
+
 ## [4.3.5](https://github.com/oclif/oclif/compare/4.3.4...4.3.5) (2024-01-17)
 
 ### Bug Fixes

@@ -1733,12 +1733,12 @@
     debug "^4.3.3"
     semver "^7.5.4"
 
-"@oclif/plugin-not-found@^3.0.8":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.0.8.tgz#d694a9308993703a1cbacbab7f5625315f0169ea"
-  integrity sha512-sfh7jFc+1vFsF/+9ghF3pVul9xFJ4Hu1JI+KzkDjgWkfVSyPSEE+s6Hfn2z6lCXkwSKQ5lJATuZmafnGes7NGg==
+"@oclif/plugin-not-found@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.0.9.tgz#3bea019cb4a4ff8d4db4b68bddce4636bfefdb05"
+  integrity sha512-t/Cq8o6ENmMG0nPxeLDjtRsu4ZLKGCkNfev8XQ28Z+P1ntnP6uKpmKpvmmgatmqtX0IHuNrpv9scU3G4iAGp2w==
   dependencies:
-    "@oclif/core" "^3.16.0"
+    "@oclif/core" "^3.18.1"
     chalk "^5.3.0"
     fast-levenshtein "^3.0.0"
 

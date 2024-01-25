@@ -192,7 +192,7 @@ export default class Promote extends Command {
         debArtifacts.flatMap((artifact) => {
           const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
           const debKey = cloudChannelKey(`apt/${artifact}`)
-          // apt expects ../apt/dists/versionName/[artifacts] but oclif wants varsions/sha/apt/[artifacts]
+          // apt expects ../apt/dists/versionName/[artifacts] but oclif wants versions/sha/apt/[artifacts]
           // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
           // this workaround puts the code in both places that the redirect was doing
           // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.

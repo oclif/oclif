@@ -1,3 +1,9 @@
+## [4.3.10](https://github.com/oclif/oclif/compare/4.3.9...4.3.10) (2024-01-25)
+
+### Bug Fixes
+
+- correct S3 key generation for /apt/./ During deb artifacts promotion ([#1265](https://github.com/oclif/oclif/issues/1265)) ([#1266](https://github.com/oclif/oclif/issues/1266)) ([#1267](https://github.com/oclif/oclif/issues/1267)) ([8007a1c](https://github.com/oclif/oclif/commit/8007a1c591ea8a0dd20212d69f3e945f6109741e))
+
 ## [4.3.9](https://github.com/oclif/oclif/compare/4.3.8...4.3.9) (2024-01-22)
 
 ### Bug Fixes

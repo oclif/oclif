@@ -1,3 +1,9 @@
+# [4.4.0](https://github.com/oclif/oclif/compare/4.3.10...4.4.0) (2024-01-26)
+
+### Features
+
+- deprecate and hide lock command ([053e877](https://github.com/oclif/oclif/commit/053e877b3c0f732a282412cc62f5bcc100ea07df))
+
 ## [4.3.10](https://github.com/oclif/oclif/compare/4.3.9...4.3.10) (2024-01-25)
 
 ### Bug Fixes

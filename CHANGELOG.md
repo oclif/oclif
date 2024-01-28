@@ -1,3 +1,9 @@
+## [4.4.2](https://github.com/oclif/oclif/compare/4.4.1...4.4.2) (2024-01-28)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-cloudfront from 3.496.0 to 3.501.0 ([b1147bc](https://github.com/oclif/oclif/commit/b1147bceec52c6dbf0223c43f5c99a8bf0366b5d))
+
 ## [4.4.1](https://github.com/oclif/oclif/compare/4.4.0...4.4.1) (2024-01-28)
 
 ### Bug Fixes

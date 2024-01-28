@@ -1352,7 +1352,7 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.15.1", "@oclif/core@^3.16.0", "@oclif/core@^3.18.1", "@oclif/core@^3.7.1":
+"@oclif/core@^3.16.0", "@oclif/core@^3.18.1", "@oclif/core@^3.7.1":
   version "3.18.1"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.18.1.tgz#a8c9ee3848ad663d5694bef6079116c70d32fc55"
   integrity sha512-l0LsjzGcqjbUEdeSBX6bdZieVmEv82Q0W3StiyaDMEnPZ9KLH28HrLpcZg6d50mCYW9CUZNzmRo6qrCHWrgLKw==
@@ -1428,13 +1428,13 @@
   resolved "https://registry.yarnpkg.com/@oclif/prettier-config/-/prettier-config-0.2.1.tgz#1def9f38134f9bfb229257f48a35f7d0d183dc78"
   integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
 
-"@oclif/test@^3.1.2":
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.1.8.tgz#12402a1be848af24e7696b259a7bc68a3153235f"
-  integrity sha512-QtBK+gq7mOSns1DhB4URNNvanYiLfwyJ4dY4iL1qyv0ishmRLMRsXnRwlml8e9RHqKg17Sj+I3dnMqWyfJV3rw==
+"@oclif/test@^3.1.12":
+  version "3.1.12"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.1.12.tgz#845ee6dd2a141ad25d2cb837b43999f91de46e44"
+  integrity sha512-KEIN5v6bMKqVydU686bt0zt5AeFpH6OOspacDF+ZhCbp8ymrkJ1h1ZLsVedhcsLJ9BJxowN7GFYo1HrZ45uujA==
   dependencies:
-    "@oclif/core" "^3.15.1"
-    chai "^4.3.10"
+    "@oclif/core" "^3.18.1"
+    chai "^4.4.1"
     fancy-test "^3.0.8"
 
 "@octokit/auth-token@^2.4.4":
@@ -3125,7 +3125,7 @@ cardinal@^2.1.1:
     ansicolors "~0.3.2"
     redeyed "~2.1.0"
 
-chai@^4.3.10, chai@^4.4.1:
+chai@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.4.1.tgz#3603fa6eba35425b0f2ac91a009fe924106e50d1"
   integrity sha512-13sOfMv2+DWduEU+/xbun3LScLoqN17nBeTLUsmDfKdoiC1fr0n9PU4guu4AhRcOVFk/sW8LyZWHuhWtQZiF+g==

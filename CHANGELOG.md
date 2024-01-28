@@ -1,3 +1,9 @@
+## [4.4.1](https://github.com/oclif/oclif/compare/4.4.0...4.4.1) (2024-01-28)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-help from 6.0.9 to 6.0.12 ([594ed0f](https://github.com/oclif/oclif/commit/594ed0f8aab0e5d1ff4df2584777db06b5a45794))
+
 # [4.4.0](https://github.com/oclif/oclif/compare/4.3.10...4.4.0) (2024-01-26)
 
 ### Features

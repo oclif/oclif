@@ -4512,10 +4512,10 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-fancy-test@^3.0.1, fancy-test@^3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-3.0.9.tgz#5293bdccaa9aa868300cf901ef2560c431fe74d2"
-  integrity sha512-9sDjNM5oRLpIQfpjSSmp8J0bYCg1Hb9GWofdv+Dl5f/Phjp2XJZM7L2qsSulpMTsahz0EPsS6T6/QH0ldzfgqw==
+fancy-test@^3.0.10, fancy-test@^3.0.9:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-3.0.10.tgz#341be69e6eb35fcf1be33c041bed978837502e84"
+  integrity sha512-6pwRQ7gqW57FKoTyRPPmcZktHLvrX+LS5ZQdXvQTMAq6vOVGCUrtJ4WP2BD4sZisRBnasaT4981L/8Q+qfh3wg==
   dependencies:
     "@types/chai" "*"
     "@types/lodash" "*"
@@ -4523,7 +4523,7 @@ fancy-test@^3.0.1, fancy-test@^3.0.9:
     "@types/sinon" "*"
     lodash "^4.17.13"
     mock-stdin "^1.0.0"
-    nock "^13.5.0"
+    nock "^13.5.1"
     sinon "^16.1.3"
     stdout-stderr "^0.1.9"
 
@@ -6547,7 +6547,7 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
-nock@^13.5.0:
+nock@^13.5.1:
   version "13.5.1"
   resolved "https://registry.yarnpkg.com/nock/-/nock-13.5.1.tgz#4e40f9877ad0d43b7cdb474261c190f3715dd806"
   integrity sha512-+s7b73fzj5KnxbKH4Oaqz07tQ8degcMilU4rrmnKvI//b0JMBU4wEXFQ8zqr+3+L4eWSfU3H/UoIVGUV0tue1Q==

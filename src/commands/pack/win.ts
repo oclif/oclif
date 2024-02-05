@@ -316,7 +316,7 @@ the CLI should already exist in a directory named after the CLI that is the root
 
         await move(buildConfig.workspace({arch, platform: 'win32'}), path.join(installerBase, 'client'))
         await exec(
-          `makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`,
+          `makensis "${installerBase}/${config.bin}.nsi" | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`,
         )
         const templateKey = templateShortKey('win32', {
           arch,

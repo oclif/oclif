@@ -93,15 +93,13 @@ Section "Set PATH to ${config.name}"
   Call AddToPath
 SectionEnd
 
-${hideDefenderOption ? '' : `
-Section ${defenderOptionDefault ? '' : '/o '}"Add %LOCALAPPDATA%\\${
+Section ${defenderOptionDefault ? '' : '/o '}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
     config.dirname
   } to Windows Defender exclusions (highly recommended for performance!)"
   ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
     config.dirname
   }$\\"}$\\" -FFFeatureOff" SW_HIDE
 SectionEnd
-`}
 
 Section "Uninstall"
   Delete "$INSTDIR\\Uninstall.exe"
@@ -289,7 +287,7 @@ the CLI should already exist in a directory named after the CLI that is the root
               // hiding it also unchecks it
               defenderOptionDefault:
                 flags['defender-exclusion'] === 'hidden' ? false : flags['default-defender-exclusion'],
-              hideDefenderOption: flags['hide-defender-option'] === 'hidden',
+              hideDefenderOption: flags['defender-exclusion'] === 'hidden',
             }),
           ),
           ...(config.binAliases

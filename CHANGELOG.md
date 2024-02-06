@@ -1,3 +1,9 @@
+## [4.4.7](https://github.com/oclif/oclif/compare/4.4.6...4.4.7) (2024-02-06)
+
+### Bug Fixes
+
+- update logic for exclusion from Windows Defender scans ([#1276](https://github.com/oclif/oclif/issues/1276)) ([09a4409](https://github.com/oclif/oclif/commit/09a440924b1689f63481811d5f88509bf6896610))
+
 ## [4.4.6](https://github.com/oclif/oclif/compare/4.4.5...4.4.6) (2024-02-05)
 
 ### Bug Fixes

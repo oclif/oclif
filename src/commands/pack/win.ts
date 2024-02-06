@@ -32,13 +32,13 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
     arch,
     config,
     customization,
-    defenderOptionDefault,
+    defenderOptional,
     hideDefenderOption,
   }: {
     arch: string
     config: Interfaces.Config
     customization?: string
-    defenderOptionDefault: boolean
+    defenderOptional: boolean
     hideDefenderOption: boolean
   }) => `!include MUI2.nsh
 
@@ -93,7 +93,7 @@ Section "Set PATH to ${config.name}"
   Call AddToPath
 SectionEnd
 
-Section ${defenderOptionDefault ? '' : '/o '}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
+Section ${defenderOptional ? '/o ' : ''}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
     config.dirname
   } to Windows Defender exclusions (highly recommended for performance!)"
   ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
@@ -285,9 +285,8 @@ the CLI should already exist in a directory named after the CLI that is the root
               config,
               customization: nsisCustomization,
               // hiding it also unchecks it
-              defenderOptionDefault:
-                flags['defender-exclusion'] === 'hidden' ? false : flags['default-defender-exclusion'],
-              hideDefenderOption: flags['hide-defender-option'] === 'hidden',
+              defenderOptional: flags['defender-exclusion'] === 'hidden' || flags['defender-exclusion'] === 'unchecked',
+              hideDefenderOption: flags['defender-exclusion'] === 'hidden',
             }),
           ),
           ...(config.binAliases

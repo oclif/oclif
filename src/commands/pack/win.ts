@@ -285,8 +285,7 @@ the CLI should already exist in a directory named after the CLI that is the root
               config,
               customization: nsisCustomization,
               // hiding it also unchecks it
-              defenderOptionDefault:
-                flags['defender-exclusion'] === 'hidden' ? false : flags['default-defender-exclusion'],
+              defenderOptionDefault: flags['defender-exclusion'] === 'hidden' || flags['defender-exclusion'] === 'unchecked' ? false : true,
               hideDefenderOption: flags['defender-exclusion'] === 'hidden',
             }),
           ),

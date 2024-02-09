@@ -89,9 +89,9 @@ Creating a CLI:
 $ npx oclif generate mynewcli
 ? npm package name (mynewcli): mynewcli
 $ cd mynewcli
-$ ./bin/run --version
+$ ./bin/run.js --version
 mynewcli/0.0.0 darwin-x64 node-v9.5.0
-$ ./bin/run --help
+$ ./bin/run.js --help
 USAGE
   $ mynewcli [COMMAND]
 
@@ -99,7 +99,7 @@ COMMANDS
   hello
   help   display help for mynewcli
 
-$ ./bin/run hello world
+$ ./bin/run.js hello world
 hello world! (./src/commands/hello/world.ts)
 ```
 

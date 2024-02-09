@@ -1,3 +1,9 @@
+## [4.4.8](https://github.com/oclif/oclif/compare/4.4.7...4.4.8) (2024-02-09)
+
+### Bug Fixes
+
+- make eslint plugin a dev dependency ([#1262](https://github.com/oclif/oclif/issues/1262)) ([319c4f0](https://github.com/oclif/oclif/commit/319c4f056b4a1e564b6e573e13bf034cb38dca91))
+
 ## [4.4.7](https://github.com/oclif/oclif/compare/4.4.6...4.4.7) (2024-02-06)
 
 ### Bug Fixes

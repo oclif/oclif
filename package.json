@@ -10,7 +10,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.504.0",
     "@aws-sdk/client-s3": "^3.504.0",
-    "@oclif/core": "^3.18.2",
+    "@oclif/core": "^3.19.1",
     "@oclif/plugin-help": "^6.0.12",
     "@oclif/plugin-not-found": "^3.0.9",
     "@oclif/plugin-warn-if-update-available": "^3.0.9",

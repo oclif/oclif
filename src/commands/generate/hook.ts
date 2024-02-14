@@ -1,4 +1,6 @@
 import {Args, Flags} from '@oclif/core'
+import * as fs from 'fs-extra'
+import {resolve} from 'node:path'
 
 import CommandBase from './../../command-base'
 
@@ -16,11 +18,14 @@ export default class GenerateHook extends CommandBase {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(GenerateHook)
+    const tsConfigPath = resolve(process.cwd(), 'tsconfig.json')
+    const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
 
     await super.generate('hook', {
       event: flags.event,
       force: flags.force,
       name: args.name,
+      outDir: tsConfig.compilerOptions?.outDir ?? 'dist',
     })
   }
 }

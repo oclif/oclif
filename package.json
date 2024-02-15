@@ -64,6 +64,9 @@
     "ts-node": "^10.7.0",
     "typescript": "^5"
   },
+  "resolutions": {
+    "@oclif/core": "3.19.2-dev.0"
+  },
   "engines": {
     "node": ">=18.0.0"
   },

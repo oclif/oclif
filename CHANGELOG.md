@@ -1,3 +1,9 @@
+## [4.4.12](https://github.com/oclif/oclif/compare/4.4.11...4.4.12) (2024-02-15)
+
+### Bug Fixes
+
+- respect tsconfig outDir when generating hook ([#1293](https://github.com/oclif/oclif/issues/1293)) ([dcca71a](https://github.com/oclif/oclif/commit/dcca71a226fd54e63f822740404564ed34326574))
+
 ## [4.4.11](https://github.com/oclif/oclif/compare/4.4.10...4.4.11) (2024-02-12)
 
 ### Bug Fixes

@@ -255,7 +255,17 @@ USAGE
    * fetches the path to a command
    */
   private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
-    const commandsDir = plugin.pjson.oclif.commands
+    const strategy =
+      typeof plugin.pjson.oclif?.commands === 'string' ? 'pattern' : plugin.pjson.oclif?.commands?.strategy
+
+    // if the strategy is explicit, we can't determine the path so return undefined
+    if (strategy === 'explicit') return
+
+    const commandsDir =
+      typeof plugin.pjson.oclif?.commands === 'string'
+        ? plugin.pjson.oclif?.commands
+        : plugin.pjson.oclif?.commands?.target
+
     if (!commandsDir) return
     const hasTypescript = plugin.pjson.devDependencies?.typescript || plugin.pjson.dependencies?.typescript
     let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))

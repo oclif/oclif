@@ -10,7 +10,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.511.0",
     "@aws-sdk/client-s3": "^3.504.0",
-    "@oclif/core": "^3.19.1",
+    "@oclif/core": "3.19.2-dev.0",
     "@oclif/plugin-help": "^6.0.12",
     "@oclif/plugin-not-found": "^3.0.10",
     "@oclif/plugin-warn-if-update-available": "^3.0.9",
@@ -50,8 +50,8 @@
     "eslint-config-oclif": "^5.0.0",
     "eslint-config-oclif-typescript": "^3.0.44",
     "eslint-config-prettier": "^9.0.0",
-    "fancy-test": "^3.0.10",
     "eslint-plugin-perfectionist": "^2.1.0",
+    "fancy-test": "^3.0.10",
     "globby": "^11.1.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",

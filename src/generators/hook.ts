@@ -9,6 +9,7 @@ const {version} = require('../../package.json')
 
 export interface Options extends GeneratorOptions {
   event: string
+  outDir: string
 }
 
 export default class Hook extends Generator {
@@ -46,7 +47,7 @@ export default class Hook extends Generator {
     this.pjson.oclif = this.pjson.oclif || {}
     this.pjson.oclif.hooks = this.pjson.oclif.hooks || {}
     const hooks = this.pjson.oclif.hooks
-    const p = `./dist/hooks/${this.options.event}/${this.options.name}`
+    const p = `./${this.options.outDir}/hooks/${this.options.event}/${this.options.name}`
     if (hooks[this.options.event]) {
       hooks[this.options.event] = castArray(hooks[this.options.event])
       hooks[this.options.event] = [...hooks[this.options.event], p]

@@ -1738,7 +1738,7 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.16.0", "@oclif/core@^3.18.1", "@oclif/core@^3.18.2", "@oclif/core@^3.19.1", "@oclif/core@^3.7.1":
+"@oclif/core@^3.18.1", "@oclif/core@^3.18.2", "@oclif/core@^3.19.1", "@oclif/core@^3.7.1":
   version "3.19.1"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.19.1.tgz#18af989f4b086ba9b6dfac891fb27f8281664084"
   integrity sha512-dd1h4Hz+LwpuYhKvgBjDmW3/HgUAm93JM95cnbzSv5VcmiBeC+utjLvY96PmPbYxxDoz7XazEOl8oOpSLSEgcg==
@@ -1798,12 +1798,12 @@
     chalk "^5.3.0"
     fast-levenshtein "^3.0.0"
 
-"@oclif/plugin-warn-if-update-available@^3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.0.9.tgz#f4346f4040adf71d0a120381de2fe4c8411896fd"
-  integrity sha512-6XjYNJWWu6B4LyW73hzuM9Ihb23WamrABZhwYVJTVMBHdU30pRa1i3rvHCPfmn5c4iv8ZXudS/0zCNuhR121ng==
+"@oclif/plugin-warn-if-update-available@^3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.0.10.tgz#15a4068185f9390d8dfd2cf498aa97eec4f79953"
+  integrity sha512-dUuBnoU80VQ6Rt/cMhqMsz5abFMnCi/IqnAhRNfO5EQbJ8PvYpU+0kPx15cbtQcU4olQ2kqigLt4BU7ms4RqMA==
   dependencies:
-    "@oclif/core" "^3.16.0"
+    "@oclif/core" "^3.18.2"
     chalk "^5.3.0"
     debug "^4.1.0"
     http-call "^5.2.2"

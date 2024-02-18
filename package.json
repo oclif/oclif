@@ -9,7 +9,7 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.511.0",
-    "@aws-sdk/client-s3": "^3.504.0",
+    "@aws-sdk/client-s3": "^3.515.0",
     "@oclif/core": "^3.19.1",
     "@oclif/plugin-help": "^6.0.12",
     "@oclif/plugin-not-found": "^3.0.10",

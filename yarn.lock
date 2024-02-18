@@ -2782,7 +2782,7 @@
     "@types/yeoman-environment" "*"
     rxjs "^6.4.0"
 
-"@typescript-eslint/eslint-plugin@^6.20.0":
+"@typescript-eslint/eslint-plugin@^6.21.0":
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-6.21.0.tgz#30830c1ca81fd5f3c2714e524c4303e0194f9cd3"
   integrity sha512-oy9+hTPCUFpngkEZUSzbf9MxI65wbKFoQYsgPdILTfbUldp5ovUuphZVe4i30emU9M/kP+T64Di0mxl7dSw3MA==
@@ -2799,7 +2799,7 @@
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/parser@^6.20.0":
+"@typescript-eslint/parser@^6.21.0":
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-6.21.0.tgz#af8fcf66feee2edc86bc5d1cf45e33b0630bf35b"
   integrity sha512-tbsV1jPne5CkFQCgPBcDOt30ItF7aJoZL997JSF7MhGQqOeT3svWRYxiqlfA5RUdlHN6Fi+EI9bxqbdyAUZjYQ==
@@ -4428,14 +4428,14 @@ escape-string-regexp@^1.0.5:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==
 
-eslint-config-oclif-typescript@^3.0.44:
-  version "3.0.44"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif-typescript/-/eslint-config-oclif-typescript-3.0.44.tgz#3ecd5edf294dd958a8ea292b22436ea16903bf67"
-  integrity sha512-+WpYLH8YKUPagwhr1bWwpd5NwIE4Qy3+ebC6SUK978Ngspwlyd516LfUmS/mDJwWL+VOSSpGYaNq1ZsoaQaZFA==
+eslint-config-oclif-typescript@^3.0.47:
+  version "3.0.47"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif-typescript/-/eslint-config-oclif-typescript-3.0.47.tgz#77c5a1914bf5443bb1603b14929eb11d112304df"
+  integrity sha512-rTsvSeUwEd4TvH76LTtobUWkTqH1C0ArhpY/5dSngQsXW5oqwGBckSO3I6qfasw6cPIUOa6+3lftsqNUHbovRA==
   dependencies:
-    "@typescript-eslint/eslint-plugin" "^6.20.0"
-    "@typescript-eslint/parser" "^6.20.0"
-    eslint-config-xo-space "^0.34.0"
+    "@typescript-eslint/eslint-plugin" "^6.21.0"
+    "@typescript-eslint/parser" "^6.21.0"
+    eslint-config-xo-space "^0.35.0"
     eslint-import-resolver-typescript "^3.6.1"
     eslint-plugin-import "^2.29.1"
     eslint-plugin-mocha "^10.2.0"
@@ -4464,10 +4464,24 @@ eslint-config-xo-space@^0.34.0:
   dependencies:
     eslint-config-xo "^0.43.0"
 
+eslint-config-xo-space@^0.35.0:
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-xo-space/-/eslint-config-xo-space-0.35.0.tgz#fdc2741c601a011e3ba185f07e2e78b6eed9d3dc"
+  integrity sha512-+79iVcoLi3PvGcjqYDpSPzbLfqYpNcMlhsCBRsnmDoHAn4npJG6YxmHpelQKpXM7v/EeZTUKb4e1xotWlei8KA==
+  dependencies:
+    eslint-config-xo "^0.44.0"
+
 eslint-config-xo@^0.43.0:
   version "0.43.1"
   resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.43.1.tgz#c2ac8993f6e429048c813f599265d1636a0bc060"
   integrity sha512-azv1L2PysRA0NkZOgbndUpN+581L7wPqkgJOgxxw3hxwXAbJgD6Hqb/SjHRiACifXt/AvxCzE/jIKFAlI7XjvQ==
+  dependencies:
+    confusing-browser-globals "1.0.11"
+
+eslint-config-xo@^0.44.0:
+  version "0.44.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-xo/-/eslint-config-xo-0.44.0.tgz#b4a68da791ecfd329bc7e1f88f9edea3d4dca70c"
+  integrity sha512-YG4gdaor0mJJi8UBeRJqDPO42MedTWYMaUyucF5bhm2pi/HS98JIxfFQmTLuyj6hGpQlAazNfyVnn7JuDn+Sew==
   dependencies:
     confusing-browser-globals "1.0.11"
 

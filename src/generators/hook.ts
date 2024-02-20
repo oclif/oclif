@@ -1,6 +1,6 @@
 import {Interfaces} from '@oclif/core'
-import * as path from 'node:path'
-import * as Generator from 'yeoman-generator'
+import path from 'node:path'
+import Generator from 'yeoman-generator'
 
 import {GeneratorOptions} from '../types'
 import {castArray} from '../util'

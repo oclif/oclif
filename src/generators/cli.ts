@@ -2,7 +2,7 @@ import {Interfaces} from '@oclif/core'
 import {execSync} from 'node:child_process'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import * as Generator from 'yeoman-generator'
+import Generator from 'yeoman-generator'
 
 import {compact, isEmpty, uniq} from '../util'
 
@@ -54,6 +54,7 @@ export default class CLI extends Generator {
 
   repository?: string
 
+  sortPackageJson!: (packageJson: Record<string, unknown>, options?: {sortOrder?: string[]}) => Record<string, unknown>
   yarn!: boolean
 
   constructor(args: string | string[], opts: Generator.GeneratorOptions) {
@@ -256,14 +257,50 @@ export default class CLI extends Generator {
     }
   }
 
-  writing(): void {
+  async writing(): Promise<void> {
+    // TODO: remove the dynamic import and use the default import from the module once we migrate to ESM
+    const {default: sortPackageJson} = await import('sort-package-json')
+
     if (this.pjson.oclif && Array.isArray(this.pjson.oclif.plugins)) {
       this.pjson.oclif.plugins.sort()
     }
 
     if (isEmpty(this.pjson.oclif)) removeKey(this.pjson, 'oclif')
     this.pjson.files = uniq((this.pjson.files || []).sort())
-    this.fs.writeJSON(this.destinationPath('./package.json'), this.pjson)
+    this.fs.writeJSON(
+      this.destinationPath('./package.json'),
+      sortPackageJson(this.pjson, {
+        // TODO: we can use the default sort order once https://github.com/keithamus/sort-package-json/pull/312 is merged
+        sortOrder: [
+          'name',
+          'version',
+          'description',
+          'keywords',
+          'homepage',
+          'bugs',
+          'repository',
+          'license',
+          'author',
+          'exports',
+          'main',
+          'bin',
+          'files',
+          'scripts',
+          'oclif',
+          'resolutions',
+          'dependencies',
+          'devDependencies',
+          'dependenciesMeta',
+          'peerDependencies',
+          'peerDependenciesMeta',
+          'optionalDependencies',
+          'bundledDependencies',
+          'bundleDependencies',
+          'packageManager',
+          'engines',
+        ],
+      }),
+    )
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
     this.fs.delete(this.destinationPath('LICENSE'))

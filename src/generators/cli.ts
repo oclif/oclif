@@ -54,7 +54,6 @@ export default class CLI extends Generator {
 
   repository?: string
 
-  sortPackageJson!: (packageJson: Record<string, unknown>, options?: {sortOrder?: string[]}) => Record<string, unknown>
   yarn!: boolean
 
   constructor(args: string | string[], opts: Generator.GeneratorOptions) {
@@ -258,7 +257,6 @@ export default class CLI extends Generator {
   }
 
   async writing(): Promise<void> {
-    // TODO: remove the dynamic import and use the default import from the module once we migrate to ESM
     const {default: sortPackageJson} = await import('sort-package-json')
 
     if (this.pjson.oclif && Array.isArray(this.pjson.oclif.plugins)) {

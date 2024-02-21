@@ -1,6 +1,6 @@
 import {Errors} from '@oclif/core'
 import {exec as execSync} from 'node:child_process'
-import crypto from 'node:crypto'
+import * as crypto from 'node:crypto'
 import {createReadStream} from 'node:fs'
 import * as os from 'node:os'
 import {promisify} from 'node:util'

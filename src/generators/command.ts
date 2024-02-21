@@ -1,6 +1,6 @@
 import {Interfaces} from '@oclif/core'
 import {pascalCase} from 'change-case'
-import path from 'node:path'
+import * as path from 'node:path'
 import Generator from 'yeoman-generator'
 
 import {GeneratorOptions} from '../types'

@@ -265,40 +265,7 @@ export default class CLI extends Generator {
 
     if (isEmpty(this.pjson.oclif)) removeKey(this.pjson, 'oclif')
     this.pjson.files = uniq((this.pjson.files || []).sort())
-    this.fs.writeJSON(
-      this.destinationPath('./package.json'),
-      sortPackageJson(this.pjson, {
-        // TODO: we can use the default sort order once https://github.com/keithamus/sort-package-json/pull/312 is merged
-        sortOrder: [
-          'name',
-          'version',
-          'description',
-          'keywords',
-          'homepage',
-          'bugs',
-          'repository',
-          'license',
-          'author',
-          'exports',
-          'main',
-          'bin',
-          'files',
-          'scripts',
-          'oclif',
-          'resolutions',
-          'dependencies',
-          'devDependencies',
-          'dependenciesMeta',
-          'peerDependencies',
-          'peerDependenciesMeta',
-          'optionalDependencies',
-          'bundledDependencies',
-          'bundleDependencies',
-          'packageManager',
-          'engines',
-        ],
-      }),
-    )
+    this.fs.writeJSON(this.destinationPath('./package.json'), sortPackageJson(this.pjson))
 
     this.fs.write(this.destinationPath('.gitignore'), this._gitignore())
     this.fs.delete(this.destinationPath('LICENSE'))

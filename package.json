@@ -24,7 +24,7 @@
     "lodash.template": "^4.5.0",
     "normalize-package-data": "^3.0.3",
     "semver": "^7.6.0",
-    "sort-package-json": "^2.7.0",
+    "sort-package-json": "^2.8.0",
     "yeoman-environment": "^3.15.1",
     "yeoman-generator": "^5.8.0"
   },

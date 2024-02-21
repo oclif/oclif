@@ -65,7 +65,7 @@
     "typescript": "^5"
   },
   "resolutions": {
-    "@oclif/core": "dev"
+    "@oclif/core": "3.19.5-dev.0"
   },
   "engines": {
     "node": ">=18.0.0"

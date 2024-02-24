@@ -1739,7 +1739,7 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.18.1", "@oclif/core@^3.18.2", "@oclif/core@^3.19.2", "@oclif/core@^3.7.1":
+"@oclif/core@^3.18.1", "@oclif/core@^3.18.2", "@oclif/core@^3.19.2":
   version "3.19.2"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.19.2.tgz#1672061e7309f0048f9f9991607b303a9e5082fc"
   integrity sha512-/kUZZQZO92esToSTn+fnfMQdAj8uDJ/lsMNXBRBCiLQpwnIskHXy8JzYpynxxkzY2wbGREBceQhxCyDV0XpY4g==
@@ -1779,13 +1779,13 @@
   dependencies:
     "@oclif/core" "^3.18.1"
 
-"@oclif/plugin-legacy@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.4.tgz#43ee64b6a23e9f67685307dec5ae0a13dab2988b"
-  integrity sha512-pTVsOJc/+C8/oKXsx/mpakrOSZrsfqkHAbt00Chz3wI1BN1xZQictHCYA5sQl82WIYfQiD5ahcuNkq2CcW3tXQ==
+"@oclif/plugin-legacy@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.7.tgz#516902b187e7a44097b9e84fcea20bb29c3e1e87"
+  integrity sha512-7aCeH4LMbyPKVlcxZosaF3AmNdbDLycx6zoD/NWeDwXjfVWyVJsDyapxFDmQC8seIbZU/vKSrW3vidZZ7Nwzbw==
   dependencies:
     "@oclif/color" "^1.0.13"
-    "@oclif/core" "^3.7.1"
+    "@oclif/core" "^3.19.2"
     ansi-escapes "^4.3.2"
     debug "^4.3.3"
     semver "^7.5.4"

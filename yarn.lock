@@ -1799,12 +1799,12 @@
     chalk "^5.3.0"
     fast-levenshtein "^3.0.0"
 
-"@oclif/plugin-warn-if-update-available@^3.0.10":
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.0.10.tgz#15a4068185f9390d8dfd2cf498aa97eec4f79953"
-  integrity sha512-dUuBnoU80VQ6Rt/cMhqMsz5abFMnCi/IqnAhRNfO5EQbJ8PvYpU+0kPx15cbtQcU4olQ2kqigLt4BU7ms4RqMA==
+"@oclif/plugin-warn-if-update-available@^3.0.12":
+  version "3.0.12"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.0.12.tgz#0802e402a74e72da1acd52e1bc9a34bd7999ed17"
+  integrity sha512-BPj+1dSgp9Xtd5BZjLF9s0PeYBl07GSF69aol6/ZUMJMWD78SUWgAAm2SMJJBXic7Lw8hIGBY/YSGXDGaMh4gw==
   dependencies:
-    "@oclif/core" "^3.18.2"
+    "@oclif/core" "^3.19.2"
     chalk "^5.3.0"
     debug "^4.1.0"
     http-call "^5.2.2"

@@ -47,7 +47,7 @@
     "commitlint": "^17.7.2",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.57.0",
-    "eslint-config-oclif": "^5.0.0",
+    "eslint-config-oclif": "^5.0.2",
     "eslint-config-oclif-typescript": "^3.0.47",
     "eslint-config-prettier": "^9.0.0",
     "fancy-test": "^3.0.11",

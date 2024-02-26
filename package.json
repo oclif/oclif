@@ -24,6 +24,7 @@
     "lodash.template": "^4.5.0",
     "normalize-package-data": "^3.0.3",
     "semver": "^7.6.0",
+    "sort-package-json": "^2.8.0",
     "yeoman-environment": "^3.15.1",
     "yeoman-generator": "^5.8.0"
   },
@@ -50,8 +51,8 @@
     "eslint-config-oclif": "^5.0.2",
     "eslint-config-oclif-typescript": "^3.0.47",
     "eslint-config-prettier": "^9.0.0",
-    "fancy-test": "^3.0.11",
     "eslint-plugin-perfectionist": "^2.1.0",
+    "fancy-test": "^3.0.11",
     "globby": "^11.1.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",

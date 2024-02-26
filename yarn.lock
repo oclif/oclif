@@ -4442,13 +4442,13 @@ eslint-config-oclif-typescript@^3.0.47:
     eslint-plugin-node "^11.1.0"
     eslint-plugin-perfectionist "^2.5.0"
 
-eslint-config-oclif@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-5.0.0.tgz#69c5cc8a19025e71fc49a10f47475bb8dd18ba24"
-  integrity sha512-yPxtUzU6eFL+WoW8DbRf7uoHxgiu0B/uY7k7rgHwFHij66WoI3qhBNhKI5R5FS5JeTuBOXKrNqQVDsSH0D/JvA==
+eslint-config-oclif@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-5.0.2.tgz#127fbb803629e6f913353f6975e413f77dfec373"
+  integrity sha512-5Ut0Rb1UfTJD54KMIA34SiJ7j3uUHfgn73LqkNEZx+mgTAAAL1+6/6uN0RJhmyp+9/HBIlO3v3pCX0pRR5knWQ==
   dependencies:
     eslint-config-xo-space "^0.34.0"
-    eslint-plugin-mocha "^10.1.0"
+    eslint-plugin-mocha "^10.3.0"
     eslint-plugin-node "^11.1.0"
     eslint-plugin-unicorn "^48.0.1"
 
@@ -4545,10 +4545,10 @@ eslint-plugin-import@^2.29.1:
     semver "^6.3.1"
     tsconfig-paths "^3.15.0"
 
-eslint-plugin-mocha@^10.1.0, eslint-plugin-mocha@^10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-10.2.0.tgz#15b05ce5be4b332bb0d76826ec1c5ebf67102ad6"
-  integrity sha512-ZhdxzSZnd1P9LqDPF0DBcFLpRIGdh1zkF2JHnQklKQOvrQtT73kdP5K9V2mzvbLR+cCAO9OI48NXK/Ax9/ciCQ==
+eslint-plugin-mocha@^10.2.0, eslint-plugin-mocha@^10.3.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-10.3.0.tgz#a1cd40737c230f4dc7477a3bef3bbaad7f8d8282"
+  integrity sha512-IWzbg2K6B1Q7h37Ih4zMyW+nhmw1JvUlHlbCUUUu6PfOOAUGCB0gxmvv7/U+TQQ6e8yHUv+q7KMdIIum4bx+PA==
   dependencies:
     eslint-utils "^3.0.0"
     rambda "^7.4.0"

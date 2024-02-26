@@ -1,3 +1,10 @@
+## [4.4.19](https://github.com/oclif/oclif/compare/4.4.18...4.4.19) (2024-02-26)
+
+### Bug Fixes
+
+- compilation errors ([a1c4b11](https://github.com/oclif/oclif/commit/a1c4b11ce68991abdddbfe6bea3ff6c691b52887))
+- sort generated package.json ([c5c0d0c](https://github.com/oclif/oclif/commit/c5c0d0c23b539cf66b635ccbd72e6f050a5930f0))
+
 ## [4.4.18](https://github.com/oclif/oclif/compare/4.4.17...4.4.18) (2024-02-25)
 
 ### Bug Fixes

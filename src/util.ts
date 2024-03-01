@@ -115,3 +115,7 @@ export async function checkFor7Zip() {
 export function isEmpty(obj: Record<string, unknown>): boolean {
   return Object.keys(obj).length === 0
 }
+
+export function validateBin(bin: string): boolean {
+  return /^[\w-]+$/.test(bin)
+}

@@ -5,7 +5,7 @@ import * as path from 'node:path'
 import validatePkgName from 'validate-npm-package-name'
 import Generator from 'yeoman-generator'
 
-import {compact, isEmpty, uniq} from '../util'
+import {compact, isEmpty, uniq, validateBin} from '../util'
 
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
@@ -167,7 +167,7 @@ export default class CLI extends Generator {
             message: 'command bin name the CLI will export',
             name: 'bin',
             type: 'input',
-            validate: (d: string) => /^[\w-]+$/.test(d) || 'Invalid bin name',
+            validate: (d: string) => validateBin(d) || 'Invalid bin name',
           },
           {
             default: defaults.description,

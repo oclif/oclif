@@ -25,6 +25,7 @@
     "normalize-package-data": "^3.0.3",
     "semver": "^7.6.0",
     "sort-package-json": "^2.8.0",
+    "validate-npm-package-name": "^5.0.0",
     "yeoman-environment": "^3.15.1",
     "yeoman-generator": "^5.8.0"
   },
@@ -43,6 +44,7 @@
     "@types/node": "^18",
     "@types/semver": "^7.5.7",
     "@types/shelljs": "^0.8.11",
+    "@types/validate-npm-package-name": "^4.0.2",
     "@types/yeoman-generator": "^5.2.11",
     "chai": "^4.4.1",
     "commitlint": "^17.7.2",

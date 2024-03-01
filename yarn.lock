@@ -2744,6 +2744,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/validate-npm-package-name@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/validate-npm-package-name/-/validate-npm-package-name-4.0.2.tgz#df0f7dac25df7761f7476605ddac54cb1abda26e"
+  integrity sha512-lrpDziQipxCEeK5kWxvljWYhUvOiB2A9izZd9B2AFarYAkqZshb4lPbRs7zKEic6eGtH8V/2qJW+dPp9OtF6bw==
+
 "@types/vinyl@*", "@types/vinyl@^2.0.4":
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/@types/vinyl/-/vinyl-2.0.11.tgz#b95a5bb007e7a0a61dad5a8971dc9922abbc2629"

@@ -49,7 +49,7 @@
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.57.0",
     "eslint-config-oclif": "^5.0.2",
-    "eslint-config-oclif-typescript": "^3.0.47",
+    "eslint-config-oclif-typescript": "^3.0.48",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-perfectionist": "^2.1.0",
     "fancy-test": "^3.0.11",

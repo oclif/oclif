@@ -57,7 +57,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "lodash.clonedeep": "^4.5.0",
-    "mocha": "^10.2.0",
+    "mocha": "^10.3.0",
     "nyc": "^15.1.0",
     "prettier": "^3.2.5",
     "shelljs": "^0.8.5",

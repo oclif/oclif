@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "4.4.21",
+  "version": "4.4.13-dev.1",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"
@@ -10,7 +10,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.525.0",
     "@aws-sdk/client-s3": "^3.515.0",
-    "@oclif/core": "^3.19.2",
+    "@oclif/core": "^3.21.0",
     "@oclif/plugin-help": "^6.0.14",
     "@oclif/plugin-not-found": "^3.0.10",
     "@oclif/plugin-warn-if-update-available": "^3.0.12",
@@ -29,7 +29,7 @@
     "yeoman-generator": "^5.8.0"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/config-conventional": "^18",
     "@oclif/plugin-legacy": "^2.0.7",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^3.1.13",
@@ -45,17 +45,15 @@
     "@types/shelljs": "^0.8.11",
     "@types/yeoman-generator": "^5.2.11",
     "chai": "^4.4.1",
-    "commitlint": "^17.7.2",
-    "conventional-changelog-cli": "^2.2.2",
+    "commitlint": "^18",
     "eslint": "^8.57.0",
-    "eslint-config-oclif": "^5.0.2",
+    "eslint-config-oclif": "^5.0.4",
     "eslint-config-oclif-typescript": "^3.0.48",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-perfectionist": "^2.1.0",
     "fancy-test": "^3.0.11",
-    "globby": "^11.1.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "husky": "^9",
+    "lint-staged": "^15",
     "lodash.clonedeep": "^4.5.0",
     "mocha": "^10.3.0",
     "nyc": "^15.1.0",

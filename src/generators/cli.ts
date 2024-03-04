@@ -2,9 +2,10 @@ import {Interfaces} from '@oclif/core'
 import {execSync} from 'node:child_process'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+import validatePkgName from 'validate-npm-package-name'
 import Generator from 'yeoman-generator'
 
-import {compact, isEmpty, uniq} from '../util'
+import {compact, isEmpty, uniq, validateBin} from '../util'
 
 const debug = require('debug')('generator-oclif')
 const {version} = require('../../package.json')
@@ -159,12 +160,14 @@ export default class CLI extends Generator {
             message: 'npm package name',
             name: 'name',
             type: 'input',
+            validate: (d: string) => validatePkgName(d).validForNewPackages || 'Invalid package name',
           },
           {
             default: (answers: {name: string}) => answers.name,
             message: 'command bin name the CLI will export',
             name: 'bin',
             type: 'input',
+            validate: (d: string) => validateBin(d) || 'Invalid bin name',
           },
           {
             default: defaults.description,

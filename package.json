@@ -29,7 +29,7 @@
     "yeoman-generator": "^5.8.0"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/config-conventional": "^18",
     "@oclif/plugin-legacy": "^2.0.7",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^3.1.13",
@@ -45,16 +45,15 @@
     "@types/shelljs": "^0.8.11",
     "@types/yeoman-generator": "^5.2.11",
     "chai": "^4.4.1",
-    "commitlint": "^17.7.2",
-    "conventional-changelog-cli": "^2.2.2",
+    "commitlint": "^18",
     "eslint": "^8.57.0",
-    "eslint-config-oclif": "^5.0.2",
+    "eslint-config-oclif": "^5.0.4",
     "eslint-config-oclif-typescript": "^3.0.47",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-perfectionist": "^2.1.0",
     "fancy-test": "^3.0.11",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "husky": "^9",
+    "lint-staged": "^15",
     "lodash.clonedeep": "^4.5.0",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
@@ -63,9 +62,6 @@
     "shx": "^0.3.4",
     "ts-node": "^10.7.0",
     "typescript": "^5"
-  },
-  "resolutions": {
-    "@oclif/core": "3.19.5-dev.0"
   },
   "engines": {
     "node": ">=18.0.0"

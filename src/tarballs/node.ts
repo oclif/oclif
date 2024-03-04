@@ -1,5 +1,5 @@
 import {Interfaces} from '@oclif/core'
-import * as retry from 'async-retry'
+import retry from 'async-retry'
 import {copy, ensureDir, move} from 'fs-extra'
 import got from 'got'
 import {exec as execSync} from 'node:child_process'

@@ -1,5 +1,5 @@
 import {Interfaces} from '@oclif/core'
-import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root'
+import findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import {copy, emptyDir, move, readJSON, remove, writeJSON} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import {existsSync} from 'node:fs'

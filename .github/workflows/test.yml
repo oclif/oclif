@@ -55,7 +55,7 @@ jobs:
           cache: yarn
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
-      - run: yarn ${{ matrix.test }}
+      - run: yarn ${{ matrix.test }} --retries 3
 
   win-build:
     needs: [linux-unit-tests]

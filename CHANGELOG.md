@@ -1,3 +1,46 @@
+## [4.4.19](https://github.com/oclif/oclif/compare/4.4.18...4.4.19) (2024-02-26)
+
+### Bug Fixes
+
+- compilation errors ([a1c4b11](https://github.com/oclif/oclif/commit/a1c4b11ce68991abdddbfe6bea3ff6c691b52887))
+- sort generated package.json ([c5c0d0c](https://github.com/oclif/oclif/commit/c5c0d0c23b539cf66b635ccbd72e6f050a5930f0))
+
+## [4.4.18](https://github.com/oclif/oclif/compare/4.4.17...4.4.18) (2024-02-25)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-warn-if-update-available ([51a5277](https://github.com/oclif/oclif/commit/51a52776c9b1b143d364d6e9ca72952aec54d92c))
+
+## [4.4.17](https://github.com/oclif/oclif/compare/4.4.16...4.4.17) (2024-02-21)
+
+### Bug Fixes
+
+- **deps:** bump ip from 2.0.0 to 2.0.1 ([9dd712a](https://github.com/oclif/oclif/commit/9dd712a3b9a1ee483277ba2b3b5f0bd31cde6e71))
+
+## [4.4.16](https://github.com/oclif/oclif/compare/4.4.15...4.4.16) (2024-02-19)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 3.19.1 to 3.19.2 ([ff48955](https://github.com/oclif/oclif/commit/ff48955ab8550eee06b6e24c3a456708fc6b4ced))
+
+## [4.4.15](https://github.com/oclif/oclif/compare/4.4.14...4.4.15) (2024-02-18)
+
+### Bug Fixes
+
+- **deps:** bump semver and @types/semver ([98b48e0](https://github.com/oclif/oclif/commit/98b48e0aab99f334da9645133dbd76cf918420c6))
+
+## [4.4.14](https://github.com/oclif/oclif/compare/4.4.13...4.4.14) (2024-02-18)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-s3 from 3.504.0 to 3.515.0 ([399ca95](https://github.com/oclif/oclif/commit/399ca95e5e548b71e13481e820a403daba3dff28))
+
+## [4.4.13](https://github.com/oclif/oclif/compare/4.4.12...4.4.13) (2024-02-18)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-warn-if-update-available ([888fe62](https://github.com/oclif/oclif/commit/888fe622cbe0546545aba1122178f59410e66b90))
+
 ## [4.4.12](https://github.com/oclif/oclif/compare/4.4.11...4.4.12) (2024-02-15)
 
 ### Bug Fixes

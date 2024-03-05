@@ -221,7 +221,7 @@ the CLI should already exist in a directory named after the CLI that is the root
         '--scripts',
         scriptsDir,
       ]
-      /* eslint-enable array-element-newline */
+
       if (macos.sign) {
         args.push('--sign', macos.sign)
       } else this.debug('Skipping macOS pkg signing')

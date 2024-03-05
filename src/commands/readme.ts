@@ -29,13 +29,37 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 `
 
   static flags = {
-    aliases: Flags.boolean({allowNo: true, default: true, description: 'include aliases in the command list'}),
-    dir: Flags.string({default: 'docs', description: 'output directory for multi docs', required: true}),
-    multi: Flags.boolean({description: 'create a different markdown page for each topic'}),
-    'readme-path': Flags.string({default: 'README.md', description: 'Path to the README file.', required: true}),
-    'repository-prefix': Flags.string({description: 'a template string used to build links to the source code'}),
+    aliases: Flags.boolean({
+      allowNo: true,
+      default: true,
+      description: 'Include aliases in the command list.',
+    }),
+    multi: Flags.boolean({
+      description: 'Create a different markdown page for each topic.',
+    }),
+    'nested-topics-depth': Flags.integer({
+      dependsOn: ['multi'],
+      description: 'Max nested topics depth for multi markdown page generation. Use with --multi enabled.',
+    }),
+    'output-dir': Flags.string({
+      aliases: ['dir'],
+      default: 'docs',
+      description: 'Output directory for multi docs.',
+      required: true,
+    }),
+    'plugin-directory': Flags.string({
+      description: 'Plugin directory to generate README for. Defaults to the current directory.',
+    }),
+    'readme-path': Flags.string({
+      default: 'README.md',
+      description: 'Path to the README file.',
+      required: true,
+    }),
+    'repository-prefix': Flags.string({
+      description: 'A template string used to build links to the source code.',
+    }),
     version: Flags.string({
-      description: 'version to use in readme links. defaults to the version in package.json',
+      description: 'Version to use in readme links. Defaults to the version in package.json.',
     }),
   }
 
@@ -74,7 +98,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
           : `* [\`${config.bin}\`](#${slugify.slug(`${config.bin}`)})`
       }),
       '',
-      ...commands.map((c) => this.renderCommand(config, c)).map((s) => s.trim() + '\n'),
+      ...commands.map((c) => this.renderCommand(config, {...c})).map((s) => s.trim() + '\n'),
     ]
       .join('\n')
       .trim()
@@ -93,12 +117,21 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       ]
         .join('\n')
         .trim() + '\n'
-    fs.outputFileSync(file, doc)
+
+    fs.outputFileSync(path.resolve(this.flags['plugin-directory'] ?? process.cwd(), file), doc)
   }
 
-  multiCommands(config: Interfaces.Config, commands: Command.Cached[], dir: string): string {
+  multiCommands(
+    config: Interfaces.Config,
+    commands: Command.Cached[],
+    dir: string,
+    nestedTopicsDepth: number | undefined,
+  ): string {
     let topics = config.topics
-    topics = topics.filter((t) => !t.hidden && !t.name.includes(':'))
+    topics = nestedTopicsDepth
+      ? topics.filter((t) => !t.hidden && (t.name.match(/:/g) || []).length < nestedTopicsDepth)
+      : topics.filter((t) => !t.hidden && !t.name.includes(':'))
+
     topics = topics.filter((t) => commands.find((c) => c.id.startsWith(t.name)))
     topics = sortBy(topics, (t) => t.name)
     topics = uniqBy(topics, (t) => t.name)
@@ -116,7 +149,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
         '# Command Topics\n',
         ...topics.map((t) =>
           compact([
-            `* [\`${config.bin} ${t.name}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
+            `* [\`${config.bin} ${t.name.replaceAll(':', config.topicSeparator)}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
             template({config})(t.description || '')
               .trim()
               .split('\n')[0],
@@ -172,9 +205,9 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   async run(): Promise<void> {
     const {flags} = await this.parse(Readme)
     this.flags = flags
-    const cwd = process.cwd()
-    const readmePath = path.resolve(cwd, flags['readme-path'])
-    const tsConfigPath = path.resolve(cwd, 'tsconfig.json')
+    this.flags['plugin-directory'] ??= process.cwd()
+    const readmePath = path.resolve(this.flags['plugin-directory'], flags['readme-path'])
+    const tsConfigPath = path.resolve(this.flags['plugin-directory'], 'tsconfig.json')
     const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
     const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
 
@@ -182,11 +215,15 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       this.warn(`No compiled source found at ${outDir}. Some commands may be missing.`)
     }
 
-    const config = await Config.load({devPlugins: false, root: cwd, userPlugins: false})
+    const config = await Config.load({
+      devPlugins: false,
+      root: this.flags['plugin-directory'],
+      userPlugins: false,
+    })
 
     try {
       // eslint-disable-next-line node/no-missing-require
-      const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
+      const p = require.resolve('@oclif/plugin-legacy', {paths: [this.flags['plugin-directory']]})
       const plugin = new Plugin({root: p, type: 'core'})
       await plugin.load()
       config.plugins.set(plugin.name, plugin)
@@ -210,7 +247,9 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     readme = this.replaceTag(
       readme,
       'commands',
-      this.flags.multi ? this.multiCommands(config, commands, this.flags.dir) : this.commands(config, commands),
+      flags.multi
+        ? this.multiCommands(config, commands, flags['output-dir'], flags['nested-topics-depth'])
+        : this.commands(config, commands),
     )
     readme = this.replaceTag(readme, 'toc', this.toc(config, readme))
 

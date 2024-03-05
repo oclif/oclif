@@ -6,4 +6,4 @@ The `test/integration` requires Github Actions to run on the various OS under te
 
 These tests requires keys for uploading and promoting artifacts to S3 (and testing optional functions like signing).
 
-In GHA, set `PRESERVE_ARTIFCATS` to `true` to prevent the tests from deleting the artifacts.  This is useful if you want to retrieve them from their buckets to manually test on different systems.
+In GHA, set `PRESERVE_ARTIFCATS` to `true` to prevent the tests from deleting the artifacts. This is useful if you want to retrieve them from their buckets to manually test on different systems.

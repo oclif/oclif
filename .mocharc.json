@@ -1,16 +1,8 @@
 {
   "recursive": true,
   "reporter": "spec",
-  "require": [
-    "test/helpers/init.js",
-    "ts-node/register"
-  ],
+  "require": ["test/helpers/init.js", "ts-node/register"],
   "timeout": 60000,
-  "watch-extensions": [
-    "ts"
-  ],
-  "watch-files": [
-    "src",
-    "test"
-  ]
+  "watch-extensions": ["ts"],
+  "watch-files": ["src", "test"]
 }

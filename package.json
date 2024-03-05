@@ -63,6 +63,7 @@
     "shelljs": "^0.8.5",
     "shx": "^0.3.4",
     "ts-node": "^10.7.0",
+    "tsx": "^4.7.1",
     "typescript": "^5"
   },
   "engines": {
@@ -129,7 +130,7 @@
     "postpack": "shx rm oclif.manifest.json",
     "posttest": "yarn run lint",
     "prepack": "shx rm -rf lib && tsc && bin/run.js manifest .",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test:integration:cli": "mocha test/integration/cli.test.ts --timeout 600000",
     "test:integration:deb": "mocha test/integration/deb.test.ts --timeout 900000",
     "test:integration:macos": "mocha test/integration/macos.test.ts --timeout 900000",

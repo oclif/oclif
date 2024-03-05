@@ -34,17 +34,21 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       default: true,
       description: 'Include aliases in the command list.',
     }),
-    dir: Flags.string({
-      default: 'docs',
-      description: 'Output directory for multi docs.',
-      required: true,
-    }),
     multi: Flags.boolean({
       description: 'Create a different markdown page for each topic.',
     }),
     'nested-topics-depth': Flags.integer({
-      default: 1,
+      dependsOn: ['multi'],
       description: 'Max nested topics depth for multi markdown page generation. Use with --multi enabled.',
+    }),
+    'output-dir': Flags.string({
+      aliases: ['dir'],
+      default: 'docs',
+      description: 'Output directory for multi docs.',
+      required: true,
+    }),
+    'plugin-directory': Flags.string({
+      description: 'Plugin directory to generate README for. Defaults to the current directory.',
     }),
     'readme-path': Flags.string({
       default: 'README.md',
@@ -94,7 +98,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
           : `* [\`${config.bin}\`](#${slugify.slug(`${config.bin}`)})`
       }),
       '',
-      ...commands.map((c) => this.renderCommand(config, c)).map((s) => s.trim() + '\n'),
+      ...commands.map((c) => this.renderCommand(config, {...c})).map((s) => s.trim() + '\n'),
     ]
       .join('\n')
       .trim()
@@ -114,19 +118,20 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
         .join('\n')
         .trim() + '\n'
 
-    fs.outputFileSync(file, doc)
+    fs.outputFileSync(path.resolve(this.flags['plugin-directory'] ?? process.cwd(), file), doc)
   }
 
   multiCommands(
     config: Interfaces.Config,
     commands: Command.Cached[],
     dir: string,
-    multiNestedTopicsDepth: number,
+    nestedTopicsDepth: number | undefined,
   ): string {
     let topics = config.topics
-    topics = topics.filter(
-      (t) => !t.hidden && (t.name.match(new RegExp(config.topicSeparator, 'g')) || []).length < multiNestedTopicsDepth,
-    )
+    topics = nestedTopicsDepth
+      ? topics.filter((t) => !t.hidden && (t.name.match(/:/g) || []).length < nestedTopicsDepth)
+      : topics.filter((t) => !t.hidden && !t.name.includes(':'))
+
     topics = topics.filter((t) => commands.find((c) => c.id.startsWith(t.name)))
     topics = sortBy(topics, (t) => t.name)
     topics = uniqBy(topics, (t) => t.name)
@@ -200,9 +205,9 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   async run(): Promise<void> {
     const {flags} = await this.parse(Readme)
     this.flags = flags
-    const cwd = process.cwd()
-    const readmePath = path.resolve(cwd, flags['readme-path'])
-    const tsConfigPath = path.resolve(cwd, 'tsconfig.json')
+    this.flags['plugin-directory'] ??= process.cwd()
+    const readmePath = path.resolve(this.flags['plugin-directory'], flags['readme-path'])
+    const tsConfigPath = path.resolve(this.flags['plugin-directory'], 'tsconfig.json')
     const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
     const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
 
@@ -210,11 +215,15 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       this.warn(`No compiled source found at ${outDir}. Some commands may be missing.`)
     }
 
-    const config = await Config.load({devPlugins: false, root: cwd, userPlugins: false})
+    const config = await Config.load({
+      devPlugins: false,
+      root: this.flags['plugin-directory'],
+      userPlugins: false,
+    })
 
     try {
       // eslint-disable-next-line node/no-missing-require
-      const p = require.resolve('@oclif/plugin-legacy', {paths: [cwd]})
+      const p = require.resolve('@oclif/plugin-legacy', {paths: [this.flags['plugin-directory']]})
       const plugin = new Plugin({root: p, type: 'core'})
       await plugin.load()
       config.plugins.set(plugin.name, plugin)
@@ -239,7 +248,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       readme,
       'commands',
       flags.multi
-        ? this.multiCommands(config, commands, flags.dir, flags['nested-topics-depth'])
+        ? this.multiCommands(config, commands, flags['output-dir'], flags['nested-topics-depth'])
         : this.commands(config, commands),
     )
     readme = this.replaceTag(readme, 'toc', this.toc(config, readme))

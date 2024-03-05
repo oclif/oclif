@@ -33,15 +33,14 @@ describe('readme', () => {
     const originalReadme = readFileSync(readmePath, 'utf8')
 
     test
-      .stdout({print: true})
-      .only()
+      .stdout()
       .finally(() => writeFileSync(readmePath, originalReadme))
       .finally(() => {
         const docsPath = path.resolve(rootPath, 'docs')
         remove(docsPath)
       })
       .stub(process, 'cwd', (stub) => stub.returns(rootPath))
-      .command(['readme', '--multi', '--nested-topics-depth', '2'])
+      .command(['readme', '--multi', '--nested-topics-depth', '2', '--plugin-directory', rootPath])
       .it('writes only subtopics to their own files', () => {
         const newReadme = readFileSync(readmePath, 'utf8')
 
@@ -65,7 +64,7 @@ describe('readme', () => {
         remove(docsPath)
       })
       .stub(process, 'cwd', (stub) => stub.returns(rootPathSpace))
-      .command(['readme', '--multi', '--nested-topics-depth', '2'])
+      .command(['readme', '--multi', '--nested-topics-depth', '2', '--plugin-directory', rootPathSpace])
       .it('writes only subtopics to their own files with " " topic separator', () => {
         const newReadme = readFileSync(readmePathSpace, 'utf8')
 

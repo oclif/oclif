@@ -8,6 +8,7 @@
 
 <!-- toc -->
 
+- [oclif: Node.JS Open CLI Framework](#oclif-nodejs-open-cli-framework)
 - [🗒 Description](#-description)
 - [🚀 Getting Started Tutorial](#-getting-started-tutorial)
 - [✨ Features](#-features)
@@ -115,22 +116,12 @@ hello world! (./src/commands/hello/world.ts)
 # Command Topics
 
 - [`oclif generate`](docs/generate.md) - generate a new CLI
-- [`oclif generate command`](docs/generate/command.md) - add a command to an existing CLI or plugin
-- [`oclif generate hook`](docs/generate/hook.md) - add a hook to an existing CLI or plugin
 - [`oclif help`](docs/help.md) - Display help for oclif.
 - [`oclif manifest`](docs/manifest.md) - generates plugin manifest json
 - [`oclif pack`](docs/pack.md) - package an oclif CLI into installable artifacts
-- [`oclif pack deb`](docs/pack/deb.md) - Pack CLI into debian package.
-- [`oclif pack macos`](docs/pack/macos.md) - pack CLI into macOS .pkg
-- [`oclif pack tarballs`](docs/pack/tarballs.md) - packages oclif CLI into tarballs
-- [`oclif pack win`](docs/pack/win.md) - create windows installer from oclif CLI
 - [`oclif promote`](docs/promote.md) - promote CLI builds to a S3 release channel
 - [`oclif readme`](docs/readme.md) - adds commands to README.md in current directory
 - [`oclif upload`](docs/upload.md) - upload installable CLI artifacts to AWS S3
-- [`oclif upload deb`](docs/upload/deb.md) - upload deb package built with pack:deb
-- [`oclif upload macos`](docs/upload/macos.md) - upload macos installers built with pack:macos
-- [`oclif upload tarballs`](docs/upload/tarballs.md) - upload an oclif CLI to S3
-- [`oclif upload win`](docs/upload/win.md) - upload windows installers built with pack:win
 
 <!-- commandsstop -->
 

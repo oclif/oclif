@@ -1,27 +1,30 @@
-import {Errors, Interfaces} from '@oclif/core'
-import * as path from 'path'
-import * as qq from 'qqjs'
+import {Interfaces} from '@oclif/core'
+import retry from 'async-retry'
+import {copy, ensureDir, move} from 'fs-extra'
+import got from 'got'
+import {exec as execSync} from 'node:child_process'
+import {createWriteStream, existsSync} from 'node:fs'
+import {mkdir} from 'node:fs/promises'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
+import {promisify} from 'node:util'
 
 import {log} from '../log'
+import {checkFor7Zip} from '../util'
+
+const exec = promisify(execSync)
+
+const RETRY_TIMEOUT_MS = 1000
 
 type Options = {
-  nodeVersion: string;
-  output: string;
-  platform: Interfaces.PlatformTypes;
-  arch: Interfaces.ArchTypes | 'armv7l';
+  arch: 'armv7l' | Interfaces.ArchTypes
+  nodeVersion: string
+  output: string
+  platform: Interfaces.PlatformTypes
   tmp: string
 }
 
-async function checkFor7Zip() {
-  try {
-    await qq.x('7z', {stdio: [0, null, 2]})
-  } catch (error: any) {
-    if (error.code === 127)  Errors.error('install 7-zip to package windows tarball')
-    else throw error
-  }
-}
-
-export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}: Options): Promise<string> {
+export async function fetchNodeBinary({arch, nodeVersion, output, platform, tmp}: Options): Promise<string> {
   if (arch === 'arm') arch = 'armv7l'
   let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`
   let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`)
@@ -39,38 +42,53 @@ export async function fetchNodeBinary({nodeVersion, output, platform, arch, tmp}
 
   const download = async () => {
     log(`downloading ${nodeBase}`)
+    await Promise.all([ensureDir(path.join(tmp, 'cache', nodeVersion)), ensureDir(path.join(tmp, 'node'))])
     const shasums = path.join(tmp, 'cache', nodeVersion, 'SHASUMS256.txt.asc')
-    if (!await qq.exists(shasums)) {
-      await qq.download(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`, shasums)
+    if (!existsSync(shasums)) {
+      await pipeline(
+        got.stream(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`),
+        createWriteStream(shasums),
+      )
     }
 
     const basedir = path.dirname(tarball)
-    await qq.mkdirp(basedir)
-    await qq.download(url, tarball)
-    if (platform !== 'win32') await qq.x(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
+    await mkdir(basedir, {recursive: true})
+    await pipeline(got.stream(url), createWriteStream(tarball))
+    if (platform !== 'win32')
+      await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, {cwd: basedir})
   }
 
   const extract = async () => {
     log(`extracting ${nodeBase}`)
     const nodeTmp = path.join(tmp, 'node')
-    await qq.mkdirp(nodeTmp)
-    await qq.mkdirp(path.dirname(cache))
+    await mkdir(nodeTmp, {recursive: true})
+    await mkdir(path.dirname(cache), {recursive: true})
+
     if (platform === 'win32') {
-      await qq.x(`7z x -bd -y "${tarball}"`, {cwd: nodeTmp})
-      await qq.mv([nodeTmp, nodeBase, 'node.exe'], cache)
+      await exec(`7z x -bd -y "${tarball}"`, {cwd: nodeTmp})
+      await move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'))
     } else {
-      await qq.x(`tar -C "${tmp}/node" -xJf "${tarball}"`)
-      await qq.mv([nodeTmp, nodeBase, 'bin/node'], cache)
+      await exec(`tar -C "${tmp}/node" -xJf "${tarball}"`)
+      await move(path.join(nodeTmp, nodeBase, 'bin', 'node'), path.join(cache, 'node'))
     }
   }
 
-  if (await qq.exists(cache)) {
-    await qq.cp(cache, output)
-  } else {
-    await download()
+  if (!existsSync(cache)) {
+    await retry(download, {
+      factor: 1,
+      maxTimeout: RETRY_TIMEOUT_MS,
+      minTimeout: RETRY_TIMEOUT_MS,
+      onRetry(_e, attempt) {
+        log(`retrying node download (attempt ${attempt})`)
+      },
+      retries: 3,
+    })
     await extract()
-    await qq.cp(cache, output)
   }
+
+  await copy(path.join(cache, getFilename(platform)), output)
 
   return output
 }
+
+const getFilename = (platform: string): string => (platform === 'win32' ? 'node.exe' : 'node')

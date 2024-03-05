@@ -1,7 +1,12 @@
 import {expect, test} from '@oclif/test'
-import * as qq from 'qqjs'
-import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
+import {emptyDir, writeJSON} from 'fs-extra'
+import got from 'got'
+import {createWriteStream} from 'node:fs'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
+
 import {gitSha} from '../../src/tarballs'
+import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
@@ -15,7 +20,7 @@ describe('publish:win', () => {
   let sha: string
   let bucket: string
   let basePrefix: string
-  const cwd = process.cwd()
+  const root = path.join(__dirname, '../tmp/test/publish')
 
   beforeEach(async () => {
     sha = await gitSha(process.cwd(), {short: true})
@@ -24,27 +29,32 @@ describe('publish:win', () => {
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await qq.writeJSON(pjsonPath, pjson)
-    const root = qq.join(__dirname, '../tmp/test/publish')
-    await qq.emptyDir(root)
-    qq.cd(root)
+    await writeJSON(pjsonPath, pjson, {spaces: 2})
+    await emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    qq.cd([__dirname, '..'])
-    pjson.version = originalVersion
-    await qq.writeJSON(pjsonPath, pjson)
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      // set this env var to keep the packed windows CLI in the bucket
+      // useful for downloading and testing the CLI on windows
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+      pjson.version = originalVersion
+      await writeJSON(pjsonPath, pjson, {spaces: 2})
+    }
   })
 
   skipIfWindows
-  .command(['pack:win'])
-  .command(['upload:win'])
-  .do(async () => {
-    [pkg, sha] = await findDistFileSha(cwd, 'win32', f => f.endsWith('x64.exe'))
-    expect(pkg).to.be.ok
-    expect(sha).to.be.ok
-  })
-  .it('publishes valid releases', async () => {
-    await qq.download(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
-  })
+    .command(['pack:win'])
+    .command(['upload:win'])
+    .do(async () => {
+      ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))
+      expect(pkg).to.be.ok
+      expect(sha).to.be.ok
+    })
+    .it('publishes valid releases', async () => {
+      console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
+      await pipeline(
+        got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
+        createWriteStream(pkg),
+      )
+    })
 })

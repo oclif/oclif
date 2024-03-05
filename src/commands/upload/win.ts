@@ -1,5 +1,5 @@
 import {Command, Flags} from '@oclif/core'
-import * as qq from 'qqjs'
+import * as fs from 'node:fs'
 
 import aws from '../../aws'
 import {log} from '../../log'
@@ -10,39 +10,50 @@ export default class UploadWin extends Command {
   static description = 'upload windows installers built with pack:win'
 
   static flags = {
-    root: Flags.string({char: 'r', description: 'path to oclif CLI root', default: '.', required: true}),
+    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
+    targets: Flags.string({description: 'comma-separated targets to pack (e.g.: win32-x64,win32-x86)'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadWin)
-    const buildConfig = await Tarballs.buildConfig(flags.root)
-    const {s3Config, config, dist} = buildConfig
+    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
+    const {config, dist, s3Config} = buildConfig
     const S3Options = {
-      Bucket: s3Config.bucket!,
       ACL: s3Config.acl || 'public-read',
+      Bucket: s3Config.bucket!,
     }
 
-    const archs = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch)
+    const archs = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
 
     for (const arch of archs) {
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
-      const localKey = dist(`win32/${templateKey}`)
-      // eslint-disable-next-line no-await-in-loop
-      if (!await qq.exists(localKey)) this.error(`Cannot find Windows exe for ${arch}`, {
-        suggestions: ['Run "oclif pack win" before uploading'],
+      const templateKey = templateShortKey('win32', {
+        arch,
+        bin: config.bin,
+        sha: buildConfig.gitSha,
+        version: config.version,
       })
+      const localKey = dist(`win32/${templateKey}`)
+      if (!fs.existsSync(localKey))
+        this.error(`Cannot find Windows exe for ${arch}`, {
+          suggestions: ['Run "oclif pack win" before uploading'],
+        })
     }
 
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
     const uploadWin = async (arch: 'x64' | 'x86') => {
-      const templateKey = templateShortKey('win32', {bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch})
+      const templateKey = templateShortKey('win32', {
+        arch,
+        bin: config.bin,
+        sha: buildConfig.gitSha,
+        version: config.version,
+      })
       const localExe = dist(`win32/${templateKey}`)
       const cloudKey = `${cloudKeyBase}/${templateKey}`
-      if (await qq.exists(localExe)) await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      if (fs.existsSync(localExe))
+        await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
-    await uploadWin('x64')
-    await uploadWin('x86')
+    await Promise.all([uploadWin('x64'), uploadWin('x86')])
 
     log(`done uploading windows executables for v${config.version}-${buildConfig.gitSha}`)
   }

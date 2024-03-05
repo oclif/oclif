@@ -1,33 +1,30 @@
-import * as _ from 'lodash'
-import * as path from 'path'
-import * as Generator from 'yeoman-generator'
-import yosay = require('yosay')
-import {GeneratorOptions, PackageJson} from '../types'
+import {Interfaces} from '@oclif/core'
+import {pascalCase} from 'change-case'
+import * as path from 'node:path'
+import Generator from 'yeoman-generator'
+
+import {GeneratorOptions} from '../types'
 
 const {version} = require('../../package.json')
 
 export default class Command extends Generator {
   public options: GeneratorOptions
-  public pjson!: PackageJson
+  public pjson!: Interfaces.PJSON
 
   constructor(args: string | string[], opts: GeneratorOptions) {
     super(args, opts)
     this.options = {
-      name: opts.name,
       defaults: opts.defaults,
       force: opts.force,
+      name: opts.name,
     }
   }
 
-  private hasMocha(): boolean {
-    return Boolean(this.pjson.devDependencies?.mocha)
-  }
-
   public async prompting(): Promise<void> {
-    this.pjson = this.fs.readJSON('package.json') as unknown as PackageJson
+    this.pjson = this.fs.readJSON('package.json') as unknown as Interfaces.PJSON
     if (!this.pjson) throw new Error('not in a project directory')
     this.pjson.oclif = this.pjson.oclif || {}
-    this.log(yosay(`Adding a command to ${this.pjson.name} Version: ${version}`))
+    this.log(`Adding a command to ${this.pjson.name}! Version: ${version}`)
   }
 
   public writing(): void {
@@ -37,10 +34,25 @@ export default class Command extends Generator {
     if (bin.includes('/')) bin = bin.split('/').pop()!
     const cmd = `${bin} ${this.options.name}`
     const commandPath = this.destinationPath(`src/commands/${cmdPath}.ts`)
-    const opts = {...this.options, bin, cmd, _, type: 'command', path: commandPath}
+    const opts = {
+      ...this.options,
+      bin,
+      className: pascalCase(this.options.name),
+      cmd,
+      path: commandPath,
+      type: 'command',
+    }
     this.fs.copyTpl(this.templatePath('src/command.ts.ejs'), commandPath, opts)
     if (this.hasMocha()) {
-      this.fs.copyTpl(this.templatePath('test/command.test.ts.ejs'), this.destinationPath(`test/commands/${cmdPath}.test.ts`), opts)
+      this.fs.copyTpl(
+        this.templatePath('test/command.test.ts.ejs'),
+        this.destinationPath(`test/commands/${cmdPath}.test.ts`),
+        opts,
+      )
     }
+  }
+
+  private hasMocha(): boolean {
+    return Boolean(this.pjson.devDependencies?.mocha)
   }
 }

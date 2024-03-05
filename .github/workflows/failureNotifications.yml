@@ -1,13 +1,10 @@
 name: failureNotifications
-
 on:
   workflow_run:
     workflows:
-      - version, tag and github release
       - publish
     types:
       - completed
-
 jobs:
   failure-notify:
     runs-on: ubuntu-latest
@@ -15,7 +12,7 @@ jobs:
     steps:
       - name: Announce Failure
         id: slack
-        uses: slackapi/slack-github-action@v1.21.0
+        uses: slackapi/slack-github-action@v1.24.0
         env:
           # for non-CLI-team-owned plugins, you can send this anywhere you like
           SLACK_WEBHOOK_URL: ${{ secrets.CLI_ALERTS_SLACK_WEBHOOK }}

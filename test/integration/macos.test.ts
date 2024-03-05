@@ -1,10 +1,17 @@
-import {test} from '@oclif/test'
-import * as qq from 'qqjs'
-import {findDistFileSha, developerSalesforceCom, deleteFolder} from '../helpers/helper'
+import {expect, test} from '@oclif/test'
+import {emptyDir, writeJSON} from 'fs-extra'
+import got from 'got'
+import {createWriteStream} from 'node:fs'
+import * as path from 'node:path'
+import {pipeline} from 'node:stream/promises'
+import {exec} from 'shelljs'
+
+import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
+const cloneDeep = require('lodash.clonedeep')
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalVersion = pjson.version
+const originalPJSON = cloneDeep(pjson)
 
 const onlyMacos = process.platform === 'darwin' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
@@ -15,31 +22,41 @@ describe('publish:macos', () => {
   let sha: string
   let bucket: string
   let basePrefix: string
+  const root = path.join(__dirname, '../tmp/test/publish')
+
   beforeEach(async () => {
     pjson.version = `${pjson.version}-${testRun}`
     pjson.oclif.update.node.version = process.versions.node
+    pjson.oclif.binAliases = ['oclif2']
     bucket = pjson.oclif.update.s3.bucket
     basePrefix = pjson.oclif.update.s3.folder
     await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    await qq.writeJSON(pjsonPath, pjson)
-    const root = qq.join(__dirname, '../tmp/test/publish')
-    await qq.emptyDir(root)
-    qq.cd(root)
+    await writeJSON(pjsonPath, pjson, {spaces: 2})
+    await emptyDir(root)
   })
   afterEach(async () => {
-    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-    qq.cd([__dirname, '..'])
-    pjson.version = originalVersion
-    await qq.writeJSON(pjsonPath, pjson)
+    if (!process.env.PRESERVE_ARTIFACTS) {
+      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    }
+
+    await writeJSON(pjsonPath, originalPJSON, {spaces: 2})
   })
 
   onlyMacos
-  .command(['pack:macos'])
-  .do(async () => {
-    [pkg, sha] = await findDistFileSha(cwd, 'macos', f => f.endsWith('pkg'))
-  })
-  .command(['upload:macos'])
-  .it('publishes valid releases', async () => {
-    await qq.download(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`)
-  })
+    .command(['pack:macos'])
+    .do(async () => {
+      // install the intel silicon pkg
+      ;[pkg, sha] = await findDistFileSha(cwd, 'macos', (f) => f.endsWith('x64.pkg'))
+      await exec(`sudo installer -pkg ${path.join(cwd, 'dist', 'macos', pkg)} -target /`)
+      expect(exec('oclif --version').stdout).to.contain(`oclif/${pjson.version}`)
+      // tests binAlias
+      expect(exec('oclif2 --version').stdout).to.contain(`oclif/${pjson.version}`)
+    })
+    .command(['upload:macos'])
+    .it('publishes valid releases', async () => {
+      await pipeline(
+        got.stream(`https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/${pkg}`),
+        createWriteStream(pkg),
+      )
+    })
 })

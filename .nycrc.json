@@ -1,0 +1,11 @@
+{
+  "check-coverage": true,
+  "lines": 35,
+  "statements": 35,
+  "functions": 20,
+  "branches": 15,
+  "reporter": ["lcov", "text"],
+  "extension": [".ts"],
+  "include": ["**/*.ts"],
+  "exclude": ["**/*.d.ts", "test/**"]
+}

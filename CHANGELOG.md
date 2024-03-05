@@ -1,3 +1,14 @@
+# [4.5.0](https://github.com/oclif/oclif/compare/4.4.21...4.5.0) (2024-03-05)
+
+### Bug Fixes
+
+- handle non-string oclif.commands ([#1295](https://github.com/oclif/oclif/issues/1295)) ([30f24dd](https://github.com/oclif/oclif/commit/30f24dd1fecd38ce46b45ca57113f8d533db29a2))
+- validate package name and bin ([c0eb1b4](https://github.com/oclif/oclif/commit/c0eb1b4a2d42069ab1f872fe1e3a3a19565d61d4))
+
+### Features
+
+- multi subtopic enhancements ([#1320](https://github.com/oclif/oclif/issues/1320)) ([964efaf](https://github.com/oclif/oclif/commit/964efaf1dbc38327696345f3d21b7fae0a515a59))
+
 ## [4.4.21](https://github.com/oclif/oclif/compare/4.4.20...4.4.21) (2024-03-04)
 
 ### Bug Fixes

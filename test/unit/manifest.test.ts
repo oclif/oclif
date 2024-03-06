@@ -13,7 +13,7 @@ describe('manifest', () => {
     .it('outputs plugins', (ctx) => {
       const {commands} = fs.readJSONSync('oclif.manifest.json') as Interfaces.Manifest
       expect(commands.manifest).to.include({
-        description: 'generates plugin manifest json',
+        description: 'Generates plugin manifest json (oclif.manifest.json).',
       })
       expect(ctx.stdout).to.match(/wrote manifest to .*oclif.manifest.json/)
     })

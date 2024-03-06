@@ -1,7 +1,6 @@
 import {Interfaces} from '@oclif/core'
 import {expect, test} from '@oclif/test'
 import {emptyDir, writeJSON} from 'fs-extra'
-import got from 'got'
 import {exec as execSync} from 'node:child_process'
 import {createWriteStream} from 'node:fs'
 import {rm} from 'node:fs/promises'
@@ -40,6 +39,7 @@ const manifest = async (path: string, nodeVersion: string) => {
     throw new Error(`could not find a buildmanifest file for target ${target}`)
   }
 
+  const {default: got} = await import('got')
   const manifest = await got(`https://${developerSalesforceCom}/${manifestFile}`).json<Interfaces.S3Manifest>()
   const test = async (url: string, expectedSha: string, nodeVersion: string) => {
     const xz = url.endsWith('.tar.xz')

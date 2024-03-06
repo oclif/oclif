@@ -1,6 +1,5 @@
 import {expect, test} from '@oclif/test'
 import {emptyDir, writeJSON} from 'fs-extra'
-import got from 'got'
 import {createWriteStream} from 'node:fs'
 import * as path from 'node:path'
 import {pipeline} from 'node:stream/promises'
@@ -52,6 +51,7 @@ describe('publish:win', () => {
     })
     .it('publishes valid releases', async () => {
       console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
+      const {default: got} = await import('got')
       await pipeline(
         got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
         createWriteStream(pkg),

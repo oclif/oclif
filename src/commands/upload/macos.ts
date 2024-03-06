@@ -8,13 +8,13 @@ import {commitAWSDir, templateShortKey} from '../../upload-util'
 import {uniq} from '../../util'
 
 export default class UploadMacos extends Command {
-  static description = 'upload macos installers built with pack:macos'
+  static description = 'Upload macos installers built with `pack macos`.'
 
   static flags = {
-    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
+    root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
     targets: Flags.string({
       char: 't',
-      description: 'comma-separated targets to upload (e.g.: darwin-x64,darwin-arm64)',
+      description: 'Comma-separated targets to upload (e.g.: darwin-x64,darwin-arm64).',
     }),
   }
 

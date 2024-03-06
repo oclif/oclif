@@ -8,10 +8,10 @@ import * as Tarballs from '../../tarballs'
 import {DebArch, commitAWSDir, debArch, debVersion, templateShortKey} from '../../upload-util'
 
 export default class UploadDeb extends Command {
-  static description = 'upload deb package built with pack:deb'
+  static description = 'Upload deb package built with `pack deb`.'
 
   static flags = {
-    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
+    root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
   }
 
   async run(): Promise<void> {

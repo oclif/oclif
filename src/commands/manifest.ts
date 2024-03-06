@@ -20,16 +20,16 @@ async function fileExists(filePath: string): Promise<boolean> {
 
 export default class Manifest extends Command {
   static args = {
-    path: Args.string({default: '.', description: 'path to plugin'}),
+    path: Args.string({default: '.', description: 'Path to plugin.'}),
   }
 
-  static description = 'generates plugin manifest json'
+  static description = 'Generates plugin manifest json (oclif.manifest.json).'
 
   static flags = {
     jit: Flags.boolean({
       allowNo: true,
       default: true,
-      summary: 'append commands from JIT plugins in manifest',
+      summary: 'Append commands from JIT plugins in manifest.',
     }),
   }
 

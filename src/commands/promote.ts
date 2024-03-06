@@ -9,20 +9,20 @@ import {uniq} from '../util'
 import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
-  static description = 'promote CLI builds to a S3 release channel'
+  static description = 'Promote CLI builds to a S3 release channel.'
 
   static flags = {
-    channel: Flags.string({default: 'stable', description: 'which channel to promote to', required: true}),
-    deb: Flags.boolean({char: 'd', description: 'promote debian artifacts'}),
-    indexes: Flags.boolean({description: 'append the promoted urls into the index files'}),
-    macos: Flags.boolean({char: 'm', description: 'promote macOS pkg'}),
-    'max-age': Flags.string({char: 'a', default: '86400', description: 'cache control max-age in seconds'}),
-    root: Flags.string({char: 'r', default: '.', description: 'path to the oclif CLI project root', required: true}),
-    sha: Flags.string({description: '7-digit short git commit SHA of the CLI to promote', required: true}),
-    targets: Flags.string({char: 't', description: 'comma-separated targets to promote (e.g.: linux-arm,win32-x64)'}),
-    version: Flags.string({description: 'semantic version of the CLI to promote', required: true}),
-    win: Flags.boolean({char: 'w', description: 'promote Windows exe'}),
-    xz: Flags.boolean({allowNo: true, description: 'also upload xz'}),
+    channel: Flags.string({default: 'stable', description: 'Channel to promote to.', required: true}),
+    deb: Flags.boolean({char: 'd', description: 'Promote debian artifacts.'}),
+    indexes: Flags.boolean({description: 'Append the promoted urls into the index files.'}),
+    macos: Flags.boolean({char: 'm', description: 'Promote macOS pkg.'}),
+    'max-age': Flags.string({char: 'a', default: '86400', description: 'Cache control max-age in seconds.'}),
+    root: Flags.string({char: 'r', default: '.', description: 'Path to the oclif CLI project root.', required: true}),
+    sha: Flags.string({description: '7-digit short git commit SHA of the CLI to promote.', required: true}),
+    targets: Flags.string({char: 't', description: 'Comma-separated targets to promote (e.g.: linux-arm,win32-x64).'}),
+    version: Flags.string({description: 'Semantic version of the CLI to promote.', required: true}),
+    win: Flags.boolean({char: 'w', description: 'Promote Windows exe.'}),
+    xz: Flags.boolean({allowNo: true, description: 'Also upload xz.'}),
   }
 
   async run(): Promise<void> {

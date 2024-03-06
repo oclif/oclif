@@ -16,8 +16,7 @@ interface HelpBaseDerived {
 }
 
 export default class Readme extends Command {
-  static description = `adds commands to README.md in current directory
-The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
+  static description = `The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
 # Usage
 <!-- usage -->
 # Commands
@@ -62,6 +61,8 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       description: 'Version to use in readme links. Defaults to the version in package.json.',
     }),
   }
+
+  static summary = 'Adds commands to README.md in current directory.'
 
   private flags!: Interfaces.InferredFlags<typeof Readme.flags>
   private HelpClass!: HelpBaseDerived

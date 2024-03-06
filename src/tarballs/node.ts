@@ -1,7 +1,6 @@
 import {Interfaces} from '@oclif/core'
 import retry from 'async-retry'
 import {copy, ensureDir, move} from 'fs-extra'
-import got from 'got'
 import {exec as execSync} from 'node:child_process'
 import {createWriteStream, existsSync} from 'node:fs'
 import {mkdir} from 'node:fs/promises'
@@ -44,6 +43,7 @@ export async function fetchNodeBinary({arch, nodeVersion, output, platform, tmp}
     log(`downloading ${nodeBase}`)
     await Promise.all([ensureDir(path.join(tmp, 'cache', nodeVersion)), ensureDir(path.join(tmp, 'node'))])
     const shasums = path.join(tmp, 'cache', nodeVersion, 'SHASUMS256.txt.asc')
+    const {default: got} = await import('got')
     if (!existsSync(shasums)) {
       await pipeline(
         got.stream(`https://nodejs.org/dist/v${nodeVersion}/SHASUMS256.txt.asc`),

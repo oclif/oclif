@@ -1,6 +1,5 @@
 import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
 import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
-import got from 'got'
 import {ExecOptions, exec} from 'node:child_process'
 import * as os from 'node:os'
 import * as path from 'node:path'
@@ -50,6 +49,7 @@ export default class Manifest extends Command {
     if (flags.jit && packageJson.oclif?.jitPlugins) {
       this.debug('jitPlugins: %s', packageJson.oclif.jitPlugins)
       const tmpDir = os.tmpdir()
+      const {default: got} = await import('got')
       const promises = Object.entries(packageJson.oclif.jitPlugins).map(async ([jitPlugin, version]) => {
         const pluginDir = jitPlugin.replace('/', '-').replace('@', '')
 

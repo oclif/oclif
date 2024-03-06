@@ -74,6 +74,8 @@ export function makeFlags<T extends Record<string, FlaggablePrompt>>(flaggablePr
 export abstract class GeneratorCommand<T extends typeof Command> extends Command {
   static baseFlags = {
     yes: Flags.boolean({
+      aliases: ['defaults'],
+      char: 'y',
       description: 'Use defaults for all prompts. Individual flags will override defaults.',
     }),
   }

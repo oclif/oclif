@@ -95,10 +95,29 @@ const FLAGGABLE_PROMPTS = {
 
 export default class Generate extends GeneratorCommand<typeof Generate> {
   static args = {
-    name: Args.string({description: 'directory name of new project', required: true}),
+    name: Args.string({description: 'Directory name of new project.', required: true}),
   }
 
   static description = `This will clone the template repo and update package properties. For CommonJS, the 'oclif/hello-world' template will be used and for ESM, the 'oclif/hello-world-esm' template will be used.`
+
+  static examples = [
+    {
+      command: '<%= config.bin %> <%= command.id %> my-cli',
+      description: 'Generate a new CLI with prompts for all properties',
+    },
+    {
+      command: '<%= config.bin %> <%= command.id %> my-cli --yes',
+      description: 'Automatically accept default values for all prompts',
+    },
+    {
+      command: '<%= config.bin %> <%= command.id %> my-cli --module-type CommonJS --author "John Doe"',
+      description: 'Supply answers for specific prompts',
+    },
+    {
+      command: '<%= config.bin %> <%= command.id %> my-cli --module-type CommonJS --author "John Doe" --yes',
+      description: 'Supply answers for specific prompts and accept default values for the rest',
+    },
+  ]
 
   static flaggablePrompts = FLAGGABLE_PROMPTS
 
@@ -230,5 +249,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       cwd: location,
       silent: false,
     })
+
+    this.log(`\nCreated ${chalk.green(name)}`)
   }
 }

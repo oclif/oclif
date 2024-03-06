@@ -20,7 +20,7 @@ export default class GenerateHook extends GeneratorCommand<typeof GenerateHook> 
       description: 'Event to run hook on.',
     }),
     force: Flags.boolean({
-      description: 'Overwrite existing files',
+      description: 'Overwrite existing files.',
     }),
   }
 

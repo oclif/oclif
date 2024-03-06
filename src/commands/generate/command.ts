@@ -37,8 +37,7 @@ export default class GenerateCommand extends GeneratorCommand<typeof GenerateCom
       type: 'command',
     }
 
-    const commandTemplatePath = join(this.templatesDir, 'src', 'command.ts.ejs')
-    await this.template(commandTemplatePath, destination, opts)
+    await this.template(join(this.templatesDir, 'src', 'command.ts.ejs'), destination, opts)
 
     if (packageJSON.devDependencies?.mocha) {
       const testTemplatePath = join(this.templatesDir, 'test', 'command.test.ts.ejs')

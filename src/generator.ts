@@ -93,6 +93,9 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     name: string
     type: 'input' | 'select'
   }) {
+    if (!this.flaggablePrompts) throw new Error('No flaggable prompts defined')
+    if (!this.flaggablePrompts[name]) throw new Error(`No flaggable prompt defined for ${name}`)
+
     const maybeFlag = () => {
       if (this.flags[name]) {
         this.log(
@@ -155,14 +158,14 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     })
     this.flags = flags as Flags<T>
     this.args = args as Args<T>
-    // @ts-expect-error because we trust that child classes will set this
+    // @ts-expect-error because we trust that child classes will set this - also, it's okay if they don't
     this.flaggablePrompts = this.ctor.flaggablePrompts ?? {}
     this.templatesDir = join(__dirname, '../templates')
   }
 
-  public async template(templatePath: string, destination: string, opts: Record<string, unknown>): Promise<void> {
+  public async template(source: string, destination: string, data?: Record<string, unknown>): Promise<void> {
     const rendered = await new Promise<string>((resolve, reject) => {
-      renderFile(templatePath, opts, (err, str) => {
+      renderFile(source, data ?? {}, (err, str) => {
         if (err) reject(err)
         return resolve(str)
       })

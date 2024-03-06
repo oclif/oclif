@@ -1,11 +1,11 @@
 /* eslint-disable unicorn/no-await-expression-member */
-import {Args, Errors, Flags, Interfaces} from '@oclif/core'
+import {Args, Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
 import {readFile, rm, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 import validatePkgName from 'validate-npm-package-name'
 
-import {FlaggablePrompt, GeneratorCommand, exec, makeFlags} from '../generator'
+import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
 import {compact, uniq, validateBin} from '../util'
 
 async function fetchGithubUserFromAPI(): Promise<{login: string; name: string} | undefined> {
@@ -50,11 +50,6 @@ async function clone(repo: string, location: string): Promise<void> {
         : new Errors.CLIError('An error occurred while cloning the template repo')
     throw err
   }
-}
-
-async function readPJSON(location: string): Promise<Interfaces.PJSON & {scripts: Record<string, string>}> {
-  const packageJSON = await readFile(join(location, 'package.json'), 'utf8')
-  return JSON.parse(packageJSON)
 }
 
 const FLAGGABLE_PROMPTS = {
@@ -130,7 +125,8 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     const template = moduleType === 'ESM' ? 'hello-world-esm' : 'hello-world'
     await clone(template, location)
     await rm(join(location, '.git'), {force: true, recursive: true})
-    const packageJSON = await readPJSON(location)
+    // We just cloned the template repo so we're sure it has a package.json
+    const packageJSON = (await readPJSON(location))!
 
     const githubUser = await fetchGithubUser()
 

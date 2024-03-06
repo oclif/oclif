@@ -1,6 +1,10 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class <%- className %> extends Command {
+  static args = {
+    file: Args.string({description: 'file to read'}),
+  }
+
   static description = 'describe the command here'
 
   static examples = [
@@ -8,14 +12,10 @@ export default class <%- className %> extends Command {
   ]
 
   static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
     // flag with no value (-f, --force)
     force: Flags.boolean({char: 'f'}),
-  }
-
-  static args = {
-    file: Args.string({description: 'file to read'}),
+    // flag with a value (-n, --name=VALUE)
+    name: Flags.string({char: 'n', description: 'name to print'}),
   }
 
   public async run(): Promise<void> {

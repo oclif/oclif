@@ -10,6 +10,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.525.0",
     "@aws-sdk/client-s3": "^3.515.0",
+    "@inquirer/confirm": "^3.0.0",
     "@inquirer/input": "^2.0.0",
     "@inquirer/select": "^2.0.0",
     "@oclif/core": "^3.21.0",
@@ -20,6 +21,7 @@
     "chalk": "^4",
     "change-case": "^4",
     "debug": "^4.3.3",
+    "ejs": "^3.1.9",
     "find-yarn-workspace-root": "^2.0.0",
     "fs-extra": "^8.1",
     "github-slugger": "^1.5.0",

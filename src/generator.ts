@@ -1,7 +1,12 @@
 /* eslint-disable unicorn/no-await-expression-member */
 import {Args, Command, Flags, Interfaces, ux} from '@oclif/core'
 import chalk from 'chalk'
+import {renderFile} from 'ejs'
+import {outputFile} from 'fs-extra'
 import {ExecOptions, exec as cpExec} from 'node:child_process'
+import {existsSync} from 'node:fs'
+import {readFile} from 'node:fs/promises'
+import {join, relative} from 'node:path'
 
 export type FlaggablePrompt = {
   message: string
@@ -36,6 +41,15 @@ export async function exec(
   })
 }
 
+export async function readPJSON(
+  location: string,
+): Promise<(Interfaces.PJSON.CLI & {scripts: Record<string, string>}) | undefined> {
+  try {
+    const packageJSON = await readFile(join(location, 'package.json'), 'utf8')
+    return JSON.parse(packageJSON)
+  } catch {}
+}
+
 function validateInput(input: string, validate: (input: string) => boolean | string): never | string {
   const result = validate(input)
   if (typeof result === 'string') throw new Error(result)
@@ -68,6 +82,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
   protected flaggablePrompts!: Record<string, FlaggablePrompt>
 
   protected flags!: Flags<T>
+  public templatesDir!: string
 
   public async getFlagOrPrompt({
     defaultValue,
@@ -142,5 +157,39 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     this.args = args as Args<T>
     // @ts-expect-error because we trust that child classes will set this
     this.flaggablePrompts = this.ctor.flaggablePrompts ?? {}
+    this.templatesDir = join(__dirname, '../templates')
+  }
+
+  public async template(templatePath: string, destination: string, opts: Record<string, unknown>): Promise<void> {
+    const rendered = await new Promise<string>((resolve, reject) => {
+      renderFile(templatePath, opts, (err, str) => {
+        if (err) reject(err)
+        return resolve(str)
+      })
+    })
+
+    let verb = 'Creating'
+    if (rendered) {
+      const relativePath = relative(process.cwd(), destination)
+      if (existsSync(destination)) {
+        const confirmation =
+          this.flags.force ??
+          (await (
+            await import('@inquirer/confirm')
+          ).default({
+            message: `Overwrite ${relativePath}?`,
+          }))
+
+        if (confirmation) {
+          verb = 'Overwriting'
+        } else {
+          this.log(`${chalk.yellow('Skipping')} ${relativePath}`)
+          return
+        }
+      }
+
+      this.log(`${chalk.yellow(verb)} ${relativePath}`)
+      await outputFile(destination, rendered)
+    }
   }
 }

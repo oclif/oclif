@@ -1,24 +1,49 @@
-import {Args, Flags} from '@oclif/core'
+import {Args, Errors, Flags} from '@oclif/core'
+import chalk from 'chalk'
+import {pascalCase} from 'change-case'
+import {join} from 'node:path'
 
-import CommandBase from './../../command-base'
+import {GeneratorCommand, readPJSON} from '../../generator'
 
-export default class GenerateCommand extends CommandBase {
+export default class GenerateCommand extends GeneratorCommand<typeof GenerateCommand> {
   static args = {
     name: Args.string({description: 'name of command', required: true}),
   }
 
-  static description = 'add a command to an existing CLI or plugin'
+  static description = 'Add a command to an existing CLI or plugin.'
 
   static flags = {
-    force: Flags.boolean({description: 'overwrite existing files'}),
+    'commands-dir': Flags.string({default: 'src/commands', description: 'The directory to create the command in.'}),
+    force: Flags.boolean({description: 'Overwrite existing files.'}),
   }
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(GenerateCommand)
+    const packageJSON = await readPJSON(process.cwd())
+    if (!packageJSON) throw new Errors.CLIError('not in a project directory')
+    const topicSeparator = packageJSON.oclif?.topicSeparator ?? ':'
+    this.log(`Adding ${chalk.dim(this.args.name.replaceAll(':', topicSeparator))} to ${packageJSON.name}!`)
 
-    await super.generate('command', {
-      force: flags.force,
-      name: args.name,
-    })
+    const cmdPath = this.args.name.split(':').join('/')
+    const destination = join(process.cwd(), this.flags['commands-dir'], `${cmdPath}.ts`)
+
+    let bin = packageJSON.oclif?.bin ?? packageJSON.oclif?.dirname ?? packageJSON.name
+    if (bin.includes('/')) bin = bin.split('/').at(-1)!
+    const opts = {
+      bin,
+      className: pascalCase(this.args.name),
+      cmd: `${bin} ${this.args.name}`,
+      name: this.args.name,
+      path: destination,
+      type: 'command',
+    }
+
+    const commandTemplatePath = join(this.templatesDir, 'src', 'command.ts.ejs')
+    await this.template(commandTemplatePath, destination, opts)
+
+    if (packageJSON.devDependencies?.mocha) {
+      const testTemplatePath = join(this.templatesDir, 'test', 'command.test.ts.ejs')
+      const testDestination = join(process.cwd(), 'test', 'commands', `${cmdPath}.test.ts`)
+      await this.template(testTemplatePath, testDestination, opts)
+    }
   }
 }

@@ -234,11 +234,10 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     this.HelpClass = await loadHelpClass(config)
 
     let readme = await fs.readFile(readmePath, 'utf8')
-
     let commands = config.commands
       .filter((c) => !c.hidden && c.pluginType === 'core')
       .filter((c) => (this.flags.aliases ? true : !c.aliases.includes(c.id)))
-      .map((c) => (c.id === '.' ? {...c, id: ''} : c))
+      .map((c) => (config.isSingleCommandCLI ? {...c, id: ''} : c))
 
     this.debug('commands:', commands.map((c) => c.id).length)
     commands = uniqBy(commands, (c) => c.id)

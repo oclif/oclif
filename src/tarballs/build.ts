@@ -91,7 +91,9 @@ export async function build(
     await emptyDir(c.workspace())
     const tarballNewLocation = path.join(c.workspace(), path.basename(tarball))
     await move(tarball, tarballNewLocation)
-    await exec(`tar -xzf "${tarballNewLocation}"`, {cwd: c.workspace()})
+    let tarCommand = `tar -xzf "${tarballNewLocation}"`
+    if (process.platform === 'win32') tarCommand += ' --force-local';
+    await exec(tarCommand, {cwd: c.workspace()})
     const files = await readdir(path.join(c.workspace(), 'package'), {withFileTypes: true})
     await Promise.all(
       files.map((i) => move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))),

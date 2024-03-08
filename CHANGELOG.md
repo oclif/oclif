@@ -1,3 +1,15 @@
+## [4.5.2](https://github.com/oclif/oclif/compare/4.5.1...4.5.2) (2024-03-07)
+
+### Bug Fixes
+
+- force local paths when extracting on win32 ([#1322](https://github.com/oclif/oclif/issues/1322)) ([#1323](https://github.com/oclif/oclif/issues/1323)) ([3a8f37d](https://github.com/oclif/oclif/commit/3a8f37ddb3f905d22dc254ab65fac0795adbd907))
+
+## [4.5.1](https://github.com/oclif/oclif/compare/4.5.0...4.5.1) (2024-03-07)
+
+### Bug Fixes
+
+- handle single command CLI readme ([fae4369](https://github.com/oclif/oclif/commit/fae43696f903d49b9f029dc965efc4ae889a5b8a))
+
 # [4.5.0](https://github.com/oclif/oclif/compare/4.4.21...4.5.0) (2024-03-05)
 
 ### Bug Fixes

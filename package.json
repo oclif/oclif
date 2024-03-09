@@ -52,7 +52,7 @@
     "eslint-config-oclif": "^5.1.0",
     "eslint-config-oclif-typescript": "^3.1.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-perfectionist": "^2.1.0",
+    "eslint-plugin-perfectionist": "^2.6.0",
     "husky": "^9",
     "lint-staged": "^15",
     "lodash.clonedeep": "^4.5.0",

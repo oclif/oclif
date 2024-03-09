@@ -78,6 +78,7 @@ export async function build(
     pack?: boolean
     parallel?: boolean
     platform?: string
+    pruneOnly?: boolean
     tarball?: string
   } = {},
 ): Promise<void> {
@@ -144,7 +145,7 @@ export async function build(
         ? path.join(c.root, 'package-lock.json')
         : path.join(c.root, 'npm-shrinkwrap.json')
       await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
-      await exec('npm install --production', {cwd: c.workspace()})
+      await exec(`npm ${options.pruneOnly ? 'prune' : 'install'} --production`, {cwd: c.workspace()})
     }
   }
 

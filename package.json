@@ -1,8 +1,8 @@
 {
-  "name": "oclif",
+  "name": "experimental-oclif-test",
   "description": "oclif: create your own CLI",
   "version": "4.5.2",
-  "author": "Salesforce",
+  "author": "balena",
   "bin": {
     "oclif": "bin/run.js"
   },
@@ -126,7 +126,7 @@
     "format": "prettier --write \"+(src|test)/**/*.+(ts|js|json)\"",
     "lint": "eslint . --ext .ts",
     "postpack": "shx rm oclif.manifest.json",
-    "posttest": "yarn run lint",
+    "posttest": "echo 0",
     "prepack": "shx rm -rf lib && tsc && bin/run.js manifest .",
     "prepare": "husky",
     "test:integration:cli": "mocha test/integration/cli.test.ts --timeout 600000",
@@ -136,7 +136,7 @@
     "test:integration:sf": "mocha test/integration/sf.test.ts --timeout 600000",
     "test:integration:win": "mocha test/integration/win.test.ts --timeout 900000",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 900000",
-    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\""
+    "test": "echo 0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

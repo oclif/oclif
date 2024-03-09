@@ -1,13 +1,13 @@
-import {Command, Flags, Interfaces} from '@oclif/core'
+import { Command, Flags, Interfaces } from '@oclif/core'
 import * as fs from 'fs-extra'
-import {exec as execSync} from 'node:child_process'
+import { exec as execSync } from 'node:child_process'
 import * as os from 'node:os'
 import * as path from 'node:path'
-import {promisify} from 'node:util'
+import { promisify } from 'node:util'
 
 import * as Tarballs from '../../tarballs'
-import {templateShortKey} from '../../upload-util'
-import {uniq} from '../../util'
+import { templateShortKey } from '../../upload-util'
+import { uniq } from '../../util'
 
 const exec = promisify(execSync)
 
@@ -23,29 +23,26 @@ const scripts = {
 set -x
 sudo mkdir -p /usr/local/bin
 sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${config.bin}
-${
-  config.binAliases
-    ? config.binAliases
+${config.binAliases
+      ? config.binAliases
         ?.map((alias) => `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${config.bin} /usr/local/bin/${alias}`)
         .join(os.EOL)
-    : ''
-}
-${
-  additionalCLI
-    ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}`
-    : ''
-}
+      : ''
+    }
+${additionalCLI
+      ? `sudo ln -sf /usr/local/lib/${config.dirname}/bin/${additionalCLI} /usr/local/bin/${additionalCLI}`
+      : ''
+    }
 `,
   preinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 sudo rm -rf /usr/local/lib/${config.dirname}
 sudo rm -rf /usr/local/${config.bin}
 sudo rm -rf /usr/local/bin/${config.bin}
-${
-  additionalCLI
-    ? `sudo rm -rf /usr/local/${additionalCLI}
+${additionalCLI
+      ? `sudo rm -rf /usr/local/${additionalCLI}
 sudo rm -rf /usr/local/bin/${additionalCLI}`
-    : ''
-}
+      : ''
+    }
 ${config.binAliases ? config.binAliases.map((alias) => `sudo rm -rf /usr/local/bin/${alias}`).join(os.EOL) : ''}
 `,
   uninstall(config: Interfaces.Config, additionalCLI: string | undefined) {
@@ -88,11 +85,10 @@ done
 
 echo "Application uninstalling process started"
 # remove bin aliases link
-${
-  config.binAliases
-    ? config.binAliases.map((alias) => `find "/usr/local/bin/" -name "${alias}" | xargs rm`).join(os.EOL)
-    : ''
-}
+${config.binAliases
+        ? config.binAliases.map((alias) => `find "/usr/local/bin/" -name "${alias}" | xargs rm`).join(os.EOL)
+        : ''
+      }
 # remove link to shortcut file
 find "/usr/local/bin/" -name "${config.bin}" | xargs rm
 ${additionalCLI ? `find "/usr/local/bin/" -name "${additionalCLI}" | xargs rm` : ''}
@@ -146,6 +142,10 @@ export default class PackMacos extends Command {
 the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
       hidden: true,
     }),
+    pruneDependencies: Flags.boolean({
+      default: false,
+      description: 'optionally prune (instead of installing) dependencies. it expects the dependencies to be already installed',
+    }),
     root: Flags.string({
       char: 'r',
       default: '.',
@@ -164,15 +164,15 @@ the CLI should already exist in a directory named after the CLI that is the root
 
   async run(): Promise<void> {
     if (process.platform !== 'darwin') this.error('must be run from macos')
-    const {flags} = await this.parse(PackMacos)
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
-    const {config} = buildConfig
+    const { flags } = await this.parse(PackMacos)
+    const buildConfig = await Tarballs.buildConfig(flags.root, { targets: flags?.targets?.split(',') })
+    const { config } = buildConfig
     const c = config.pjson.oclif
     if (!c.macos) this.error('package.json is missing an oclif.macos config')
     if (!c.macos.identifier) this.error('package.json must have oclif.macos.identifier set')
     const macos = c.macos
     const packageIdentifier = macos.identifier
-    await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'darwin', tarball: flags.tarball})
+    await Tarballs.build(buildConfig, {pack: false, parallel: true, platform: 'darwin', pruneOnly: flags.pruneDependencies, tarball: flags.tarball})
     const scriptsDir = path.join(buildConfig.tmp, 'macos/scripts')
     await fs.emptyDir(buildConfig.dist('macos'))
     const noBundleConfigurationPath = path.join(buildConfig.tmp, 'macos', 'no-bundle.plist')
@@ -185,16 +185,16 @@ the CLI should already exist in a directory named after the CLI that is the root
         version: config.version,
       })
       const dist = buildConfig.dist(`macos/${templateKey}`)
-      const rootDir = buildConfig.workspace({arch, platform: 'darwin'})
+      const rootDir = buildConfig.workspace({ arch, platform: 'darwin' })
       const writeNoBundleConfiguration = async () => {
-        await fs.mkdir(path.dirname(noBundleConfigurationPath), {recursive: true})
-        await fs.writeFile(noBundleConfigurationPath, noBundleConfiguration, {mode: 0o755})
+        await fs.mkdir(path.dirname(noBundleConfigurationPath), { recursive: true })
+        await fs.writeFile(noBundleConfigurationPath, noBundleConfiguration, { mode: 0o755 })
       }
 
       const writeScript = async (script: 'postinstall' | 'preinstall' | 'uninstall') => {
         const scriptLocation = script === 'uninstall' ? [rootDir, 'bin'] : [scriptsDir]
         scriptLocation.push(script)
-        await fs.mkdir(path.dirname(path.join(...scriptLocation)), {recursive: true})
+        await fs.mkdir(path.dirname(path.join(...scriptLocation)), { recursive: true })
         await fs.writeFile(path.join(...scriptLocation), scripts[script](config, flags['additional-cli']), {
           mode: 0o755,
         })

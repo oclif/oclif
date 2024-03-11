@@ -6,6 +6,10 @@ labels: ''
 assignees: ''
 ---
 
+**Is this a bug with the oclif CLI? Or the oclif framework?**
+
+If it's an issue with the oclif framework please make the issue over at [@ocilf/core](https://github.com/oclif/core/)
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 

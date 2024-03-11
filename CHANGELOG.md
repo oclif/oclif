@@ -1,3 +1,9 @@
+## [4.5.4](https://github.com/oclif/oclif/compare/4.5.3...4.5.4) (2024-03-11)
+
+### Bug Fixes
+
+- broken links ([#1333](https://github.com/oclif/oclif/issues/1333)) ([3f92e52](https://github.com/oclif/oclif/commit/3f92e520855f7831533049cc3f79eff760835910))
+
 ## [4.5.3](https://github.com/oclif/oclif/compare/4.5.2...4.5.3) (2024-03-11)
 
 ### Bug Fixes

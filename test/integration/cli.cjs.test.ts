@@ -18,7 +18,7 @@ async function exec(command: string, opts: ExecOptions): Promise<{code: number; 
 }
 
 describe('Generated CLI Integration Tests (CommonJS)', () => {
-  const tmpDir = join(tmpdir(), 'generated-cli-integration-tests')
+  const tmpDir = join(tmpdir(), 'generated-cli-integration-tests-cjs')
   const executable = join(process.cwd(), 'bin', process.platform === 'win32' ? 'dev.cmd' : 'dev.js')
   const cliName = 'mycli'
   const cliDir = join(tmpDir, cliName)

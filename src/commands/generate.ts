@@ -136,7 +136,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     this.log(`Generating ${this.args.name} in ${chalk.green(location)}`)
 
     const moduleType = await this.getFlagOrPrompt({
-      defaultValue: 'CommonJS',
+      defaultValue: 'ESM',
       name: 'module-type',
       type: 'select',
     })

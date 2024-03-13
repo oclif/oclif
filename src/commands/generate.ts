@@ -247,6 +247,11 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     await exec(`${packageManager} install`, {cwd: location, silent: false})
     await exec(`${join(location, 'node_modules', '.bin', 'oclif')} readme`, {
       cwd: location,
+      // When testing this command in development, you get noisy compilation errors as a result of running
+      // this in a spawned process. Setting the NODE_ENV to production will silence these warnings. This
+      // doesn't affect the behavior of the command in production since the NODE_ENV is already set to production
+      // in that scenario.
+      env: {...process.env, NODE_ENV: 'production'},
       silent: false,
     })
 

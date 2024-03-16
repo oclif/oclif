@@ -1727,10 +1727,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.19.2", "@oclif/core@^3.21.0":
-  version "3.21.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.21.0.tgz#a235704e66589c8c104ccd616d0a8f1f36cf693e"
-  integrity sha512-xR7qGPOWtOnYmdYocSn6oEh2oTQLsPOXoj3HYGpb26V3WulwF8Cm33WPnMsSISv4ben3Rtc5i59u9O5NnuG42g==
+"@oclif/core@^3.19.2", "@oclif/core@^3.21.0", "@oclif/core@^3.23.0":
+  version "3.25.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.25.2.tgz#a26d56abe5686c57c1e973957777bd2ae324e973"
+  integrity sha512-OkW/cNa/3DhoCz2YlSpymVe8DXqkoRaLY4SPTVqNVzR4R1dFBE5KoCtuwKwnhxYLCRCqaViPgRnB5K26f0MnjA==
   dependencies:
     "@types/cli-progress" "^3.11.5"
     ansi-escapes "^4.3.2"
@@ -1748,6 +1748,7 @@
     indent-string "^4.0.0"
     is-wsl "^2.2.0"
     js-yaml "^3.14.1"
+    minimatch "^9.0.3"
     natural-orderby "^2.0.3"
     object-treeify "^1.1.33"
     password-prompt "^1.1.3"
@@ -1803,14 +1804,14 @@
   resolved "https://registry.yarnpkg.com/@oclif/prettier-config/-/prettier-config-0.2.1.tgz#1def9f38134f9bfb229257f48a35f7d0d183dc78"
   integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
 
-"@oclif/test@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.2.1.tgz#a2854c585bf0008ee91eb7e35d90ee1beeb7e719"
-  integrity sha512-FMUR1ziZd9FRknk4R9jis8ermiHQadyCWtmtAOL4n9qfnIh4R8qs3wbH1qAg2p+R0VA0+t3jMSSEcPFGmghBQw==
+"@oclif/test@^3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.2.5.tgz#b66cb439c1317f440c0cf2209f95221080a9f624"
+  integrity sha512-ilMTbpkK22ZOGw11/IfumyagMTqEWpzD0ADyKKGcKWT8PXnnqxz9bCGPfBNqPk5pwsX4cvV1oM+OcPEqtJx02A==
   dependencies:
-    "@oclif/core" "^3.19.2"
+    "@oclif/core" "^3.23.0"
     chai "^4.4.1"
-    fancy-test "^3.0.11"
+    fancy-test "^3.0.13"
 
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
@@ -4651,10 +4652,10 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-fancy-test@^3.0.11:
-  version "3.0.12"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-3.0.12.tgz#919482bd63ab949aec4a51690c857f8c125383b3"
-  integrity sha512-pboHMxTnbD72FBl/fgYAmBb6AjiF0OgI1osAnnzzuFgBrzbFQj5so3XlknKC9k3HFJIy0HerCTyDjz/YZ6aBIg==
+fancy-test@^3.0.13:
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-3.0.13.tgz#4164de4251952f3055419537b09d59823399dc8d"
+  integrity sha512-lOXntvGxCLknfTx3zWggtoRGNyk/lSHg6OvR1r8WtUlBRt/lcyYzW9rvHP3eBgxRo6Ii7cvMlvtA53N8TOvmzw==
   dependencies:
     "@types/chai" "*"
     "@types/lodash" "*"

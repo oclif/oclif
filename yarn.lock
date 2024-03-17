@@ -1727,10 +1727,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.19.2", "@oclif/core@^3.21.0":
-  version "3.21.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.21.0.tgz#a235704e66589c8c104ccd616d0a8f1f36cf693e"
-  integrity sha512-xR7qGPOWtOnYmdYocSn6oEh2oTQLsPOXoj3HYGpb26V3WulwF8Cm33WPnMsSISv4ben3Rtc5i59u9O5NnuG42g==
+"@oclif/core@^3.19.2", "@oclif/core@^3.21.0", "@oclif/core@^3.23.0":
+  version "3.25.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.25.2.tgz#a26d56abe5686c57c1e973957777bd2ae324e973"
+  integrity sha512-OkW/cNa/3DhoCz2YlSpymVe8DXqkoRaLY4SPTVqNVzR4R1dFBE5KoCtuwKwnhxYLCRCqaViPgRnB5K26f0MnjA==
   dependencies:
     "@types/cli-progress" "^3.11.5"
     ansi-escapes "^4.3.2"
@@ -1748,6 +1748,7 @@
     indent-string "^4.0.0"
     is-wsl "^2.2.0"
     js-yaml "^3.14.1"
+    minimatch "^9.0.3"
     natural-orderby "^2.0.3"
     object-treeify "^1.1.33"
     password-prompt "^1.1.3"
@@ -1760,12 +1761,12 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-help@^6.0.14":
-  version "6.0.14"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.0.14.tgz#9e572fb8394e9cbe2da3465c029eb9521f9c9198"
-  integrity sha512-orKUsV8hYtbnPf1W7y5wnnR2X6UFOl7hqTh/Uj4E+3ju/8TnvpavZXFA2UQecKWcfdbYjuTwxuZdeh8vBWFLIQ==
+"@oclif/plugin-help@^6.0.18":
+  version "6.0.18"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.0.18.tgz#9ba4151b5d77b78a345ad1308620a1fbf9731ac8"
+  integrity sha512-Ly0gu/+eq7GfIMT76cirbHgElYGlu+PaZ5elrAKmDiegBh31AXqaPQAj8PH4+sG8RSv5srYtrkrygZaw8IF9CQ==
   dependencies:
-    "@oclif/core" "^3.19.2"
+    "@oclif/core" "^3.23.0"
 
 "@oclif/plugin-legacy@^2.0.7":
   version "2.0.7"

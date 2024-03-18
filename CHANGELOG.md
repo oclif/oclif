@@ -1,3 +1,21 @@
+## [4.5.7](https://github.com/oclif/oclif/compare/4.5.6...4.5.7) (2024-03-17)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-cloudfront from 3.525.0 to 3.535.0 ([514c4ab](https://github.com/oclif/oclif/commit/514c4ab5fab5c00499179b0348350fb08045755b))
+
+## [4.5.6](https://github.com/oclif/oclif/compare/4.5.5...4.5.6) (2024-03-17)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-s3 from 3.515.0 to 3.535.0 ([69b8209](https://github.com/oclif/oclif/commit/69b820913a85553f50429a2d18629234158cdd5b))
+
+## [4.5.5](https://github.com/oclif/oclif/compare/4.5.4...4.5.5) (2024-03-17)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-help from 6.0.14 to 6.0.18 ([e927d72](https://github.com/oclif/oclif/commit/e927d7274076b125acaf35b3233c5de21ba4a713))
+
 ## [4.5.4](https://github.com/oclif/oclif/compare/4.5.3...4.5.4) (2024-03-11)
 
 ### Bug Fixes

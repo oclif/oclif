@@ -1,3 +1,9 @@
+# [4.6.0](https://github.com/oclif/oclif/compare/4.5.7...4.6.0) (2024-03-19)
+
+### Features
+
+- no yeoman ([#1321](https://github.com/oclif/oclif/issues/1321)) ([30a8a53](https://github.com/oclif/oclif/commit/30a8a53b460b39ca9a3d5f51f81091ed757ba036))
+
 ## [4.5.7](https://github.com/oclif/oclif/compare/4.5.6...4.5.7) (2024-03-17)
 
 ### Bug Fixes

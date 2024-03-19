@@ -7,11 +7,11 @@ import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadWin extends Command {
-  static description = 'upload windows installers built with pack:win'
+  static description = 'Upload windows installers built with `pack win`.'
 
   static flags = {
-    root: Flags.string({char: 'r', default: '.', description: 'path to oclif CLI root', required: true}),
-    targets: Flags.string({description: 'comma-separated targets to pack (e.g.: win32-x64,win32-x86)'}),
+    root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
+    targets: Flags.string({description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86).'}),
   }
 
   async run(): Promise<void> {

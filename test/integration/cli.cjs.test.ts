@@ -17,8 +17,8 @@ async function exec(command: string, opts: ExecOptions): Promise<{code: number; 
   })
 }
 
-describe('Generated CLI Integration Tests', () => {
-  const tmpDir = join(tmpdir(), 'generated-cli-integration-tests')
+describe('Generated CLI Integration Tests (CommonJS)', () => {
+  const tmpDir = join(tmpdir(), 'generated-cli-integration-tests-cjs')
   const executable = join(process.cwd(), 'bin', process.platform === 'win32' ? 'dev.cmd' : 'dev.js')
   const cliName = 'mycli'
   const cliDir = join(tmpDir, cliName)
@@ -39,7 +39,7 @@ describe('Generated CLI Integration Tests', () => {
   })
 
   it('should generate a CLI', async () => {
-    const genResult = await exec(`${executable} generate ${cliName} --defaults`, {cwd: tmpDir})
+    const genResult = await exec(`${executable} generate ${cliName} --yes --module-type CommonJS`, {cwd: tmpDir})
     expect(genResult.code).to.equal(0)
     expect(genResult.stdout).to.include(`Created ${cliName}`)
 

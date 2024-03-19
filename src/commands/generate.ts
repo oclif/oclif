@@ -31,13 +31,19 @@ async function fetchGithubUserFromGit(): Promise<string | undefined> {
   } catch {}
 }
 
-async function fetchGithubUser(): Promise<{login?: string; name: string} | undefined> {
-  return fetchGithubUserFromAPI() ?? {name: await fetchGithubUserFromGit()}
+async function fetchGithubUser(): Promise<{login?: string; name: string | undefined} | undefined> {
+  return (await fetchGithubUserFromAPI()) ?? {name: await fetchGithubUserFromGit()}
 }
 
-function determineDefaultAuthor({login, name}: {login?: string; name: string}): string {
+function determineDefaultAuthor(
+  user: {login?: string; name: string | undefined} | undefined,
+  defaultValue: string,
+): string {
+  const {login, name} = user ?? {login: undefined, name: undefined}
   if (name && login) return `${name} @${login}`
-  return name
+  if (name) return name
+  if (login) return `@${login}`
+  return defaultValue
 }
 
 async function clone(repo: string, location: string): Promise<void> {
@@ -157,7 +163,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       type: 'input',
     })
     const author = await this.getFlagOrPrompt({
-      defaultValue: determineDefaultAuthor(githubUser ?? {name: packageJSON.author}),
+      defaultValue: determineDefaultAuthor(githubUser, packageJSON.author),
       name: 'author',
       type: 'input',
     })

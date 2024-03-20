@@ -15,7 +15,7 @@ on:
 
 jobs:
   release:
-    uses: salesforcecli/github-workflows/.github/workflows/create-github-release.yml@main
+    uses: salesforcecli/github-workflows/.github/workflows/create-github-release.yml@mdonnalley/support-mutli-readme
     secrets:
       SVC_CLI_BOT_GITHUB_TOKEN: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
     with:
@@ -24,3 +24,4 @@ jobs:
       # However, if this is a manual release (workflow_dispatch), then we want to disable skip-on-empty
       # This helps recover from forgetting to add semantic commits ('fix:', 'feat:', etc.)
       skip-on-empty: ${{ github.event_name == 'push' }}
+      readme-command: 'bin/run.js readme --multi'

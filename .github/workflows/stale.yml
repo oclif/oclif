@@ -13,6 +13,6 @@ jobs:
           stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 7 days.'
           days-before-stale: 30
           days-before-close: 7
-          exempt-issue-labels: 'bug,enhancement,announcement,help wanted,good first issue'
+          exempt-issue-labels: 'bug,enhancement,announcement,help wanted,good first issue,waiting for interest'
           # Disable marking PRs as stale
           days-before-pr-stale: -1

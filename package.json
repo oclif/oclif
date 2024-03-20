@@ -130,7 +130,7 @@
     "lint": "eslint . --ext .ts",
     "postpack": "shx rm oclif.manifest.json",
     "posttest": "yarn run lint",
-    "prepack": "yarn build && bin/run.js manifest && bin/run.js readme --multi",
+    "prepack": "yarn build && bin/run.js manifest",
     "prepare": "husky",
     "test:integration:cli": "mocha test/integration/cli.*.test.ts --timeout 600000 --parallel",
     "test:integration:deb": "mocha test/integration/deb.test.ts --timeout 900000",

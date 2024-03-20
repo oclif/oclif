@@ -13,8 +13,6 @@
 - [🚀 Getting Started Tutorial](#-getting-started-tutorial)
 - [📌 Requirements](#-requirements)
 - [📌 Migrating from V1](#-migrating-from-v1)
-  - [Breaking Changes](#breaking-changes)
-  - [New Commands](#new-commands)
 - [🏗 Usage](#-usage)
 - [📚 Examples](#-examples)
 - [🔨 Commands](#-commands)
@@ -100,12 +98,12 @@ hello world! (./src/commands/hello/world.ts)
 
 # Command Topics
 
-- [`oclif generate`](docs/generate.md) - generate a new CLI
+- [`oclif generate`](docs/generate.md) - Generate a new CLI
 - [`oclif help`](docs/help.md) - Display help for oclif.
-- [`oclif manifest`](docs/manifest.md) - generates plugin manifest json
+- [`oclif manifest`](docs/manifest.md) - Generates plugin manifest json (oclif.manifest.json).
 - [`oclif pack`](docs/pack.md) - package an oclif CLI into installable artifacts
-- [`oclif promote`](docs/promote.md) - promote CLI builds to a S3 release channel
-- [`oclif readme`](docs/readme.md) - adds commands to README.md in current directory
+- [`oclif promote`](docs/promote.md) - Promote CLI builds to a S3 release channel.
+- [`oclif readme`](docs/readme.md) - Adds commands to README.md in current directory.
 - [`oclif upload`](docs/upload.md) - upload installable CLI artifacts to AWS S3
 
 <!-- commandsstop -->

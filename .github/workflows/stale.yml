@@ -14,3 +14,5 @@ jobs:
           days-before-stale: 30
           days-before-close: 7
           exempt-issue-labels: 'bug,enhancement,announcement,help wanted,good first issue'
+          # Disable marking PRs as stale
+          days-before-pr-stale: -1

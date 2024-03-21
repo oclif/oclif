@@ -1,3 +1,18 @@
+## [4.6.1](https://github.com/oclif/oclif/compare/4.6.1-dev.1...4.6.1) (2024-03-21)
+
+## [4.6.1-dev.1](https://github.com/oclif/oclif/compare/4.6.1-dev.0...4.6.1-dev.1) (2024-03-21)
+
+### Bug Fixes
+
+- add oclif script, update readme flag ([cbf5bcc](https://github.com/oclif/oclif/commit/cbf5bccb80ca121066f3c48a0c8066cd23edf307))
+- remove unused yes flag from generate command and generate hook commands ([78a6238](https://github.com/oclif/oclif/commit/78a62385c7151a39b58923163cd7b483b473b89f))
+
+## [4.6.1-dev.0](https://github.com/oclif/oclif/compare/4.6.0...4.6.1-dev.0) (2024-03-20)
+
+### Bug Fixes
+
+- pass in custom command for readme generation ([63bb314](https://github.com/oclif/oclif/commit/63bb31419b264c85ba8cd940e0e18fefb9d4cf54))
+
 # [4.6.0](https://github.com/oclif/oclif/compare/4.5.7...4.6.0) (2024-03-19)
 
 ### Features

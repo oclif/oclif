@@ -15,7 +15,7 @@ on:
 
 jobs:
   release:
-    uses: salesforcecli/github-workflows/.github/workflows/create-github-release.yml@mdonnalley/support-mutli-readme
+    uses: salesforcecli/github-workflows/.github/workflows/create-github-release.yml@main
     secrets:
       SVC_CLI_BOT_GITHUB_TOKEN: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
     with:

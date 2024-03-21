@@ -1,7 +1,6 @@
 # `oclif generate`
 
-generate a new CLI
-This will clone the template repo 'oclif/hello-world' and update package properties
+Generate a new CLI
 
 - [`oclif generate NAME`](#oclif-generate-name)
 - [`oclif generate command NAME`](#oclif-generate-command-name)
@@ -9,59 +8,98 @@ This will clone the template repo 'oclif/hello-world' and update package propert
 
 ## `oclif generate NAME`
 
-generate a new CLI
+Generate a new CLI
 
 ```
 USAGE
-  $ oclif generate NAME
+  $ oclif generate NAME [--author <value>] [--bin <value>] [--description <value>] [--license <value>]
+    [--module-type CommonJS|ESM] [--name <value>] [--owner <value>] [--package-manager npm|yarn] [--repository <value>]
+    [-d <value>] [-y]
 
 ARGUMENTS
-  NAME  directory name of new project
+  NAME  Directory name of new project.
+
+FLAGS
+  -d, --output-dir=<value>        Directory to build the CLI in.
+  -y, --yes                       Use defaults for all prompts. Individual flags will override defaults.
+      --author=<value>            Supply answer for prompt: Author
+      --bin=<value>               Supply answer for prompt: Command bin name the CLI will export
+      --description=<value>       Supply answer for prompt: Description
+      --license=<value>           Supply answer for prompt: License
+      --module-type=<option>      Supply answer for prompt: Select a module type
+                                  <options: CommonJS|ESM>
+      --name=<value>              Supply answer for prompt: NPM package name
+      --owner=<value>             Supply answer for prompt: Who is the GitHub owner of repository
+                                  (https://github.com/OWNER/repo)
+      --package-manager=<option>  Supply answer for prompt: Select a package manager
+                                  <options: npm|yarn>
+      --repository=<value>        Supply answer for prompt: What is the GitHub name of repository
+                                  (https://github.com/owner/REPO)
 
 DESCRIPTION
-  generate a new CLI
-  This will clone the template repo 'oclif/hello-world' and update package properties
+  Generate a new CLI
+
+  This will clone the template repo and update package properties. For CommonJS, the 'oclif/hello-world' template will
+  be used and for ESM, the 'oclif/hello-world-esm' template will be used.
+
+EXAMPLES
+  Generate a new CLI with prompts for all properties
+
+    $ oclif generate my-cli
+
+  Automatically accept default values for all prompts
+
+    $ oclif generate my-cli --yes
+
+  Supply answers for specific prompts
+
+    $ oclif generate my-cli --module-type CommonJS --author "John Doe"
+
+  Supply answers for specific prompts and accept default values for the rest
+
+    $ oclif generate my-cli --module-type CommonJS --author "John Doe" --yes
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/v4.5.2/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/generate.ts)_
 
 ## `oclif generate command NAME`
 
-add a command to an existing CLI or plugin
+Add a command to an existing CLI or plugin.
 
 ```
 USAGE
-  $ oclif generate command NAME [--force]
+  $ oclif generate command NAME [--commands-dir <value>] [--force]
 
 ARGUMENTS
   NAME  name of command
 
 FLAGS
-  --force  overwrite existing files
+  --commands-dir=<value>  [default: src/commands] The directory to create the command in.
+  --force                 Overwrite existing files.
 
 DESCRIPTION
-  add a command to an existing CLI or plugin
+  Add a command to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/v4.5.2/src/commands/generate/command.ts)_
+_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/generate/command.ts)_
 
 ## `oclif generate hook NAME`
 
-add a hook to an existing CLI or plugin
+Add a hook to an existing CLI or plugin.
 
 ```
 USAGE
   $ oclif generate hook NAME [--event <value>] [--force]
 
 ARGUMENTS
-  NAME  name of hook (snake_case)
+  NAME  Name of hook (snake_case).
 
 FLAGS
-  --event=<value>  [default: init] event to run hook on
-  --force          overwrite existing files
+  --event=<value>  [default: init] Event to run hook on.
+  --force          Overwrite existing files.
 
 DESCRIPTION
-  add a hook to an existing CLI or plugin
+  Add a hook to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/v4.5.2/src/commands/generate/hook.ts)_
+_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/generate/hook.ts)_

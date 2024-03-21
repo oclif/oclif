@@ -133,6 +133,11 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       char: 'd',
       description: 'Directory to build the CLI in.',
     }),
+    yes: Flags.boolean({
+      aliases: ['defaults'],
+      char: 'y',
+      description: 'Use defaults for all prompts. Individual flags will override defaults.',
+    }),
   }
 
   static summary = 'Generate a new CLI'

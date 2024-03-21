@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "4.6.0",
+  "version": "4.6.1-dev.1",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"
@@ -139,7 +139,8 @@
     "test:integration:sf": "mocha test/integration/sf.test.ts --timeout 600000",
     "test:integration:win": "mocha test/integration/win.test.ts --timeout 900000",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 900000",
-    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\""
+    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\"",
+    "oclif": "bin/run.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

@@ -1,27 +1,12 @@
 # `oclif readme`
 
-adds commands to README.md in current directory
-The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
-
-# Usage
-
-<!-- usage -->
-
-# Commands
-
-<!-- commands -->
-
-# Table of contents
-
-<!-- toc -->
-
-Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
+Adds commands to README.md in current directory.
 
 - [`oclif readme`](#oclif-readme)
 
 ## `oclif readme`
 
-adds commands to README.md in current directory
+Adds commands to README.md in current directory.
 
 ```
 USAGE
@@ -39,7 +24,8 @@ FLAGS
   --version=<value>              Version to use in readme links. Defaults to the version in package.json.
 
 DESCRIPTION
-  adds commands to README.md in current directory
+  Adds commands to README.md in current directory.
+
   The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
   # Usage
   <!-- usage -->
@@ -51,4 +37,4 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/v4.5.2/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/readme.ts)_

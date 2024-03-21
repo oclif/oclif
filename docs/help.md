@@ -2,18 +2,18 @@
 
 Display help for oclif.
 
-- [`oclif help [COMMANDS]`](#oclif-help-commands)
+- [`oclif help [COMMAND]`](#oclif-help-command)
 
-## `oclif help [COMMANDS]`
+## `oclif help [COMMAND]`
 
 Display help for oclif.
 
 ```
 USAGE
-  $ oclif help [COMMANDS] [-n]
+  $ oclif help [COMMAND...] [-n]
 
 ARGUMENTS
-  COMMANDS  Command to show help for.
+  COMMAND...  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
@@ -22,4 +22,4 @@ DESCRIPTION
   Display help for oclif.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.0.14/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.0.18/src/commands/help.ts)_

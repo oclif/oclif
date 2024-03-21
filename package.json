@@ -139,7 +139,8 @@
     "test:integration:sf": "mocha test/integration/sf.test.ts --timeout 600000",
     "test:integration:win": "mocha test/integration/win.test.ts --timeout 900000",
     "test:integration": "mocha --forbid-only \"test/integration/*.test.ts\" --timeout 900000",
-    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\""
+    "test": "nyc mocha --forbid-only \"test/unit/*.test.ts\"",
+    "oclif": "bin/run.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

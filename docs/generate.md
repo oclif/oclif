@@ -12,9 +12,9 @@ Generate a new CLI
 
 ```
 USAGE
-  $ oclif generate NAME [-y] [--author <value>] [--bin <value>] [--description <value>] [--license <value>]
+  $ oclif generate NAME [--author <value>] [--bin <value>] [--description <value>] [--license <value>]
     [--module-type CommonJS|ESM] [--name <value>] [--owner <value>] [--package-manager npm|yarn] [--repository <value>]
-    [-d <value>]
+    [-d <value>] [-y]
 
 ARGUMENTS
   NAME  Directory name of new project.
@@ -60,7 +60,7 @@ EXAMPLES
     $ oclif generate my-cli --module-type CommonJS --author "John Doe" --yes
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.0/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/generate.ts)_
 
 ## `oclif generate command NAME`
 
@@ -68,21 +68,20 @@ Add a command to an existing CLI or plugin.
 
 ```
 USAGE
-  $ oclif generate command NAME [-y] [--commands-dir <value>] [--force]
+  $ oclif generate command NAME [--commands-dir <value>] [--force]
 
 ARGUMENTS
   NAME  name of command
 
 FLAGS
-  -y, --yes                   Use defaults for all prompts. Individual flags will override defaults.
-      --commands-dir=<value>  [default: src/commands] The directory to create the command in.
-      --force                 Overwrite existing files.
+  --commands-dir=<value>  [default: src/commands] The directory to create the command in.
+  --force                 Overwrite existing files.
 
 DESCRIPTION
   Add a command to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.0/src/commands/generate/command.ts)_
+_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/generate/command.ts)_
 
 ## `oclif generate hook NAME`
 
@@ -90,18 +89,17 @@ Add a hook to an existing CLI or plugin.
 
 ```
 USAGE
-  $ oclif generate hook NAME [-y] [--event <value>] [--force]
+  $ oclif generate hook NAME [--event <value>] [--force]
 
 ARGUMENTS
   NAME  Name of hook (snake_case).
 
 FLAGS
-  -y, --yes            Use defaults for all prompts. Individual flags will override defaults.
-      --event=<value>  [default: init] Event to run hook on.
-      --force          Overwrite existing files.
+  --event=<value>  [default: init] Event to run hook on.
+  --force          Overwrite existing files.
 
 DESCRIPTION
   Add a hook to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.0/src/commands/generate/hook.ts)_
+_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.6.1-dev.1/src/commands/generate/hook.ts)_

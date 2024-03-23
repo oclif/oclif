@@ -16,7 +16,7 @@
     "@oclif/core": "^3.21.0",
     "@oclif/plugin-help": "^6.0.18",
     "@oclif/plugin-not-found": "^3.0.14",
-    "@oclif/plugin-warn-if-update-available": "^3.0.12",
+    "@oclif/plugin-warn-if-update-available": "^3.0.14",
     "async-retry": "^1.3.3",
     "chalk": "^4",
     "change-case": "^4",

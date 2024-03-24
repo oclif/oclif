@@ -1,3 +1,9 @@
+## [4.6.3](https://github.com/oclif/oclif/compare/4.6.2...4.6.3) (2024-03-24)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-warn-if-update-available ([8a29172](https://github.com/oclif/oclif/commit/8a2917215a51cf6ceac9b7ffe5449e9ff486c99f))
+
 ## [4.6.2](https://github.com/oclif/oclif/compare/4.6.1...4.6.2) (2024-03-24)
 
 ### Bug Fixes

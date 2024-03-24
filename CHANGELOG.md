@@ -1,3 +1,9 @@
+## [4.6.2](https://github.com/oclif/oclif/compare/4.6.1...4.6.2) (2024-03-24)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/input from 2.0.0 to 2.1.0 ([75aa6a8](https://github.com/oclif/oclif/commit/75aa6a806a77be51efc3d8ef6766feb79d89b07d))
+
 ## [4.6.1](https://github.com/oclif/oclif/compare/4.6.1-dev.1...4.6.1) (2024-03-21)
 
 ## [4.6.1-dev.1](https://github.com/oclif/oclif/compare/4.6.1-dev.0...4.6.1-dev.1) (2024-03-21)

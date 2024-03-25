@@ -68,6 +68,8 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
+      - if: matrix.package_manager == 'pnpm'
+        run: 'npm install -g pnpm'
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
       - run: yarn test:integration:cli --retries 3

@@ -19,9 +19,10 @@ async function exec(command: string, opts: ExecOptions): Promise<{code: number; 
 
 const MODULE_TYPE = process.env.OCLIF_INTEGRATION_MODULE_TYPE || 'CommonJS'
 const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'
+const nodeVersion = process.version
 
-describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER}`, () => {
-  const tmpDir = join(tmpdir(), `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}`)
+describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + ${nodeVersion}`, () => {
+  const tmpDir = join(tmpdir(), `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}-node-${nodeVersion}`)
   const executable = join(process.cwd(), 'bin', process.platform === 'win32' ? 'dev.cmd' : 'dev.js')
   const cliName = 'mycli'
   const cliDir = join(tmpDir, cliName)

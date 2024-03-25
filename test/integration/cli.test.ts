@@ -17,8 +17,11 @@ async function exec(command: string, opts: ExecOptions): Promise<{code: number; 
   })
 }
 
-describe('Generated CLI Integration Tests (CommonJS)', () => {
-  const tmpDir = join(tmpdir(), 'generated-cli-integration-tests-cjs')
+const MODULE_TYPE = process.env.OCLIF_INTEGRATION_MODULE_TYPE || 'CommonJS'
+const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'
+
+describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER}`, () => {
+  const tmpDir = join(tmpdir(), `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}`)
   const executable = join(process.cwd(), 'bin', process.platform === 'win32' ? 'dev.cmd' : 'dev.js')
   const cliName = 'mycli'
   const cliDir = join(tmpDir, cliName)
@@ -39,7 +42,10 @@ describe('Generated CLI Integration Tests (CommonJS)', () => {
   })
 
   it('should generate a CLI', async () => {
-    const genResult = await exec(`${executable} generate ${cliName} --yes --module-type CommonJS`, {cwd: tmpDir})
+    const genResult = await exec(
+      `${executable} generate ${cliName} --yes --module-type ${MODULE_TYPE} --package-manager ${PACKAGE_MANAGER}`,
+      {cwd: tmpDir},
+    )
     expect(genResult.code).to.equal(0)
     expect(genResult.stdout).to.include(`Created ${cliName}`)
 

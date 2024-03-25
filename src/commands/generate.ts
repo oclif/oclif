@@ -91,7 +91,7 @@ const FLAGGABLE_PROMPTS = {
   'package-manager': {
     message: 'Select a package manager',
     options: ['npm', 'yarn', 'pnpm'],
-    validate: (d: string) => ['npm', 'yarn', 'pnpm'].includes(d) || 'Invalid package manager',
+    validate: (d: string) => ['npm', 'pnpm', 'yarn'].includes(d) || 'Invalid package manager',
   },
   repository: {
     message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',

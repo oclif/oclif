@@ -35,16 +35,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PRESERVE_ARTIFACTS: ${{ vars.PRESERVE_ARTIFACTS }}
 
-  integration:
+  sf-integration:
     needs: [linux-unit-tests]
     strategy:
       matrix:
         node_version: [lts/*, latest]
         os: [ubuntu-latest, windows-latest]
-        test: ['test:integration:sf', 'test:integration:cli']
-        exclude:
-          - os: windows-latest
-            test: test:integration:cli
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -55,7 +51,32 @@ jobs:
           cache: yarn
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
-      - run: yarn ${{ matrix.test }} --retries 3
+      - run: yarn test:integration:sf --retries 3
+
+  integration:
+    needs: [linux-unit-tests]
+    strategy:
+      matrix:
+        node_version: [lts/*, latest]
+        package_manager: [yarn, npm, pnpm]
+        module_type: [CommonJS, ESM]
+        exclude:
+          - os: windows-latest
+            test: test:integration:cli
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
+      - run: yarn build
+      - run: yarn test:integration:cli --retries 3
+        env:
+          OCLIF_INTEGRATION_MODULE_TYPE: ${{ matrix.module_type }}
+          OCLIF_INTEGRATION_PACKAGE_MANAGER: ${{ matrix.package_manager }}
 
   win-build:
     needs: [linux-unit-tests]

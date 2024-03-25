@@ -60,9 +60,6 @@ jobs:
         node_version: [lts/*, latest]
         package_manager: [yarn, npm, pnpm]
         module_type: [CommonJS, ESM]
-        exclude:
-          - os: windows-latest
-            test: test:integration:cli
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

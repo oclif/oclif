@@ -21,7 +21,7 @@ const MODULE_TYPE = process.env.OCLIF_INTEGRATION_MODULE_TYPE || 'CommonJS'
 const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'
 const nodeVersion = process.version
 
-describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + ${nodeVersion}`, () => {
+describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + node ${nodeVersion}`, () => {
   const tmpDir = join(tmpdir(), `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}-node-${nodeVersion}`)
   const executable = join(process.cwd(), 'bin', process.platform === 'win32' ? 'dev.cmd' : 'dev.js')
   const cliName = 'mycli'
@@ -88,5 +88,11 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     const srcRegex = /src\//g
     const srcMatches = contents.match(srcRegex)
     expect(srcMatches).to.not.be.null
+  })
+
+  it('should generate passing tests', async () => {
+    const result = await exec(`${PACKAGE_MANAGER} run test`, {cwd: cliDir})
+    expect(result.code).to.equal(0)
+    expect(result.stdout).to.include('5 passing')
   })
 })

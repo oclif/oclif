@@ -90,8 +90,8 @@ const FLAGGABLE_PROMPTS = {
   },
   'package-manager': {
     message: 'Select a package manager',
-    options: ['npm', 'yarn'],
-    validate: (d: string) => ['npm', 'yarn'].includes(d) || 'Invalid package manager',
+    options: ['npm', 'yarn', 'pnpm'],
+    validate: (d: string) => ['npm', 'pnpm', 'yarn'].includes(d) || 'Invalid package manager',
   },
   repository: {
     message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
@@ -214,10 +214,10 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       repository: `${owner}/${repository}`,
     }
 
-    if (packageManager === 'npm') {
+    if (packageManager !== 'yarn') {
       const scripts = (updatedPackageJSON.scripts || {}) as Record<string, string>
       updatedPackageJSON.scripts = Object.fromEntries(
-        Object.entries(scripts).map(([k, v]) => [k, v.replace('yarn', 'npm run')]),
+        Object.entries(scripts).map(([k, v]) => [k, v.replace('yarn', `${packageManager} run`)]),
       )
     }
 

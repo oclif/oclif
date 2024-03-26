@@ -13,8 +13,8 @@ Generate a new CLI
 ```
 USAGE
   $ oclif generate NAME [--author <value>] [--bin <value>] [--description <value>] [--license <value>]
-    [--module-type CommonJS|ESM] [--name <value>] [--owner <value>] [--package-manager npm|yarn] [--repository <value>]
-    [-d <value>] [-y]
+    [--module-type CommonJS|ESM] [--name <value>] [--owner <value>] [--package-manager npm|yarn|pnpm] [--repository
+    <value>] [-d <value>] [-y]
 
 ARGUMENTS
   NAME  Directory name of new project.
@@ -32,7 +32,7 @@ FLAGS
       --owner=<value>             Supply answer for prompt: Who is the GitHub owner of repository
                                   (https://github.com/OWNER/repo)
       --package-manager=<option>  Supply answer for prompt: Select a package manager
-                                  <options: npm|yarn>
+                                  <options: npm|yarn|pnpm>
       --repository=<value>        Supply answer for prompt: What is the GitHub name of repository
                                   (https://github.com/owner/REPO)
 

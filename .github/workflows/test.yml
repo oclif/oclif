@@ -53,7 +53,7 @@ jobs:
       - run: yarn build
       - run: yarn test:integration:sf --retries 3
 
-  integration:
+  cli-integration:
     needs: [linux-unit-tests]
     strategy:
       matrix:
@@ -76,7 +76,7 @@ jobs:
         run: 'npm install -g pnpm'
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
-      - run: yarn test:integration:cli --retries 3
+      - run: yarn test:integration:cli
         env:
           OCLIF_INTEGRATION_MODULE_TYPE: ${{ matrix.module_type }}
           OCLIF_INTEGRATION_PACKAGE_MANAGER: ${{ matrix.package_manager }}

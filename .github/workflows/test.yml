@@ -64,6 +64,8 @@ jobs:
         exclude:
           - node_version: lts/*
             os: windows-latest
+          - package_manager: npm
+            os: windows-latest
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:

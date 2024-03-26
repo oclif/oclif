@@ -1,3 +1,9 @@
+# [4.7.0](https://github.com/oclif/oclif/compare/4.6.3...4.7.0) (2024-03-26)
+
+### Features
+
+- add `pnpm` to the list of supported package managers ([#1340](https://github.com/oclif/oclif/issues/1340)) ([#1346](https://github.com/oclif/oclif/issues/1346)) ([f96fe18](https://github.com/oclif/oclif/commit/f96fe1827020a04ca70392a8aa5ab9affff015c0))
+
 ## [4.6.3](https://github.com/oclif/oclif/compare/4.6.2...4.6.3) (2024-03-24)
 
 ### Bug Fixes

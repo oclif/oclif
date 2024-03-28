@@ -24,13 +24,15 @@ FLAGS
 DESCRIPTION
   Pack CLI into debian package.
 
+  Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
+
 FLAG DESCRIPTIONS
   -z, --compression=gzip|none|xz|zstd  Override the default compression used by dpkg-deb.
 
     For more details see the `-Zcompress-type` section at https://man7.org/linux/man-pages/man1/dpkg-deb.1.html
 ```
 
-_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/4.7.0/src/commands/pack/deb.ts)_
+_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/4.7.1/src/commands/pack/deb.ts)_
 
 ## `oclif pack macos`
 
@@ -47,9 +49,11 @@ FLAGS
 
 DESCRIPTION
   Pack CLI into macOS .pkg
+
+  Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 ```
 
-_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/4.7.0/src/commands/pack/macos.ts)_
+_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/4.7.1/src/commands/pack/macos.ts)_
 
 ## `oclif pack tarballs`
 
@@ -70,9 +74,11 @@ DESCRIPTION
   Package oclif CLI into tarballs.
 
   This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
+
+  Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 ```
 
-_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/4.7.0/src/commands/pack/tarballs.ts)_
+_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/4.7.1/src/commands/pack/tarballs.ts)_
 
 ## `oclif pack win`
 
@@ -93,9 +99,13 @@ FLAGS
 DESCRIPTION
   Create windows installer from oclif CLI
 
+  You need to have 7zip, nsis (makensis), and grep installed on your machine in order to run this command.
+
   This command will produce unsigned installers unless you supply WINDOWS_SIGNING_PASS (prefixed with the name of your
   executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) in the environment and have set the windows.name and windows.keypath
   properties in your package.json's oclif property.
+
+  Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 
 FLAG DESCRIPTIONS
   --defender-exclusion=checked|unchecked|hidden
@@ -106,4 +116,4 @@ FLAG DESCRIPTIONS
     There is no way to set a hidden checkbox with "true" as a default...the user can always allow full security
 ```
 
-_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/4.7.0/src/commands/pack/win.ts)_
+_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/4.7.1/src/commands/pack/win.ts)_

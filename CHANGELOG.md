@@ -1,3 +1,9 @@
+## [4.7.1](https://github.com/oclif/oclif/compare/4.7.0...4.7.1) (2024-03-28)
+
+### Bug Fixes
+
+- doc pretarball in help ([#1348](https://github.com/oclif/oclif/issues/1348)) ([f554696](https://github.com/oclif/oclif/commit/f554696c66fc2adb6d9121be0f52a8b31b2289aa))
+
 # [4.7.0](https://github.com/oclif/oclif/compare/4.6.3...4.7.0) (2024-03-26)
 
 ### Features

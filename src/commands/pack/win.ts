@@ -224,7 +224,9 @@ exit $ret
 }
 
 export default class PackWin extends Command {
-  static description = `This command will produce unsigned installers unless you supply WINDOWS_SIGNING_PASS (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) in the environment and have set the windows.name and windows.keypath properties in your package.json's oclif property.
+  static description = `You need to have 7zip and nsis installed on your machine in order to run this command.
+
+This command will produce unsigned installers unless you supply WINDOWS_SIGNING_PASS (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) in the environment and have set the windows.name and windows.keypath properties in your package.json's oclif property.
 
 Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.`
 

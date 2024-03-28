@@ -138,7 +138,8 @@ exit 0
 }
 
 export default class PackMacos extends Command {
-  static description = 'Pack CLI into macOS .pkg'
+  static description =
+    'Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.'
 
   static flags = {
     'additional-cli': Flags.string({
@@ -161,6 +162,8 @@ the CLI should already exist in a directory named after the CLI that is the root
       description: 'Comma-separated targets to pack (e.g.: darwin-x64,darwin-arm64).',
     }),
   }
+
+  static summary = 'Pack CLI into macOS .pkg'
 
   async run(): Promise<void> {
     if (process.platform !== 'darwin') this.error('must be run from macos')

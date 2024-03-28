@@ -52,7 +52,8 @@ APT::FTPArchive::Release {
 }
 
 export default class PackDeb extends Command {
-  static description = 'Pack CLI into debian package.'
+  static description =
+    'Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.'
 
   static flags = {
     compression: Flags.option({
@@ -70,6 +71,8 @@ export default class PackDeb extends Command {
       required: false,
     }),
   }
+
+  static summary = 'Pack CLI into debian package.'
 
   async run(): Promise<void> {
     if (process.platform !== 'linux') throw new Error('debian packing must be run on linux')

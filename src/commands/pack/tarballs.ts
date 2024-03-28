@@ -3,8 +3,9 @@ import {Command, Flags} from '@oclif/core'
 import * as Tarballs from '../../tarballs'
 
 export default class PackTarballs extends Command {
-  static description =
-    'This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.'
+  static description = `This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
+
+Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.`
 
   static flags = {
     parallel: Flags.boolean({description: 'Build tarballs in parallel.'}),

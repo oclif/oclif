@@ -224,7 +224,7 @@ exit $ret
 }
 
 export default class PackWin extends Command {
-  static description = `You need to have 7zip and nsis installed on your machine in order to run this command.
+  static description = `You need to have 7zip, nsis (makensis), and grep installed on your machine in order to run this command.
 
 This command will produce unsigned installers unless you supply WINDOWS_SIGNING_PASS (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) in the environment and have set the windows.name and windows.keypath properties in your package.json's oclif property.
 

@@ -29,7 +29,7 @@
     "lodash.template": "^4.5.0",
     "normalize-package-data": "^3.0.3",
     "semver": "^7.6.0",
-    "sort-package-json": "^2.8.0",
+    "sort-package-json": "^2.10.0",
     "validate-npm-package-name": "^5.0.0"
   },
   "devDependencies": {

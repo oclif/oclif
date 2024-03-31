@@ -1,3 +1,9 @@
+## [4.7.4](https://github.com/oclif/oclif/compare/4.7.3...4.7.4) (2024-03-31)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/select from 2.0.0 to 2.2.1 ([80e9611](https://github.com/oclif/oclif/commit/80e96117aec9a95fecc419b6fa5c1d8cd09717b6))
+
 ## [4.7.3](https://github.com/oclif/oclif/compare/4.7.2...4.7.3) (2024-03-31)
 
 ### Bug Fixes

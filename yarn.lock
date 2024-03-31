@@ -1101,13 +1101,13 @@
     "@inquirer/core" "^7.1.1"
     "@inquirer/type" "^1.2.1"
 
-"@inquirer/select@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@inquirer/select/-/select-2.0.0.tgz#c518562bcf6a7c54ed8037f4ff8f5a351e7a3d75"
-  integrity sha512-ZxWP1gHbReAH6HdoNQRV/9W/UjgKSeiiQX2DxJ6w3GDiQeC3fRAL+lukuMM+QGteGqaTjWwIEWhPLvgbGIrRgg==
+"@inquirer/select@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@inquirer/select/-/select-2.2.1.tgz#cd1f8b7869a74ff7f409a01f27998d06e234ea98"
+  integrity sha512-JR4FeHvuxPSPWQy8DzkIvoIsJ4SWtSFb4xVLvLto84dL+jkv12lm8ILtuax4bMHvg5MBj3wYUF6Tk9izJ07gdw==
   dependencies:
-    "@inquirer/core" "^7.0.0"
-    "@inquirer/type" "^1.2.0"
+    "@inquirer/core" "^7.1.1"
+    "@inquirer/type" "^1.2.1"
     ansi-escapes "^4.3.2"
     chalk "^4.1.2"
     figures "^3.2.0"

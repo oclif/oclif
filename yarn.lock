@@ -5671,10 +5671,10 @@ sort-object-keys@^1.1.3:
   resolved "https://registry.yarnpkg.com/sort-object-keys/-/sort-object-keys-1.1.3.tgz#bff833fe85cab147b34742e45863453c1e190b45"
   integrity sha512-855pvK+VkU7PaKYPc+Jjnmt4EzejQHyhhF33q31qG8x7maDzkeFhAAThdCYay11CISO+qAMwjOBP+fPZe0IPyg==
 
-sort-package-json@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-2.8.0.tgz#6a46439ad0fef77f091e678e103f03ecbea575c8"
-  integrity sha512-PxeNg93bTJWmDGnu0HADDucoxfFiKkIr73Kv85EBThlI1YQPdc0XovBgg2llD0iABZbu2SlKo8ntGmOP9wOj/g==
+sort-package-json@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-2.10.0.tgz#6be07424bf3b7db9fbb1bdd69e7945f301026d8a"
+  integrity sha512-MYecfvObMwJjjJskhxYfuOADkXp1ZMMnCFC8yhp+9HDsk7HhR336hd7eiBs96lTXfiqmUNI+WQCeCMRBhl251g==
   dependencies:
     detect-indent "^7.0.1"
     detect-newline "^4.0.0"
@@ -5682,6 +5682,7 @@ sort-package-json@^2.8.0:
     git-hooks-list "^3.0.0"
     globby "^13.1.2"
     is-plain-obj "^4.1.0"
+    semver "^7.6.0"
     sort-object-keys "^1.1.3"
 
 source-map@^0.6.1:

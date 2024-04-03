@@ -1,17 +1,17 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class <%- className %> extends Command {
-  static args = {
+  static override args = {
     file: Args.string({description: 'file to read'}),
   }
 
-  static description = 'describe the command here'
+  static override description = 'describe the command here'
 
-  static examples = [
+  static override examples = [
     '<%%= config.bin %> <%%= command.id %>',
   ]
 
-  static flags = {
+  static override flags = {
     // flag with no value (-f, --force)
     force: Flags.boolean({char: 'f'}),
     // flag with a value (-n, --name=VALUE)

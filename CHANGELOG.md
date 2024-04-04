@@ -1,3 +1,5 @@
+## [4.7.6](https://github.com/oclif/oclif/compare/4.7.5...4.7.6) (2024-04-04)
+
 ## [4.7.5](https://github.com/oclif/oclif/compare/4.7.4...4.7.5) (2024-03-31)
 
 ### Bug Fixes

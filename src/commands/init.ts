@@ -126,6 +126,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       ...packageJSON,
       bin: {[bin]: './bin/run.js'},
       oclif: {
+        commands: './dist/commands',
         ...packageJSON.oclif,
         bin,
         dirname: bin,

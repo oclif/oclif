@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/no-await-expression-member */
 import {Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
-import {existsSync, renameSync, statSync} from 'node:fs'
-import {readdir, rm, writeFile} from 'node:fs/promises'
+import {accessSync, renameSync, statSync} from 'node:fs'
+import {constants, mkdir, readdir, rm, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 
 import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
@@ -30,7 +30,14 @@ const FLAGGABLE_PROMPTS = {
   },
   'output-dir': {
     message: 'Directory to build the CLI in',
-    validate: (d: string) => existsSync(resolve(d)),
+    validate(d: string) {
+      try {
+        accessSync(resolve(d), constants.X_OK)
+        return true
+      } catch {
+        return false
+      }
+    },
   },
   'package-manager': {
     message: 'Select a package manager',
@@ -109,11 +116,16 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     await clone(template, repoPath)
 
     const repoBinPath = join(repoPath, 'bin')
+    const projectBinPath = join(location, 'bin')
+    if (!statSync(projectBinPath).isDirectory()) {
+      await mkdir(projectBinPath)
+    }
+
     const binFiles = await readdir(repoBinPath)
     for (const binFile of binFiles) {
       const filePath = join(repoBinPath, binFile)
       if (statSync(filePath).isFile()) {
-        renameSync(filePath, join(location, 'bin', binFile))
+        renameSync(filePath, join(projectBinPath, binFile))
       }
     }
 

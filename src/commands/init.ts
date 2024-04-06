@@ -124,7 +124,10 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
 
     const updatedPackageJSON = {
       ...packageJSON,
-      bin: {[bin]: './bin/run.js'},
+      bin: {
+        ...packageJSON.bin,
+        [bin]: './bin/run.js',
+      },
       oclif: {
         bin,
         commands: './dist/commands',

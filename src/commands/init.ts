@@ -25,15 +25,15 @@ const validPackageManagers = ['npm', 'yarn', 'pnpm']
 
 const FLAGGABLE_PROMPTS = {
   bin: {
-    message: 'Command bin name the CLI will export:',
+    message: 'Command bin name the CLI will export',
     validate: (d: string) => validateBin(d) || 'Invalid bin name',
   },
   'output-dir': {
-    message: 'Directory to build the CLI in:',
+    message: 'Directory to build the CLI in',
     validate: (d: string) => existsSync(resolve(d)),
   },
   'package-manager': {
-    message: 'Select a package manager:',
+    message: 'Select a package manager',
     options: validPackageManagers,
     validate: (d: string) => validPackageManagers.includes(d) || 'Invalid package manager',
   },
@@ -97,7 +97,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
           await import('@inquirer/select')
         ).default({
           choices: validModuleTypes.map((type) => ({name: type, value: type})),
-          message: 'Select a module type:',
+          message: 'Select a module type',
         })
       }
     }
@@ -151,7 +151,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
             await import('@inquirer/select')
           ).default({
             choices: validPackageManagers.map((manager) => ({name: manager, value: manager})),
-            message: 'Select a package manager:',
+            message: 'Select a package manager',
           })
         }
       }

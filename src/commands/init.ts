@@ -81,7 +81,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     }
 
     const bin = await this.getFlagOrPrompt({
-      defaultValue: location.split(sep).at(-1)!,
+      defaultValue: location.split(sep).at(-1) || '',
       name: 'bin',
       type: 'input',
     })

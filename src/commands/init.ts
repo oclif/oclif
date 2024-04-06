@@ -117,9 +117,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
 
     const repoBinPath = join(repoPath, 'bin')
     const projectBinPath = join(location, 'bin')
-    if (!statSync(projectBinPath).isDirectory()) {
-      await mkdir(projectBinPath)
-    }
+    await mkdir(projectBinPath, {recursive: true})
 
     const binFiles = await readdir(repoBinPath)
     for (const binFile of binFiles) {

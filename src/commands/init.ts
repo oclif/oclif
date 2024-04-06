@@ -40,24 +40,21 @@ const FLAGGABLE_PROMPTS = {
 } satisfies Record<string, FlaggablePrompt>
 
 export default class Generate extends GeneratorCommand<typeof Generate> {
-  static description = `This will clone the template repo and update package properties. For CommonJS, the 'oclif/hello-world' template will be used and for ESM, the 'oclif/hello-world-esm' template will be used.`
+  static description =
+    'This will add the necessary oclif bin files, add oclif config to package.json, and install @oclif/core if needed.'
 
   static examples = [
     {
-      command: '<%= config.bin %> <%= command.id %> my-cli',
-      description: 'Generate a new CLI with prompts for all properties',
+      command: '<%= config.bin %> <%= command.id %>',
+      description: 'Initialize a new CLI in the current directory with auto-detected module type and package manager',
     },
     {
-      command: '<%= config.bin %> <%= command.id %> my-cli --yes',
-      description: 'Automatically accept default values for all prompts',
+      command: '<%= config.bin %> <%= command.id %> --output-dir "/path/to/existing/project"',
+      description: 'Initialize a new CLI in a different directory',
     },
     {
-      command: '<%= config.bin %> <%= command.id %> my-cli --module-type CommonJS --author "John Doe"',
+      command: '<%= config.bin %> <%= command.id %> --module-type "ESM" --package-manager "npm"',
       description: 'Supply answers for specific prompts',
-    },
-    {
-      command: '<%= config.bin %> <%= command.id %> my-cli --module-type CommonJS --author "John Doe" --yes',
-      description: 'Supply answers for specific prompts and accept default values for the rest',
     },
   ]
 

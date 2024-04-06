@@ -20,6 +20,9 @@ async function clone(repo: string, location: string): Promise<void> {
   }
 }
 
+const validModuleTypes = ['ESM', 'CommonJS']
+const validPackageManagers = ['npm', 'yarn', 'pnpm']
+
 const FLAGGABLE_PROMPTS = {
   bin: {
     message: 'Command bin name the CLI will export:',
@@ -31,8 +34,8 @@ const FLAGGABLE_PROMPTS = {
   },
   'package-manager': {
     message: 'Select a package manager:',
-    options: ['npm', 'yarn', 'pnpm'],
-    validate: (d: string) => ['npm', 'pnpm', 'yarn'].includes(d) || 'Invalid package manager',
+    options: validPackageManagers,
+    validate: (d: string) => validPackageManagers.includes(d) || 'Invalid package manager',
   },
 } satisfies Record<string, FlaggablePrompt>
 
@@ -63,7 +66,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
   static flags = {
     ...makeFlags(FLAGGABLE_PROMPTS),
     'module-type': Flags.option({
-      options: ['CommonJS', 'ESM'],
+      options: validModuleTypes,
     })({}),
   }
 
@@ -87,7 +90,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     })
 
     let moduleType = this.flags['module-type']
-    if (!moduleType) {
+    if (!moduleType || !validModuleTypes.includes(moduleType)) {
       if (packageJSON.type === 'module') {
         moduleType = 'ESM'
       } else if (packageJSON.type === 'commonjs') {
@@ -96,10 +99,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
         moduleType = await (
           await import('@inquirer/select')
         ).default({
-          choices: [
-            {name: 'CommonJS', value: 'CommonJS'},
-            {name: 'ESM', value: 'ESM'},
-          ],
+          choices: validModuleTypes.map((type) => ({name: type, value: type})),
           message: 'Select a module type:',
         })
       }
@@ -137,7 +137,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     const installedDeps = Object.keys(packageJSON.dependencies || {})
     if (!installedDeps.includes('@oclif/core')) {
       let packageManager = this.flags['package-manager']
-      if (!packageManager) {
+      if (!packageManager || !validPackageManagers.includes(packageManager)) {
         const rootFiles = await readdir(location)
         if (rootFiles.includes('package-lock.json')) {
           packageManager = 'npm'
@@ -149,11 +149,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
           packageManager = await (
             await import('@inquirer/select')
           ).default({
-            choices: [
-              {name: 'npm', value: 'npm'},
-              {name: 'yarn', value: 'yarn'},
-              {name: 'pnpm', value: 'pnpm'},
-            ],
+            choices: validPackageManagers.map((manager) => ({name: manager, value: manager})),
             message: 'Select a package manager:',
           })
         }

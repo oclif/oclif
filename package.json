@@ -59,7 +59,7 @@
     "husky": "^9",
     "lint-staged": "^15",
     "lodash.clonedeep": "^4.5.0",
-    "mocha": "^10.3.0",
+    "mocha": "^10.4.0",
     "nyc": "^15.1.0",
     "prettier": "^3.2.5",
     "shelljs": "^0.8.5",

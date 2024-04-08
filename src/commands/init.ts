@@ -166,7 +166,10 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
         }
       }
 
-      await exec(`${packageManager} install @oclif/core`, {cwd: location, silent: false})
+      await exec(`${packageManager} ${packageManager === 'npm' ? 'install' : 'add'} @oclif/core`, {
+        cwd: location,
+        silent: false,
+      })
     }
 
     this.log(`\nCreated CLI ${chalk.green(bin)}`)

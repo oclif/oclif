@@ -1,3 +1,9 @@
+## [4.7.8](https://github.com/oclif/oclif/compare/4.7.7...4.7.8) (2024-04-09)
+
+### Bug Fixes
+
+- remove yarn.lock if yarn wasnt selected ([#1365](https://github.com/oclif/oclif/issues/1365)) ([a8d3bfa](https://github.com/oclif/oclif/commit/a8d3bfa51ccedbecf2b320d997bd10accf1d5acc))
+
 ## [4.7.7](https://github.com/oclif/oclif/compare/4.7.6...4.7.7) (2024-04-07)
 
 ### Bug Fixes

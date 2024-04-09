@@ -54,7 +54,7 @@ async function determinePackageManager(location: string): Promise<PackageManager
 
 export default class Generate extends GeneratorCommand<typeof Generate> {
   static description =
-    'This will add the necessary oclif bin files, add oclif config to package.json, and install @oclif/core if needed.'
+    'This will add the necessary oclif bin files, add oclif config to package.json, and install @oclif/core and ts-node.'
 
   static examples = [
     {
@@ -66,7 +66,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       description: 'Initialize a new CLI in a different directory.',
     },
     {
-      command: '<%= config.bin %> <%= command.id %> --topic-separator colons --bin mycli.',
+      command: '<%= config.bin %> <%= command.id %> --topic-separator colons --bin mycli',
       description: 'Supply answers for specific prompts',
     },
   ]
@@ -171,7 +171,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     }
 
     const allInstalledDeps = [
-      ...Object.keys(packageJSON.dependencies ?? {}),
+      ...installedDeps,
       ...Object.keys(packageJSON.devDependencies ?? {}),
     ]
     if (!allInstalledDeps.includes('ts-node')) {

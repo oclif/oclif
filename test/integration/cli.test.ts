@@ -55,6 +55,20 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     const result = await exec(`${cliBinRun} hello world`, {cwd: cliDir})
     expect(result.code).to.equal(0)
     expect(result.stdout).to.equal('hello world! (./src/commands/hello/world.ts)\n')
+
+    if (PACKAGE_MANAGER === 'yarn') {
+      expect(existsSync(join(cliDir, 'yarn.lock'))).to.be.true
+    }
+
+    if (PACKAGE_MANAGER === 'npm') {
+      expect(existsSync(join(cliDir, 'package-lock.json'))).to.be.true
+      expect(existsSync(join(cliDir, 'yarn.lock'))).to.be.false
+    }
+
+    if (PACKAGE_MANAGER === 'pnpm') {
+      expect(existsSync(join(cliDir, 'pnpm-lock.yaml'))).to.be.true
+      expect(existsSync(join(cliDir, 'yarn.lock'))).to.be.false
+    }
   })
 
   it('should generate a new command', async () => {

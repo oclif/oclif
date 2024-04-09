@@ -255,6 +255,10 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
 
     await writeFile(join(location, '.gitignore'), updated)
 
+    if (packageManager !== 'yarn') {
+      await rm(join(location, 'yarn.lock'))
+    }
+
     await exec(`${packageManager} install`, {cwd: location, silent: false})
     await exec(`${join(location, 'node_modules', '.bin', 'oclif')} readme`, {
       cwd: location,

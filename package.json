@@ -114,10 +114,10 @@
     },
     "topics": {
       "pack": {
-        "description": "package an oclif CLI into installable artifacts"
+        "description": "Package an oclif CLI into installable artifacts."
       },
       "upload": {
-        "description": "upload installable CLI artifacts to AWS S3"
+        "description": "Upload installable CLI artifacts to AWS S3."
       }
     }
   },
@@ -134,6 +134,7 @@
     "prepare": "husky",
     "test:integration:cli": "mocha test/integration/cli.test.ts --timeout 600000",
     "test:integration:deb": "mocha test/integration/deb.test.ts --timeout 900000",
+    "test:integration:init": "mocha test/integration/init.test.ts --timeout 600000",
     "test:integration:macos": "mocha test/integration/macos.test.ts --timeout 900000",
     "test:integration:publish": "mocha test/integration/publish.test.ts --timeout 900000",
     "test:integration:sf": "mocha test/integration/sf.test.ts --timeout 600000",

@@ -1,38 +1,39 @@
-/* eslint-disable unicorn/no-await-expression-member */
 import {Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
-import {accessSync} from 'node:fs'
-import {constants, readdir, writeFile} from 'node:fs/promises'
+import {readdir, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 
 import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
 import {validateBin} from '../util'
-
-const validModuleTypes = ['ESM', 'CommonJS']
-const validPackageManagers = ['npm', 'yarn', 'pnpm']
 
 const FLAGGABLE_PROMPTS = {
   bin: {
     message: 'Command bin name the CLI will export',
     validate: (d: string) => validateBin(d) || 'Invalid bin name',
   },
-  'output-dir': {
-    message: 'Directory to build the CLI in',
-    validate(d: string) {
-      try {
-        accessSync(resolve(d), constants.X_OK)
-        return true
-      } catch {
-        return false
-      }
-    },
-  },
-  'package-manager': {
-    message: 'Select a package manager',
-    options: validPackageManagers,
-    validate: (d: string) => validPackageManagers.includes(d) || 'Invalid package manager',
+  'topic-separator': {
+    message: 'Select a topic separator',
+    options: ['colons', 'spaces'],
+    validate: (d: string) => d === 'colons' || d === 'spaces' || 'Invalid topic separator',
   },
 } satisfies Record<string, FlaggablePrompt>
+
+async function determinePackageManager(location: string): Promise<'npm' | 'pnpm' | 'yarn'> {
+  const rootFiles = await readdir(location)
+  if (rootFiles.includes('package-lock.json')) {
+    return 'npm'
+  }
+
+  if (rootFiles.includes('yarn.lock')) {
+    return 'yarn'
+  }
+
+  if (rootFiles.includes('pnpm-lock.yaml')) {
+    return 'pnpm'
+  }
+
+  return 'npm'
+}
 
 export default class Generate extends GeneratorCommand<typeof Generate> {
   static description =
@@ -41,14 +42,14 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
   static examples = [
     {
       command: '<%= config.bin %> <%= command.id %>',
-      description: 'Initialize a new CLI in the current directory with auto-detected module type and package manager',
+      description: 'Initialize a new CLI in the current directory.',
     },
     {
       command: '<%= config.bin %> <%= command.id %> --output-dir "/path/to/existing/project"',
-      description: 'Initialize a new CLI in a different directory',
+      description: 'Initialize a new CLI in a different directory.',
     },
     {
-      command: '<%= config.bin %> <%= command.id %> --module-type "ESM" --package-manager "npm"',
+      command: '<%= config.bin %> <%= command.id %> --topic-separator colons --bin mycli.',
       description: 'Supply answers for specific prompts',
     },
   ]
@@ -57,15 +58,22 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
 
   static flags = {
     ...makeFlags(FLAGGABLE_PROMPTS),
-    'module-type': Flags.option({
-      options: validModuleTypes,
-    })({}),
+    'output-dir': Flags.directory({
+      char: 'd',
+      description: 'Directory to initialize the CLI in.',
+      exists: true,
+    }),
+    yes: Flags.boolean({
+      aliases: ['defaults'],
+      char: 'y',
+      description: 'Use defaults for all prompts. Individual flags will override defaults.',
+    }),
   }
 
   static summary = 'Initialize a new oclif CLI'
 
   async run(): Promise<void> {
-    const outputDir = await this.getFlagOrPrompt({defaultValue: './', name: 'output-dir', type: 'input'})
+    const outputDir = this.flags['output-dir'] ?? process.cwd()
     const location = resolve(outputDir)
 
     this.log(`Initializing oclif in ${chalk.green(location)}`)
@@ -81,22 +89,13 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       type: 'input',
     })
 
-    let moduleType = this.flags['module-type']
-    if (!moduleType || !validModuleTypes.includes(moduleType)) {
-      if (packageJSON.type === 'module') {
-        moduleType = 'ESM'
-      } else if (packageJSON.type === 'commonjs') {
-        moduleType = 'CommonJS'
-      } else {
-        moduleType = await (
-          await import('@inquirer/select')
-        ).default({
-          choices: validModuleTypes.map((type) => ({name: type, value: type})),
-          message: 'Select a module type',
-        })
-      }
-    }
+    const topicSeparator = await this.getFlagOrPrompt({
+      defaultValue: 'spaces',
+      name: 'topic-separator',
+      type: 'select',
+    })
 
+    const moduleType = packageJSON.type === 'module' ? 'ESM' : 'CommonJS'
     this.log(`Using module type ${chalk.green(moduleType)}`)
 
     const templateOptions = {moduleType}
@@ -122,6 +121,11 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       templateOptions,
     )
 
+    if (process.platform !== 'win32') {
+      await exec(`chmod +x ${join(projectBinPath, 'run.js')}`)
+      await exec(`chmod +x ${join(projectBinPath, 'dev.js')}`)
+    }
+
     const updatedPackageJSON = {
       ...packageJSON,
       bin: {
@@ -132,34 +136,31 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
         bin,
         commands: './dist/commands',
         dirname: bin,
+        topicSeparator: topicSeparator === 'colons' ? ':' : ' ',
         ...packageJSON.oclif,
       },
     }
 
     await writeFile(join(location, 'package.json'), JSON.stringify(updatedPackageJSON, null, 2))
 
-    const installedDeps = Object.keys(packageJSON.dependencies || {})
-    if (!installedDeps.includes('@oclif/core')) {
-      let packageManager = this.flags['package-manager']
-      if (!packageManager || !validPackageManagers.includes(packageManager)) {
-        const rootFiles = await readdir(location)
-        if (rootFiles.includes('package-lock.json')) {
-          packageManager = 'npm'
-        } else if (rootFiles.includes('yarn.lock')) {
-          packageManager = 'yarn'
-        } else if (rootFiles.includes('pnpm-lock.yaml')) {
-          packageManager = 'pnpm'
-        } else {
-          packageManager = await (
-            await import('@inquirer/select')
-          ).default({
-            choices: validPackageManagers.map((manager) => ({name: manager, value: manager})),
-            message: 'Select a package manager',
-          })
-        }
-      }
+    const packageManager = await determinePackageManager(location)
 
-      await exec(`${packageManager} ${packageManager === 'npm' ? 'install' : 'add'} @oclif/core`, {
+    const installedDeps = Object.keys(packageJSON.dependencies ?? {})
+    if (!installedDeps.includes('@oclif/core')) {
+      this.log('Installing @oclif/core')
+      await exec(`${packageManager} ${packageManager === 'yarn' ? 'add' : 'install'} @oclif/core`, {
+        cwd: location,
+        silent: false,
+      })
+    }
+
+    const allInstalledDeps = [
+      ...Object.keys(packageJSON.dependencies ?? {}),
+      ...Object.keys(packageJSON.devDependencies ?? {}),
+    ]
+    if (!allInstalledDeps.includes('ts-node')) {
+      this.log('Installing ts-node')
+      await exec(`${packageManager} ${packageManager === 'yarn' ? 'add --dev' : 'install --save-dev'} ts-node`, {
         cwd: location,
         silent: false,
       })

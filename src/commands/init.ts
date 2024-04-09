@@ -1,24 +1,12 @@
 /* eslint-disable unicorn/no-await-expression-member */
 import {Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
-import {accessSync, renameSync, statSync} from 'node:fs'
-import {constants, mkdir, readdir, rm, writeFile} from 'node:fs/promises'
+import {accessSync} from 'node:fs'
+import {constants, readdir, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 
 import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
 import {validateBin} from '../util'
-
-async function clone(repo: string, location: string): Promise<void> {
-  try {
-    await exec(`git clone https://github.com/oclif/${repo}.git "${location}" --depth=1`)
-  } catch (error) {
-    const err =
-      error instanceof Error
-        ? new Errors.CLIError(error)
-        : new Errors.CLIError('An error occurred while cloning the template repo')
-    throw err
-  }
-}
 
 const validModuleTypes = ['ESM', 'CommonJS']
 const validPackageManagers = ['npm', 'yarn', 'pnpm']
@@ -111,23 +99,28 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
 
     this.log(`Using module type ${chalk.green(moduleType)}`)
 
-    const template = moduleType === 'ESM' ? 'hello-world-esm' : 'hello-world'
-    const repoPath = join(location, '_tmp-template')
-    await clone(template, repoPath)
-
-    const repoBinPath = join(repoPath, 'bin')
+    const templateOptions = {moduleType}
     const projectBinPath = join(location, 'bin')
-    await mkdir(projectBinPath, {recursive: true})
-
-    const binFiles = await readdir(repoBinPath)
-    for (const binFile of binFiles) {
-      const filePath = join(repoBinPath, binFile)
-      if (statSync(filePath).isFile()) {
-        renameSync(filePath, join(projectBinPath, binFile))
-      }
-    }
-
-    await rm(repoPath, {recursive: true})
+    await this.template(
+      join(this.templatesDir, 'src', 'init', 'dev.cmd.ejs'),
+      join(projectBinPath, 'dev.cmd'),
+      templateOptions,
+    )
+    await this.template(
+      join(this.templatesDir, 'src', 'init', 'dev.js.ejs'),
+      join(projectBinPath, 'dev.js'),
+      templateOptions,
+    )
+    await this.template(
+      join(this.templatesDir, 'src', 'init', 'run.cmd.ejs'),
+      join(projectBinPath, 'run.cmd'),
+      templateOptions,
+    )
+    await this.template(
+      join(this.templatesDir, 'src', 'init', 'run.js.ejs'),
+      join(projectBinPath, 'run.js'),
+      templateOptions,
+    )
 
     const updatedPackageJSON = {
       ...packageJSON,

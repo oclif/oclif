@@ -125,11 +125,9 @@ describe(`oclif init Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + nod
     await mkdir(tmpDir, {recursive: true})
     await addDeps(tmpDir)
 
-    if (MODULE_TYPE === 'ESM') {
-      const pjson = JSON.parse(await readFile(join(tmpDir, 'package.json'), 'utf8'))
-      pjson.type = 'module'
-      await writeFile(join(tmpDir, 'package.json'), JSON.stringify(pjson, null, 2))
-    }
+    const pjson = JSON.parse(await readFile(join(tmpDir, 'package.json'), 'utf8'))
+    pjson.type = MODULE_TYPE === 'ESM' ? 'module' : 'commonjs'
+    await writeFile(join(tmpDir, 'package.json'), JSON.stringify(pjson, null, 2))
 
     await writeFile(join(tmpDir, 'tsconfig.json'), JSON.stringify(TS_CONFIGS[MODULE_TYPE], null, 2))
   })

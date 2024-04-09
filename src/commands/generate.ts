@@ -61,41 +61,41 @@ async function clone(repo: string, location: string): Promise<void> {
 const FLAGGABLE_PROMPTS = {
   author: {
     message: 'Author',
-    validate: (d: string) => d.length > 0 || 'Author cannot be empty',
+    validate: (d) => d.length > 0 || 'Author cannot be empty',
   },
   bin: {
     message: 'Command bin name the CLI will export',
-    validate: (d: string) => validateBin(d) || 'Invalid bin name',
+    validate: (d) => validateBin(d) || 'Invalid bin name',
   },
   description: {
     message: 'Description',
-    validate: (d: string) => d.length > 0 || 'Description cannot be empty',
+    validate: (d) => d.length > 0 || 'Description cannot be empty',
   },
   license: {
     message: 'License',
-    validate: (d: string) => d.length > 0 || 'License cannot be empty',
+    validate: (d) => d.length > 0 || 'License cannot be empty',
   },
   'module-type': {
     message: 'Select a module type',
     options: ['CommonJS', 'ESM'],
-    validate: (d: string) => ['CommonJS', 'ESM'].includes(d) || 'Invalid module type',
+    validate: (d) => ['CommonJS', 'ESM'].includes(d) || 'Invalid module type',
   },
   name: {
     message: 'NPM package name',
-    validate: (d: string) => validatePkgName(d).validForNewPackages || 'Invalid package name',
+    validate: (d) => validatePkgName(d).validForNewPackages || 'Invalid package name',
   },
   owner: {
     message: 'Who is the GitHub owner of repository (https://github.com/OWNER/repo)',
-    validate: (d: string) => d.length > 0 || 'Owner cannot be empty',
+    validate: (d) => d.length > 0 || 'Owner cannot be empty',
   },
   'package-manager': {
     message: 'Select a package manager',
     options: ['npm', 'yarn', 'pnpm'],
-    validate: (d: string) => ['npm', 'pnpm', 'yarn'].includes(d) || 'Invalid package manager',
+    validate: (d) => ['npm', 'pnpm', 'yarn'].includes(d) || 'Invalid package manager',
   },
   repository: {
     message: 'What is the GitHub name of repository (https://github.com/owner/REPO)',
-    validate: (d: string) => d.length > 0 || 'Repo cannot be empty',
+    validate: (d) => d.length > 0 || 'Repo cannot be empty',
   },
 } satisfies Record<string, FlaggablePrompt>
 

@@ -24,6 +24,26 @@ export type Flags<T extends typeof Command> = Interfaces.InferredFlags<
 >
 export type Args<T extends typeof Command> = Interfaces.InferredArgs<T['args']>
 
+export type GetFlagOrPromptOptions = {
+  /**
+   * The default value for the prompt if the `--yes` flag is provided.
+   */
+  defaultValue: string
+  /**
+   * A function that returns a value if the user has not provided the value via the flag. This will rerun before
+   * the check for the `--yes` flag.
+   */
+  maybeOtherValue?: () => Promise<string | undefined>
+  /**
+   * The name of the flaggable prompt. Corresponds to the key in `this.flags`.
+   */
+  name: string
+  /**
+   * The type of prompt to display.
+   */
+  type: 'input' | 'select'
+}
+
 export async function exec(
   command: string,
   opts?: ExecOptions & {silent?: boolean},
@@ -78,15 +98,16 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
   protected flags!: Flags<T>
   public templatesDir!: string
 
-  public async getFlagOrPrompt({
-    defaultValue,
-    name,
-    type,
-  }: {
-    defaultValue: string
-    name: string
-    type: 'input' | 'select'
-  }): Promise<string> {
+  /**
+   * Get a flag value or prompt the user for a value.
+   *
+   * Resolution order:
+   * - Flag value provided by the user
+   * - Value returned by `maybeOtherValue`
+   * - `defaultValue` if the `--yes` flag is provided
+   * - Prompt the user for a value
+   */
+  public async getFlagOrPrompt({defaultValue, maybeOtherValue, name, type}: GetFlagOrPromptOptions): Promise<string> {
     if (!this.flaggablePrompts) throw new Error('No flaggable prompts defined')
     if (!this.flaggablePrompts[name]) throw new Error(`No flaggable prompt defined for ${name}`)
 
@@ -106,10 +127,20 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
       }
     }
 
+    const checkMaybeOtherValue = async () => {
+      if (!maybeOtherValue) return
+      const otherValue = await maybeOtherValue()
+      if (otherValue) {
+        this.log(`${chalk.green('?')} ${chalk.bold(this.flaggablePrompts[name].message)} ${chalk.cyan(otherValue)}`)
+        return otherValue
+      }
+    }
+
     switch (type) {
       case 'select': {
         return (
           maybeFlag() ??
+          (await checkMaybeOtherValue()) ??
           maybeDefault() ??
           // Dynamic import because @inquirer/select is ESM only. Once oclif is ESM, we can make this a normal import
           // so that we can avoid importing on every single question.
@@ -124,6 +155,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
       case 'input': {
         return (
           maybeFlag() ??
+          (await checkMaybeOtherValue()) ??
           maybeDefault() ??
           // Dynamic import because @inquirer/input is ESM only. Once oclif is ESM, we can make this a normal import
           // so that we can avoid importing on every single question.

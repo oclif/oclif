@@ -86,7 +86,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     defaultValue: string
     name: string
     type: 'input' | 'select'
-  }) {
+  }): Promise<string> {
     if (!this.flaggablePrompts) throw new Error('No flaggable prompts defined')
     if (!this.flaggablePrompts[name]) throw new Error(`No flaggable prompt defined for ${name}`)
 

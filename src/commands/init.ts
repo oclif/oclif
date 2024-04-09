@@ -1,3 +1,4 @@
+import select from '@inquirer/select'
 import {Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
 import {readdir, writeFile} from 'node:fs/promises'
@@ -6,10 +7,22 @@ import {join, resolve, sep} from 'node:path'
 import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
 import {validateBin} from '../util'
 
+const VALID_PACKAGE_MANAGERS = ['npm', 'yarn', 'pnpm'] as const
+type PackageManager = (typeof VALID_PACKAGE_MANAGERS)[number]
+
+function isPackageManager(d: string): d is PackageManager {
+  return VALID_PACKAGE_MANAGERS.includes(d as PackageManager)
+}
+
 const FLAGGABLE_PROMPTS = {
   bin: {
     message: 'Command bin name the CLI will export',
     validate: (d: string) => validateBin(d) || 'Invalid bin name',
+  },
+  'package-manager': {
+    message: 'Select a package manager',
+    options: VALID_PACKAGE_MANAGERS,
+    validate: (d: string) => isPackageManager(d) || 'Invalid package manager',
   },
   'topic-separator': {
     message: 'Select a topic separator',
@@ -18,7 +31,7 @@ const FLAGGABLE_PROMPTS = {
   },
 } satisfies Record<string, FlaggablePrompt>
 
-async function determinePackageManager(location: string): Promise<'npm' | 'pnpm' | 'yarn'> {
+async function determinePackageManager(location: string): Promise<PackageManager> {
   const rootFiles = await readdir(location)
   if (rootFiles.includes('package-lock.json')) {
     return 'npm'
@@ -32,7 +45,11 @@ async function determinePackageManager(location: string): Promise<'npm' | 'pnpm'
     return 'pnpm'
   }
 
-  return 'npm'
+  return select({
+    choices: VALID_PACKAGE_MANAGERS.map((manager) => ({name: manager, value: manager})),
+    default: 'npm',
+    message: 'Select a package manager',
+  })
 }
 
 export default class Generate extends GeneratorCommand<typeof Generate> {
@@ -96,7 +113,6 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     })
 
     const moduleType = packageJSON.type === 'module' ? 'ESM' : 'CommonJS'
-    this.log(`Using module type ${chalk.green(moduleType)}`)
 
     const templateOptions = {moduleType}
     const projectBinPath = join(location, 'bin')
@@ -143,7 +159,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
 
     await writeFile(join(location, 'package.json'), JSON.stringify(updatedPackageJSON, null, 2))
 
-    const packageManager = await determinePackageManager(location)
+    const packageManager = this.flags['package-manager'] ?? (await determinePackageManager(location))
 
     const installedDeps = Object.keys(packageJSON.dependencies ?? {})
     if (!installedDeps.includes('@oclif/core')) {

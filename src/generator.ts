@@ -10,7 +10,7 @@ import {join, relative} from 'node:path'
 
 export type FlaggablePrompt = {
   message: string
-  options?: string[]
+  options?: readonly string[] | string[]
   validate: (d: string) => boolean | string
 }
 

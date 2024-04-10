@@ -1,3 +1,9 @@
+# [4.8.0](https://github.com/oclif/oclif/compare/4.7.8...4.8.0) (2024-04-10)
+
+### Features
+
+- add init command ([#1358](https://github.com/oclif/oclif/issues/1358)) ([#1366](https://github.com/oclif/oclif/issues/1366)) ([c1ece19](https://github.com/oclif/oclif/commit/c1ece19daae409c55413297c223a04a044740949))
+
 ## [4.7.8](https://github.com/oclif/oclif/compare/4.7.7...4.7.8) (2024-04-09)
 
 ### Bug Fixes

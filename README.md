@@ -100,11 +100,12 @@ hello world! (./src/commands/hello/world.ts)
 
 - [`oclif generate`](docs/generate.md) - Generate a new CLI
 - [`oclif help`](docs/help.md) - Display help for oclif.
+- [`oclif init`](docs/init.md) - Initialize a new oclif CLI
 - [`oclif manifest`](docs/manifest.md) - Generates plugin manifest json (oclif.manifest.json).
-- [`oclif pack`](docs/pack.md) - package an oclif CLI into installable artifacts
+- [`oclif pack`](docs/pack.md) - Package an oclif CLI into installable artifacts.
 - [`oclif promote`](docs/promote.md) - Promote CLI builds to a S3 release channel.
 - [`oclif readme`](docs/readme.md) - Adds commands to README.md in current directory.
-- [`oclif upload`](docs/upload.md) - upload installable CLI artifacts to AWS S3
+- [`oclif upload`](docs/upload.md) - Upload installable CLI artifacts to AWS S3.
 
 <!-- commandsstop -->
 

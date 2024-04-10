@@ -1,21 +1,10 @@
 import {expect} from 'chai'
-import {ExecOptions, exec as cpExec} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {mkdir, readFile, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 
-async function exec(command: string, opts: ExecOptions): Promise<{code: number; stderr: string; stdout: string}> {
-  return new Promise((resolve, reject) => {
-    cpExec(command, opts, (error, stdout, stderr) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve({code: 0, stderr, stdout})
-      }
-    })
-  })
-}
+import {exec} from './util'
 
 const MODULE_TYPE = process.env.OCLIF_INTEGRATION_MODULE_TYPE || 'CommonJS'
 const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'

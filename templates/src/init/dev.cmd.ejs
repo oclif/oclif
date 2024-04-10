@@ -1,0 +1,12 @@
+<% switch (moduleType) {
+  case 'ESM' : _%>
+@echo off
+
+node --loader ts-node/esm --no-warnings=ExperimentalWarning "%~dp0\dev" %*
+          <%_ break;
+  case 'CommonJS' : _%>
+@echo off
+
+node "%~dp0\dev" %*
+          <%_ break;
+  } _%>

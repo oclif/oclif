@@ -83,6 +83,34 @@ jobs:
           OCLIF_INTEGRATION_MODULE_TYPE: ${{ matrix.module_type }}
           OCLIF_INTEGRATION_PACKAGE_MANAGER: ${{ matrix.package_manager }}
 
+  init-integration:
+    needs: [linux-unit-tests]
+    strategy:
+      matrix:
+        node_version: [lts/*, latest]
+        package_manager: [yarn, npm, pnpm]
+        module_type: [CommonJS, ESM]
+        os: [ubuntu-latest, windows-latest]
+        exclude:
+          - node_version: lts/*
+            os: windows-latest
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - if: matrix.package_manager == 'pnpm'
+        run: 'npm install -g pnpm'
+      - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
+      - run: yarn build
+      - run: yarn test:integration:init
+        env:
+          OCLIF_INTEGRATION_MODULE_TYPE: ${{ matrix.module_type }}
+          OCLIF_INTEGRATION_PACKAGE_MANAGER: ${{ matrix.package_manager }}
+
   win-build:
     needs: [linux-unit-tests]
     strategy:

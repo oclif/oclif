@@ -212,6 +212,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
         dirname: bin,
       },
       repository: `${owner}/${repository}`,
+      version: '0.0.0',
     }
 
     if (packageManager !== 'yarn') {
@@ -224,6 +225,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     const {default: sortPackageJson} = await import('sort-package-json')
     await writeFile(join(location, 'package.json'), JSON.stringify(sortPackageJson(updatedPackageJSON), null, 2))
     await rm(join(location, 'LICENSE'))
+    await rm(join(location, '.github', 'workflows', 'automerge.yml'))
 
     const existing = (await readFile(join(location, '.gitignore'), 'utf8')).split('\n')
     const updated =

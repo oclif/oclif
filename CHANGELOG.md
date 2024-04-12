@@ -1,3 +1,9 @@
+## [4.8.1](https://github.com/oclif/oclif/compare/4.8.0...4.8.1) (2024-04-12)
+
+### Bug Fixes
+
+- supporting paths with spaces whilst running chmod ([#1367](https://github.com/oclif/oclif/issues/1367)) ([#1368](https://github.com/oclif/oclif/issues/1368)) ([06ba5da](https://github.com/oclif/oclif/commit/06ba5da5feab26ba794150e711e487451fc0ede9))
+
 # [4.8.0](https://github.com/oclif/oclif/compare/4.7.8...4.8.0) (2024-04-10)
 
 ### Features

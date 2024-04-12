@@ -1,3 +1,9 @@
+## [4.8.2](https://github.com/oclif/oclif/compare/4.8.1...4.8.2) (2024-04-12)
+
+### Bug Fixes
+
+- reset version on generated cli ([#1369](https://github.com/oclif/oclif/issues/1369)) ([af00332](https://github.com/oclif/oclif/commit/af00332e3075230dda890156e90052d2741a37ef))
+
 ## [4.8.1](https://github.com/oclif/oclif/compare/4.8.0...4.8.1) (2024-04-12)
 
 ### Bug Fixes

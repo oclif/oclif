@@ -158,8 +158,8 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     )
 
     if (process.platform !== 'win32') {
-      await exec(`chmod +x ${join(projectBinPath, 'run.js')}`)
-      await exec(`chmod +x ${join(projectBinPath, 'dev.js')}`)
+      await exec(`chmod +x "${join(projectBinPath, 'run.js')}"`)
+      await exec(`chmod +x "${join(projectBinPath, 'dev.js')}"`)
     }
 
     const updatedPackageJSON = {

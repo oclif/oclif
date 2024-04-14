@@ -1520,14 +1520,14 @@
   resolved "https://registry.yarnpkg.com/@oclif/prettier-config/-/prettier-config-0.2.1.tgz#1def9f38134f9bfb229257f48a35f7d0d183dc78"
   integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
 
-"@oclif/test@^3.2.5":
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.2.5.tgz#b66cb439c1317f440c0cf2209f95221080a9f624"
-  integrity sha512-ilMTbpkK22ZOGw11/IfumyagMTqEWpzD0ADyKKGcKWT8PXnnqxz9bCGPfBNqPk5pwsX4cvV1oM+OcPEqtJx02A==
+"@oclif/test@^3.2.9":
+  version "3.2.9"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.2.9.tgz#73b40d80f8e94b15dded0dd9333f5cf95a136f4c"
+  integrity sha512-eVZO4I29Ipp7WlwAZOmQ/Z0Dm/J9qnTUTAqKHlylEmp9JYfVQ3C+SqZVNNp3KJ+D/XJMC7xQ748JDBQFUZebbA==
   dependencies:
-    "@oclif/core" "^3.23.0"
+    "@oclif/core" "^3.26.0"
     chai "^4.4.1"
-    fancy-test "^3.0.13"
+    fancy-test "^3.0.14"
 
 "@sindresorhus/is@^5.2.0":
   version "5.6.0"
@@ -3651,10 +3651,10 @@ execa@^5.0.0:
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
 
-fancy-test@^3.0.13:
-  version "3.0.13"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-3.0.13.tgz#4164de4251952f3055419537b09d59823399dc8d"
-  integrity sha512-lOXntvGxCLknfTx3zWggtoRGNyk/lSHg6OvR1r8WtUlBRt/lcyYzW9rvHP3eBgxRo6Ii7cvMlvtA53N8TOvmzw==
+fancy-test@^3.0.14:
+  version "3.0.14"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-3.0.14.tgz#c5007291d7c36b07f0a8e7f235f2aa454bd66aac"
+  integrity sha512-FkiDltQA8PBZzw5tUnMrP1QtwIdNQWxxbZK5C22M9wu6HfFNciwkG3D9siT4l4s1fBTDaEG+Fdkbpi9FDTxtrg==
   dependencies:
     "@types/chai" "*"
     "@types/lodash" "*"

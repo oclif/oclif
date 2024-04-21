@@ -13,7 +13,7 @@
     "@inquirer/confirm": "^3.1.5",
     "@inquirer/input": "^2.1.1",
     "@inquirer/select": "^2.2.1",
-    "@oclif/core": "^3.26.0",
+    "@oclif/core": "^3.26.4",
     "@oclif/plugin-help": "^6.0.21",
     "@oclif/plugin-not-found": "^3.0.14",
     "@oclif/plugin-warn-if-update-available": "^3.0.14",

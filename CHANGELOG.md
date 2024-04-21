@@ -1,3 +1,9 @@
+## [4.8.6](https://github.com/oclif/oclif/compare/4.8.5...4.8.6) (2024-04-21)
+
+### Bug Fixes
+
+- **deps:** bump ejs from 3.1.9 to 3.1.10 ([0747157](https://github.com/oclif/oclif/commit/0747157c65e9a88cdd31e96bcd62109df37c67c6))
+
 ## [4.8.5](https://github.com/oclif/oclif/compare/4.8.4...4.8.5) (2024-04-15)
 
 ### Bug Fixes

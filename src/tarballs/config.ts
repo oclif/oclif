@@ -12,13 +12,13 @@ import {castArray, compact} from '../util'
 const exec = promisify(execSync)
 export const TARGETS = ['linux-x64', 'linux-arm', 'linux-arm64', 'win32-x64', 'win32-x86', 'darwin-x64', 'darwin-arm64']
 
-export type S3Config = BuildConfig['updateConfig']['s3'] & {folder?: string; indexVersionLimit?: number} & {
+export type S3Config = {
   acl?: ObjectCannedACL
-}
+} & {folder?: string; indexVersionLimit?: number} & BuildConfig['updateConfig']['s3']
 
-export type UpdateConfig = BuildConfig['config']['pjson']['oclif']['update'] & {
-  s3?: BuildConfig['config']['pjson']['oclif']['update']['s3'] & {acl?: ObjectCannedACL}
-}
+export type UpdateConfig = {
+  s3?: {acl?: ObjectCannedACL} & BuildConfig['config']['pjson']['oclif']['update']['s3']
+} & BuildConfig['config']['pjson']['oclif']['update']
 
 export interface BuildConfig {
   config: Interfaces.Config

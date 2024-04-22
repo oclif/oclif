@@ -46,7 +46,7 @@ export type GetFlagOrPromptOptions = {
 
 export async function exec(
   command: string,
-  opts?: ExecOptions & {silent?: boolean},
+  opts?: {silent?: boolean} & ExecOptions,
 ): Promise<{stderr: string; stdout: string}> {
   const silent = opts ? opts.silent : true
   return new Promise((resolve, reject) => {
@@ -63,7 +63,7 @@ export async function exec(
 
 export async function readPJSON(
   location: string,
-): Promise<(Interfaces.PJSON.CLI & {scripts: Record<string, string>}) | undefined> {
+): Promise<({scripts: Record<string, string>} & Interfaces.PJSON.CLI) | undefined> {
   try {
     const packageJSON = await readFile(join(location, 'package.json'), 'utf8')
     return JSON.parse(packageJSON)

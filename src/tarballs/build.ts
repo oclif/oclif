@@ -72,121 +72,25 @@ const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) =>
   await copyYarnDirectory('./.yarn/plugins/', yarnRootPath, workspacePath)
 }
 
-export async function build(
-  c: BuildConfig,
-  options: {
-    pack?: boolean
-    parallel?: boolean
-    platform?: string
-    preserveLockfiles?: boolean
-    tarball?: string
-  } = {},
-): Promise<void> {
-  const {config, xz} = c
-  const packCLI = async () => {
-    const {stdout} = await exec('npm pack --unsafe-perm', {cwd: c.root})
-    return path.join(c.root, stdout.trim().split('\n').pop()!)
-  }
+type BuildOptions = {
+  pack?: boolean
+  parallel?: boolean
+  platform?: string
+  preserveLockfiles?: boolean
+  tarball?: string
+}
 
-  const extractCLI = async (tarball: string) => {
-    await emptyDir(c.workspace())
-    const tarballNewLocation = path.join(c.workspace(), path.basename(tarball))
-    await move(tarball, tarballNewLocation)
-    const tarCommand = `tar -xzf "${tarballNewLocation}"${process.platform === 'win32' ? ' --force-local' : ''}`
-    await exec(tarCommand, {cwd: c.workspace()})
-    const files = await readdir(path.join(c.workspace(), 'package'), {withFileTypes: true})
-    await Promise.all(
-      files.map((i) => move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))),
-    )
-
-    await Promise.all([
-      rm(path.join(c.workspace(), 'package'), {recursive: true}),
-      rm(path.join(c.workspace(), path.basename(tarball)), {recursive: true}),
-      remove(path.join(c.workspace(), 'bin', 'run.cmd')),
-    ])
-  }
-
-  const buildTarget = async (target: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}) => {
-    const workspace = c.workspace(target)
-    const gzLocalKey = templateShortKey('versioned', {
-      arch: target.arch,
-      bin: c.config.bin,
-      ext: '.tar.gz',
-      platform: target.platform,
-      sha: c.gitSha,
-      version: config.version,
-    })
-
-    const xzLocalKey = templateShortKey('versioned', {
-      arch: target.arch,
-      bin: c.config.bin,
-      ext: '.tar.xz',
-      platform: target.platform,
-      sha: c.gitSha,
-      version: config.version,
-    })
-    const base = path.basename(gzLocalKey)
-    log(`building target ${base}`)
-    log('copying workspace', c.workspace(), workspace)
-    await emptyDir(workspace)
-    await copy(c.workspace(), workspace)
-    await fetchNodeBinary({
-      arch: target.arch,
-      nodeVersion: c.nodeVersion,
-      output: path.join(workspace, 'bin', 'node'),
-      platform: target.platform,
-      tmp: path.join(config.root, 'tmp'),
-    })
-    if (options.pack === false) return
-    if (options.parallel) {
-      await Promise.all([pack(workspace, c.dist(gzLocalKey)), ...(xz ? [pack(workspace, c.dist(xzLocalKey))] : [])])
-    } else {
-      await pack(workspace, c.dist(gzLocalKey))
-      if (xz) await pack(workspace, c.dist(xzLocalKey))
-    }
-
-    if (!c.updateConfig.s3.host) return
-    const rollout = typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout
-
-    const gzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${gzLocalKey}`
-    const xzCloudKey = `${commitAWSDir(config.version, c.gitSha, c.updateConfig.s3)}/${xzLocalKey}`
-
-    const [sha256gz, sha256xz] = await Promise.all([
-      hash('sha256', c.dist(gzLocalKey)),
-      ...(xz ? [hash('sha256', c.dist(xzLocalKey))] : []),
-    ])
-
-    const manifest: Interfaces.S3Manifest = {
-      baseDir: templateShortKey('baseDir', {...target, bin: c.config.bin}),
-      gz: config.s3Url(gzCloudKey),
-      node: {
-        compatible: config.pjson.engines.node,
-        recommended: c.nodeVersion,
-      },
-      rollout: rollout === false ? undefined : rollout,
-      sha: c.gitSha,
-      sha256gz,
-      sha256xz,
-      version: config.version,
-      xz: xz ? config.s3Url(xzCloudKey) : undefined,
-    }
-    const manifestFilepath = c.dist(
-      templateShortKey('manifest', {
-        arch: target.arch,
-        bin: c.config.bin,
-        platform: target.platform,
-        sha: c.gitSha,
-        version: config.version,
-      }),
-    )
-    await writeJSON(manifestFilepath, manifest, {spaces: 2})
-  }
-
-  log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
-  await extractCLI(options.tarball ?? (await packCLI()))
+export async function build(c: BuildConfig, options: BuildOptions = {}): Promise<void> {
+  log(`gathering workspace for ${c.config.bin} to ${c.workspace()}`)
+  await extractCLI(options.tarball ?? (await packCLI(c)), c)
   await updatePJSON(c)
   await addDependencies(c)
-  await writeBinScripts({baseWorkspace: c.workspace(), config, nodeOptions: c.nodeOptions, nodeVersion: c.nodeVersion})
+  await writeBinScripts({
+    baseWorkspace: c.workspace(),
+    config: c.config,
+    nodeOptions: c.nodeOptions,
+    nodeVersion: c.nodeVersion,
+  })
   await pretarball(c)
   if (!options.preserveLockfiles) {
     await removeLockfiles(c)
@@ -195,12 +99,12 @@ export async function build(
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)
-    await Promise.all(targetsToBuild.map((t) => buildTarget(t)))
+    await Promise.all(targetsToBuild.map((t) => buildTarget(t, c, options)))
   } else {
     log(`will build ${targetsToBuild.length} targets sequentially`)
     for (const target of targetsToBuild) {
       // eslint-disable-next-line no-await-in-loop
-      await buildTarget(target)
+      await buildTarget(target, c, options)
     }
 
     log(`finished building ${targetsToBuild.length} targets sequentially`)
@@ -213,26 +117,31 @@ const isLockFile = (f: string) =>
   f.endsWith('npm-shrinkwrap.json') ||
   f.endsWith('oclif.lock')
 
+/** recursively remove all lockfiles from tarball after installing dependencies */
 const removeLockfiles = async (c: BuildConfig) => {
   const files = await readdir(c.workspace(), {recursive: true})
   const lockfiles = files.filter((f) => isLockFile(f)).map((f) => path.join(c.workspace(), f))
+  log(`removing ${lockfiles.length} lockfiles`)
   await Promise.all(lockfiles.map((f) => remove(f)))
 }
 
+/** runs the pretarball script from the cli being packed */
 const pretarball = async (c: BuildConfig) => {
   const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
   if (!pjson.scripts.pretarball) return
   const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
   const hasYarnLock = existsSync(path.join(yarnRoot, 'yarn.lock'))
-  await exec(`${hasYarnLock ? 'yarn' : 'npm'} run pretarball`, {cwd: c.workspace()})
+  const script = `${hasYarnLock ? 'yarn' : 'npm'} run pretarball`
+  log(`running pretarball via ${script} in ${c.workspace()}`)
+  await exec(script, {cwd: c.workspace()})
 }
 
 const updatePJSON = async (c: BuildConfig) => {
   const pjsonPath = path.join(c.workspace(), 'package.json')
   const pjson = await readJSON(pjsonPath)
   pjson.version = c.config.version
-  pjson.oclif.update = pjson.oclif.update || {}
-  pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
+  pjson.oclif.update = pjson.oclif.update ?? {}
+  pjson.oclif.update.s3 = pjson.oclif.update.s3 ?? {}
   pjson.oclif.update.s3.bucket = c.s3Config.bucket
   await writeJSON(pjsonPath, pjson, {spaces: 2})
 }
@@ -267,4 +176,90 @@ const addDependencies = async (c: BuildConfig) => {
     await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
     await exec('npm install --production', {cwd: c.workspace()})
   }
+}
+
+const packCLI = async (c: BuildConfig) => {
+  const {stdout} = await exec('npm pack --unsafe-perm', {cwd: c.root})
+  return path.join(c.root, stdout.trim().split('\n').pop()!)
+}
+
+const extractCLI = async (tarball: string, c: BuildConfig) => {
+  const workspace = c.workspace()
+  await emptyDir(workspace)
+  const tarballNewLocation = path.join(workspace, path.basename(tarball))
+  await move(tarball, tarballNewLocation)
+  const tarCommand = `tar -xzf "${tarballNewLocation}"${process.platform === 'win32' ? ' --force-local' : ''}`
+  await exec(tarCommand, {cwd: workspace})
+  const files = await readdir(path.join(workspace, 'package'), {withFileTypes: true})
+  await Promise.all(files.map((i) => move(path.join(workspace, 'package', i.name), path.join(workspace, i.name))))
+
+  await Promise.all([
+    rm(path.join(workspace, 'package'), {recursive: true}),
+    rm(path.join(workspace, path.basename(tarball)), {recursive: true}),
+    remove(path.join(workspace, 'bin', 'run.cmd')),
+  ])
+}
+
+const buildTarget = async (
+  target: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes},
+  c: BuildConfig,
+  options: BuildOptions,
+) => {
+  const workspace = c.workspace(target)
+  const {arch, platform} = target
+  const {bin, version} = c.config
+  const {gitSha: sha} = c
+  const templateShortKeyCommonOptions = {arch, bin, platform, sha, version}
+
+  const [gzLocalKey, xzLocalKey] = ['.tar.gz', '.tar.xz'].map((ext) =>
+    templateShortKey('versioned', {...templateShortKeyCommonOptions, ext}),
+  )
+
+  const base = path.basename(gzLocalKey)
+  log(`building target ${base}`)
+  log('copying workspace', c.workspace(), workspace)
+  await emptyDir(workspace)
+  await copy(c.workspace(), workspace)
+  await fetchNodeBinary({
+    arch,
+    nodeVersion: c.nodeVersion,
+    output: path.join(workspace, 'bin', 'node'),
+    platform,
+    tmp: path.join(c.config.root, 'tmp'),
+  })
+  if (options.pack === false) return
+  if (options.parallel) {
+    await Promise.all([pack(workspace, c.dist(gzLocalKey)), ...(c.xz ? [pack(workspace, c.dist(xzLocalKey))] : [])])
+  } else {
+    await pack(workspace, c.dist(gzLocalKey))
+    if (c.xz) await pack(workspace, c.dist(xzLocalKey))
+  }
+
+  if (!c.updateConfig.s3.host) return
+  const rollout = typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout
+
+  const gzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${gzLocalKey}`
+  const xzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${xzLocalKey}`
+
+  const [sha256gz, sha256xz] = await Promise.all([
+    hash('sha256', c.dist(gzLocalKey)),
+    ...(c.xz ? [hash('sha256', c.dist(xzLocalKey))] : []),
+  ])
+
+  const manifest: Interfaces.S3Manifest = {
+    baseDir: templateShortKey('baseDir', {...target, bin}),
+    gz: c.config.s3Url(gzCloudKey),
+    node: {
+      compatible: c.config.pjson.engines.node,
+      recommended: c.nodeVersion,
+    },
+    rollout: rollout === false ? undefined : rollout,
+    sha,
+    sha256gz,
+    sha256xz,
+    version,
+    xz: c.xz ? c.config.s3Url(xzCloudKey) : undefined,
+  }
+  const manifestFilepath = c.dist(templateShortKey('manifest', templateShortKeyCommonOptions))
+  await writeJSON(manifestFilepath, manifest, {spaces: 2})
 }

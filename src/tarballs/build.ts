@@ -76,7 +76,7 @@ type BuildOptions = {
   pack?: boolean
   parallel?: boolean
   platform?: string
-  preserveLockfiles?: boolean
+  pruneLockfiles?: boolean
   tarball?: string
 }
 
@@ -92,7 +92,7 @@ export async function build(c: BuildConfig, options: BuildOptions = {}): Promise
     nodeVersion: c.nodeVersion,
   })
   await pretarball(c)
-  if (!options.preserveLockfiles) {
+  if (options.pruneLockfiles) {
     await removeLockfiles(c)
   }
 
@@ -115,7 +115,8 @@ const isLockFile = (f: string) =>
   f.endsWith('package-lock.json') ||
   f.endsWith('yarn.lock') ||
   f.endsWith('npm-shrinkwrap.json') ||
-  f.endsWith('oclif.lock')
+  f.endsWith('oclif.lock') ||
+  f.endsWith('pnpm-lock.yaml')
 
 /** recursively remove all lockfiles from tarball after installing dependencies */
 const removeLockfiles = async (c: BuildConfig) => {

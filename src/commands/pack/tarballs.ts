@@ -9,7 +9,7 @@ Add a pretarball script to your package.json if you need to run any scripts befo
 
   static flags = {
     parallel: Flags.boolean({description: 'Build tarballs in parallel.'}),
-    'preserve-lockfiles': Flags.boolean({description: 'Preserve lockfiles in the tarball.'}),
+    'prune-lockfiles': Flags.boolean({description: 'remove lockfiles in the tarball.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
     tarball: Flags.string({
       char: 'l',
@@ -32,7 +32,7 @@ Add a pretarball script to your package.json if you need to run any scripts befo
 
     await Tarballs.build(buildConfig, {
       parallel: flags.parallel,
-      preserveLockfiles: flags['preserve-lockfiles'],
+      pruneLockfiles: flags['prune-lockfiles'],
       tarball: flags.tarball,
     })
   }

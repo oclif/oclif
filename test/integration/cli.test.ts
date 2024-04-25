@@ -8,7 +8,9 @@ import {exec} from './util'
 
 const MODULE_TYPE = process.env.OCLIF_INTEGRATION_MODULE_TYPE || 'CommonJS'
 const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'
-const nodeVersion = process.version
+const LOCK_FILES = ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', 'npm-shrinkwrap.json', 'oclif.lock']
+const NODE_VERSION = process.version
+
 const skipWindows = process.platform === 'win32' ? it.skip : it
 
 /**
@@ -22,8 +24,11 @@ async function deletePrepackScript(cliDir: string): Promise<void> {
   await writeFile(pjsonPath, JSON.stringify(pjson, null, 2))
 }
 
-describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + node ${nodeVersion}`, () => {
-  const tmpDir = join(tmpdir(), `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}-node-${nodeVersion}`)
+describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + node ${NODE_VERSION}`, () => {
+  const tmpDir = join(
+    tmpdir(),
+    `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}-node-${NODE_VERSION}`,
+  )
   const executable = join(process.cwd(), 'bin', process.platform === 'win32' ? 'dev.cmd' : 'dev.js')
   const cliName = 'mycli'
   const cliDir = join(tmpDir, cliName)
@@ -129,6 +134,11 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     const result = await exec(`bin/${cliName} hello world`, {cwd: join(cliDir, 'tmp', cliName)})
     expect(result.code).to.equal(0)
     expect(result.stdout).to.include('hello world! (./src/commands/hello/world.ts)\n')
+
+    // expect some lock files to exist
+    const allFiles = await readdir(join(cliDir, 'tmp', cliName), {recursive: true})
+    const someLockFilesPresent = LOCK_FILES.some((lockfile) => allFiles.includes(lockfile))
+    expect(someLockFilesPresent).to.be.true
   })
 
   skipWindows('generated CLI should be packable with --prune-lockfiles', async () => {
@@ -146,9 +156,9 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     expect(result.code).to.equal(0)
     expect(result.stdout).to.include('hello world! (./src/commands/hello/world.ts)\n')
 
-    const possibleLockfiles = ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', 'npm-shrinkwrap.json', 'oclif.lock']
+    // expect no lock files to exist
     const allFiles = await readdir(join(cliDir, 'tmp', cliName), {recursive: true})
-    const noLockFilesPresent = possibleLockfiles.every((lockfile) => !allFiles.includes(lockfile))
+    const noLockFilesPresent = LOCK_FILES.every((lockfile) => !allFiles.includes(lockfile))
     expect(noLockFilesPresent).to.be.true
   })
 })

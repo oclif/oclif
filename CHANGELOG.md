@@ -1,3 +1,9 @@
+# [4.9.0](https://github.com/oclif/oclif/compare/4.8.8...4.9.0) (2024-04-25)
+
+### Features
+
+- no lockfiles in tarballs ([#1385](https://github.com/oclif/oclif/issues/1385)) ([4bfa96f](https://github.com/oclif/oclif/commit/4bfa96fdcb779eb3222d6560578d2d19c338e979)), closes [#1386](https://github.com/oclif/oclif/issues/1386)
+
 ## [4.8.8](https://github.com/oclif/oclif/compare/4.8.7...4.8.8) (2024-04-21)
 
 ### Bug Fixes

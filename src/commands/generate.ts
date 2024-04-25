@@ -262,6 +262,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     }
 
     await exec(`${packageManager} install`, {cwd: location, silent: false})
+    await exec(`${packageManager} run build`, {cwd: location, silent: false})
     await exec(`${join(location, 'node_modules', '.bin', 'oclif')} readme`, {
       cwd: location,
       // When testing this command in development, you get noisy compilation errors as a result of running

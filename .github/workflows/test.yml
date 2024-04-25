@@ -74,6 +74,15 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
+      # oclif pack tarballs needs a git commit to work, so the tests need to be able to run `git commit` with the correct user info
+      - uses: salesforcecli/github-workflows/.github/actions/getGithubUserInfo@main
+        id: github-user-info
+        with:
+          SVC_CLI_BOT_GITHUB_TOKEN: ${{ secrets.SVC_CLI_BOT_GITHUB_TOKEN }}
+      - uses: salesforcecli/github-workflows/.github/actions/gitConfig@main
+        with:
+          username: ${{ steps.github-user-info.outputs.username }}
+          email: ${{ steps.github-user-info.outputs.email }}
       - if: matrix.package_manager == 'pnpm'
         run: 'npm install -g pnpm'
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main

@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import {existsSync} from 'node:fs'
-import {mkdir, readFile, rm} from 'node:fs/promises'
+import {mkdir, readFile, readdir, rm, writeFile} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 
@@ -9,6 +9,18 @@ import {exec} from './util'
 const MODULE_TYPE = process.env.OCLIF_INTEGRATION_MODULE_TYPE || 'CommonJS'
 const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'
 const nodeVersion = process.version
+const skipWindows = process.platform === 'win32' ? it.skip : it
+
+/**
+ * Delete prepack script from package.json because it will generate an oclif.manifest.json
+ * that contains .ts paths (instead of .js) since NODE_ENV=test when running in mocha.
+ */
+async function deletePrepackScript(cliDir: string): Promise<void> {
+  const pjsonPath = join(cliDir, 'package.json')
+  const pjson = JSON.parse(await readFile(pjsonPath, 'utf8'))
+  delete pjson.scripts.prepack
+  await writeFile(pjsonPath, JSON.stringify(pjson, null, 2))
+}
 
 describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + node ${nodeVersion}`, () => {
   const tmpDir = join(tmpdir(), `generated-cli-integration-tests-${MODULE_TYPE}-${PACKAGE_MANAGER}-node-${nodeVersion}`)
@@ -101,5 +113,42 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     const result = await exec(`${PACKAGE_MANAGER} run test`, {cwd: cliDir})
     expect(result.code).to.equal(0)
     expect(result.stdout).to.include('5 passing')
+  })
+
+  skipWindows('generated CLI should be packable', async () => {
+    await exec('git init', {cwd: cliDir})
+    await exec('git add .', {cwd: cliDir})
+    await exec('git commit -m "chore: initial commit"', {cwd: cliDir})
+
+    await exec(`${PACKAGE_MANAGER} run build`, {cwd: cliDir})
+    await deletePrepackScript(cliDir)
+
+    await exec(`${executable} pack tarballs --targets linux-arm`, {cwd: cliDir})
+    expect(existsSync(join(cliDir, 'tmp', cliName, 'package.json'))).to.be.true
+
+    const result = await exec(`bin/${cliName} hello world`, {cwd: join(cliDir, 'tmp', cliName)})
+    expect(result.code).to.equal(0)
+    expect(result.stdout).to.include('hello world! (./src/commands/hello/world.ts)\n')
+  })
+
+  skipWindows('generated CLI should be packable with --prune-lockfiles', async () => {
+    await exec('git init', {cwd: cliDir})
+    await exec('git add .', {cwd: cliDir})
+    await exec('git commit -m "chore: initial commit"', {cwd: cliDir})
+
+    await exec(`${PACKAGE_MANAGER} run build`, {cwd: cliDir})
+    await deletePrepackScript(cliDir)
+
+    await exec(`${executable} pack tarballs --targets linux-arm --prune-lockfiles`, {cwd: cliDir})
+    expect(existsSync(join(cliDir, 'tmp', cliName, 'package.json'))).to.be.true
+
+    const result = await exec(`bin/${cliName} hello world`, {cwd: join(cliDir, 'tmp', cliName)})
+    expect(result.code).to.equal(0)
+    expect(result.stdout).to.include('hello world! (./src/commands/hello/world.ts)\n')
+
+    const possibleLockfiles = ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', 'npm-shrinkwrap.json', 'oclif.lock']
+    const allFiles = await readdir(join(cliDir, 'tmp', cliName), {recursive: true})
+    const noLockFilesPresent = possibleLockfiles.every((lockfile) => !allFiles.includes(lockfile))
+    expect(noLockFilesPresent).to.be.true
   })
 })

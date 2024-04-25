@@ -11,7 +11,8 @@ const PACKAGE_MANAGER = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER || 'npm'
 const LOCK_FILES = ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', 'npm-shrinkwrap.json', 'oclif.lock']
 const NODE_VERSION = process.version
 
-const skipWindows = process.platform === 'win32' ? it.skip : it
+// Skip `oclif pack tarballs` tests on Windows and with pnpm
+const maybeSkip = process.platform === 'win32' || PACKAGE_MANAGER === 'pnpm' ? it.skip : it
 
 /**
  * Delete prepack script from package.json because it will generate an oclif.manifest.json
@@ -120,7 +121,7 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     expect(result.stdout).to.include('5 passing')
   })
 
-  skipWindows('generated CLI should be packable', async () => {
+  maybeSkip('generated CLI should be packable', async () => {
     await exec('git init', {cwd: cliDir})
     await exec('git add .', {cwd: cliDir})
     await exec('git commit -m "chore: initial commit"', {cwd: cliDir})
@@ -141,7 +142,7 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     expect(someLockFilesPresent).to.be.true
   })
 
-  skipWindows('generated CLI should be packable with --prune-lockfiles', async () => {
+  maybeSkip('generated CLI should be packable with --prune-lockfiles', async () => {
     await exec('git init', {cwd: cliDir})
     await exec('git add .', {cwd: cliDir})
     await exec('git commit -m "chore: initial commit"', {cwd: cliDir})

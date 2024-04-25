@@ -78,6 +78,7 @@ export async function build(
     pack?: boolean
     parallel?: boolean
     platform?: string
+    preserveLockfiles?: boolean
     tarball?: string
   } = {},
 ): Promise<void> {
@@ -91,8 +92,7 @@ export async function build(
     await emptyDir(c.workspace())
     const tarballNewLocation = path.join(c.workspace(), path.basename(tarball))
     await move(tarball, tarballNewLocation)
-    let tarCommand = `tar -xzf "${tarballNewLocation}"`
-    if (process.platform === 'win32') tarCommand += ' --force-local'
+    const tarCommand = `tar -xzf "${tarballNewLocation}"${process.platform === 'win32' ? ' --force-local' : ''}`
     await exec(tarCommand, {cwd: c.workspace()})
     const files = await readdir(path.join(c.workspace(), 'package'), {withFileTypes: true})
     await Promise.all(
@@ -104,59 +104,6 @@ export async function build(
       rm(path.join(c.workspace(), path.basename(tarball)), {recursive: true}),
       remove(path.join(c.workspace(), 'bin', 'run.cmd')),
     ])
-  }
-
-  const updatePJSON = async () => {
-    const pjsonPath = path.join(c.workspace(), 'package.json')
-    const pjson = await readJSON(pjsonPath)
-    pjson.version = config.version
-    pjson.oclif.update = pjson.oclif.update || {}
-    pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
-    pjson.oclif.update.s3.bucket = c.s3Config.bucket
-    await writeJSON(pjsonPath, pjson, {spaces: 2})
-  }
-
-  const addDependencies = async () => {
-    const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-
-    if (isYarnProject(yarnRoot)) {
-      await copyCoreYarnFiles(yarnRoot, c.workspace())
-
-      const {stdout} = await exec('yarn -v')
-      const yarnVersion = stdout.charAt(0)
-      if (yarnVersion === '1') {
-        await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
-      } else if (yarnVersion === '2') {
-        throw new Error('Yarn 2 is not supported yet. Try using Yarn 1, or Yarn 3')
-      } else {
-        try {
-          await exec('yarn workspaces focus --production', {cwd: c.workspace()})
-        } catch (error: unknown) {
-          if (error instanceof Error && error.message.includes('Command not found')) {
-            throw new Error('Missing workspace tools. Run `yarn plugin import workspace-tools`.')
-          }
-
-          throw error
-        }
-      }
-    } else {
-      const lockpath = existsSync(path.join(c.root, 'package-lock.json'))
-        ? path.join(c.root, 'package-lock.json')
-        : path.join(c.root, 'npm-shrinkwrap.json')
-      await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
-      await exec('npm install --production', {cwd: c.workspace()})
-    }
-  }
-
-  const pretarball = async () => {
-    const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
-    const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-    const yarn = existsSync(path.join(yarnRoot, 'yarn.lock'))
-    if (pjson.scripts.pretarball) {
-      yarn
-        ? await exec('yarn run pretarball', {cwd: c.workspace()})
-        : await exec('npm run pretarball', {cwd: c.workspace()})
-    }
   }
 
   const buildTarget = async (target: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}) => {
@@ -237,10 +184,14 @@ export async function build(
 
   log(`gathering workspace for ${config.bin} to ${c.workspace()}`)
   await extractCLI(options.tarball ?? (await packCLI()))
-  await updatePJSON()
-  await addDependencies()
+  await updatePJSON(c)
+  await addDependencies(c)
   await writeBinScripts({baseWorkspace: c.workspace(), config, nodeOptions: c.nodeOptions, nodeVersion: c.nodeVersion})
-  await pretarball()
+  await pretarball(c)
+  if (!options.preserveLockfiles) {
+    await removeLockfiles(c)
+  }
+
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)
@@ -253,5 +204,67 @@ export async function build(
     }
 
     log(`finished building ${targetsToBuild.length} targets sequentially`)
+  }
+}
+
+const isLockFile = (f: string) =>
+  f.endsWith('package-lock.json') ||
+  f.endsWith('yarn.lock') ||
+  f.endsWith('npm-shrinkwrap.json') ||
+  f.endsWith('oclif.lock')
+
+const removeLockfiles = async (c: BuildConfig) => {
+  const files = await readdir(c.workspace(), {recursive: true})
+  const lockfiles = files.filter((f) => isLockFile(f)).map((f) => path.join(c.workspace(), f))
+  await Promise.all(lockfiles.map((f) => remove(f)))
+}
+
+const pretarball = async (c: BuildConfig) => {
+  const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
+  if (!pjson.scripts.pretarball) return
+  const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
+  const hasYarnLock = existsSync(path.join(yarnRoot, 'yarn.lock'))
+  await exec(`${hasYarnLock ? 'yarn' : 'npm'} run pretarball`, {cwd: c.workspace()})
+}
+
+const updatePJSON = async (c: BuildConfig) => {
+  const pjsonPath = path.join(c.workspace(), 'package.json')
+  const pjson = await readJSON(pjsonPath)
+  pjson.version = c.config.version
+  pjson.oclif.update = pjson.oclif.update || {}
+  pjson.oclif.update.s3 = pjson.oclif.update.s3 || {}
+  pjson.oclif.update.s3.bucket = c.s3Config.bucket
+  await writeJSON(pjsonPath, pjson, {spaces: 2})
+}
+
+const addDependencies = async (c: BuildConfig) => {
+  const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
+
+  if (isYarnProject(yarnRoot)) {
+    await copyCoreYarnFiles(yarnRoot, c.workspace())
+
+    const {stdout} = await exec('yarn -v')
+    const yarnVersion = stdout.charAt(0)
+    if (yarnVersion === '1') {
+      await exec('yarn --no-progress --production --non-interactive', {cwd: c.workspace()})
+    } else if (yarnVersion === '2') {
+      throw new Error('Yarn 2 is not supported yet. Try using Yarn 1, or Yarn 3')
+    } else {
+      try {
+        await exec('yarn workspaces focus --production', {cwd: c.workspace()})
+      } catch (error: unknown) {
+        if (error instanceof Error && error.message.includes('Command not found')) {
+          throw new Error('Missing workspace tools. Run `yarn plugin import workspace-tools`.')
+        }
+
+        throw error
+      }
+    }
+  } else {
+    const lockpath = existsSync(path.join(c.root, 'package-lock.json'))
+      ? path.join(c.root, 'package-lock.json')
+      : path.join(c.root, 'npm-shrinkwrap.json')
+    await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
+    await exec('npm install --production', {cwd: c.workspace()})
   }
 }

@@ -20,7 +20,7 @@ export type UpdateConfig = {
   s3?: {acl?: ObjectCannedACL} & BuildConfig['config']['pjson']['oclif']['update']['s3']
 } & BuildConfig['config']['pjson']['oclif']['update']
 
-export interface BuildConfig {
+export type BuildConfig = {
   config: Interfaces.Config
   dist(input: string): string
   gitSha: string

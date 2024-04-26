@@ -1,5 +1,4 @@
 import {Errors} from '@oclif/core'
-import {render} from 'ejs'
 import {exec as execSync} from 'node:child_process'
 import * as crypto from 'node:crypto'
 import {createReadStream} from 'node:fs'
@@ -51,11 +50,6 @@ function compare(a: Types | Types[], b: Types | Types[]): number {
 export function sortBy<T>(arr: T[], fn: (i: T) => Types | Types[]): T[] {
   return arr.sort((a, b) => compare(fn(a), fn(b)))
 }
-
-export const template =
-  (context: object | undefined) =>
-  (t: string | undefined): string =>
-    render(t || '', context)
 
 interface VersionsObject {
   [key: string]: string

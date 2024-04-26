@@ -4,7 +4,7 @@ import * as path from 'node:path'
 import {URL} from 'node:url'
 
 import {HelpCompatibilityWrapper} from '../help-compatibility'
-import {castArray, compact, sortBy, template, uniqBy} from '../util'
+import {castArray, compact, sortBy, uniqBy} from '../util'
 
 const normalize = require('normalize-package-data')
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
@@ -112,7 +112,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
         bin,
         '='.repeat(bin.length),
         '',
-        template({config})(topic.description || '').trim(),
+        render(topic.description || '', {config}).trim(),
         '',
         this.commands(config, commands),
       ]
@@ -151,7 +151,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
         ...topics.map((t) =>
           compact([
             `* [\`${config.bin} ${t.name.replaceAll(':', config.topicSeparator)}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
-            template({config})(t.description || '')
+            render(t.description || '', {config})
               .trim()
               .split('\n')[0],
           ]).join(' - '),
@@ -164,7 +164,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
   renderCommand(config: Interfaces.Config, c: Command.Cached): string {
     this.debug('rendering command', c.id)
-    const title = template({command: c, config})(c.summary ?? c.description ?? '')
+    const title = render(c.summary ?? c.description ?? '', {command: c, config})
       .trim()
       .split('\n')[0]
     const help = new this.HelpClass(config, {maxWidth: columns, stripAnsi: true})
@@ -350,7 +350,7 @@ USAGE
       ]).join(' ')
 
     const usages = castArray(command.usage)
-    return template({command, config})(usages.length === 0 ? defaultUsage() : usages[0])
+    return render(usages.length === 0 ? defaultUsage() : usages[0], {command, config})
   }
 
   private repo(plugin: Interfaces.Plugin): string | undefined {

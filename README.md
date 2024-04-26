@@ -7,18 +7,19 @@
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/main/package.json)
 
 <!-- toc -->
-* [`oclif` CLI](#oclif-cli)
-* [🗒 Description](#-description)
-* [🚀 Getting Started Tutorial](#-getting-started-tutorial)
-* [📌 Requirements](#-requirements)
-* [📌 Migrating from V1](#-migrating-from-v1)
-* [🏗 Usage](#-usage)
-* [📚 Examples](#-examples)
-* [🔨 Commands](#-commands)
-* [Command Topics](#command-topics)
-* [🚀 Contributing](#-contributing)
-* [🏭 Related Repositories](#-related-repositories)
-* [🦔 Learn More](#-learn-more)
+
+- [`oclif` CLI](#oclif-cli)
+- [🗒 Description](#-description)
+- [🚀 Getting Started Tutorial](#-getting-started-tutorial)
+- [📌 Requirements](#-requirements)
+- [📌 Migrating from V1](#-migrating-from-v1)
+- [🏗 Usage](#-usage)
+- [📚 Examples](#-examples)
+- [🔨 Commands](#-commands)
+- [Command Topics](#command-topics)
+- [🚀 Contributing](#-contributing)
+- [🏭 Related Repositories](#-related-repositories)
+- [🦔 Learn More](#-learn-more)
 <!-- tocstop -->
 
 # 🗒 Description
@@ -94,16 +95,17 @@ hello world! (./src/commands/hello/world.ts)
 # 🔨 Commands
 
 <!-- commands -->
+
 # Command Topics
 
-* [`oclif generate`](docs/generate.md) - Generate a new CLI
-* [`oclif help`](docs/help.md) - Display help for oclif.
-* [`oclif init`](docs/init.md) - Initialize a new oclif CLI
-* [`oclif manifest`](docs/manifest.md) - Generates plugin manifest json (oclif.manifest.json).
-* [`oclif pack`](docs/pack.md) - Package an oclif CLI into installable artifacts.
-* [`oclif promote`](docs/promote.md) - Promote CLI builds to a S3 release channel.
-* [`oclif readme`](docs/readme.md) - Adds commands to README.md in current directory.
-* [`oclif upload`](docs/upload.md) - Upload installable CLI artifacts to AWS S3.
+- [`oclif generate`](docs/generate.md) - Generate a new CLI
+- [`oclif help`](docs/help.md) - Display help for oclif.
+- [`oclif init`](docs/init.md) - Initialize a new oclif CLI
+- [`oclif manifest`](docs/manifest.md) - Generates plugin manifest json (oclif.manifest.json).
+- [`oclif pack`](docs/pack.md) - Package an oclif CLI into installable artifacts.
+- [`oclif promote`](docs/promote.md) - Promote CLI builds to a S3 release channel.
+- [`oclif readme`](docs/readme.md) - Adds commands to README.md in current directory.
+- [`oclif upload`](docs/upload.md) - Upload installable CLI artifacts to AWS S3.
 
 <!-- commandsstop -->
 

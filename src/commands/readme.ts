@@ -1,19 +1,8 @@
-import {Command, Config, Flags, HelpBase, Interfaces, Plugin, loadHelpClass, toConfiguredId} from '@oclif/core'
+import {Command, Config, Flags, Interfaces, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'node:path'
-import {URL} from 'node:url'
 
-import {HelpCompatibilityWrapper} from '../help-compatibility'
-import {castArray, compact, sortBy, uniqBy} from '../util'
-
-const normalize = require('normalize-package-data')
-const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
-const slugify = new (require('github-slugger'))()
-import {render} from 'ejs'
-
-interface HelpBaseDerived {
-  new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase
-}
+import ReadmeGenerator from '../readme-generator'
 
 export default class Readme extends Command {
   static description = `The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
@@ -65,143 +54,6 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
   static summary = 'Adds commands to README.md in current directory.'
 
   private flags!: Interfaces.InferredFlags<typeof Readme.flags>
-  private HelpClass!: HelpBaseDerived
-
-  commandCode(config: Interfaces.Config, c: Command.Cached): string | undefined {
-    const pluginName = c.pluginName
-    if (!pluginName) return
-    const plugin = config.plugins.get(pluginName)
-    if (!plugin) return
-    const repo = this.repo(plugin)
-    if (!repo) return
-    let label = plugin.name
-    let version = plugin.version
-    const commandPath = this.commandPath(plugin, c)
-    if (!commandPath) return
-    if (config.name === plugin.name) {
-      label = commandPath
-      version = this.flags.version || version
-    }
-
-    const template =
-      this.flags['repository-prefix'] ||
-      plugin.pjson.oclif.repositoryPrefix ||
-      '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
-    return `_See code: [${label}](${render(template, {c, commandPath, config, repo, version})})_`
-  }
-
-  commands(config: Interfaces.Config, commands: Command.Cached[]): string {
-    return [
-      ...commands.map((c) => {
-        const usage = this.commandUsage(config, c)
-        return usage
-          ? `* [\`${config.bin} ${usage}\`](#${slugify.slug(`${config.bin}-${usage}`)})`
-          : `* [\`${config.bin}\`](#${slugify.slug(`${config.bin}`)})`
-      }),
-      '',
-      ...commands.map((c) => this.renderCommand(config, {...c})).map((s) => s.trim() + '\n'),
-    ]
-      .join('\n')
-      .trim()
-  }
-
-  createTopicFile(file: string, config: Interfaces.Config, topic: Interfaces.Topic, commands: Command.Cached[]): void {
-    const bin = `\`${config.bin} ${topic.name}\``
-    const doc =
-      [
-        bin,
-        '='.repeat(bin.length),
-        '',
-        render(topic.description || '', {config}).trim(),
-        '',
-        this.commands(config, commands),
-      ]
-        .join('\n')
-        .trim() + '\n'
-
-    fs.outputFileSync(path.resolve(this.flags['plugin-directory'] ?? process.cwd(), file), doc)
-  }
-
-  multiCommands(
-    config: Interfaces.Config,
-    commands: Command.Cached[],
-    dir: string,
-    nestedTopicsDepth: number | undefined,
-  ): string {
-    let topics = config.topics
-    topics = nestedTopicsDepth
-      ? topics.filter((t) => !t.hidden && (t.name.match(/:/g) || []).length < nestedTopicsDepth)
-      : topics.filter((t) => !t.hidden && !t.name.includes(':'))
-
-    topics = topics.filter((t) => commands.find((c) => c.id.startsWith(t.name)))
-    topics = sortBy(topics, (t) => t.name)
-    topics = uniqBy(topics, (t) => t.name)
-    for (const topic of topics) {
-      this.createTopicFile(
-        path.join('.', dir, topic.name.replaceAll(':', '/') + '.md'),
-        config,
-        topic,
-        commands.filter((c) => c.id === topic.name || c.id.startsWith(topic.name + ':')),
-      )
-    }
-
-    return (
-      [
-        '# Command Topics\n',
-        ...topics.map((t) =>
-          compact([
-            `* [\`${config.bin} ${t.name.replaceAll(':', config.topicSeparator)}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
-            render(t.description || '', {config})
-              .trim()
-              .split('\n')[0],
-          ]).join(' - '),
-        ),
-      ]
-        .join('\n')
-        .trim() + '\n'
-    )
-  }
-
-  renderCommand(config: Interfaces.Config, c: Command.Cached): string {
-    this.debug('rendering command', c.id)
-    const title = render(c.summary ?? c.description ?? '', {command: c, config})
-      .trim()
-      .split('\n')[0]
-    const help = new this.HelpClass(config, {maxWidth: columns, stripAnsi: true})
-    const wrapper = new HelpCompatibilityWrapper(help)
-
-    const header = () => {
-      const usage = this.commandUsage(config, c)
-      return usage ? `## \`${config.bin} ${usage}\`` : `## \`${config.bin}\``
-    }
-
-    try {
-      // copy c to keep the command ID with colons, see:
-      // https://github.com/oclif/oclif/pull/1165#discussion_r1282305242
-      const command = {...c}
-      return compact([
-        header(),
-        title,
-        '```\n' + wrapper.formatCommand(c).trim() + '\n```',
-        this.commandCode(config, command),
-      ]).join('\n\n')
-    } catch (error: unknown) {
-      const {message} = error as {message: string}
-      this.error(message)
-    }
-  }
-
-  replaceTag(readme: string, tag: string, body: string): string {
-    if (readme.includes(`<!-- ${tag} -->`)) {
-      if (readme.includes(`<!-- ${tag}stop -->`)) {
-        readme = readme.replace(new RegExp(`<!-- ${tag} -->(.|\n)*<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
-      }
-
-      this.log(`replacing <!-- ${tag} --> in ${this.flags['readme-path']}`)
-    }
-
-    return readme.replace(`<!-- ${tag} -->`, `<!-- ${tag} -->\n${body}\n<!-- ${tag}stop -->`)
-  }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(Readme)
@@ -229,142 +81,19 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       config.plugins.set(plugin.name, plugin)
     } catch {}
 
-    await (config as Config).runHook('init', {argv: this.argv, id: 'readme'})
+    await config.runHook('init', {argv: this.argv, id: 'readme'})
 
-    this.HelpClass = await loadHelpClass(config)
+    const generator = new ReadmeGenerator(config, {
+      aliases: this.flags.aliases,
+      multi: this.flags.multi,
+      nestedTopicsDepth: this.flags['nested-topics-depth'],
+      outputDir: this.flags['output-dir'],
+      pluginDir: this.flags['plugin-directory'],
+      readmePath,
+      repositoryPrefix: this.flags['repository-prefix'],
+      version: this.flags.version,
+    })
 
-    let readme = await fs.readFile(readmePath, 'utf8')
-    let commands = config.commands
-      .filter((c) => !c.hidden && c.pluginType === 'core')
-      .filter((c) => (this.flags.aliases ? true : !c.aliases.includes(c.id)))
-      .map((c) => (config.isSingleCommandCLI ? {...c, id: ''} : c))
-
-    this.debug('commands:', commands.map((c) => c.id).length)
-    commands = uniqBy(commands, (c) => c.id)
-    commands = sortBy(commands, (c) => c.id)
-    readme = this.replaceTag(readme, 'usage', this.usage(config))
-    readme = this.replaceTag(
-      readme,
-      'commands',
-      flags.multi
-        ? this.multiCommands(config, commands, flags['output-dir'], flags['nested-topics-depth'])
-        : this.commands(config, commands),
-    )
-    readme = this.replaceTag(readme, 'toc', this.toc(config, readme))
-
-    readme = readme.trimEnd()
-    readme += '\n'
-
-    await fs.outputFile(readmePath, readme)
-  }
-
-  toc(__: Interfaces.Config, readme: string): string {
-    return readme
-      .split('\n')
-      .filter((l) => l.startsWith('# '))
-      .map((l) => l.trim().slice(2))
-      .map((l) => `* [${l}](#${slugify.slug(l)})`)
-      .join('\n')
-  }
-
-  usage(config: Interfaces.Config): string {
-    const versionFlags = ['--version', ...(config.pjson.oclif.additionalVersionFlags ?? []).sort()]
-    const versionFlagsString = `(${versionFlags.join('|')})`
-    return [
-      `\`\`\`sh-session
-$ npm install -g ${config.name}
-$ ${config.bin} COMMAND
-running command...
-$ ${config.bin} ${versionFlagsString}
-${config.name}/${this.flags.version || config.version} ${process.platform}-${process.arch} node-v${
-        process.versions.node
-      }
-$ ${config.bin} --help [COMMAND]
-USAGE
-  $ ${config.bin} COMMAND
-...
-\`\`\`\n`,
-    ]
-      .join('\n')
-      .trim()
-  }
-
-  /**
-   * fetches the path to a command
-   */
-  private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
-    const strategy =
-      typeof plugin.pjson.oclif?.commands === 'string' ? 'pattern' : plugin.pjson.oclif?.commands?.strategy
-
-    // if the strategy is explicit, we can't determine the path so return undefined
-    if (strategy === 'explicit') return
-
-    const commandsDir =
-      typeof plugin.pjson.oclif?.commands === 'string'
-        ? plugin.pjson.oclif?.commands
-        : plugin.pjson.oclif?.commands?.target
-
-    if (!commandsDir) return
-    const hasTypescript = plugin.pjson.devDependencies?.typescript || plugin.pjson.dependencies?.typescript
-    let p = path.join(plugin.root, commandsDir, ...c.id.split(':'))
-    const outDir = path.dirname(commandsDir.replace(/^.\/|.\\/, '')) // remove leading ./ or .\ from path
-    const outDirRegex = new RegExp('^' + outDir + (path.sep === '\\' ? '\\\\' : path.sep))
-    if (fs.pathExistsSync(path.join(p, 'index.js'))) {
-      p = path.join(p, 'index.js')
-    } else if (fs.pathExistsSync(p + '.js')) {
-      p += '.js'
-    } else if (hasTypescript) {
-      // check if non-compiled scripts are available
-      const base = p.replace(plugin.root + path.sep, '')
-      p = path.join(plugin.root, base.replace(outDirRegex, 'src' + path.sep))
-      if (fs.pathExistsSync(path.join(p, 'index.ts'))) {
-        p = path.join(p, 'index.ts')
-      } else if (fs.pathExistsSync(p + '.ts')) {
-        p += '.ts'
-      } else return
-    } else return
-    p = p.replace(plugin.root + path.sep, '')
-    if (hasTypescript) {
-      p = p.replace(outDirRegex, 'src' + path.sep).replace(/\.js$/, '.ts')
-    }
-
-    p = p.replaceAll('\\', '/') // Replace windows '\' by '/'
-    return p
-  }
-
-  private commandUsage(config: Interfaces.Config, command: Command.Cached): string {
-    const arg = (arg: Command.Arg.Cached) => {
-      const name = arg.name.toUpperCase()
-      if (arg.required) return `${name}`
-      return `[${name}]`
-    }
-
-    const id = toConfiguredId(command.id, config)
-    const defaultUsage = () =>
-      compact([
-        id,
-        Object.values(command.args)
-          .filter((a) => !a.hidden)
-          .map((a) => arg(a))
-          .join(' '),
-      ]).join(' ')
-
-    const usages = castArray(command.usage)
-    return render(usages.length === 0 ? defaultUsage() : usages[0], {command, config})
-  }
-
-  private repo(plugin: Interfaces.Plugin): string | undefined {
-    const pjson = {...plugin.pjson}
-    normalize(pjson)
-    const repo = pjson.repository && pjson.repository.url
-    if (!repo) return
-    const url = new URL(repo)
-    if (
-      !['github.com', 'gitlab.com'].includes(url.hostname) &&
-      !pjson.oclif.repositoryPrefix &&
-      !this.flags['repository-prefix']
-    )
-      return
-    return `https://${url.hostname}${url.pathname.replace(/\.git$/, '')}`
+    await generator.generate()
   }
 }

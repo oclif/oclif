@@ -9,7 +9,7 @@ import {castArray, compact, sortBy, template, uniqBy} from '../util'
 const normalize = require('normalize-package-data')
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
 const slugify = new (require('github-slugger'))()
-const lodashTemplate = require('lodash.template')
+import {render} from 'ejs'
 
 interface HelpBaseDerived {
   new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase
@@ -87,7 +87,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       this.flags['repository-prefix'] ||
       plugin.pjson.oclif.repositoryPrefix ||
       '<%- repo %>/blob/v<%- version %>/<%- commandPath %>'
-    return `_See code: [${label}](${lodashTemplate(template)({c, commandPath, config, repo, version})})_`
+    return `_See code: [${label}](${render(template, {c, commandPath, config, repo, version})})_`
   }
 
   commands(config: Interfaces.Config, commands: Command.Cached[]): string {

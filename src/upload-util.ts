@@ -1,9 +1,8 @@
 import {Interfaces} from '@oclif/core'
+import {render} from 'ejs'
 import {join} from 'node:path'
 
 import {BuildConfig as TarballConfig} from './tarballs/config'
-
-import template = require('lodash.template')
 
 export function commitAWSDir(version: string, sha: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
@@ -46,7 +45,7 @@ export function templateShortKey(
     versioned: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %><%- ext %>',
     win32: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.exe',
   }
-  return template(templates[type])({...options})
+  return render(templates[type], {...options})
 }
 
 export type DebArch = 'amd64' | 'arm64' | 'armel' | 'i386'

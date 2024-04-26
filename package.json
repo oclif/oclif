@@ -26,7 +26,6 @@
     "fs-extra": "^8.1",
     "github-slugger": "^1.5.0",
     "got": "^13",
-    "lodash.template": "^4.5.0",
     "normalize-package-data": "^3.0.3",
     "semver": "^7.6.0",
     "sort-package-json": "^2.10.0",

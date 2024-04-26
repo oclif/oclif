@@ -1,4 +1,5 @@
 import {Errors} from '@oclif/core'
+import {render} from 'ejs'
 import {exec as execSync} from 'node:child_process'
 import * as crypto from 'node:crypto'
 import {createReadStream} from 'node:fs'
@@ -7,7 +8,6 @@ import {promisify} from 'node:util'
 
 import {log} from './log'
 const exec = promisify(execSync)
-import lodashTemplate = require('lodash.template')
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []
@@ -55,7 +55,7 @@ export function sortBy<T>(arr: T[], fn: (i: T) => Types | Types[]): T[] {
 export const template =
   (context: object | undefined) =>
   (t: string | undefined): string =>
-    lodashTemplate(t || '')(context)
+    render(t || '', context)
 
 interface VersionsObject {
   [key: string]: string

@@ -1,3 +1,9 @@
+## [4.9.1](https://github.com/oclif/oclif/compare/4.9.0...4.9.1) (2024-04-29)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/confirm from 3.1.5 to 3.1.6 ([#1392](https://github.com/oclif/oclif/issues/1392)) ([e408eb3](https://github.com/oclif/oclif/commit/e408eb373baec8da8c593d20b8355322e47f8b67))
+
 # [4.9.0](https://github.com/oclif/oclif/compare/4.8.8...4.9.0) (2024-04-25)
 
 ### Features

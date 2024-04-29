@@ -1,3 +1,9 @@
+## [4.9.3](https://github.com/oclif/oclif/compare/4.9.2...4.9.3) (2024-04-29)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/select from 2.2.1 to 2.3.2 ([#1390](https://github.com/oclif/oclif/issues/1390)) ([9573c8f](https://github.com/oclif/oclif/commit/9573c8f1ec1c1b687b497806a03f85668e41c29f))
+
 ## [4.9.2](https://github.com/oclif/oclif/compare/4.9.1...4.9.2) (2024-04-29)
 
 ### Bug Fixes

@@ -1559,12 +1559,12 @@
   resolved "https://registry.yarnpkg.com/@oclif/prettier-config/-/prettier-config-0.2.1.tgz#1def9f38134f9bfb229257f48a35f7d0d183dc78"
   integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
 
-"@oclif/test@^3.2.9":
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.2.9.tgz#73b40d80f8e94b15dded0dd9333f5cf95a136f4c"
-  integrity sha512-eVZO4I29Ipp7WlwAZOmQ/Z0Dm/J9qnTUTAqKHlylEmp9JYfVQ3C+SqZVNNp3KJ+D/XJMC7xQ748JDBQFUZebbA==
+"@oclif/test@^3.2.11":
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-3.2.11.tgz#356ed6f10c8e20128f807362e2a227038b9ea2cc"
+  integrity sha512-+bjUTI12kgqFYJtlNCYk0F+aIuYh4GDPZIviwSe9+rzd9kJMWEC3phUiviT41rroZzaPUcshnTVoZ5hyq+EIkg==
   dependencies:
-    "@oclif/core" "^3.26.0"
+    "@oclif/core" "^3.26.4"
     chai "^4.4.1"
     fancy-test "^3.0.14"
 

@@ -155,21 +155,21 @@ DESCRIPTION
           },
           description: 'say hello to anyone',
           id: 'hello',
-          usage: '<%- config.userAgent %> <%- command.id %>',
+          usage: '<%- config.bin %> <%- command.id %>',
         },
       ]
       const generator = new TestReadmeGenerator(config, {outputDir: 'docs', readmePath: 'README.md'})
       // @ts-expect-error because protected method
       const rendered = await generator.commands(commands)
-      expect(rendered).to.equal(`* [\`oclif ${config.userAgent} hello\`](#oclif-oclif490-darwin-arm64-node-v20110-hello)
+      expect(rendered).to.equal(`* [\`oclif oclif hello\`](#oclif-oclif-hello)
 
-## \`oclif ${config.userAgent} hello\`
+## \`oclif oclif hello\`
 
 say hello to anyone
 
 \`\`\`
 USAGE
-  $ oclif hello ${config.userAgent} hello
+  $ oclif hello oclif hello
 
 ARGUMENTS
   PERSON  name of person to say hello to

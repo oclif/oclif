@@ -145,15 +145,6 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       type: 'select',
     })
 
-    // console.log(sharedFiles)
-    // console.log(moduleSpecificFiles)
-
-    // const template = moduleType === 'ESM' ? 'hello-world-esm' : 'hello-world'
-    // await clone(template, location)
-    // await rm(join(location, '.git'), {force: true, recursive: true})
-    // We just cloned the template repo so we're sure it has a package.json
-    // const packageJSON = (await readPJSON(location))!
-
     const githubUser = await fetchGithubUser()
 
     const name = await this.getFlagOrPrompt({defaultValue: this.args.name, name: 'name', type: 'input'})

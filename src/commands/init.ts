@@ -135,7 +135,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     this.log(`Using package manager ${chalk.green(packageManager)}`)
 
     const projectBinPath = join(location, 'bin')
-    const templateBinPath = join(this.templatesDir, 'cli', moduleType, 'bin')
+    const templateBinPath = join(this.templatesDir, 'cli', moduleType.toLowerCase(), 'bin')
     await this.template(join(templateBinPath, 'dev.cmd.ejs'), join(projectBinPath, 'dev.cmd'))
     await this.template(join(templateBinPath, 'dev.js.ejs'), join(projectBinPath, 'dev.js'))
     await this.template(join(templateBinPath, 'run.cmd.ejs'), join(projectBinPath, 'run.cmd'))

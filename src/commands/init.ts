@@ -134,28 +134,12 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     this.log(`Using module type ${chalk.green(moduleType)}`)
     this.log(`Using package manager ${chalk.green(packageManager)}`)
 
-    const templateOptions = {moduleType}
     const projectBinPath = join(location, 'bin')
-    await this.template(
-      join(this.templatesDir, 'src', 'init', 'dev.cmd.ejs'),
-      join(projectBinPath, 'dev.cmd'),
-      templateOptions,
-    )
-    await this.template(
-      join(this.templatesDir, 'src', 'init', 'dev.js.ejs'),
-      join(projectBinPath, 'dev.js'),
-      templateOptions,
-    )
-    await this.template(
-      join(this.templatesDir, 'src', 'init', 'run.cmd.ejs'),
-      join(projectBinPath, 'run.cmd'),
-      templateOptions,
-    )
-    await this.template(
-      join(this.templatesDir, 'src', 'init', 'run.js.ejs'),
-      join(projectBinPath, 'run.js'),
-      templateOptions,
-    )
+    const templateBinPath = join(this.templatesDir, 'cli', moduleType, 'bin')
+    await this.template(join(templateBinPath, 'dev.cmd.ejs'), join(projectBinPath, 'dev.cmd'))
+    await this.template(join(templateBinPath, 'dev.js.ejs'), join(projectBinPath, 'dev.js'))
+    await this.template(join(templateBinPath, 'run.cmd.ejs'), join(projectBinPath, 'run.cmd'))
+    await this.template(join(templateBinPath, 'run.js.ejs'), join(projectBinPath, 'run.js'))
 
     if (process.platform !== 'win32') {
       await exec(`chmod +x "${join(projectBinPath, 'run.js')}"`)

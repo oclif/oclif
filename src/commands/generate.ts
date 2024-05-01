@@ -184,31 +184,9 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       type: 'select',
     })
 
-    const sharedFiles = (
-      await readdir(join(this.templatesDir, 'cli', 'shared'), {recursive: true, withFileTypes: true})
+    const [sharedFiles, moduleSpecificFiles] = await Promise.all(
+      ['shared', moduleType.toLowerCase()].map((f) => join(this.templatesDir, 'cli', f)).map(findEjsFiles(location)),
     )
-      .filter((f) => f.isFile() && f.name.endsWith('.ejs'))
-      .map((f) => ({
-        destination: join(
-          f.path.replace(join(this.templatesDir, 'cli', 'shared'), location),
-          f.name.replace('.ejs', ''),
-        ),
-        name: f.name,
-        src: join(f.path, f.name),
-      }))
-
-    const moduleSpecificFiles = (
-      await readdir(join(this.templatesDir, 'cli', moduleType.toLowerCase()), {recursive: true, withFileTypes: true})
-    )
-      .filter((f) => f.isFile() && f.name.endsWith('.ejs'))
-      .map((f) => ({
-        destination: join(
-          f.path.replace(join(this.templatesDir, 'cli', moduleType.toLowerCase()), location),
-          f.name.replace('.ejs', ''),
-        ),
-        name: f.name,
-        src: join(f.path, f.name),
-      }))
 
     await Promise.all(
       [...sharedFiles, ...moduleSpecificFiles].map(async (file) => {
@@ -284,3 +262,14 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     this.log(`\nCreated ${chalk.green(name)}`)
   }
 }
+
+const findEjsFiles =
+  (location: string) =>
+  async (dir: string): Promise<Array<{destination: string; name: string; src: string}>> =>
+    (await readdir(dir, {recursive: true, withFileTypes: true}))
+      .filter((f) => f.isFile() && f.name.endsWith('.ejs'))
+      .map((f) => ({
+        destination: join(f.path.replace(dir, location), f.name.replace('.ejs', '')),
+        name: f.name,
+        src: join(f.path, f.name),
+      }))

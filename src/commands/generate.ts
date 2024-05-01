@@ -93,7 +93,9 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     name: Args.string({description: 'Directory name of new project.', required: true}),
   }
 
-  static description = `This will clone the template repo and update package properties. For CommonJS, the 'oclif/hello-world' template will be used and for ESM, the 'oclif/hello-world-esm' template will be used.`
+  static description = `This will generate a fully functional oclif CLI that you can build on. It will prompt you for all the necessary information to get started. If you want to skip the prompts, you can pass the --yes flag to accept the defaults for all prompts. You can also pass individual flags to set specific values for prompts.
+
+Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.`
 
   static examples = [
     {

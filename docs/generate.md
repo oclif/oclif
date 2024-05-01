@@ -39,8 +39,11 @@ FLAGS
 DESCRIPTION
   Generate a new CLI
 
-  This will clone the template repo and update package properties. For CommonJS, the 'oclif/hello-world' template will
-  be used and for ESM, the 'oclif/hello-world-esm' template will be used.
+  This will generate a fully functional oclif CLI that you can build on. It will prompt you for all the necessary
+  information to get started. If you want to skip the prompts, you can pass the --yes flag to accept the defaults for
+  all prompts. You can also pass individual flags to set specific values for prompts.
+
+  Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
 
 EXAMPLES
   Generate a new CLI with prompts for all properties
@@ -60,7 +63,7 @@ EXAMPLES
     $ oclif generate my-cli --module-type CommonJS --author "John Doe" --yes
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.10.0/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.10.1/src/commands/generate.ts)_
 
 ## `oclif generate command NAME`
 
@@ -81,7 +84,7 @@ DESCRIPTION
   Add a command to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.10.0/src/commands/generate/command.ts)_
+_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.10.1/src/commands/generate/command.ts)_
 
 ## `oclif generate hook NAME`
 
@@ -102,4 +105,4 @@ DESCRIPTION
   Add a hook to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.10.0/src/commands/generate/hook.ts)_
+_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.10.1/src/commands/generate/hook.ts)_

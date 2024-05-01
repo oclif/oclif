@@ -1,3 +1,9 @@
+## [4.10.1](https://github.com/oclif/oclif/compare/4.10.0...4.10.1) (2024-05-01)
+
+### Bug Fixes
+
+- update generate description ([ba39334](https://github.com/oclif/oclif/commit/ba39334647a473004bfb6b0fb209cb26e9c8bf91))
+
 # [4.10.0](https://github.com/oclif/oclif/compare/4.9.3...4.10.0) (2024-05-01)
 
 ### Features

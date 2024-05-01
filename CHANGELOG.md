@@ -1,3 +1,9 @@
+# [4.10.0](https://github.com/oclif/oclif/compare/4.9.3...4.10.0) (2024-05-01)
+
+### Features
+
+- no more template repos ([#1395](https://github.com/oclif/oclif/issues/1395)) ([ddab537](https://github.com/oclif/oclif/commit/ddab537a4a7803248f2f37edbc85b228a214126f)), closes [#1397](https://github.com/oclif/oclif/issues/1397)
+
 ## [4.9.3](https://github.com/oclif/oclif/compare/4.9.2...4.9.3) (2024-04-29)
 
 ### Bug Fixes

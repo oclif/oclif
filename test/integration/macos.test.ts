@@ -1,16 +1,16 @@
 import {expect, test} from '@oclif/test'
 import {emptyDir, writeJSON} from 'fs-extra'
+import _ from 'lodash'
 import {createWriteStream} from 'node:fs'
 import * as path from 'node:path'
 import {pipeline} from 'node:stream/promises'
 import {exec} from 'shelljs'
 
 import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
-const cloneDeep = require('lodash.clonedeep')
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalPJSON = cloneDeep(pjson)
+const originalPJSON = _.cloneDeep(pjson)
 
 const onlyMacos = process.platform === 'darwin' ? test : test.skip()
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`

@@ -1,6 +1,7 @@
 import {Interfaces} from '@oclif/core'
 import {expect, test} from '@oclif/test'
 import {emptyDir, writeJSON} from 'fs-extra'
+import _ from 'lodash'
 import {exec as execSync} from 'node:child_process'
 import {createWriteStream} from 'node:fs'
 import {rm} from 'node:fs/promises'
@@ -11,13 +12,12 @@ import {promisify} from 'node:util'
 import aws from '../../src/aws'
 import {hash} from '../../src/util'
 import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
-const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalPJSON = cloneDeep(pjson)
+const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 const skipIfWindows = process.platform === 'win32' ? test.skip() : test
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`

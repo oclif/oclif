@@ -1,17 +1,17 @@
 import {expect, test} from '@oclif/test'
 import * as fs from 'fs-extra'
+import _ from 'lodash'
 import {exec as execSync} from 'node:child_process'
 import * as path from 'node:path'
 import {promisify} from 'node:util'
 
 import {gitSha} from '../../src/tarballs'
 import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
-const cloneDeep = require('lodash.clonedeep')
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
-const originalPJSON = cloneDeep(pjson)
+const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
 const onlyLinux = process.platform === 'linux' ? test : test.skip()

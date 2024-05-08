@@ -7,7 +7,6 @@ import {promisify} from 'node:util'
 
 import {log} from './log'
 const exec = promisify(execSync)
-import lodashTemplate = require('lodash.template')
 
 export function castArray<T>(input?: T | T[]): T[] {
   if (input === undefined) return []
@@ -51,11 +50,6 @@ function compare(a: Types | Types[], b: Types | Types[]): number {
 export function sortBy<T>(arr: T[], fn: (i: T) => Types | Types[]): T[] {
   return arr.sort((a, b) => compare(fn(a), fn(b)))
 }
-
-export const template =
-  (context: object | undefined) =>
-  (t: string | undefined): string =>
-    lodashTemplate(t || '')(context)
 
 interface VersionsObject {
   [key: string]: string

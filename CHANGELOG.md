@@ -1,3 +1,9 @@
+## [4.10.5](https://github.com/oclif/oclif/compare/4.10.4...4.10.5) (2024-05-08)
+
+### Bug Fixes
+
+- remove lodash.template ([19c27f9](https://github.com/oclif/oclif/commit/19c27f90a33a5028f330afa98740145a26bc68f9))
+
 ## [4.10.4](https://github.com/oclif/oclif/compare/4.10.3...4.10.4) (2024-05-06)
 
 ### Bug Fixes

@@ -1,0 +1,27 @@
+*-debug.log
+*-error.log
+**/.DS_Store
+/.idea
+/dist
+/tmp
+/node_modules
+oclif.manifest.json
+<% if (packageManager === 'yarn') { %>
+package-lock.json
+pnpm-lock.yaml
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+<% } %>
+<% if (packageManager === 'pnpm') { %>
+yarn.lock
+package-lock.json
+<% } %>
+<% if (packageManager === 'npm') { %>
+yarn.lock
+pnpm-lock.yaml
+<% } %>

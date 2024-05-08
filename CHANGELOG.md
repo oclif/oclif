@@ -1,3 +1,51 @@
+## [4.10.4](https://github.com/oclif/oclif/compare/4.10.3...4.10.4) (2024-05-06)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-cloudfront from 3.535.0 to 3.569.0 ([b0b7a27](https://github.com/oclif/oclif/commit/b0b7a275cba5f3845cf2bb75661f20a186e6a5a4))
+
+## [4.10.3](https://github.com/oclif/oclif/compare/4.10.2...4.10.3) (2024-05-05)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-s3 from 3.565.0 to 3.569.0 ([6960f6a](https://github.com/oclif/oclif/commit/6960f6a42195395decd7b491dc908afeb3ebade1))
+
+## [4.10.2](https://github.com/oclif/oclif/compare/4.10.1...4.10.2) (2024-05-05)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 3.26.4 to 3.26.5 ([7b3e977](https://github.com/oclif/oclif/commit/7b3e97701880e2026ad5e4d5576da0d1ea82966f))
+
+## [4.10.1](https://github.com/oclif/oclif/compare/4.10.0...4.10.1) (2024-05-01)
+
+### Bug Fixes
+
+- update generate description ([ba39334](https://github.com/oclif/oclif/commit/ba39334647a473004bfb6b0fb209cb26e9c8bf91))
+
+# [4.10.0](https://github.com/oclif/oclif/compare/4.9.3...4.10.0) (2024-05-01)
+
+### Features
+
+- no more template repos ([#1395](https://github.com/oclif/oclif/issues/1395)) ([ddab537](https://github.com/oclif/oclif/commit/ddab537a4a7803248f2f37edbc85b228a214126f)), closes [#1397](https://github.com/oclif/oclif/issues/1397)
+
+## [4.9.3](https://github.com/oclif/oclif/compare/4.9.2...4.9.3) (2024-04-29)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/select from 2.2.1 to 2.3.2 ([#1390](https://github.com/oclif/oclif/issues/1390)) ([9573c8f](https://github.com/oclif/oclif/commit/9573c8f1ec1c1b687b497806a03f85668e41c29f))
+
+## [4.9.2](https://github.com/oclif/oclif/compare/4.9.1...4.9.2) (2024-04-29)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-s3 from 3.554.0 to 3.565.0 ([#1394](https://github.com/oclif/oclif/issues/1394)) ([f379e3a](https://github.com/oclif/oclif/commit/f379e3a1e345b1ed291a75d3b1f64f746f899c11))
+
+## [4.9.1](https://github.com/oclif/oclif/compare/4.9.0...4.9.1) (2024-04-29)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/confirm from 3.1.5 to 3.1.6 ([#1392](https://github.com/oclif/oclif/issues/1392)) ([e408eb3](https://github.com/oclif/oclif/commit/e408eb373baec8da8c593d20b8355322e47f8b67))
+
 # [4.9.0](https://github.com/oclif/oclif/compare/4.8.8...4.9.0) (2024-04-25)
 
 ### Features

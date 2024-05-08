@@ -1,12 +1,13 @@
 /* eslint-disable unicorn/no-await-expression-member */
 import {Args, Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
-import {readFile, rm, writeFile} from 'node:fs/promises'
+import {existsSync} from 'node:fs'
+import {readdir} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 import validatePkgName from 'validate-npm-package-name'
 
-import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
-import {compact, uniq, validateBin} from '../util'
+import {FlaggablePrompt, GeneratorCommand, exec, makeFlags} from '../generator'
+import {validateBin} from '../util'
 
 async function fetchGithubUserFromAPI(): Promise<{login: string; name: string} | undefined> {
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN
@@ -44,18 +45,6 @@ function determineDefaultAuthor(
   if (name) return name
   if (login) return `@${login}`
   return defaultValue
-}
-
-async function clone(repo: string, location: string): Promise<void> {
-  try {
-    await exec(`git clone https://github.com/oclif/${repo}.git "${location}" --depth=1`)
-  } catch (error) {
-    const err =
-      error instanceof Error
-        ? new Errors.CLIError(error)
-        : new Errors.CLIError('An error occurred while cloning the template repo')
-    throw err
-  }
 }
 
 const FLAGGABLE_PROMPTS = {
@@ -104,7 +93,9 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     name: Args.string({description: 'Directory name of new project.', required: true}),
   }
 
-  static description = `This will clone the template repo and update package properties. For CommonJS, the 'oclif/hello-world' template will be used and for ESM, the 'oclif/hello-world-esm' template will be used.`
+  static description = `This will generate a fully functional oclif CLI that you can build on. It will prompt you for all the necessary information to get started. If you want to skip the prompts, you can pass the --yes flag to accept the defaults for all prompts. You can also pass individual flags to set specific values for prompts.
+
+Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.`
 
   static examples = [
     {
@@ -146,47 +137,45 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     const location = this.flags['output-dir'] ? join(this.flags['output-dir'], this.args.name) : resolve(this.args.name)
     this.log(`Generating ${this.args.name} in ${chalk.green(location)}`)
 
+    if (existsSync(location)) {
+      throw new Errors.CLIError(`The directory ${location} already exists.`)
+    }
+
     const moduleType = await this.getFlagOrPrompt({
       defaultValue: 'ESM',
       name: 'module-type',
       type: 'select',
     })
 
-    const template = moduleType === 'ESM' ? 'hello-world-esm' : 'hello-world'
-    await clone(template, location)
-    await rm(join(location, '.git'), {force: true, recursive: true})
-    // We just cloned the template repo so we're sure it has a package.json
-    const packageJSON = (await readPJSON(location))!
-
     const githubUser = await fetchGithubUser()
 
     const name = await this.getFlagOrPrompt({defaultValue: this.args.name, name: 'name', type: 'input'})
     const bin = await this.getFlagOrPrompt({defaultValue: name, name: 'bin', type: 'input'})
     const description = await this.getFlagOrPrompt({
-      defaultValue: packageJSON.description,
+      defaultValue: 'A new CLI generated with oclif',
       name: 'description',
       type: 'input',
     })
     const author = await this.getFlagOrPrompt({
-      defaultValue: determineDefaultAuthor(githubUser, packageJSON.author),
+      defaultValue: determineDefaultAuthor(githubUser, 'Your Name Here'),
       name: 'author',
       type: 'input',
     })
 
     const license = await this.getFlagOrPrompt({
-      defaultValue: packageJSON.license,
+      defaultValue: 'MIT',
       name: 'license',
       type: 'input',
     })
 
     const owner = await this.getFlagOrPrompt({
-      defaultValue: githubUser?.login ?? location.split(sep).at(-2) ?? packageJSON.author,
+      defaultValue: githubUser?.login ?? location.split(sep).at(-2) ?? 'Your Name Here',
       name: 'owner',
       type: 'input',
     })
 
     const repository = await this.getFlagOrPrompt({
-      defaultValue: (name ?? packageJSON.repository ?? packageJSON.name).split('/').at(-1) ?? name,
+      defaultValue: name.split('/').at(-1) ?? name,
       name: 'repository',
       type: 'input',
     })
@@ -197,68 +186,67 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       type: 'select',
     })
 
-    const updatedPackageJSON = {
-      ...packageJSON,
-      author,
-      bin: {[bin]: './bin/run.js'},
-      bugs: `https://github.com/${owner}/${repository}/issues`,
-      description,
-      homepage: `https://github.com/${owner}/${repository}`,
-      license,
-      name,
-      oclif: {
-        ...packageJSON.oclif,
-        bin,
-        dirname: bin,
-      },
-      repository: `${owner}/${repository}`,
-      version: '0.0.0',
-    }
+    const [sharedFiles, moduleSpecificFiles] = await Promise.all(
+      ['shared', moduleType.toLowerCase()].map((f) => join(this.templatesDir, 'cli', f)).map(findEjsFiles(location)),
+    )
 
-    if (packageManager !== 'yarn') {
-      const scripts = (updatedPackageJSON.scripts || {}) as Record<string, string>
-      updatedPackageJSON.scripts = Object.fromEntries(
-        Object.entries(scripts).map(([k, v]) => [k, v.replace('yarn', `${packageManager} run`)]),
-      )
-    }
+    await Promise.all(
+      [...sharedFiles, ...moduleSpecificFiles].map(async (file) => {
+        switch (file.name) {
+          case 'package.json.ejs': {
+            const data = {
+              author,
+              bin,
+              description,
+              license,
+              moduleType,
+              name,
+              owner,
+              pkgManagerScript: packageManager === 'yarn' ? 'yarn' : `${packageManager} run`,
+              repository,
+            }
+            await this.template(file.src, file.destination, data)
 
-    const {default: sortPackageJson} = await import('sort-package-json')
-    await writeFile(join(location, 'package.json'), JSON.stringify(sortPackageJson(updatedPackageJSON), null, 2))
-    await rm(join(location, 'LICENSE'))
-    await rm(join(location, '.github', 'workflows', 'automerge.yml'))
+            break
+          }
 
-    const existing = (await readFile(join(location, '.gitignore'), 'utf8')).split('\n')
-    const updated =
-      uniq(
-        compact([
-          '*-debug.log',
-          '*-error.log',
-          'node_modules',
-          '/tmp',
-          '/dist',
-          '/lib',
-          ...(packageManager === 'yarn'
-            ? [
-                '/package-lock.json',
-                '.pnp.*',
-                '.yarn/*',
-                '!.yarn/patches',
-                '!.yarn/plugins',
-                '!.yarn/releases',
-                '!.yarn/sdks',
-                '!.yarn/versions',
-              ]
-            : ['/yarn.lock']),
-          ...existing,
-        ]),
-      )
-        .sort()
-        .join('\n') + '\n'
+          case '.gitignore.ejs': {
+            await this.template(file.src, file.destination, {packageManager})
 
-    await writeFile(join(location, '.gitignore'), updated)
+            break
+          }
 
-    if (packageManager !== 'yarn') {
-      await rm(join(location, 'yarn.lock'))
+          case 'README.md.ejs': {
+            await this.template(file.src, file.destination, {description, name, repository})
+
+            break
+          }
+
+          case 'onPushToMain.yml.ejs':
+          case 'onRelease.yml.ejs':
+          case 'test.yml.ejs': {
+            await this.template(file.src, file.destination, {
+              exec: packageManager === 'yarn' ? packageManager : `${packageManager} exec`,
+              install: packageManager === 'yarn' ? packageManager : `${packageManager} install`,
+              packageManager,
+              run: packageManager === 'yarn' ? packageManager : `${packageManager} run`,
+            })
+
+            break
+          }
+
+          default: {
+            await this.template(file.src, file.destination)
+          }
+        }
+      }),
+    )
+
+    if (process.platform !== 'win32') {
+      await Promise.all([
+        exec(`chmod +x ${join(location, 'bin', 'run.js')}`),
+        exec(`chmod +x ${join(location, 'bin', 'dev.js')}`),
+      ])
     }
 
     await exec(`${packageManager} install`, {cwd: location, silent: false})
@@ -276,3 +264,14 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     this.log(`\nCreated ${chalk.green(name)}`)
   }
 }
+
+const findEjsFiles =
+  (location: string) =>
+  async (dir: string): Promise<Array<{destination: string; name: string; src: string}>> =>
+    (await readdir(dir, {recursive: true, withFileTypes: true}))
+      .filter((f) => f.isFile() && f.name.endsWith('.ejs'))
+      .map((f) => ({
+        destination: join(f.path.replace(dir, location), f.name.replace('.ejs', '')),
+        name: f.name,
+        src: join(f.path, f.name),
+      }))

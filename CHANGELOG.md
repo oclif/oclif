@@ -1,3 +1,9 @@
+## [4.10.6](https://github.com/oclif/oclif/compare/4.10.5...4.10.6) (2024-05-09)
+
+### Bug Fixes
+
+- bump plugins ([#1404](https://github.com/oclif/oclif/issues/1404)) ([e8aa031](https://github.com/oclif/oclif/commit/e8aa0318e63a22c8eae520d84fa253c45cfec583))
+
 ## [4.10.5](https://github.com/oclif/oclif/compare/4.10.4...4.10.5) (2024-05-08)
 
 ### Bug Fixes

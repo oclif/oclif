@@ -1,3 +1,9 @@
+## [4.10.7](https://github.com/oclif/oclif/compare/4.10.6...4.10.7) (2024-05-10)
+
+### Bug Fixes
+
+- **readme:** read tsconfigs as JSONC instead of JSON ([#1405](https://github.com/oclif/oclif/issues/1405)) ([#1407](https://github.com/oclif/oclif/issues/1407)) ([5458b80](https://github.com/oclif/oclif/commit/5458b80ae60d329346ab25edcb4d379fa6bce791))
+
 ## [4.10.6](https://github.com/oclif/oclif/compare/4.10.5...4.10.6) (2024-05-09)
 
 ### Bug Fixes

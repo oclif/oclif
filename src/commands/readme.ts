@@ -61,11 +61,15 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     this.flags['plugin-directory'] ??= process.cwd()
     const readmePath = path.resolve(this.flags['plugin-directory'], flags['readme-path'])
     const tsConfigPath = path.resolve(this.flags['plugin-directory'], 'tsconfig.json')
-    const tsConfig = await fs.readJSON(tsConfigPath).catch(() => ({}))
-    const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
+    if (await fs.pathExists(tsConfigPath)) {
+      const {default: JSONC} = await import('tiny-jsonc')
+      const tsConfigRaw = await fs.readFile(tsConfigPath, 'utf8')
+      const tsConfig = JSONC.parse(tsConfigRaw)
+      const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'
 
-    if (!(await fs.pathExists(outDir))) {
-      this.warn(`No compiled source found at ${outDir}. Some commands may be missing.`)
+      if (!(await fs.pathExists(outDir))) {
+        this.warn(`No compiled source found at ${outDir}. Some commands may be missing.`)
+      }
     }
 
     const config = await Config.load({

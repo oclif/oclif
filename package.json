@@ -30,6 +30,7 @@
     "normalize-package-data": "^6",
     "semver": "^7.6.0",
     "sort-package-json": "^2.10.0",
+    "tiny-jsonc": "^1.0.1",
     "validate-npm-package-name": "^5.0.0"
   },
   "devDependencies": {

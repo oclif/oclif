@@ -1,7 +1,6 @@
 import {Command, Config, Flags, Interfaces, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'node:path'
-import JSONC from 'tiny-jsonc'
 
 import ReadmeGenerator from '../readme-generator'
 
@@ -63,6 +62,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     const readmePath = path.resolve(this.flags['plugin-directory'], flags['readme-path'])
     const tsConfigPath = path.resolve(this.flags['plugin-directory'], 'tsconfig.json')
     if (await fs.pathExists(tsConfigPath)) {
+      const {default: JSONC} = await import('tiny-jsonc')
       const tsConfigRaw = await fs.readFile(tsConfigPath, 'utf8')
       const tsConfig = JSONC.parse(tsConfigRaw)
       const outDir = tsConfig.compilerOptions?.outDir ?? 'lib'

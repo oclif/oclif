@@ -1,3 +1,9 @@
+## [4.10.10](https://github.com/oclif/oclif/compare/4.10.9...4.10.10) (2024-05-13)
+
+### Bug Fixes
+
+- **deps:** bump normalize-package-data from 6.0.0 to 6.0.1 ([f79f26b](https://github.com/oclif/oclif/commit/f79f26bcd00f75554e3493e9b420ddd6fbbb1004))
+
 ## [4.10.9](https://github.com/oclif/oclif/compare/4.10.8...4.10.9) (2024-05-12)
 
 ### Bug Fixes

@@ -1,3 +1,9 @@
+## [4.10.11](https://github.com/oclif/oclif/compare/4.10.10...4.10.11) (2024-05-14)
+
+### Bug Fixes
+
+- bump plugin-not-found version ([#1414](https://github.com/oclif/oclif/issues/1414)) ([678c465](https://github.com/oclif/oclif/commit/678c465308ffe51a5c0a9fb348558237ae216b49))
+
 ## [4.10.10](https://github.com/oclif/oclif/compare/4.10.9...4.10.10) (2024-05-13)
 
 ### Bug Fixes

@@ -1534,10 +1534,10 @@
     debug "^4.3.3"
     semver "^7.5.4"
 
-"@oclif/plugin-not-found@^3.1.8":
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.1.8.tgz#5fc871019868f425bbf301437630afaebaa914e5"
-  integrity sha512-TbpMJ7PODaXuodSivqJo9cFxiVxNUmkCCl1BTdMpLuy82nxMv6aON0W1DVJryJ/OQjM4RKXvH3x3qCB7Xn0U8g==
+"@oclif/plugin-not-found@^3.1.9":
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.1.9.tgz#fcae1378761be98e774aa11d36ebef69019fd09b"
+  integrity sha512-yPh9YAIIIzDRscR8P/yu4D2fwK5z5wze57wspklmNg4pW/tOFhe7BelgOBahSdkJQodS7TUIzI/CN4DWbNWuKQ==
   dependencies:
     "@inquirer/confirm" "^3.1.6"
     "@oclif/core" "^3.26.5"

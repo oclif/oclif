@@ -1,3 +1,9 @@
+## [4.10.13](https://github.com/oclif/oclif/compare/4.10.12...4.10.13) (2024-05-19)
+
+### Bug Fixes
+
+- **deps:** bump semver from 7.6.0 to 7.6.2 ([62aaab3](https://github.com/oclif/oclif/commit/62aaab39b88fe9038c232c2f293356a523f46167))
+
 ## [4.10.12](https://github.com/oclif/oclif/compare/4.10.11...4.10.12) (2024-05-19)
 
 ### Bug Fixes

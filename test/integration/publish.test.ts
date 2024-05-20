@@ -90,13 +90,4 @@ describe('upload tarballs', async () => {
     await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
     await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
   })
-
-  // skipIfWindows
-  //   .command(['pack:tarballs', '--parallel', '--xz'])
-  //   .command(['upload:tarballs', '--xz'])
-  //   .command(['promote', '--channel', pjson.version, '--sha', sha, '--version', pjson.version])
-  //   .it('checks uploads for version and channel', async () => {
-  //     await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
-  //     await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
-  //   })
 })

@@ -56,21 +56,4 @@ describe('publish:win', () => {
       createWriteStream(pkg),
     )
   })
-
-  // skipIfWindows
-  //   .command(['pack:win'])
-  //   .command(['upload:win'])
-  //   .do(async () => {
-  //     ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))
-  //     expect(pkg).to.be.ok
-  //     expect(sha).to.be.ok
-  //   })
-  //   .it('publishes valid releases', async () => {
-  //     console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
-  //     const {default: got} = await import('got')
-  //     await pipeline(
-  //       got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
-  //       createWriteStream(pkg),
-  //     )
-  //   })
 })

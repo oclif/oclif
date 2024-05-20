@@ -1,20 +1,22 @@
 import {Interfaces} from '@oclif/core'
-import {expect, test} from '@oclif/test'
-import * as fs from 'fs-extra'
-
-process.env.NODE_ENV = 'development'
+import {runCommand} from '@oclif/test'
+import {expect} from 'chai'
+import {rm} from 'node:fs/promises'
 
 describe('manifest', () => {
-  test
-    .stdout()
-    .do(() => fs.remove('oclif.manifest.json'))
-    .finally(() => fs.remove('oclif.manifest.json'))
-    .command(['manifest'])
-    .it('outputs plugins', (ctx) => {
-      const {commands} = fs.readJSONSync('oclif.manifest.json') as Interfaces.Manifest
-      expect(commands.manifest).to.include({
-        description: 'Generates plugin manifest json (oclif.manifest.json).',
-      })
-      expect(ctx.stdout).to.match(/wrote manifest to .*oclif.manifest.json/)
+  beforeEach(async () => {
+    await rm('oclif.manifest.json', {force: true})
+  })
+
+  afterEach(async () => {
+    await rm('oclif.manifest.json', {force: true})
+  })
+
+  it('should generate manifest', async () => {
+    const {result, stdout} = await runCommand<Interfaces.Manifest>('manifest')
+    expect(stdout).to.match(/wrote manifest to .*oclif.manifest.json/)
+    expect(result?.commands.manifest).to.deep.include({
+      description: 'Generates plugin manifest json (oclif.manifest.json).',
     })
+  })
 })

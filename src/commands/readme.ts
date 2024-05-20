@@ -22,6 +22,9 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       default: true,
       description: 'Include aliases in the command list.',
     }),
+    'dry-run': Flags.boolean({
+      description: 'Prints the generated README without modifying the file.',
+    }),
     multi: Flags.boolean({
       description: 'Create a different markdown page for each topic.',
     }),
@@ -55,7 +58,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
   private flags!: Interfaces.InferredFlags<typeof Readme.flags>
 
-  async run(): Promise<void> {
+  async run(): Promise<string> {
     const {flags} = await this.parse(Readme)
     this.flags = flags
     this.flags['plugin-directory'] ??= process.cwd()
@@ -89,6 +92,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 
     const generator = new ReadmeGenerator(config, {
       aliases: this.flags.aliases,
+      dryRun: this.flags['dry-run'],
       multi: this.flags.multi,
       nestedTopicsDepth: this.flags['nested-topics-depth'],
       outputDir: this.flags['output-dir'],
@@ -98,6 +102,11 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       version: this.flags.version,
     })
 
-    await generator.generate()
+    const readme = await generator.generate()
+    if (this.flags['dry-run']) {
+      this.log(readme)
+    }
+
+    return readme
   }
 }

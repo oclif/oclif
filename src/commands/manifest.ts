@@ -33,7 +33,7 @@ export default class Manifest extends Command {
     }),
   }
 
-  public async run(): Promise<void> {
+  public async run(): Promise<Interfaces.Manifest> {
     const {flags} = await this.parse(Manifest)
     try {
       unlinkSync('oclif.manifest.json')
@@ -105,6 +105,8 @@ export default class Manifest extends Command {
     writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
     this.log(`wrote manifest to ${file}`)
+
+    return plugin.manifest
   }
 
   private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {

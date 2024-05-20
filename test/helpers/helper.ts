@@ -1,5 +1,5 @@
 import {DeleteObjectsRequest, ObjectIdentifier} from '@aws-sdk/client-s3'
-import {expect} from '@oclif/test'
+import {expect} from 'chai'
 import * as fs from 'node:fs'
 import * as shelljs from 'shelljs'
 

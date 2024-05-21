@@ -18,16 +18,14 @@ class TestReadmeGenerator extends ReadmeGenerator {
 
 describe('ReadmeGenerator', () => {
   let config: Config
-  let sandbox: sinon.SinonSandbox
 
   beforeEach(async () => {
-    sandbox = sinon.createSandbox()
     config = await Config.load(__dirname)
-    sandbox.stub(ux, 'log').returns()
+    sinon.stub(ux, 'log').returns()
   })
 
   afterEach(() => {
-    sandbox.restore()
+    sinon.restore()
   })
 
   describe('commands', () => {
@@ -231,7 +229,7 @@ DESCRIPTION
         },
       ]
 
-      sandbox.stub(config, 'topics').value([
+      sinon.stub(config, 'topics').value([
         {
           description: 'Say hello from <%- config.bin %>',
           name: 'hello',
@@ -283,7 +281,7 @@ USAGE
     })
 
     it('should render usage with multiple version flags', async () => {
-      sandbox.stub(config.pjson, 'oclif').value({
+      sinon.stub(config.pjson, 'oclif').value({
         ...config.pjson.oclif,
         additionalVersionFlags: ['-v'],
       })

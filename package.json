@@ -34,7 +34,7 @@
     "validate-npm-package-name": "^5.0.0"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^18",
+    "@commitlint/config-conventional": "^19",
     "@oclif/plugin-legacy": "^2.0.8",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4",
@@ -52,7 +52,7 @@
     "@types/sinon": "^17.0.3",
     "@types/validate-npm-package-name": "^4.0.2",
     "chai": "^4.4.1",
-    "commitlint": "^18",
+    "commitlint": "^19",
     "eslint": "^8.57.0",
     "eslint-config-oclif": "^5.2.0",
     "eslint-config-oclif-typescript": "^3.1.7",

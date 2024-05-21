@@ -1,9 +1,9 @@
-import {expect, test} from '@oclif/test'
+import {runHook} from '@oclif/test'
+import {expect} from 'chai'
 
 describe('hooks', () => {
-  test
-  .stdout()
-  .hook('init', {id: 'mycommand'})
-  .do(output => expect(output.stdout).to.contain('example hook running mycommand'))
-  .it('shows a message')
+  it('shows a message', async () => {
+    const {stdout} = await runHook('init', {id: 'mycommand'})
+    expect(stdout).to.contain('example hook running mycommand')
+  })
 })

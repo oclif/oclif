@@ -10,11 +10,12 @@ Adds commands to README.md in current directory.
 
 ```
 USAGE
-  $ oclif readme --output-dir <value> ---path <value> [--aliases] [--nested-topics-depth <value> --multi]
-    [--plugin-directory <value>] [--repository-prefix <value>] [--version <value>]
+  $ oclif readme --output-dir <value> ---path <value> [--aliases] [--dry-run] [--nested-topics-depth <value>
+    --multi] [--plugin-directory <value>] [--repository-prefix <value>] [--version <value>]
 
 FLAGS
   --[no-]aliases                 Include aliases in the command list.
+  --dry-run                      Prints the generated README without modifying the file.
   --multi                        Create a different markdown page for each topic.
   --nested-topics-depth=<value>  Max nested topics depth for multi markdown page generation. Use with --multi enabled.
   --output-dir=<value>           (required) [default: docs] Output directory for multi docs.
@@ -37,4 +38,4 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.10.15/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.11.0/src/commands/readme.ts)_

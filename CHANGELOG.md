@@ -1,3 +1,9 @@
+# [4.11.0](https://github.com/oclif/oclif/compare/4.10.15...4.11.0) (2024-05-22)
+
+### Features
+
+- use oclif/test v4 ([#1420](https://github.com/oclif/oclif/issues/1420)) ([1f8dbd9](https://github.com/oclif/oclif/commit/1f8dbd9486c73d0288fae7ff18f0a84df26521d1))
+
 ## [4.10.15](https://github.com/oclif/oclif/compare/4.10.14...4.10.15) (2024-05-19)
 
 ### Bug Fixes

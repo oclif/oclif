@@ -1,4 +1,5 @@
-import {expect, test} from '@oclif/test'
+import {runCommand} from '@oclif/test'
+import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'
 import {createWriteStream} from 'node:fs'
 import * as path from 'node:path'
@@ -11,7 +12,7 @@ const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 
-const skipIfWindows = process.platform === 'win32' ? test.skip() : test
+const skipIfWindows = process.platform === 'win32' ? it.skip : it
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:win', () => {
@@ -41,20 +42,18 @@ describe('publish:win', () => {
     }
   })
 
-  skipIfWindows
-    .command(['pack:win'])
-    .command(['upload:win'])
-    .do(async () => {
-      ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))
-      expect(pkg).to.be.ok
-      expect(sha).to.be.ok
-    })
-    .it('publishes valid releases', async () => {
-      console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
-      const {default: got} = await import('got')
-      await pipeline(
-        got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
-        createWriteStream(pkg),
-      )
-    })
+  skipIfWindows('publishes valid releases', async () => {
+    await runCommand('pack win')
+    await runCommand('upload win')
+    ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))
+    expect(pkg).to.be.ok
+    expect(sha).to.be.ok
+
+    console.log(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`)
+    const {default: got} = await import('got')
+    await pipeline(
+      got.stream(`https://${developerSalesforceCom}/${oclifTestingVersionsURI}/${pjson.version}/${sha}/${pkg}`),
+      createWriteStream(pkg),
+    )
+  })
 })

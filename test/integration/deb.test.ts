@@ -1,4 +1,5 @@
-import {expect, test} from '@oclif/test'
+import {runCommand} from '@oclif/test'
+import {expect} from 'chai'
 import * as fs from 'fs-extra'
 import _ from 'lodash'
 import {exec as execSync} from 'node:child_process'
@@ -14,7 +15,7 @@ const pjsonPath = require.resolve('../../package.json')
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
-const onlyLinux = process.platform === 'linux' ? test : test.skip()
+const onlyLinux = process.platform === 'linux' ? it : it.skip
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:deb', () => {
@@ -32,6 +33,7 @@ describe('publish:deb', () => {
     await fs.writeJSON(pjsonPath, pjson, {spaces: 2})
     await fs.emptyDir(root)
   })
+
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
       await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
@@ -40,23 +42,23 @@ describe('publish:deb', () => {
     await fs.writeJSON(pjsonPath, originalPJSON, {spaces: 2})
   })
 
-  onlyLinux
-    .command(['pack:deb'])
-    .command(['upload:deb'])
-    .it('publishes valid releases', async () => {
-      const sha = await gitSha(process.cwd(), {short: true})
-      await exec('cat test/release.key | sudo apt-key add -')
-      await exec(
-        `sudo sh -c 'echo "deb https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/ /" > /etc/apt/sources.list.d/oclif.list'`,
-      )
-      await exec('sudo apt-get update')
-      await exec('sudo apt-get install -y oclif')
-      await exec('oclif --version')
-      // test the binAliases section
-      const {stdout: oclif2} = await exec('oclif2 --version')
-      expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
+  onlyLinux('publishes valid releases', async () => {
+    await runCommand('pack deb')
+    await runCommand('upload deb')
 
-      const {stdout: oclif} = await exec('oclif --version')
-      expect(oclif).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
-    })
+    const sha = await gitSha(process.cwd(), {short: true})
+    await exec('cat test/release.key | sudo apt-key add -')
+    await exec(
+      `sudo sh -c 'echo "deb https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/ /" > /etc/apt/sources.list.d/oclif.list'`,
+    )
+    await exec('sudo apt-get update')
+    await exec('sudo apt-get install -y oclif')
+    await exec('oclif --version')
+    // test the binAliases section
+    const {stdout: oclif2} = await exec('oclif2 --version')
+    expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
+
+    const {stdout: oclif} = await exec('oclif --version')
+    expect(oclif).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
+  })
 })

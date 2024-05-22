@@ -251,7 +251,7 @@ USAGE
   }
 
   protected async write(file: string, content: string): Promise<void> {
-    await fs.outputFile(file, content)
+    if (!this.options.dryRun) await fs.outputFile(file, content)
   }
 
   /**

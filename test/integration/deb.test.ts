@@ -43,22 +43,23 @@ describe('publish:deb', () => {
   })
 
   onlyLinux('publishes valid releases', async () => {
-    await runCommand('pack deb')
-    await runCommand('upload deb')
+    await runCommand('pack deb', undefined, {print: true})
+
+    await runCommand('upload deb', undefined, {print: true})
 
     const sha = await gitSha(process.cwd(), {short: true})
-    await exec('cat test/release.key | sudo apt-key add -')
-    await exec(
-      `sudo sh -c 'echo "deb https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/ /" > /etc/apt/sources.list.d/oclif.list'`,
-    )
-    await exec('sudo apt-get update')
-    await exec('sudo apt-get install -y oclif')
-    await exec('oclif --version')
-    // test the binAliases section
-    const {stdout: oclif2} = await exec('oclif2 --version')
-    expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
 
+    const debUrl = `https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/oclif_${pjson.version.split('-')[0]}.${sha}-1_amd64.deb`
+    console.log('downloading .deb from', debUrl)
+    // download the deb
+    await exec(`curl -sL ${debUrl} -o ${root}/oclif.deb`)
+    // install the deb
+    await exec(`sudo dpkg -i ${root}/oclif.deb`)
+    // test the bin
     const {stdout: oclif} = await exec('oclif --version')
     expect(oclif).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
+    // test the bin alias
+    const {stdout: oclif2} = await exec('oclif2 --version')
+    expect(oclif2).to.contain(`oclif/${pjson.version} ${target} node-v${pjson.oclif.update.node.version}`)
   })
 })

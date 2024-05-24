@@ -59,7 +59,7 @@ export async function buildConfig(
   const updateConfig = (config.pjson.oclif.update || {}) as UpdateConfig
   updateConfig.s3 = updateConfig.s3 || {}
   const nodeVersion = updateConfig.node?.version || process.versions.node
-  const nodeOptions = castArray((updateConfig.node as {options?: string | string[]}).options ?? [])
+  const nodeOptions = castArray((updateConfig.node ?? ({} as {options?: string | string[]})).options ?? [])
   const targets = compact(options.targets || updateConfig.node?.targets || TARGETS)
     .filter((t) => {
       if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {

@@ -8,5 +8,5 @@ debug.new = (name: string) => require('debug')(`oclif:${name}`)
 
 export function log(format: string, ...args: unknown[]): void {
   args = args.map((arg) => prettifyPaths(arg))
-  debug.enabled ? debug(format, ...args) : ux.log(`oclif: ${util.format(format, ...args)}`)
+  debug.enabled ? debug(format, ...args) : ux.stdout(`oclif: ${util.format(format, ...args)}`)
 }

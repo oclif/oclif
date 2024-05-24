@@ -236,7 +236,7 @@ const buildTarget = async (
     if (c.xz) await pack(workspace, c.dist(xzLocalKey))
   }
 
-  if (!c.updateConfig.s3.host) return
+  if (!c.updateConfig.s3?.host) return
   const rollout = typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout
 
   const gzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${gzLocalKey}`

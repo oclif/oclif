@@ -42,7 +42,7 @@ export default class Manifest extends Command {
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = readJSONSync('package.json') as Interfaces.PJSON.Plugin
+    const packageJson = readJSONSync('package.json') as Interfaces.PJSON
 
     let jitPluginManifests: Interfaces.Manifest[] = []
 
@@ -91,6 +91,7 @@ export default class Manifest extends Command {
     await plugin.load()
     if (!plugin.valid) {
       const {PluginLegacy} = await import('@oclif/plugin-legacy')
+      // @ts-expect-error for now because PluginLegacy doesn't use the same major of @oclif/core
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
     }

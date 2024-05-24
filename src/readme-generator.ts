@@ -210,7 +210,7 @@ export default class ReadmeGenerator {
         readme = readme.replace(new RegExp(`<!-- ${tag} -->(.|\n)*<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
       }
 
-      ux.log(`replacing <!-- ${tag} --> in ${this.options.readmePath}`)
+      ux.stdout(`replacing <!-- ${tag} --> in ${this.options.readmePath}`)
     }
 
     return readme.replace(`<!-- ${tag} -->`, `<!-- ${tag} -->\n${body}\n<!-- ${tag}stop -->`)

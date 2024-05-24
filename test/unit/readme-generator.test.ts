@@ -21,7 +21,7 @@ describe('ReadmeGenerator', () => {
 
   beforeEach(async () => {
     config = await Config.load(__dirname)
-    sinon.stub(ux, 'log').returns()
+    sinon.stub(ux, 'stdout').returns()
   })
 
   afterEach(() => {

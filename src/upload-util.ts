@@ -29,7 +29,7 @@ type TemplateOptions =
 
 // TODO: refactor this key name lookup helper to oclif/core
 export function templateShortKey(
-  type: 'deb' | 'macos' | 'win32' | keyof Interfaces.PJSON.S3.Templates,
+  type: 'deb' | 'macos' | 'win32' | keyof Interfaces.S3Templates,
   options?: TemplateOptions,
 ): string {
   if (!options)

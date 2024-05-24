@@ -45,10 +45,7 @@ export default class GenerateHook extends GeneratorCommand<typeof GenerateHook> 
     const outDir = tsConfig.compilerOptions?.outDir ?? 'dist'
     const hooks = packageJSON.oclif?.hooks ?? {}
     hooks[this.flags.event] = hooks[this.flags.event]
-      ? uniq([
-          ...castArray<string>(hooks[this.flags.event]),
-          `./${outDir}/hooks/${this.flags.event}/${this.args.name}`,
-        ]).sort()
+      ? uniq([...castArray(hooks[this.flags.event]), `./${outDir}/hooks/${this.flags.event}/${this.args.name}`]).sort()
       : `./${outDir}/hooks/${this.flags.event}/${this.args.name}`
 
     const updatedPackageJSON = {

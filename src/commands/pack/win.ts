@@ -366,7 +366,7 @@ async function signWindows(
   windows: Interfaces.OclifConfiguration['windows'],
 ) {
   if (!windows) {
-    throw new Error('windows not set in package.json')
+    throw new Error('windows not set in oclif configuration')
   }
 
   const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)

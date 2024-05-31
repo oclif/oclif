@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-await-expression-member */
 import {Args, Command, Flags, Interfaces, ux} from '@oclif/core'
 import chalk from 'chalk'
 import {renderFile} from 'ejs'
@@ -50,7 +49,7 @@ export async function exec(
 ): Promise<{stderr: string; stdout: string}> {
   const silent = opts ? opts.silent : true
   return new Promise((resolve, reject) => {
-    if (!silent) ux.log(chalk.dim(command))
+    if (!silent) ux.stdout(chalk.dim(command))
     const p = cpExec(command, opts ?? {}, (err, stdout, stderr) => {
       if (err) return reject(err)
       resolve({stderr, stdout})
@@ -63,7 +62,7 @@ export async function exec(
 
 export async function readPJSON(
   location: string,
-): Promise<({scripts: Record<string, string>} & Interfaces.PJSON.CLI) | undefined> {
+): Promise<({scripts: Record<string, string>} & Interfaces.PJSON) | undefined> {
   try {
     const packageJSON = await readFile(join(location, 'package.json'), 'utf8')
     return JSON.parse(packageJSON)

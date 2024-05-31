@@ -17,8 +17,8 @@ export type S3Config = {
 } & {folder?: string; indexVersionLimit?: number} & BuildConfig['updateConfig']['s3']
 
 export type UpdateConfig = {
-  s3?: {acl?: ObjectCannedACL} & BuildConfig['config']['pjson']['oclif']['update']['s3']
-} & BuildConfig['config']['pjson']['oclif']['update']
+  s3?: {acl?: ObjectCannedACL} & Interfaces.S3
+} & Interfaces.OclifConfiguration['update']
 
 export type BuildConfig = {
   config: Interfaces.Config
@@ -58,9 +58,9 @@ export async function buildConfig(
   const tmp = await Tmp(config)
   const updateConfig = (config.pjson.oclif.update || {}) as UpdateConfig
   updateConfig.s3 = updateConfig.s3 || {}
-  const nodeVersion = updateConfig.node.version || process.versions.node
-  const nodeOptions = castArray((updateConfig.node as {options?: string | string[]}).options ?? [])
-  const targets = compact(options.targets || updateConfig.node.targets || TARGETS)
+  const nodeVersion = updateConfig.node?.version || process.versions.node
+  const nodeOptions = castArray((updateConfig.node ?? ({} as {options?: string | string[]})).options ?? [])
+  const targets = compact(options.targets || updateConfig.node?.targets || TARGETS)
     .filter((t) => {
       if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
         ux.warn('darwin-arm64 is only supported for node >=16.0.0. Skipping...')

@@ -363,8 +363,12 @@ async function signWindows(
   o: string,
   arch: string,
   config: Interfaces.Config,
-  windows: Interfaces.PJSON.Plugin['windows'],
+  windows: Interfaces.OclifConfiguration['windows'],
 ) {
+  if (!windows) {
+    throw new Error('windows not set in oclif configuration')
+  }
+
   const buildLocationUnsigned = o.replace(`${arch}.exe`, `${arch}-unsigned.exe`)
   await move(o, buildLocationUnsigned)
 

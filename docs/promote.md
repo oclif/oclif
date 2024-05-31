@@ -30,4 +30,4 @@ DESCRIPTION
   Promote CLI builds to a S3 release channel.
 ```
 
-_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/4.11.3/src/commands/promote.ts)_
+_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/4.12.0/src/commands/promote.ts)_

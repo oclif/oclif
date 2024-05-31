@@ -1,3 +1,14 @@
+# [4.12.0](https://github.com/oclif/oclif/compare/4.11.3...4.12.0) (2024-05-31)
+
+### Bug Fixes
+
+- clarify error message ([444d06e](https://github.com/oclif/oclif/commit/444d06ea485232b1355b59c376805997c72be720))
+- handle undefined node options ([ce9215a](https://github.com/oclif/oclif/commit/ce9215aa81c737bf75d47dc64360ae5c67d8db63))
+
+### Features
+
+- use @oclif/core v4 ([72be5ca](https://github.com/oclif/oclif/commit/72be5ca808aca51a076e93341fbb1b8252908d4f))
+
 ## [4.11.3](https://github.com/oclif/oclif/compare/4.11.2...4.11.3) (2024-05-26)
 
 ### Bug Fixes

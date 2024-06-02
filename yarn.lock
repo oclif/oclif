@@ -1417,15 +1417,15 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz#d9fae00a2d5cb40f92cfe64b47ad749fbc38f917"
   integrity sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==
 
-"@inquirer/confirm@^3.1.6", "@inquirer/confirm@^3.1.8":
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/@inquirer/confirm/-/confirm-3.1.8.tgz#db80f23f775d9b980c6de2425dde39f9786bf1d3"
-  integrity sha512-f3INZ+ca4dQdn+MQiq1yP/mOIR/Oc8BLRYuDh6ciToWd6z4W8yArfzjBCMQ0BPY8PcJKwZxGIt8Z6yNT32eSTw==
+"@inquirer/confirm@^3.1.6", "@inquirer/confirm@^3.1.9":
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/@inquirer/confirm/-/confirm-3.1.9.tgz#1bc384bc8267827ec75d0684e189692bb4dda38b"
+  integrity sha512-UF09aejxCi4Xqm6N/jJAiFXArXfi9al52AFaSD+2uIHnhZGtd1d6lIGTRMPouVSJxbGEi+HkOWSYaiEY/+szUw==
   dependencies:
-    "@inquirer/core" "^8.2.1"
-    "@inquirer/type" "^1.3.2"
+    "@inquirer/core" "^8.2.2"
+    "@inquirer/type" "^1.3.3"
 
-"@inquirer/core@^8.2.1", "@inquirer/core@^8.2.2":
+"@inquirer/core@^8.2.2":
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-8.2.2.tgz#797b1e71b920c9788b9d26d89c8b334149852d52"
   integrity sha512-K8SuNX45jEFlX3EBJpu9B+S2TISzMPGXZIuJ9ME924SqbdW6Pt6fIkKvXg7mOEOKJ4WxpQsxj0UTfcL/A434Ww==
@@ -1468,7 +1468,7 @@
     ansi-escapes "^4.3.2"
     chalk "^4.1.2"
 
-"@inquirer/type@^1.3.2", "@inquirer/type@^1.3.3":
+"@inquirer/type@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@inquirer/type/-/type-1.3.3.tgz#26b2628630fd2381c7fa1e3ab396feb9bbc575da"
   integrity sha512-xTUt0NulylX27/zMx04ZYar/kr1raaiFTVvQ5feljQsiAgdm0WPj4S73/ye0fbslh+15QrIuDvfCXTek7pMY5A==
@@ -1561,7 +1561,7 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.26.2", "@oclif/core@^3.26.5", "@oclif/core@^3.26.6":
+"@oclif/core@^3.26.2", "@oclif/core@^3.26.6":
   version "3.26.6"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.26.6.tgz#f371868cfa0fe150a6547e6af98b359065d2f971"
   integrity sha512-+FiTw1IPuJTF9tSAlTsY8bGK4sgthehjz7c2SvYdgQncTkxI2xvUch/8QpjNYGLEmUneNygvYMRBax2KJcLccA==
@@ -1595,10 +1595,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4.0.0-beta.12":
-  version "4.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.0-beta.12.tgz#d8155735249bf3c031a8b6ea88fb6ef3f21a4b94"
-  integrity sha512-jiLs/PPVaOzoQrQN5NU1pm8JWdyEM52eW/Q+3yDjmHEbLZbQivo1b/uWgZU83wUnVJhbB64zL1F+Vfcp8ygl5Q==
+"@oclif/core@^4.0.0-beta.12", "@oclif/core@^4.0.0-beta.13":
+  version "4.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.0-beta.13.tgz#0e0a6431cfe612db77073d2f9ef361f14e4090b8"
+  integrity sha512-ug8CZUCJphgetSZVgd4HQgyewlYVGGG1LIeFXGxjgYsjZ/f5I3nSCj7xpAMEDqjVD/lwmSujtVwa7tvEgLGICw==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.0.1"
@@ -1636,14 +1636,14 @@
     debug "^4.3.3"
     semver "^7.5.4"
 
-"@oclif/plugin-not-found@^3.1.10":
-  version "3.1.10"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.1.10.tgz#ce3ea63035d1b93e446f3b8e12ae076c56b383a7"
-  integrity sha512-epIWsksxCudFMQEVSvkjz2pWlpfgDkBu8ycRg1wHBrSMiGeHNj32POZgcrAbNrMlCdvWTakFPXgg6abZ8IbqYw==
+"@oclif/plugin-not-found@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.1.tgz#59664f68ef7a67899e2a48ed7379126a44411dad"
+  integrity sha512-Y2FyWLEziTrgdQwd4LtZcYv3VOMeDhW0pW6hbE0u3fJdxs8f3JLfOHJPd8FPorVt2ldsaj4zcXUWA6vMQKeKbQ==
   dependencies:
-    "@inquirer/confirm" "^3.1.8"
-    "@oclif/core" "^3.26.5"
-    chalk "^5.3.0"
+    "@inquirer/confirm" "^3.1.9"
+    "@oclif/core" "^4.0.0-beta.13"
+    ansis "^3.2.0"
     fast-levenshtein "^3.0.0"
 
 "@oclif/plugin-warn-if-update-available@^3.0.19":

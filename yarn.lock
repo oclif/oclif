@@ -1595,7 +1595,30 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4.0.0-beta.12", "@oclif/core@^4.0.0-beta.13":
+"@oclif/core@^4":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.0.tgz#c47783c9803cb440e3fd325157437400765eae3f"
+  integrity sha512-BMWGvJrzn5PnG60gTNFEvaBT0jvGNiJCKN4aJBYP6E7Bq/Y5XPnxPrkj7ZZs/Jsd1oVn6K/JRmF6gWpv72DOew==
+  dependencies:
+    ansi-escapes "^4.3.2"
+    ansis "^3.1.1"
+    clean-stack "^3.0.1"
+    cli-spinners "^2.9.2"
+    cosmiconfig "^9.0.0"
+    debug "^4.3.5"
+    ejs "^3.1.10"
+    get-package-type "^0.1.0"
+    globby "^11.1.0"
+    indent-string "^4.0.0"
+    is-wsl "^2.2.0"
+    minimatch "^9.0.4"
+    string-width "^4.2.3"
+    supports-color "^8"
+    widest-line "^3.1.0"
+    wordwrap "^1.0.0"
+    wrap-ansi "^7.0.0"
+
+"@oclif/core@^4.0.0-beta.13":
   version "4.0.0-beta.13"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.0-beta.13.tgz#0e0a6431cfe612db77073d2f9ef361f14e4090b8"
   integrity sha512-ug8CZUCJphgetSZVgd4HQgyewlYVGGG1LIeFXGxjgYsjZ/f5I3nSCj7xpAMEDqjVD/lwmSujtVwa7tvEgLGICw==
@@ -2981,7 +3004,7 @@ ansicolors@~0.3.2:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.3.2.tgz#665597de86a9ffe3aa9bfbe6cae5c6ea426b4979"
   integrity sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==
 
-ansis@^3.0.1, ansis@^3.2.0:
+ansis@^3.0.1, ansis@^3.1.1, ansis@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.2.0.tgz#0e050c5be94784f32ffdac4b84fccba064aeae4b"
   integrity sha512-Yk3BkHH9U7oPyCN3gL5Tc7CpahG/+UFv/6UG03C311Vy9lzRmA5uoxDTpU9CO3rGHL6KzJz/pdDeXZCZ5Mu/Sg==
@@ -3629,7 +3652,7 @@ debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4, debug@~4.3.4:
+debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4, debug@^4.3.5, debug@~4.3.4:
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.5.tgz#e83444eceb9fedd4a1da56d671ae2446a01a6e1e"
   integrity sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==
@@ -6504,7 +6527,7 @@ strnum@^1.0.5:
   resolved "https://registry.yarnpkg.com/strnum/-/strnum-1.0.5.tgz#5c4e829fe15ad4ff0d20c3db5ac97b73c9b072db"
   integrity sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==
 
-supports-color@8.1.1, supports-color@^8.1.1:
+supports-color@8.1.1, supports-color@^8, supports-color@^8.1.1:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"
   integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==

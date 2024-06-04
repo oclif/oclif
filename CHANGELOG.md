@@ -1,3 +1,9 @@
+# [4.13.0](https://github.com/oclif/oclif/compare/4.12.4...4.13.0) (2024-06-04)
+
+### Features
+
+- generate cli with core v4 ([#1435](https://github.com/oclif/oclif/issues/1435)) ([d0b5a98](https://github.com/oclif/oclif/commit/d0b5a98ba44eed29d84310e5bf8b3ab829e53b52))
+
 ## [4.12.4](https://github.com/oclif/oclif/compare/4.12.3...4.12.4) (2024-06-04)
 
 ### Bug Fixes

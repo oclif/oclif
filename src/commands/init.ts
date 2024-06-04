@@ -172,13 +172,24 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       })
     }
 
-    const allInstalledDeps = [...installedDeps, ...Object.keys(packageJSON.devDependencies ?? {})]
-    if (!allInstalledDeps.includes('ts-node')) {
+    const allInstalledDeps = new Set([...installedDeps, ...Object.keys(packageJSON.devDependencies ?? {})])
+    if (!allInstalledDeps.has('ts-node')) {
       this.log('Installing ts-node')
       await exec(`${packageManager} ${packageManager === 'yarn' ? 'add --dev' : 'install --save-dev'} ts-node`, {
         cwd: location,
         silent: false,
       })
+    }
+
+    if (!allInstalledDeps.has('@types/node')) {
+      this.log('@types/node')
+      await exec(
+        `${packageManager} ${packageManager === 'yarn' ? 'add --dev' : 'install --save-dev'} @types/node@^18`,
+        {
+          cwd: location,
+          silent: false,
+        },
+      )
     }
 
     this.log(`\nCreated CLI ${chalk.green(bin)}`)

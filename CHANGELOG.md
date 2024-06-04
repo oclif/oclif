@@ -1,3 +1,9 @@
+## [4.12.4](https://github.com/oclif/oclif/compare/4.12.3...4.12.4) (2024-06-04)
+
+### Bug Fixes
+
+- core v4 ([70e7ee0](https://github.com/oclif/oclif/commit/70e7ee0c1e1885a162aeaa3d726ed188b2c5aca3))
+
 ## [4.12.3](https://github.com/oclif/oclif/compare/4.12.2...4.12.3) (2024-06-03)
 
 ### Bug Fixes

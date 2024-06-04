@@ -10,8 +10,8 @@ Adds commands to README.md in current directory.
 
 ```
 USAGE
-  $ oclif readme --output-dir <value> ---path <value> [--aliases] [--dry-run] [--nested-topics-depth <value>
-    --multi] [--plugin-directory <value>] [--repository-prefix <value>] [--version <value>]
+  $ oclif readme --output-dir <value> --readme-path <value> [--aliases] [--dry-run] [--nested-topics-depth
+    <value> --multi] [--plugin-directory <value>] [--repository-prefix <value>] [--version <value>]
 
 FLAGS
   --[no-]aliases                 Include aliases in the command list.
@@ -38,4 +38,4 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.12.3/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.12.4/src/commands/readme.ts)_

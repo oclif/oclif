@@ -1,3 +1,9 @@
+## [4.13.1](https://github.com/oclif/oclif/compare/4.13.0...4.13.1) (2024-06-07)
+
+### Bug Fixes
+
+- launch config for ESM ([#1439](https://github.com/oclif/oclif/issues/1439)) ([9e41e95](https://github.com/oclif/oclif/commit/9e41e95858ef9a31e221c5234745e7440ce8f0ad))
+
 # [4.13.0](https://github.com/oclif/oclif/compare/4.12.4...4.13.0) (2024-06-04)
 
 ### Features

@@ -7,7 +7,7 @@ import * as Tarballs from '../../tarballs'
 import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadTarballs extends Command {
-  static description = 'Upload an oclif CLI to S3. Requires s3 host and bucket to be configured.'
+  static description = 'Upload an oclif CLI to S3.'
 
   static flags = {
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),

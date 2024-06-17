@@ -1,3 +1,9 @@
+## [4.13.8](https://github.com/oclif/oclif/compare/4.13.7...4.13.8) (2024-06-17)
+
+### Bug Fixes
+
+- allow upload to succeed without buildmanifest ([#1449](https://github.com/oclif/oclif/issues/1449)) ([3cb1118](https://github.com/oclif/oclif/commit/3cb11180f8711a20c2aa83d58dbb530362ee5c70))
+
 ## [4.13.7](https://github.com/oclif/oclif/compare/4.13.6...4.13.7) (2024-06-16)
 
 ### Bug Fixes

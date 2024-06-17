@@ -1507,10 +1507,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^3.26.6":
-  version "3.26.6"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.26.6.tgz#f371868cfa0fe150a6547e6af98b359065d2f971"
-  integrity sha512-+FiTw1IPuJTF9tSAlTsY8bGK4sgthehjz7c2SvYdgQncTkxI2xvUch/8QpjNYGLEmUneNygvYMRBax2KJcLccA==
+"@oclif/core@^3.26.6", "@oclif/core@^3.27.0":
+  version "3.27.0"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.27.0.tgz#a22a4ff4e5811db7a182b1687302237a57802381"
+  integrity sha512-Fg93aNFvXzBq5L7ztVHFP2nYwWU1oTCq48G0TjF/qC1UN36KWa2H5Hsm72kERd5x/sjy2M2Tn4kDEorUlpXOlw==
   dependencies:
     "@types/cli-progress" "^3.11.5"
     ansi-escapes "^4.3.2"
@@ -1520,7 +1520,7 @@
     clean-stack "^3.0.1"
     cli-progress "^3.12.0"
     color "^4.2.3"
-    debug "^4.3.4"
+    debug "^4.3.5"
     ejs "^3.1.10"
     get-package-type "^0.1.0"
     globby "^11.1.0"
@@ -1571,15 +1571,15 @@
   dependencies:
     "@oclif/core" "^4"
 
-"@oclif/plugin-legacy@^2.0.10":
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.10.tgz#a5d6219402e2a9c07338a6dadaa128790386c9b7"
-  integrity sha512-ptsS3yA/W45OpnRh1mtGOc46+BQgaQNDLBcsB413pOANszLU2BD9oKquwGVOn5MxjFQ3ucXFsRBZ1EUdCgvmwQ==
+"@oclif/plugin-legacy@^2.0.13":
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.13.tgz#7b0d0c7060f437dd4c969310471985f846dc5e62"
+  integrity sha512-eCuXsARdZQks5DWWR945FGcFXrtQDXfmcGxcVVnTbtTBJ7qr+B4yXqwF2O1n433xft87HSAAGPe53yvGZVYVYg==
   dependencies:
     "@oclif/color" "^1.0.13"
-    "@oclif/core" "^3.26.6"
+    "@oclif/core" "^3.27.0"
     ansi-escapes "^4.3.2"
-    debug "^4.3.3"
+    debug "^4.3.5"
     semver "^7.5.4"
 
 "@oclif/plugin-not-found@^3.2.3":
@@ -3212,7 +3212,7 @@ debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4, debug@^4.3.5, debug@~4.3.4:
+debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.3.5, debug@~4.3.4:
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.5.tgz#e83444eceb9fedd4a1da56d671ae2446a01a6e1e"
   integrity sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==

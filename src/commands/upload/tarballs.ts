@@ -1,4 +1,4 @@
-import {Command, Flags, Interfaces} from '@oclif/core'
+import {Command, Flags, Interfaces, ux} from '@oclif/core'
 import * as fs from 'node:fs'
 
 import aws from '../../aws'
@@ -65,17 +65,25 @@ export default class UploadTarballs extends Command {
         })
       }
 
-      const manifest = templateShortKey('manifest', shortKeyInputs)
-      const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
+      const maybeUploadManifest = async () => {
+        const manifest = templateShortKey('manifest', shortKeyInputs)
+        const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
+        const local = dist(manifest)
+        if (fs.existsSync(local)) {
+          return aws.s3.uploadFile(dist(manifest), {
+            ...S3Options,
+            CacheControl: 'max-age=86400',
+            ContentType: 'application/json',
+            Key: cloudKey,
+          })
+        }
+
+        ux.warn(`Cannot find buildmanifest ${local}. CLI will not be able to update itself.`)
+      }
 
       await Promise.all([
         releaseTarballs('.tar.gz'),
-        aws.s3.uploadFile(dist(manifest), {
-          ...S3Options,
-          CacheControl: 'max-age=86400',
-          ContentType: 'application/json',
-          Key: cloudKey,
-        }),
+        maybeUploadManifest(),
         ...(xz ? [releaseTarballs('.tar.xz')] : []),
       ])
     }

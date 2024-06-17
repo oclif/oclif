@@ -1,4 +1,4 @@
-import {Interfaces} from '@oclif/core'
+import {Interfaces, ux} from '@oclif/core'
 import findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import {copy, emptyDir, move, readJSON, remove, writeJSON} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
@@ -94,6 +94,10 @@ export async function build(c: BuildConfig, options: BuildOptions = {}): Promise
   await pretarball(c)
   if (options.pruneLockfiles) {
     await removeLockfiles(c)
+  }
+
+  if (!c.updateConfig.s3?.host || !c.updateConfig.s3?.bucket) {
+    ux.warn('No S3 bucket or host configured. CLI will not be able to update itself.')
   }
 
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)

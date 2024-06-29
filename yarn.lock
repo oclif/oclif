@@ -1456,29 +1456,29 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz#d9fae00a2d5cb40f92cfe64b47ad749fbc38f917"
   integrity sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==
 
-"@inquirer/confirm@^3.1.10", "@inquirer/confirm@^3.1.9":
-  version "3.1.10"
-  resolved "https://registry.yarnpkg.com/@inquirer/confirm/-/confirm-3.1.10.tgz#8e8b36b1e41d6736d6ac90d1221c9e1ec948eb7a"
-  integrity sha512-/aAHu83Njy6yf44T+ZrRPUkMcUqprrOiIKsyMvf9jOV+vF5BNb2ja1aLP33MK36W8eaf91MTL/mU/e6METuENg==
+"@inquirer/confirm@^3.1.11", "@inquirer/confirm@^3.1.9":
+  version "3.1.11"
+  resolved "https://registry.yarnpkg.com/@inquirer/confirm/-/confirm-3.1.11.tgz#7b91d1ec548253780165d6abfce02b0b21cfa5c5"
+  integrity sha512-3wWw10VPxQP279FO4bzWsf8YjIAq7NdwATJ4xS2h1uwsXZu/RmtOVV95rZ7yllS1h/dzu+uLewjMAzNDEj8h2w==
   dependencies:
-    "@inquirer/core" "^8.2.3"
+    "@inquirer/core" "^8.2.4"
     "@inquirer/type" "^1.3.3"
 
-"@inquirer/core@^8.2.2", "@inquirer/core@^8.2.3":
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-8.2.3.tgz#e1986ae0e7de4c1dee72d34dcf0f9a3587709eff"
-  integrity sha512-WrpDVPAaxJQjHid3Ra4FhUO70YBzkHSYVyW5X48L5zHYdudoPISJqTRRWSeamHfaXda7PNNaC5Py5MEo7QwBNA==
+"@inquirer/core@^8.2.2", "@inquirer/core@^8.2.4":
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-8.2.4.tgz#300de755849d3166d15127e2341cef6aa4bd031d"
+  integrity sha512-7vsXSfxtrrbwMTirfaKwPcjqJy7pzeuF/bP62yo1NQrRJ5HjmMlrhZml/Ljm9ODc1RnbhJlTeSnCkjtFddKjwA==
   dependencies:
     "@inquirer/figures" "^1.0.3"
     "@inquirer/type" "^1.3.3"
     "@types/mute-stream" "^0.0.4"
-    "@types/node" "^20.14.6"
+    "@types/node" "^20.14.9"
     "@types/wrap-ansi" "^3.0.0"
     ansi-escapes "^4.3.2"
-    chalk "^4.1.2"
     cli-spinners "^2.9.2"
     cli-width "^4.1.0"
     mute-stream "^1.0.0"
+    picocolors "^1.0.1"
     signal-exit "^4.1.0"
     strip-ansi "^6.0.1"
     wrap-ansi "^6.2.0"
@@ -2406,7 +2406,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^20.14.6":
+"@types/node@*":
   version "20.14.8"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.8.tgz#45c26a2a5de26c3534a9504530ddb3b27ce031ac"
   integrity sha512-DO+2/jZinXfROG7j7WKFn/3C6nFwxy2lLpgLjEXJz+0XKphZlTLJ14mo8Vfg8X5BWN6XjyESXq+LcYdT7tR3bA==
@@ -2417,6 +2417,13 @@
   version "18.19.39"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.39.tgz#c316340a5b4adca3aee9dcbf05de385978590593"
   integrity sha512-nPwTRDKUctxw3di5b4TfT3I0sWDiWoPQCZjXhvdkINntwr8lcoVCKsTgnXeRubKIlfnV+eN/HYk6Jb40tbcEAQ==
+  dependencies:
+    undici-types "~5.26.4"
+
+"@types/node@^20.14.9":
+  version "20.14.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.9.tgz#12e8e765ab27f8c421a1820c99f5f313a933b420"
+  integrity sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==
   dependencies:
     undici-types "~5.26.4"
 
@@ -5622,6 +5629,11 @@ picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
+
+picocolors@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
+  integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.3.1:
   version "2.3.1"

@@ -10,7 +10,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.592.0",
     "@aws-sdk/client-s3": "^3.600.0",
-    "@inquirer/confirm": "^3.1.10",
+    "@inquirer/confirm": "^3.1.11",
     "@inquirer/input": "^2.1.9",
     "@inquirer/select": "^2.3.5",
     "@oclif/core": "^4",

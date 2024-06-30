@@ -1,3 +1,9 @@
+## [4.13.11](https://github.com/oclif/oclif/compare/4.13.10...4.13.11) (2024-06-30)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/confirm from 3.1.10 to 3.1.11 ([040924c](https://github.com/oclif/oclif/commit/040924c409b1f3afa5e2988bf71b0263ec339373))
+
 ## [4.13.10](https://github.com/oclif/oclif/compare/4.13.9...4.13.10) (2024-06-23)
 
 ### Bug Fixes

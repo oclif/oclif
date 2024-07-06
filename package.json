@@ -40,7 +40,7 @@
     "@oclif/test": "^4",
     "@types/async-retry": "^1.4.5",
     "@types/chai": "^4.3.4",
-    "@types/cli-progress": "^3.11.0",
+    "@types/cli-progress": "^3.11.6",
     "@types/debug": "^4.1.12",
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^9.0",

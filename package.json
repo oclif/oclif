@@ -12,7 +12,7 @@
     "@aws-sdk/client-s3": "^3.606.0",
     "@inquirer/confirm": "^3.1.11",
     "@inquirer/input": "^2.1.9",
-    "@inquirer/select": "^2.3.5",
+    "@inquirer/select": "^2.3.10",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6.2.2",
     "@oclif/plugin-not-found": "^3.2.3",

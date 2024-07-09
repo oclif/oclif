@@ -1,3 +1,9 @@
+# [4.14.0](https://github.com/oclif/oclif/compare/4.13.16...4.14.0) (2024-07-09)
+
+### Features
+
+- dry-run flag and debug logs for generate ([#1471](https://github.com/oclif/oclif/issues/1471)) ([ac6355c](https://github.com/oclif/oclif/commit/ac6355cb55106ae2756791722325323cd4660c95))
+
 ## [4.13.16](https://github.com/oclif/oclif/compare/4.13.15...4.13.16) (2024-07-08)
 
 ### Bug Fixes

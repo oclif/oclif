@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-await-expression-member */
 import {Args, Errors, Flags} from '@oclif/core'
 import chalk from 'chalk'
 import {existsSync} from 'node:fs'
@@ -7,7 +6,10 @@ import {join, resolve, sep} from 'node:path'
 import validatePkgName from 'validate-npm-package-name'
 
 import {FlaggablePrompt, GeneratorCommand, exec, makeFlags} from '../generator'
+import {debug as Debug} from '../log'
 import {validateBin} from '../util'
+
+const debug = Debug.new('generate')
 
 async function fetchGithubUserFromAPI(): Promise<{login: string; name: string} | undefined> {
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN
@@ -120,6 +122,10 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
 
   static flags = {
     ...makeFlags(FLAGGABLE_PROMPTS),
+    'dry-run': Flags.boolean({
+      char: 'n',
+      description: 'Print the files that would be created without actually creating them.',
+    }),
     'output-dir': Flags.directory({
       char: 'd',
       description: 'Directory to build the CLI in.',
@@ -190,6 +196,9 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
       ['shared', moduleType.toLowerCase()].map((f) => join(this.templatesDir, 'cli', f)).map(findEjsFiles(location)),
     )
 
+    debug('shared files %O', sharedFiles)
+    debug(`${moduleType} files %O`, moduleSpecificFiles)
+
     await Promise.all(
       [...sharedFiles, ...moduleSpecificFiles].map(async (file) => {
         switch (file.name) {
@@ -242,26 +251,30 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
       }),
     )
 
-    if (process.platform !== 'win32') {
-      await Promise.all([
-        exec(`chmod +x ${join(location, 'bin', 'run.js')}`),
-        exec(`chmod +x ${join(location, 'bin', 'dev.js')}`),
-      ])
+    if (this.flags['dry-run']) {
+      this.log(`\n[DRY RUN] Created ${chalk.green(name)}`)
+    } else {
+      if (process.platform !== 'win32') {
+        await Promise.all([
+          exec(`chmod +x ${join(location, 'bin', 'run.js')}`),
+          exec(`chmod +x ${join(location, 'bin', 'dev.js')}`),
+        ])
+      }
+
+      await exec(`${packageManager} install`, {cwd: location, silent: false})
+      await exec(`${packageManager} run build`, {cwd: location, silent: false})
+      await exec(`${join(location, 'node_modules', '.bin', 'oclif')} readme`, {
+        cwd: location,
+        // When testing this command in development, you get noisy compilation errors as a result of running
+        // this in a spawned process. Setting the NODE_ENV to production will silence these warnings. This
+        // doesn't affect the behavior of the command in production since the NODE_ENV is already set to production
+        // in that scenario.
+        env: {...process.env, NODE_ENV: 'production'},
+        silent: false,
+      })
+
+      this.log(`\nCreated ${chalk.green(name)}`)
     }
-
-    await exec(`${packageManager} install`, {cwd: location, silent: false})
-    await exec(`${packageManager} run build`, {cwd: location, silent: false})
-    await exec(`${join(location, 'node_modules', '.bin', 'oclif')} readme`, {
-      cwd: location,
-      // When testing this command in development, you get noisy compilation errors as a result of running
-      // this in a spawned process. Setting the NODE_ENV to production will silence these warnings. This
-      // doesn't affect the behavior of the command in production since the NODE_ENV is already set to production
-      // in that scenario.
-      env: {...process.env, NODE_ENV: 'production'},
-      silent: false,
-    })
-
-    this.log(`\nCreated ${chalk.green(name)}`)
   }
 }
 

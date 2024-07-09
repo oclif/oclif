@@ -7,6 +7,10 @@ import {existsSync} from 'node:fs'
 import {readFile} from 'node:fs/promises'
 import {join, relative} from 'node:path'
 
+import {debug as Debug} from './log'
+
+const debug = Debug.new(`generator`)
+
 export type FlaggablePrompt = {
   message: string
   options?: readonly string[] | string[]
@@ -186,9 +190,16 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     // @ts-expect-error because we trust that child classes will set this - also, it's okay if they don't
     this.flaggablePrompts = this.ctor.flaggablePrompts ?? {}
     this.templatesDir = join(__dirname, '../templates')
+    debug(`Templates directory: ${this.templatesDir}`)
   }
 
   public async template(source: string, destination: string, data?: Record<string, unknown>): Promise<void> {
+    if (this.flags['dry-run']) {
+      debug('[DRY RUN] Rendering template %s to %s', source, destination)
+    } else {
+      debug('Rendering template %s to %s', source, destination)
+    }
+
     const rendered = await new Promise<string>((resolve, reject) => {
       renderFile(source, data ?? {}, (err, str) => {
         if (err) reject(err)
@@ -217,7 +228,9 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
       }
 
       this.log(`${chalk.yellow(verb)} ${relativePath}`)
-      await outputFile(destination, rendered)
+      if (!this.flags['dry-run']) {
+        await outputFile(destination, rendered)
+      }
     }
   }
 }

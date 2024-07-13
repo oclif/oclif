@@ -31,7 +31,7 @@
     "semver": "^7.6.2",
     "sort-package-json": "^2.10.0",
     "tiny-jsonc": "^1.0.1",
-    "validate-npm-package-name": "^5.0.0"
+    "validate-npm-package-name": "^5.0.1"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19",

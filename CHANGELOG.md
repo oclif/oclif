@@ -1,3 +1,9 @@
+## [4.14.2](https://github.com/oclif/oclif/compare/4.14.1...4.14.2) (2024-07-14)
+
+### Bug Fixes
+
+- **deps:** bump normalize-package-data from 6.0.1 to 6.0.2 ([db8c4cf](https://github.com/oclif/oclif/commit/db8c4cfa6f54d0a7dfa2aab15ef1bc3607b0bb37))
+
 ## [4.14.1](https://github.com/oclif/oclif/compare/4.14.0...4.14.1) (2024-07-14)
 
 ### Bug Fixes

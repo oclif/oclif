@@ -11,7 +11,7 @@
     "@aws-sdk/client-cloudfront": "^3.609.0",
     "@aws-sdk/client-s3": "^3.614.0",
     "@inquirer/confirm": "^3.1.11",
-    "@inquirer/input": "^2.1.9",
+    "@inquirer/input": "^2.2.1",
     "@inquirer/select": "^2.3.10",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6.2.2",

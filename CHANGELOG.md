@@ -1,3 +1,9 @@
+## [4.14.3](https://github.com/oclif/oclif/compare/4.14.2...4.14.3) (2024-07-14)
+
+### Bug Fixes
+
+- **deps:** bump validate-npm-package-name from 5.0.0 to 5.0.1 ([7759b2a](https://github.com/oclif/oclif/commit/7759b2af4dc1c2023da8f2e0877f0abd398e1bd5))
+
 ## [4.14.2](https://github.com/oclif/oclif/compare/4.14.1...4.14.2) (2024-07-14)
 
 ### Bug Fixes

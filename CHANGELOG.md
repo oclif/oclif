@@ -1,3 +1,9 @@
+## [4.14.6](https://github.com/oclif/oclif/compare/4.14.5...4.14.6) (2024-07-16)
+
+### Bug Fixes
+
+- update esm dev.js shebang ([#1482](https://github.com/oclif/oclif/issues/1482)) ([8a75b25](https://github.com/oclif/oclif/commit/8a75b25d3113e1d1c7a8312c50e56d8b04dcfd26))
+
 ## [4.14.5](https://github.com/oclif/oclif/compare/4.14.4...4.14.5) (2024-07-15)
 
 ### Bug Fixes

@@ -381,7 +381,7 @@ async function signWindows(
     '-pkcs12',
     windows.keypath,
     '-pass',
-    pass,
+    `"${pass}"`,
     '-n',
     `"${windows.name}"`,
     '-i',

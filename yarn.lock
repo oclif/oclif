@@ -1543,12 +1543,12 @@
     wrap-ansi "^7.0.0"
 
 "@oclif/core@^4":
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.12.tgz#b47089631827e2c909bfffc8c14d7b1781e502ce"
-  integrity sha512-o2dfPtmi2uBGHgpvHr+GNfoRKysKgQGiffONoMN3R+qBVNeIkJIZhVk31HreDkAI9LAzS92BWNgp/l7lXDxdvg==
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.16.tgz#4c41f63766755796a79e304ae5bcc57dd145419d"
+  integrity sha512-J3l9Jk2+pAClpyf/dSroZNIf74PWHYRwzHJkcIe9CKq8SxGR8h+fs2GO2nKJmUSzsvnA0sF5RhWJ4mRBvWFhVA==
   dependencies:
     ansi-escapes "^4.3.2"
-    ansis "^3.2.1"
+    ansis "^3.3.1"
     clean-stack "^3.0.1"
     cli-spinners "^2.9.2"
     debug "^4.3.5"
@@ -2587,7 +2587,7 @@ ansicolors@~0.3.2:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.3.2.tgz#665597de86a9ffe3aa9bfbe6cae5c6ea426b4979"
   integrity sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==
 
-ansis@^3.2.0, ansis@^3.2.1, ansis@^3.3.1:
+ansis@^3.2.0, ansis@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.3.2.tgz#15adc36fea112da95c74d309706e593618accac3"
   integrity sha512-cFthbBlt+Oi0i9Pv/j6YdVWJh54CtjGACaMPCIrEV4Ha7HWsIjXDwseYV79TIL0B4+KfSwD5S70PeQDkPUd1rA==

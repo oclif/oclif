@@ -1,3 +1,9 @@
+## [4.14.12](https://github.com/oclif/oclif/compare/4.14.11...4.14.12) (2024-07-29)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/input from 2.2.1 to 2.2.4 ([#1495](https://github.com/oclif/oclif/issues/1495)) ([8a0bdf7](https://github.com/oclif/oclif/commit/8a0bdf76667358cff19919dca12d48f7fc469cb6))
+
 ## [4.14.11](https://github.com/oclif/oclif/compare/4.14.10...4.14.11) (2024-07-28)
 
 ### Bug Fixes

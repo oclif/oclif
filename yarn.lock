@@ -1533,10 +1533,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-help@^6.2.2":
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.2.tgz#d782f273693b19b6d78e7fbf696641d4ddfd8576"
-  integrity sha512-2n3QCeq0eaWR/RfwGaJ8LMbparsGktc63WNQfjBFLfGm7VLv3tR5JNYaUrMmL3zUd3emw1SObVXmH6oY0NPEnA==
+"@oclif/plugin-help@^6.2.7":
+  version "6.2.7"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.7.tgz#d046b19ff51c13151c04fc55be686bf3022dea34"
+  integrity sha512-gwrCZW0EjbMe6iIXrkXWpIcfoqo+uMvWRudV3nkwa7ARL2U2GWy8RQ3+bqXvqByauRUcbgv3D6+38lSWqmMwtA==
   dependencies:
     "@oclif/core" "^4"
 

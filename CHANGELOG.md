@@ -1,3 +1,9 @@
+## [4.14.17](https://github.com/oclif/oclif/compare/4.14.16...4.14.17) (2024-08-11)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.0.16 to 4.0.17 ([330509d](https://github.com/oclif/oclif/commit/330509dd71f64c826376c70df14bb7886d6ddb0e))
+
 ## [4.14.16](https://github.com/oclif/oclif/compare/4.14.15...4.14.16) (2024-08-11)
 
 ### Bug Fixes

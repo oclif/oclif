@@ -1450,9 +1450,9 @@
     wrap-ansi "^7.0.0"
 
 "@oclif/core@^4":
-  version "4.0.17"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.17.tgz#2c934dd2b3789fe5e6cc9e2558a08007ba18cb03"
-  integrity sha512-zfdSRip9DVMOklMojWCLZEB4iOzy7LDTABCDzCXqmpZGS+o1e1xts4jGhnte3mi0WV0YthNfYqF16tqk6CWITA==
+  version "4.0.19"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.19.tgz#e52ba83c3eaa75c580c567067ed86b5bd4cadbe6"
+  integrity sha512-VXnsYNVfmucXp5BdOA/OcWi8F/h2h8ofW1GxQDdspodnmnUgALEpqrxXBl5NFuA+iEihtAJeXzX260ICHYDaBg==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.3.2"

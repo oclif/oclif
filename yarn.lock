@@ -1264,7 +1264,7 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz#d9fae00a2d5cb40f92cfe64b47ad749fbc38f917"
   integrity sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==
 
-"@inquirer/confirm@^3.1.14", "@inquirer/confirm@^3.1.22":
+"@inquirer/confirm@^3.1.22":
   version "3.1.22"
   resolved "https://registry.yarnpkg.com/@inquirer/confirm/-/confirm-3.1.22.tgz#23990624c11f60c6f7a5b0558c7505c35076a037"
   integrity sha512-gsAKIOWBm2Q87CDfs9fEo7wJT3fwWIJfnDGMn9Qy74gBnNFOACDNfhUzovubbJjWnKLGBln7/NcSmZwj5DuEXg==
@@ -1490,12 +1490,12 @@
     debug "^4.3.5"
     semver "^7.5.4"
 
-"@oclif/plugin-not-found@^3.2.15":
-  version "3.2.15"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.15.tgz#1ed11b3d0727e6aa6e18f011cbe9da0666b258ea"
-  integrity sha512-+i+ieIXS0Tqh/m7n5Mat81hjeY46Wo4pWV8dQKbX+kw2u0BxidBTYugZtMxz47PbYUT5rS/xYB5l31CAZf4yTg==
+"@oclif/plugin-not-found@^3.2.16":
+  version "3.2.16"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.16.tgz#e81c3ec965802d07b80dade118cbec86ec5082dd"
+  integrity sha512-9yGR1lAg4ItSwRb4WhZ41X+6tO55SJjDYnu+EXW9gPCPj64z5qRIBU1ZWUZGtxJpHNB0vUh9nDLTsQAJOw/lnw==
   dependencies:
-    "@inquirer/confirm" "^3.1.14"
+    "@inquirer/confirm" "^3.1.22"
     "@oclif/core" "^4"
     ansis "^3.3.1"
     fast-levenshtein "^3.0.0"

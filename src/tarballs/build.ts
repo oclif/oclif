@@ -135,8 +135,9 @@ const pretarball = async (c: BuildConfig) => {
   const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
   if (!pjson.scripts.pretarball) return
   const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-  const hasYarnLock = existsSync(path.join(yarnRoot, 'yarn.lock'))
-  const script = `${hasYarnLock ? 'yarn' : 'npm'} run pretarball`
+  let script = 'npm run pretarball'
+  if (existsSync(path.join(yarnRoot, 'yarn.lock'))) script = 'yarn run pretarball'
+  else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) script = 'pnpm run pretarball'
   log(`running pretarball via ${script} in ${c.workspace()}`)
   await exec(script, {cwd: c.workspace()})
 }

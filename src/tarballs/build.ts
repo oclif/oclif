@@ -174,6 +174,9 @@ const addDependencies = async (c: BuildConfig) => {
         throw error
       }
     }
+  } else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) {
+    await copy(path.join(c.root, 'pnpm-lock.yaml'), path.join(c.workspace(), 'pnpm-lock.yaml'))
+    await exec('pnpm install --production', {cwd: c.workspace()})
   } else {
     const lockpath = existsSync(path.join(c.root, 'package-lock.json'))
       ? path.join(c.root, 'package-lock.json')

@@ -1,3 +1,9 @@
+## [4.14.27](https://github.com/oclif/oclif/compare/4.14.26...4.14.27) (2024-08-30)
+
+### Bug Fixes
+
+- add pnpm lock option ([#1527](https://github.com/oclif/oclif/issues/1527)) ([#1528](https://github.com/oclif/oclif/issues/1528)) ([846c772](https://github.com/oclif/oclif/commit/846c7722be50a29bee41d58b1423146545d814e8))
+
 ## [4.14.26](https://github.com/oclif/oclif/compare/4.14.25...4.14.26) (2024-08-26)
 
 ### Bug Fixes

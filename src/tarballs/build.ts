@@ -135,8 +135,9 @@ const pretarball = async (c: BuildConfig) => {
   const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
   if (!pjson.scripts.pretarball) return
   const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-  const hasYarnLock = existsSync(path.join(yarnRoot, 'yarn.lock'))
-  const script = `${hasYarnLock ? 'yarn' : 'npm'} run pretarball`
+  let script = 'npm run pretarball'
+  if (existsSync(path.join(yarnRoot, 'yarn.lock'))) script = 'yarn run pretarball'
+  else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) script = 'pnpm run pretarball'
   log(`running pretarball via ${script} in ${c.workspace()}`)
   await exec(script, {cwd: c.workspace()})
 }
@@ -174,6 +175,9 @@ const addDependencies = async (c: BuildConfig) => {
         throw error
       }
     }
+  } else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) {
+    await copy(path.join(c.root, 'pnpm-lock.yaml'), path.join(c.workspace(), 'pnpm-lock.yaml'))
+    await exec('pnpm install --production', {cwd: c.workspace()})
   } else {
     const lockpath = existsSync(path.join(c.root, 'package-lock.json'))
       ? path.join(c.root, 'package-lock.json')

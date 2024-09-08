@@ -1035,13 +1035,13 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@commitlint/cli@^19.4.0":
-  version "19.4.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-19.4.0.tgz#9f93d3ed07e531fcfa371015c8c87e0aa26d974f"
-  integrity sha512-sJX4J9UioVwZHq7JWM9tjT5bgWYaIN3rC4FP7YwfEwBYiIO+wMyRttRvQLNkow0vCdM0D67r9NEWU0Ui03I4Eg==
+"@commitlint/cli@^19.4.1":
+  version "19.4.1"
+  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-19.4.1.tgz#51dbd88750620c9e5fb6f5bc773872728a29674a"
+  integrity sha512-EerFVII3ZcnhXsDT9VePyIdCJoh3jEzygN1L37MjQXgPfGS6fJTWL/KHClVMod1d8w94lFC3l4Vh/y5ysVAz2A==
   dependencies:
     "@commitlint/format" "^19.3.0"
-    "@commitlint/lint" "^19.2.2"
+    "@commitlint/lint" "^19.4.1"
     "@commitlint/load" "^19.4.0"
     "@commitlint/read" "^19.4.0"
     "@commitlint/types" "^19.0.3"
@@ -1097,14 +1097,14 @@
     "@commitlint/types" "^19.0.3"
     semver "^7.6.0"
 
-"@commitlint/lint@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@commitlint/lint/-/lint-19.2.2.tgz#57f69e24bd832a7dcce8ebf82d11e3bf03ccc2a9"
-  integrity sha512-xrzMmz4JqwGyKQKTpFzlN0dx0TAiT7Ran1fqEBgEmEj+PU98crOFtysJgY+QdeSagx6EDRigQIXJVnfrI0ratA==
+"@commitlint/lint@^19.4.1":
+  version "19.4.1"
+  resolved "https://registry.yarnpkg.com/@commitlint/lint/-/lint-19.4.1.tgz#0760d34fcdaee0bf05befe666ca14c0fc1ecb57e"
+  integrity sha512-Ws4YVAZ0jACTv6VThumITC1I5AG0UyXMGua3qcf55JmXIXm/ejfaVKykrqx7RyZOACKVAs8uDRIsEsi87JZ3+Q==
   dependencies:
     "@commitlint/is-ignored" "^19.2.2"
     "@commitlint/parse" "^19.0.3"
-    "@commitlint/rules" "^19.0.3"
+    "@commitlint/rules" "^19.4.1"
     "@commitlint/types" "^19.0.3"
 
 "@commitlint/load@^19.4.0":
@@ -1160,10 +1160,10 @@
     lodash.mergewith "^4.6.2"
     resolve-from "^5.0.0"
 
-"@commitlint/rules@^19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@commitlint/rules/-/rules-19.0.3.tgz#de647a9055847cae4f3ae32b4798096b604584f3"
-  integrity sha512-TspKb9VB6svklxNCKKwxhELn7qhtY1rFF8ls58DcFd0F97XoG07xugPjjbVnLqmMkRjZDbDIwBKt9bddOfLaPw==
+"@commitlint/rules@^19.4.1":
+  version "19.4.1"
+  resolved "https://registry.yarnpkg.com/@commitlint/rules/-/rules-19.4.1.tgz#df15baad1092e2be1b39aa1aa7cc05e12f59f677"
+  integrity sha512-AgctfzAONoVxmxOXRyxXIq7xEPrd7lK/60h2egp9bgGUMZK9v0+YqLOA+TH+KqCa63ZoCr8owP2YxoSSu7IgnQ==
   dependencies:
     "@commitlint/ensure" "^19.0.3"
     "@commitlint/message" "^19.0.0"
@@ -2976,11 +2976,11 @@ commander@~12.1.0:
   integrity sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==
 
 commitlint@^19:
-  version "19.4.0"
-  resolved "https://registry.yarnpkg.com/commitlint/-/commitlint-19.4.0.tgz#9e27e42bd7ce02ba5f81fa09a248a8e377a1a535"
-  integrity sha512-aZU6Y5j918XufTVbm5fOu1xOeUgDcBiVfRpFxkOb83RMsPcYAW6maWRmm6Vs6YhSQbOEZ2+AE+IPoVFvoevQqg==
+  version "19.4.1"
+  resolved "https://registry.yarnpkg.com/commitlint/-/commitlint-19.4.1.tgz#b20f52982b12a083f610ad546c40d5793b7de021"
+  integrity sha512-w9PRvPad1ywVXl4QuS/OA9kzyoyW68dIpaxTdezpr1ycZeYkBRUHRQMmtL5rSYw1JytktojaKEBuvf1neDmeCg==
   dependencies:
-    "@commitlint/cli" "^19.4.0"
+    "@commitlint/cli" "^19.4.1"
     "@commitlint/types" "^19.0.3"
 
 commondir@^1.0.1:

@@ -65,7 +65,7 @@
     "prettier": "^3.3.3",
     "shelljs": "^0.8.5",
     "shx": "^0.3.4",
-    "sinon": "^18.0.0",
+    "sinon": "^18.0.1",
     "ts-node": "^10.7.0",
     "typescript": "^5"
   },

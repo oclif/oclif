@@ -1,3 +1,9 @@
+## [4.14.35](https://github.com/oclif/oclif/compare/4.14.34...4.14.35) (2024-09-22)
+
+### Bug Fixes
+
+- **deps:** bump @inquirer/select from 2.3.10 to 2.5.0 ([6d9e2d3](https://github.com/oclif/oclif/commit/6d9e2d3d34be749115a080d76cbc0df1cc038714))
+
 ## [4.14.34](https://github.com/oclif/oclif/compare/4.14.33...4.14.34) (2024-09-15)
 
 ### Bug Fixes

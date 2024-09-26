@@ -33,7 +33,7 @@ FLAG DESCRIPTIONS
     For more details see the `-Zcompress-type` section at https://man7.org/linux/man-pages/man1/dpkg-deb.1.html
 ```
 
-_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/4.14.35/src/commands/pack/deb.ts)_
+_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/4.14.36-qa.0/src/commands/pack/deb.ts)_
 
 ## `oclif pack macos`
 
@@ -55,7 +55,7 @@ DESCRIPTION
   Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 ```
 
-_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/4.14.35/src/commands/pack/macos.ts)_
+_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/4.14.36-qa.0/src/commands/pack/macos.ts)_
 
 ## `oclif pack tarballs`
 
@@ -81,7 +81,7 @@ DESCRIPTION
   Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 ```
 
-_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/4.14.35/src/commands/pack/tarballs.ts)_
+_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/4.14.36-qa.0/src/commands/pack/tarballs.ts)_
 
 ## `oclif pack win`
 
@@ -99,7 +99,7 @@ FLAGS
                                      checkbox.  Set to "hidden" to hide the option (will let defender do its thing).
                                      <options: checked|unchecked|hidden>
       --prune-lockfiles              remove lockfiles in the tarball.
-      --targets=<value>              Comma-separated targets to pack (e.g.: win32-x64,win32-x86).
+      --targets=<value>              Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).
 
 DESCRIPTION
   Create windows installer from oclif CLI
@@ -121,4 +121,4 @@ FLAG DESCRIPTIONS
     There is no way to set a hidden checkbox with "true" as a default...the user can always allow full security
 ```
 
-_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/4.14.35/src/commands/pack/win.ts)_
+_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/4.14.36-qa.0/src/commands/pack/win.ts)_

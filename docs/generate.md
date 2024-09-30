@@ -2,9 +2,10 @@
 
 Generate a new CLI
 
-- [`oclif generate NAME`](#oclif-generate-name)
-- [`oclif generate command NAME`](#oclif-generate-command-name)
-- [`oclif generate hook NAME`](#oclif-generate-hook-name)
+- [`oclif generate`](#oclif-generate)
+  - [`oclif generate NAME`](#oclif-generate-name)
+  - [`oclif generate command NAME`](#oclif-generate-command-name)
+  - [`oclif generate hook NAME`](#oclif-generate-hook-name)
 
 ## `oclif generate NAME`
 

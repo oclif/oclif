@@ -11,7 +11,7 @@ export default class UploadWin extends Command {
 
   static flags = {
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
-    targets: Flags.string({description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86).'}),
+    targets: Flags.string({description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).'}),
   }
 
   async run(): Promise<void> {
@@ -40,7 +40,7 @@ export default class UploadWin extends Command {
     }
 
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
-    const uploadWin = async (arch: 'x64' | 'x86') => {
+    const uploadWin = async (arch: 'arm64' | 'x64' | 'x86') => {
       const templateKey = templateShortKey('win32', {
         arch,
         bin: config.bin,
@@ -53,7 +53,7 @@ export default class UploadWin extends Command {
         await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
     }
 
-    await Promise.all([uploadWin('x64'), uploadWin('x86')])
+    await Promise.all([uploadWin('x64'), uploadWin('x86'), uploadWin('arm64')])
 
     log(`done uploading windows executables for v${config.version}-${buildConfig.gitSha}`)
   }

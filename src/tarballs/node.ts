@@ -40,7 +40,7 @@ export async function fetchNodeBinary({arch, nodeVersion, output, platform, tmp}
   if (platform === 'win32') cache += '.exe'
 
   const download = async () => {
-    log(`downloading ${nodeBase}`)
+    log(`downloading ${nodeBase} (${url})`)
     await Promise.all([ensureDir(path.join(tmp, 'cache', nodeVersion)), ensureDir(path.join(tmp, 'node'))])
     const shasums = path.join(tmp, 'cache', nodeVersion, 'SHASUMS256.txt.asc')
     const {default: got} = await import('got')

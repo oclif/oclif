@@ -2,10 +2,11 @@
 
 Upload installable CLI artifacts to AWS S3.
 
-- [`oclif upload deb`](#oclif-upload-deb)
-- [`oclif upload macos`](#oclif-upload-macos)
-- [`oclif upload tarballs`](#oclif-upload-tarballs)
-- [`oclif upload win`](#oclif-upload-win)
+- [`oclif upload`](#oclif-upload)
+  - [`oclif upload deb`](#oclif-upload-deb)
+  - [`oclif upload macos`](#oclif-upload-macos)
+  - [`oclif upload tarballs`](#oclif-upload-tarballs)
+  - [`oclif upload win`](#oclif-upload-win)
 
 ## `oclif upload deb`
 
@@ -71,7 +72,7 @@ USAGE
 
 FLAGS
   -r, --root=<value>     (required) [default: .] Path to oclif CLI root.
-      --targets=<value>  Comma-separated targets to pack (e.g.: win32-x64,win32-x86).
+      --targets=<value>  Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).
 
 DESCRIPTION
   Upload windows installers built with `pack win`.

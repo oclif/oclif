@@ -259,7 +259,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       required: false,
     }),
     targets: Flags.string({
-      description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86).',
+      description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).',
     }),
   }
 

@@ -2,7 +2,8 @@
 
 Generates plugin manifest json (oclif.manifest.json).
 
-- [`oclif manifest [PATH]`](#oclif-manifest-path)
+- [`oclif manifest`](#oclif-manifest)
+  - [`oclif manifest [PATH]`](#oclif-manifest-path)
 
 ## `oclif manifest [PATH]`
 

@@ -3,6 +3,7 @@
 Promote CLI builds to a S3 release channel.
 
 - [`oclif promote`](#oclif-promote)
+  - [`oclif promote`](#oclif-promote-1)
 
 ## `oclif promote`
 

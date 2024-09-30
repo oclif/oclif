@@ -2,10 +2,11 @@
 
 Package an oclif CLI into installable artifacts.
 
-- [`oclif pack deb`](#oclif-pack-deb)
-- [`oclif pack macos`](#oclif-pack-macos)
-- [`oclif pack tarballs`](#oclif-pack-tarballs)
-- [`oclif pack win`](#oclif-pack-win)
+- [`oclif pack`](#oclif-pack)
+  - [`oclif pack deb`](#oclif-pack-deb)
+  - [`oclif pack macos`](#oclif-pack-macos)
+  - [`oclif pack tarballs`](#oclif-pack-tarballs)
+  - [`oclif pack win`](#oclif-pack-win)
 
 ## `oclif pack deb`
 
@@ -99,7 +100,7 @@ FLAGS
                                      checkbox.  Set to "hidden" to hide the option (will let defender do its thing).
                                      <options: checked|unchecked|hidden>
       --prune-lockfiles              remove lockfiles in the tarball.
-      --targets=<value>              Comma-separated targets to pack (e.g.: win32-x64,win32-x86).
+      --targets=<value>              Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).
 
 DESCRIPTION
   Create windows installer from oclif CLI

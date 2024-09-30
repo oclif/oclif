@@ -3,6 +3,7 @@
 Adds commands to README.md in current directory.
 
 - [`oclif readme`](#oclif-readme)
+  - [`oclif readme`](#oclif-readme-1)
 
 ## `oclif readme`
 

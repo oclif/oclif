@@ -3,6 +3,7 @@
 Initialize a new oclif CLI
 
 - [`oclif init`](#oclif-init)
+  - [`oclif init`](#oclif-init-1)
 
 ## `oclif init`
 

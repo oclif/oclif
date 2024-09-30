@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "4.14.36-qa.1",
+  "version": "4.14.36",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"
@@ -44,7 +44,7 @@
     "@types/debug": "^4.1.12",
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^9.0",
-    "@types/lodash": "^4.17.7",
+    "@types/lodash": "^4.17.9",
     "@types/mocha": "^10.0.8",
     "@types/node": "^18",
     "@types/semver": "^7.5.8",
@@ -58,7 +58,7 @@
     "eslint-config-oclif-typescript": "^3.1.9",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-perfectionist": "^2.11.0",
-    "husky": "^9.1.5",
+    "husky": "^9.1.6",
     "lint-staged": "^15",
     "mocha": "^10.7.3",
     "nyc": "^15.1.0",

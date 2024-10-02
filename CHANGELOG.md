@@ -1,3 +1,9 @@
+## [4.15.1](https://github.com/oclif/oclif/compare/4.15.0...4.15.1) (2024-10-02)
+
+### Bug Fixes
+
+- add --ignore-missing to promote ([#1567](https://github.com/oclif/oclif/issues/1567)) ([93c34f3](https://github.com/oclif/oclif/commit/93c34f30df225cf3f1dbf1426e04c75d7aef2314))
+
 # [4.15.0](https://github.com/oclif/oclif/compare/4.14.36...4.15.0) (2024-10-02)
 
 ### Features

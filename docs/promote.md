@@ -10,8 +10,8 @@ Promote CLI builds to a S3 release channel.
 
 ```
 USAGE
-  $ oclif promote --channel <value> -r <value> --sha <value> --version <value> [-d] [--indexes] [-m] [-a
-    <value>] [-t <value>] [-w] [--xz]
+  $ oclif promote --channel <value> -r <value> --sha <value> --version <value> [-d] [--ignore-missing]
+    [--indexes] [-m] [-a <value>] [-t <value>] [-w] [--xz]
 
 FLAGS
   -a, --max-age=<value>  [default: 86400] Cache control max-age in seconds.
@@ -21,6 +21,7 @@ FLAGS
   -t, --targets=<value>  Comma-separated targets to promote (e.g.: linux-arm,win32-x64).
   -w, --win              Promote Windows exe.
       --channel=<value>  (required) [default: stable] Channel to promote to.
+      --ignore-missing   Ignore missing tarballs/installers and continue promoting the rest.
       --indexes          Append the promoted urls into the index files.
       --sha=<value>      (required) 7-digit short git commit SHA of the CLI to promote.
       --version=<value>  (required) Semantic version of the CLI to promote.
@@ -30,4 +31,4 @@ DESCRIPTION
   Promote CLI builds to a S3 release channel.
 ```
 
-_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/4.15.0/src/commands/promote.ts)_
+_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/4.15.1/src/commands/promote.ts)_

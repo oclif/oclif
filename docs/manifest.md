@@ -2,8 +2,7 @@
 
 Generates plugin manifest json (oclif.manifest.json).
 
-- [`oclif manifest`](#oclif-manifest)
-  - [`oclif manifest [PATH]`](#oclif-manifest-path)
+- [`oclif manifest [PATH]`](#oclif-manifest-path)
 
 ## `oclif manifest [PATH]`
 
@@ -23,4 +22,4 @@ DESCRIPTION
   Generates plugin manifest json (oclif.manifest.json).
 ```
 
-_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/4.14.36/src/commands/manifest.ts)_
+_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/4.15.0/src/commands/manifest.ts)_

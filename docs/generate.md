@@ -2,10 +2,9 @@
 
 Generate a new CLI
 
-- [`oclif generate`](#oclif-generate)
-  - [`oclif generate NAME`](#oclif-generate-name)
-  - [`oclif generate command NAME`](#oclif-generate-command-name)
-  - [`oclif generate hook NAME`](#oclif-generate-hook-name)
+- [`oclif generate NAME`](#oclif-generate-name)
+- [`oclif generate command NAME`](#oclif-generate-command-name)
+- [`oclif generate hook NAME`](#oclif-generate-hook-name)
 
 ## `oclif generate NAME`
 
@@ -65,7 +64,7 @@ EXAMPLES
     $ oclif generate my-cli --module-type CommonJS --author "John Doe" --yes
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.14.36/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/oclif/oclif/blob/4.15.0/src/commands/generate.ts)_
 
 ## `oclif generate command NAME`
 
@@ -86,7 +85,7 @@ DESCRIPTION
   Add a command to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.14.36/src/commands/generate/command.ts)_
+_See code: [src/commands/generate/command.ts](https://github.com/oclif/oclif/blob/4.15.0/src/commands/generate/command.ts)_
 
 ## `oclif generate hook NAME`
 
@@ -107,4 +106,4 @@ DESCRIPTION
   Add a hook to an existing CLI or plugin.
 ```
 
-_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.14.36/src/commands/generate/hook.ts)_
+_See code: [src/commands/generate/hook.ts](https://github.com/oclif/oclif/blob/4.15.0/src/commands/generate/hook.ts)_

@@ -1,3 +1,9 @@
+# [4.15.0](https://github.com/oclif/oclif/compare/4.14.36...4.15.0) (2024-10-02)
+
+### Features
+
+- pack win32-arm64 tarballs ([#1559](https://github.com/oclif/oclif/issues/1559)) ([fc165fe](https://github.com/oclif/oclif/commit/fc165fe5fabeb108e9b371bb7a50a31f60a0b902))
+
 ## [4.14.36](https://github.com/oclif/oclif/compare/4.14.35...4.14.36) (2024-09-29)
 
 ### Bug Fixes

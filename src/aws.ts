@@ -25,6 +25,7 @@ import {
   PutObjectRequest,
   S3Client,
 } from '@aws-sdk/client-s3'
+import {CLIError} from '@oclif/core/errors'
 import {createReadStream} from 'fs-extra'
 
 import {debug as Debug, log} from './log'
@@ -87,13 +88,38 @@ export default {
 
   get s3() {
     return {
-      copyObject: (options: CopyObjectRequest) =>
+      copyObject: (options: CopyObjectRequest, ignoreMissing = false) =>
         new Promise<CopyObjectOutput>((resolve, reject) => {
           log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
           aws.s3
             ?.send(new CopyObjectCommand(options))
             .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .catch((error) => {
+              if (error.Code === 'NoSuchKey') {
+                if (ignoreMissing) {
+                  log(
+                    's3:copyObject',
+                    `s3://${options.CopySource} does not exist - skipping because of --ignore-missing`,
+                  )
+                  return
+                }
+
+                reject(
+                  new CLIError(
+                    `Failed to copy source object s3://${options.CopySource} to s3://${options.Bucket}/${options.Key} because the source object does not exist`,
+                    {
+                      suggestions: [
+                        'Use the "oclif upload" to upload the object first',
+                        'Use the "--targets" flag to specify existing targets',
+                        'Use the "--ignore-missing" flag to skip this error',
+                      ],
+                    },
+                  ),
+                )
+              }
+
+              reject(error)
+            })
         }),
       deleteObjects: (options: DeleteObjectsRequest) =>
         new Promise<DeleteObjectsOutput>((resolve, reject) => {

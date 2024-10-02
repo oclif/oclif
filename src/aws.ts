@@ -26,6 +26,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3'
 import {CLIError} from '@oclif/core/errors'
+import {ux} from '@oclif/core/ux'
 import {createReadStream} from 'fs-extra'
 
 import {debug as Debug, log} from './log'
@@ -88,17 +89,26 @@ export default {
 
   get s3() {
     return {
-      copyObject: (options: CopyObjectRequest, ignoreMissing = false) =>
+      copyObject: (
+        options: CopyObjectRequest,
+        {dryRun, ignoreMissing, namespace}: {dryRun?: boolean; ignoreMissing?: boolean; namespace?: string},
+      ) =>
         new Promise<CopyObjectOutput>((resolve, reject) => {
-          log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
+          const logNamespace = namespace ? `> ${namespace}` : 's3:copyObject'
+          // ux.stdout(logNamespace, `copying s3://${options.CopySource} to s3://${options.Bucket}/${options.Key}`, '\n')
+          ux.stdout(logNamespace)
+          ux.stdout(`  source: s3://${options.CopySource}`)
+          ux.stdout(`  destination: s3://${options.Bucket}/${options.Key}`)
+          ux.stdout()
+          if (dryRun) return
           aws.s3
             ?.send(new CopyObjectCommand(options))
             .then((data) => resolve(data))
             .catch((error) => {
               if (error.Code === 'NoSuchKey') {
                 if (ignoreMissing) {
-                  log(
-                    's3:copyObject',
+                  ux.stdout(
+                    logNamespace,
                     `s3://${options.CopySource} does not exist - skipping because of --ignore-missing`,
                   )
                   return

@@ -14,6 +14,9 @@ export default class Promote extends Command {
   static flags = {
     channel: Flags.string({default: 'stable', description: 'Channel to promote to.', required: true}),
     deb: Flags.boolean({char: 'd', description: 'Promote debian artifacts.'}),
+    'ignore-missing': Flags.boolean({
+      description: 'Ignore missing tarballs/installers and continue promoting the rest.',
+    }),
     indexes: Flags.boolean({description: 'Append the promoted urls into the index files.'}),
     macos: Flags.boolean({char: 'm', description: 'Promote macOS pkg.'}),
     'max-age': Flags.string({char: 'a', default: '86400', description: 'Cache control max-age in seconds.'}),
@@ -27,6 +30,12 @@ export default class Promote extends Command {
 
   async run(): Promise<void> {
     const {flags} = await this.parse(Promote)
+    if (flags['ignore-missing']) {
+      this.warn(
+        "--ignore-missing flag is being used - This command will continue to run even if a promotion fails because it doesn't exist",
+      )
+    }
+
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config, s3Config} = buildConfig
     const indexDefaults = {
@@ -48,7 +57,8 @@ export default class Promote extends Command {
     const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
-    if (buildConfig.targets.length > 0) this.log(`Promoting buildmanifests & unversioned tarballs to ${flags.channel}`)
+    if (buildConfig.targets.length > 0)
+      this.log(`\nPromoting buildmanifests & unversioned tarballs to ${flags.channel}`)
 
     const promoteManifest = async (target: (typeof buildConfig.targets)[number]) => {
       const manifest = templateShortKey('manifest', {
@@ -60,11 +70,14 @@ export default class Promote extends Command {
       })
       // strip version & sha so update/scripts can point to a static channel manifest
       const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
-      await aws.s3.copyObject({
-        ...awsDefaults,
-        CopySource: cloudBucketCommitKey(manifest),
-        Key: cloudChannelKey(unversionedManifest),
-      })
+      await aws.s3.copyObject(
+        {
+          ...awsDefaults,
+          CopySource: cloudBucketCommitKey(manifest),
+          Key: cloudChannelKey(unversionedManifest),
+        },
+        flags['ignore-missing'],
+      )
     }
 
     const promoteGzTarballs = async (target: (typeof buildConfig.targets)[number]) => {
@@ -81,11 +94,14 @@ export default class Promote extends Command {
       const unversionedTarGzName = versionedTarGzName.replace(`-v${flags.version}-${flags.sha}`, '')
       const unversionedTarGzKey = cloudChannelKey(unversionedTarGzName)
       await Promise.all([
-        aws.s3.copyObject({
-          ...awsDefaults,
-          CopySource: versionedTarGzKey,
-          Key: unversionedTarGzKey,
-        }),
+        aws.s3.copyObject(
+          {
+            ...awsDefaults,
+            CopySource: versionedTarGzKey,
+            Key: unversionedTarGzKey,
+          },
+          flags['ignore-missing'],
+        ),
         ...(flags.indexes
           ? [appendToIndex({...indexDefaults, filename: unversionedTarGzName, originalUrl: versionedTarGzKey})]
           : []),
@@ -106,11 +122,14 @@ export default class Promote extends Command {
       const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
       const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
       await Promise.all([
-        aws.s3.copyObject({
-          ...awsDefaults,
-          CopySource: versionedTarXzKey,
-          Key: unversionedTarXzKey,
-        }),
+        aws.s3.copyObject(
+          {
+            ...awsDefaults,
+            CopySource: versionedTarXzKey,
+            Key: unversionedTarXzKey,
+          },
+          flags['ignore-missing'],
+        ),
         ...(flags.indexes
           ? [appendToIndex({...indexDefaults, filename: unversionedTarXzName, originalUrl: versionedTarXzKey})]
           : []),
@@ -118,7 +137,7 @@ export default class Promote extends Command {
     }
 
     const promoteMacInstallers = async () => {
-      this.log(`Promoting macos pkgs to ${flags.channel}`)
+      this.log(`\nPromoting macos pkgs to ${flags.channel}`)
       const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
       await Promise.all(
         arches.map(async (arch) => {
@@ -127,11 +146,14 @@ export default class Promote extends Command {
           // strip version & sha so scripts can point to a static channel pkg
           const unversionedPkg = darwinPkg.replace(`-v${flags.version}-${flags.sha}`, '')
           await Promise.all([
-            aws.s3.copyObject({
-              ...awsDefaults,
-              CopySource: darwinCopySource,
-              Key: cloudChannelKey(unversionedPkg),
-            }),
+            aws.s3.copyObject(
+              {
+                ...awsDefaults,
+                CopySource: darwinCopySource,
+                Key: cloudChannelKey(unversionedPkg),
+              },
+              flags['ignore-missing'],
+            ),
             ...(flags.indexes
               ? [appendToIndex({...indexDefaults, filename: unversionedPkg, originalUrl: darwinCopySource})]
               : []),
@@ -142,7 +164,7 @@ export default class Promote extends Command {
 
     const promoteWindowsInstallers = async () => {
       // copy win exe
-      this.log(`Promoting windows exe to ${flags.channel}`)
+      this.log(`\nPromoting windows exe to ${flags.channel}`)
       const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
       await Promise.all(
         arches.map(async (arch) => {
@@ -151,11 +173,14 @@ export default class Promote extends Command {
           // strip version & sha so scripts can point to a static channel exe
           const unversionedExe = winPkg.replace(`-v${flags.version}-${flags.sha}`, '')
           await Promise.all([
-            aws.s3.copyObject({
-              ...awsDefaults,
-              CopySource: winCopySource,
-              Key: cloudChannelKey(unversionedExe),
-            }),
+            aws.s3.copyObject(
+              {
+                ...awsDefaults,
+                CopySource: winCopySource,
+                Key: cloudChannelKey(unversionedExe),
+              },
+              flags['ignore-missing'],
+            ),
             ...(flags.indexes
               ? [appendToIndex({...indexDefaults, filename: unversionedExe, originalUrl: winCopySource})]
               : []),
@@ -187,7 +212,7 @@ export default class Promote extends Command {
         'Release.gpg',
       ]
 
-      this.log(`Promoting debian artifacts to ${flags.channel}`)
+      this.log(`\nPromoting debian artifacts to ${flags.channel}`)
       await Promise.all(
         debArtifacts.flatMap((artifact) => {
           const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
@@ -198,16 +223,22 @@ export default class Promote extends Command {
           // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
           const workaroundKey = `${cloudChannelKey('apt/')}./${artifact}`
           return [
-            aws.s3.copyObject({
-              ...awsDefaults,
-              CopySource: debCopySource,
-              Key: debKey,
-            }),
-            aws.s3.copyObject({
-              ...awsDefaults,
-              CopySource: debCopySource,
-              Key: workaroundKey,
-            }),
+            aws.s3.copyObject(
+              {
+                ...awsDefaults,
+                CopySource: debCopySource,
+                Key: debKey,
+              },
+              flags['ignore-missing'],
+            ),
+            aws.s3.copyObject(
+              {
+                ...awsDefaults,
+                CopySource: debCopySource,
+                Key: workaroundKey,
+              },
+              flags['ignore-missing'],
+            ),
           ]
         }),
       )

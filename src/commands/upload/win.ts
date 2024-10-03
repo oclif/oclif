@@ -10,6 +10,7 @@ export default class UploadWin extends Command {
   static description = 'Upload windows installers built with `pack win`.'
 
   static flags = {
+    'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
     targets: Flags.string({description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).'}),
   }
@@ -50,7 +51,13 @@ export default class UploadWin extends Command {
       const localExe = dist(`win32/${templateKey}`)
       const cloudKey = `${cloudKeyBase}/${templateKey}`
       if (fs.existsSync(localExe))
-        await aws.s3.uploadFile(localExe, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+        await aws.s3.uploadFile(
+          localExe,
+          {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey},
+          {
+            dryRun: flags['dry-run'],
+          },
+        )
     }
 
     await Promise.all([uploadWin('x64'), uploadWin('x86'), uploadWin('arm64')])

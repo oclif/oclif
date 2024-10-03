@@ -39,6 +39,7 @@ const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number):
 
 // appends to an existing file (or writes a new one) with the versions in descending order, with an optional limit from the pjson file
 export const appendToIndex = async (input: {
+  dryRun?: boolean
   filename: string
   maxAge: string
   originalUrl: string
@@ -86,12 +87,18 @@ export const appendToIndex = async (input: {
   )
 
   // put the file back in the same place
-  await aws.s3.uploadFile(jsonFileName, {
-    ACL: s3Config.acl ?? ObjectCannedACL.public_read,
-    Bucket: s3Config.bucket,
-    CacheControl: maxAge,
-    Key: key,
-  })
+  await aws.s3.uploadFile(
+    jsonFileName,
+    {
+      ACL: s3Config.acl ?? ObjectCannedACL.public_read,
+      Bucket: s3Config.bucket,
+      CacheControl: maxAge,
+      Key: key,
+    },
+    {
+      dryRun: input.dryRun,
+    },
+  )
   // cleans up local fs
   await fs.remove(jsonFileName)
 }

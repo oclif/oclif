@@ -10,6 +10,7 @@ export default class UploadTarballs extends Command {
   static description = 'Upload an oclif CLI to S3.'
 
   static flags = {
+    'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
     targets: Flags.string({char: 't', description: 'Comma-separated targets to upload (e.g.: linux-arm,win32-x64).'}),
     xz: Flags.boolean({allowNo: true, description: 'Also upload xz.'}),
@@ -57,12 +58,18 @@ export default class UploadTarballs extends Command {
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
         const localKey = templateShortKey('versioned', {...shortKeyInputs, ext})
         const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${localKey}`
-        await aws.s3.uploadFile(dist(localKey), {
-          ...S3Options,
-          CacheControl: 'max-age=604800',
-          ContentType: 'application/gzip',
-          Key: cloudKey,
-        })
+        await aws.s3.uploadFile(
+          dist(localKey),
+          {
+            ...S3Options,
+            CacheControl: 'max-age=604800',
+            ContentType: 'application/gzip',
+            Key: cloudKey,
+          },
+          {
+            dryRun: flags['dry-run'],
+          },
+        )
       }
 
       const maybeUploadManifest = async () => {
@@ -70,12 +77,18 @@ export default class UploadTarballs extends Command {
         const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
         const local = dist(manifest)
         if (fs.existsSync(local)) {
-          return aws.s3.uploadFile(dist(manifest), {
-            ...S3Options,
-            CacheControl: 'max-age=86400',
-            ContentType: 'application/json',
-            Key: cloudKey,
-          })
+          return aws.s3.uploadFile(
+            dist(manifest),
+            {
+              ...S3Options,
+              CacheControl: 'max-age=86400',
+              ContentType: 'application/json',
+              Key: cloudKey,
+            },
+            {
+              dryRun: flags['dry-run'],
+            },
+          )
         }
 
         ux.warn(`Cannot find buildmanifest ${local}. CLI will not be able to update itself.`)

@@ -94,11 +94,11 @@ export default {
         {dryRun, ignoreMissing, namespace}: {dryRun?: boolean; ignoreMissing?: boolean; namespace?: string},
       ) =>
         new Promise<CopyObjectOutput>((resolve, reject) => {
-          const logNamespace = namespace ? `> ${namespace}` : 's3:copyObject'
-          // ux.stdout(logNamespace, `copying s3://${options.CopySource} to s3://${options.Bucket}/${options.Key}`, '\n')
+          const logNamespace = namespace ? `> ${namespace}` : `> s3://${options.CopySource}`
           ux.stdout(logNamespace)
+          ux.stdout('  action: copy')
           ux.stdout(`  source: s3://${options.CopySource}`)
-          ux.stdout(`  destination: s3://${options.Bucket}/${options.Key}`)
+          ux.stdout(`  target: s3://${options.Bucket}/${options.Key}`)
           ux.stdout()
           if (dryRun) return
           aws.s3
@@ -107,13 +107,15 @@ export default {
             .catch((error) => {
               if (error.Code === 'NoSuchKey') {
                 if (ignoreMissing) {
+                  ux.stdout(logNamespace)
                   ux.stdout(
-                    logNamespace,
-                    `s3://${options.CopySource} does not exist - skipping because of --ignore-missing`,
+                    `  warning: s3://${options.CopySource} does not exist - skipping because of --ignore-missing`,
                   )
                   return
                 }
 
+                ux.stdout(logNamespace)
+                ux.stdout(`  error: s3://${options.CopySource} does not exist`)
                 reject(
                   new CLIError(
                     `Failed to copy source object s3://${options.CopySource} to s3://${options.Bucket}/${options.Key} because the source object does not exist`,
@@ -163,9 +165,14 @@ export default {
             .then((data) => resolve(data))
             .catch((error) => reject(error))
         }),
-      uploadFile: (local: string, options: PutObjectRequest) =>
+      uploadFile: (local: string, options: PutObjectRequest, {dryRun}: {dryRun?: boolean} = {}) =>
         new Promise<PutObjectOutput>((resolve, reject) => {
-          log('s3:uploadFile', prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
+          ux.stdout(`> ${local}`)
+          ux.stdout('  action: upload')
+          ux.stdout(`  source: ${prettifyPaths(local)}`)
+          ux.stdout(`  target: s3://${options.Bucket}/${options.Key}`)
+          ux.stdout()
+          if (dryRun) return
           options.Body = createReadStream(local)
           aws.s3
             ?.send(new PutObjectCommand(options))

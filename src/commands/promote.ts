@@ -15,7 +15,7 @@ export default class Promote extends Command {
     channel: Flags.string({default: 'stable', description: 'Channel to promote to.', required: true}),
     deb: Flags.boolean({char: 'd', description: 'Promote debian artifacts.'}),
     'dry-run': Flags.boolean({
-      description: 'Show what would be promoted without actually promoting.',
+      description: 'Run the command without uploading to S3 or copying versioned tarballs/installers to channel.',
     }),
     'ignore-missing': Flags.boolean({
       description: 'Ignore missing tarballs/installers and continue promoting the rest.',
@@ -38,6 +38,8 @@ export default class Promote extends Command {
         "--ignore-missing flag is being used - This command will continue to run even if a promotion fails because it doesn't exist",
       )
     }
+
+    this.log(`Promoting v${flags.version} (${flags.sha}) to ${flags.channel} channel\n`)
 
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config, s3Config} = buildConfig
@@ -111,7 +113,14 @@ export default class Promote extends Command {
           },
         ),
         ...(flags.indexes
-          ? [appendToIndex({...indexDefaults, filename: unversionedTarGzName, originalUrl: versionedTarGzKey})]
+          ? [
+              appendToIndex({
+                ...indexDefaults,
+                dryRun: flags['dry-run'],
+                filename: unversionedTarGzName,
+                originalUrl: versionedTarGzKey,
+              }),
+            ]
           : []),
       ])
     }
@@ -143,7 +152,14 @@ export default class Promote extends Command {
           },
         ),
         ...(flags.indexes
-          ? [appendToIndex({...indexDefaults, filename: unversionedTarXzName, originalUrl: versionedTarXzKey})]
+          ? [
+              appendToIndex({
+                ...indexDefaults,
+                dryRun: flags['dry-run'],
+                filename: unversionedTarXzName,
+                originalUrl: versionedTarXzKey,
+              }),
+            ]
           : []),
       ])
     }
@@ -170,7 +186,14 @@ export default class Promote extends Command {
               },
             ),
             ...(flags.indexes
-              ? [appendToIndex({...indexDefaults, filename: unversionedPkg, originalUrl: darwinCopySource})]
+              ? [
+                  appendToIndex({
+                    ...indexDefaults,
+                    dryRun: flags['dry-run'],
+                    filename: unversionedPkg,
+                    originalUrl: darwinCopySource,
+                  }),
+                ]
               : []),
           ])
         }),
@@ -200,7 +223,14 @@ export default class Promote extends Command {
               },
             ),
             ...(flags.indexes
-              ? [appendToIndex({...indexDefaults, filename: unversionedExe, originalUrl: winCopySource})]
+              ? [
+                  appendToIndex({
+                    ...indexDefaults,
+                    dryRun: flags['dry-run'],
+                    filename: unversionedExe,
+                    originalUrl: winCopySource,
+                  }),
+                ]
               : []),
           ])
           ux.action.stop('successfully')

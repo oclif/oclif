@@ -180,7 +180,7 @@ export default class ReadmeGenerator {
     const title = render(c.summary ?? c.description ?? '', {command: c, config: this.config})
       .trim()
       .split('\n')[0]
-    const help = new HelpClass(this.config, {maxWidth: columns, stripAnsi: true})
+    const help = new HelpClass(this.config, {maxWidth: columns, respectNoCacheDefault: true, stripAnsi: true})
     const wrapper = new HelpCompatibilityWrapper(help)
 
     const header = () => {

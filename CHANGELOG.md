@@ -1,3 +1,9 @@
+## [4.15.2](https://github.com/oclif/oclif/compare/4.15.1...4.15.2) (2024-10-03)
+
+### Bug Fixes
+
+- pass in respectNoCacheDefault to help ([#1566](https://github.com/oclif/oclif/issues/1566)) ([d4d3066](https://github.com/oclif/oclif/commit/d4d30663869a7e9daee2c582f1be87ce2d7a88c7))
+
 ## [4.15.1](https://github.com/oclif/oclif/compare/4.15.0...4.15.1) (2024-10-02)
 
 ### Bug Fixes

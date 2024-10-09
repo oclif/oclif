@@ -1,3 +1,9 @@
+## [4.15.6](https://github.com/oclif/oclif/compare/4.15.5...4.15.6) (2024-10-09)
+
+### Bug Fixes
+
+- improve logging in promote ([#1568](https://github.com/oclif/oclif/issues/1568)) ([dcd0804](https://github.com/oclif/oclif/commit/dcd08040f74a30116670ef0817836b4c8218e395))
+
 ## [4.15.5](https://github.com/oclif/oclif/compare/4.15.4...4.15.5) (2024-10-06)
 
 ### Bug Fixes

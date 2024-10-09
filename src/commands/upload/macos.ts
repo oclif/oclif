@@ -11,6 +11,7 @@ export default class UploadMacos extends Command {
   static description = 'Upload macos installers built with `pack macos`.'
 
   static flags = {
+    'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
     targets: Flags.string({
       char: 't',
@@ -39,7 +40,13 @@ export default class UploadMacos extends Command {
       const localPkg = dist(`macos/${templateKey}`)
 
       if (fs.existsSync(localPkg))
-        await aws.s3.uploadFile(localPkg, {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+        await aws.s3.uploadFile(
+          localPkg,
+          {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey},
+          {
+            dryRun: flags['dry-run'],
+          },
+        )
       else
         this.error('Cannot find macOS pkg', {
           suggestions: ['Run "oclif pack macos" before uploading'],

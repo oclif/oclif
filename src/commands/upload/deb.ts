@@ -11,6 +11,7 @@ export default class UploadDeb extends Command {
   static description = 'Upload deb package built with `pack deb`.'
 
   static flags = {
+    'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
   }
 
@@ -32,7 +33,13 @@ export default class UploadDeb extends Command {
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
     const upload = (file: string) => {
       const cloudKey = `${cloudKeyBase}/apt/${file}`
-      return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      return aws.s3.uploadFile(
+        dist(file),
+        {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey},
+        {
+          dryRun: flags['dry-run'],
+        },
+      )
     }
 
     // apt expects ../apt/dists/versionName/[artifacts] but oclif wants versions/sha/apt/[artifacts]
@@ -41,7 +48,13 @@ export default class UploadDeb extends Command {
     // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
     const uploadWorkaround = (file: string) => {
       const cloudKey = `${cloudKeyBase}/apt/./${file}`
-      return aws.s3.uploadFile(dist(file), {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey})
+      return aws.s3.uploadFile(
+        dist(file),
+        {...S3Options, CacheControl: 'max-age=86400', Key: cloudKey},
+        {
+          dryRun: flags['dry-run'],
+        },
+      )
     }
 
     const uploadDeb = async (arch: DebArch) => {

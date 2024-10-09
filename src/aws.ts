@@ -26,6 +26,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3'
 import {CLIError} from '@oclif/core/errors'
+import {ux} from '@oclif/core/ux'
 import {createReadStream} from 'fs-extra'
 
 import {debug as Debug, log} from './log'
@@ -88,22 +89,33 @@ export default {
 
   get s3() {
     return {
-      copyObject: (options: CopyObjectRequest, ignoreMissing = false) =>
+      copyObject: (
+        options: CopyObjectRequest,
+        {dryRun, ignoreMissing, namespace}: {dryRun?: boolean; ignoreMissing?: boolean; namespace?: string},
+      ) =>
         new Promise<CopyObjectOutput>((resolve, reject) => {
-          log('s3:copyObject', `from s3://${options.CopySource}`, `to s3://${options.Bucket}/${options.Key}`)
+          const logNamespace = namespace ? `> ${namespace}` : `> s3://${options.CopySource}`
+          ux.stdout(logNamespace)
+          ux.stdout('  action: copy')
+          ux.stdout(`  source: s3://${options.CopySource}`)
+          ux.stdout(`  target: s3://${options.Bucket}/${options.Key}`)
+          ux.stdout()
+          if (dryRun) return
           aws.s3
             ?.send(new CopyObjectCommand(options))
             .then((data) => resolve(data))
             .catch((error) => {
               if (error.Code === 'NoSuchKey') {
                 if (ignoreMissing) {
-                  log(
-                    's3:copyObject',
-                    `s3://${options.CopySource} does not exist - skipping because of --ignore-missing`,
+                  ux.stdout(logNamespace)
+                  ux.stdout(
+                    `  warning: s3://${options.CopySource} does not exist - skipping because of --ignore-missing`,
                   )
                   return
                 }
 
+                ux.stdout(logNamespace)
+                ux.stdout(`  error: s3://${options.CopySource} does not exist`)
                 reject(
                   new CLIError(
                     `Failed to copy source object s3://${options.CopySource} to s3://${options.Bucket}/${options.Key} because the source object does not exist`,
@@ -153,9 +165,14 @@ export default {
             .then((data) => resolve(data))
             .catch((error) => reject(error))
         }),
-      uploadFile: (local: string, options: PutObjectRequest) =>
+      uploadFile: (local: string, options: PutObjectRequest, {dryRun}: {dryRun?: boolean} = {}) =>
         new Promise<PutObjectOutput>((resolve, reject) => {
-          log('s3:uploadFile', prettifyPaths(local), `s3://${options.Bucket}/${options.Key}`)
+          ux.stdout(`> ${local}`)
+          ux.stdout('  action: upload')
+          ux.stdout(`  source: ${prettifyPaths(local)}`)
+          ux.stdout(`  target: s3://${options.Bucket}/${options.Key}`)
+          ux.stdout()
+          if (dryRun) return
           options.Body = createReadStream(local)
           aws.s3
             ?.send(new PutObjectCommand(options))

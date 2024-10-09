@@ -14,6 +14,9 @@ export default class Promote extends Command {
   static flags = {
     channel: Flags.string({default: 'stable', description: 'Channel to promote to.', required: true}),
     deb: Flags.boolean({char: 'd', description: 'Promote debian artifacts.'}),
+    'dry-run': Flags.boolean({
+      description: 'Run the command without uploading to S3 or copying versioned tarballs/installers to channel.',
+    }),
     'ignore-missing': Flags.boolean({
       description: 'Ignore missing tarballs/installers and continue promoting the rest.',
     }),
@@ -36,6 +39,8 @@ export default class Promote extends Command {
       )
     }
 
+    this.log(`Promoting v${flags.version} (${flags.sha}) to ${flags.channel} channel\n`)
+
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config, s3Config} = buildConfig
     const indexDefaults = {
@@ -57,9 +62,6 @@ export default class Promote extends Command {
     const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
-    if (buildConfig.targets.length > 0)
-      this.log(`\nPromoting buildmanifests & unversioned tarballs to ${flags.channel}`)
-
     const promoteManifest = async (target: (typeof buildConfig.targets)[number]) => {
       const manifest = templateShortKey('manifest', {
         arch: target.arch,
@@ -76,7 +78,11 @@ export default class Promote extends Command {
           CopySource: cloudBucketCommitKey(manifest),
           Key: cloudChannelKey(unversionedManifest),
         },
-        flags['ignore-missing'],
+        {
+          dryRun: flags['dry-run'],
+          ignoreMissing: flags['ignore-missing'],
+          namespace: unversionedManifest,
+        },
       )
     }
 
@@ -100,10 +106,21 @@ export default class Promote extends Command {
             CopySource: versionedTarGzKey,
             Key: unversionedTarGzKey,
           },
-          flags['ignore-missing'],
+          {
+            dryRun: flags['dry-run'],
+            ignoreMissing: flags['ignore-missing'],
+            namespace: unversionedTarGzName,
+          },
         ),
         ...(flags.indexes
-          ? [appendToIndex({...indexDefaults, filename: unversionedTarGzName, originalUrl: versionedTarGzKey})]
+          ? [
+              appendToIndex({
+                ...indexDefaults,
+                dryRun: flags['dry-run'],
+                filename: unversionedTarGzName,
+                originalUrl: versionedTarGzKey,
+              }),
+            ]
           : []),
       ])
     }
@@ -128,16 +145,26 @@ export default class Promote extends Command {
             CopySource: versionedTarXzKey,
             Key: unversionedTarXzKey,
           },
-          flags['ignore-missing'],
+          {
+            dryRun: flags['dry-run'],
+            ignoreMissing: flags['ignore-missing'],
+            namespace: unversionedTarXzName,
+          },
         ),
         ...(flags.indexes
-          ? [appendToIndex({...indexDefaults, filename: unversionedTarXzName, originalUrl: versionedTarXzKey})]
+          ? [
+              appendToIndex({
+                ...indexDefaults,
+                dryRun: flags['dry-run'],
+                filename: unversionedTarXzName,
+                originalUrl: versionedTarXzKey,
+              }),
+            ]
           : []),
       ])
     }
 
     const promoteMacInstallers = async () => {
-      this.log(`\nPromoting macos pkgs to ${flags.channel}`)
       const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
       await Promise.all(
         arches.map(async (arch) => {
@@ -152,10 +179,21 @@ export default class Promote extends Command {
                 CopySource: darwinCopySource,
                 Key: cloudChannelKey(unversionedPkg),
               },
-              flags['ignore-missing'],
+              {
+                dryRun: flags['dry-run'],
+                ignoreMissing: flags['ignore-missing'],
+                namespace: unversionedPkg,
+              },
             ),
             ...(flags.indexes
-              ? [appendToIndex({...indexDefaults, filename: unversionedPkg, originalUrl: darwinCopySource})]
+              ? [
+                  appendToIndex({
+                    ...indexDefaults,
+                    dryRun: flags['dry-run'],
+                    filename: unversionedPkg,
+                    originalUrl: darwinCopySource,
+                  }),
+                ]
               : []),
           ])
         }),
@@ -164,7 +202,6 @@ export default class Promote extends Command {
 
     const promoteWindowsInstallers = async () => {
       // copy win exe
-      this.log(`\nPromoting windows exe to ${flags.channel}`)
       const arches = buildConfig.targets.filter((t) => t.platform === 'win32').map((t) => t.arch)
       await Promise.all(
         arches.map(async (arch) => {
@@ -179,10 +216,21 @@ export default class Promote extends Command {
                 CopySource: winCopySource,
                 Key: cloudChannelKey(unversionedExe),
               },
-              flags['ignore-missing'],
+              {
+                dryRun: flags['dry-run'],
+                ignoreMissing: flags['ignore-missing'],
+                namespace: unversionedExe,
+              },
             ),
             ...(flags.indexes
-              ? [appendToIndex({...indexDefaults, filename: unversionedExe, originalUrl: winCopySource})]
+              ? [
+                  appendToIndex({
+                    ...indexDefaults,
+                    dryRun: flags['dry-run'],
+                    filename: unversionedExe,
+                    originalUrl: winCopySource,
+                  }),
+                ]
               : []),
           ])
           ux.action.stop('successfully')
@@ -212,7 +260,6 @@ export default class Promote extends Command {
         'Release.gpg',
       ]
 
-      this.log(`\nPromoting debian artifacts to ${flags.channel}`)
       await Promise.all(
         debArtifacts.flatMap((artifact) => {
           const debCopySource = cloudBucketCommitKey(`apt/${artifact}`)
@@ -229,7 +276,11 @@ export default class Promote extends Command {
                 CopySource: debCopySource,
                 Key: debKey,
               },
-              flags['ignore-missing'],
+              {
+                dryRun: flags['dry-run'],
+                ignoreMissing: flags['ignore-missing'],
+                namespace: debKey,
+              },
             ),
             aws.s3.copyObject(
               {
@@ -237,7 +288,11 @@ export default class Promote extends Command {
                 CopySource: debCopySource,
                 Key: workaroundKey,
               },
-              flags['ignore-missing'],
+              {
+                dryRun: flags['dry-run'],
+                ignoreMissing: flags['ignore-missing'],
+                namespace: workaroundKey,
+              },
             ),
           ]
         }),

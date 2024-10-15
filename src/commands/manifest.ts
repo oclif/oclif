@@ -96,6 +96,15 @@ export default class Manifest extends Command {
       await plugin.load()
     }
 
+    if (!Array.isArray(plugin.pjson.files)) {
+      this.error('The package.json has to contain a "files" array', {
+        ref: 'https://docs.npmjs.com/cli/v10/configuring-npm/package-json#files',
+        suggestions: [
+          'Add a "files" property in the package.json listing the paths to the files that should be included in the published package',
+        ],
+      })
+    }
+
     const dotfile = plugin.pjson.files.find((f: string) => f.endsWith('.oclif.manifest.json'))
     const file = path.join(plugin.root, `${dotfile ? '.' : ''}oclif.manifest.json`)
 

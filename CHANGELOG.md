@@ -1,3 +1,9 @@
+## [4.15.9](https://github.com/oclif/oclif/compare/4.15.8...4.15.9) (2024-10-15)
+
+### Bug Fixes
+
+- add explicit error when `files` is missing from package.json ([#1577](https://github.com/oclif/oclif/issues/1577)) ([#1578](https://github.com/oclif/oclif/issues/1578)) ([2ebfb00](https://github.com/oclif/oclif/commit/2ebfb00a1dc57db5908604eb23a06a2745dc1238))
+
 ## [4.15.8](https://github.com/oclif/oclif/compare/4.15.7...4.15.8) (2024-10-14)
 
 ### Bug Fixes

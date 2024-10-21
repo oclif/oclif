@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +41,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
         os: [ubuntu-latest, windows-latest]
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -60,7 +60,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
         package_manager: [yarn, npm, pnpm]
         module_type: [CommonJS, ESM]
         os: [ubuntu-latest, windows-latest]
@@ -100,7 +100,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
         package_manager: [yarn, npm, pnpm]
         module_type: [CommonJS, ESM]
         os: [ubuntu-latest, windows-latest]
@@ -129,7 +129,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -154,7 +154,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
       fail-fast: false
     runs-on: macos-latest
     steps:
@@ -178,7 +178,7 @@ jobs:
     strategy:
       matrix:
         # node_version: [lts/*, latest]
-        node_version: [lts/*, lts/-1]
+        node_version: [22, 20]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

@@ -33,8 +33,6 @@ const sha = gitShaSync(cwd, {short: true})
 
 const manifest = async (path: string, nodeVersion: string) => {
   const list = await aws.s3.listObjects({Bucket: bucket, Prefix: `${basePrefix}/${path}`})
-  console.log('---- List ----')
-  console.log(list)
   const manifestFile = list.Contents?.map((listObject) => listObject.Key).find(
     (f) => f!.includes(target) && f!.endsWith('-buildmanifest'),
   )
@@ -86,11 +84,9 @@ describe('upload tarballs', async () => {
   })
 
   skipIfWindows('checks uploads for version and channel', async () => {
-    await runCommand('pack tarballs --parallel --xz', undefined, {print: true})
-    await runCommand('upload tarballs --xz', undefined, {print: true})
-    await runCommand(`promote --channel ${pjson.version} --sha ${sha} --version ${pjson.version}`, undefined, {
-      print: true,
-    })
+    await runCommand('pack tarballs --parallel --xz')
+    await runCommand('upload tarballs --xz')
+    await runCommand(`promote --channel ${pjson.version} --sha ${sha} --version ${pjson.version}`)
     await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
     await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
   })

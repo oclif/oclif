@@ -159,11 +159,17 @@ export default {
         }),
       listObjects: (options: ListObjectsV2Request) =>
         new Promise<ListObjectsV2Output>((resolve, reject) => {
-          debug('listObjects', `s3://${options.Bucket}/${options.Prefix}`)
+          console.log('listObjects', `s3://${options.Bucket}/${options.Prefix}`)
           aws.s3
             ?.send(new ListObjectsV2Command(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              console.log('DATA', data)
+              resolve(data)
+            })
+            .catch((error) => {
+              console.log('ERROR', error)
+              reject(error)
+            })
         }),
       uploadFile: (local: string, options: PutObjectRequest, {dryRun}: {dryRun?: boolean} = {}) =>
         new Promise<PutObjectOutput>((resolve, reject) => {

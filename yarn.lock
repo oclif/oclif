@@ -1713,10 +1713,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4", "@oclif/core@^4.0.30":
-  version "4.0.30"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.30.tgz#65672282756bf19fde3830cab6d8031bf6236064"
-  integrity sha512-Ak3OUdOcoovIRWZOT6oC5JhZgyJD90uWX/7HjSofn+C4LEmHxxfiyu04a73dwnezfzqDu9jEXfd2mQOOC54KZw==
+"@oclif/core@^4", "@oclif/core@^4.0.31":
+  version "4.0.31"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.0.31.tgz#3f7ac806f27de6a87a7ee7caab8826687ce50412"
+  integrity sha512-7oyIZv/C1TP+fPc2tSzVPYqG1zU+nel1QvJxjAWyVhud0J8B5SpKZnryedxs3nlSVPJ6K1MT31C9esupCBYgZw==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.3.2"
@@ -1727,7 +1727,7 @@
     get-package-type "^0.1.0"
     globby "^11.1.0"
     indent-string "^4.0.0"
-    is-wsl "^3"
+    is-wsl "^2.2.0"
     lilconfig "^3.1.2"
     minimatch "^9.0.5"
     semver "^7.6.3"
@@ -4721,11 +4721,6 @@ is-docker@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-2.2.1.tgz#33eeabe23cfe86f14bde4408a02c0cfb853acdaa"
   integrity sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==
 
-is-docker@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-3.0.0.tgz#90093aa3106277d8a77a5910dbae71747e15a200"
-  integrity sha512-eljcgEDlEns/7AXFosB5K/2nCM4P7FQPkGc/DWLy5rmFEWvZayGrik1d9/QIY5nJ4f9YsVvBkA6kJpHn9rISdQ==
-
 is-extglob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/is-extglob/-/is-extglob-2.1.1.tgz#a88c02535791f02ed37c76a1b9ea9773c833f8c2"
@@ -4754,13 +4749,6 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@^4.0.3, is-glob@~4.0.1:
   integrity sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==
   dependencies:
     is-extglob "^2.1.1"
-
-is-inside-container@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-inside-container/-/is-inside-container-1.0.0.tgz#e81fba699662eb31dbdaf26766a61d4814717ea4"
-  integrity sha512-KIYLCCJghfHZxqjYBE7rEy0OBuTd5xCHS7tHVgvCLkx7StIoaxwNW3hCALgEUjFfeRk+MG/Qxmp/vtETEF3tRA==
-  dependencies:
-    is-docker "^3.0.0"
 
 is-negative-zero@^2.0.3:
   version "2.0.3"
@@ -4885,13 +4873,6 @@ is-wsl@^2.2.0:
   integrity sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww==
   dependencies:
     is-docker "^2.0.0"
-
-is-wsl@^3:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/is-wsl/-/is-wsl-3.1.0.tgz#e1c657e39c10090afcbedec61720f6b924c3cbd2"
-  integrity sha512-UcVfVfaK4Sc4m7X3dUSoHoozQGBEFeDC+zVo06t98xe8CzHSZZBekNXH+tu0NalHolcJ/QAGqS46Hef7QXBIMw==
-  dependencies:
-    is-inside-container "^1.0.0"
 
 isarray@^2.0.5:
   version "2.0.5"

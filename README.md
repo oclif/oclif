@@ -5,6 +5,7 @@
 [![Version](https://img.shields.io/npm/v/oclif.svg)](https://npmjs.org/package/oclif)
 [![Downloads/week](https://img.shields.io/npm/dw/oclif.svg)](https://npmjs.org/package/oclif/oclif)
 [![License](https://img.shields.io/npm/l/oclif.svg)](https://github.com/oclif/oclif/blob/main/package.json)
+[![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20oclif%20CLI%20Guru-006BFF)](https://gurubase.io/g/oclif-cli)
 
 <!-- toc -->
 

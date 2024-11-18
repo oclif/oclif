@@ -1739,10 +1739,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-help@^6.2.16":
-  version "6.2.16"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.16.tgz#3cb6c068739bc934159dc430d4f8ca7f9effa22a"
-  integrity sha512-1x/Bm0LebDouDOfsjkOz+6AXqY6gIZ6JmmU/KuF/GnUmowDvj5i3MFlP9uBTiN8UsOUeT9cdLwnc1kmitHWFTg==
+"@oclif/plugin-help@^6.2.17":
+  version "6.2.17"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.17.tgz#e2a063cdde2c5c08fa6838abbe05652719508e52"
+  integrity sha512-+Z+xC11h+f4SHX1pW5lhoCT+aC0bQABfnRsIs/02gf7dZ1XSfi1I17ZMrrzYCcUNcDJA33guKUQeUK740hXPlw==
   dependencies:
     "@oclif/core" "^4"
 

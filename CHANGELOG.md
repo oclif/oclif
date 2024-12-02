@@ -1,3 +1,9 @@
+# [4.16.0](https://github.com/oclif/oclif/compare/4.15.30...4.16.0) (2024-12-02)
+
+### Features
+
+- allow custom tsconfig ([#1618](https://github.com/oclif/oclif/issues/1618)) ([9e4ec58](https://github.com/oclif/oclif/commit/9e4ec5805cccb974f013741a7d0c585270c30202))
+
 ## [4.15.30](https://github.com/oclif/oclif/compare/4.15.29...4.15.30) (2024-12-01)
 
 ### Bug Fixes

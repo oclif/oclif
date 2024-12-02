@@ -11,7 +11,8 @@ Adds commands to README.md in current directory.
 ```
 USAGE
   $ oclif readme --output-dir <value> --readme-path <value> [--aliases] [--dry-run] [--nested-topics-depth
-    <value> --multi] [--plugin-directory <value>] [--repository-prefix <value>] [--version <value>]
+    <value> --multi] [--plugin-directory <value>] [--repository-prefix <value>] [--version <value>] [--tsconfig-path
+    <value>]
 
 FLAGS
   --[no-]aliases                 Include aliases in the command list.
@@ -22,6 +23,7 @@ FLAGS
   --plugin-directory=<value>     Plugin directory to generate README for. Defaults to the current directory.
   --readme-path=<value>          (required) [default: README.md] Path to the README file.
   --repository-prefix=<value>    A template string used to build links to the source code.
+  --tsconfig-path=<value>        [default: tsconfig.json] Path to the tsconfig file
   --version=<value>              Version to use in readme links. Defaults to the version in package.json.
 
 DESCRIPTION
@@ -38,4 +40,4 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.15.30/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.16.0/src/commands/readme.ts)_

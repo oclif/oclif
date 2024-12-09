@@ -128,10 +128,10 @@
     "@smithy/util-waiter" "^3.1.7"
     tslib "^2.6.2"
 
-"@aws-sdk/client-s3@^3.701.0":
-  version "3.701.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.701.0.tgz#67abfa23c657c0340a6d32dec0b20f84f04b7f2c"
-  integrity sha512-7iXmPC5r7YNjvwSsRbGq9oLVgfIWZesXtEYl908UqMmRj2sVAW/leLopDnbLT7TEedqlK0RasOZT05I0JTNdKw==
+"@aws-sdk/client-s3@^3.705.0":
+  version "3.705.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.705.0.tgz#7a4a4784bd5b3ca3187ff876b771eaf0cbde1c42"
+  integrity sha512-Fm0Cbc4zr0yG0DnNycz7ywlL5tQFdLSb7xCIPfzrxJb3YQiTXWxH5eu61SSsP/Z6RBNRolmRPvst/iNgX0fWvA==
   dependencies:
     "@aws-crypto/sha1-browser" "5.2.0"
     "@aws-crypto/sha256-browser" "5.2.0"

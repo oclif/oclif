@@ -49,12 +49,12 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     'repository-prefix': Flags.string({
       description: 'A template string used to build links to the source code.',
     }),
-    version: Flags.string({
-      description: 'Version to use in readme links. Defaults to the version in package.json.',
-    }),
     'tsconfig-path': Flags.string({
       default: 'tsconfig.json',
       description: 'Path to the tsconfig file',
+    }),
+    version: Flags.string({
+      description: 'Version to use in readme links. Defaults to the version in package.json.',
     }),
   }
 

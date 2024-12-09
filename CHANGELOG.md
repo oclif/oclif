@@ -1,3 +1,11 @@
+## [4.16.2](https://github.com/oclif/oclif/compare/4.16.1...4.16.2) (2024-12-09)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-cloudfront from 3.687.0 to 3.699.0 ([#1626](https://github.com/oclif/oclif/issues/1626)) ([1c0ba70](https://github.com/oclif/oclif/commit/1c0ba702074b8783749f7cb18baa65427ebb6532))
+- **deps:** bump @oclif/core from 4.0.32 to 4.0.36 ([#1631](https://github.com/oclif/oclif/issues/1631)) ([fe0a271](https://github.com/oclif/oclif/commit/fe0a271a8ffd6202ab1b61de4c4a5bacbfbaca83))
+- **deps:** bump debug from 4.3.7 to 4.4.0 ([#1627](https://github.com/oclif/oclif/issues/1627)) ([2e5c3bb](https://github.com/oclif/oclif/commit/2e5c3bbfbb7c6dbf95724113bd6498e35d354262))
+
 ## [4.16.1](https://github.com/oclif/oclif/compare/4.16.0...4.16.1) (2024-12-09)
 
 ### Bug Fixes

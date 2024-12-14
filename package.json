@@ -15,7 +15,7 @@
     "@inquirer/select": "^2.5.0",
     "@oclif/core": "^4.0.36",
     "@oclif/plugin-help": "^6.2.17",
-    "@oclif/plugin-not-found": "^3.2.25",
+    "@oclif/plugin-not-found": "^3.2.30",
     "@oclif/plugin-warn-if-update-available": "^3.1.21",
     "async-retry": "^1.3.3",
     "chalk": "^4",

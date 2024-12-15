@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19",
-    "@oclif/plugin-legacy": "^2.0.13",
+    "@oclif/plugin-legacy": "^2.0.19",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4",
     "@types/async-retry": "^1.4.5",

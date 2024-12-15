@@ -1382,15 +1382,15 @@
   dependencies:
     "@oclif/core" "^4"
 
-"@oclif/plugin-legacy@^2.0.13":
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.18.tgz#352d417978829bbac6a5d06c687dcbbf909cb979"
-  integrity sha512-pGCQAajhLMdmMWnEbXF9Z/z3eg+T2DG1jUMXGEu4U3bG9QzlF6jgKBlZKeiAM64flMLz/6mK9g4YScAayNq50g==
+"@oclif/plugin-legacy@^2.0.19":
+  version "2.0.19"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.19.tgz#73351a64573247d44a0943bc37731a5f1b1fb550"
+  integrity sha512-xgOGqJvrcIbw7oGCLLCaLnXGqnD6AqtO53UAEDC+yeUfWDua/Wxwg8ZkPH+Xda+4JVFrDJVe1s8Yvqjl6HEwVg==
   dependencies:
     "@oclif/color" "^1.0.13"
     "@oclif/core" "^3.27.0"
     ansi-escapes "^4.3.2"
-    debug "^4.3.7"
+    debug "^4.4.0"
     semver "^7.6.3"
 
 "@oclif/plugin-not-found@^3.2.25":
@@ -3072,7 +3072,7 @@ debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.3.5, debug@^4.3.6, debug@^4.3.7, debug@^4.4.0, debug@~4.4.0:
+debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.3.5, debug@^4.3.6, debug@^4.4.0, debug@~4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.4.0.tgz#2b3f2aea2ffeb776477460267377dc8710faba8a"
   integrity sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==

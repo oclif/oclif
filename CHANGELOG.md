@@ -1,3 +1,9 @@
+# [4.17.0](https://github.com/oclif/oclif/compare/4.16.5...4.17.0) (2024-12-17)
+
+### Features
+
+- allow pack:tarball on windows ([#1638](https://github.com/oclif/oclif/issues/1638)) ([2d11d98](https://github.com/oclif/oclif/commit/2d11d98e7108776009fd7279f447d067539b24c2))
+
 ## [4.16.5](https://github.com/oclif/oclif/compare/4.16.4...4.16.5) (2024-12-16)
 
 ### Bug Fixes

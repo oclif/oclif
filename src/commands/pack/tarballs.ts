@@ -23,7 +23,6 @@ Add a pretarball script to your package.json if you need to run any scripts befo
   static summary = 'Package oclif CLI into tarballs.'
 
   async run(): Promise<void> {
-    if (process.platform === 'win32') throw new Error('pack does not function on windows')
     const {flags} = await this.parse(PackTarballs)
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(','), xz: flags.xz})
     if (buildConfig.targets.length === 0) {
@@ -32,6 +31,7 @@ Add a pretarball script to your package.json if you need to run any scripts befo
 
     await Tarballs.build(buildConfig, {
       parallel: flags.parallel,
+      ...(process.platform === 'win32' ? {platform: 'win32'} : {}),
       pruneLockfiles: flags['prune-lockfiles'],
       tarball: flags.tarball,
     })

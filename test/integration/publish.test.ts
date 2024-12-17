@@ -20,7 +20,7 @@ const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
-const skipIfWindows = process.platform === 'win32' ? it.skip : it
+
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 const cwd = process.cwd()
 pjson.version = `${pjson.version}-${testRun}`
@@ -83,7 +83,7 @@ describe('upload tarballs', async () => {
     await writeJSON(pjsonPath, originalPJSON, {spaces: 2})
   })
 
-  skipIfWindows('checks uploads for version and channel', async () => {
+  it('checks uploads for version and channel', async () => {
     await runCommand('pack tarballs --parallel --xz')
     await runCommand('upload tarballs --xz')
     await runCommand(`promote --channel ${pjson.version} --sha ${sha} --version ${pjson.version}`)

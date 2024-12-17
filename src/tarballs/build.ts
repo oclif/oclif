@@ -22,8 +22,8 @@ const pack = async (from: string, to: string) => {
   await mkdir(path.dirname(to), {recursive: true})
   log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`)
   to.endsWith('gz')
-    ? await exec(`tar czf ${to} ${path.basename(from)}`, {cwd})
-    : await exec(`tar cfJ ${to} ${path.basename(from)}`, {cwd})
+    ? await exec(`tar czf ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
+    : await exec(`tar cfJ ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
 }
 
 const isYarnProject = (yarnRootPath: string) => {

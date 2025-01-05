@@ -1403,13 +1403,13 @@
     ansis "^3.5.2"
     fast-levenshtein "^3.0.0"
 
-"@oclif/plugin-warn-if-update-available@^3.1.28":
-  version "3.1.28"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.1.28.tgz#61fc80da9ea819606711962d74686978f7c6039b"
-  integrity sha512-15UI0yrzsodQLltntbUOmR7Nyd1tmUWzbcnR7QJvWMgEMuImNjqNdSaeXUFc3UBtaK266YatJYJWL5SCb/MTWw==
+"@oclif/plugin-warn-if-update-available@^3.1.29":
+  version "3.1.29"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.1.29.tgz#0e4eabce38b3167cfc56c7b5871024859138cfae"
+  integrity sha512-NmD6hcyBquo9TV26tnYnsbyR69VzaeMC3kqks0YT2947CSJS7smONMxpkjU2P4kLTH4Tn8/n5w/sjoegNe1jdw==
   dependencies:
     "@oclif/core" "^4"
-    ansis "^3.4.0"
+    ansis "^3.5.2"
     debug "^4.4.0"
     http-call "^5.2.2"
     lodash "^4.17.21"

@@ -55,7 +55,7 @@
     "commitlint": "^19",
     "eslint": "^8.57.1",
     "eslint-config-oclif": "^5.2.2",
-    "eslint-config-oclif-typescript": "^3.1.12",
+    "eslint-config-oclif-typescript": "^3.1.13",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-perfectionist": "^2.11.0",
     "husky": "^9.1.7",

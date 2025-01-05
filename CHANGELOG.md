@@ -1,3 +1,9 @@
+## [4.17.8](https://github.com/oclif/oclif/compare/4.17.7...4.17.8) (2025-01-05)
+
+### Bug Fixes
+
+- **deps:** bump sort-package-json from 2.10.1 to 2.12.0 ([76cc6a8](https://github.com/oclif/oclif/commit/76cc6a8e8d169b26b355f3535c2f77bdaf9eb0a8))
+
 ## [4.17.7](https://github.com/oclif/oclif/compare/4.17.6...4.17.7) (2024-12-30)
 
 ### Bug Fixes

@@ -1,3 +1,9 @@
+## [4.17.10](https://github.com/oclif/oclif/compare/4.17.9...4.17.10) (2025-01-06)
+
+### Bug Fixes
+
+- **deps:** bump @aws-sdk/client-s3 from 3.717.0 to 3.722.0 ([28fb26c](https://github.com/oclif/oclif/commit/28fb26c560a9089e8f6a5d28bbf2694c4ba4fdfb))
+
 ## [4.17.9](https://github.com/oclif/oclif/compare/4.17.8...4.17.9) (2025-01-05)
 
 ### Bug Fixes

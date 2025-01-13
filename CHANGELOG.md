@@ -1,3 +1,9 @@
+## [4.17.11](https://github.com/oclif/oclif/compare/4.17.10...4.17.11) (2025-01-13)
+
+### Bug Fixes
+
+- update release workflow to include build and prepack steps ([ca64c0d](https://github.com/oclif/oclif/commit/ca64c0d916ee38811405908887119f8320a0499f))
+
 ## [4.17.10](https://github.com/oclif/oclif/compare/4.17.9...4.17.10) (2025-01-06)
 
 ### Bug Fixes

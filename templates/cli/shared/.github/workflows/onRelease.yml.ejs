@@ -13,6 +13,9 @@ jobs:
         with:
           node-version: latest
       - run: <%- install %>
+      - run: <%- run %> build
+      - run: <%- run %> prepack
       - uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c
         with:
           token: ${{ secrets.NPM_TOKEN }}
+      - run: <%- run %> postpack

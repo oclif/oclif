@@ -1767,10 +1767,10 @@
     ansis "^3.5.2"
     fast-levenshtein "^3.0.0"
 
-"@oclif/plugin-warn-if-update-available@^3.1.29":
-  version "3.1.29"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.1.29.tgz#0e4eabce38b3167cfc56c7b5871024859138cfae"
-  integrity sha512-NmD6hcyBquo9TV26tnYnsbyR69VzaeMC3kqks0YT2947CSJS7smONMxpkjU2P4kLTH4Tn8/n5w/sjoegNe1jdw==
+"@oclif/plugin-warn-if-update-available@^3.1.30":
+  version "3.1.30"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.1.30.tgz#e7b2d7d0dde92df095287e45d415ae24f594b541"
+  integrity sha512-mluHDyIraM8T0Je25npNwV0p8T2cudeTe1N6P6KQ2rgPpgcW59Z+vze0VSJcZ7f+S65M3mk0TXn3qj7gtS3PLA==
   dependencies:
     "@oclif/core" "^4"
     ansis "^3.5.2"

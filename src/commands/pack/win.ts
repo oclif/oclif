@@ -14,7 +14,7 @@ const exec = promisify(execSync)
 const scripts = {
   /* eslint-disable no-useless-escape */
 
-  cmd: (config: Interfaces.Config, additionalCLI?: string | undefined) => `@echo off
+  cmd: (config: Interfaces.Config, additionalCLI?: string, nodeOptions?: string[]) => `@echo off
 setlocal enableextensions
 
 set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEnvVarKey('BINPATH')}=%~dp0\\${
@@ -23,7 +23,7 @@ set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEn
 if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" (
   "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
-  "%~dp0\\..\\client\\bin\\node.exe" "%~dp0\\..\\client\\${
+  "%~dp0\\..\\client\\bin\\node.exe" ${`${nodeOptions?.join(' ')} `}"%~dp0\\..\\client\\${
     additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'
   }" %*
 )
@@ -288,7 +288,10 @@ the CLI should already exist in a directory named after the CLI that is the root
         await rm(installerBase, {force: true, recursive: true})
         await mkdir(path.join(installerBase, 'bin'), {recursive: true})
         await Promise.all([
-          writeFile(path.join(installerBase, 'bin', `${config.bin}.cmd`), scripts.cmd(config)),
+          writeFile(
+            path.join(installerBase, 'bin', `${config.bin}.cmd`),
+            scripts.cmd(config, undefined, buildConfig.nodeOptions),
+          ),
           writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
           writeFile(
             path.join(installerBase, `${config.bin}.nsi`),

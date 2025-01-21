@@ -1,3 +1,11 @@
+## [4.17.17](https://github.com/oclif/oclif/compare/4.17.17-dev.0...4.17.17) (2025-01-21)
+
+## [4.17.17-dev.0](https://github.com/oclif/oclif/compare/4.17.16...4.17.17-dev.0) (2025-01-20)
+
+### Bug Fixes
+
+- include `nodeOptions` in win installer bin ([616187e](https://github.com/oclif/oclif/commit/616187e1197ee34a5518b465d25325e5a08304f5))
+
 ## [4.17.16](https://github.com/oclif/oclif/compare/4.17.15...4.17.16) (2025-01-20)
 
 ### Bug Fixes

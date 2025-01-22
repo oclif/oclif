@@ -5,13 +5,13 @@ import {readdir} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 import validatePkgName from 'validate-npm-package-name'
 
-import {FlaggablePrompt, GeneratorCommand, exec, makeFlags} from '../generator'
+import {exec, FlaggablePrompt, GeneratorCommand, makeFlags} from '../generator'
 import {debug as Debug} from '../log'
 import {validateBin} from '../util'
 
 const debug = Debug.new('generate')
 
-async function fetchGithubUserFromAPI(): Promise<{login: string; name: string} | undefined> {
+async function fetchGithubUserFromAPI(): Promise<undefined | {login: string; name: string}> {
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN
   if (!token) return
 
@@ -34,12 +34,12 @@ async function fetchGithubUserFromGit(): Promise<string | undefined> {
   } catch {}
 }
 
-async function fetchGithubUser(): Promise<{login?: string; name: string | undefined} | undefined> {
+async function fetchGithubUser(): Promise<undefined | {login?: string; name: string | undefined}> {
   return (await fetchGithubUserFromAPI()) ?? {name: await fetchGithubUserFromGit()}
 }
 
 function determineDefaultAuthor(
-  user: {login?: string; name: string | undefined} | undefined,
+  user: undefined | {login?: string; name: string | undefined},
   defaultValue: string,
 ): string {
   const {login, name} = user ?? {login: undefined, name: undefined}
@@ -94,11 +94,9 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
   static args = {
     name: Args.string({description: 'Directory name of new project.', required: true}),
   }
-
   static description = `This will generate a fully functional oclif CLI that you can build on. It will prompt you for all the necessary information to get started. If you want to skip the prompts, you can pass the --yes flag to accept the defaults for all prompts. You can also pass individual flags to set specific values for prompts.
 
 Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.`
-
   static examples = [
     {
       command: '<%= config.bin %> <%= command.id %> my-cli',
@@ -117,9 +115,7 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
       description: 'Supply answers for specific prompts and accept default values for the rest',
     },
   ]
-
   static flaggablePrompts = FLAGGABLE_PROMPTS
-
   static flags = {
     ...makeFlags(FLAGGABLE_PROMPTS),
     'dry-run': Flags.boolean({
@@ -136,7 +132,6 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
       description: 'Use defaults for all prompts. Individual flags will override defaults.',
     }),
   }
-
   static summary = 'Generate a new CLI'
 
   async run(): Promise<void> {
@@ -202,6 +197,25 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
     await Promise.all(
       [...sharedFiles, ...moduleSpecificFiles].map(async (file) => {
         switch (file.name) {
+          case '.gitignore.ejs': {
+            await this.template(file.src, file.destination, {packageManager})
+
+            break
+          }
+
+          case 'onPushToMain.yml.ejs':
+          case 'onRelease.yml.ejs':
+          case 'test.yml.ejs': {
+            await this.template(file.src, file.destination, {
+              exec: packageManager === 'yarn' ? packageManager : `${packageManager} exec`,
+              install: packageManager === 'yarn' ? packageManager : `${packageManager} install`,
+              packageManager,
+              run: packageManager === 'yarn' ? packageManager : `${packageManager} run`,
+            })
+
+            break
+          }
+
           case 'package.json.ejs': {
             const data = {
               author,
@@ -219,27 +233,8 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
             break
           }
 
-          case '.gitignore.ejs': {
-            await this.template(file.src, file.destination, {packageManager})
-
-            break
-          }
-
           case 'README.md.ejs': {
             await this.template(file.src, file.destination, {description, name, repository})
-
-            break
-          }
-
-          case 'onPushToMain.yml.ejs':
-          case 'onRelease.yml.ejs':
-          case 'test.yml.ejs': {
-            await this.template(file.src, file.destination, {
-              exec: packageManager === 'yarn' ? packageManager : `${packageManager} exec`,
-              install: packageManager === 'yarn' ? packageManager : `${packageManager} install`,
-              packageManager,
-              run: packageManager === 'yarn' ? packageManager : `${packageManager} run`,
-            })
 
             break
           }

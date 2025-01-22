@@ -9,9 +9,7 @@ export default class GenerateCommand extends GeneratorCommand<typeof GenerateCom
   static args = {
     name: Args.string({description: 'name of command', required: true}),
   }
-
   static description = 'Add a command to an existing CLI or plugin.'
-
   static flags = {
     'commands-dir': Flags.string({default: 'src/commands', description: 'The directory to create the command in.'}),
     force: Flags.boolean({description: 'Overwrite existing files.'}),

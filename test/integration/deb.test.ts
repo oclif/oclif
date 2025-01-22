@@ -3,7 +3,7 @@ import {expect} from 'chai'
 import * as fs from 'fs-extra'
 import _ from 'lodash'
 import {exec as execSync} from 'node:child_process'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 
 import {gitSha} from '../../src/tarballs'

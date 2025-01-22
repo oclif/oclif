@@ -1,19 +1,15 @@
-// eslint-disable-next-line node/no-extraneous-import
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class Hello extends Command {
   static args = {
     file: Args.string(),
   }
-
   static description = 'describe the command here'
-
   static examples = [
     `$ cli-with-custom-help hello
 hello world from ./src/hello.ts!
 `,
   ]
-
   static flags = {
     // flag with no value (-f, --force)
     force: Flags.boolean({char: 'f'}),

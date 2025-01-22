@@ -42,7 +42,7 @@ const manifest = async (path: string, nodeVersion: string) => {
 
   const {default: got} = await import('got')
   const manifest = await got(`https://${developerSalesforceCom}/${manifestFile}`).json<Interfaces.S3Manifest>()
-  const test = async (url: string, expectedSha: string, nodeVersion: string) => {
+  const runTest = async (url: string, expectedSha: string, nodeVersion: string) => {
     const xz = url.endsWith('.tar.xz')
     const ext = xz ? '.tar.xz' : '.tar.gz'
     await pipeline(got.stream(url), createWriteStream(join(root, `oclif${ext}`)))
@@ -59,8 +59,8 @@ const manifest = async (path: string, nodeVersion: string) => {
     await rm(join(root, 'oclif'), {recursive: true})
   }
 
-  await test(manifest.gz, manifest.sha256gz, nodeVersion)
-  await test(manifest.xz!, manifest.sha256xz!, nodeVersion)
+  await runTest(manifest.gz, manifest.sha256gz, nodeVersion)
+  await runTest(manifest.xz!, manifest.sha256xz!, nodeVersion)
 }
 
 const folderCleanup = async () =>
@@ -75,6 +75,7 @@ describe('upload tarballs', async () => {
     await writeJSON(pjsonPath, pjson, {spaces: 2})
     await emptyDir(root)
   })
+
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
       await folderCleanup()

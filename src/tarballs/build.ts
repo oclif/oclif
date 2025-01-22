@@ -4,7 +4,7 @@ import {copy, emptyDir, move, readJSON, remove, writeJSON} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {mkdir, readdir, rm} from 'node:fs/promises'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 import {lt} from 'semver'
 
@@ -21,9 +21,13 @@ const pack = async (from: string, to: string) => {
   const cwd = path.dirname(from)
   await mkdir(path.dirname(to), {recursive: true})
   log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`)
-  to.endsWith('gz')
-    ? await exec(`tar czf ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
-    : await exec(`tar cfJ ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
+  if (to.endsWith('gz')) {
+    return exec(`tar czf ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {
+      cwd,
+    })
+  }
+
+  await exec(`tar cfJ ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
 }
 
 const isYarnProject = (yarnRootPath: string) => {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line node/no-extraneous-import
 import {Command, Help} from '@oclif/core'
 
 export default class CustomHelp extends Help {

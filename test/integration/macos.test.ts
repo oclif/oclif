@@ -3,13 +3,12 @@ import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'
 import _ from 'lodash'
 import {createWriteStream} from 'node:fs'
-import * as path from 'node:path'
+import path from 'node:path'
 import {pipeline} from 'node:stream/promises'
 import {exec} from 'shelljs'
 
-import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
-
 const pjson = require('../../package.json')
+import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
 const pjsonPath = require.resolve('../../package.json')
 const originalPJSON = _.cloneDeep(pjson)
 
@@ -34,6 +33,7 @@ describe('publish:macos', () => {
     await writeJSON(pjsonPath, pjson, {spaces: 2})
     await emptyDir(root)
   })
+
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
       await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)

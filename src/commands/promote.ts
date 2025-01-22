@@ -1,6 +1,6 @@
 import {MetadataDirective, ObjectCannedACL} from '@aws-sdk/client-s3'
 import {Command, Flags, ux} from '@oclif/core'
-import * as path from 'node:path'
+import path from 'node:path'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
@@ -10,7 +10,6 @@ import {appendToIndex} from '../version-indexes'
 
 export default class Promote extends Command {
   static description = 'Promote CLI builds to a S3 release channel.'
-
   static flags = {
     channel: Flags.string({default: 'stable', description: 'Channel to promote to.', required: true}),
     deb: Flags.boolean({char: 'd', description: 'Promote debian artifacts.'}),

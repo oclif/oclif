@@ -1,6 +1,6 @@
 import {ObjectCannedACL} from '@aws-sdk/client-s3'
 import * as fs from 'fs-extra'
-import * as path from 'node:path'
+import path from 'node:path'
 
 import aws from './aws'
 import {debug as Debug} from './log'

@@ -4,7 +4,7 @@ import {copy, ensureDir, move} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import {createWriteStream, existsSync} from 'node:fs'
 import {mkdir} from 'node:fs/promises'
-import * as path from 'node:path'
+import path from 'node:path'
 import {pipeline} from 'node:stream/promises'
 import {promisify} from 'node:util'
 

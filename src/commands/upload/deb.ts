@@ -1,15 +1,14 @@
 import {Command, Flags} from '@oclif/core'
 import * as fs from 'node:fs'
-import * as path from 'node:path'
+import path from 'node:path'
 
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {DebArch, commitAWSDir, debArch, debVersion, templateShortKey} from '../../upload-util'
+import {commitAWSDir, DebArch, debArch, debVersion, templateShortKey} from '../../upload-util'
 
 export default class UploadDeb extends Command {
   static description = 'Upload deb package built with `pack deb`.'
-
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),

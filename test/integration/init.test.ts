@@ -53,8 +53,8 @@ const TS_CONFIGS: Record<'CommonJS' | 'ESM', Record<string, unknown>> = {
 
 async function compile(cwd: string): Promise<void> {
   switch (PACKAGE_MANAGER) {
-    case 'yarn': {
-      await exec('yarn tsc', {cwd})
+    case 'npm': {
+      await exec('npm exec tsc', {cwd})
       break
     }
 
@@ -63,8 +63,8 @@ async function compile(cwd: string): Promise<void> {
       break
     }
 
-    case 'npm': {
-      await exec('npm exec tsc', {cwd})
+    case 'yarn': {
+      await exec('yarn tsc', {cwd})
       break
     }
 
@@ -76,9 +76,9 @@ async function compile(cwd: string): Promise<void> {
 
 async function addDeps(cwd: string): Promise<void> {
   switch (PACKAGE_MANAGER) {
-    case 'yarn': {
-      await exec('yarn init --yes', {cwd})
-      await exec('yarn add typescript --dev', {cwd})
+    case 'npm': {
+      await exec('npm init --yes', {cwd})
+      await exec('npm install typescript --save-dev', {cwd})
       break
     }
 
@@ -88,9 +88,9 @@ async function addDeps(cwd: string): Promise<void> {
       break
     }
 
-    case 'npm': {
-      await exec('npm init --yes', {cwd})
-      await exec('npm install typescript --save-dev', {cwd})
+    case 'yarn': {
+      await exec('yarn init --yes', {cwd})
+      await exec('yarn add typescript --dev', {cwd})
       break
     }
 

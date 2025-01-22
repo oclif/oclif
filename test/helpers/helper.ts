@@ -17,6 +17,7 @@ export const findDistFileSha = async (
 ): Promise<string[]> => {
   const distFiles = await fs.promises.readdir(`${cwd}/dist/${platform}/`)
   const pkg = distFiles.find((element) => filter(element)) as string
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   expect(pkg).to.be.ok
   return [pkg, await gitSha(process.cwd(), {short: true})]
 }

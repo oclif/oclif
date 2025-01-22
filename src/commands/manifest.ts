@@ -1,8 +1,8 @@
 import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
 import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
-import {ExecOptions, exec} from 'node:child_process'
+import {exec, ExecOptions} from 'node:child_process'
 import * as os from 'node:os'
-import * as path from 'node:path'
+import path from 'node:path'
 import {pipeline as pipelineSync} from 'node:stream'
 import {promisify} from 'node:util'
 import {maxSatisfying} from 'semver'
@@ -22,9 +22,7 @@ export default class Manifest extends Command {
   static args = {
     path: Args.string({default: '.', description: 'Path to plugin.'}),
   }
-
   static description = 'Generates plugin manifest json (oclif.manifest.json).'
-
   static flags = {
     jit: Flags.boolean({
       allowNo: true,

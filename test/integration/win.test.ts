@@ -2,13 +2,12 @@ import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'
 import {createWriteStream} from 'node:fs'
-import * as path from 'node:path'
+import path from 'node:path'
 import {pipeline} from 'node:stream/promises'
 
+const pjson = require('../../package.json')
 import {gitSha} from '../../src/tarballs'
 import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersionsURI} from '../helpers/helper'
-
-const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 
@@ -32,6 +31,7 @@ describe('publish:win', () => {
     await writeJSON(pjsonPath, pjson, {spaces: 2})
     await emptyDir(root)
   })
+
   afterEach(async () => {
     if (!process.env.PRESERVE_ARTIFACTS) {
       // set this env var to keep the packed windows CLI in the bucket

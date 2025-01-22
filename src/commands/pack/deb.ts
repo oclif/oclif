@@ -2,7 +2,7 @@ import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import * as fsPromises from 'node:fs/promises'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 
 import * as Tarballs from '../../tarballs'
@@ -54,7 +54,6 @@ APT::FTPArchive::Release {
 export default class PackDeb extends Command {
   static description =
     'Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.'
-
   static flags = {
     compression: Flags.option({
       options: ['gzip', 'none', 'xz', 'zstd'] as const,
@@ -73,7 +72,6 @@ export default class PackDeb extends Command {
       required: false,
     }),
   }
-
   static summary = 'Pack CLI into debian package.'
 
   async run(): Promise<void> {

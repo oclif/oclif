@@ -8,7 +8,6 @@ import {commitAWSDir, templateShortKey} from '../../upload-util'
 
 export default class UploadWin extends Command {
   static description = 'Upload windows installers built with `pack win`.'
-
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),

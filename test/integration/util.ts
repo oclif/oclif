@@ -1,4 +1,4 @@
-import {ExecOptions, exec as cpExec} from 'node:child_process'
+import {exec as cpExec, ExecOptions} from 'node:child_process'
 
 export async function exec(
   command: string,

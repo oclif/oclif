@@ -17,6 +17,7 @@ export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config
 }
 
 type TemplateOptions =
+  | Interfaces.Config.s3Key.Options
   | {
       arch?: DebArch | Interfaces.ArchTypes
       bin?: string
@@ -25,7 +26,6 @@ type TemplateOptions =
       version?: string
       versionShaRevision?: string
     }
-  | Interfaces.Config.s3Key.Options
 
 // TODO: refactor this key name lookup helper to oclif/core
 export function templateShortKey(

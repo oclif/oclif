@@ -21,7 +21,8 @@ export function uniqBy<T>(arr: T[], fn: (cur: T) => unknown): T[] {
 }
 
 export function compact<T>(a: (T | undefined)[]): T[] {
-  return a.filter(Boolean)
+  // eslint-disable-next-line unicorn/prefer-native-coercion-functions
+  return a.filter((a): a is T => Boolean(a))
 }
 
 export function uniq<T>(arr: T[]): T[] {

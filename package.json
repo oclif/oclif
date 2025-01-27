@@ -55,7 +55,7 @@
     "chai": "^4.5.0",
     "commitlint": "^19",
     "eslint": "^9",
-    "eslint-config-oclif": "dev",
+    "eslint-config-oclif": "^6",
     "eslint-config-prettier": "^10",
     "eslint-plugin-perfectionist": "^4",
     "husky": "^9.1.7",

@@ -24,7 +24,7 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
   "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
   "%~dp0\\..\\client\\bin\\node.exe" ${`${nodeOptions?.join(' ')} `}"%~dp0\\..\\client\\${
-    additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'
+    additionalCLI ? `${additionalCLI}\\bin\\run` : String.raw`bin\run`
   }" %*
 )
 `,

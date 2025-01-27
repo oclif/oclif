@@ -21,7 +21,7 @@ export function uniqBy<T>(arr: T[], fn: (cur: T) => unknown): T[] {
 }
 
 export function compact<T>(a: (T | undefined)[]): T[] {
-  return a.filter((a): a is T => Boolean(a))
+  return a.filter(Boolean)
 }
 
 export function uniq<T>(arr: T[]): T[] {
@@ -77,7 +77,7 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
   return result
 }
 
-const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', '\\/')}`, 'g')
+const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', String.raw`\/`)}`, 'g')
 const curRegexp = new RegExp(`\\B${process.cwd()}`, 'g')
 
 export const prettifyPaths = (input: unknown): string =>

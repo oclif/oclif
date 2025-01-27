@@ -10,6 +10,7 @@ import {exec} from 'shelljs'
 const pjson = require('../../package.json')
 import {deleteFolder, developerSalesforceCom, findDistFileSha} from '../helpers/helper'
 const pjsonPath = require.resolve('../../package.json')
+// eslint-disable-next-line unicorn/prefer-structured-clone
 const originalPJSON = _.cloneDeep(pjson)
 
 const onlyMacos = process.platform === 'darwin' ? it : it.skip

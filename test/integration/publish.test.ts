@@ -18,6 +18,7 @@ const exec = promisify(execSync)
 
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
+// eslint-disable-next-line unicorn/prefer-structured-clone
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 

@@ -1,3 +1,9 @@
+## [4.17.20](https://github.com/oclif/oclif/compare/4.17.19...4.17.20) (2025-01-28)
+
+### Bug Fixes
+
+- use eslint 9 ([#1673](https://github.com/oclif/oclif/issues/1673)) ([25c5d58](https://github.com/oclif/oclif/commit/25c5d585b7b5367af7dfb862131397c80be7e18b))
+
 ## [4.17.19](https://github.com/oclif/oclif/compare/4.17.18...4.17.19) (2025-01-27)
 
 ### Bug Fixes

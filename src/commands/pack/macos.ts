@@ -2,7 +2,7 @@ import {Command, Flags, Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import * as os from 'node:os'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 
 import * as Tarballs from '../../tarballs'
@@ -140,7 +140,6 @@ exit 0
 export default class PackMacos extends Command {
   static description =
     'Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.'
-
   static flags = {
     'additional-cli': Flags.string({
       description: `An Oclif CLI other than the one listed in config.bin that should be made available to the user
@@ -164,7 +163,6 @@ the CLI should already exist in a directory named after the CLI that is the root
       description: 'Comma-separated targets to pack (e.g.: darwin-x64,darwin-arm64).',
     }),
   }
-
   static summary = 'Pack CLI into macOS .pkg'
 
   async run(): Promise<void> {

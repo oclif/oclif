@@ -2,7 +2,7 @@ import {ObjectCannedACL} from '@aws-sdk/client-s3'
 import {Config, Interfaces, ux} from '@oclif/core'
 import {exec as execSync} from 'node:child_process'
 import {mkdir} from 'node:fs/promises'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 import * as semver from 'semver'
 
@@ -21,13 +21,13 @@ export const TARGETS = [
   'darwin-arm64',
 ]
 
-export type S3Config = {
+export type S3Config = BuildConfig['updateConfig']['s3'] & {
   acl?: ObjectCannedACL
-} & {folder?: string; indexVersionLimit?: number} & BuildConfig['updateConfig']['s3']
+} & {folder?: string; indexVersionLimit?: number}
 
-export type UpdateConfig = {
-  s3?: {acl?: ObjectCannedACL} & Interfaces.S3
-} & Interfaces.OclifConfiguration['update']
+export type UpdateConfig = Interfaces.OclifConfiguration['update'] & {
+  s3?: Interfaces.S3 & {acl?: ObjectCannedACL}
+}
 
 export type BuildConfig = {
   config: Interfaces.Config

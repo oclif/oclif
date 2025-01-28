@@ -2,7 +2,7 @@ import {Args, Command, Flags, Interfaces, ux} from '@oclif/core'
 import chalk from 'chalk'
 import {renderFile} from 'ejs'
 import {outputFile} from 'fs-extra'
-import {ExecOptions, exec as cpExec} from 'node:child_process'
+import {exec as cpExec, ExecOptions} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {readFile} from 'node:fs/promises'
 import {join, relative} from 'node:path'
@@ -49,7 +49,7 @@ export type GetFlagOrPromptOptions = {
 
 export async function exec(
   command: string,
-  opts?: {silent?: boolean} & ExecOptions,
+  opts?: ExecOptions & {silent?: boolean},
 ): Promise<{stderr: string; stdout: string}> {
   const silent = opts ? opts.silent : true
   return new Promise((resolve, reject) => {
@@ -66,7 +66,7 @@ export async function exec(
 
 export async function readPJSON(
   location: string,
-): Promise<({scripts: Record<string, string>} & Interfaces.PJSON) | undefined> {
+): Promise<(Interfaces.PJSON & {scripts: Record<string, string>}) | undefined> {
   try {
     const packageJSON = await readFile(join(location, 'package.json'), 'utf8')
     return JSON.parse(packageJSON)
@@ -97,7 +97,6 @@ export function makeFlags<T extends Record<string, FlaggablePrompt>>(flaggablePr
 export abstract class GeneratorCommand<T extends typeof Command> extends Command {
   protected args!: Args<T>
   protected flaggablePrompts!: Record<string, FlaggablePrompt>
-
   protected flags!: Flags<T>
   public templatesDir!: string
 
@@ -140,21 +139,6 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     }
 
     switch (type) {
-      case 'select': {
-        return (
-          maybeFlag() ??
-          (await checkMaybeOtherValue()) ??
-          maybeDefault() ??
-          // Dynamic import because @inquirer/select is ESM only. Once oclif is ESM, we can make this a normal import
-          // so that we can avoid importing on every single question.
-          (await import('@inquirer/select')).default({
-            choices: (this.flaggablePrompts[name].options ?? []).map((o) => ({name: o, value: o})),
-            default: defaultValue,
-            message: this.flaggablePrompts[name].message,
-          })
-        )
-      }
-
       case 'input': {
         return (
           maybeFlag() ??
@@ -166,6 +150,21 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
             default: defaultValue,
             message: this.flaggablePrompts[name].message,
             validate: this.flaggablePrompts[name].validate,
+          })
+        )
+      }
+
+      case 'select': {
+        return (
+          maybeFlag() ??
+          (await checkMaybeOtherValue()) ??
+          maybeDefault() ??
+          // Dynamic import because @inquirer/select is ESM only. Once oclif is ESM, we can make this a normal import
+          // so that we can avoid importing on every single question.
+          (await import('@inquirer/select')).default({
+            choices: (this.flaggablePrompts[name].options ?? []).map((o) => ({name: o, value: o})),
+            default: defaultValue,
+            message: this.flaggablePrompts[name].message,
           })
         )
       }

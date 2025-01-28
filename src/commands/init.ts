@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import {readdir, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 
-import {FlaggablePrompt, GeneratorCommand, exec, makeFlags, readPJSON} from '../generator'
+import {exec, FlaggablePrompt, GeneratorCommand, makeFlags, readPJSON} from '../generator'
 import {validateBin} from '../util'
 
 const VALID_MODULE_TYPES = ['ESM', 'CommonJS'] as const
@@ -45,7 +45,6 @@ const FLAGGABLE_PROMPTS = {
 export default class Generate extends GeneratorCommand<typeof Generate> {
   static description =
     'This will add the necessary oclif bin files, add oclif config to package.json, and install @oclif/core and ts-node.'
-
   static examples = [
     {
       command: '<%= config.bin %> <%= command.id %>',
@@ -60,9 +59,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       description: 'Supply answers for specific prompts',
     },
   ]
-
   static flaggablePrompts = FLAGGABLE_PROMPTS
-
   static flags = {
     ...makeFlags(FLAGGABLE_PROMPTS),
     'output-dir': Flags.directory({
@@ -76,7 +73,6 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       description: 'Use defaults for all prompts. Individual flags will override defaults.',
     }),
   }
-
   static summary = 'Initialize a new oclif CLI'
 
   async run(): Promise<void> {

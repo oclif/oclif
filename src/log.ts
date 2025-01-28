@@ -1,5 +1,5 @@
 import {ux} from '@oclif/core'
-import * as util from 'node:util'
+import {format as utilFormat} from 'node:util'
 
 import {prettifyPaths} from './util'
 
@@ -8,5 +8,5 @@ debug.new = (name: string) => require('debug')(`oclif:${name}`)
 
 export function log(format: string, ...args: unknown[]): void {
   args = args.map((arg) => prettifyPaths(arg))
-  debug.enabled ? debug(format, ...args) : ux.stdout(`oclif: ${util.format(format, ...args)}`)
+  return debug.enabled ? debug(format, ...args) : ux.stdout(`oclif: ${utilFormat(format, ...args)}`)
 }

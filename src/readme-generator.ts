@@ -257,6 +257,7 @@ USAGE
   /**
    * fetches the path to a command
    */
+  // eslint-disable-next-line complexity
   private commandPath(plugin: Interfaces.Plugin, c: Command.Cached): string | undefined {
     const strategy =
       typeof plugin.pjson.oclif?.commands === 'string' ? 'pattern' : plugin.pjson.oclif?.commands?.strategy

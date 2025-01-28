@@ -9,7 +9,6 @@ import {uniq} from '../../util'
 
 export default class UploadMacos extends Command {
   static description = 'Upload macos installers built with `pack macos`.'
-
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),

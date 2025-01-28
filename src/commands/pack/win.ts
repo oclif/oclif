@@ -3,7 +3,7 @@ import {move} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import {readFileSync} from 'node:fs'
 import {mkdir, rm, writeFile} from 'node:fs/promises'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 
 import * as Tarballs from '../../tarballs'
@@ -24,7 +24,7 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
   "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
   "%~dp0\\..\\client\\bin\\node.exe" ${`${nodeOptions?.join(' ')} `}"%~dp0\\..\\client\\${
-    additionalCLI ? `${additionalCLI}\\bin\\run` : 'bin\\run'
+    additionalCLI ? `${additionalCLI}\\bin\\run` : String.raw`bin\run`
   }" %*
 )
 `,
@@ -229,7 +229,6 @@ export default class PackWin extends Command {
 This command will produce unsigned installers unless you supply WINDOWS_SIGNING_PASS (prefixed with the name of your executable, e.g. OCLIF_WINDOWS_SIGNING_PASS) in the environment and have set the windows.name and windows.keypath properties in your package.json's oclif property.
 
 Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.`
-
   static flags = {
     'additional-cli': Flags.string({
       description: `An Oclif CLI other than the one listed in config.bin that should be made available to the user
@@ -262,7 +261,6 @@ the CLI should already exist in a directory named after the CLI that is the root
       description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).',
     }),
   }
-
   static summary = 'Create windows installer from oclif CLI'
 
   async run(): Promise<void> {

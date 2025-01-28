@@ -3,7 +3,7 @@ import {expect} from 'chai'
 import * as fs from 'fs-extra'
 import _ from 'lodash'
 import {exec as execSync} from 'node:child_process'
-import * as path from 'node:path'
+import path from 'node:path'
 import {promisify} from 'node:util'
 
 import {gitSha} from '../../src/tarballs'
@@ -12,6 +12,7 @@ import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
 const pjsonPath = require.resolve('../../package.json')
+// eslint-disable-next-line unicorn/prefer-structured-clone
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 

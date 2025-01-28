@@ -6,7 +6,6 @@ export default class PackTarballs extends Command {
   static description = `This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
 
 Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.`
-
   static flags = {
     parallel: Flags.boolean({description: 'Build tarballs in parallel.'}),
     'prune-lockfiles': Flags.boolean({description: 'remove lockfiles in the tarball.'}),
@@ -19,7 +18,6 @@ Add a pretarball script to your package.json if you need to run any scripts befo
     targets: Flags.string({char: 't', description: 'Comma-separated targets to pack (e.g.: linux-arm,win32-x64).'}),
     xz: Flags.boolean({allowNo: true, description: 'Also build xz.'}),
   }
-
   static summary = 'Package oclif CLI into tarballs.'
 
   async run(): Promise<void> {

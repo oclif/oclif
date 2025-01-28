@@ -11,9 +11,7 @@ export default class GenerateHook extends GeneratorCommand<typeof GenerateHook> 
   static args = {
     name: Args.string({description: 'Name of hook (snake_case).', required: true}),
   }
-
   static description = 'Add a hook to an existing CLI or plugin.'
-
   static flags = {
     event: Flags.string({
       default: 'init',

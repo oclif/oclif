@@ -78,7 +78,7 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
   return result
 }
 
-const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', '\\/')}`, 'g')
+const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', String.raw`\/`)}`, 'g')
 const curRegexp = new RegExp(`\\B${process.cwd()}`, 'g')
 
 export const prettifyPaths = (input: unknown): string =>

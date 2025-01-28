@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import {Config, ux} from '@oclif/core'
 import {expect} from 'chai'
 import sinon from 'sinon'

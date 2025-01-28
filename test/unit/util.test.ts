@@ -18,6 +18,7 @@ describe('validateBin', () => {
   ]
 
   const invalidBins = ['foo bar', 'foo!bar']
+
   it('should return true for valid bins', () => {
     for (const bin of validBins) {
       expect(validateBin(bin), `${bin} to be valid`).to.be.true

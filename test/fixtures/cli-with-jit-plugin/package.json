@@ -1,0 +1,14 @@
+{
+  "name": "cli-with-jit-plugin",
+  "files": [
+    "/lib"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "oclif",
+    "helpClass": "./lib/help",
+    "jitPlugins": {
+      "oclif": "*"
+    }
+  }
+}

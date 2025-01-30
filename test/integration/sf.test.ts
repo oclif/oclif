@@ -38,7 +38,7 @@ describe('sf', () => {
 
       const manifest = JSON.parse(await readFile(join(sfDir, 'oclif.manifest.json'), 'utf8')) as Interfaces.Manifest
 
-      const sfPjson = JSON.parse(await readFile(join(sfDir, 'package.json'), 'utf8')) as Interfaces.PJSON.Plugin
+      const sfPjson = JSON.parse(await readFile(join(sfDir, 'package.json'), 'utf8')) as Interfaces.PJSON['Plugin']
       const jitPlugins = Object.keys(sfPjson.oclif.jitPlugins ?? {})
 
       const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>

@@ -1,13 +1,8 @@
 import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
-import {access, createWriteStream, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
+import {access, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
 import {exec, ExecOptions} from 'node:child_process'
 import * as os from 'node:os'
 import path from 'node:path'
-import {pipeline as pipelineSync} from 'node:stream'
-import {promisify} from 'node:util'
-import {maxSatisfying} from 'semver'
-
-const pipeline = promisify(pipelineSync)
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
@@ -40,27 +35,20 @@ export default class Manifest extends Command {
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = readJSONSync('package.json') as Interfaces.PJSON
-
+    const packageJson = readJSONSync(path.join(root, 'package.json')) as Interfaces.PJSON
     let jitPluginManifests: Interfaces.Manifest[] = []
 
     if (flags.jit && packageJson.oclif?.jitPlugins) {
       this.debug('jitPlugins: %s', packageJson.oclif.jitPlugins)
       const tmpDir = os.tmpdir()
-      const {default: got} = await import('got')
       const promises = Object.entries(packageJson.oclif.jitPlugins).map(async ([jitPlugin, version]) => {
         const pluginDir = jitPlugin.replace('/', '-').replace('@', '')
-
         const fullPath = path.join(tmpDir, pluginDir)
 
         if (await fileExists(fullPath)) await remove(fullPath)
-
         await mkdir(fullPath, {recursive: true})
 
-        const resolvedVersion = await this.getVersion(jitPlugin, version)
-        const tarballUrl = await this.getTarballUrl(jitPlugin, resolvedVersion)
-        const tarball = path.join(fullPath, path.basename(tarballUrl))
-        await pipeline(got.stream(tarballUrl), createWriteStream(tarball))
+        const tarball = await this.downloadTarball(jitPlugin, version, fullPath)
 
         await this.executeCommand(`tar -xzf "${tarball}"`, {cwd: fullPath})
 
@@ -117,6 +105,25 @@ export default class Manifest extends Command {
     return plugin.manifest
   }
 
+  private async downloadTarball(plugin: string, version: string, tarballStoragePath: string): Promise<string> {
+    const {stderr} = await this.executeCommand(
+      `npm pack ${plugin}@${version} --pack-destination "${tarballStoragePath}" --json`,
+    )
+    // You can `npm pack` with multiple modules to download multiple at a time. There will be at least 1 if the command
+    // succeeded.
+    const tarballs = JSON.parse(stderr) as {
+      filename: string
+    }[]
+
+    if (!Array.isArray(tarballs) || tarballs.length !== 1) {
+      throw new Error(`Could not download tarballs for ${plugin}. Tarball download was not in the correct format.`)
+    }
+
+    const {filename} = tarballs[0]
+
+    return path.join(tarballStoragePath, filename)
+  }
+
   private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {
     return new Promise((resolve) => {
       exec(command, options, (error, stderr, stdout) => {
@@ -130,32 +137,5 @@ export default class Manifest extends Command {
         resolve({stderr: stderr.toString(), stdout: stdout.toString()})
       })
     })
-  }
-
-  private async getTarballUrl(plugin: string, version: string): Promise<string> {
-    const {stderr} = await this.executeCommand(`npm view ${plugin}@${version} --json`)
-    const {dist} = JSON.parse(stderr) as {
-      dist: {tarball: string}
-    }
-    return dist.tarball
-  }
-
-  private async getVersion(plugin: string, version: string): Promise<string> {
-    if (version.startsWith('^') || version.startsWith('~')) {
-      // Grab latest from npm to get all the versions so we can find the max satisfying version.
-      // We explicitly ask for latest since this command is typically run inside of `npm prepack`,
-      // which sets the npm_config_tag env var, which is used as the default anytime a tag isn't
-      // provided to `npm view`. This can be problematic if you're building the `nightly` version
-      // of a CLI and all the JIT plugins don't have a `nightly` tag themselves.
-      // TL;DR - always ask for latest to avoid potentially requesting a non-existent tag.
-      const {stderr} = await this.executeCommand(`npm view ${plugin}@latest --json`)
-      const {versions} = JSON.parse(stderr) as {
-        versions: string[]
-      }
-
-      return maxSatisfying(versions, version) ?? version.replace('^', '').replace('~', '')
-    }
-
-    return version
   }
 }

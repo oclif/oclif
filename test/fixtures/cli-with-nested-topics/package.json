@@ -8,9 +8,9 @@
     "bin": "oclif",
     "helpClass": "./lib/help",
     "topics": {
-      "roottopic":{
-          "description": "Root topic description",
-          "hidden":true
+      "roottopic": {
+        "description": "Root topic description",
+        "hidden": true
       },
       "roottopic:subtopic1": {
         "description": "Subtopic1 description"

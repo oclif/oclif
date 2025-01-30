@@ -35,8 +35,7 @@ export default class Manifest extends Command {
     const {args} = await this.parse(Manifest)
     const root = path.resolve(args.path)
 
-    const packageJson = readJSONSync('package.json') as Interfaces.PJSON
-
+    const packageJson = readJSONSync(path.join(root, 'package.json')) as Interfaces.PJSON
     let jitPluginManifests: Interfaces.Manifest[] = []
 
     if (flags.jit && packageJson.oclif?.jitPlugins) {

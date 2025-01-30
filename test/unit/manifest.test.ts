@@ -26,12 +26,21 @@ describe('manifest', () => {
   })
 
   it('should generate jit plugins', async () => {
-    process.chdir(path.join(__dirname, '../fixtures/cli-with-jit-plugin'))
-    const {error, stderr} = await runCommand<Interfaces.Manifest>('manifest', {
-      root: __dirname,
-    })
+    const {error, result: manifest} = await runCommand<Interfaces.Manifest>(
+      `manifest ${path.join(__dirname, '../fixtures/cli-with-jit-plugin')}`,
+    )
+    const jitPlugins = ['oclif']
 
-    expect(stderr).contains('Generating JIT plugin manifests')
+    const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>
+      Boolean(Object.values(manifest?.commands ?? []).some((command) => command.pluginName === jitPlugin)),
+    )
+    const everyJITCommandIsTypeJIT = Object.values(manifest?.commands ?? [])
+      .filter((command) => jitPlugins.includes(command.pluginName ?? ''))
+      .every((command) => command.pluginType === 'jit')
+
+    expect(everyPluginHasCommand).to.be.true
+    expect(everyJITCommandIsTypeJIT).to.be.true
+    expect(manifest?.commands.hello).to.be.ok
     expect(error).to.be.undefined
   })
 })

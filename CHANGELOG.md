@@ -1,3 +1,9 @@
+## [4.17.21](https://github.com/oclif/oclif/compare/4.17.20...4.17.21) (2025-01-30)
+
+### Bug Fixes
+
+- ensure jit plugins are downloaded via npm ([6592983](https://github.com/oclif/oclif/commit/65929837912e711433fbae1ce27ea8c7c25a9746))
+
 ## [4.17.20](https://github.com/oclif/oclif/compare/4.17.19...4.17.20) (2025-01-28)
 
 ### Bug Fixes

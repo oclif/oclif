@@ -43,4 +43,4 @@ EXAMPLES
     $ oclif init --topic-separator colons --bin mycli
 ```
 
-_See code: [src/commands/init.ts](https://github.com/oclif/oclif/blob/4.17.24/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/oclif/oclif/blob/4.17.25/src/commands/init.ts)_

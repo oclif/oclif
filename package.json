@@ -80,7 +80,8 @@
   ],
   "homepage": "https://github.com/oclif/oclif",
   "keywords": [
-    "oclif"
+    "oclif",
+    "cli"
   ],
   "license": "MIT",
   "main": "lib/index.js",

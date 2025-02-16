@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19",
-    "@eslint/compat": "^1.2.5",
+    "@eslint/compat": "^1.2.6",
     "@oclif/plugin-legacy": "^2.0.19",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4",

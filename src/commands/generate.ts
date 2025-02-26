@@ -1,5 +1,5 @@
 import {Args, Errors, Flags} from '@oclif/core'
-import chalk from 'chalk'
+import {green} from 'ansis'
 import {existsSync} from 'node:fs'
 import {readdir} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
@@ -136,7 +136,7 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
 
   async run(): Promise<void> {
     const location = this.flags['output-dir'] ? join(this.flags['output-dir'], this.args.name) : resolve(this.args.name)
-    this.log(`Generating ${this.args.name} in ${chalk.green(location)}`)
+    this.log(`Generating ${this.args.name} in ${green(location)}`)
 
     if (existsSync(location)) {
       throw new Errors.CLIError(`The directory ${location} already exists.`)
@@ -247,7 +247,7 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
     )
 
     if (this.flags['dry-run']) {
-      this.log(`\n[DRY RUN] Created ${chalk.green(name)}`)
+      this.log(`\n[DRY RUN] Created ${green(name)}`)
     } else {
       if (process.platform !== 'win32') {
         await Promise.all([
@@ -268,7 +268,7 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
         silent: false,
       })
 
-      this.log(`\nCreated ${chalk.green(name)}`)
+      this.log(`\nCreated ${green(name)}`)
     }
   }
 }

@@ -1,3 +1,9 @@
+## [4.17.34](https://github.com/oclif/oclif/compare/4.17.33...4.17.34) (2025-03-02)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-not-found from 3.2.32 to 3.2.44 ([358c90a](https://github.com/oclif/oclif/commit/358c90a569920082aa422489b2566c8742e6f318))
+
 ## [4.17.33](https://github.com/oclif/oclif/compare/4.17.32...4.17.33) (2025-03-02)
 
 ### Bug Fixes

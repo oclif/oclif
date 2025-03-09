@@ -1028,11 +1028,11 @@
     yargs "^17.0.0"
 
 "@commitlint/config-conventional@^19":
-  version "19.6.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-19.6.0.tgz#badba72c8639ea79291e2941001bd7ea7fad3a2c"
-  integrity sha512-DJT40iMnTYtBtUfw9ApbsLZFke1zKh6llITVJ+x9mtpHD08gsNXaIRqHTmwTZL3dNX5+WoyK7pCN/5zswvkBCQ==
+  version "19.8.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-19.8.0.tgz#4a1470a0156f5d1f560426c05cfc3a6a796c2b9c"
+  integrity sha512-9I2kKJwcAPwMoAj38hwqFXG0CzS2Kj+SAByPUQ0SlHTfb7VUhYVmo7G2w2tBrqmOf7PFd6MpZ/a1GQJo8na8kw==
   dependencies:
-    "@commitlint/types" "^19.5.0"
+    "@commitlint/types" "^19.8.0"
     conventional-changelog-conventionalcommits "^7.0.2"
 
 "@commitlint/config-validator@^19.5.0":
@@ -1161,10 +1161,10 @@
   dependencies:
     find-up "^7.0.0"
 
-"@commitlint/types@^19.5.0":
-  version "19.5.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-19.5.0.tgz#c5084d1231d4dd50e40bdb656ee7601f691400b3"
-  integrity sha512-DSHae2obMSMkAtTBSOulg5X7/z+rGLxcXQIkg3OmWvY6wifojge5uVMydfhUvs7yQj+V7jNmRZ2Xzl8GJyqRgg==
+"@commitlint/types@^19.5.0", "@commitlint/types@^19.8.0":
+  version "19.8.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-19.8.0.tgz#5a77c7a723a714995a51917edd0ecfcf29495d3c"
+  integrity sha512-LRjP623jPyf3Poyfb0ohMj8I3ORyBDOwXAgxxVPbSD0unJuW2mJWeiRfaQinjtccMqC5Wy1HOMfa4btKjbNxbg==
   dependencies:
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"

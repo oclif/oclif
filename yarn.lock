@@ -1649,14 +1649,14 @@
     debug "^4.4.0"
     semver "^7.7.1"
 
-"@oclif/plugin-not-found@^3.2.44":
-  version "3.2.44"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.44.tgz#7eeebe8fd6e116f0cef165c6dbeb78efebcd8e38"
-  integrity sha512-UF6GD/aDbElP6LJMZSSq72NvK0aQwtQ+fkjn0VLU9o1vNAA3M2K0tGL7lduZGQNw8LejOhr25eR4aXeRCgKb2A==
+"@oclif/plugin-not-found@^3.2.46":
+  version "3.2.46"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.46.tgz#1adf894d8e71d840892b92d9140b86b275d00580"
+  integrity sha512-SN6zCU4AVcsQW8H881CfHpAuK12YspbnLppMlwvHooDCByN962ow702QVImoQ5HJ5MFkLUA8k7iByshsFFfHzg==
   dependencies:
     "@inquirer/prompts" "^7.3.2"
     "@oclif/core" "^4"
-    ansis "^3.16.0"
+    ansis "^3.17.0"
     fast-levenshtein "^3.0.0"
 
 "@oclif/plugin-warn-if-update-available@^3.1.31":
@@ -2690,10 +2690,10 @@ ansicolors@~0.3.2:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.3.2.tgz#665597de86a9ffe3aa9bfbe6cae5c6ea426b4979"
   integrity sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==
 
-ansis@^3.16.0, ansis@^3.5.2:
-  version "3.16.0"
-  resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.16.0.tgz#5e365fd173133756a01199c77fc9146bb22fb5eb"
-  integrity sha512-sU7d/tfZiYrsIAXbdL/CNZld5bCkruzwT5KmqmadCJYxuLxHAOBjidxD5+iLmN/6xEfjcQq1l7OpsiCBlc4LzA==
+ansis@^3.16.0, ansis@^3.17.0, ansis@^3.5.2:
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.17.0.tgz#fa8d9c2a93fe7d1177e0c17f9eeb562a58a832d7"
+  integrity sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==
 
 anymatch@~3.1.2:
   version "3.1.3"

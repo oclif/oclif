@@ -1,3 +1,9 @@
+## [4.17.40](https://github.com/oclif/oclif/compare/4.17.39...4.17.40) (2025-03-23)
+
+### Bug Fixes
+
+- **deps:** bump tiny-jsonc from 1.0.1 to 1.0.2 ([0954950](https://github.com/oclif/oclif/commit/0954950c64576a2c73343c4400dfa33b7baa9f3e))
+
 ## [4.17.39](https://github.com/oclif/oclif/compare/4.17.38...4.17.39) (2025-03-23)
 
 ### Bug Fixes

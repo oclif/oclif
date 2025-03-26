@@ -1,5 +1,5 @@
 import {Args, Command, Flags, Interfaces, ux} from '@oclif/core'
-import chalk from 'chalk'
+import ansis from 'ansis'
 import {renderFile} from 'ejs'
 import {outputFile} from 'fs-extra'
 import {exec as cpExec, ExecOptions} from 'node:child_process'
@@ -53,7 +53,7 @@ export async function exec(
 ): Promise<{stderr: string; stdout: string}> {
   const silent = opts ? opts.silent : true
   return new Promise((resolve, reject) => {
-    if (!silent) ux.stdout(chalk.dim(command))
+    if (!silent) ux.stdout(ansis.dim(command))
     const p = cpExec(command, opts ?? {}, (err, stdout, stderr) => {
       if (err) return reject(err)
       resolve({stderr, stdout})
@@ -116,7 +116,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     const maybeFlag = () => {
       if (this.flags[name]) {
         this.log(
-          `${chalk.green('?')} ${chalk.bold(this.flaggablePrompts[name].message)} ${chalk.cyan(this.flags[name])}`,
+          `${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(this.flags[name])}`,
         )
         return this.flags[name]
       }
@@ -124,7 +124,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
 
     const maybeDefault = () => {
       if (this.flags.yes) {
-        this.log(`${chalk.green('?')} ${chalk.bold(this.flaggablePrompts[name].message)} ${chalk.cyan(defaultValue)}`)
+        this.log(`${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(defaultValue)}`)
         return defaultValue
       }
     }
@@ -133,7 +133,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
       if (!maybeOtherValue) return
       const otherValue = await maybeOtherValue()
       if (otherValue) {
-        this.log(`${chalk.green('?')} ${chalk.bold(this.flaggablePrompts[name].message)} ${chalk.cyan(otherValue)}`)
+        this.log(`${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(otherValue)}`)
         return otherValue
       }
     }
@@ -221,12 +221,12 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
         if (confirmation) {
           verb = 'Overwriting'
         } else {
-          this.log(`${chalk.yellow('Skipping')} ${relativePath}`)
+          this.log(`${ansis.yellow('Skipping')} ${relativePath}`)
           return
         }
       }
 
-      this.log(`${chalk.yellow(verb)} ${relativePath}`)
+      this.log(`${ansis.yellow(verb)} ${relativePath}`)
       if (!this.flags['dry-run']) {
         await outputFile(destination, rendered)
       }

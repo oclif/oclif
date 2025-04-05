@@ -3800,9 +3800,9 @@ eslint-config-oclif@^5.2.2:
     eslint-plugin-unicorn "^48.0.1"
 
 eslint-config-oclif@^6:
-  version "6.0.37"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-6.0.37.tgz#0ee0c2126662294fd0159d287bce7adcb9f172f8"
-  integrity sha512-oi3SwK+i9VUX9SP1Cr1V/PF0Zl0Lhhgs5v76GMcs/3b/bDak9hE10BUy8pdoNCHsVWZiopZojJEk72yQvxOIIg==
+  version "6.0.39"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-6.0.39.tgz#a6dc728e40b4649edef311e177b222bb840805a6"
+  integrity sha512-rHxRm6aqY5sEk5B8XyCqwpL8Hke+HTvXj3LhuzH2HVrAG/iSYSooeLX43DgKlZL9s9dGdbJoEtxlnY4ppdsYQg==
   dependencies:
     "@eslint/compat" "^1.2.7"
     "@eslint/eslintrc" "^3.3.1"
@@ -3817,7 +3817,7 @@ eslint-config-oclif@^6:
     eslint-plugin-import "^2.31.0"
     eslint-plugin-jsdoc "^50.6.3"
     eslint-plugin-mocha "^10.5.0"
-    eslint-plugin-n "^17.16.2"
+    eslint-plugin-n "^17.17.0"
     eslint-plugin-perfectionist "^4"
     eslint-plugin-unicorn "^56.0.1"
     typescript-eslint "^8.26.1"
@@ -3961,7 +3961,7 @@ eslint-plugin-n@^15.1.0:
     resolve "^1.22.1"
     semver "^7.3.8"
 
-eslint-plugin-n@^17.16.2:
+eslint-plugin-n@^17.17.0:
   version "17.17.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-n/-/eslint-plugin-n-17.17.0.tgz#6644433d395c2ecae0b2fe58018807e85d8e0724"
   integrity sha512-2VvPK7Mo73z1rDFb6pTvkH6kFibAmnTubFq5l83vePxu0WiY1s0LOtj2WHb6Sa40R3w4mnh8GFYbHBQyMlotKw==

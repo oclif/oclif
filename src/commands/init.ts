@@ -1,5 +1,5 @@
 import {Errors, Flags} from '@oclif/core'
-import chalk from 'chalk'
+import {green} from 'ansis'
 import {readdir, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 
@@ -79,7 +79,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     const outputDir = this.flags['output-dir'] ?? process.cwd()
     const location = resolve(outputDir)
 
-    this.log(`Initializing oclif in ${chalk.green(location)}`)
+    this.log(`Initializing oclif in ${green(location)}`)
 
     const packageJSON = (await readPJSON(location))!
     if (!packageJSON) {
@@ -127,8 +127,8 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       type: 'select',
     })
 
-    this.log(`Using module type ${chalk.green(moduleType)}`)
-    this.log(`Using package manager ${chalk.green(packageManager)}`)
+    this.log(`Using module type ${green(moduleType)}`)
+    this.log(`Using package manager ${green(packageManager)}`)
 
     const projectBinPath = join(location, 'bin')
     const templateBinPath = join(this.templatesDir, 'cli', moduleType.toLowerCase(), 'bin')
@@ -188,6 +188,6 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
       )
     }
 
-    this.log(`\nCreated CLI ${chalk.green(bin)}`)
+    this.log(`\nCreated CLI ${green(bin)}`)
   }
 }

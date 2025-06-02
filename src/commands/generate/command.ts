@@ -1,5 +1,5 @@
 import {Args, Errors, Flags} from '@oclif/core'
-import chalk from 'chalk'
+import {dim} from 'ansis'
 import {pascalCase} from 'change-case'
 import {join} from 'node:path'
 
@@ -19,7 +19,7 @@ export default class GenerateCommand extends GeneratorCommand<typeof GenerateCom
     const packageJSON = await readPJSON(process.cwd())
     if (!packageJSON) throw new Errors.CLIError('not in a project directory')
     const topicSeparator = packageJSON.oclif?.topicSeparator ?? ':'
-    this.log(`Adding ${chalk.dim(this.args.name.replaceAll(':', topicSeparator))} to ${packageJSON.name}!`)
+    this.log(`Adding ${dim(this.args.name.replaceAll(':', topicSeparator))} to ${packageJSON.name}!`)
 
     const cmdPath = this.args.name.split(':').join('/')
     const destination = join(process.cwd(), this.flags['commands-dir'], `${cmdPath}.ts`)

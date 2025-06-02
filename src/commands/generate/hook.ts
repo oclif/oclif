@@ -1,5 +1,5 @@
 import {Args, Errors, Flags} from '@oclif/core'
-import chalk from 'chalk'
+import {dim} from 'ansis'
 import * as fs from 'fs-extra'
 import {writeFile} from 'node:fs/promises'
 import {join, resolve} from 'node:path'
@@ -26,7 +26,7 @@ export default class GenerateHook extends GeneratorCommand<typeof GenerateHook> 
     const packageJSON = await readPJSON(process.cwd())
     if (!packageJSON) throw new Errors.CLIError('not in a project directory')
 
-    this.log(`Adding a ${chalk.dim(this.flags.event)} hook to ${packageJSON.name}!`)
+    this.log(`Adding a ${dim(this.flags.event)} hook to ${packageJSON.name}!`)
 
     const source = join(this.templatesDir, 'src', 'hook.ts.ejs')
     const dest = join(process.cwd(), 'src', 'hooks', this.flags.event, `${this.args.name}.ts`)

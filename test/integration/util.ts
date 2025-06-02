@@ -1,3 +1,4 @@
+import {strip} from 'ansis'
 import {exec as cpExec, ExecOptions} from 'node:child_process'
 
 export async function exec(
@@ -9,7 +10,7 @@ export async function exec(
       if (error) {
         reject(error)
       } else {
-        resolve({code: 0, stderr, stdout})
+        resolve({code: 0, stderr: strip(stderr), stdout: strip(stdout)})
       }
     })
   })

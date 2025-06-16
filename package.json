@@ -14,7 +14,7 @@
     "@inquirer/input": "^2.2.4",
     "@inquirer/select": "^2.5.0",
     "@oclif/core": "^4.3.3",
-    "@oclif/plugin-help": "^6.2.27",
+    "@oclif/plugin-help": "^6.2.29",
     "@oclif/plugin-not-found": "^3.2.57",
     "@oclif/plugin-warn-if-update-available": "^3.1.38",
     "ansis": "^3.16.0",

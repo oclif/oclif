@@ -30,7 +30,7 @@ import {ux} from '@oclif/core/ux'
 import {createReadStream} from 'fs-extra'
 
 import {debug as Debug, log} from './log'
-import {prettifyPaths} from './util'
+import {getS3ChecksumConfig, prettifyPaths} from './util'
 
 const debug = Debug.new('aws')
 
@@ -53,13 +53,20 @@ const aws = {
   },
   get s3() {
     try {
+      const endpoint = process.env.AWS_S3_ENDPOINT
+      const checksumConfig = getS3ChecksumConfig(endpoint, process.env.AWS_REQUEST_CHECKSUM_CALCULATION)
+
       cache.s3 =
         cache.s3 ??
         new (require('@aws-sdk/client-s3').S3Client)({
           credentials: this.creds,
-          endpoint: process.env.AWS_S3_ENDPOINT,
+          endpoint,
           forcePathStyle: Boolean(process.env.AWS_S3_FORCE_PATH_STYLE),
           region: process.env.AWS_REGION ?? 'us-east-1',
+          // Support disabling checksums for S3-compatible storage
+          ...(checksumConfig && {
+            requestChecksumCalculation: checksumConfig,
+          }),
         })
       return cache.s3
     } catch (error: unknown) {

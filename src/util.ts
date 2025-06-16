@@ -113,3 +113,11 @@ export function isEmpty(obj: Record<string, unknown>): boolean {
 export function validateBin(bin: string): boolean {
   return /^[\w-]+$/.test(bin)
 }
+
+export function isS3Compatible(endpoint: string | undefined): boolean {
+  return Boolean(endpoint && !endpoint.includes('amazonaws.com'))
+}
+
+export function getS3ChecksumConfig(endpoint: string | undefined, envValue: string | undefined): string | undefined {
+  return envValue || (isS3Compatible(endpoint) ? 'WHEN_REQUIRED' : undefined)
+}

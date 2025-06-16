@@ -1,3 +1,9 @@
+# [4.19.0](https://github.com/oclif/oclif/compare/4.18.4...4.19.0) (2025-06-16)
+
+### Features
+
+- support S3 compatible storage ([#1782](https://github.com/oclif/oclif/issues/1782)) ([#1783](https://github.com/oclif/oclif/issues/1783)) ([5850268](https://github.com/oclif/oclif/commit/585026884a35f851b71470b56df2f930a299172f))
+
 ## [4.18.4](https://github.com/oclif/oclif/compare/4.18.3...4.18.4) (2025-06-16)
 
 ### Bug Fixes

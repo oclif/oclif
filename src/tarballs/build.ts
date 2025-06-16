@@ -17,17 +17,26 @@ import {fetchNodeBinary} from './node'
 
 const exec = promisify(execSync)
 
+const platformFlags = (platform: string) => {
+  if (platform === 'win32') return ' --force-local'
+  if (platform === 'darwin') return ' --no-xattrs'
+  return ''
+}
+
 const pack = async (from: string, to: string) => {
   const cwd = path.dirname(from)
   await mkdir(path.dirname(to), {recursive: true})
   log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`)
+
+  const platformFlag = platformFlags(process.platform)
+
   if (to.endsWith('gz')) {
-    return exec(`tar czf ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {
+    return exec(`tar czf ${to} ${path.basename(from)}${platformFlag}`, {
       cwd,
     })
   }
 
-  await exec(`tar cfJ ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
+  await exec(`tar cfJ ${to} ${path.basename(from)}${platformFlags}`, {cwd})
 }
 
 const isYarnProject = (yarnRootPath: string) => {

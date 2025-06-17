@@ -29,12 +29,25 @@ export type UpdateConfig = Interfaces.OclifConfiguration['update'] & {
   s3?: Interfaces.S3 & {acl?: ObjectCannedACL}
 }
 
+export type PackConfig = {
+  tarFlags?: {
+    [platform: string]: string
+  }
+}
+
+type PJSONWithPack = Interfaces.PJSON & {
+  oclif: Interfaces.OclifConfiguration & {
+    pack?: PackConfig
+  }
+}
+
 export type BuildConfig = {
   config: Interfaces.Config
   dist(input: string): string
   gitSha: string
   nodeOptions: string[]
   nodeVersion: string
+  packConfig: PackConfig
   root: string
   s3Config: S3Config
   targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
@@ -87,12 +100,16 @@ export async function buildConfig(
     ...updateConfig.s3,
     acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
   }
+
+  const pjsonWithPack = config.pjson as PJSONWithPack
+  const packConfig = pjsonWithPack.oclif.pack ?? {}
   return {
     config,
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),
     gitSha: _gitSha,
     nodeOptions,
     nodeVersion,
+    packConfig,
     root,
     s3Config,
     targets,

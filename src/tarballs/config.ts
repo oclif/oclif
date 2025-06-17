@@ -21,7 +21,7 @@ export const TARGETS = [
   'darwin-arm64',
 ]
 
-const DEFAULT_TAR_FLAGS = {win32: '--force-local'}
+const DEFAULT_TAR_FLAGS: Interfaces.OclifConfiguration['tarFlags'] = {win32: '--force-local'}
 
 export type S3Config = BuildConfig['updateConfig']['s3'] & {
   acl?: ObjectCannedACL
@@ -91,7 +91,8 @@ export async function buildConfig(
     acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
   }
 
-  const tarFlags = config.pjson.oclif.tarFlags ?? DEFAULT_TAR_FLAGS
+  const existingTarFlags = config.pjson.oclif.tarFlags
+  const tarFlags = existingTarFlags ? {...DEFAULT_TAR_FLAGS, ...existingTarFlags} : DEFAULT_TAR_FLAGS
 
   return {
     config,

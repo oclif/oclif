@@ -22,8 +22,7 @@ const pack = async (from: string, to: string, c: BuildConfig) => {
   await mkdir(path.dirname(to), {recursive: true})
   log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`)
 
-  const platformFlag =
-    c.packConfig.tarFlags?.[process.platform] ?? (process.platform === 'win32' ? '--force-local' : '')
+  const platformFlag = c.tarFlags?.[process.platform] ?? ''
 
   if (to.endsWith('gz')) {
     return exec(`tar czf ${to} ${path.basename(from)} ${platformFlag}`, {cwd})

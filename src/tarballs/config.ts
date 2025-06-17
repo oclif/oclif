@@ -21,6 +21,8 @@ export const TARGETS = [
   'darwin-arm64',
 ]
 
+const DEFAULT_TAR_FLAGS = {win32: '--force-local'}
+
 export type S3Config = BuildConfig['updateConfig']['s3'] & {
   acl?: ObjectCannedACL
 } & {folder?: string; indexVersionLimit?: number}
@@ -29,21 +31,15 @@ export type UpdateConfig = Interfaces.OclifConfiguration['update'] & {
   s3?: Interfaces.S3 & {acl?: ObjectCannedACL}
 }
 
-export type PackConfig = {
-  tarFlags?: {
-    [platform: string]: string
-  }
-}
-
 export type BuildConfig = {
   config: Interfaces.Config
   dist(input: string): string
   gitSha: string
   nodeOptions: string[]
   nodeVersion: string
-  packConfig: PackConfig
   root: string
   s3Config: S3Config
+  tarFlags?: Interfaces.OclifConfiguration['tarFlags']
   targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
   tmp: string
   updateConfig: UpdateConfig
@@ -95,9 +91,7 @@ export async function buildConfig(
     acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
   }
 
-  // NOTE: Type assertion needed until @oclif/core is updated with pack property
-  const oclifWithPack = config.pjson.oclif as Interfaces.OclifConfiguration & {pack?: PackConfig}
-  const packConfig = oclifWithPack.pack ?? {}
+  const tarFlags = config.pjson.oclif.tarFlags ?? DEFAULT_TAR_FLAGS
 
   return {
     config,
@@ -105,9 +99,9 @@ export async function buildConfig(
     gitSha: _gitSha,
     nodeOptions,
     nodeVersion,
-    packConfig,
     root,
     s3Config,
+    tarFlags,
     targets,
     tmp,
     updateConfig,

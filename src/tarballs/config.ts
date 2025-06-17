@@ -21,7 +21,9 @@ export const TARGETS = [
   'darwin-arm64',
 ]
 
-const DEFAULT_TAR_FLAGS: Interfaces.OclifConfiguration['tarFlags'] = {win32: '--force-local'}
+type TarFlags = Interfaces.OclifConfiguration['tarFlags']
+
+const DEFAULT_TAR_FLAGS: TarFlags = {win32: '--force-local'}
 
 export type S3Config = BuildConfig['updateConfig']['s3'] & {
   acl?: ObjectCannedACL
@@ -39,7 +41,7 @@ export type BuildConfig = {
   nodeVersion: string
   root: string
   s3Config: S3Config
-  tarFlags?: Interfaces.OclifConfiguration['tarFlags']
+  tarFlags?: TarFlags
   targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
   tmp: string
   updateConfig: UpdateConfig

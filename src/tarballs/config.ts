@@ -35,12 +35,6 @@ export type PackConfig = {
   }
 }
 
-type PJSONWithPack = Interfaces.PJSON & {
-  oclif: Interfaces.OclifConfiguration & {
-    pack?: PackConfig
-  }
-}
-
 export type BuildConfig = {
   config: Interfaces.Config
   dist(input: string): string
@@ -101,8 +95,10 @@ export async function buildConfig(
     acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
   }
 
-  const pjsonWithPack = config.pjson as PJSONWithPack
-  const packConfig = pjsonWithPack.oclif.pack ?? {}
+  // NOTE: Type assertion needed until @oclif/core is updated with pack property
+  const oclifWithPack = config.pjson.oclif as Interfaces.OclifConfiguration & {pack?: PackConfig}
+  const packConfig = oclifWithPack.pack ?? {}
+
   return {
     config,
     dist: (...args: string[]) => path.join(config.root, 'dist', ...args),

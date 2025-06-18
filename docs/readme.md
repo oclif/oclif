@@ -40,4 +40,4 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.18.4/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/4.19.0/src/commands/readme.ts)_

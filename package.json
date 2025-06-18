@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "4.18.4",
+  "version": "4.19.0",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"
@@ -13,7 +13,7 @@
     "@inquirer/confirm": "^3.1.22",
     "@inquirer/input": "^2.2.4",
     "@inquirer/select": "^2.5.0",
-    "@oclif/core": "^4.3.3",
+    "@oclif/core": "^4.4.0",
     "@oclif/plugin-help": "^6.2.29",
     "@oclif/plugin-not-found": "^3.2.57",
     "@oclif/plugin-warn-if-update-available": "^3.1.38",

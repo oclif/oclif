@@ -17,17 +17,18 @@ import {fetchNodeBinary} from './node'
 
 const exec = promisify(execSync)
 
-const pack = async (from: string, to: string) => {
+const pack = async (from: string, to: string, c: BuildConfig) => {
   const cwd = path.dirname(from)
   await mkdir(path.dirname(to), {recursive: true})
   log(`packing tarball from ${prettifyPaths(path.dirname(from))} to ${prettifyPaths(to)}`)
+
+  const platformFlag = c.tarFlags?.[process.platform] ?? ''
+
   if (to.endsWith('gz')) {
-    return exec(`tar czf ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {
-      cwd,
-    })
+    return exec(`tar czf ${to} ${path.basename(from)} ${platformFlag}`, {cwd})
   }
 
-  await exec(`tar cfJ ${to} ${path.basename(from)}${process.platform === 'win32' ? ' --force-local' : ''}`, {cwd})
+  await exec(`tar cfJ ${to} ${path.basename(from)} ${platformFlag}`, {cwd})
 }
 
 const isYarnProject = (yarnRootPath: string) => {
@@ -248,10 +249,13 @@ const buildTarget = async (
   })
   if (options.pack === false) return
   if (options.parallel) {
-    await Promise.all([pack(workspace, c.dist(gzLocalKey)), ...(c.xz ? [pack(workspace, c.dist(xzLocalKey))] : [])])
+    await Promise.all([
+      pack(workspace, c.dist(gzLocalKey), c),
+      ...(c.xz ? [pack(workspace, c.dist(xzLocalKey), c)] : []),
+    ])
   } else {
-    await pack(workspace, c.dist(gzLocalKey))
-    if (c.xz) await pack(workspace, c.dist(xzLocalKey))
+    await pack(workspace, c.dist(gzLocalKey), c)
+    if (c.xz) await pack(workspace, c.dist(xzLocalKey), c)
   }
 
   if (!c.updateConfig.s3?.host) return

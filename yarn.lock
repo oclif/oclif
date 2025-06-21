@@ -1451,31 +1451,7 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.3.3.tgz#a527536b62ef202c58d2b69ce9cd1e64eb3a94b1"
-  integrity sha512-A0mk4nlVE+r34fl91OdglXVPwhhfzM59IhSxnOigqMkwxFgT8z3i2WlUgzmazzvzSccs2KM4N2HkTS3NEvW96g==
-  dependencies:
-    ansi-escapes "^4.3.2"
-    ansis "^3.17.0"
-    clean-stack "^3.0.1"
-    cli-spinners "^2.9.2"
-    debug "^4.4.0"
-    ejs "^3.1.10"
-    get-package-type "^0.1.0"
-    indent-string "^4.0.0"
-    is-wsl "^2.2.0"
-    lilconfig "^3.1.3"
-    minimatch "^9.0.5"
-    semver "^7.6.3"
-    string-width "^4.2.3"
-    supports-color "^8"
-    tinyglobby "^0.2.14"
-    widest-line "^3.1.0"
-    wordwrap "^1.0.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/core@^4.4.0":
+"@oclif/core@^4", "@oclif/core@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.4.0.tgz#82fb972822270c8e585587bd1c8a01ffbac588e2"
   integrity sha512-wH5g3SLmbRutnr7UzQBSozRFEAZ7U9YGB/wFuBRr0ZghTgv5DE+KQaf6ZtU7iFb9pvkvoVRnT5XheNAtbjRDaQ==
@@ -1506,16 +1482,16 @@
   dependencies:
     "@oclif/core" "^4"
 
-"@oclif/plugin-legacy@^2.0.22":
-  version "2.0.22"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.22.tgz#64bada6ed17e14827e22c1589007f3cf682ff6b9"
-  integrity sha512-NoB1ygUACpyeXLv1L0q4IE17xM4CGyXYXkQ1sNjTlb+3CWWUZV8xd1THj9EbF4cokVOWqnKZ89iaUj6Xr8bXxw==
+"@oclif/plugin-legacy@^2.0.24":
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.24.tgz#130f7a0851cd068672f5d920f8011c5b3d0fe652"
+  integrity sha512-rTAGv8OaKi6dL1C7u0Oh82fqEp+utQ6LhP8nmyfIrtHHIvqSyxwig5dBLumblIvrW8TMkde0v5w7b2lfQ8y0rg==
   dependencies:
     "@oclif/color" "^1.0.13"
     "@oclif/core" "^3.27.0"
     ansi-escapes "^4.3.2"
-    debug "^4.4.0"
-    semver "^7.7.1"
+    debug "^4.4.1"
+    semver "^7.7.2"
 
 "@oclif/plugin-not-found@^3.2.57":
   version "3.2.57"

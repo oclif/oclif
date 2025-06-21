@@ -1451,31 +1451,7 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.3.3.tgz#a527536b62ef202c58d2b69ce9cd1e64eb3a94b1"
-  integrity sha512-A0mk4nlVE+r34fl91OdglXVPwhhfzM59IhSxnOigqMkwxFgT8z3i2WlUgzmazzvzSccs2KM4N2HkTS3NEvW96g==
-  dependencies:
-    ansi-escapes "^4.3.2"
-    ansis "^3.17.0"
-    clean-stack "^3.0.1"
-    cli-spinners "^2.9.2"
-    debug "^4.4.0"
-    ejs "^3.1.10"
-    get-package-type "^0.1.0"
-    indent-string "^4.0.0"
-    is-wsl "^2.2.0"
-    lilconfig "^3.1.3"
-    minimatch "^9.0.5"
-    semver "^7.6.3"
-    string-width "^4.2.3"
-    supports-color "^8"
-    tinyglobby "^0.2.14"
-    widest-line "^3.1.0"
-    wordwrap "^1.0.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/core@^4.4.0":
+"@oclif/core@^4", "@oclif/core@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.4.0.tgz#82fb972822270c8e585587bd1c8a01ffbac588e2"
   integrity sha512-wH5g3SLmbRutnr7UzQBSozRFEAZ7U9YGB/wFuBRr0ZghTgv5DE+KQaf6ZtU7iFb9pvkvoVRnT5XheNAtbjRDaQ==
@@ -1527,14 +1503,14 @@
     ansis "^3.17.0"
     fast-levenshtein "^3.0.0"
 
-"@oclif/plugin-warn-if-update-available@^3.1.38":
-  version "3.1.38"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.1.38.tgz#331f9ed8d6e9e36919c0814b24c8c9adbfe2acc4"
-  integrity sha512-lwYtVXdQaBJV94DglPu140Bc6NmmysHhX5PZtdxeNcUG2BgSX/Sre7oCzMEgmuhe4Lu2jDviMxTX81a8wv6v1w==
+"@oclif/plugin-warn-if-update-available@^3.1.41":
+  version "3.1.41"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-warn-if-update-available/-/plugin-warn-if-update-available-3.1.41.tgz#3f4f254bea9f0c972eeaaa991fb6f916b3e06b02"
+  integrity sha512-JUW5+LXoDKOuxGxpYWyBFIkKIbrl5XNzLW26qIHgcvOFnIt+0m7gzqVSDCxesocYht6BvXTRiioQRJQx+6ZO3A==
   dependencies:
     "@oclif/core" "^4"
     ansis "^3.17.0"
-    debug "^4.4.0"
+    debug "^4.4.1"
     http-call "^5.2.2"
     lodash "^4.17.21"
     registry-auth-token "^5.1.0"

@@ -1,3 +1,9 @@
+# [4.20.0](https://github.com/oclif/oclif/compare/4.19.0...4.20.0) (2025-06-22)
+
+### Features
+
+- support --no-xattrs flag for darwin ([#1784](https://github.com/oclif/oclif/issues/1784)) ([#1785](https://github.com/oclif/oclif/issues/1785)) ([d3c8bf8](https://github.com/oclif/oclif/commit/d3c8bf893fe247181e23ce9a9eedaa840a18cd94))
+
 # [4.19.0](https://github.com/oclif/oclif/compare/4.18.4...4.19.0) (2025-06-16)
 
 ### Features

@@ -76,6 +76,8 @@ const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) =>
   await copyYarnDirectory('./.yarn/releases/', yarnRootPath, workspacePath)
   // copy yarn plugins if they exists
   await copyYarnDirectory('./.yarn/plugins/', yarnRootPath, workspacePath)
+  // copy yarn patches if they exists
+  await copyYarnDirectory('./.yarn/patches/', yarnRootPath, workspacePath)
 }
 
 type BuildOptions = {

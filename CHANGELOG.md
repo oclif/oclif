@@ -1,3 +1,9 @@
+## [4.20.5](https://github.com/oclif/oclif/compare/4.20.4...4.20.5) (2025-07-08)
+
+### Bug Fixes
+
+- support yarn patches ([#1804](https://github.com/oclif/oclif/issues/1804)) ([8d96ba9](https://github.com/oclif/oclif/commit/8d96ba971386c9ab0a0b86d901c592e309ca9b41))
+
 ## [4.20.4](https://github.com/oclif/oclif/compare/4.20.3...4.20.4) (2025-07-06)
 
 ### Bug Fixes

@@ -132,7 +132,7 @@ say hello to anyone
 
 \`\`\`
 USAGE
-  $ oclif hello PERSON [OTHER]
+  $ oclif hello PERSON
 
 ARGUMENTS
   PERSON  name of person to say hello to

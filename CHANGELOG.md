@@ -1,3 +1,9 @@
+# [4.21.0](https://github.com/oclif/oclif/compare/4.20.8...4.21.0) (2025-07-17)
+
+### Features
+
+- support overriding sha on pack & upload ([#1813](https://github.com/oclif/oclif/issues/1813)) ([#1814](https://github.com/oclif/oclif/issues/1814)) ([9c1e2b5](https://github.com/oclif/oclif/commit/9c1e2b54f1677a96620e70e8b52311348169be7b))
+
 ## [4.20.8](https://github.com/oclif/oclif/compare/4.20.7...4.20.8) (2025-07-14)
 
 ### Bug Fixes

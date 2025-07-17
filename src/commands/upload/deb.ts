@@ -12,11 +12,15 @@ export default class UploadDeb extends Command {
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
+    sha: Flags.string({
+      description: '7-digit short git commit SHA (defaults to current checked out commit).',
+      required: false,
+    }),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadDeb)
-    const buildConfig = await Tarballs.buildConfig(flags.root)
+    const buildConfig = await Tarballs.buildConfig(flags.root, {sha: flags?.sha})
     const {config, s3Config} = buildConfig
     const dist = (f: string) => buildConfig.dist(path.join('deb', f))
     const S3Options = {

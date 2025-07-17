@@ -63,11 +63,11 @@ async function Tmp(config: Interfaces.Config) {
 
 export async function buildConfig(
   root: string,
-  options: {targets?: string[]; xz?: boolean} = {},
+  options: {sha?: string; targets?: string[]; xz?: boolean} = {},
 ): Promise<BuildConfig> {
   const config = await Config.load({devPlugins: false, root: path.resolve(root), userPlugins: false})
   root = config.root
-  const _gitSha = await gitSha(root, {short: true})
+  const _gitSha = options.sha ?? (await gitSha(root, {short: true}))
   // eslint-disable-next-line new-cap
   const tmp = await Tmp(config)
   const updateConfig = (config.pjson.oclif.update || {}) as UpdateConfig

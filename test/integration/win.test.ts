@@ -11,7 +11,6 @@ import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersi
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 
-const skipIfWindows = process.platform === 'win32' ? it.skip : it
 const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
 
 describe('publish:win', () => {
@@ -42,7 +41,7 @@ describe('publish:win', () => {
     }
   })
 
-  skipIfWindows('publishes valid releases', async () => {
+  it('publishes valid releases', async () => {
     await runCommand('pack win')
     await runCommand('upload win')
     ;[pkg, sha] = await findDistFileSha(process.cwd(), 'win32', (f) => f.endsWith('x64.exe'))

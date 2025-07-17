@@ -11,12 +11,16 @@ export default class UploadWin extends Command {
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
+    sha: Flags.string({
+      description: '7-digit short git commit SHA (defaults to current checked out commit).',
+      required: false,
+    }),
     targets: Flags.string({description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).'}),
   }
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadWin)
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {sha: flags?.sha, targets: flags?.targets?.split(',')})
     const {config, dist, s3Config} = buildConfig
     const S3Options = {
       ACL: s3Config.acl || 'public-read',

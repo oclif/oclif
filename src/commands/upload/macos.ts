@@ -12,6 +12,10 @@ export default class UploadMacos extends Command {
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
+    sha: Flags.string({
+      description: '7-digit short git commit SHA (defaults to current checked out commit).',
+      required: false,
+    }),
     targets: Flags.string({
       char: 't',
       description: 'Comma-separated targets to upload (e.g.: darwin-x64,darwin-arm64).',
@@ -20,7 +24,7 @@ export default class UploadMacos extends Command {
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadMacos)
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {sha: flags?.sha, targets: flags?.targets?.split(',')})
     const {config, dist, s3Config} = buildConfig
     const S3Options = {
       ACL: s3Config.acl || 'public-read',

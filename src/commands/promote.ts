@@ -57,8 +57,8 @@ export default class Promote extends Command {
       MetadataDirective: MetadataDirective.REPLACE,
     }
     const cloudBucketCommitKey = (shortKey: string) =>
-      path.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)
-    const cloudChannelKey = (shortKey: string) => path.join(channelAWSDir(flags.channel, s3Config), shortKey)
+      path.posix.join(s3Config.bucket!, commitAWSDir(flags.version, flags.sha, s3Config), shortKey)
+    const cloudChannelKey = (shortKey: string) => path.posix.join(channelAWSDir(flags.channel, s3Config), shortKey)
 
     // copy tarballs manifests
     const promoteManifest = async (target: (typeof buildConfig.targets)[number]) => {

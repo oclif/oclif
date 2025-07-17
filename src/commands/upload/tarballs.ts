@@ -11,6 +11,10 @@ export default class UploadTarballs extends Command {
   static flags = {
     'dry-run': Flags.boolean({description: 'Run the command without uploading to S3.'}),
     root: Flags.string({char: 'r', default: '.', description: 'Path to oclif CLI root.', required: true}),
+    sha: Flags.string({
+      description: '7-digit short git commit SHA (defaults to current checked out commit).',
+      required: false,
+    }),
     targets: Flags.string({char: 't', description: 'Comma-separated targets to upload (e.g.: linux-arm,win32-x64).'}),
     xz: Flags.boolean({allowNo: true, description: 'Also upload xz.'}),
   }
@@ -18,7 +22,11 @@ export default class UploadTarballs extends Command {
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadTarballs)
     if (process.platform === 'win32') throw new Error('upload does not function on windows')
-    const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(','), xz: flags.xz})
+    const buildConfig = await Tarballs.buildConfig(flags.root, {
+      sha: flags?.sha,
+      targets: flags?.targets?.split(','),
+      xz: flags.xz,
+    })
     const {config, dist, s3Config, xz} = buildConfig
 
     // fail early if targets are not built

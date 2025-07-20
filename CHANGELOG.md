@@ -1,3 +1,9 @@
+## [4.21.1](https://github.com/oclif/oclif/compare/4.21.0...4.21.1) (2025-07-20)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-warn-if-update-available ([6846387](https://github.com/oclif/oclif/commit/68463872ceef6bc1d1fcbf0c7fc969a3a6868360))
+
 # [4.21.0](https://github.com/oclif/oclif/compare/4.20.8...4.21.0) (2025-07-17)
 
 ### Features

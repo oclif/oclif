@@ -1,19 +1,19 @@
 import {Interfaces} from '@oclif/core'
 import {render} from 'ejs'
-import {join} from 'node:path'
+import path from 'node:path'
 
 import {BuildConfig as TarballConfig} from './tarballs/config'
 
 export function commitAWSDir(version: string, sha: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return join(s3SubDir, 'versions', version, sha)
+  return path.posix.join(s3SubDir, 'versions', version, sha)
 }
 
 export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
   if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
-  return join(s3SubDir, 'channels', channel)
+  return path.posix.join(s3SubDir, 'channels', channel)
 }
 
 type TemplateOptions =

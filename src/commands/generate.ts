@@ -1,4 +1,5 @@
 import {Args, Errors, Flags} from '@oclif/core'
+import {warn} from '@oclif/core/errors'
 import {green} from 'ansis'
 import {existsSync} from 'node:fs'
 import {readdir} from 'node:fs/promises'
@@ -278,8 +279,23 @@ const findEjsFiles =
   async (dir: string): Promise<Array<{destination: string; name: string; src: string}>> =>
     (await readdir(dir, {recursive: true, withFileTypes: true}))
       .filter((f) => f.isFile() && f.name.endsWith('.ejs'))
-      .map((f) => ({
-        destination: join(f.path.replace(dir, location), f.name.replace('.ejs', '')),
-        name: f.name,
-        src: join(f.path, f.name),
-      }))
+      .map((f) => {
+        debug({
+          location,
+          name: f.name,
+          parentPath: f.parentPath,
+          path: f.path,
+        })
+        const path = f.path ?? f.parentPath
+        if (!path) {
+          warn(`Could not determine path for file ${f.name}. Skipping.`)
+          return null
+        }
+
+        return {
+          destination: join(path.replace(dir, location), f.name.replace('.ejs', '')),
+          name: f.name,
+          src: join(path, f.name),
+        }
+      })
+      .filter((f) => f !== null) as Array<{destination: string; name: string; src: string}>

@@ -21,7 +21,6 @@ export default class UploadTarballs extends Command {
 
   async run(): Promise<void> {
     const {flags} = await this.parse(UploadTarballs)
-    if (process.platform === 'win32') throw new Error('upload does not function on windows')
     const buildConfig = await Tarballs.buildConfig(flags.root, {
       sha: flags?.sha,
       targets: flags?.targets?.split(','),

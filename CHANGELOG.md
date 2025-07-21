@@ -1,3 +1,9 @@
+# [4.22.0](https://github.com/oclif/oclif/compare/4.21.2...4.22.0) (2025-07-21)
+
+### Features
+
+- enable uploads from windows machines ([#1815](https://github.com/oclif/oclif/issues/1815)) ([#1822](https://github.com/oclif/oclif/issues/1822)) ([c8a4d77](https://github.com/oclif/oclif/commit/c8a4d778c0ea2a913a65b5a17375bd1c02131165))
+
 ## [4.21.2](https://github.com/oclif/oclif/compare/4.21.1...4.21.2) (2025-07-20)
 
 ### Bug Fixes

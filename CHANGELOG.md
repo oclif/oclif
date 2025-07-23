@@ -1,3 +1,9 @@
+## [4.22.1](https://github.com/oclif/oclif/compare/4.22.0...4.22.1) (2025-07-23)
+
+### Bug Fixes
+
+- make readdir work on node 24 ([#1823](https://github.com/oclif/oclif/issues/1823)) ([df4f51b](https://github.com/oclif/oclif/commit/df4f51bf69cb7fc298e4cc2cc831c26054628699))
+
 # [4.22.0](https://github.com/oclif/oclif/compare/4.21.2...4.22.0) (2025-07-21)
 
 ### Features

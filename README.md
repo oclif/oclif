@@ -111,7 +111,7 @@ hello world! (./src/commands/hello/world.ts)
 
 # 🚀 Contributing
 
-See the [contributing guide](./CONRTIBUTING.md).
+See the [contributing guide](./CONTRIBUTING.md).
 
 # 🏭 Related Repositories
 

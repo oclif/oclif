@@ -1725,10 +1725,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4", "@oclif/core@^4.5.1":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.5.1.tgz#7fa9041d13f624e4c00d89605d9f732cf8084748"
-  integrity sha512-JAuARvXOzf75L7rqLL3TIP3OmuTf7N/cjRejkGASfRJH+09180+EGbSkPWSMCns+AaYpDMI+fdaJ6QCoa3f15A==
+"@oclif/core@^4", "@oclif/core@^4.5.1", "@oclif/core@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.5.2.tgz#4db8a365fa7e9e33af272294f710a7f3f25538e2"
+  integrity sha512-eQcKyrEcDYeZJKu4vUWiu0ii/1Gfev6GF4FsLSgNez5/+aQyAUCjg3ZWlurf491WiYZTXCWyKAxyPWk8DKv2MA==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"

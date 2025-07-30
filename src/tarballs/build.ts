@@ -109,6 +109,9 @@ export async function build(c: BuildConfig, options: BuildOptions = {}): Promise
   }
 
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)
+  log(`available targets: ${c.targets.map((t) => `${t.platform}-${t.arch}`).join(', ')}`)
+  log(`targets to build after filtering: ${targetsToBuild.map((t) => `${t.platform}-${t.arch}`).join(', ')}`)
+  log(`options.platform: ${options.platform}`)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)
     await Promise.all(targetsToBuild.map((t) => buildTarget(t, c, options)))

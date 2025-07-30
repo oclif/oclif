@@ -222,6 +222,7 @@ const buildTarget = async (
   c: BuildConfig,
   options: BuildOptions,
 ) => {
+  log(`starting buildTarget for ${target.platform}-${target.arch}`)
   if (target.platform === 'win32' && target.arch === 'arm64' && lt(c.nodeVersion, '20.0.0')) {
     ux.warn('win32-arm64 is only supported for node >=20.0.0. Skipping...')
     return
@@ -260,7 +261,12 @@ const buildTarget = async (
     if (c.xz) await pack(workspace, c.dist(xzLocalKey), c)
   }
 
-  if (!c.updateConfig.s3?.host) return
+  if (!c.updateConfig.s3?.host) {
+    log(`skipping manifest creation for ${target.platform}-${target.arch}: no S3 host configured`)
+    return
+  }
+
+  log(`creating manifest for ${target.platform}-${target.arch}`)
   const rollout = typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout
 
   const gzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${gzLocalKey}`
@@ -287,4 +293,5 @@ const buildTarget = async (
   }
   const manifestFilepath = c.dist(templateShortKey('manifest', templateShortKeyCommonOptions))
   await writeJSON(manifestFilepath, manifest, {spaces: 2})
+  log(`wrote manifest to ${manifestFilepath}`)
 }

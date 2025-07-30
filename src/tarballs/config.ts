@@ -81,11 +81,15 @@ export async function buildConfig(
         return false
       }
 
-      // Skip 32-bit Arm for Node.js 24+ (same logic as in buildTarget)
       if (t === 'linux-arm' && semver.gt(nodeVersion, '24.0.0')) {
         ux.warn(`32-bit Arm (armv7l) builds are not available for Node.js 24 and later.
           If you are targeting 64-bit Arm, use 'linux-arm64'. Otherwise, use a Node.js version older than 24.
           See https://nodejs.org/en/blog/release/v24.0.0 for more information.`)
+        return false
+      }
+
+      if (t === 'win32-x86' && semver.gt(nodeVersion, '24.0.0')) {
+        ux.warn('win32-x86 is not supported for Node.js 24 and later. Skipping...')
         return false
       }
 

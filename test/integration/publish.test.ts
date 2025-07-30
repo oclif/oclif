@@ -86,9 +86,11 @@ describe('upload tarballs', async () => {
   })
 
   it('checks uploads for version and channel', async () => {
-    await runCommand('pack tarballs --parallel --xz')
-    await runCommand('upload tarballs --xz')
-    await runCommand(`promote --channel ${pjson.version} --sha ${sha} --version ${pjson.version}`)
+    await runCommand('pack tarballs --parallel --xz', undefined, {print: true})
+    await runCommand('upload tarballs --xz', undefined, {print: true})
+    await runCommand(`promote --channel ${pjson.version} --sha ${sha} --version ${pjson.version}`, undefined, {
+      print: true,
+    })
     await manifest(`versions/${pjson.version}/${sha}`, pjson.oclif.update.node.version)
     await manifest(`channels/${pjson.version}`, pjson.oclif.update.node.version)
   })

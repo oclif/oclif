@@ -18,8 +18,7 @@ jobs:
     needs: [linux-unit-tests]
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -40,8 +39,7 @@ jobs:
     needs: [linux-unit-tests]
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
         os: [ubuntu-latest, windows-latest]
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -59,8 +57,7 @@ jobs:
     needs: [linux-unit-tests]
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
         package_manager: [yarn, npm, pnpm]
         module_type: [CommonJS, ESM]
         os: [ubuntu-latest, windows-latest]
@@ -99,8 +96,7 @@ jobs:
     needs: [linux-unit-tests]
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
         package_manager: [yarn, npm, pnpm]
         module_type: [CommonJS, ESM]
         os: [ubuntu-latest, windows-latest]
@@ -128,8 +124,7 @@ jobs:
     needs: [linux-unit-tests]
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -153,8 +148,7 @@ jobs:
     needs: [linux-unit-tests]
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: macos-latest
     steps:
@@ -177,8 +171,7 @@ jobs:
       OCLIF_DEB_PRIVATE_KEY: ${{ secrets.OCLIF_DEB_PRIVATE_KEY }}
     strategy:
       matrix:
-        # node_version: [lts/*, latest]
-        node_version: [22, 20]
+        node_version: [lts/*, latest]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

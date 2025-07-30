@@ -6,7 +6,6 @@ import {existsSync} from 'node:fs'
 import {mkdir, readdir, rm} from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
-import {lt} from 'semver'
 
 import {log} from '../log'
 import {commitAWSDir, templateShortKey} from '../upload-util'
@@ -222,11 +221,6 @@ const buildTarget = async (
   c: BuildConfig,
   options: BuildOptions,
 ) => {
-  if (target.platform === 'win32' && target.arch === 'arm64' && lt(c.nodeVersion, '20.0.0')) {
-    ux.warn('win32-arm64 is only supported for node >=20.0.0. Skipping...')
-    return
-  }
-
   const workspace = c.workspace(target)
   const {arch, platform} = target
   const {bin, version} = c.config
@@ -261,6 +255,7 @@ const buildTarget = async (
   }
 
   if (!c.updateConfig.s3?.host) return
+
   const rollout = typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout
 
   const gzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${gzLocalKey}`

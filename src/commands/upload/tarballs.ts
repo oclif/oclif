@@ -82,7 +82,9 @@ export default class UploadTarballs extends Command {
         const manifest = templateShortKey('manifest', shortKeyInputs)
         const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
         const local = dist(manifest)
+        log(`checking for buildmanifest at ${local}`)
         if (fs.existsSync(local)) {
+          log(`uploading buildmanifest ${manifest}`)
           return aws.s3.uploadFile(
             dist(manifest),
             {

@@ -6,7 +6,7 @@ import {existsSync} from 'node:fs'
 import {mkdir, readdir, rm} from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
-import {lt} from 'semver'
+import {gt, lt} from 'semver'
 
 import {log} from '../log'
 import {commitAWSDir, templateShortKey} from '../upload-util'
@@ -224,6 +224,13 @@ const buildTarget = async (
 ) => {
   if (target.platform === 'win32' && target.arch === 'arm64' && lt(c.nodeVersion, '20.0.0')) {
     ux.warn('win32-arm64 is only supported for node >=20.0.0. Skipping...')
+    return
+  }
+
+  if (target.platform === 'linux' && target.arch === 'arm' && gt(c.nodeVersion, '24.0.0')) {
+    ux.warn(`32-bit Arm (armv7l) builds are not available for Node.js 24 and later.
+If you are targeting 64-bit Arm, use 'linux-arm64'. Otherwise, use a Node.js version older than 24.
+See https://nodejs.org/en/blog/release/v24.0.0 for more information.`)
     return
   }
 

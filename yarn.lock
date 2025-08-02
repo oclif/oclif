@@ -1471,7 +1471,7 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4", "@oclif/core@^4.5.1", "@oclif/core@^4.5.2":
+"@oclif/core@^4", "@oclif/core@^4.5.2":
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.5.2.tgz#4db8a365fa7e9e33af272294f710a7f3f25538e2"
   integrity sha512-eQcKyrEcDYeZJKu4vUWiu0ii/1Gfev6GF4FsLSgNez5/+aQyAUCjg3ZWlurf491WiYZTXCWyKAxyPWk8DKv2MA==
@@ -1513,13 +1513,13 @@
     debug "^4.4.1"
     semver "^7.7.2"
 
-"@oclif/plugin-not-found@^3.2.61":
-  version "3.2.61"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.61.tgz#f52f52a57023874bb7abd9ebcb0248a15807e4bd"
-  integrity sha512-Ku6BYtaHH+b/csS8YJvhPHkr0YOZFcqxza1oe0RWcs9fY48hxXZrCZ4HsfGYtpdE20SMwGrtE1ceKzBg7ZO04w==
+"@oclif/plugin-not-found@^3.2.62":
+  version "3.2.62"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.62.tgz#10047ce522c5d6cee8ea3240627938f1f121b2dd"
+  integrity sha512-hwUdpeExF4ZhIf0mTeegnznpfSICOr4tnk8VZ6POmEcvNEhK8OtU/zbfCQbiGNa0Zjp1oMncD1Oxh585GHUSog==
   dependencies:
     "@inquirer/prompts" "^7.7.1"
-    "@oclif/core" "^4.5.1"
+    "@oclif/core" "^4.5.2"
     ansis "^3.17.0"
     fast-levenshtein "^3.0.0"
 

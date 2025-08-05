@@ -4,6 +4,7 @@ import {exec as execSync} from 'node:child_process'
 import * as fsPromises from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
+import {gt} from 'semver'
 
 import * as Tarballs from '../../tarballs'
 import {debArch, debVersion, templateShortKey} from '../../upload-util'
@@ -133,7 +134,19 @@ export default class PackDeb extends Command {
       this.log(`finished building debian / ${arch}`)
     }
 
-    const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'linux').map((t) => t.arch))
+    const arches = uniq(
+      buildConfig.targets
+        .filter((t) => t.platform === 'linux')
+        .filter((t) => {
+          // Skip 32-bit Arm for Node.js 24+
+          if (t.arch === 'arm' && gt(buildConfig.nodeVersion, '24.0.0')) {
+            return false
+          }
+
+          return true
+        })
+        .map((t) => t.arch),
+    )
     await Promise.all(arches.map((a) => build(a)))
 
     await exec('apt-ftparchive packages . > Packages', {cwd: dist})

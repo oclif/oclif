@@ -129,7 +129,7 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     await exec(`${PACKAGE_MANAGER} run build`, {cwd: cliDir})
     await deletePrepackScript(cliDir)
 
-    await exec(`${executable} pack tarballs --targets linux-arm`, {cwd: cliDir})
+    await exec(`${executable} pack tarballs --targets linux-arm64`, {cwd: cliDir})
     expect(existsSync(join(cliDir, 'tmp', cliName, 'package.json'))).to.be.true
 
     const result = await exec(`bin/${cliName} hello world`, {cwd: join(cliDir, 'tmp', cliName)})
@@ -150,7 +150,7 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
     await exec(`${PACKAGE_MANAGER} run build`, {cwd: cliDir})
     await deletePrepackScript(cliDir)
 
-    await exec(`${executable} pack tarballs --targets linux-arm --prune-lockfiles`, {cwd: cliDir})
+    await exec(`${executable} pack tarballs --targets linux-arm64 --prune-lockfiles`, {cwd: cliDir})
     expect(existsSync(join(cliDir, 'tmp', cliName, 'package.json'))).to.be.true
 
     const result = await exec(`bin/${cliName} hello world`, {cwd: join(cliDir, 'tmp', cliName)})

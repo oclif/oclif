@@ -60,7 +60,7 @@
     "eslint-plugin-perfectionist": "^4",
     "husky": "^9.1.7",
     "lint-staged": "^15",
-    "mocha": "^10.8.2",
+    "mocha": "^11",
     "nyc": "^15.1.0",
     "prettier": "^3.6.2",
     "shelljs": "^0.10.0",

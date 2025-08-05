@@ -81,6 +81,21 @@ export async function buildConfig(
         return false
       }
 
+      if (t === 'linux-arm' && semver.gt(nodeVersion, '24.0.0')) {
+        ux.warn('linux-arm is not supported for Node.js 24 and later. Skipping...')
+        return false
+      }
+
+      if (t === 'win32-x86' && semver.gt(nodeVersion, '24.0.0')) {
+        ux.warn('win32-x86 is not supported for Node.js 24 and later. Skipping...')
+        return false
+      }
+
+      if (t === 'win32-arm64' && semver.lt(nodeVersion, '20.0.0')) {
+        ux.warn('win32-arm64 is only supported for node >=20.0.0. Skipping...')
+        return false
+      }
+
       return true
     })
     .map((t) => {

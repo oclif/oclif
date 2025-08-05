@@ -1,3 +1,11 @@
+## [4.22.6](https://github.com/oclif/oclif/compare/4.22.5...4.22.6) (2025-08-05)
+
+### Bug Fixes
+
+- handle linux-arm on node 24 ([cbf8eec](https://github.com/oclif/oclif/commit/cbf8eeca2dcc9f083e50b577bd0f8fe5664377a6))
+- more linux-arm node 24 fixes ([6677fb5](https://github.com/oclif/oclif/commit/6677fb5c7ff2cb2c8a696a3c4a78cf84fe25223f))
+- more linux-arm node 24 fixes ([a70a18a](https://github.com/oclif/oclif/commit/a70a18a972fea32689c9ee17fdc5dcb7c7256fb2))
+
 ## [4.22.5](https://github.com/oclif/oclif/compare/4.22.4...4.22.5) (2025-07-27)
 
 ### Bug Fixes

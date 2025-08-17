@@ -1841,10 +1841,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-help@^6.2.29":
-  version "6.2.29"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.29.tgz#6c349de65f5a7fee5f94032137fc872ac829d259"
-  integrity sha512-90DMOngEHiQw1I7oylVE1Hco991OkeDFJMx3CNJ2M3g5F1dhXgscjbaIlYHdiuNyVs0mTkKevdiMs911suD4yA==
+"@oclif/plugin-help@^6.2.32":
+  version "6.2.32"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.32.tgz#b903d845b271737811383fed879cf6c379bf23fa"
+  integrity sha512-LrmMdo9EMJciOvF8UurdoTcTMymv5npKtxMAyonZvhSvGR8YwCKnuHIh00+SO2mNtGOYam7f4xHnUmj2qmanyA==
   dependencies:
     "@oclif/core" "^4"
 

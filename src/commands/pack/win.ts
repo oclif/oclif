@@ -73,7 +73,8 @@ ${customization}
 
 Section "${config.name} CLI \${VERSION}"
   ; Store the current working directory before changing it
-  GetCurrentDirectory $R1
+  Push $OUTDIR
+  Pop $R1
 
   SetOutPath $INSTDIR
   File /r bin
@@ -99,7 +100,8 @@ Section "${config.name} CLI \${VERSION}"
 
   check_current:
   ; Check current directory after SetOutPath
-  GetCurrentDirectory $R2
+  Push $OUTDIR
+  Pop $R2
   IfFileExists "$R2\\cmd.exe" 0 find_system_cmd
     MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in current directory ($R2). Installation cannot continue for security reasons."
     Abort

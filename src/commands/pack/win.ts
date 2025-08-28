@@ -72,10 +72,40 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
 ${customization}
 
 Section "${config.name} CLI \${VERSION}"
+  ; Store the current working directory before changing it
+  GetCurrentDirectory $R1
+
   SetOutPath $INSTDIR
   File /r bin
   File /r client
-    ; Use explicit System32/Sysnative path to cmd.exe for security
+
+  ; SECURITY CHECK: Check for malicious cmd.exe in various locations
+  ; Check installation directory
+  IfFileExists "$INSTDIR\\cmd.exe" 0 check_working_dir
+    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in installation directory ($INSTDIR). Installation cannot continue for security reasons."
+    Abort
+
+  check_working_dir:
+  ; Check original working directory
+  IfFileExists "$R1\\cmd.exe" 0 check_temp
+    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in working directory ($R1). Installation cannot continue for security reasons."
+    Abort
+
+  check_temp:
+  ; Check Windows temp directory
+  IfFileExists "$TEMP\\cmd.exe" 0 check_current
+    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in temp directory ($TEMP). Installation cannot continue for security reasons."
+    Abort
+
+  check_current:
+  ; Check current directory after SetOutPath
+  GetCurrentDirectory $R2
+  IfFileExists "$R2\\cmd.exe" 0 find_system_cmd
+    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in current directory ($R2). Installation cannot continue for security reasons."
+    Abort
+
+  find_system_cmd:
+  ; Use explicit System32/Sysnative path to cmd.exe for security
   ; Initialize path variables
   StrCpy $1 "$WINDIR\\System32\\cmd.exe"  ; Default path
   StrCpy $2 "$WINDIR\\Sysnative\\cmd.exe" ; WOW64 path
@@ -83,20 +113,28 @@ Section "${config.name} CLI \${VERSION}"
   ; First check if Sysnative path exists (WOW64 case)
   IfFileExists "$2" 0 try_system32
     StrCpy $0 "$2"
-    Goto path_selected
+    Goto verify_path
     
   try_system32:
     ; Then try System32
     IfFileExists "$1" 0 fail
       StrCpy $0 "$1"
-      Goto path_selected
+      Goto verify_path
       
   fail:
     MessageBox MB_OK|MB_ICONSTOP "Error: Could not find system cmd.exe. Installation cannot continue."
     Abort
+
+  verify_path:
+  ; Verify we're using a system path
+  StrCpy $3 "$0" 14 ; Get first 14 chars to check if it starts with $WINDIR\Sys
+  StrCpy $4 "$WINDIR\\Sys"
+  StrCmp $3 $4 path_is_safe
+    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: cmd.exe path validation failed. Installation cannot continue."
+    Abort
     
-  path_selected:
-  ; Now $0 contains the full verified path to system cmd.exe
+  path_is_safe:
+  ; Now $0 contains the verified system cmd.exe path
 
   WriteRegStr HKCU "Software\\${config.dirname}" "" $INSTDIR
   WriteUninstaller "$INSTDIR\\Uninstall.exe"

@@ -41,6 +41,7 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
     defenderOptional: boolean
     hideDefenderOption: boolean
   }) => `!include MUI2.nsh
+!include LogicLib.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -74,7 +75,16 @@ Section "${config.name} CLI \${VERSION}"
   SetOutPath $INSTDIR
   File /r bin
   File /r client
-  ExpandEnvStrings $0 "%COMSPEC%"
+  ; Use explicit System32/Sysnative path to cmd.exe for security
+  ; Check if we're running on x64
+  System::Call "kernel32::GetCurrentProcess() i .s"
+  System::Call "kernel32::IsWow64Process(i s, *i .r0)"
+
+  $\{If} $0 == 0  ; Not running under WOW64 (either x86 on x86 or x64 on x64)
+    StrCpy $0 "$WINDIR\\System32\\cmd.exe"
+  $\{Else}        ; Running under WOW64 (x86 on x64)
+    StrCpy $0 "$WINDIR\\Sysnative\\cmd.exe"
+  $\{EndIf}
 
   WriteRegStr HKCU "Software\\${config.dirname}" "" $INSTDIR
   WriteUninstaller "$INSTDIR\\Uninstall.exe"

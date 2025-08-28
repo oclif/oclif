@@ -75,16 +75,28 @@ Section "${config.name} CLI \${VERSION}"
   SetOutPath $INSTDIR
   File /r bin
   File /r client
-  ; Use explicit System32/Sysnative path to cmd.exe for security
-  ; Check if we're running on x64
-  System::Call "kernel32::GetCurrentProcess() i .s"
-  System::Call "kernel32::IsWow64Process(i s, *i .r0)"
-
-  $\{If} $0 == 0  ; Not running under WOW64 (either x86 on x86 or x64 on x64)
-    StrCpy $0 "$WINDIR\\System32\\cmd.exe"
-  $\{Else}        ; Running under WOW64 (x86 on x64)
-    StrCpy $0 "$WINDIR\\Sysnative\\cmd.exe"
-  $\{EndIf}
+    ; Use explicit System32/Sysnative path to cmd.exe for security
+  ; Initialize path variables
+  StrCpy $1 "$WINDIR\\System32\\cmd.exe"  ; Default path
+  StrCpy $2 "$WINDIR\\Sysnative\\cmd.exe" ; WOW64 path
+  
+  ; First check if Sysnative path exists (WOW64 case)
+  IfFileExists "$2" 0 try_system32
+    StrCpy $0 "$2"
+    Goto path_selected
+    
+  try_system32:
+    ; Then try System32
+    IfFileExists "$1" 0 fail
+      StrCpy $0 "$1"
+      Goto path_selected
+      
+  fail:
+    MessageBox MB_OK|MB_ICONSTOP "Error: Could not find system cmd.exe. Installation cannot continue."
+    Abort
+    
+  path_selected:
+  ; Now $0 contains the full verified path to system cmd.exe
 
   WriteRegStr HKCU "Software\\${config.dirname}" "" $INSTDIR
   WriteUninstaller "$INSTDIR\\Uninstall.exe"
@@ -106,9 +118,18 @@ SectionEnd
 Section ${defenderOptional ? '/o ' : ''}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
     config.dirname
   } to Windows Defender exclusions (highly recommended for performance!)"
-  ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
+  ; Use the verified system cmd.exe path with proper quoting
+  ExecWait '"$0" /C powershell -ExecutionPolicy Bypass -Command "$\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
     config.dirname
-  }$\\"}$\\" -FFFeatureOff" SW_HIDE
+  }$\\"}$\\"" -FFFeatureOff' $R0
+  
+  ; Check if the command succeeded
+  IntCmp $R0 0 cmd_success
+    MessageBox MB_OK|MB_ICONSTOP "Error: Failed to set Windows Defender exclusion."
+    Goto cmd_done
+  cmd_success:
+    DetailPrint "Successfully set Windows Defender exclusion"
+  cmd_done:
 SectionEnd
 
 Section "Uninstall"

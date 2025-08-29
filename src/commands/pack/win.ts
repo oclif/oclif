@@ -41,7 +41,6 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
     defenderOptional: boolean
     hideDefenderOption: boolean
   }) => `!include MUI2.nsh
-!include LogicLib.nsh
 
 !define Version '${config.version.split('-')[0]}'
 Name "${config.name}"
@@ -72,71 +71,19 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
 ${customization}
 
 Section "${config.name} CLI \${VERSION}"
-  ; Store the current working directory before changing it
-  Push $OUTDIR
-  Pop $R1
-
   SetOutPath $INSTDIR
   File /r bin
   File /r client
 
-  ; SECURITY CHECK: Check for malicious cmd.exe in various locations
-  ; Check installation directory
-  IfFileExists "$INSTDIR\\cmd.exe" 0 check_working_dir
-    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in installation directory ($INSTDIR). Installation cannot continue for security reasons."
-    Abort
-
-  check_working_dir:
-  ; Check original working directory
-  IfFileExists "$R1\\cmd.exe" 0 check_temp
-    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in working directory ($R1). Installation cannot continue for security reasons."
-    Abort
-
-  check_temp:
-  ; Check Windows temp directory
-  IfFileExists "$TEMP\\cmd.exe" 0 check_current
-    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in temp directory ($TEMP). Installation cannot continue for security reasons."
-    Abort
-
-  check_current:
-  ; Check current directory after SetOutPath
-  Push $OUTDIR
-  Pop $R2
-  IfFileExists "$R2\\cmd.exe" 0 find_system_cmd
-    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: Malicious cmd.exe detected in current directory ($R2). Installation cannot continue for security reasons."
-    Abort
-
-  find_system_cmd:
   ; Use explicit System32/Sysnative path to cmd.exe for security
-  ; Initialize path variables
-  StrCpy $1 "$WINDIR\\System32\\cmd.exe"  ; Default path
-  StrCpy $2 "$WINDIR\\Sysnative\\cmd.exe" ; WOW64 path
-  
-  ; First check if Sysnative path exists (WOW64 case)
-  IfFileExists "$2" 0 try_system32
-    StrCpy $0 "$2"
-    Goto verify_path
-    
-  try_system32:
-    ; Then try System32
-    IfFileExists "$1" 0 fail
-      StrCpy $0 "$1"
-      Goto verify_path
+  StrCpy $0 "$WINDIR\\System32\\cmd.exe"  ; Try System32 first
+  IfFileExists "$0" path_is_safe
+    StrCpy $0 "$WINDIR\\Sysnative\\cmd.exe"  ; Try Sysnative for WOW64
+    IfFileExists "$0" path_is_safe
+      MessageBox MB_OK|MB_ICONSTOP "Error: Could not find system cmd.exe. Installation cannot continue."
+      Abort
       
-  fail:
-    MessageBox MB_OK|MB_ICONSTOP "Error: Could not find system cmd.exe. Installation cannot continue."
-    Abort
-
-  verify_path:
-  ; Verify we're using a system path
-  StrCpy $3 "$0" 14 ; Get first 14 chars to check if it starts with $WINDIR\Sys
-  StrCpy $4 "$WINDIR\\Sys"
-  StrCmp $3 $4 path_is_safe
-    MessageBox MB_OK|MB_ICONSTOP "SECURITY WARNING: cmd.exe path validation failed. Installation cannot continue."
-    Abort
-    
   path_is_safe:
-  ; Now $0 contains the verified system cmd.exe path
 
   WriteRegStr HKCU "Software\\${config.dirname}" "" $INSTDIR
   WriteUninstaller "$INSTDIR\\Uninstall.exe"
@@ -158,18 +105,7 @@ SectionEnd
 Section ${defenderOptional ? '/o ' : ''}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
     config.dirname
   } to Windows Defender exclusions (highly recommended for performance!)"
-  ; Use the verified system cmd.exe path with proper quoting
-  ExecWait '"$0" /C powershell -ExecutionPolicy Bypass -Command "$\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
-    config.dirname
-  }$\\"}$\\"" -FFFeatureOff' $R0
-  
-  ; Check if the command succeeded
-  IntCmp $R0 0 cmd_success
-    MessageBox MB_OK|MB_ICONSTOP "Error: Failed to set Windows Defender exclusion."
-    Goto cmd_done
-  cmd_success:
-    DetailPrint "Successfully set Windows Defender exclusion"
-  cmd_done:
+  ExecWait '"$0" /C powershell -ExecutionPolicy Bypass -Command "$\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${config.dirname}$\\"}$\\"" -FFFeatureOff SW_HIDE'
 SectionEnd
 
 Section "Uninstall"

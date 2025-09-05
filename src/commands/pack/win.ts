@@ -74,7 +74,16 @@ Section "${config.name} CLI \${VERSION}"
   SetOutPath $INSTDIR
   File /r bin
   File /r client
-  ExpandEnvStrings $0 "%COMSPEC%"
+
+  ; Use explicit System32/Sysnative path to cmd.exe for security
+  StrCpy $0 "$WINDIR\\System32\\cmd.exe"  ; Try System32 first
+  IfFileExists "$0" path_is_safe
+    StrCpy $0 "$WINDIR\\Sysnative\\cmd.exe"  ; Try Sysnative for WOW64
+    IfFileExists "$0" path_is_safe
+      MessageBox MB_OK|MB_ICONSTOP "Error: Could not find system cmd.exe. Installation cannot continue."
+      Abort
+      
+  path_is_safe:
 
   WriteRegStr HKCU "Software\\${config.dirname}" "" $INSTDIR
   WriteUninstaller "$INSTDIR\\Uninstall.exe"
@@ -96,9 +105,7 @@ SectionEnd
 Section ${defenderOptional ? '/o ' : ''}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
     config.dirname
   } to Windows Defender exclusions (highly recommended for performance!)"
-  ExecShell "" '"$0"' "/C powershell -ExecutionPolicy Bypass -Command $\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${
-    config.dirname
-  }$\\"}$\\" -FFFeatureOff" SW_HIDE
+  ExecWait '"$0" /C powershell -ExecutionPolicy Bypass -Command "$\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${config.dirname}$\\"}$\\"" -FFFeatureOff SW_HIDE'
 SectionEnd
 
 Section "Uninstall"

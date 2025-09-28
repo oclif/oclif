@@ -1841,15 +1841,15 @@
   dependencies:
     "@oclif/core" "^4"
 
-"@oclif/plugin-legacy@^2.0.24":
-  version "2.0.24"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.24.tgz#130f7a0851cd068672f5d920f8011c5b3d0fe652"
-  integrity sha512-rTAGv8OaKi6dL1C7u0Oh82fqEp+utQ6LhP8nmyfIrtHHIvqSyxwig5dBLumblIvrW8TMkde0v5w7b2lfQ8y0rg==
+"@oclif/plugin-legacy@^2.0.25":
+  version "2.0.25"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.25.tgz#6587a809bacced52adf3d9f53beac25971d902be"
+  integrity sha512-qXTKPewdudBQftP8LN3A/QuMyabCSMI078EIAS9DFT2s9k/7H2fZyKRtRQ/mgHsznKNd6zlHnCdJpMgwnOBb6A==
   dependencies:
     "@oclif/color" "^1.0.13"
     "@oclif/core" "^3.27.0"
     ansi-escapes "^4.3.2"
-    debug "^4.4.1"
+    debug "^4.4.3"
     semver "^7.7.2"
 
 "@oclif/plugin-not-found@^3.2.68":

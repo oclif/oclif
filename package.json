@@ -28,7 +28,7 @@
     "got": "^13",
     "lodash": "^4.17.21",
     "normalize-package-data": "^6",
-    "semver": "^7.7.1",
+    "semver": "^7.7.3",
     "sort-package-json": "^2.15.1",
     "tiny-jsonc": "^1.0.2",
     "validate-npm-package-name": "^5.0.1"

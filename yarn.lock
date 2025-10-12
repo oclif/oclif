@@ -1747,10 +1747,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4", "@oclif/core@^4.5.3", "@oclif/core@^4.5.4":
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.5.4.tgz#d82bf4516d1e8a210aab4ccde826a0ce6cadf514"
-  integrity sha512-78YYJls8+KG96tReyUsesKKIKqC0qbFSY1peUSrt0P2uGsrgAuU9axQ0iBQdhAlIwZDcTyaj+XXVQkz2kl/O0w==
+"@oclif/core@^4", "@oclif/core@^4.5.3", "@oclif/core@^4.5.5":
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.5.5.tgz#91073acd6bdc6f62f8a2863a388d327dbe95967c"
+  integrity sha512-iQzlaJQgPeUXrtrX71OzDwxPikQ7c2FhNd8U8rBB7BCtj2XYfmzBT/Hmbc+g9OKDIG/JkbJT0fXaWMMBrhi+1A==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"
@@ -1763,7 +1763,7 @@
     is-wsl "^2.2.0"
     lilconfig "^3.1.3"
     minimatch "^9.0.5"
-    semver "^7.6.3"
+    semver "^7.7.3"
     string-width "^4.2.3"
     supports-color "^8"
     tinyglobby "^0.2.14"

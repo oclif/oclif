@@ -22,4 +22,4 @@ DESCRIPTION
   Generates plugin manifest json (oclif.manifest.json).
 ```
 
-_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/4.22.37/src/commands/manifest.ts)_
+_See code: [src/commands/manifest.ts](https://github.com/oclif/oclif/blob/4.22.38/src/commands/manifest.ts)_

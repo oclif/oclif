@@ -22,4 +22,4 @@ DESCRIPTION
   Display help for oclif.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.33/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.34/src/commands/help.ts)_

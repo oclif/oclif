@@ -1830,10 +1830,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4", "@oclif/core@^4.5.5", "@oclif/core@^4.7.2":
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.7.2.tgz#9ebf36b4693500685956f3405c55526d191aa5ef"
-  integrity sha512-AmZnhEnyD7bFxmzEKRaOEr0kzonmwIip72eWZPWB5+7D9ayHa/QFX08zhaQT9eOo0//ed64v5p5QZIbYCbQaJQ==
+"@oclif/core@^4", "@oclif/core@^4.7.2", "@oclif/core@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.8.0.tgz#bde8fad00019c8c0a8e27787b4b42c4670842785"
+  integrity sha512-jteNUQKgJHLHFbbz806aGZqf+RJJ7t4gwF4MYa8fCwCxQ8/klJNWc0MvaJiBebk7Mc+J39mdlsB4XraaCKznFw==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"

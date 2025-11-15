@@ -3826,9 +3826,9 @@ eslint-config-oclif@^5.2.2:
     eslint-plugin-unicorn "^48.0.1"
 
 eslint-config-oclif@^6:
-  version "6.0.116"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-6.0.116.tgz#dcc408684542778a01d05d1ffdcb31326ebc16db"
-  integrity sha512-h1iKXrrOZFuGy7huGJ6u/rQNg8lVPVk7jNMqWR2ykla4/4IpXgjCtfXCoyv5vX9W3ufr0+acIV+e3D8Lau8eFg==
+  version "6.0.117"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-6.0.117.tgz#e9de3905f2faccd661730688b9da97109e087383"
+  integrity sha512-7E6X0U+nik24y9YJgG5UFGcKFMaGj84ZFvEQvlNTT33E/cQVF3bUzpdc3Cu+ty0LjX+UNZvKXdXr7AIh/FdHLQ==
   dependencies:
     "@eslint/compat" "^1.4.1"
     "@eslint/eslintrc" "^3.3.1"

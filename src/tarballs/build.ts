@@ -153,6 +153,7 @@ const updatePJSON = async (c: BuildConfig) => {
   const pjsonPath = path.join(c.workspace(), 'package.json')
   const pjson = await readJSON(pjsonPath)
   pjson.version = c.config.version
+  pjson.oclif = pjson.oclif ?? {}
   pjson.oclif.update = pjson.oclif.update ?? {}
   pjson.oclif.update.s3 = pjson.oclif.update.s3 ?? {}
   pjson.oclif.update.s3.bucket = c.s3Config.bucket

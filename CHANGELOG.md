@@ -1,3 +1,9 @@
+## [4.22.55](https://github.com/oclif/oclif/compare/4.22.54...4.22.55) (2025-12-12)
+
+### Bug Fixes
+
+- initialize oclif object when building tarballs ([58f1921](https://github.com/oclif/oclif/commit/58f19212a27be504ff2de16c98cd116b86e6ef58)), closes [#1904](https://github.com/oclif/oclif/issues/1904)
+
 ## [4.22.54](https://github.com/oclif/oclif/compare/4.22.53...4.22.54) (2025-12-07)
 
 ### Bug Fixes

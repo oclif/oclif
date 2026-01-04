@@ -9,7 +9,7 @@
   "bugs": "https://github.com/oclif/oclif/issues",
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.962.0",
-    "@aws-sdk/client-s3": "^3.958.0",
+    "@aws-sdk/client-s3": "^3.962.0",
     "@inquirer/confirm": "^3.1.22",
     "@inquirer/input": "^2.2.4",
     "@inquirer/select": "^2.5.0",

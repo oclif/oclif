@@ -34,7 +34,7 @@ FLAG DESCRIPTIONS
     For more details see the `-Zcompress-type` section at https://man7.org/linux/man-pages/man1/dpkg-deb.1.html
 ```
 
-_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/4.22.66/src/commands/pack/deb.ts)_
+_See code: [src/commands/pack/deb.ts](https://github.com/oclif/oclif/blob/4.22.67/src/commands/pack/deb.ts)_
 
 ## `oclif pack macos`
 
@@ -57,7 +57,7 @@ DESCRIPTION
   Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 ```
 
-_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/4.22.66/src/commands/pack/macos.ts)_
+_See code: [src/commands/pack/macos.ts](https://github.com/oclif/oclif/blob/4.22.67/src/commands/pack/macos.ts)_
 
 ## `oclif pack tarballs`
 
@@ -84,7 +84,7 @@ DESCRIPTION
   Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.
 ```
 
-_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/4.22.66/src/commands/pack/tarballs.ts)_
+_See code: [src/commands/pack/tarballs.ts](https://github.com/oclif/oclif/blob/4.22.67/src/commands/pack/tarballs.ts)_
 
 ## `oclif pack win`
 
@@ -125,4 +125,4 @@ FLAG DESCRIPTIONS
     There is no way to set a hidden checkbox with "true" as a default...the user can always allow full security
 ```
 
-_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/4.22.66/src/commands/pack/win.ts)_
+_See code: [src/commands/pack/win.ts](https://github.com/oclif/oclif/blob/4.22.67/src/commands/pack/win.ts)_

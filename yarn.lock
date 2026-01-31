@@ -1971,10 +1971,10 @@
     debug "^4.4.3"
     semver "^7.7.3"
 
-"@oclif/plugin-not-found@^3.2.73":
-  version "3.2.73"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.73.tgz#16182e44b3e058972e6c2e380c66a5c9432f15bf"
-  integrity sha512-2bQieTGI9XNFe9hKmXQjJmHV5rZw+yn7Rud1+C5uLEo8GaT89KZbiLTJgL35tGILahy/cB6+WAs812wjw7TK6w==
+"@oclif/plugin-not-found@^3.2.74":
+  version "3.2.74"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-not-found/-/plugin-not-found-3.2.74.tgz#04ba56f036b3b416d626b25f62d5d712331c652f"
+  integrity sha512-6RD/EuIUGxAYR45nMQg+nw+PqwCXUxkR6Eyn+1fvbVjtb9d+60OPwB77LCRUI4zKNI+n0LOFaMniEdSpb+A7kQ==
   dependencies:
     "@inquirer/prompts" "^7.10.1"
     "@oclif/core" "^4.8.0"

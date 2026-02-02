@@ -79,6 +79,24 @@ const copyCoreYarnFiles = async (yarnRootPath: string, workspacePath: string) =>
   await copyYarnDirectory('./.yarn/patches/', yarnRootPath, workspacePath)
 }
 
+const findPnpmWorkspaceRoot = async (root: null | string | undefined) => {
+  const result = await exec("pnpm --workspace-root pwd", {cwd: root ?? process.cwd() }).catch(() => {})
+  return result?.stdout?.trim()
+}
+
+const isPnpmProject = async (root: null | string | undefined) => {
+  const workspaceRoot = await findPnpmWorkspaceRoot(root)
+  return workspaceRoot !== undefined
+}
+
+const deployPnpmProject = async (c: BuildConfig) => {
+  const workspaceRoot = await findPnpmWorkspaceRoot(c.root)
+  const packageJson = await readJSON(path.join(c.root, 'package.json'))
+  const projectName = packageJson.name
+  await emptyDir(c.workspace())
+  await exec(`pnpm --filter ${projectName} deploy --prod ${c.workspace()}`, {cwd: workspaceRoot})
+}
+
 type BuildOptions = {
   pack?: boolean
   parallel?: boolean
@@ -89,15 +107,17 @@ type BuildOptions = {
 
 export async function build(c: BuildConfig, options: BuildOptions = {}): Promise<void> {
   log(`gathering workspace for ${c.config.bin} to ${c.workspace()}`)
-  await extractCLI(options.tarball ?? (await packCLI(c)), c)
+  log("THIS IS OUR SPECIAL VERSION GOOD JOB YOU GOT IT TO RUN IN OTTO YAAAY")
+  if (await isPnpmProject(c.root)) {
+    if (options.tarball) throw new Error('Tarball is not supported for pnpm projects.')
+    await deployPnpmProject(c)
+  } else {
+    await extractCLI(options.tarball ?? (await packCLI(c)), c)
+  }
+
   await updatePJSON(c)
-  await addDependencies(c)
-  await writeBinScripts({
-    baseWorkspace: c.workspace(),
-    config: c.config,
-    nodeOptions: c.nodeOptions,
-    nodeVersion: c.nodeVersion,
-  })
+  if (!await isPnpmProject(c.root)) await addDependencies(c)
+  await writeBinScripts({baseWorkspace: c.workspace(), config: c.config, nodeOptions: c.nodeOptions, nodeVersion: c.nodeVersion})
   await pretarball(c)
   if (options.pruneLockfiles) {
     await removeLockfiles(c)
@@ -183,9 +203,6 @@ const addDependencies = async (c: BuildConfig) => {
         throw error
       }
     }
-  } else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) {
-    await copy(path.join(c.root, 'pnpm-lock.yaml'), path.join(c.workspace(), 'pnpm-lock.yaml'))
-    await exec('pnpm install --production', {cwd: c.workspace()})
   } else {
     const lockpath = existsSync(path.join(c.root, 'package-lock.json'))
       ? path.join(c.root, 'package-lock.json')

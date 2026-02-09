@@ -3845,9 +3845,9 @@ eslint-config-oclif@^5.2.2:
     eslint-plugin-unicorn "^48.0.1"
 
 eslint-config-oclif@^6:
-  version "6.0.135"
-  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-6.0.135.tgz#7b9277a8abaf78c3ed90f4651d061990d45b68aa"
-  integrity sha512-S0Kdgbzs8aklUqkPt7Y45krT/9j28VTm7wVzgEX84wqoTovb91hg+bt3lgFVjOZs3N7DRxP3ZrGhQtbeJMtLJg==
+  version "6.0.137"
+  resolved "https://registry.yarnpkg.com/eslint-config-oclif/-/eslint-config-oclif-6.0.137.tgz#677c03c14baae81e0480de0e2c1a7a05b9faf879"
+  integrity sha512-23so0ju6qf+JGDtGUclybUT4JGUSapl2zp+f+JOHCzLFpxJ/4fPCU6KNMZWLPBecdjIertMNRVOmHddt5i83Fg==
   dependencies:
     "@eslint/compat" "^1.4.1"
     "@eslint/eslintrc" "^3.3.3"
@@ -3865,7 +3865,7 @@ eslint-config-oclif@^6:
     eslint-plugin-n "^17.23.2"
     eslint-plugin-perfectionist "^4"
     eslint-plugin-unicorn "^56.0.1"
-    typescript-eslint "^8.53.1"
+    typescript-eslint "^8.54.0"
 
 eslint-config-prettier@^10:
   version "10.1.8"
@@ -7253,7 +7253,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript-eslint@^8.53.1:
+typescript-eslint@^8.54.0:
   version "8.54.0"
   resolved "https://registry.yarnpkg.com/typescript-eslint/-/typescript-eslint-8.54.0.tgz#f4ef3b8882a5ddc2a41968e014194c178ab23f6a"
   integrity sha512-CKsJ+g53QpsNPqbzUsfKVgd3Lny4yKZ1pP4qN3jdMOg/sisIDLGyDMezycquXLE5JsEU0wp3dGNdzig0/fmSVQ==

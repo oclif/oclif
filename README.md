@@ -26,11 +26,11 @@
 
 This is the `oclif` CLI for the [Open CLI Framework](https://github.com/oclif/core), that supports the development of oclif plugins and CLIs.
 
-[See the docs for more information](http://oclif.io).
+[See the docs for more information](https://oclif.io).
 
 # 🚀 Getting Started Tutorial
 
-The [Getting Started tutorial](http://oclif.io/docs/introduction) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
+The [Getting Started tutorial](https://oclif.io/docs/introduction) is a step-by-step guide to introduce you to oclif. If you have not developed anything in a command line before, this tutorial is a great place to get started.
 
 See [Usage](#-usage) below for an overview of the `oclif` CLI.
 

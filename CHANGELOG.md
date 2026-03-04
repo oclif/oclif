@@ -1,3 +1,9 @@
+## [4.22.82](https://github.com/oclif/oclif/compare/4.22.81...4.22.82) (2026-03-04)
+
+### Bug Fixes
+
+- bumping mocha dependency to resolve test failures ([310b15c](https://github.com/oclif/oclif/commit/310b15c36b7b63e7891168606c1090618bc37132))
+
 ## [4.22.81](https://github.com/oclif/oclif/compare/4.22.80...4.22.81) (2026-02-22)
 
 ### Bug Fixes

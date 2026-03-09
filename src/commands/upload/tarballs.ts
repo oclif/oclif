@@ -4,7 +4,7 @@ import * as fs from 'node:fs'
 import aws from '../../aws'
 import {log} from '../../log'
 import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey} from '../../upload-util'
+import {s3Keys} from '../../upload-util'
 
 export default class UploadTarballs extends Command {
   static description = 'Upload an oclif CLI to S3.'
@@ -27,18 +27,11 @@ export default class UploadTarballs extends Command {
       xz: flags.xz,
     })
     const {config, dist, s3Config, xz} = buildConfig
+    const keys = s3Keys(config, s3Config, {bin: config.bin, sha: buildConfig.gitSha, version: config.version})
 
     // fail early if targets are not built
     for (const target of buildConfig.targets) {
-      const tarball = dist(
-        templateShortKey('versioned', {
-          bin: config.bin,
-          ext: '.tar.gz',
-          sha: buildConfig.gitSha,
-          version: config.version,
-          ...target,
-        }),
-      )
+      const tarball = dist(keys.versioned('.tar.gz', {arch: target.arch, platform: target.platform}))
       if (!fs.existsSync(tarball))
         this.error(`Cannot find a tarball ${tarball} for ${target.platform}-${target.arch}`, {
           suggestions: [`Run "oclif pack --target ${target.platform}-${target.arch}" before uploading`],
@@ -51,19 +44,16 @@ export default class UploadTarballs extends Command {
     }
 
     const uploadTarball = async (options?: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}) => {
-      const shortKeyInputs = {
+      const target = {
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         arch: options?.arch!,
-        bin: config.bin,
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         platform: options?.platform!,
-        sha: buildConfig.gitSha,
-        version: config.version,
       }
 
       const releaseTarballs = async (ext: '.tar.gz' | '.tar.xz') => {
-        const localKey = templateShortKey('versioned', {...shortKeyInputs, ext})
-        const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${localKey}`
+        const localKey = keys.versioned(ext, target)
+        const cloudKey = keys.cloudKey(localKey)
         await aws.s3.uploadFile(
           dist(localKey),
           {
@@ -79,8 +69,8 @@ export default class UploadTarballs extends Command {
       }
 
       const maybeUploadManifest = async () => {
-        const manifest = templateShortKey('manifest', shortKeyInputs)
-        const cloudKey = `${commitAWSDir(config.version, buildConfig.gitSha, s3Config)}/${manifest}`
+        const manifest = keys.manifest(target)
+        const cloudKey = keys.cloudKey(manifest)
         const local = dist(manifest)
         log(`checking for buildmanifest at ${local}`)
         if (fs.existsSync(local)) {

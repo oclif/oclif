@@ -1437,10 +1437,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@4.8.3", "@oclif/core@^4", "@oclif/core@^4.8.0":
-  version "4.8.3"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.8.3.tgz#c1f488841cd0929dbe101f1b86a213bf4349de2a"
-  integrity sha512-f7Rc1JBZO0wNMyDmNzP5IFOv5eM97S9pO4JUFdu2OLyk73YeBI9wog1Yyf666NOQvyptkbG1xh8inzMDQLNTyQ==
+"@oclif/core@4.9.0", "@oclif/core@^4", "@oclif/core@^4.8.0":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.9.0.tgz#aa9fbfc47ed4b0c7fdb9ae50b39a5b047fbca83c"
+  integrity sha512-k/ntRgDcUprTT+aaNoF+whk3cY3f9fRD2lkF6ul7JeCUg2MaMXVXZXfbRhJCfsiX51X8/5Pqo0LGdO9SLYXNHg==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"

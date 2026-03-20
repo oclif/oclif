@@ -1,3 +1,9 @@
+## [4.22.93](https://github.com/oclif/oclif/compare/4.22.92...4.22.93) (2026-03-20)
+
+### Bug Fixes
+
+- **deps:** bump flatted from 3.3.1 to 3.4.2 ([943ec13](https://github.com/oclif/oclif/commit/943ec1311680e821ec873abc568eb07bc7d34f45))
+
 ## [4.22.92](https://github.com/oclif/oclif/compare/4.22.91...4.22.92) (2026-03-16)
 
 ### Bug Fixes

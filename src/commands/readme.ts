@@ -48,6 +48,11 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
     'repository-prefix': Flags.string({
       description: 'A template string used to build links to the source code.',
     }),
+    'source-links': Flags.boolean({
+      allowNo: true,
+      default: true,
+      description: 'Include links to the source code for each command.',
+    }),
     'tsconfig-path': Flags.string({
       default: 'tsconfig.json',
       description: 'Path to the tsconfig file',
@@ -100,6 +105,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       pluginDir: this.flags['plugin-directory'],
       readmePath,
       repositoryPrefix: this.flags['repository-prefix'],
+      sourceLinks: this.flags['source-links'],
       version: this.flags.version,
     })
 

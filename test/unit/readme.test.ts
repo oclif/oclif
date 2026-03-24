@@ -47,6 +47,18 @@ describe('readme', () => {
     })
   })
 
+  describe('with --no-source-links flag', () => {
+    it('excludes source code links', async () => {
+      const {result} = await runCommand<string>('readme --dry-run --no-source-links')
+      expect(result).to.not.contain('See code:')
+    })
+
+    it('includes source code links by default', async () => {
+      const {result} = await runCommand<string>('readme --dry-run')
+      expect(result).to.contain('See code:')
+    })
+  })
+
   describe('with custom help that implements formatCommand', () => {
     it('writes custom help to the readme', async () => {
       const rootPath = join(__dirname, '../fixtures/cli-with-custom-help')

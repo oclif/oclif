@@ -11,29 +11,17 @@ function getPackageManager(): 'npm' | 'pnpm' | 'yarn' {
   return 'npm'
 }
 
-function getModuleType(): 'CommonJS' | 'ESM' {
+function getModuleType(): 'ESM' {
   const raw = process.env.OCLIF_INTEGRATION_MODULE_TYPE
-  if (raw === 'ESM') return raw
-  return 'CommonJS'
+  if (raw === 'ESM' || raw === undefined) return 'ESM'
+  throw new Error('Unsupported module type')
 }
 
 const MODULE_TYPE = getModuleType()
 const PACKAGE_MANAGER = getPackageManager()
 const nodeVersion = process.version
 
-const TS_CONFIGS: Record<'CommonJS' | 'ESM', Record<string, unknown>> = {
-  CommonJS: {
-    compilerOptions: {
-      declaration: true,
-      importHelpers: true,
-      module: 'commonjs',
-      outDir: 'dist',
-      rootDir: 'src',
-      strict: true,
-      target: 'es2019',
-    },
-    include: ['src/**/*'],
-  },
+const TS_CONFIGS: Record<'ESM', Record<string, unknown>> = {
   ESM: {
     compilerOptions: {
       declaration: true,
@@ -43,6 +31,7 @@ const TS_CONFIGS: Record<'CommonJS' | 'ESM', Record<string, unknown>> = {
       rootDir: 'src',
       strict: true,
       target: 'es2022',
+      types: ['node'],
     },
     include: ['src/**/*'],
     'ts-node': {

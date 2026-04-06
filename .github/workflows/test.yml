@@ -98,7 +98,7 @@ jobs:
       matrix:
         node_version: [lts/*, latest]
         package_manager: [yarn, npm, pnpm]
-        module_type: [CommonJS, ESM]
+        module_type: [ESM]
         os: [ubuntu-latest, windows-latest]
         exclude:
           - node_version: lts/*

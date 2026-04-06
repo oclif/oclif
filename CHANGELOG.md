@@ -1,3 +1,9 @@
+## [4.22.97](https://github.com/oclif/oclif/compare/4.22.96...4.22.97) (2026-04-06)
+
+### Bug Fixes
+
+- removed CommonJS integration test ([a1a38f8](https://github.com/oclif/oclif/commit/a1a38f814aedb378a42fd2b07e2b630362b9e9a1))
+
 ## [4.22.96](https://github.com/oclif/oclif/compare/4.22.95...4.22.96) (2026-03-22)
 
 ### Bug Fixes

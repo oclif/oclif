@@ -1437,10 +1437,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@4.9.0":
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.9.0.tgz#aa9fbfc47ed4b0c7fdb9ae50b39a5b047fbca83c"
-  integrity sha512-k/ntRgDcUprTT+aaNoF+whk3cY3f9fRD2lkF6ul7JeCUg2MaMXVXZXfbRhJCfsiX51X8/5Pqo0LGdO9SLYXNHg==
+"@oclif/core@4.10.3", "@oclif/core@^4", "@oclif/core@^4.10.2":
+  version "4.10.3"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.10.3.tgz#8b817320a593a003698ed928c17f99a9ff6963fb"
+  integrity sha512-0mD8vcrrX5uRsxzvI8tbWmSVGngvZA/Qo6O0ZGvLPAWEauSf5GFniwgirhY0SkszuHwu0S1J1ivj/jHmqtIDuA==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"
@@ -1491,30 +1491,6 @@
     strip-ansi "^6.0.1"
     supports-color "^8.1.1"
     supports-hyperlinks "^2.2.0"
-    widest-line "^3.1.0"
-    wordwrap "^1.0.0"
-    wrap-ansi "^7.0.0"
-
-"@oclif/core@^4", "@oclif/core@^4.10.2":
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.10.2.tgz#9cda34a5cb389a7d225cd484c21c6e87f76bb5ee"
-  integrity sha512-3GvDh5nqpIE8566qUF5cBHKog9DFV9XgBeuR0nUrz0OMuz2FPYHat1AZHOwyQbvH9OKL4gJNQZHcsDOqDM/FRA==
-  dependencies:
-    ansi-escapes "^4.3.2"
-    ansis "^3.17.0"
-    clean-stack "^3.0.1"
-    cli-spinners "^2.9.2"
-    debug "^4.4.3"
-    ejs "^3.1.10"
-    get-package-type "^0.1.0"
-    indent-string "^4.0.0"
-    is-wsl "^2.2.0"
-    lilconfig "^3.1.3"
-    minimatch "^10.2.4"
-    semver "^7.7.3"
-    string-width "^4.2.3"
-    supports-color "^8"
-    tinyglobby "^0.2.14"
     widest-line "^3.1.0"
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"

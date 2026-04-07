@@ -1,3 +1,9 @@
+# [4.23.0](https://github.com/oclif/oclif/compare/4.22.98...4.23.0) (2026-04-07)
+
+### Features
+
+- **readme:** allow disabling source links ([a5ca526](https://github.com/oclif/oclif/commit/a5ca52639b0d13a1893c716b48a63475341823b2))
+
 ## [4.22.98](https://github.com/oclif/oclif/compare/4.22.97...4.22.98) (2026-04-07)
 
 ### Bug Fixes

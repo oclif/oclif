@@ -26,6 +26,7 @@ type Options = {
   pluginDir?: string
   readmePath: string
   repositoryPrefix?: string
+  sourceLinks?: boolean
   version?: string
 }
 
@@ -42,6 +43,7 @@ export default class ReadmeGenerator {
   ) {}
 
   protected commandCode(c: Command.Cached): string | undefined {
+    if (this.options.sourceLinks === false) return
     const pluginName = c.pluginName
     if (!pluginName) return
     const plugin = this.config.plugins.get(pluginName)

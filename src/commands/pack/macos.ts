@@ -50,6 +50,11 @@ ${config.binAliases ? config.binAliases.map((alias) => `sudo rm -rf /usr/local/b
 `,
   uninstall(config: Interfaces.Config, additionalCLI: string | undefined) {
     const packageIdentifier = (config.pjson.oclif as Interfaces.PJSON['plugin']).macos!.identifier!
+    const runtimeDir = (key: 'CACHE_DIR' | 'CONFIG_DIR' | 'DATA_DIR', defaultPath: string) =>
+      config.scopedEnvVarKeys(key).reduceRight((fallback, envKey) => `\${${envKey}:-${fallback}}`, defaultPath)
+    const dataDir = runtimeDir('DATA_DIR', `$REAL_HOME/.local/share/${config.dirname}`)
+    const cacheDir = runtimeDir('CACHE_DIR', `$REAL_HOME/Library/Caches/${config.dirname}`)
+    const configDir = runtimeDir('CONFIG_DIR', `$REAL_HOME/.config/${config.dirname}`)
     return `#!/usr/bin/env bash
 
 #Parameters
@@ -112,17 +117,23 @@ else
   echo "[2/3] [ERROR] Could not delete application information" >&2
 fi
 
+REAL_USER="\${SUDO_USER:-$(logname 2>/dev/null || id -un)}"
+REAL_HOME=$(eval echo "~$REAL_USER")
+DATA_DIR="${dataDir}"
+CACHE_DIR="${cacheDir}"
+CONFIG_DIR="${configDir}"
+
 #remove application source distribution
 [ -e "/usr/local/lib/${config.dirname}" ] && rm -rf "/usr/local/lib/${config.dirname}"
 
 #remove application data directory
-[ -e "${config.dataDir}" ] && rm -rf "${config.dataDir}"
+[ -e "$DATA_DIR" ] && rm -rf "$DATA_DIR"
 
 #remove application cache directory
-[ -e "${config.cacheDir}" ] && rm -rf "${config.cacheDir}"
+[ -e "$CACHE_DIR" ] && rm -rf "$CACHE_DIR"
 
 #remove application config directory
-[ -e "${config.configDir}" ] && rm -rf "${config.configDir}"
+[ -e "$CONFIG_DIR" ] && rm -rf "$CONFIG_DIR"
 
 if [ $? -eq 0 ]
 then

@@ -1437,10 +1437,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@4.9.0":
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.9.0.tgz#aa9fbfc47ed4b0c7fdb9ae50b39a5b047fbca83c"
-  integrity sha512-k/ntRgDcUprTT+aaNoF+whk3cY3f9fRD2lkF6ul7JeCUg2MaMXVXZXfbRhJCfsiX51X8/5Pqo0LGdO9SLYXNHg==
+"@oclif/core@4.11.2":
+  version "4.11.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.11.2.tgz#c8062fc16f0d82c247f60670364026483a48d522"
+  integrity sha512-LWDalCgy+hYyAkLa9sMIXMXk6ws5RzQhVnkmfXtVIIyEEYigbXQ/9/x+s76p53MiXxNc6SJB7lfwkPF+SdzfMQ==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"
@@ -1452,8 +1452,8 @@
     indent-string "^4.0.0"
     is-wsl "^2.2.0"
     lilconfig "^3.1.3"
-    minimatch "^10.2.4"
-    semver "^7.7.3"
+    minimatch "^10.2.5"
+    semver "^7.8.0"
     string-width "^4.2.3"
     supports-color "^8"
     tinyglobby "^0.2.14"
@@ -2877,6 +2877,13 @@ brace-expansion@^5.0.2:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-5.0.4.tgz#614daaecd0a688f660bbbc909a8748c3d80d4336"
   integrity sha512-h+DEnpVvxmfVefa4jFbCf5HdH5YMDXRsmKflpf1pILZWRFlTbJpxeU55nJl4Smt5HQaGzg1o6RHFPJaOqnmBDg==
+  dependencies:
+    balanced-match "^4.0.2"
+
+brace-expansion@^5.0.5:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-5.0.6.tgz#ec68fe0a641a29d8711579caf641d05bae1f2285"
+  integrity sha512-kLpxurY4Z4r9sgMsyG0Z9uzsBlgiU/EFKhj/h91/8yHu0edo7XuixOIH3VcJ8kkxs6/jPzoI6U9Vj3WqbMQ94g==
   dependencies:
     balanced-match "^4.0.2"
 
@@ -5687,6 +5694,13 @@ minimatch@^10.2.2, minimatch@^10.2.4:
   dependencies:
     brace-expansion "^5.0.2"
 
+minimatch@^10.2.5:
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-10.2.5.tgz#bd48687a0be38ed2961399105600f832095861d1"
+  integrity sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==
+  dependencies:
+    brace-expansion "^5.0.5"
+
 minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2, minimatch@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.5.tgz#580c88f8d5445f2bd6aa8f3cadefa0de79fbd69e"
@@ -6563,6 +6577,11 @@ semver@^7.0.0, semver@^7.3.5, semver@^7.3.8, semver@^7.5.3, semver@^7.5.4, semve
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.4.tgz#28464e36060e991fa7a11d0279d2d3f3b57a7e8a"
   integrity sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==
+
+semver@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.0.tgz#ed0661039fcbcda2ce71f01fa6adbefaa77040df"
+  integrity sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==
 
 sentence-case@^3.0.4:
   version "3.0.4"

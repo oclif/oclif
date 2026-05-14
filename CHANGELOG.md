@@ -1,3 +1,12 @@
+## [4.23.1](https://github.com/oclif/oclif/compare/4.23.0...4.23.1) (2026-05-14)
+
+### Bug Fixes
+
+- bumping oclif/core to 4.11.2 @W-22477677@ ([750c96d](https://github.com/oclif/oclif/commit/750c96ddd140f10c52a9a2c425eef275277ee5c4))
+- temporarily pinning pnpm to v10 for tests ([926fb16](https://github.com/oclif/oclif/commit/926fb16877e02e2d6ec0320628e6dd5af3153461))
+- unblocking git2gus ([9130e29](https://github.com/oclif/oclif/commit/9130e2937e5e4a62560b4133b29c2643bf44fb1e))
+- unpinning mistakenly pinned dependendies ([94a577c](https://github.com/oclif/oclif/commit/94a577cc6e641946296256300fdb25900e62c08f))
+
 # [4.23.0](https://github.com/oclif/oclif/compare/4.22.98...4.23.0) (2026-04-07)
 
 ### Features

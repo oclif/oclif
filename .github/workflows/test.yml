@@ -84,7 +84,8 @@ jobs:
           username: ${{ steps.github-user-info.outputs.username }}
           email: ${{ steps.github-user-info.outputs.email }}
       - if: matrix.package_manager == 'pnpm'
-        run: 'npm install -g pnpm'
+        # TODO [JAMIE]: ADD SUPPORT FOR PNPM v11!
+        run: 'npm install -g pnpm@^10.33.4'
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
       - run: yarn test:integration:cli
@@ -111,8 +112,9 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
+        # TODO [JAMIE]: ADD SUPPORT FOR PNPM v11!
       - if: matrix.package_manager == 'pnpm'
-        run: 'npm install -g pnpm'
+        run: 'npm install -g pnpm@^10.33.4'
       - uses: salesforcecli/github-workflows/.github/actions/yarnInstallWithRetries@main
       - run: yarn build
       - run: yarn test:integration:init

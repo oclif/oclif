@@ -1,3 +1,9 @@
+## [4.23.2](https://github.com/oclif/oclif/compare/4.23.1...4.23.2) (2026-05-15)
+
+### Bug Fixes
+
+- **deps:** bump fast-uri from 3.0.2 to 3.1.2 ([b3efc23](https://github.com/oclif/oclif/commit/b3efc237e394962fb9673578f6d7d29c2ae734ee))
+
 ## [4.23.1](https://github.com/oclif/oclif/compare/4.23.0...4.23.1) (2026-05-14)
 
 ### Bug Fixes

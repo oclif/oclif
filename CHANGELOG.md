@@ -1,3 +1,9 @@
+## [4.23.4](https://github.com/oclif/oclif/compare/4.23.3...4.23.4) (2026-05-15)
+
+### Bug Fixes
+
+- consolidated dependabot updates [skip-validate-pr] ([c2857e6](https://github.com/oclif/oclif/commit/c2857e63f2fb9b2e51eb9317cf6120530a7135a5))
+
 ## [4.23.3](https://github.com/oclif/oclif/compare/4.23.2...4.23.3) (2026-05-15)
 
 ### Bug Fixes

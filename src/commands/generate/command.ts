@@ -1,7 +1,7 @@
 import {Args, Errors, Flags} from '@oclif/core'
 import {dim} from 'ansis'
 import {pascalCase} from 'change-case'
-import {join} from 'node:path'
+import {join, resolve, sep} from 'node:path'
 
 import {GeneratorCommand, readPJSON} from '../../generator'
 
@@ -21,8 +21,18 @@ export default class GenerateCommand extends GeneratorCommand<typeof GenerateCom
     const topicSeparator = packageJSON.oclif?.topicSeparator ?? ':'
     this.log(`Adding ${dim(this.args.name.replaceAll(':', topicSeparator))} to ${packageJSON.name}!`)
 
-    const cmdPath = this.args.name.split(':').join('/')
-    const destination = join(process.cwd(), this.flags['commands-dir'], `${cmdPath}.ts`)
+    const commandNameRegex = /^[a-zA-Z0-9_-]+$/
+    const commandSegments = this.args.name.split(':')
+    if (commandSegments.length === 0 || commandSegments.some((segment) => !segment || segment === '.' || segment === '..' || !commandNameRegex.test(segment))) {
+      throw new Errors.CLIError('command name contains invalid path segments')
+    }
+
+    const cmdPath = commandSegments.join('/')
+    const commandsDir = resolve(process.cwd(), this.flags['commands-dir'])
+    const destination = resolve(commandsDir, `${cmdPath}.ts`)
+    if (destination !== commandsDir && !destination.startsWith(`${commandsDir}${sep}`)) {
+      throw new Errors.CLIError('command path resolves outside commands directory')
+    }
 
     let bin = packageJSON.oclif?.bin ?? packageJSON.oclif?.dirname ?? packageJSON.name
     if (bin.includes('/')) bin = bin.split('/').at(-1)!

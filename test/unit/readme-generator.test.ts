@@ -263,6 +263,19 @@ Title of Doc
     })
   })
 
+  describe('replaceTag', () => {
+    it('should replace tags when the README uses CRLF line endings', () => {
+      const generator = new TestReadmeGenerator(config, {outputDir: 'docs', readmePath: 'README.md'})
+      // @ts-expect-error because protected method
+      const rendered = generator.replaceTag(
+        '# Usage\r\n\r\n<!-- usage -->\r\nold usage\r\n<!-- usagestop -->\r\n\r\n# Commands\r\n',
+        'usage',
+        'new usage',
+      )
+      expect(rendered).to.equal('# Usage\r\n\r\n<!-- usage -->\nnew usage\n<!-- usagestop -->\r\n\r\n# Commands\r\n')
+    })
+  })
+
   describe('usage', () => {
     it('should render usage based on Config', async () => {
       const generator = new TestReadmeGenerator(config, {outputDir: 'docs', readmePath: 'README.md'})

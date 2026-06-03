@@ -26,10 +26,8 @@
     "fs-extra": "^8.1",
     "github-slugger": "^2",
     "got": "^13",
-    "lodash": "^4.18.1",
     "normalize-package-data": "^6",
     "semver": "^7.7.4",
-    "sort-package-json": "^2.15.1",
     "tiny-jsonc": "^1.0.2",
     "validate-npm-package-name": "^5.0.1"
   },
@@ -60,6 +58,7 @@
     "eslint-plugin-perfectionist": "^4",
     "husky": "^9.1.7",
     "lint-staged": "^15",
+    "lodash": "^4.18.1",
     "mocha": "^11",
     "nyc": "^15.1.0",
     "prettier": "^3.8.3",

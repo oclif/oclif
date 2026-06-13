@@ -27,7 +27,7 @@
     "github-slugger": "^2",
     "got": "^13",
     "normalize-package-data": "^6",
-    "semver": "^7.8.2",
+    "semver": "^7.8.4",
     "tiny-jsonc": "^1.0.2",
     "validate-npm-package-name": "^5.0.1"
   },

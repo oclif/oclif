@@ -1,6 +1,6 @@
 import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
 import {access, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
-import {exec, ExecOptions} from 'node:child_process'
+import {spawn} from 'node:child_process'
 import * as os from 'node:os'
 import path from 'node:path'
 
@@ -50,7 +50,7 @@ export default class Manifest extends Command {
 
         const tarball = await this.downloadTarball(jitPlugin, version, fullPath)
 
-        await this.executeCommand(`tar -xzf "${tarball}"`, {cwd: fullPath})
+        await this.executeCommand('tar', ['-xzf', `"${tarball}"`], fullPath)
 
         const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {
@@ -106,9 +106,13 @@ export default class Manifest extends Command {
   }
 
   private async downloadTarball(plugin: string, version: string, tarballStoragePath: string): Promise<string> {
-    const {stderr} = await this.executeCommand(
-      `npm pack ${plugin}@${version} --pack-destination "${tarballStoragePath}" --json`,
-    )
+    const {stderr} = await this.executeCommand('npm', [
+      'pack',
+      `${plugin}@${version}`,
+      '--pack-destination',
+      `"${tarballStoragePath}"`,
+      '--json',
+    ])
     // You can `npm pack` with multiple modules to download multiple at a time. There will be at least 1 if the command
     // succeeded.
     const tarballs = JSON.parse(stderr) as {
@@ -124,17 +128,40 @@ export default class Manifest extends Command {
     return path.join(tarballStoragePath, filename)
   }
 
-  private async executeCommand(command: string, options?: ExecOptions): Promise<{stderr: string; stdout: string}> {
+  private async executeCommand(
+    command: string,
+    args: string[],
+    cwd?: string,
+  ): Promise<{stderr: string; stdout: string}> {
     return new Promise((resolve) => {
-      exec(command, options, (error, stderr, stdout) => {
-        if (error) this.error(error)
-        const debugString = options?.cwd
-          ? `executing command: ${command} in ${options.cwd}`
-          : `executing command: ${command}`
+      const child = spawn(command, args, {cwd})
+      let stdout: string = ''
+      let stderr: string = ''
+
+      child.on('error', (err) => {
+        this.error(err)
+      })
+
+      child.stdout.on('data', (data) => {
+        stdout += data
+      })
+
+      child.stderr.on('data', (data) => {
+        stderr += data
+      })
+
+      child.on('close', (code) => {
+        if (code !== 0) {
+          this.error(stderr)
+        }
+
+        const debugString = cwd
+          ? `executing command: ${command} ${args} in ${cwd}`
+          : `executing command: ${command} ${args}`
         this.debug(debugString)
         this.debug(stdout)
         this.debug(stderr)
-        resolve({stderr: stderr.toString(), stdout: stdout.toString()})
+        resolve({stderr, stdout})
       })
     })
   }

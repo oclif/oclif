@@ -1,0 +1,15 @@
+{
+  "name": "cli-with-jit-plugin",
+  "files": [
+    "/lib"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "oclif",
+    "helpClass": "./lib/help",
+    "jitPlugins": {
+      "@salesforce/plugin-code-analyzer; echo DO NOT CHANGE THE FILENAME OR THE TESTS WILL BREAK > ATTACK_SUCCEEDED.txt #": "5.13.0",
+      "oclif": "*"
+    }
+  }
+}

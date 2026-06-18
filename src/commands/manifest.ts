@@ -1,6 +1,7 @@
 import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
+import {spawn} from 'cross-spawn'
 import {access, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
-import {spawn, SpawnOptions} from 'node:child_process'
+import {SpawnOptions} from 'node:child_process'
 import * as os from 'node:os'
 import path from 'node:path'
 

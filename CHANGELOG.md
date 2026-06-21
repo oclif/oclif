@@ -1,3 +1,9 @@
+## [4.23.17](https://github.com/oclif/oclif/compare/4.23.16...4.23.17) (2026-06-21)
+
+### Bug Fixes
+
+- **deps:** bump @babel/core from 7.25.7 to 7.29.7 ([f9221b3](https://github.com/oclif/oclif/commit/f9221b34e5885305dfeb51995a75ddc75ccafb06))
+
 ## [4.23.16](https://github.com/oclif/oclif/compare/4.23.15...4.23.16) (2026-06-14)
 
 ### Bug Fixes

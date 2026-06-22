@@ -1,6 +1,7 @@
 import {Interfaces} from '@oclif/core'
 import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
+import fs from 'node:fs'
 import {rm} from 'node:fs/promises'
 import path from 'node:path'
 
@@ -42,5 +43,18 @@ describe('manifest', () => {
     expect(everyJITCommandIsTypeJIT).to.be.true
     expect(manifest?.commands.hello).to.be.ok
     expect(error).to.be.undefined
+  })
+
+  it('is not vulnerable to command injection via JIT plugins', async () => {
+    // Verify that the malicious plugin is planning to write to the right file.
+    expect(
+      fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'cli-with-malicious-jit-plugin', 'package.json'), 'utf8'),
+    ).to.contain('> ATTACK_SUCCEEDED.txt')
+
+    await runCommand<Interfaces.Manifest>(
+      `manifest ${path.join(__dirname, '../fixtures/cli-with-malicious-jit-plugin')}`,
+    )
+
+    expect(fs.existsSync(path.join(__dirname, '..', '..', 'ATTACK_SUCCEEDED.txt'))).to.equal(false)
   })
 })

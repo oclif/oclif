@@ -1,3 +1,9 @@
+## [4.23.20](https://github.com/oclif/oclif/compare/4.23.19...4.23.20) (2026-06-22)
+
+### Bug Fixes
+
+- prevent command injection by jit plugins @W-23028384@ ([#2052](https://github.com/oclif/oclif/issues/2052)) ([79b54bb](https://github.com/oclif/oclif/commit/79b54bb61278d24d456d95668cc02dd324485be5))
+
 ## [4.23.19](https://github.com/oclif/oclif/compare/4.23.18...4.23.19) (2026-06-22)
 
 ### Bug Fixes

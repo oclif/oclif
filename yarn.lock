@@ -1304,16 +1304,16 @@
   dependencies:
     "@oclif/core" "^4"
 
-"@oclif/plugin-legacy@^2.0.34":
-  version "2.0.34"
-  resolved "https://registry.npmjs.org/@oclif/plugin-legacy/-/plugin-legacy-2.0.34.tgz"
-  integrity sha512-nvpHwvLi04tE4ETiIF6T431ag2QDoGlnAMrReN3KNFk1Vg0U2nGUFIbz8dlnUSy//NnoqYi6aONyLNV4qMcF4Q==
+"@oclif/plugin-legacy@^2.0.37":
+  version "2.0.37"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-legacy/-/plugin-legacy-2.0.37.tgz#3ffe0cbab215a783134c75b69a1d5ef8e648255a"
+  integrity sha512-77U7PqbNCfZJ7uPbkVuNrA7GYG1kKZlMfgYNKSBGa3nMQYdzEF9Wi37LG0N6knNjKgIMc+dIyRr6AwtJc0X/nw==
   dependencies:
     "@oclif/color" "^1.0.13"
     "@oclif/core" "^3.27.0"
     ansi-escapes "^4.3.2"
     debug "^4.4.3"
-    semver "^7.8.2"
+    semver "^7.8.5"
 
 "@oclif/plugin-not-found@^3.2.87":
   version "3.2.87"
@@ -5726,12 +5726,7 @@ semver@^6.0.0, semver@^6.3.0, semver@^6.3.1:
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.3.5, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.6.3, semver@^7.7.1, semver@^7.7.2, semver@^7.7.3, semver@^7.8.1, semver@^7.8.2:
-  version "7.8.4"
-  resolved "https://registry.npmjs.org/semver/-/semver-7.8.4.tgz"
-  integrity sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==
-
-semver@^7.8.5:
+semver@^7.3.5, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.6.3, semver@^7.7.1, semver@^7.7.2, semver@^7.7.3, semver@^7.8.1, semver@^7.8.5:
   version "7.8.5"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.5.tgz#39b646037dd50c14fb451e7e4cac58ed8b863f69"
   integrity sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==

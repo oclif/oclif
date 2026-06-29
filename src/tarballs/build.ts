@@ -8,7 +8,7 @@ import path from 'node:path'
 import {promisify} from 'node:util'
 
 import {log} from '../log'
-import {commitAWSDir, templateShortKey} from '../upload-util'
+import {s3Keys, templateShortKey} from '../upload-util'
 import {hash, prettifyPaths} from '../util'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
@@ -226,11 +226,9 @@ const buildTarget = async (
   const {arch, platform} = target
   const {bin, version} = c.config
   const {gitSha: sha} = c
-  const templateShortKeyCommonOptions = {arch, bin, platform, sha, version}
+  const keys = s3Keys(c.config, c.s3Config, {bin, sha, version})
 
-  const [gzLocalKey, xzLocalKey] = ['.tar.gz', '.tar.xz'].map((ext) =>
-    templateShortKey('versioned', {...templateShortKeyCommonOptions, ext}),
-  )
+  const [gzLocalKey, xzLocalKey] = (['.tar.gz', '.tar.xz'] as const).map((ext) => keys.versioned(ext, {arch, platform}))
 
   const base = path.basename(gzLocalKey)
   log(`building target ${base}`)
@@ -259,8 +257,8 @@ const buildTarget = async (
 
   const rollout = typeof c.updateConfig.autoupdate === 'object' && c.updateConfig.autoupdate.rollout
 
-  const gzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${gzLocalKey}`
-  const xzCloudKey = `${commitAWSDir(version, sha, c.updateConfig.s3)}/${xzLocalKey}`
+  const gzCloudKey = keys.cloudKey(gzLocalKey)
+  const xzCloudKey = keys.cloudKey(xzLocalKey)
 
   const [sha256gz, sha256xz] = await Promise.all([
     hash('sha256', c.dist(gzLocalKey)),
@@ -281,6 +279,7 @@ const buildTarget = async (
     version,
     xz: c.xz ? c.config.s3Url(xzCloudKey) : undefined,
   }
-  const manifestFilepath = c.dist(templateShortKey('manifest', templateShortKeyCommonOptions))
+  const manifestFilepath = c.dist(keys.manifest({arch, platform}))
+  await mkdir(path.dirname(manifestFilepath), {recursive: true})
   await writeJSON(manifestFilepath, manifest, {spaces: 2})
 }

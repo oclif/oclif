@@ -4,7 +4,7 @@ import path from 'node:path'
 
 import aws from '../aws'
 import * as Tarballs from '../tarballs'
-import {channelAWSDir, commitAWSDir, debArch, debVersion, templateShortKey} from '../upload-util'
+import {channelAWSDir, commitAWSDir, debArch, debVersion, s3Keys, templateShortKey} from '../upload-util'
 import {uniq} from '../util'
 import {appendToIndex} from '../version-indexes'
 
@@ -42,6 +42,7 @@ export default class Promote extends Command {
 
     const buildConfig = await Tarballs.buildConfig(flags.root, {targets: flags?.targets?.split(',')})
     const {config, s3Config} = buildConfig
+    const keys = s3Keys(config, s3Config, {bin: config.bin, sha: flags.sha, version: flags.version})
     const indexDefaults = {
       maxAge: `max-age=${flags['max-age']}`,
       s3Config,
@@ -62,53 +63,38 @@ export default class Promote extends Command {
 
     // copy tarballs manifests
     const promoteManifest = async (target: (typeof buildConfig.targets)[number]) => {
-      const manifest = templateShortKey('manifest', {
-        arch: target.arch,
-        bin: config.bin,
-        platform: target.platform,
-        sha: flags.sha,
-        version: flags.version,
-      })
-      // strip version & sha so update/scripts can point to a static channel manifest
-      const unversionedManifest = manifest.replace(`-v${flags.version}-${flags.sha}`, '')
+      const sourceKey = keys.cloudKey(keys.manifest({arch: target.arch, platform: target.platform}))
+      const destKey = keys.channelManifest({arch: target.arch, platform: target.platform}, flags.channel)
       await aws.s3.copyObject(
         {
           ...awsDefaults,
-          CopySource: cloudBucketCommitKey(manifest),
-          Key: cloudChannelKey(unversionedManifest),
+          CopySource: path.posix.join(s3Config.bucket!, sourceKey),
+          Key: destKey,
         },
         {
           dryRun: flags['dry-run'],
           ignoreMissing: flags['ignore-missing'],
-          namespace: unversionedManifest,
+          namespace: path.basename(destKey),
         },
       )
     }
 
     const promoteGzTarballs = async (target: (typeof buildConfig.targets)[number]) => {
-      const versionedTarGzName = templateShortKey('versioned', {
-        arch: target.arch,
-        bin: config.bin,
-        ext: '.tar.gz',
-        platform: target.platform,
-        sha: flags.sha,
-        version: flags.version,
-      })
-      const versionedTarGzKey = cloudBucketCommitKey(versionedTarGzName)
-      // strip version & sha so update/scripts can point to a static channel tarball
-      const unversionedTarGzName = versionedTarGzName.replace(`-v${flags.version}-${flags.sha}`, '')
-      const unversionedTarGzKey = cloudChannelKey(unversionedTarGzName)
+      const targetOpts = {arch: target.arch, platform: target.platform}
+      const sourceKey = keys.cloudKey(keys.versioned('.tar.gz', targetOpts))
+      const destKey = keys.channelTarball('.tar.gz', targetOpts, flags.channel)
+      const copySource = path.posix.join(s3Config.bucket!, sourceKey)
       await Promise.all([
         aws.s3.copyObject(
           {
             ...awsDefaults,
-            CopySource: versionedTarGzKey,
-            Key: unversionedTarGzKey,
+            CopySource: copySource,
+            Key: destKey,
           },
           {
             dryRun: flags['dry-run'],
             ignoreMissing: flags['ignore-missing'],
-            namespace: unversionedTarGzName,
+            namespace: keys.indexFilename('.tar.gz', targetOpts, flags.channel),
           },
         ),
         ...(flags.indexes
@@ -116,8 +102,8 @@ export default class Promote extends Command {
               appendToIndex({
                 ...indexDefaults,
                 dryRun: flags['dry-run'],
-                filename: unversionedTarGzName,
-                originalUrl: versionedTarGzKey,
+                filename: keys.indexFilename('.tar.gz', targetOpts, flags.channel),
+                originalUrl: copySource,
               }),
             ]
           : []),
@@ -125,29 +111,21 @@ export default class Promote extends Command {
     }
 
     const promoteXzTarballs = async (target: (typeof buildConfig.targets)[number]) => {
-      const versionedTarXzName = templateShortKey('versioned', {
-        arch: target.arch,
-        bin: config.bin,
-        ext: '.tar.xz',
-        platform: target.platform,
-        sha: flags.sha,
-        version: flags.version,
-      })
-      const versionedTarXzKey = cloudBucketCommitKey(versionedTarXzName)
-      // strip version & sha so update/scripts can point to a static channel tarball
-      const unversionedTarXzName = versionedTarXzName.replace(`-v${flags.version}-${flags.sha}`, '')
-      const unversionedTarXzKey = cloudChannelKey(unversionedTarXzName)
+      const targetOpts = {arch: target.arch, platform: target.platform}
+      const sourceKey = keys.cloudKey(keys.versioned('.tar.xz', targetOpts))
+      const destKey = keys.channelTarball('.tar.xz', targetOpts, flags.channel)
+      const copySource = path.posix.join(s3Config.bucket!, sourceKey)
       await Promise.all([
         aws.s3.copyObject(
           {
             ...awsDefaults,
-            CopySource: versionedTarXzKey,
-            Key: unversionedTarXzKey,
+            CopySource: copySource,
+            Key: destKey,
           },
           {
             dryRun: flags['dry-run'],
             ignoreMissing: flags['ignore-missing'],
-            namespace: unversionedTarXzName,
+            namespace: keys.indexFilename('.tar.xz', targetOpts, flags.channel),
           },
         ),
         ...(flags.indexes
@@ -155,8 +133,8 @@ export default class Promote extends Command {
               appendToIndex({
                 ...indexDefaults,
                 dryRun: flags['dry-run'],
-                filename: unversionedTarXzName,
-                originalUrl: versionedTarXzKey,
+                filename: keys.indexFilename('.tar.xz', targetOpts, flags.channel),
+                originalUrl: copySource,
               }),
             ]
           : []),

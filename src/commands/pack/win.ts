@@ -102,9 +102,9 @@ Section "Set PATH to ${config.name}"
   Call AddToPath
 SectionEnd
 
-Section ${defenderOptional ? '/o ' : ''}"${hideDefenderOption ? '-' : ''}Add %LOCALAPPDATA%\\${
+Section ${defenderOptional ? '/o ' : ''}"${hideDefenderOption ? '-' : ''}Exclude %LOCALAPPDATA%\\${
     config.dirname
-  } to Windows Defender exclusions (highly recommended for performance!)"
+  } from Windows Defender scanning (may improve performance, but reduces antivirus protection for this folder)"
   ExecWait '"$0" /C powershell -ExecutionPolicy Bypass -Command "$\\"& {Add-MpPreference -ExclusionPath $\\"$LOCALAPPDATA\\${config.dirname}$\\"}$\\"" -FFFeatureOff SW_HIDE'
 SectionEnd
 
@@ -245,9 +245,9 @@ the CLI should already exist in a directory named after the CLI that is the root
     'defender-exclusion': Flags.option({
       options: ['checked', 'unchecked', 'hidden'] as const,
     })({
-      default: 'checked',
+      default: 'unchecked',
       description:
-        'There is no way to set a hidden checkbox with "true" as a default...the user can always allow full security',
+        'Defaults to "unchecked" so end users opt in rather than opt out of excluding the install directory from Windows Defender scanning. Note: "hidden" always disables the exclusion, since there is no way to set a hidden checkbox with "true" as a default...the user can always allow full security',
 
       summary: `Set to "checked" or "unchecked" to set the default value for the checkbox.  Set to "hidden" to hide the option (will let defender do its thing).`,
     }),

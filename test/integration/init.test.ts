@@ -67,19 +67,19 @@ async function addDeps(cwd: string): Promise<void> {
   switch (PACKAGE_MANAGER) {
     case 'npm': {
       await exec('npm init --yes', {cwd})
-      await exec('npm install typescript --save-dev', {cwd})
+      await exec('npm install typescript@^6 --save-dev', {cwd})
       break
     }
 
     case 'pnpm': {
       await exec('pnpm init', {cwd})
-      await exec('pnpm install typescript --save-dev', {cwd})
+      await exec('pnpm install typescript@^6 --save-dev', {cwd})
       break
     }
 
     case 'yarn': {
       await exec('yarn init --yes', {cwd})
-      await exec('yarn add typescript --dev', {cwd})
+      await exec('yarn add typescript@^6 --dev', {cwd})
       break
     }
 

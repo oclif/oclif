@@ -1,4 +1,4 @@
-import * as ejs from 'ejs'
+import ejs from 'ejs'
 import {arch, release, tmpdir, type} from 'node:os'
 import {join, resolve} from 'node:path'
 import {fileURLToPath, URL} from 'node:url'

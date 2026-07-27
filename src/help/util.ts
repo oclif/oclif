@@ -1,4 +1,4 @@
-import * as ejs from 'ejs'
+import ejs from 'ejs'
 
 import {collectUsableIds} from '../config/util'
 import {Deprecation, Config as IConfig} from '../interfaces'

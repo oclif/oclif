@@ -209,7 +209,7 @@ export default class ReadmeGenerator {
   protected replaceTag(readme: string, tag: string, body: string): string {
     if (readme.includes(`<!-- ${tag} -->`)) {
       if (readme.includes(`<!-- ${tag}stop -->`)) {
-        readme = readme.replace(new RegExp(`<!-- ${tag} -->(.|\n)*<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
+        readme = readme.replace(new RegExp(`<!-- ${tag} -->[\\s\\S]*?<!-- ${tag}stop -->`, 'm'), `<!-- ${tag} -->`)
       }
 
       ux.stdout(`replacing <!-- ${tag} --> in ${this.options.readmePath}`)

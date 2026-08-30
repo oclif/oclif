@@ -25,6 +25,10 @@ export default class Manifest extends Command {
       default: true,
       summary: 'Append commands from JIT plugins in manifest.',
     }),
+    json: Flags.boolean({
+      default: false,
+      summary: 'Output the manifest as JSON.',
+    }),
   }
 
   public async run(): Promise<Interfaces.Manifest> {
@@ -101,7 +105,11 @@ export default class Manifest extends Command {
 
     writeFileSync(file, JSON.stringify(plugin.manifest, null, 2))
 
-    this.log(`wrote manifest to ${file}`)
+    if (flags.json) {
+      this.log(JSON.stringify(plugin.manifest))
+    } else {
+      this.log(`wrote manifest to ${file}`)
+    }
 
     return plugin.manifest
   }

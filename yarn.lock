@@ -1201,10 +1201,34 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^4", "@oclif/core@^4.11.11", "@oclif/core@^4.13.3":
+"@oclif/core@^4", "@oclif/core@^4.13.3":
   version "4.14.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.14.0.tgz#b5c46200788f95ce57809ddec1502ae0aa9abf2b"
   integrity sha512-QCJIZoVJxV7jywgVAUlsQwl3dr3Sa21kfi5z9KrYolbexWJUtFSEtMoNiBWojD05mYycLnB50gp/VxlGdaOCRA==
+  dependencies:
+    ansi-escapes "^4.3.2"
+    ansis "^3.17.0"
+    clean-stack "^3.0.1"
+    cli-spinners "^2.9.2"
+    debug "^4.4.3"
+    ejs "^6"
+    get-package-type "^0.1.0"
+    indent-string "^4.0.0"
+    lilconfig "^3.1.3"
+    minimatch "^10.2.5"
+    semver "^7.8.1"
+    string-width "^4.2.3"
+    supports-color "^8"
+    tinyglobby "^0.2.17"
+    widest-line "^3.1.0"
+    wordwrap "^1.0.0"
+    wrap-ansi "^7.0.0"
+    wsl-utils "^0.4.0"
+
+"@oclif/core@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-5.0.0.tgz#1c91d74bc6e6a41aa9617aff2c938029e97a68b2"
+  integrity sha512-24ZsN528VButCtvqjBoHw7cEpqXZZILH7Zp0d8oFKrWbqU2BqYrxLd5aGU8LyqRev7CCjAHg+/m1Bewz4V7AmQ==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.17.0"
@@ -1270,10 +1294,10 @@
   resolved "https://registry.npmjs.org/@oclif/prettier-config/-/prettier-config-0.2.1.tgz"
   integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
 
-"@oclif/test@^4":
-  version "4.1.20"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-4.1.20.tgz#3c9cc46e08f6a33c3344da2ebd8bbf51fd17b449"
-  integrity sha512-gvamjt80ZPDeYQlwdeXDce/zTrSDkcw5LdTqTuM1L2cyQ0bu9R7DbB4stNLBjtAX+CG0JCuJzpLbPi+Ui769uQ==
+"@oclif/test@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-5.0.0.tgz#58c12a15e2bc7daf425e866edce17e5f7509d85b"
+  integrity sha512-70zr4y1G4h8Sc8u5869JqpQOXHjhpc6KO4y0+0chLQNYUpCKNI8h1uBuRzqs9IH0Vhoq0ZEuJHTSm1ttAIuV0A==
   dependencies:
     ansis "^3.17.0"
     debug "^4.4.3"

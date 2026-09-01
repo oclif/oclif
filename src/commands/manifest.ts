@@ -1,7 +1,7 @@
-import {Args, Command, Flags, Interfaces, Plugin, ux} from '@oclif/core'
+import {Args, Command, Flags, type Interfaces, Plugin, ux} from '@oclif/core'
 import {spawn} from 'cross-spawn'
 import {access, mkdir, readJSON, readJSONSync, remove, unlinkSync, writeFileSync} from 'fs-extra'
-import {SpawnOptions} from 'node:child_process'
+import {type SpawnOptions} from 'node:child_process'
 import * as os from 'node:os'
 import path from 'node:path'
 
@@ -18,6 +18,7 @@ export default class Manifest extends Command {
   static args = {
     path: Args.string({default: '.', description: 'Path to plugin.'}),
   }
+
   static description = 'Generates plugin manifest json (oclif.manifest.json).'
   static flags = {
     jit: Flags.boolean({
@@ -51,7 +52,7 @@ export default class Manifest extends Command {
 
         const tarball = await this.downloadTarball(jitPlugin, version, fullPath)
 
-        await this.executeCommand('tar', ['-xzf', `${tarball}`], {cwd: fullPath})
+        await this.executeCommand('tar', ['-xzf', tarball], {cwd: fullPath})
 
         const manifest = (await readJSON(path.join(fullPath, 'package', 'oclif.manifest.json'))) as Interfaces.Manifest
         for (const command of Object.values(manifest.commands)) {
@@ -78,7 +79,6 @@ export default class Manifest extends Command {
     await plugin.load()
     if (!plugin.valid) {
       const {PluginLegacy} = await import('@oclif/plugin-legacy')
-      // @ts-expect-error for now because PluginLegacy doesn't use the same major of @oclif/core
       plugin = new PluginLegacy(this.config, plugin)
       await plugin.load()
     }
@@ -111,14 +111,14 @@ export default class Manifest extends Command {
       'pack',
       `${plugin}@${version}`,
       '--pack-destination',
-      `${tarballStoragePath}`,
+      tarballStoragePath,
       '--json',
     ])
     // You can `npm pack` with multiple modules to download multiple at a time. There will be at least 1 if the command
     // succeeded.
-    const tarballs = JSON.parse(stdout) as {
+    const tarballs = JSON.parse(stdout) as Array<{
       filename: string
-    }[]
+    }>
 
     if (!Array.isArray(tarballs) || tarballs.length !== 1) {
       throw new Error(`Could not download tarballs for ${plugin}. Tarball download was not in the correct format.`)

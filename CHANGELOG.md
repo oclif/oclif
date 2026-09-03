@@ -1,3 +1,9 @@
+## [5.0.1](https://github.com/oclif/oclif/compare/5.0.0...5.0.1) (2026-09-03)
+
+### Bug Fixes
+
+- resolving test failures (W-23983563) ([5e8f449](https://github.com/oclif/oclif/commit/5e8f449c9d43118a791b3a75fb2993d6e4971d58))
+
 # [5.0.0](https://github.com/oclif/oclif/compare/4.24.0...5.0.0) (2026-08-31)
 
 - feat!: upgrade oclif/core to v5 @W-23512455@ ([188438f](https://github.com/oclif/oclif/commit/188438face3fbd2e9190e9efd1f0499c906db9d5))

@@ -149,18 +149,6 @@
     }
   },
   "src/commands/manifest.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 1
-    },
-    "@typescript-eslint/array-type": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unnecessary-template-expression": {
-      "count": 2
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
     },

@@ -35,7 +35,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^19",
     "@eslint/compat": "^1.4.1",
-    "@oclif/plugin-legacy": "^2.0.37",
+    "@oclif/plugin-legacy": "^3.0.0",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^5.0.0",
     "@types/async-retry": "^1.4.5",
@@ -69,7 +69,7 @@
     "shx": "^0.4.0",
     "sinon": "^18.0.1",
     "ts-node": "^10.7.0",
-    "typescript": "^5"
+    "typescript": "^6"
   },
   "engines": {
     "node": ">=22.0.0"

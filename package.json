@@ -55,7 +55,7 @@
     "@types/validate-npm-package-name": "^4.0.2",
     "chai": "^4.5.0",
     "commitlint": "^19",
-    "eslint": "^10.8.0",
+    "eslint": "^10.9.1",
     "eslint-config-oclif": "^7.1.1",
     "eslint-config-prettier": "^10",
     "eslint-plugin-perfectionist": "^4",

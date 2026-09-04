@@ -33,7 +33,7 @@ DIR=\$(get_script_dir)
 export ${config.scopedEnvVarKey('UPDATE_INSTRUCTIONS')}="update with \\"sudo apt update && sudo apt install ${
     config.bin
   }\\""
-\$DIR/node \$DIR/run "\$@"
+exec \$DIR/node \$DIR/run "\$@"
 `,
   /* eslint-enable no-useless-escape */
   control: (config: Tarballs.BuildConfig, arch: string) => `Package: ${config.config.bin}

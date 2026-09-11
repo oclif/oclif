@@ -87,13 +87,6 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       userPlugins: false,
     })
 
-    try {
-      const p = require.resolve('@oclif/plugin-legacy', {paths: [this.flags['plugin-directory']]})
-      const plugin = new Plugin({root: p, type: 'core'})
-      await plugin.load()
-      config.plugins.set(plugin.name, plugin)
-    } catch {}
-
     await config.runHook('init', {argv: this.argv, id: 'readme'})
 
     const generator = new ReadmeGenerator(config, {

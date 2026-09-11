@@ -67,7 +67,7 @@ export default class Manifest extends Command {
       ux.action.stop()
     }
 
-    let plugin = new Plugin({
+    const plugin = new Plugin({
       errorOnManifestCreate: true,
       ignoreManifest: true,
       respectNoCacheDefault: true,
@@ -77,11 +77,6 @@ export default class Manifest extends Command {
 
     if (!plugin) throw new Error('plugin not found')
     await plugin.load()
-    if (!plugin.valid) {
-      const {PluginLegacy} = await import('@oclif/plugin-legacy')
-      plugin = new PluginLegacy(this.config, plugin)
-      await plugin.load()
-    }
 
     if (!Array.isArray(plugin.pjson.files)) {
       this.error('The package.json has to contain a "files" array', {

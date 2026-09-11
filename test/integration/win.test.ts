@@ -1,3 +1,4 @@
+/* eslint-disable import-x/newline-after-import, import-x/first, n/file-extension-in-import -- these rules cause circular fix problems */
 import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'
@@ -11,7 +12,7 @@ import {deleteFolder, developerSalesforceCom, findDistFileSha, oclifTestingVersi
 const pjsonPath = require.resolve('../../package.json')
 const originalVersion = pjson.version
 
-const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
+const testRun = `test-${Math.random().toString().split('.', 2)[1].slice(0, 4)}`
 
 describe('publish:win', () => {
   let pkg: string
@@ -32,13 +33,15 @@ describe('publish:win', () => {
   })
 
   afterEach(async () => {
-    if (!process.env.PRESERVE_ARTIFACTS) {
-      // set this env var to keep the packed windows CLI in the bucket
-      // useful for downloading and testing the CLI on windows
-      await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
-      pjson.version = originalVersion
-      await writeJSON(pjsonPath, pjson, {spaces: 2})
+    if (process.env.PRESERVE_ARTIFACTS) {
+      return
     }
+
+    // set this env var to keep the packed windows CLI in the bucket
+    // useful for downloading and testing the CLI on windows
+    await deleteFolder(bucket, `${basePrefix}/versions/${pjson.version}/`)
+    pjson.version = originalVersion
+    await writeJSON(pjsonPath, pjson, {spaces: 2})
   })
 
   it('publishes valid releases', async () => {

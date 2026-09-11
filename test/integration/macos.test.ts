@@ -1,3 +1,4 @@
+/* eslint-disable import-x/newline-after-import, import-x/first, n/file-extension-in-import -- these rules cause circular fix problems */
 import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'
@@ -14,7 +15,7 @@ const pjsonPath = require.resolve('../../package.json')
 const originalPJSON = _.cloneDeep(pjson)
 
 const onlyMacos = process.platform === 'darwin' ? it : it.skip
-const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
+const testRun = `test-${Math.random().toString().split('.', 2)[1].slice(0, 4)}`
 
 describe('publish:macos', () => {
   const cwd = process.cwd()

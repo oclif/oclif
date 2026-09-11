@@ -975,18 +975,6 @@
     },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 11
-    },
-    "import-x/first": {
-      "count": 1
-    },
-    "import-x/newline-after-import": {
-      "count": 2
-    },
-    "n/file-extension-in-import": {
-      "count": 1
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 1
     }
   },
   "test/integration/publish.test.ts": {
@@ -1070,21 +1058,6 @@
     },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 11
-    },
-    "import-x/first": {
-      "count": 2
-    },
-    "import-x/newline-after-import": {
-      "count": 2
-    },
-    "n/file-extension-in-import": {
-      "count": 2
-    },
-    "unicorn/prefer-early-return": {
-      "count": 1
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 1
     }
   },
   "test/unit/aws-checksum.test.ts": {

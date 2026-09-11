@@ -1,3 +1,9 @@
+## [5.0.2](https://github.com/oclif/oclif/compare/5.0.1...5.0.2) (2026-09-11)
+
+### Bug Fixes
+
+- resolved circular eslint fixes (W-24099831) ([3e9ac3d](https://github.com/oclif/oclif/commit/3e9ac3db4f05520e479c9d616794e81226635057))
+
 ## [5.0.1](https://github.com/oclif/oclif/compare/5.0.0...5.0.1) (2026-09-03)
 
 ### Bug Fixes

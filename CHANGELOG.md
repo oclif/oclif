@@ -1,3 +1,11 @@
+# [6.0.0](https://github.com/oclif/oclif/compare/5.0.2...6.0.0) (2026-09-11)
+
+- feat!: remove support for legacy plugins (#2095) ([0c6cfda](https://github.com/oclif/oclif/commit/0c6cfda0fa16b8fccaae5a91638003a32ed07e5d)), closes [#2095](https://github.com/oclif/oclif/issues/2095)
+
+### BREAKING CHANGES
+
+- removes support for legacy plugins
+
 ## [5.0.2](https://github.com/oclif/oclif/compare/5.0.1...5.0.2) (2026-09-11)
 
 ### Bug Fixes

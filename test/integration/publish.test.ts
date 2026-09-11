@@ -1,4 +1,4 @@
-import {Interfaces} from '@oclif/core'
+import {type Interfaces} from '@oclif/core'
 import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'
@@ -10,19 +10,20 @@ import {join} from 'node:path'
 import {pipeline} from 'node:stream/promises'
 import {promisify} from 'node:util'
 
-import aws from '../../src/aws'
-import {hash} from '../../src/util'
-import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper'
+import aws from '../../src/aws.js'
+import {hash} from '../../src/util.js'
+import {deleteFolder, developerSalesforceCom, gitShaSync} from '../helpers/helper.js'
 
 const exec = promisify(execSync)
 
 const pjson = require('../../package.json')
+
 const pjsonPath = require.resolve('../../package.json')
 // eslint-disable-next-line unicorn/prefer-structured-clone
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
-const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
+const testRun = `test-${Math.random().toString().split('.', 2)[1].slice(0, 4)}`
 const cwd = process.cwd()
 pjson.version = `${pjson.version}-${testRun}`
 pjson.oclif.update.node.version = process.versions.node
@@ -44,12 +45,12 @@ const manifest = async (path: string, nodeVersion: string) => {
   const {default: got} = await import('got')
   const manifest = await got(`https://${developerSalesforceCom}/${manifestFile}`).json<Interfaces.S3Manifest>()
   const runTest = async (url: string, expectedSha: string, nodeVersion: string) => {
-    const xz = url.endsWith('.tar.xz')
-    const ext = xz ? '.tar.xz' : '.tar.gz'
+    const isXz = url.endsWith('.tar.xz')
+    const ext = isXz ? '.tar.xz' : '.tar.gz'
     await pipeline(got.stream(url), createWriteStream(join(root, `oclif${ext}`)))
     const receivedSha = await hash('sha256', join(root, `oclif${ext}`))
     expect(receivedSha).to.equal(expectedSha)
-    await (xz ? exec('tar xJf oclif.tar.xz', {cwd: root}) : exec('tar xzf oclif.tar.gz', {cwd: root}))
+    await (isXz ? exec('tar xJf oclif.tar.xz', {cwd: root}) : exec('tar xzf oclif.tar.gz', {cwd: root}))
 
     const {stdout} = await exec('./oclif/bin/oclif --version', {cwd: root})
     expect(stdout).to.contain(`oclif/${pjson.version} ${target} node-v${nodeVersion}`)

@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 
-import {validateBin} from '../../src/util'
+import {validateBin} from '../../src/util.js'
 
 describe('validateBin', () => {
   const validBins = [

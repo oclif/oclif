@@ -1,10 +1,10 @@
-import {Command, Flags, Interfaces, ux} from '@oclif/core'
+import {Command, Flags, type Interfaces, ux} from '@oclif/core'
 import * as fs from 'node:fs'
 
-import aws from '../../aws'
-import {log} from '../../log'
-import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey} from '../../upload-util'
+import aws from '../../aws.js'
+import {log} from '../../log.js'
+import * as Tarballs from '../../tarballs/index.js'
+import {commitAWSDir, templateShortKey} from '../../upload-util.js'
 
 export default class UploadTarballs extends Command {
   static description = 'Upload an oclif CLI to S3.'
@@ -110,7 +110,7 @@ export default class UploadTarballs extends Command {
     }
 
     if (buildConfig.targets.length > 0) log('uploading targets')
-    await Promise.all(buildConfig.targets.map((t) => uploadTarball(t)))
+    await Promise.all(buildConfig.targets.map(async (t) => uploadTarball(t)))
     log(`done uploading tarballs & manifests for v${config.version}-${buildConfig.gitSha}`)
   }
 }

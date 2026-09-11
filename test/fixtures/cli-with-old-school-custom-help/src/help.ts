@@ -1,4 +1,4 @@
-import {Command, HelpBase} from '@oclif/core'
+import {type Command, HelpBase} from '@oclif/core'
 
 export default class CustomHelp extends HelpBase {
   command(command: Command.Class): string {

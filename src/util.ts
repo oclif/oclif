@@ -5,7 +5,8 @@ import {createReadStream} from 'node:fs'
 import * as os from 'node:os'
 import {promisify} from 'node:util'
 
-import {log} from './log'
+import {log} from './log.js'
+
 const exec = promisify(execSync)
 
 export function castArray<T>(input?: T | T[]): T[] {
@@ -16,11 +17,11 @@ export function castArray<T>(input?: T | T[]): T[] {
 export function uniqBy<T>(arr: T[], fn: (cur: T) => unknown): T[] {
   return arr.filter((a, i) => {
     const aVal = fn(a)
-    return !arr.some((b, j) => j > i && fn(b) === aVal)
+    return arr.every((b, j) => !(j > i && fn(b) === aVal))
   })
 }
 
-export function compact<T>(a: (T | undefined)[]): T[] {
+export function compact<T>(a: Array<T | undefined>): T[] {
   return a.filter((a): a is T => Boolean(a))
 }
 
@@ -50,9 +51,7 @@ export function sortBy<T>(arr: T[], fn: (i: T) => Types | Types[]): T[] {
   return arr.sort((a, b) => compare(fn(a), fn(b)))
 }
 
-interface VersionsObject {
-  [key: string]: string
-}
+type VersionsObject = Record<string, string>
 
 export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObject => {
   const keys = Reflect.ownKeys(input).sort((a, b) => {
@@ -77,8 +76,8 @@ export const sortVersionsObjectByKeysDesc = (input: VersionsObject): VersionsObj
   return result
 }
 
-const homeRegexp = new RegExp(`\\B${os.homedir().replace('/', String.raw`\/`)}`, 'g')
-const curRegexp = new RegExp(`\\B${process.cwd()}`, 'g')
+const homeRegexp = new RegExp(String.raw`\B${os.homedir().replace('/', String.raw`\/`)}`, 'g')
+const curRegexp = new RegExp(String.raw`\B${process.cwd()}`, 'g')
 
 export const prettifyPaths = (input: unknown): string =>
   (input ?? '').toString().replace(curRegexp, '.').replace(homeRegexp, '~')
@@ -89,9 +88,13 @@ export const hash = async (algo: string, fp: string | string[]): Promise<string>
   return new Promise<string>((resolve, reject) => {
     const hashInProgress = crypto.createHash(algo)
     const stream = createReadStream(f)
-    stream.on('error', (err) => reject(err))
+    stream.on('error', (err) => {
+      reject(err)
+    })
     stream.on('data', (chunk) => hashInProgress.update(chunk))
-    stream.on('end', () => resolve(hashInProgress.digest('hex')))
+    stream.on('end', () => {
+      resolve(hashInProgress.digest('hex'))
+    })
   })
 }
 

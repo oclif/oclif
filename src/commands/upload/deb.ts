@@ -2,10 +2,10 @@ import {Command, Flags} from '@oclif/core'
 import * as fs from 'node:fs'
 import path from 'node:path'
 
-import aws from '../../aws'
-import {log} from '../../log'
-import * as Tarballs from '../../tarballs'
-import {commitAWSDir, DebArch, debArch, debVersion, templateShortKey} from '../../upload-util'
+import aws from '../../aws.js'
+import {log} from '../../log.js'
+import * as Tarballs from '../../tarballs/index.js'
+import {commitAWSDir, type DebArch, debArch, debVersion, templateShortKey} from '../../upload-util.js'
 
 export default class UploadDeb extends Command {
   static description = 'Upload deb package built with `pack deb`.'
@@ -34,7 +34,7 @@ export default class UploadDeb extends Command {
       })
 
     const cloudKeyBase = commitAWSDir(config.pjson.version, buildConfig.gitSha, s3Config)
-    const upload = (file: string) => {
+    const upload = async (file: string) => {
       const cloudKey = `${cloudKeyBase}/apt/${file}`
       return aws.s3.uploadFile(
         dist(file),
@@ -49,7 +49,7 @@ export default class UploadDeb extends Command {
     // see https://github.com/oclif/oclif/issues/347 for the AWS-redirect that solves this
     // this workaround puts the code in both places that the redirect was doing
     // with this, the docs are correct. The copies are all done in parallel so it shouldn't be too costly.
-    const uploadWorkaround = (file: string) => {
+    const uploadWorkaround = async (file: string) => {
       const cloudKey = `${cloudKeyBase}/apt/./${file}`
       return aws.s3.uploadFile(
         dist(file),
@@ -73,7 +73,7 @@ export default class UploadDeb extends Command {
     const arches = buildConfig.targets.filter((t) => t.platform === 'linux')
 
     await Promise.all([
-      ...arches.map((a) => uploadDeb(debArch(a.arch))),
+      ...arches.map(async (a) => uploadDeb(debArch(a.arch))),
       upload('Packages.gz'),
       upload('Packages.xz'),
       upload('Packages.bz2'),

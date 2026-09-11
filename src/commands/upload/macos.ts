@@ -1,11 +1,11 @@
-import {Command, Flags, Interfaces} from '@oclif/core'
+import {Command, Flags, type Interfaces} from '@oclif/core'
 import * as fs from 'node:fs'
 
-import aws from '../../aws'
-import {log} from '../../log'
-import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey} from '../../upload-util'
-import {uniq} from '../../util'
+import aws from '../../aws.js'
+import {log} from '../../log.js'
+import * as Tarballs from '../../tarballs/index.js'
+import {commitAWSDir, templateShortKey} from '../../upload-util.js'
+import {uniq} from '../../util.js'
 
 export default class UploadMacos extends Command {
   static description = 'Upload macos installers built with `pack macos`.'
@@ -57,7 +57,7 @@ export default class UploadMacos extends Command {
     }
 
     const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
-    await Promise.all(arches.map((a) => upload(a)))
+    await Promise.all(arches.map(async (a) => upload(a)))
 
     log(`done uploading macos pkgs for v${config.version}-${buildConfig.gitSha}`)
   }

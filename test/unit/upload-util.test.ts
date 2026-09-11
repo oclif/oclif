@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 
-import {templateShortKey} from '../../src/upload-util'
+import {templateShortKey} from '../../src/upload-util.js'
 
 describe('templateShortKey', () => {
   it('should render a deb template', () => {

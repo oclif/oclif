@@ -1,4 +1,4 @@
-import {Command, Flags, Interfaces} from '@oclif/core'
+import {Command, Flags, type Interfaces} from '@oclif/core'
 import {move} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import {readFileSync} from 'node:fs'
@@ -6,8 +6,8 @@ import {mkdir, rm, writeFile} from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
 
-import * as Tarballs from '../../tarballs'
-import {templateShortKey} from '../../upload-util'
+import * as Tarballs from '../../tarballs/index.js'
+import {templateShortKey} from '../../upload-util.js'
 
 const exec = promisify(execSync)
 
@@ -23,8 +23,8 @@ set ${additionalCLI ? `${additionalCLI.toUpperCase()}_BINPATH` : config.scopedEn
 if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" (
   "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? config.bin}.cmd" %*
 ) else (
-  "%~dp0\\..\\client\\bin\\node.exe" ${`${nodeOptions?.join(' ')} `}"%~dp0\\..\\client\\${
-    additionalCLI ? `${additionalCLI}\\bin\\run` : String.raw`bin\run`
+  "%~dp0\\..\\client\\bin\\node.exe" ${nodeOptions?.join(' ')} "%~dp0\\..\\client\\${
+    additionalCLI ? String.raw`${additionalCLI}\bin\run` : String.raw`bin\run`
   }" %*
 )
 `,
@@ -42,7 +42,7 @@ if exist "%LOCALAPPDATA%\\${config.dirname}\\client\\bin\\${additionalCLI ?? con
     hideDefenderOption: boolean
   }) => `!include MUI2.nsh
 
-!define Version '${config.version.split('-')[0]}'
+!define Version '${config.version.split('-', 1)[0]}'
 Name "${config.name}"
 CRCCheck On
 InstallDirRegKey HKCU "Software\\${config.name}" ""
@@ -220,8 +220,8 @@ done:
   Exch $R1 ; $R1=old$R1, stack=[result,...]
 FunctionEnd
 `,
-  sh: (config: Interfaces.Config) => `#!/bin/sh
-basedir=$(dirname "$(echo "$0" | sed -e 's,\\\\,/,g')")
+  sh: (config: Interfaces.Config) => String.raw`#!/bin/sh
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
 
 "$basedir/../client/bin/${config.bin}.cmd" "$@"
 ret=$?
@@ -272,6 +272,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       description: 'Comma-separated targets to pack (e.g.: win32-x64,win32-x86,win32-arm64).',
     }),
   }
+
   static summary = 'Create windows installer from oclif CLI'
 
   async run(): Promise<void> {
@@ -301,7 +302,7 @@ the CLI should already exist in a directory named after the CLI that is the root
             path.join(installerBase, 'bin', `${config.bin}.cmd`),
             scripts.cmd(config, undefined, buildConfig.nodeOptions),
           ),
-          writeFile(path.join(installerBase, 'bin', `${config.bin}`), scripts.sh(config)),
+          writeFile(path.join(installerBase, 'bin', config.bin), scripts.sh(config)),
           writeFile(
             path.join(installerBase, `${config.bin}.nsi`),
             scripts.nsis({
@@ -319,7 +320,7 @@ the CLI should already exist in a directory named after the CLI that is the root
                 // this avoids mklink which can require admin privileges which not everyone has
                 [
                   writeFile(path.join(installerBase, 'bin', `${alias}.cmd`), scripts.cmd(config)),
-                  writeFile(path.join(installerBase, 'bin', `${alias}`), scripts.sh(config)),
+                  writeFile(path.join(installerBase, 'bin', alias), scripts.sh(config)),
                 ],
               )
             : []),
@@ -330,7 +331,7 @@ the CLI should already exist in a directory named after the CLI that is the root
                   scripts.cmd(config, flags['additional-cli']),
                 ),
                 writeFile(
-                  path.join(installerBase, 'bin', `${flags['additional-cli']}`),
+                  path.join(installerBase, 'bin', flags['additional-cli']),
                   scripts.sh({bin: flags['additional-cli']} as Interfaces.Config),
                 ),
               ]
@@ -339,7 +340,7 @@ the CLI should already exist in a directory named after the CLI that is the root
 
         await move(buildConfig.workspace({arch, platform: 'win32'}), path.join(installerBase, 'client'))
         await exec(
-          `makensis "${installerBase}/${config.bin}.nsi" | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`,
+          String.raw`makensis "${installerBase}/${config.bin}.nsi" | grep -v "\[compress\]" | grep -v "^File: Descending to"`,
         )
         const templateKey = templateShortKey('win32', {
           arch,
@@ -351,7 +352,7 @@ the CLI should already exist in a directory named after the CLI that is the root
         await move(path.join(installerBase, 'installer.exe'), o)
 
         const {windows} = config.pjson.oclif
-        if (windows && windows.name && windows.keypath) {
+        if (windows?.name && windows.keypath) {
           await signWindows(o, arch, config, windows)
         } else this.debug('Skipping windows exe signing')
 
@@ -399,7 +400,7 @@ async function signWindows(
     '-i',
     windows.homepage || config.pjson.homepage,
     '-t',
-    'http://timestamp.digicert.com',
+    'https://timestamp.digicert.com',
     '-h',
     'sha512',
     '-in',

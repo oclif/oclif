@@ -1,36 +1,36 @@
 import {
-  CloudFrontClient,
+  type CloudFrontClient,
   CreateInvalidationCommand,
-  CreateInvalidationCommandOutput,
-  CreateInvalidationRequest,
+  type CreateInvalidationCommandOutput,
+  type CreateInvalidationRequest,
 } from '@aws-sdk/client-cloudfront'
 import {
   CopyObjectCommand,
-  CopyObjectOutput,
-  CopyObjectRequest,
+  type CopyObjectOutput,
+  type CopyObjectRequest,
   DeleteObjectsCommand,
-  DeleteObjectsOutput,
-  DeleteObjectsRequest,
+  type DeleteObjectsOutput,
+  type DeleteObjectsRequest,
   GetObjectCommand,
-  GetObjectOutput,
-  GetObjectRequest,
+  type GetObjectOutput,
+  type GetObjectRequest,
   HeadObjectCommand,
-  HeadObjectOutput,
-  HeadObjectRequest,
+  type HeadObjectOutput,
+  type HeadObjectRequest,
   ListObjectsV2Command,
-  ListObjectsV2Output,
-  ListObjectsV2Request,
+  type ListObjectsV2Output,
+  type ListObjectsV2Request,
   PutObjectCommand,
-  PutObjectOutput,
-  PutObjectRequest,
-  S3Client,
+  type PutObjectOutput,
+  type PutObjectRequest,
+  type S3Client,
 } from '@aws-sdk/client-s3'
 import {CLIError} from '@oclif/core/errors'
 import {ux} from '@oclif/core/ux'
 import {createReadStream} from 'fs-extra'
 
-import {debug as Debug, log} from './log'
-import {getS3ChecksumConfig, prettifyPaths} from './util'
+import {debug as Debug, log} from './log.js'
+import {getS3ChecksumConfig, prettifyPaths} from './util.js'
 
 const debug = Debug.new('aws')
 
@@ -83,20 +83,24 @@ const aws = {
 export default {
   get cloudfront() {
     return {
-      createCloudfrontInvalidation: (options: CreateInvalidationRequest) =>
+      createCloudfrontInvalidation: async (options: CreateInvalidationRequest) =>
         new Promise<CreateInvalidationCommandOutput>((resolve, reject) => {
           log('createCloudfrontInvalidation', options.DistributionId, options.InvalidationBatch?.Paths?.Items)
           aws.cloudfront
             ?.send(new CreateInvalidationCommand(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              resolve(data)
+            })
+            .catch((error) => {
+              reject(error)
+            })
         }),
     }
   },
 
   get s3() {
     return {
-      copyObject: (
+      copyObject: async (
         options: CopyObjectRequest,
         {dryRun, ignoreMissing, namespace}: {dryRun?: boolean; ignoreMissing?: boolean; namespace?: string},
       ) =>
@@ -110,7 +114,9 @@ export default {
           if (dryRun) return
           aws.s3
             ?.send(new CopyObjectCommand(options))
-            .then((data) => resolve(data))
+            .then((data) => {
+              resolve(data)
+            })
             .catch((error) => {
               if (error.Code === 'NoSuchKey') {
                 if (ignoreMissing) {
@@ -140,39 +146,55 @@ export default {
               reject(error)
             })
         }),
-      deleteObjects: (options: DeleteObjectsRequest) =>
+      deleteObjects: async (options: DeleteObjectsRequest) =>
         new Promise<DeleteObjectsOutput>((resolve, reject) => {
           debug('deleteObjects', `s3://${options.Bucket}`)
           aws.s3
             ?.send(new DeleteObjectsCommand(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              resolve(data)
+            })
+            .catch((error) => {
+              reject(error)
+            })
         }),
-      getObject: (options: GetObjectRequest) =>
+      getObject: async (options: GetObjectRequest) =>
         new Promise<GetObjectOutput>((resolve, reject) => {
           debug('getObject', `s3://${options.Bucket}/${options.Key}`)
           aws.s3
             ?.send(new GetObjectCommand(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              resolve(data)
+            })
+            .catch((error) => {
+              reject(error)
+            })
         }),
-      headObject: (options: HeadObjectRequest) =>
+      headObject: async (options: HeadObjectRequest) =>
         new Promise<HeadObjectOutput>((resolve, reject) => {
           debug('s3:headObject', `s3://${options.Bucket}/${options.Key}`)
           aws.s3
             ?.send(new HeadObjectCommand(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              resolve(data)
+            })
+            .catch((error) => {
+              reject(error)
+            })
         }),
-      listObjects: (options: ListObjectsV2Request) =>
+      listObjects: async (options: ListObjectsV2Request) =>
         new Promise<ListObjectsV2Output>((resolve, reject) => {
           debug('listObjects', `s3://${options.Bucket}/${options.Prefix}`)
           aws.s3
             ?.send(new ListObjectsV2Command(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              resolve(data)
+            })
+            .catch((error) => {
+              reject(error)
+            })
         }),
-      uploadFile: (local: string, options: PutObjectRequest, {dryRun}: {dryRun?: boolean} = {}) =>
+      uploadFile: async (local: string, options: PutObjectRequest, {dryRun}: {dryRun?: boolean} = {}) =>
         new Promise<PutObjectOutput>((resolve, reject) => {
           ux.stdout(`> ${local}`)
           ux.stdout('  action: upload')
@@ -183,8 +205,12 @@ export default {
           options.Body = createReadStream(local)
           aws.s3
             ?.send(new PutObjectCommand(options))
-            .then((data) => resolve(data))
-            .catch((error) => reject(error))
+            .then((data) => {
+              resolve(data)
+            })
+            .catch((error) => {
+              reject(error)
+            })
         }),
     }
   },

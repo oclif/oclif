@@ -5,12 +5,6 @@
     }
   },
   "src/aws.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 2
-    },
-    "@typescript-eslint/no-confusing-void-expression": {
-      "count": 13
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 3
     },
@@ -26,17 +20,11 @@
     "@typescript-eslint/prefer-promise-reject-errors": {
       "count": 7
     },
-    "@typescript-eslint/promise-function-async": {
-      "count": 7
-    },
     "@typescript-eslint/use-unknown-in-catch-callback-variable": {
       "count": 7
     },
     "import-x/no-anonymous-default-export": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
     },
     "preserve-caught-error": {
       "count": 1
@@ -49,15 +37,6 @@
     }
   },
   "src/commands/generate.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 3
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
     },
@@ -67,9 +46,6 @@
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
     },
-    "n/file-extension-in-import": {
-      "count": 3
-    },
     "unicorn/import-style": {
       "count": 1
     },
@@ -78,26 +54,14 @@
     }
   },
   "src/commands/generate/command.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 1
-    },
     "unicorn/import-style": {
       "count": 1
     },
     "unicorn/no-unsafe-string-replacement": {
       "count": 1
-    },
-    "unicorn/prefer-string-replace-all": {
-      "count": 1
     }
   },
   "src/commands/generate/hook.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 2
     },
@@ -106,9 +70,6 @@
     },
     "@typescript-eslint/require-array-sort-compare": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
     },
     "unicorn/import-style": {
       "count": 1
@@ -121,20 +82,11 @@
     }
   },
   "src/commands/init.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 3
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
     },
     "unicorn/import-style": {
       "count": 1
@@ -175,68 +127,27 @@
     "@eslint-community/eslint-comments/require-description": {
       "count": 1
     },
-    "@stylistic/lines-between-class-members": {
-      "count": 2
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-floating-promises": {
       "count": 1
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 2
     },
-    "@typescript-eslint/promise-function-async": {
-      "count": 2
-    },
     "@typescript-eslint/strict-void-return": {
       "count": 1
     },
-    "n/file-extension-in-import": {
-      "count": 3
-    },
     "unicorn/max-nested-calls": {
-      "count": 1
-    },
-    "unicorn/prefer-boolean-return": {
       "count": 1
     }
   },
   "src/commands/pack/macos.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 2
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
     },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 2
     },
-    "@typescript-eslint/promise-function-async": {
-      "count": 1
-    },
     "@typescript-eslint/strict-void-return": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 3
-    },
-    "unicorn/prefer-https": {
-      "count": 1
-    }
-  },
-  "src/commands/pack/tarballs.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 1
-    },
-    "unicorn/consistent-conditional-object-spread": {
       "count": 1
     }
   },
@@ -244,58 +155,20 @@
     "@eslint-community/eslint-comments/require-description": {
       "count": 1
     },
-    "@stylistic/lines-between-class-members": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-template-expression": {
-      "count": 4
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 3
     },
-    "@typescript-eslint/prefer-optional-chain": {
-      "count": 1
-    },
     "@typescript-eslint/strict-void-return": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
     },
     "unicorn/consistent-class-member-order": {
       "count": 1
     },
     "unicorn/no-unsafe-string-replacement": {
       "count": 1
-    },
-    "unicorn/prefer-https": {
-      "count": 1
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 1
-    },
-    "unicorn/prefer-string-raw": {
-      "count": 3
-    }
-  },
-  "src/commands/promote.ts": {
-    "@typescript-eslint/promise-function-async": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 5
     }
   },
   "src/commands/readme.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-argument": {
       "count": 1
     },
@@ -304,71 +177,29 @@
     },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 1
     }
   },
   "src/commands/upload/deb.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 1
-    },
-    "@typescript-eslint/promise-function-async": {
-      "count": 3
-    },
-    "n/file-extension-in-import": {
-      "count": 4
     }
   },
   "src/commands/upload/macos.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 1
-    },
-    "@typescript-eslint/promise-function-async": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 5
     }
   },
   "src/commands/upload/tarballs.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 1
-    },
-    "@typescript-eslint/promise-function-async": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 4
     }
   },
   "src/commands/upload/win.ts": {
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 4
     }
   },
   "src/generator.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 2
-    },
-    "@typescript-eslint/no-confusing-void-expression": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unnecessary-type-arguments": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 3
     },
@@ -384,9 +215,6 @@
     "@typescript-eslint/switch-exhaustiveness-check": {
       "count": 1
     },
-    "n/file-extension-in-import": {
-      "count": 1
-    },
     "unicorn/import-style": {
       "count": 1
     },
@@ -394,17 +222,6 @@
       "count": 2
     },
     "unicorn/no-multiple-promise-resolver-calls": {
-      "count": 1
-    },
-    "unicorn/prefer-early-return": {
-      "count": 2
-    }
-  },
-  "src/help-compatibility.ts": {
-    "@typescript-eslint/consistent-type-definitions": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
       "count": 1
     }
   },
@@ -424,27 +241,12 @@
     "@typescript-eslint/no-unsafe-return": {
       "count": 2
     },
-    "import-x/newline-after-import": {
-      "count": 1
-    },
     "import-x/no-cycle": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
       "count": 1
     }
   },
   "src/readme-generator.ts": {
-    "@typescript-eslint/consistent-type-definitions": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-shadow": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unnecessary-template-expression": {
       "count": 2
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -456,26 +258,8 @@
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
     },
-    "@typescript-eslint/prefer-function-type": {
-      "count": 1
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 8
-    },
-    "@typescript-eslint/prefer-optional-chain": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-readonly": {
-      "count": 2
-    },
-    "import-x/first": {
-      "count": 1
-    },
-    "import-x/newline-after-import": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
     },
     "n/prefer-global/url": {
       "count": 1
@@ -497,22 +281,10 @@
     },
     "unicorn/prefer-number-coercion": {
       "count": 1
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 2
     }
   },
   "src/tarballs/bin.ts": {
     "@eslint-community/eslint-comments/require-description": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-template-expression": {
-      "count": 5
-    },
-    "@typescript-eslint/promise-function-async": {
       "count": 1
     },
     "@typescript-eslint/strict-void-return": {
@@ -520,9 +292,6 @@
     }
   },
   "src/tarballs/build.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 2
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 6
     },
@@ -532,14 +301,8 @@
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 2
     },
-    "@typescript-eslint/promise-function-async": {
-      "count": 3
-    },
     "@typescript-eslint/strict-void-return": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 6
     },
     "preserve-caught-error": {
       "count": 1
@@ -552,18 +315,6 @@
     }
   },
   "src/tarballs/config.ts": {
-    "@typescript-eslint/array-type": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-assertions": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 2
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 5
     },
@@ -573,76 +324,29 @@
     "@typescript-eslint/strict-void-return": {
       "count": 1
     },
-    "import-x/no-cycle": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
-    },
     "unicorn/logical-assignment-operators": {
       "count": 1
     }
   },
-  "src/tarballs/index.ts": {
-    "n/file-extension-in-import": {
-      "count": 4
-    }
-  },
   "src/tarballs/node.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/strict-void-return": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
     }
   },
   "src/upload-util.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 2
-    },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 3
-    },
-    "@typescript-eslint/prefer-string-starts-ends-with": {
-      "count": 2
-    },
-    "import-x/no-cycle": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 1
     },
     "unicorn/logical-assignment-operators": {
       "count": 1
     },
     "unicorn/operator-assignment": {
       "count": 2
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 1
-    },
-    "unicorn/prefer-string-starts-ends-with": {
-      "count": 2
     }
   },
   "src/util.ts": {
-    "@typescript-eslint/array-type": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-indexed-object-style": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-definitions": {
-      "count": 1
-    },
     "@typescript-eslint/no-base-to-string": {
       "count": 1
-    },
-    "@typescript-eslint/no-confusing-void-expression": {
-      "count": 2
     },
     "@typescript-eslint/no-shadow": {
       "count": 1
@@ -653,13 +357,7 @@
     "@typescript-eslint/strict-void-return": {
       "count": 2
     },
-    "import-x/newline-after-import": {
-      "count": 1
-    },
     "import-x/no-cycle": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
       "count": 1
     },
     "require-unicode-regexp": {
@@ -671,29 +369,14 @@
     "unicorn/no-array-sort": {
       "count": 2
     },
-    "unicorn/no-negated-array-predicate": {
-      "count": 1
-    },
     "unicorn/no-useless-recursion": {
       "count": 1
     },
     "unicorn/prefer-number-coercion": {
       "count": 2
-    },
-    "unicorn/prefer-string-raw": {
-      "count": 2
     }
   },
   "src/version-indexes.ts": {
-    "@typescript-eslint/consistent-indexed-object-style": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-definitions": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-argument": {
       "count": 1
     },
@@ -705,9 +388,6 @@
     },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 3
     },
     "unicorn/no-array-sort": {
       "count": 1
@@ -725,41 +405,26 @@
     }
   },
   "test/fixtures/cli-command-with-alias/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
   },
   "test/fixtures/cli-with-custom-help-no-format-command/src/commands/hello.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 2
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
   },
   "test/fixtures/cli-with-custom-help-no-format-command/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
   },
   "test/fixtures/cli-with-custom-help/src/commands/hello.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 2
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
   },
   "test/fixtures/cli-with-custom-help/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
@@ -770,9 +435,6 @@
     }
   },
   "test/fixtures/cli-with-jit-plugin/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
@@ -783,9 +445,6 @@
     }
   },
   "test/fixtures/cli-with-malicious-jit-plugin/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
@@ -801,9 +460,6 @@
     }
   },
   "test/fixtures/cli-with-nested-topics-with-space-separator/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
     },
@@ -827,9 +483,6 @@
     }
   },
   "test/fixtures/cli-with-nested-topics/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
     },
@@ -843,54 +496,20 @@
     }
   },
   "test/fixtures/cli-with-old-school-custom-help/src/commands/hello.ts": {
-    "@stylistic/lines-between-class-members": {
-      "count": 2
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
   },
   "test/fixtures/cli-with-old-school-custom-help/src/help.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "import-x/no-extraneous-dependencies": {
       "count": 1
     }
   },
-  "test/helpers/helper.test.ts": {
-    "n/file-extension-in-import": {
-      "count": 1
-    }
-  },
   "test/helpers/helper.ts": {
-    "@typescript-eslint/array-type": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-assertions": {
-      "count": 1
-    },
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 2
-    },
-    "@typescript-eslint/non-nullable-type-assertion-style": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
-    },
     "unicorn/consistent-boolean-name": {
       "count": 1
     },
     "unicorn/no-non-function-verb-prefix": {
-      "count": 1
-    }
-  },
-  "test/helpers/init.js": {
-    "import-x/newline-after-import": {
       "count": 1
     }
   },
@@ -904,14 +523,8 @@
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 2
     },
-    "n/file-extension-in-import": {
-      "count": 1
-    },
     "require-unicode-regexp": {
       "count": 2
-    },
-    "unicorn/consistent-boolean-name": {
-      "count": 3
     },
     "unicorn/import-style": {
       "count": 1
@@ -935,15 +548,6 @@
     },
     "@typescript-eslint/strict-void-return": {
       "count": 1
-    },
-    "import-x/newline-after-import": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 2
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 2
     }
   },
   "test/integration/init.test.ts": {
@@ -958,9 +562,6 @@
     },
     "@typescript-eslint/switch-exhaustiveness-check": {
       "count": 2
-    },
-    "n/file-extension-in-import": {
-      "count": 1
     },
     "unicorn/import-style": {
       "count": 1
@@ -978,9 +579,6 @@
     }
   },
   "test/integration/publish.test.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
     "@typescript-eslint/no-shadow": {
       "count": 2
     },
@@ -996,35 +594,14 @@
     "@typescript-eslint/strict-void-return": {
       "count": 2
     },
-    "import-x/newline-after-import": {
-      "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 3
-    },
-    "unicorn/consistent-boolean-name": {
-      "count": 1
-    },
     "unicorn/import-style": {
       "count": 1
     },
     "unicorn/prefer-minimal-ternary": {
       "count": 1
-    },
-    "unicorn/prefer-split-limit": {
-      "count": 1
     }
   },
   "test/integration/sf.test.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-type-conversion": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-argument": {
       "count": 1
     },
@@ -1034,21 +611,10 @@
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
     },
-    "unicorn/consistent-boolean-name": {
-      "count": 2
-    },
     "unicorn/import-style": {
       "count": 1
     },
-    "unicorn/no-useless-boolean-cast": {
-      "count": 1
-    },
     "unicorn/prefer-minimal-ternary": {
-      "count": 1
-    }
-  },
-  "test/integration/util.ts": {
-    "@typescript-eslint/consistent-type-imports": {
       "count": 1
     }
   },
@@ -1069,19 +635,7 @@
     }
   },
   "test/unit/manifest.test.ts": {
-    "@typescript-eslint/consistent-type-imports": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-type-conversion": {
-      "count": 1
-    },
     "require-unicode-regexp": {
-      "count": 1
-    },
-    "unicorn/consistent-boolean-name": {
-      "count": 2
-    },
-    "unicorn/no-useless-boolean-cast": {
       "count": 1
     }
   },
@@ -1091,23 +645,10 @@
     },
     "import/no-named-as-default-member": {
       "count": 1
-    },
-    "n/file-extension-in-import": {
-      "count": 1
     }
   },
   "test/unit/readme.test.ts": {
     "unicorn/import-style": {
-      "count": 1
-    }
-  },
-  "test/unit/upload-util.test.ts": {
-    "n/file-extension-in-import": {
-      "count": 1
-    }
-  },
-  "test/unit/util.test.ts": {
-    "n/file-extension-in-import": {
       "count": 1
     }
   }

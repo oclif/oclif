@@ -2,15 +2,13 @@ import {ObjectCannedACL} from '@aws-sdk/client-s3'
 import * as fs from 'fs-extra'
 import path from 'node:path'
 
-import aws from './aws'
-import {debug as Debug} from './log'
-import {BuildConfig} from './tarballs'
+import aws from './aws.js'
+import {debug as Debug} from './log.js'
+import {type BuildConfig} from './tarballs/index.js'
 
 const debug = Debug.new('version-indexes')
 
-interface VersionsObject {
-  [key: string]: string
-}
+type VersionsObject = Record<string, string>
 
 const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number): VersionsObject => {
   const keys = (

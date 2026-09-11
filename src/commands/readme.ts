@@ -1,8 +1,8 @@
-import {Command, Config, Flags, Interfaces, Plugin} from '@oclif/core'
+import {Command, Config, Flags, type Interfaces, Plugin} from '@oclif/core'
 import * as fs from 'fs-extra'
 import path from 'node:path'
 
-import ReadmeGenerator from '../readme-generator'
+import ReadmeGenerator from '../readme-generator.js'
 
 export default class Readme extends Command {
   static description = `The readme must have any of the following tags inside of it for it to be replaced or else it will do nothing:
@@ -61,6 +61,7 @@ Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
       description: 'Version to use in readme links. Defaults to the version in package.json.',
     }),
   }
+
   static summary = 'Adds commands to README.md in current directory.'
   private flags!: Interfaces.InferredFlags<typeof Readme.flags>
 

@@ -3,7 +3,7 @@ import {mkdir, readFile, rm, writeFile} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 
-import {exec} from './util'
+import {exec} from './util.js'
 
 function getPackageManager(): 'npm' | 'pnpm' | 'yarn' {
   const raw = process.env.OCLIF_INTEGRATION_PACKAGE_MANAGER

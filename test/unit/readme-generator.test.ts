@@ -3,7 +3,7 @@ import {Config, ux} from '@oclif/core'
 import {expect} from 'chai'
 import sinon from 'sinon'
 
-import ReadmeGenerator from '../../src/readme-generator'
+import ReadmeGenerator from '../../src/readme-generator.js'
 
 class TestReadmeGenerator extends ReadmeGenerator {
   public constructor(config: Config, options: {outputDir: string; readmePath: string}) {

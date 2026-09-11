@@ -6,9 +6,9 @@ import {readdir} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 import validatePkgName from 'validate-npm-package-name'
 
-import {exec, FlaggablePrompt, GeneratorCommand, makeFlags} from '../generator'
-import {debug as Debug} from '../log'
-import {validateBin} from '../util'
+import {exec, type FlaggablePrompt, GeneratorCommand, makeFlags} from '../generator.js'
+import {debug as Debug} from '../log.js'
+import {validateBin} from '../util.js'
 
 const debug = Debug.new('generate')
 
@@ -95,6 +95,7 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
   static args = {
     name: Args.string({description: 'Directory name of new project.', required: true}),
   }
+
   static description = `This will generate a fully functional oclif CLI that you can build on. It will prompt you for all the necessary information to get started. If you want to skip the prompts, you can pass the --yes flag to accept the defaults for all prompts. You can also pass individual flags to set specific values for prompts.
 
 Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.`
@@ -116,6 +117,7 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
       description: 'Supply answers for specific prompts and accept default values for the rest',
     },
   ]
+
   static flaggablePrompts = FLAGGABLE_PROMPTS
   static flags = {
     ...makeFlags(FLAGGABLE_PROMPTS),
@@ -133,6 +135,7 @@ Head to oclif.io/docs/introduction to learn more about building CLIs with oclif.
       description: 'Use defaults for all prompts. Individual flags will override defaults.',
     }),
   }
+
   static summary = 'Generate a new CLI'
 
   async run(): Promise<void> {
@@ -298,4 +301,4 @@ const findEjsFiles =
           src: join(path, f.name),
         }
       })
-      .filter((f) => f !== null) as Array<{destination: string; name: string; src: string}>
+      .filter((f) => f !== null)

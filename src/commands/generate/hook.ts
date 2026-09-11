@@ -4,13 +4,14 @@ import * as fs from 'fs-extra'
 import {writeFile} from 'node:fs/promises'
 import {join, resolve} from 'node:path'
 
-import {GeneratorCommand, readPJSON} from '../../generator'
-import {castArray, uniq} from '../../util'
+import {GeneratorCommand, readPJSON} from '../../generator.js'
+import {castArray, uniq} from '../../util.js'
 
 export default class GenerateHook extends GeneratorCommand<typeof GenerateHook> {
   static args = {
     name: Args.string({description: 'Name of hook (snake_case).', required: true}),
   }
+
   static description = 'Add a hook to an existing CLI or plugin.'
   static flags = {
     event: Flags.string({

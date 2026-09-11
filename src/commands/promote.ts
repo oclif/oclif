@@ -2,11 +2,11 @@ import {MetadataDirective, ObjectCannedACL} from '@aws-sdk/client-s3'
 import {Command, Flags, ux} from '@oclif/core'
 import path from 'node:path'
 
-import aws from '../aws'
-import * as Tarballs from '../tarballs'
-import {channelAWSDir, commitAWSDir, debArch, debVersion, templateShortKey} from '../upload-util'
-import {uniq} from '../util'
-import {appendToIndex} from '../version-indexes'
+import aws from '../aws.js'
+import * as Tarballs from '../tarballs/index.js'
+import {channelAWSDir, commitAWSDir, debArch, debVersion, templateShortKey} from '../upload-util.js'
+import {uniq} from '../util.js'
+import {appendToIndex} from '../version-indexes.js'
 
 export default class Promote extends Command {
   static description = 'Promote CLI builds to a S3 release channel.'
@@ -304,7 +304,7 @@ export default class Promote extends Command {
         promoteManifest(target),
         promoteGzTarballs(target),
       ]),
-      ...(flags.xz ? buildConfig.targets.map((target) => promoteXzTarballs(target)) : []),
+      ...(flags.xz ? buildConfig.targets.map(async (target) => promoteXzTarballs(target)) : []),
       ...(flags.macos ? [promoteMacInstallers()] : []),
       ...(flags.win ? [promoteWindowsInstallers()] : []),
       ...(flags.deb ? [promoteDebianAptPackages()] : []),

@@ -1,4 +1,4 @@
-import {Interfaces, ux} from '@oclif/core'
+import {type Interfaces, ux} from '@oclif/core'
 import findYarnWorkspaceRoot from 'find-yarn-workspace-root'
 import {copy, emptyDir, move, readJSON, remove, writeJSON} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
@@ -7,12 +7,12 @@ import {mkdir, readdir, rm} from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
 
-import {log} from '../log'
-import {commitAWSDir, templateShortKey} from '../upload-util'
-import {hash, prettifyPaths} from '../util'
-import {writeBinScripts} from './bin'
-import {BuildConfig} from './config'
-import {fetchNodeBinary} from './node'
+import {log} from '../log.js'
+import {commitAWSDir, templateShortKey} from '../upload-util.js'
+import {hash, prettifyPaths} from '../util.js'
+import {writeBinScripts} from './bin.js'
+import {type BuildConfig} from './config.js'
+import {fetchNodeBinary} from './node.js'
 
 const exec = promisify(execSync)
 
@@ -110,7 +110,7 @@ export async function build(c: BuildConfig, options: BuildOptions = {}): Promise
   const targetsToBuild = c.targets.filter((t) => !options.platform || options.platform === t.platform)
   if (options.parallel) {
     log(`will build ${targetsToBuild.length} targets in parallel`)
-    await Promise.all(targetsToBuild.map((t) => buildTarget(t, c, options)))
+    await Promise.all(targetsToBuild.map(async (t) => buildTarget(t, c, options)))
   } else {
     log(`will build ${targetsToBuild.length} targets sequentially`)
     for (const target of targetsToBuild) {
@@ -134,7 +134,7 @@ const removeLockfiles = async (c: BuildConfig) => {
   const files = await readdir(c.workspace(), {recursive: true})
   const lockfiles = files.filter((f) => isLockFile(f)).map((f) => path.join(c.workspace(), f))
   log(`removing ${lockfiles.length} lockfiles`)
-  await Promise.all(lockfiles.map((f) => remove(f)))
+  await Promise.all(lockfiles.map(async (f) => remove(f)))
 }
 
 /** runs the pretarball script from the cli being packed */
@@ -208,7 +208,7 @@ const extractCLI = async (tarball: string, c: BuildConfig) => {
   const tarCommand = `tar -xzf "${tarballNewLocation}"${process.platform === 'win32' ? ' --force-local' : ''}`
   await exec(tarCommand, {cwd: workspace})
   const files = await readdir(path.join(workspace, 'package'), {withFileTypes: true})
-  await Promise.all(files.map((i) => move(path.join(workspace, 'package', i.name), path.join(workspace, i.name))))
+  await Promise.all(files.map(async (i) => move(path.join(workspace, 'package', i.name), path.join(workspace, i.name))))
 
   await Promise.all([
     rm(path.join(workspace, 'package'), {recursive: true}),

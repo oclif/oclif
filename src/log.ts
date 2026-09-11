@@ -1,9 +1,10 @@
 import {ux} from '@oclif/core'
 import {format as utilFormat} from 'node:util'
 
-import {prettifyPaths} from './util'
+import {prettifyPaths} from './util.js'
 
 export const debug = require('debug')('oclif')
+
 debug.new = (name: string) => require('debug')(`oclif:${name}`)
 
 export function log(format: string, ...args: unknown[]): void {

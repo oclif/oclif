@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 
-import {deleteFolder} from './helper'
+import {deleteFolder} from './helper.js'
 
 describe('helper', () => {
   it('should not do a recursive list', async () => {

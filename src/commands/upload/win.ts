@@ -1,10 +1,10 @@
 import {Command, Flags} from '@oclif/core'
 import * as fs from 'node:fs'
 
-import aws from '../../aws'
-import {log} from '../../log'
-import * as Tarballs from '../../tarballs'
-import {commitAWSDir, templateShortKey} from '../../upload-util'
+import aws from '../../aws.js'
+import {log} from '../../log.js'
+import * as Tarballs from '../../tarballs/index.js'
+import {commitAWSDir, templateShortKey} from '../../upload-util.js'
 
 export default class UploadWin extends Command {
   static description = 'Upload windows installers built with `pack win`.'

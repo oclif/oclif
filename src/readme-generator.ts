@@ -1,4 +1,4 @@
-import {Command, Config, HelpBase, Interfaces, loadHelpClass, toConfiguredId, ux} from '@oclif/core'
+import {type Command, type Config, type HelpBase, type Interfaces, loadHelpClass, toConfiguredId, ux} from '@oclif/core'
 import makeDebug from 'debug'
 import {render} from 'ejs'
 import * as fs from 'fs-extra'
@@ -7,15 +7,14 @@ import path from 'node:path'
 import {URL} from 'node:url'
 import normalize from 'normalize-package-data'
 
-import {HelpCompatibilityWrapper} from './help-compatibility'
+import {HelpCompatibilityWrapper} from './help-compatibility.js'
+import {castArray, compact, sortBy, uniqBy} from './util.js'
+
 const columns = Number.parseInt(process.env.COLUMNS!, 10) || 120
-import {castArray, compact, sortBy, uniqBy} from './util'
 
 const debug = makeDebug('readme')
 
-interface HelpBaseDerived {
-  new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>): HelpBase
-}
+type HelpBaseDerived = new (config: Interfaces.Config, opts?: Partial<Interfaces.HelpOptions>) => HelpBase
 
 type Options = {
   aliases?: boolean
@@ -38,8 +37,8 @@ async function slugify(str: string): Promise<string> {
 
 export default class ReadmeGenerator {
   public constructor(
-    private config: Config,
-    private options: Options,
+    private readonly config: Config,
+    private readonly options: Options,
   ) {}
 
   protected commandCode(c: Command.Cached): string | undefined {
@@ -74,7 +73,7 @@ export default class ReadmeGenerator {
           const usage = this.commandUsage(c)
           return usage
             ? `* [\`${this.config.bin} ${usage}\`](#${await slugify(`${this.config.bin}-${usage}`)})`
-            : `* [\`${this.config.bin}\`](#${await slugify(`${this.config.bin}`)})`
+            : `* [\`${this.config.bin}\`](#${await slugify(this.config.bin)})`
         }),
       )),
       '',
@@ -164,7 +163,7 @@ export default class ReadmeGenerator {
             `* [\`${this.config.bin} ${t.name.replaceAll(':', this.config.topicSeparator)}\`](${dir}/${t.name.replaceAll(':', '/')}.md)`,
             render(t.description || '', {config: this.config})
               .trim()
-              .split('\n')[0],
+              .split('\n', 1)[0],
           ]).join(' - '),
         ),
       ]
@@ -181,7 +180,7 @@ export default class ReadmeGenerator {
     debug('rendering command', c.id)
     const title = render(c.summary ?? c.description ?? '', {command: c, config: this.config})
       .trim()
-      .split('\n')[0]
+      .split('\n', 1)[0]
     const help = new HelpClass(this.config, {maxWidth: columns, respectNoCacheDefault: true, stripAnsi: true})
     const wrapper = new HelpCompatibilityWrapper(help)
 
@@ -303,7 +302,7 @@ USAGE
   private commandUsage(command: Command.Cached): string {
     const arg = (arg: Command.Arg.Cached) => {
       const name = arg.name.toUpperCase()
-      if (arg.required) return `${name}`
+      if (arg.required) return name
       return `[${name}]`
     }
 
@@ -324,7 +323,7 @@ USAGE
   private repo(plugin: Interfaces.Plugin): string | undefined {
     const pjson = {...plugin.pjson}
     normalize(pjson)
-    const repo = pjson.repository && pjson.repository.url
+    const repo = pjson.repository?.url
     if (!repo) return
     const url = new URL(repo)
     if (

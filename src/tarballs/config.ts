@@ -1,13 +1,13 @@
-import {ObjectCannedACL} from '@aws-sdk/client-s3'
-import {Config, Interfaces, ux} from '@oclif/core'
+import {type ObjectCannedACL} from '@aws-sdk/client-s3'
+import {Config, type Interfaces, ux} from '@oclif/core'
 import {exec as execSync} from 'node:child_process'
 import {mkdir} from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
 import * as semver from 'semver'
 
-import {templateShortKey} from '../upload-util'
-import {castArray, compact} from '../util'
+import {templateShortKey} from '../upload-util.js'
+import {castArray, compact} from '../util.js'
 
 const exec = promisify(execSync)
 export const TARGETS = [
@@ -42,7 +42,7 @@ export type BuildConfig = {
   root: string
   s3Config: S3Config
   tarFlags?: TarFlags
-  targets: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}[]
+  targets: Array<{arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}>
   tmp: string
   updateConfig: UpdateConfig
   workspace(target?: {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}): string
@@ -73,7 +73,7 @@ export async function buildConfig(
   const updateConfig = (config.pjson.oclif.update || {}) as UpdateConfig
   updateConfig.s3 = updateConfig.s3 || {}
   const nodeVersion = updateConfig.node?.version || process.versions.node
-  const nodeOptions = castArray((updateConfig.node ?? ({} as {options?: string | string[]})).options ?? [])
+  const nodeOptions = castArray((updateConfig.node ?? {}).options ?? [])
   const targets = compact(options.targets || updateConfig.node?.targets || TARGETS)
     .filter((t) => {
       if (t === 'darwin-arm64' && semver.lt(nodeVersion, '16.0.0')) {
@@ -105,7 +105,7 @@ export async function buildConfig(
 
   const s3Config = {
     ...updateConfig.s3,
-    acl: updateConfig.s3.acl as ObjectCannedACL | undefined,
+    acl: updateConfig.s3.acl,
   }
 
   const existingTarFlags = config.pjson.oclif.tarFlags
@@ -125,7 +125,7 @@ export async function buildConfig(
     updateConfig,
     workspace(target) {
       const base = path.join(config.root, 'tmp')
-      if (target && target.platform)
+      if (target?.platform)
         return path.join(base, [target.platform, target.arch].join('-'), templateShortKey('baseDir', {bin: config.bin}))
       return path.join(base, templateShortKey('baseDir', {bin: config.bin}))
     },

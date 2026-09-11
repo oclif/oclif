@@ -1,4 +1,4 @@
-import {Interfaces} from '@oclif/core'
+import {type Interfaces} from '@oclif/core'
 import retry from 'async-retry'
 import {copy, ensureDir, move} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
@@ -8,8 +8,8 @@ import path from 'node:path'
 import {pipeline} from 'node:stream/promises'
 import {promisify} from 'node:util'
 
-import {log} from '../log'
-import {checkFor7Zip} from '../util'
+import {log} from '../log.js'
+import {checkFor7Zip} from '../util.js'
 
 const exec = promisify(execSync)
 

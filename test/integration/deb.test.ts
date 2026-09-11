@@ -6,18 +6,19 @@ import {exec as execSync} from 'node:child_process'
 import path from 'node:path'
 import {promisify} from 'node:util'
 
-import {gitSha} from '../../src/tarballs'
-import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
+import {gitSha} from '../../src/tarballs/index.js'
+import {deleteFolder, developerSalesforceCom} from '../helpers/helper.js'
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
+
 const pjsonPath = require.resolve('../../package.json')
 // eslint-disable-next-line unicorn/prefer-structured-clone
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
 const onlyLinux = process.platform === 'linux' ? it : it.skip
-const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
+const testRun = `test-${Math.random().toString().split('.', 2)[1].slice(0, 4)}`
 
 describe('publish:deb', () => {
   let bucket: string
@@ -50,7 +51,7 @@ describe('publish:deb', () => {
 
     const sha = await gitSha(process.cwd(), {short: true})
 
-    const debUrl = `https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/oclif_${pjson.version.split('-')[0]}.${sha}-1_amd64.deb`
+    const debUrl = `https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/oclif_${pjson.version.split('-', 1)[0]}.${sha}-1_amd64.deb`
     console.log('downloading .deb from', debUrl)
     // download the deb
     await exec(`curl -sL ${debUrl} -o ${root}/oclif.deb`)

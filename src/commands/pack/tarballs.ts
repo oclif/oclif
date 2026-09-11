@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 
-import * as Tarballs from '../../tarballs'
+import * as Tarballs from '../../tarballs/index.js'
 
 export default class PackTarballs extends Command {
   static description = `This can be used to create oclif CLIs that use the system node or that come preloaded with a node binary.
@@ -22,6 +22,7 @@ Add a pretarball script to your package.json if you need to run any scripts befo
     targets: Flags.string({char: 't', description: 'Comma-separated targets to pack (e.g.: linux-arm,win32-x64).'}),
     xz: Flags.boolean({allowNo: true, description: 'Also build xz.'}),
   }
+
   static summary = 'Package oclif CLI into tarballs.'
 
   async run(): Promise<void> {
@@ -37,7 +38,7 @@ Add a pretarball script to your package.json if you need to run any scripts befo
 
     await Tarballs.build(buildConfig, {
       parallel: flags.parallel,
-      ...(process.platform === 'win32' ? {platform: 'win32'} : {}),
+      ...(process.platform === 'win32' && {platform: 'win32'}),
       pruneLockfiles: flags['prune-lockfiles'],
       tarball: flags.tarball,
     })

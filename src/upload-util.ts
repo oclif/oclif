@@ -1,18 +1,18 @@
-import {Interfaces} from '@oclif/core'
+import {type Interfaces} from '@oclif/core'
 import {render} from 'ejs'
 import path from 'node:path'
 
-import {BuildConfig as TarballConfig} from './tarballs/config'
+import {type BuildConfig as TarballConfig} from './tarballs/config.js'
 
 export function commitAWSDir(version: string, sha: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
-  if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
+  if (s3SubDir !== '' && !s3SubDir.endsWith('/')) s3SubDir = `${s3SubDir}/`
   return path.posix.join(s3SubDir, 'versions', version, sha)
 }
 
 export function channelAWSDir(channel: string, s3Config: TarballConfig['s3Config']): string {
   let s3SubDir = s3Config.folder || ''
-  if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/') s3SubDir = `${s3SubDir}/`
+  if (s3SubDir !== '' && !s3SubDir.endsWith('/')) s3SubDir = `${s3SubDir}/`
   return path.posix.join(s3SubDir, 'channels', channel)
 }
 
@@ -59,6 +59,6 @@ export function debArch(arch: Interfaces.ArchTypes): DebArch {
 }
 
 export function debVersion(buildConfig: TarballConfig): string {
-  return `${buildConfig.config.version.split('-')[0]}.${buildConfig.gitSha}-1`
+  return `${buildConfig.config.version.split('-', 1)[0]}.${buildConfig.gitSha}-1`
   // see debian_revision: https://www.debian.org/doc/debian-policy/ch-controlfields.html
 }

@@ -4,6 +4,7 @@ import {format as utilFormat} from 'node:util'
 import {prettifyPaths} from './util'
 
 export const debug = require('debug')('oclif')
+
 debug.new = (name: string) => require('debug')(`oclif:${name}`)
 
 export function log(format: string, ...args: unknown[]): void {

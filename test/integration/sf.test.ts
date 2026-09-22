@@ -1,4 +1,4 @@
-import {Interfaces} from '@oclif/core'
+import {type Interfaces} from '@oclif/core'
 import {expect} from 'chai'
 import {execSync} from 'node:child_process'
 import {access, mkdir, readFile, rm} from 'node:fs/promises'
@@ -38,19 +38,19 @@ describe('sf', () => {
 
       const manifest = JSON.parse(await readFile(join(sfDir, 'oclif.manifest.json'), 'utf8')) as Interfaces.Manifest
 
-      const sfPjson = JSON.parse(await readFile(join(sfDir, 'package.json'), 'utf8')) as Interfaces.PJSON['Plugin']
+      const sfPjson = JSON.parse(await readFile(join(sfDir, 'package.json'), 'utf8'))
       const jitPlugins = Object.keys(sfPjson.oclif.jitPlugins ?? {})
 
-      const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>
+      const isEveryPluginHasCommand = jitPlugins.every((jitPlugin) =>
         // eslint-disable-next-line max-nested-callbacks
-        Boolean(Object.values(manifest.commands).some((command) => command.pluginName === jitPlugin)),
+        Object.values(manifest.commands).some((command) => command.pluginName === jitPlugin),
       )
-      const everyJITCommandIsTypeJIT = Object.values(manifest.commands)
+      const isEveryJITCommandIsTypeJIT = Object.values(manifest.commands)
         .filter((command) => jitPlugins.includes(command.pluginName ?? ''))
         .every((command) => command.pluginType === 'jit')
 
-      expect(everyPluginHasCommand).to.be.true
-      expect(everyJITCommandIsTypeJIT).to.be.true
+      expect(isEveryPluginHasCommand).to.be.true
+      expect(isEveryJITCommandIsTypeJIT).to.be.true
     })
   })
 })

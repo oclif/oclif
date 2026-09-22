@@ -11,13 +11,14 @@ import {deleteFolder, developerSalesforceCom} from '../helpers/helper'
 
 const exec = promisify(execSync)
 const pjson = require('../../package.json')
+
 const pjsonPath = require.resolve('../../package.json')
 // eslint-disable-next-line unicorn/prefer-structured-clone
 const originalPJSON = _.cloneDeep(pjson)
 const target = [process.platform, process.arch].join('-')
 
 const onlyLinux = process.platform === 'linux' ? it : it.skip
-const testRun = `test-${Math.random().toString().split('.')[1].slice(0, 4)}`
+const testRun = `test-${Math.random().toString().split('.', 2)[1].slice(0, 4)}`
 
 describe('publish:deb', () => {
   let bucket: string
@@ -50,7 +51,7 @@ describe('publish:deb', () => {
 
     const sha = await gitSha(process.cwd(), {short: true})
 
-    const debUrl = `https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/oclif_${pjson.version.split('-')[0]}.${sha}-1_amd64.deb`
+    const debUrl = `https://${developerSalesforceCom}/${basePrefix}/versions/${pjson.version}/${sha}/apt/oclif_${pjson.version.split('-', 1)[0]}.${sha}-1_amd64.deb`
     console.log('downloading .deb from', debUrl)
     // download the deb
     await exec(`curl -sL ${debUrl} -o ${root}/oclif.deb`)

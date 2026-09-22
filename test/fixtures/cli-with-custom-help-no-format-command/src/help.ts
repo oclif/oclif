@@ -1,4 +1,4 @@
-import {Command, HelpBase} from '@oclif/core'
+import {type Command, HelpBase} from '@oclif/core'
 
 export default class CustomHelp extends HelpBase {
   async showCommandHelp(command: Command.Class): Promise<void> {

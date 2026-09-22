@@ -1,9 +1,9 @@
-import {Command, HelpBase} from '@oclif/core'
+import {type Command, type HelpBase} from '@oclif/core'
 
-interface MaybeCompatibleHelp extends HelpBase {
+type MaybeCompatibleHelp = {
   command?: (command: Command.Cached) => string
   formatCommand?: (command: Command.Cached) => string
-}
+} & HelpBase
 
 class IncompatibleHelpError extends Error {
   message =

@@ -1,4 +1,4 @@
-import {Help, Interfaces} from '@oclif/core'
+import {Help, type Interfaces} from '@oclif/core'
 
 export default class CustomHelp extends Help {
   formatCommand(command: Interfaces.Command): string {

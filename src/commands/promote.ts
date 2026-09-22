@@ -304,7 +304,7 @@ export default class Promote extends Command {
         promoteManifest(target),
         promoteGzTarballs(target),
       ]),
-      ...(flags.xz ? buildConfig.targets.map((target) => promoteXzTarballs(target)) : []),
+      ...(flags.xz ? buildConfig.targets.map(async (target) => promoteXzTarballs(target)) : []),
       ...(flags.macos ? [promoteMacInstallers()] : []),
       ...(flags.win ? [promoteWindowsInstallers()] : []),
       ...(flags.deb ? [promoteDebianAptPackages()] : []),

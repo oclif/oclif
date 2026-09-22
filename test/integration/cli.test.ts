@@ -37,8 +37,8 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
   let cliBinDev: string
 
   function setBins(): void {
-    const usesJsScripts = existsSync(join(cliDir, 'bin', 'run.js'))
-    const extension = process.platform === 'win32' ? '.cmd' : usesJsScripts ? '.js' : ''
+    const isUsesJsScripts = existsSync(join(cliDir, 'bin', 'run.js'))
+    const extension = process.platform === 'win32' ? '.cmd' : isUsesJsScripts ? '.js' : ''
     cliBinRun = join(tmpDir, cliName, 'bin', `run${extension}`)
     cliBinDev = join(tmpDir, cliName, 'bin', `dev${extension}`)
   }
@@ -138,8 +138,8 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
 
     // expect some lock files to exist
     const allFiles = await readdir(join(cliDir, 'tmp', cliName), {recursive: true})
-    const someLockFilesPresent = LOCK_FILES.some((lockfile) => allFiles.includes(lockfile))
-    expect(someLockFilesPresent).to.be.true
+    const isSomeLockFilesPresent = LOCK_FILES.some((lockfile) => allFiles.includes(lockfile))
+    expect(isSomeLockFilesPresent).to.be.true
   })
 
   maybeSkip('generated CLI should be packable with --prune-lockfiles', async () => {
@@ -159,7 +159,7 @@ describe(`Generated CLI Integration Tests ${MODULE_TYPE} + ${PACKAGE_MANAGER} + 
 
     // expect no lock files to exist
     const allFiles = await readdir(join(cliDir, 'tmp', cliName), {recursive: true})
-    const noLockFilesPresent = LOCK_FILES.every((lockfile) => !allFiles.includes(lockfile))
-    expect(noLockFilesPresent).to.be.true
+    const isNoLockFilesPresent = LOCK_FILES.every((lockfile) => !allFiles.includes(lockfile))
+    expect(isNoLockFilesPresent).to.be.true
   })
 })

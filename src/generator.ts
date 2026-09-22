@@ -1,8 +1,8 @@
-import {Args, Command, Flags, Interfaces, ux} from '@oclif/core'
+import {type Args, Command, Flags, type Interfaces, ux} from '@oclif/core'
 import ansis from 'ansis'
 import {renderFile} from 'ejs'
 import {outputFile} from 'fs-extra'
-import {exec as cpExec, ExecOptions} from 'node:child_process'
+import {exec as cpExec, type ExecOptions} from 'node:child_process'
 import {existsSync} from 'node:fs'
 import {readFile} from 'node:fs/promises'
 import {join, relative} from 'node:path'
@@ -19,7 +19,7 @@ export type FlaggablePrompt = {
 
 export type FlagsOfPrompts<T extends Record<string, FlaggablePrompt>> = Record<
   keyof T,
-  Interfaces.OptionFlag<string | undefined, Interfaces.CustomOptions>
+  Interfaces.OptionFlag<string | undefined>
 >
 
 export type Flags<T extends typeof Command> = Interfaces.InferredFlags<
@@ -55,7 +55,11 @@ export async function exec(
   return new Promise((resolve, reject) => {
     if (!silent) ux.stdout(ansis.dim(command))
     const p = cpExec(command, opts ?? {}, (err, stdout, stderr) => {
-      if (err) return reject(err)
+      if (err) {
+        reject(err)
+        return
+      }
+
       resolve({stderr, stdout})
     })
 
@@ -114,19 +118,21 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     if (!this.flaggablePrompts[name]) throw new Error(`No flaggable prompt defined for ${name}`)
 
     const maybeFlag = () => {
-      if (this.flags[name]) {
-        this.log(
-          `${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(this.flags[name])}`,
-        )
-        return this.flags[name]
+      if (!this.flags[name]) {
+        return
       }
+
+      this.log(`${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(this.flags[name])}`)
+      return this.flags[name]
     }
 
     const maybeDefault = () => {
-      if (this.flags.yes) {
-        this.log(`${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(defaultValue)}`)
-        return defaultValue
+      if (!this.flags.yes) {
+        return
       }
+
+      this.log(`${ansis.green('?')} ${ansis.bold(this.flaggablePrompts[name].message)} ${ansis.cyan(defaultValue)}`)
+      return defaultValue
     }
 
     const checkMaybeOtherValue = async () => {
@@ -202,7 +208,7 @@ export abstract class GeneratorCommand<T extends typeof Command> extends Command
     const rendered = await new Promise<string>((resolve, reject) => {
       renderFile(source, data ?? {}, (err, str) => {
         if (err) reject(err)
-        return resolve(str)
+        resolve(str)
       })
     })
 

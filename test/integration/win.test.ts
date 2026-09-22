@@ -1,4 +1,4 @@
-/* eslint-disable import-x/newline-after-import, import-x/first, n/file-extension-in-import -- these rules cause circular fix problems */
+/* eslint-disable import-x/newline-after-import, import-x/first -- these rules cause circular fix problems */
 import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
 import {emptyDir, writeJSON} from 'fs-extra'

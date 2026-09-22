@@ -1,4 +1,4 @@
-import {Interfaces} from '@oclif/core'
+import {type Interfaces} from '@oclif/core'
 import {runCommand} from '@oclif/test'
 import {expect} from 'chai'
 import fs from 'node:fs'
@@ -32,15 +32,15 @@ describe('manifest', () => {
     )
     const jitPlugins = ['oclif']
 
-    const everyPluginHasCommand = jitPlugins.every((jitPlugin) =>
-      Boolean(Object.values(manifest?.commands ?? []).some((command) => command.pluginName === jitPlugin)),
+    const isEveryPluginHasCommand = jitPlugins.every((jitPlugin) =>
+      Object.values(manifest?.commands ?? []).some((command) => command.pluginName === jitPlugin),
     )
-    const everyJITCommandIsTypeJIT = Object.values(manifest?.commands ?? [])
+    const isEveryJITCommandIsTypeJIT = Object.values(manifest?.commands ?? [])
       .filter((command) => jitPlugins.includes(command.pluginName ?? ''))
       .every((command) => command.pluginType === 'jit')
 
-    expect(everyPluginHasCommand).to.be.true
-    expect(everyJITCommandIsTypeJIT).to.be.true
+    expect(isEveryPluginHasCommand).to.be.true
+    expect(isEveryJITCommandIsTypeJIT).to.be.true
     expect(manifest?.commands.hello).to.be.ok
     expect(error).to.be.undefined
   })

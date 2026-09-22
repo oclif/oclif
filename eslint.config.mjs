@@ -16,6 +16,7 @@ export default [
   {
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
+      'n/file-extension-in-import': 'off', // Causes weird compile errors.
       'no-useless-constructor': 'off',
       'prefer-destructuring': 'off',
       'unicorn/consistent-destructuring': 'off',

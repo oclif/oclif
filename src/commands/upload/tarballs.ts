@@ -1,4 +1,4 @@
-import {Command, Flags, Interfaces, ux} from '@oclif/core'
+import {Command, Flags, type Interfaces, ux} from '@oclif/core'
 import * as fs from 'node:fs'
 
 import aws from '../../aws'
@@ -110,7 +110,7 @@ export default class UploadTarballs extends Command {
     }
 
     if (buildConfig.targets.length > 0) log('uploading targets')
-    await Promise.all(buildConfig.targets.map((t) => uploadTarball(t)))
+    await Promise.all(buildConfig.targets.map(async (t) => uploadTarball(t)))
     log(`done uploading tarballs & manifests for v${config.version}-${buildConfig.gitSha}`)
   }
 }

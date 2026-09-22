@@ -1,4 +1,4 @@
-import {Interfaces} from '@oclif/core'
+import {type Interfaces} from '@oclif/core'
 import retry from 'async-retry'
 import {copy, ensureDir, move} from 'fs-extra'
 import {exec as execSync} from 'node:child_process'

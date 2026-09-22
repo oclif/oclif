@@ -4,13 +4,11 @@ import path from 'node:path'
 
 import aws from './aws'
 import {debug as Debug} from './log'
-import {BuildConfig} from './tarballs'
+import {type BuildConfig} from './tarballs'
 
 const debug = Debug.new('version-indexes')
 
-interface VersionsObject {
-  [key: string]: string
-}
+type VersionsObject = Record<string, string>
 
 const sortVersionsObjectByKeysDesc = (input: VersionsObject, keyLimit?: number): VersionsObject => {
   const keys = (

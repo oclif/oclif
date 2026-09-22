@@ -1,4 +1,4 @@
-import {Command, Flags, Interfaces} from '@oclif/core'
+import {Command, Flags, type Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import * as fsPromises from 'node:fs/promises'
@@ -55,6 +55,7 @@ APT::FTPArchive::Release {
 export default class PackDeb extends Command {
   static description =
     'Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.'
+
   static flags = {
     compression: Flags.option({
       options: ['gzip', 'none', 'xz', 'zstd'] as const,
@@ -77,6 +78,7 @@ export default class PackDeb extends Command {
       required: false,
     }),
   }
+
   static summary = 'Pack CLI into debian package.'
 
   async run(): Promise<void> {
@@ -122,7 +124,7 @@ export default class PackDeb extends Command {
         cwd: path.join(workspace, 'usr', 'bin'),
       })
 
-      config.binAliases?.map((alias) =>
+      config.binAliases?.map(async (alias) =>
         exec(`ln -sf "${path.join('..', 'lib', config.dirname, 'bin', config.bin)}" "${alias}"`, {
           cwd: path.join(workspace, 'usr', 'bin'),
         }),
@@ -137,17 +139,14 @@ export default class PackDeb extends Command {
     const arches = uniq(
       buildConfig.targets
         .filter((t) => t.platform === 'linux')
-        .filter((t) => {
-          // Skip 32-bit Arm for Node.js 24+
-          if (t.arch === 'arm' && gt(buildConfig.nodeVersion, '24.0.0')) {
-            return false
-          }
-
-          return true
-        })
+        .filter(
+          (t) =>
+            // Skip 32-bit Arm for Node.js 24+
+            !(t.arch === 'arm' && gt(buildConfig.nodeVersion, '24.0.0')),
+        )
         .map((t) => t.arch),
     )
-    await Promise.all(arches.map((a) => build(a)))
+    await Promise.all(arches.map(async (a) => build(a)))
 
     await exec('apt-ftparchive packages . > Packages', {cwd: dist})
     this.log('debian packages created')

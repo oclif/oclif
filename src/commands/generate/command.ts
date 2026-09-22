@@ -9,6 +9,7 @@ export default class GenerateCommand extends GeneratorCommand<typeof GenerateCom
   static args = {
     name: Args.string({description: 'name of command', required: true}),
   }
+
   static description = 'Add a command to an existing CLI or plugin.'
   static flags = {
     'commands-dir': Flags.string({default: 'src/commands', description: 'The directory to create the command in.'}),
@@ -21,7 +22,7 @@ export default class GenerateCommand extends GeneratorCommand<typeof GenerateCom
     const topicSeparator = packageJSON.oclif?.topicSeparator ?? ':'
     this.log(`Adding ${dim(this.args.name.replaceAll(':', topicSeparator))} to ${packageJSON.name}!`)
 
-    const cmdPath = this.args.name.split(':').join('/')
+    const cmdPath = this.args.name.replaceAll(':', '/')
     const destination = join(process.cwd(), this.flags['commands-dir'], `${cmdPath}.ts`)
 
     let bin = packageJSON.oclif?.bin ?? packageJSON.oclif?.dirname ?? packageJSON.name

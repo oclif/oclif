@@ -1,4 +1,4 @@
-import {Command, Flags, Interfaces} from '@oclif/core'
+import {Command, Flags, type Interfaces} from '@oclif/core'
 import * as fs from 'fs-extra'
 import {exec as execSync} from 'node:child_process'
 import * as os from 'node:os'
@@ -12,7 +12,7 @@ import {uniq} from '../../util'
 const exec = promisify(execSync)
 
 const noBundleConfiguration = `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array/>
 </plist>
@@ -140,6 +140,7 @@ exit 0
 export default class PackMacos extends Command {
   static description =
     'Add a pretarball script to your package.json if you need to run any scripts before the tarball is created.'
+
   static flags = {
     'additional-cli': Flags.string({
       description: `An Oclif CLI other than the one listed in config.bin that should be made available to the user
@@ -167,6 +168,7 @@ the CLI should already exist in a directory named after the CLI that is the root
       description: 'Comma-separated targets to pack (e.g.: darwin-x64,darwin-arm64).',
     }),
   }
+
   static summary = 'Pack CLI into macOS .pkg'
 
   async run(): Promise<void> {
@@ -244,6 +246,6 @@ the CLI should already exist in a directory named after the CLI that is the root
     }
 
     const arches = uniq(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch))
-    await Promise.all(arches.map((a) => build(a)))
+    await Promise.all(arches.map(async (a) => build(a)))
   }
 }

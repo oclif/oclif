@@ -1,5 +1,5 @@
 import {strip} from 'ansis'
-import {exec as cpExec, ExecOptions} from 'node:child_process'
+import {exec as cpExec, type ExecOptions} from 'node:child_process'
 
 export async function exec(
   command: string,

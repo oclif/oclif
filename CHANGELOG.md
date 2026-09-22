@@ -1,3 +1,9 @@
+## [6.0.1](https://github.com/oclif/oclif/compare/6.0.0...6.0.1) (2026-09-22)
+
+### Bug Fixes
+
+- resolved all fixable eslint violations (W-24099831) ([8f237af](https://github.com/oclif/oclif/commit/8f237af0524e7e4cde8251a1564d0630c9ec6348))
+
 # [6.0.0](https://github.com/oclif/oclif/compare/5.0.2...6.0.0) (2026-09-11)
 
 - feat!: remove support for legacy plugins (#2095) ([0c6cfda](https://github.com/oclif/oclif/commit/0c6cfda0fa16b8fccaae5a91638003a32ed07e5d)), closes [#2095](https://github.com/oclif/oclif/issues/2095)

@@ -1,3 +1,9 @@
+## [6.0.3](https://github.com/oclif/oclif/compare/6.0.2...6.0.3) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump fast-uri from 3.1.5 to 3.1.7 ([c7834de](https://github.com/oclif/oclif/commit/c7834de81cf73377793cb217092d6f0f6689887c))
+
 ## [6.0.2](https://github.com/oclif/oclif/compare/6.0.1...6.0.2) (2026-09-25)
 
 ### Bug Fixes

@@ -1,3 +1,9 @@
+## [6.0.5](https://github.com/oclif/oclif/compare/6.0.4...6.0.5) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump @humanfs/node from 0.16.6 to 0.16.8 ([c75d758](https://github.com/oclif/oclif/commit/c75d75854a34d914554e9de563fe3d21aa3a2c61))
+
 ## [6.0.4](https://github.com/oclif/oclif/compare/6.0.3...6.0.4) (2026-10-09)
 
 ### Bug Fixes

@@ -1,4 +1,5 @@
-# `oclif init`
+`oclif init`
+============
 
 Initialize a new oclif CLI
 
@@ -43,4 +44,4 @@ EXAMPLES
     $ oclif init --topic-separator colons --bin mycli
 ```
 
-_See code: [src/commands/init.ts](https://github.com/oclif/oclif/blob/6.0.5/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/oclif/oclif/blob/6.0.6/src/commands/init.ts)_

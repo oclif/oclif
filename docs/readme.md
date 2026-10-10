@@ -1,4 +1,5 @@
-# `oclif readme`
+`oclif readme`
+==============
 
 Adds commands to README.md in current directory.
 
@@ -41,4 +42,4 @@ DESCRIPTION
   Customize the code URL prefix by setting oclif.repositoryPrefix in package.json.
 ```
 
-_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/6.0.5/src/commands/readme.ts)_
+_See code: [src/commands/readme.ts](https://github.com/oclif/oclif/blob/6.0.6/src/commands/readme.ts)_

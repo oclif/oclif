@@ -1,4 +1,5 @@
-# `oclif help`
+`oclif help`
+============
 
 Display help for oclif.
 

@@ -1,4 +1,5 @@
-# `oclif promote`
+`oclif promote`
+===============
 
 Promote CLI builds to a S3 release channel.
 
@@ -32,4 +33,4 @@ DESCRIPTION
   Promote CLI builds to a S3 release channel.
 ```
 
-_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/6.0.5/src/commands/promote.ts)_
+_See code: [src/commands/promote.ts](https://github.com/oclif/oclif/blob/6.0.6/src/commands/promote.ts)_

@@ -36,7 +36,7 @@
     "@commitlint/config-conventional": "^19",
     "@eslint/compat": "^1.4.1",
     "@oclif/prettier-config": "^0.2.1",
-    "@oclif/test": "^5.0.0",
+    "@oclif/test": "^5.0.1",
     "@types/async-retry": "^1.4.5",
     "@types/chai": "^4.3.17",
     "@types/cli-progress": "^3.11.6",

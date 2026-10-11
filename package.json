@@ -1,7 +1,7 @@
 {
   "name": "oclif",
   "description": "oclif: create your own CLI",
-  "version": "6.0.7",
+  "version": "6.0.8",
   "author": "Salesforce",
   "bin": {
     "oclif": "bin/run.js"

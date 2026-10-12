@@ -18,7 +18,7 @@ const noBundleConfiguration = `<?xml version="1.0" encoding="UTF-8"?>
 </plist>
 `
 
-const scripts = {
+export const scripts = {
   postinstall: (config: Interfaces.Config, additionalCLI: string | undefined) => `#!/usr/bin/env bash
 set -x
 sudo mkdir -p /usr/local/bin
@@ -76,6 +76,14 @@ if (( $EUID != 0 )); then
     exit
 fi
 
+REAL_USER="\${SUDO_USER:-$(logname 2>/dev/null)}"
+REAL_HOME="$(dscl . -read "/Users/$REAL_USER" NFSHomeDirectory 2>/dev/null | awk 'NR==1 {print $2}')"
+
+if [ -z "$REAL_HOME" ]; then
+    echo "Could not determine the user's home directory." >&2
+    exit 1
+fi
+
 echo "Welcome to Application Uninstaller"
 echo "The following packages will be REMOVED:"
 echo "  ${config.dirname}"
@@ -116,13 +124,13 @@ fi
 [ -e "/usr/local/lib/${config.dirname}" ] && rm -rf "/usr/local/lib/${config.dirname}"
 
 #remove application data directory
-[ -e "${config.dataDir}" ] && rm -rf "${config.dataDir}"
+[ -e "$REAL_HOME/.local/share/${config.dirname}" ] && rm -rf "$REAL_HOME/.local/share/${config.dirname}"
 
 #remove application cache directory
-[ -e "${config.cacheDir}" ] && rm -rf "${config.cacheDir}"
+[ -e "$REAL_HOME/Library/Caches/${config.dirname}" ] && rm -rf "$REAL_HOME/Library/Caches/${config.dirname}"
 
 #remove application config directory
-[ -e "${config.configDir}" ] && rm -rf "${config.configDir}"
+[ -e "$REAL_HOME/.config/${config.dirname}" ] && rm -rf "$REAL_HOME/.config/${config.dirname}"
 
 if [ $? -eq 0 ]
 then

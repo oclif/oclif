@@ -1222,12 +1222,12 @@
     wrap-ansi "^7.0.0"
     wsl-utils "^0.4.0"
 
-"@oclif/plugin-help@^7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-7.0.2.tgz#6769392556c567c15de77bd83ac9ccf38bd94ae8"
-  integrity sha512-xqYsSECa7HrO+yb20ukcRzlz86Tq6f7Ft48kp4YLka0/4X5WbehOCSLdKlV8ejdcfK5gQzC4erMNeIXxyF5aXQ==
+"@oclif/plugin-help@^7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-7.0.4.tgz#84ffc8e9995ed2265e10b92cbf7e30841a78ebd9"
+  integrity sha512-i3AKiJrHF8y/Hj/1QfNBVaE4N9sOlodA/CFq8Lv998BZAHe/uBwgqL94FvaZenj/3REyl01stptAUp/AQjpfOw==
   dependencies:
-    "@oclif/core" "^5.0.0"
+    "@oclif/core" "^5.1.2"
 
 "@oclif/plugin-not-found@^4.0.0":
   version "4.0.0"

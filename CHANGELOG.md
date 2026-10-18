@@ -1,3 +1,9 @@
+## [6.0.10](https://github.com/oclif/oclif/compare/6.0.9...6.0.10) (2026-10-18)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-help from 7.0.2 to 7.0.4 ([eb0c457](https://github.com/oclif/oclif/commit/eb0c457b85341d5d87aaeb006f98c7e8f2f32223))
+
 ## [6.0.9](https://github.com/oclif/oclif/compare/6.0.8...6.0.9) (2026-10-18)
 
 ### Bug Fixes

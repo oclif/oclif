@@ -114,6 +114,19 @@ export function validateBin(bin: string): boolean {
   return /^[\w-]+$/.test(bin)
 }
 
+export type PackageManager = 'npm' | 'pnpm' | 'yarn'
+
+/**
+ * Parses the `packageManager` field from package.json (the corepack convention, e.g. `pnpm@9.1.0`)
+ * and returns the manager name if it's one oclif supports, so callers can prefer it over lockfile
+ * sniffing when it's set.
+ */
+export function parsePackageManagerField(packageManager?: unknown): PackageManager | undefined {
+  if (typeof packageManager !== 'string') return undefined
+  const name = packageManager.split('@')[0]
+  return name === 'npm' || name === 'pnpm' || name === 'yarn' ? name : undefined
+}
+
 export function isS3Compatible(endpoint: string | undefined): boolean {
   return Boolean(endpoint && !endpoint.includes('amazonaws.com'))
 }

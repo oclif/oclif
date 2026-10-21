@@ -9,7 +9,7 @@ import {promisify} from 'node:util'
 
 import {log} from '../log'
 import {commitAWSDir, templateShortKey} from '../upload-util'
-import {hash, prettifyPaths} from '../util'
+import {hash, parsePackageManagerField, prettifyPaths} from '../util'
 import {writeBinScripts} from './bin'
 import {BuildConfig} from './config'
 import {fetchNodeBinary} from './node'
@@ -142,9 +142,14 @@ const pretarball = async (c: BuildConfig) => {
   const pjson = await readJSON(path.join(c.workspace(), 'package.json'))
   if (!pjson.scripts.pretarball) return
   const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
-  let script = 'npm run pretarball'
-  if (existsSync(path.join(yarnRoot, 'yarn.lock'))) script = 'yarn run pretarball'
-  else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) script = 'pnpm run pretarball'
+  const packageManager =
+    parsePackageManagerField(c.config.pjson.packageManager) ??
+    (existsSync(path.join(yarnRoot, 'yarn.lock'))
+      ? 'yarn'
+      : existsSync(path.join(c.root, 'pnpm-lock.yaml'))
+        ? 'pnpm'
+        : 'npm')
+  const script = `${packageManager} run pretarball`
   log(`running pretarball via ${script} in ${c.workspace()}`)
   await exec(script, {cwd: c.workspace()})
 }
@@ -162,9 +167,14 @@ const updatePJSON = async (c: BuildConfig) => {
 
 const addDependencies = async (c: BuildConfig) => {
   const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root
+  // the packageManager field (corepack's convention) wins over lockfile sniffing when it's set,
+  // but which lockfile gets copied still depends on which one actually exists
+  const packageManager =
+    parsePackageManagerField(c.config.pjson.packageManager) ??
+    (isYarnProject(yarnRoot) ? 'yarn' : existsSync(path.join(c.root, 'pnpm-lock.yaml')) ? 'pnpm' : 'npm')
 
-  if (isYarnProject(yarnRoot)) {
-    await copyCoreYarnFiles(yarnRoot, c.workspace())
+  if (packageManager === 'yarn') {
+    if (isYarnProject(yarnRoot)) await copyCoreYarnFiles(yarnRoot, c.workspace())
 
     const {stdout} = await exec('yarn -v')
     const yarnVersion = stdout.charAt(0)
@@ -183,14 +193,17 @@ const addDependencies = async (c: BuildConfig) => {
         throw error
       }
     }
-  } else if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) {
-    await copy(path.join(c.root, 'pnpm-lock.yaml'), path.join(c.workspace(), 'pnpm-lock.yaml'))
+  } else if (packageManager === 'pnpm') {
+    if (existsSync(path.join(c.root, 'pnpm-lock.yaml'))) {
+      await copy(path.join(c.root, 'pnpm-lock.yaml'), path.join(c.workspace(), 'pnpm-lock.yaml'))
+    }
+
     await exec('pnpm install --production', {cwd: c.workspace()})
   } else {
     const lockpath = existsSync(path.join(c.root, 'package-lock.json'))
       ? path.join(c.root, 'package-lock.json')
       : path.join(c.root, 'npm-shrinkwrap.json')
-    await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
+    if (existsSync(lockpath)) await copy(lockpath, path.join(c.workspace(), path.basename(lockpath)))
     await exec('npm install --production', {cwd: c.workspace()})
   }
 }

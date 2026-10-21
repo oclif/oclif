@@ -4,7 +4,7 @@ import {readdir, writeFile} from 'node:fs/promises'
 import {join, resolve, sep} from 'node:path'
 
 import {exec, FlaggablePrompt, GeneratorCommand, makeFlags, readPJSON} from '../generator'
-import {validateBin} from '../util'
+import {parsePackageManagerField, validateBin} from '../util'
 
 const VALID_MODULE_TYPES = ['ESM', 'CommonJS'] as const
 type ModuleType = (typeof VALID_MODULE_TYPES)[number]
@@ -110,6 +110,11 @@ export default class Generate extends GeneratorCommand<typeof Generate> {
     const packageManager = await this.getFlagOrPrompt({
       defaultValue: 'npm',
       async maybeOtherValue() {
+        const fromPackageManagerField = parsePackageManagerField(packageJSON.packageManager)
+        if (fromPackageManagerField) {
+          return fromPackageManagerField
+        }
+
         const rootFiles = await readdir(location)
         if (rootFiles.includes('package-lock.json')) {
           return 'npm'

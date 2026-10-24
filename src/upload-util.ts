@@ -48,6 +48,52 @@ export function templateShortKey(
   return render(templates[type], {...options})
 }
 
+type TargetOptions = {arch: Interfaces.ArchTypes; platform: Interfaces.PlatformTypes}
+
+export function s3Keys(
+  config: Interfaces.Config,
+  s3Config: TarballConfig['s3Config'],
+  options: {bin: string; sha: string; version: string},
+) {
+  const hasCustom = Boolean(config.pjson.oclif?.update?.s3?.templates)
+
+  return {
+    channelManifest(target: TargetOptions, channel: string): string {
+      if (hasCustom) {
+        return config.s3Key('manifest', {...target, channel})
+      }
+
+      const manifest = templateShortKey('manifest', {...options, ...target})
+      const unversionedManifest = manifest.replace(`-v${options.version}-${options.sha}`, '')
+      return `${channelAWSDir(channel, s3Config)}/${unversionedManifest}`
+    },
+    channelTarball(ext: '.tar.gz' | '.tar.xz', target: TargetOptions, channel: string): string {
+      return hasCustom
+        ? config.s3Key('unversioned', ext, {...target, channel})
+        : `${channelAWSDir(channel, s3Config)}/${templateShortKey('unversioned', {...options, ...target, ext})}`
+    },
+    cloudKey(localKey: string): string {
+      return hasCustom ? localKey : `${commitAWSDir(options.version, options.sha, s3Config)}/${localKey}`
+    },
+    /** Returns the filename suitable for use in version index files. */
+    indexFilename(ext: '.tar.gz' | '.tar.xz', target: TargetOptions, channel: string): string {
+      return hasCustom
+        ? config.s3Key('unversioned', ext, {...target, channel})
+        : templateShortKey('unversioned', {...options, ...target, ext})
+    },
+    manifest(target: TargetOptions): string {
+      return hasCustom
+        ? config.s3Key('manifest', target)
+        : templateShortKey('manifest', {...options, ...target})
+    },
+    versioned(ext: '.tar.gz' | '.tar.xz', target: TargetOptions): string {
+      return hasCustom
+        ? config.s3Key('versioned', ext, target)
+        : templateShortKey('versioned', {...options, ...target, ext})
+    },
+  }
+}
+
 export type DebArch = 'amd64' | 'arm64' | 'armel' | 'i386'
 
 export function debArch(arch: Interfaces.ArchTypes): DebArch {

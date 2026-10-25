@@ -25,7 +25,7 @@ DESCRIPTION
   Upload deb package built with `pack deb`.
 ```
 
-_See code: [src/commands/upload/deb.ts](https://github.com/oclif/oclif/blob/6.0.10/src/commands/upload/deb.ts)_
+_See code: [src/commands/upload/deb.ts](https://github.com/oclif/oclif/blob/6.0.11/src/commands/upload/deb.ts)_
 
 ## `oclif upload macos`
 
@@ -45,7 +45,7 @@ DESCRIPTION
   Upload macos installers built with `pack macos`.
 ```
 
-_See code: [src/commands/upload/macos.ts](https://github.com/oclif/oclif/blob/6.0.10/src/commands/upload/macos.ts)_
+_See code: [src/commands/upload/macos.ts](https://github.com/oclif/oclif/blob/6.0.11/src/commands/upload/macos.ts)_
 
 ## `oclif upload tarballs`
 
@@ -66,7 +66,7 @@ DESCRIPTION
   Upload an oclif CLI to S3.
 ```
 
-_See code: [src/commands/upload/tarballs.ts](https://github.com/oclif/oclif/blob/6.0.10/src/commands/upload/tarballs.ts)_
+_See code: [src/commands/upload/tarballs.ts](https://github.com/oclif/oclif/blob/6.0.11/src/commands/upload/tarballs.ts)_
 
 ## `oclif upload win`
 
@@ -86,4 +86,4 @@ DESCRIPTION
   Upload windows installers built with `pack win`.
 ```
 
-_See code: [src/commands/upload/win.ts](https://github.com/oclif/oclif/blob/6.0.10/src/commands/upload/win.ts)_
+_See code: [src/commands/upload/win.ts](https://github.com/oclif/oclif/blob/6.0.11/src/commands/upload/win.ts)_

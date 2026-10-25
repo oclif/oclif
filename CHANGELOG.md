@@ -1,3 +1,9 @@
+## [6.0.14](https://github.com/oclif/oclif/compare/6.0.13...6.0.14) (2026-10-25)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/plugin-not-found from 4.0.0 to 4.0.5 ([cacb32f](https://github.com/oclif/oclif/commit/cacb32f95769730180b9e0fb8077fa4bb27e6ea7))
+
 ## [6.0.13](https://github.com/oclif/oclif/compare/6.0.12...6.0.13) (2026-10-25)
 
 ### Bug Fixes

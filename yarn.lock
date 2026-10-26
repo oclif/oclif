@@ -21,15 +21,15 @@
     "@smithy/types" "^4.19.0"
     tslib "^2.6.2"
 
-"@aws-sdk/client-cloudfront@^3.1147.0":
-  version "3.1147.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.1147.0.tgz#98e2932b0249c523e5526db2d0378cfaf0f2541f"
-  integrity sha512-RMdiswJopFxRcLbB2XOZ/E41SS5rs5tvrWi8a85g2kzqMrmtKTHnUIw5S1mUu33Ast+h5a9Cdv1sAV79clbzWg==
+"@aws-sdk/client-cloudfront@^3.1155.0":
+  version "3.1155.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.1155.0.tgz#434b802ff4fa1be86507acc6e0ac9cb1b761dc1f"
+  integrity sha512-kauQUdWMzbo/ToasRFWGl7U/ode5h2B9pNvGemOfhFTs4K7+XI64m9U7MGu7f5+hiT3teiG7cOL1sEjDjNM4tQ==
   dependencies:
-    "@aws-sdk/core" "^3.978.1"
-    "@aws-sdk/credential-provider-node" "^3.972.84"
-    "@aws-sdk/types" "^3.974.6"
-    "@smithy/core" "^3.35.0"
+    "@aws-sdk/core" "^3.978.5"
+    "@aws-sdk/credential-provider-node" "^3.972.88"
+    "@aws-sdk/types" "^3.975.0"
+    "@smithy/core" "^3.36.1"
     "@smithy/fetch-http-handler" "^5.8.0"
     "@smithy/node-http-handler" "^4.12.1"
     "@smithy/types" "^4.19.0"
@@ -52,7 +52,7 @@
     "@smithy/types" "^4.19.0"
     tslib "^2.6.2"
 
-"@aws-sdk/core@^3.978.1", "@aws-sdk/core@^3.978.4", "@aws-sdk/core@^3.978.5":
+"@aws-sdk/core@^3.978.4", "@aws-sdk/core@^3.978.5":
   version "3.978.5"
   resolved "https://registry.yarnpkg.com/@aws-sdk/core/-/core-3.978.5.tgz#1c9442d0cf4d7acb1c51a4a35a804033f995812a"
   integrity sha512-ruI0AWqcrfL20XDS6SwZIJFPOBZ6N0ADa9nLzWlBhxk1aoUjbUX3JkTR9vEmk7o35XpAHi68ahZ4T6RE2U9XyA==
@@ -121,7 +121,7 @@
     "@smithy/types" "^4.19.0"
     tslib "^2.6.2"
 
-"@aws-sdk/credential-provider-node@^3.972.84", "@aws-sdk/credential-provider-node@^3.972.87":
+"@aws-sdk/credential-provider-node@^3.972.87", "@aws-sdk/credential-provider-node@^3.972.88":
   version "3.972.88"
   resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-node/-/credential-provider-node-3.972.88.tgz#41f751b1711a8afcc6a44a573e54f332ca41adc1"
   integrity sha512-AG0KID5qhQPzrFkh5b0Cws1Amytvzo0L0Xj6hMgJXEwD6ZXAqninDhSNAWJiN5zU4YVVZnuidnqwPwYJ04IamA==

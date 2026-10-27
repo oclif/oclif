@@ -22,4 +22,19 @@ describe('pack macos', () => {
     expect(uninstall).not.to.contain('/Users/ci-builder')
     expect(uninstall).not.to.contain('eval ')
   })
+
+  it('uses the data directory basename instead of dirname', () => {
+    const config: Pick<Interfaces.Config, 'cacheDir' | 'configDir' | 'dataDir' | 'dirname' | 'pjson'> = {
+      cacheDir: '/Users/ci-builder/Library/Caches/mycli',
+      configDir: '/Users/ci-builder/.config/mycli',
+      dataDir: '/Users/ci-builder/.local/share/mycli-data',
+      dirname: 'mycli',
+      pjson: {oclif: {macos: {identifier: 'com.example.mycli'}}},
+    }
+
+    const uninstall = scripts.uninstall(config as Interfaces.Config, undefined)
+
+    expect(uninstall).to.contain('$REAL_HOME/.local/share/mycli-data')
+    expect(uninstall).not.to.contain('$REAL_HOME/.local/share/mycli" ]')
+  })
 })

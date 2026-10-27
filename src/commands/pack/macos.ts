@@ -124,7 +124,7 @@ fi
 [ -e "/usr/local/lib/${config.dirname}" ] && rm -rf "/usr/local/lib/${config.dirname}"
 
 #remove application data directory
-[ -e "$REAL_HOME/.local/share/${config.dirname}" ] && rm -rf "$REAL_HOME/.local/share/${config.dirname}"
+[ -e "$REAL_HOME/.local/share/${path.basename(config.dataDir)}" ] && rm -rf "$REAL_HOME/.local/share/${path.basename(config.dataDir)}"
 
 #remove application cache directory
 [ -e "$REAL_HOME/Library/Caches/${config.dirname}" ] && rm -rf "$REAL_HOME/Library/Caches/${config.dirname}"

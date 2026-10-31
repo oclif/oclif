@@ -1236,10 +1236,10 @@
     lodash "^4.18.1"
     registry-auth-token "^5.1.1"
 
-"@oclif/prettier-config@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/@oclif/prettier-config/-/prettier-config-0.2.1.tgz"
-  integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
+"@oclif/prettier-config@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@oclif/prettier-config/-/prettier-config-0.2.2.tgz#b6205b889163400dc7eeffb761da87158995333c"
+  integrity sha512-GB+6QgBBKHjvmkSs+U4AiccDH3ijZhwhlTP7aUMqM2f0OMMZy9IAlxtTtRxhmLqzQEBQjTIrD4wmT3GOxS5pRw==
 
 "@oclif/test@^5.0.2":
   version "5.0.2"

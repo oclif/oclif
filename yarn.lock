@@ -1241,10 +1241,10 @@
   resolved "https://registry.npmjs.org/@oclif/prettier-config/-/prettier-config-0.2.1.tgz"
   integrity sha512-XB8kwQj8zynXjIIWRm+6gO/r8Qft2xKtwBMSmq1JRqtA6TpwpqECqiu8LosBCyg2JBXuUy2lU23/L98KIR7FrQ==
 
-"@oclif/test@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-5.0.2.tgz#78bf6ded8523e290fb70f02291ce7ec2d8ae233c"
-  integrity sha512-2UAb4/sywysFSPfNNZzCxCi95b+YnFPWfxfzbw4vhdrCzJ38ZxCBP5p8IEdBM42sbdDl2k0KjOe7vGPOYYkNHg==
+"@oclif/test@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-5.0.3.tgz#5a973873670d0c4a274a8d5f81a5b57057641afd"
+  integrity sha512-bM5pi7vLy/8WRWzQluqHfwuSckVJnkd07JEURqKWQYxENnN6nrBc3KZEU+uzb/ENMNV13rT86VvRhdsZ5cZAOA==
   dependencies:
     ansis "^3.17.0"
     debug "^4.4.3"
